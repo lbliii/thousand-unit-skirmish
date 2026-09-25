@@ -116,10 +116,12 @@ result. The worker can still hurt an attacker but loses the equal-cost fight.
 This is controlled combat evidence, not a claim about raids, worker survival
 in a full match, or player understanding.
 
-## Forked Vale scripted pacing check
+## Forked Vale scripted objective-path checks
 
 The scenario designer's mirrored two-client playthroughs reported these
-wall-clock checkpoints:
+wall-clock checkpoints. The scenario runner's `elapsedSeconds` is measured
+with `Date.now()` from test-process start, including startup and waits; it is
+not the in-game clock or match duration.
 
 | Checkpoint | Azure wins | Ember wins |
 | --- | ---: | ---: |
@@ -159,12 +161,16 @@ squash-merged into `main` as `8d5858f`, now included in `322e68e`.
 | Watch remained locked through 15 snapshots | 77.4 s | 76.8 s |
 | Winner recaptured the other Signal | 91.6 s | 91.4 s |
 | All-zone hold victory | 130.5 s | 130.2 s |
+| Independent QA rerun · all-zone hold victory | 129.9 s | 129.2 s |
 
-This run was executed on the map PR branch before merge and did not include
-`--stress`; its elapsed checkpoints are not a like-for-like comparison with
-the earlier stress-enabled replay above. Both are fixed cooperative paths
-without contested combat, so they support seat symmetry and reset behavior
-but do not measure human match pacing or strategy balance.
+The first pair is the map owner's run; the second is QA's independent rerun
+of the same `bbfdc81` scenario branch. The wall-clock values varied by 0.6 s
+for the Azure-winner path and 1.0 s for the Ember-winner path across runs.
+This test did not include `--stress`. Both winner assignments passed the
+objective sequence, 20-second hold, and two-seat reset. Since the logger
+records harness wall-clock time, neither pair measures in-game pacing or
+indicates a seat-speed advantage. The runs are cooperative paths without
+contested combat and do not establish strategy balance.
 
 ## Combat-order fairness diagnostic
 
