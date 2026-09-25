@@ -142,13 +142,14 @@ establish the intended 6–10-minute contested match length, opening win
 rates, human comprehension, or 2,000-unit sustained performance. Outside
 player sessions remain to be measured.
 
-### Brief and rematch-reset follow-up on map PR #28 (`bbfdc81`)
+### Brief and rematch-reset follow-up on map PR #28 (`bbfdc81`; merged as `8d5858f`)
 
 After adding explicit reset assertions and updating the map-picker brief, the
 scenario owner reran `node scripts/forked-vale-scenario.mjs 0` and
 `node scripts/forked-vale-scenario.mjs 1` on the map branch. Both winner
 assignments passed, including a reset observed by both seats that restored
-neutral objectives and the authored 24-unit opening army.
+neutral objectives and the authored 24-unit opening army. PR #28 was later
+squash-merged into `main` as `8d5858f`, now included in `322e68e`.
 
 | Checkpoint | Azure wins | Ember wins |
 | --- | ---: | ---: |
@@ -159,11 +160,11 @@ neutral objectives and the authored 24-unit opening army.
 | Winner recaptured the other Signal | 91.6 s | 91.4 s |
 | All-zone hold victory | 130.5 s | 130.2 s |
 
-This run was on the unmerged map PR branch and did not include `--stress`; its
-elapsed checkpoints are not a like-for-like comparison with the earlier
-stress-enabled replay above. Both are fixed cooperative paths without
-contested combat, so they support seat symmetry and reset behavior but do not
-measure human match pacing or strategy balance.
+This run was executed on the map PR branch before merge and did not include
+`--stress`; its elapsed checkpoints are not a like-for-like comparison with
+the earlier stress-enabled replay above. Both are fixed cooperative paths
+without contested combat, so they support seat symmetry and reset behavior
+but do not measure human match pacing or strategy balance.
 
 ## Combat-order fairness diagnostic
 
@@ -237,6 +238,37 @@ costs. The five-second reinforcement timing difference follows the existing
 12-second infantry and 7-second archer training rules. This scripted result
 does not justify changing either unit's cost or training time; compare these
 openings in contested human matches before tuning.
+
+## Revalidation on merged main · `322e68e`
+
+After PR #24's performance ledger and PR #28's map brief/reset change merged,
+I reran the required combat and opening fixtures against a clean archive of
+current `main` at `322e68e`. The changes since `f1d6482` are documentation,
+Forked Vale map metadata, and authoring/scenario scripts; `server.mjs` is
+unchanged. The production-opening runner is from this PR, pointed at the
+current-main server and Forked Vale map.
+
+- `node scripts/worker-combat-scenario.mjs` passed both role assignments:
+  infantry beat workers with 60 HP remaining for the winner in either seat.
+- `node scripts/infantry-seat-combat-scenario.mjs --expect-parity` passed all
+  four 8v8 cases at 12.3 seconds. The 3/4-survivor and 300/350-HP edge still
+  followed spawn side; reversing command order did not change outcomes.
+- The `scripts/opening-production-scenario.mjs` runner from this PR passed
+  with `RTS_SERVER_ROOT` and `RTS_OPENING_MAP` pointed at a clean archive of
+  current `main` and its Forked Vale map, and `RTS_OPENING_BUILD_X=21.5`:
+
+  ```sh
+  node scripts/opening-production-scenario.mjs --expect-builder-parity --verbose
+  ```
+
+  All four swapped Barracks/Range builds completed at 10.9 seconds; first
+  infantry appeared at 23.0 seconds, first archer at 18.0 seconds, and
+  post-unit stocks were 100 food / 75 wood for Barracks and 125 food / 55 wood
+  for Range on either seat.
+
+These current-main local protocol checks confirm the merged map metadata did
+not change the measured combat counter, seat parity, or opening economy. They
+still do not measure contested human pacing or strategic win rates.
 
 ## Next tuning decisions
 
