@@ -177,7 +177,19 @@ function visibleResources(state, map, visibility) {
   return visible.sort((left, right) => left.id.localeCompare(right.id));
 }
 
-function visibleObjectives(state, map, visibility) {
+function normalizeObjectiveZone(zone) {
+  if (!zone || !Number.isInteger(zone.column) || !Number.isInteger(zone.row)
+    || !Number.isInteger(zone.width) || !Number.isInteger(zone.height)
+    || zone.width < 1 || zone.height < 1) return null;
+  return {
+    column: zone.column,
+    row: zone.row,
+    width: zone.width,
+    height: zone.height,
+  };
+}
+
+function projectObjectives(state, map, visibility) {
   const stateObjectives = Array.isArray(state.objectives) ? state.objectives : [];
   const triggers = new Map((Array.isArray(map?.triggers) ? map.triggers : [])
     .filter((trigger) => typeof trigger?.id === 'string')
@@ -186,17 +198,32 @@ function visibleObjectives(state, map, visibility) {
   for (const record of stateObjectives) {
     if (typeof record?.id !== 'string' || !Number.isInteger(record.owner)) continue;
     const trigger = triggers.get(record.id);
-    if (!trigger?.zone || (visibility && !visibility.zoneVisible(trigger.zone))) continue;
-    objectives.push({
+    const zone = normalizeObjectiveZone(trigger?.zone);
+    const objective = {
       id: record.id,
+      zone,
       owner: record.owner,
-      progressTeam: Number.isInteger(record.progressTeam) ? record.progressTeam : -1,
-      progress: Number.isFinite(record.progress) ? record.progress : 0,
-      unitCounts: Array.isArray(record.unitCounts)
-        ? record.unitCounts.map((count) => Number.isInteger(count) ? count : 0)
-        : [0, 0],
       victory: record.victory === true,
-    });
+      requires: typeof record.requires === 'string' ? record.requires : null,
+      requiredOwner: Number.isInteger(record.requiredOwner) ? record.requiredOwner : -1,
+    };
+    if (Array.isArray(record.requiresAll)) {
+      objective.requiresAll = record.requiresAll.filter((id) => typeof id === 'string');
+    }
+    if (Array.isArray(record.requiredOwners)) {
+      objective.requiredOwners = record.requiredOwners
+        .filter((owner) => Number.isInteger(owner));
+    }
+
+    const transientStateVisible = !visibility || (zone !== null && visibility.zoneVisible(zone));
+    if (transientStateVisible) {
+      objective.progressTeam = Number.isInteger(record.progressTeam) ? record.progressTeam : -1;
+      objective.progress = Number.isFinite(record.progress) ? record.progress : 0;
+      objective.unitCounts = Array.isArray(record.unitCounts)
+        ? record.unitCounts.map((count) => Number.isInteger(count) ? count : 0)
+        : [0, 0];
+    }
+    objectives.push(objective);
   }
   return objectives.sort((left, right) => left.id.localeCompare(right.id));
 }
@@ -204,9 +231,9 @@ function visibleObjectives(state, map, visibility) {
 /**
  * Convert only a peer-specific `welcome.state` / `state` / `mapChange.state`
  * into the stable bot/model DTO. `team` must come from `welcome.player.team`.
- * The full map is used only to resolve static coordinates for IDs already
- * present in the filtered state, and every resolved position is checked
- * against the peer's current visibility mask before it is exposed.
+ * The full map supplies resource coordinates for peer-visible resource IDs
+ * and public objective zones; resource positions are rechecked against the
+ * peer's visibility mask, while objective visibility gates transient progress.
  */
 export function toOpponentObservation(state, team, map = null) {
   assertTeam(team);
@@ -256,7 +283,7 @@ export function toOpponentObservation(state, team, map = null) {
     ),
     research,
     resourceNodes: visibleResources(state, map, visibility),
-    objectives: visibleObjectives(state, map, visibility),
+    objectives: projectObjectives(state, map, visibility),
   };
 }
 
@@ -306,8 +333,10 @@ function isPristineMatchState(state, team, map) {
     .map((node) => [node.id, node.stock]));
   if (observation.resourceNodes.some((node) => mapResources.get(node.id) !== node.stock)) return false;
   if (observation.objectives.some((objective) => (
-    objective.owner !== -1 || objective.progressTeam !== -1 || objective.progress !== 0
-      || objective.unitCounts.some((count) => count !== 0)
+    objective.owner !== -1
+      || (Object.hasOwn(objective, 'progressTeam') && objective.progressTeam !== -1)
+      || (Object.hasOwn(objective, 'progress') && objective.progress !== 0)
+      || (Array.isArray(objective.unitCounts) && objective.unitCounts.some((count) => count !== 0))
   ))) return false;
   return true;
 }
