@@ -859,12 +859,25 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
 
 @media (max-width: 620px) and (max-height: 720px) {
   .workspace { --command-deck-height: min(300px, 36dvh); }
-  .objective-panel { top: 136px; bottom: calc(var(--command-deck-height) + 170px); }
+  .objective-panel { top: 160px; bottom: calc(var(--command-deck-height) + 170px); }
   .minimap-panel { width: 96px; }
   .field-hint { max-width: calc(100% - 128px); }
   .field-order-feedback { max-width: calc(100% - 128px); }
 }
 
-@media (max-width: 620px) and (max-height: 580px) {
-  .workspace { --command-deck-height: min(190px, 34dvh); }
+@media (max-width: 620px) and (max-height: 620px) {
+  .workspace {
+    --command-deck-height: clamp(60px, calc(81dvh - 280px), 223px);
+    --short-minimap-width: clamp(56px, calc(23.5dvh - 45px), 96px);
+  }
+  .objective-panel { top: 160px; bottom: calc(var(--command-deck-height) + var(--short-minimap-width) + 68px); }
+  .minimap-panel { width: var(--short-minimap-width); }
+  .minimap-heading, .minimap-legend { font-size: clamp(5px, calc(.25dvh + 4.5px), 6px); }
+  .minimap-legend { gap: 3px; letter-spacing: 0; }
+  .field-hint, .field-order-feedback { max-width: calc(100% - var(--short-minimap-width) - 32px); }
+}
+
+@media (max-width: 620px) and (max-height: 400px) {
+  .minimap-legend { display: none; }
+  .objective-panel { bottom: calc(var(--command-deck-height) + var(--short-minimap-width) + 42px); }
 }
