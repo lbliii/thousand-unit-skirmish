@@ -82,6 +82,21 @@
         "format": "game-dev-capture-v1",
         "path": "capture.json"
       }
+    },
+    {
+      "id": "renderer-appearance-lod",
+      "title": "Fog-safe mixed-role LOD appearance matrix",
+      "command": {
+        "executable": "scripts/renderer-appearance-lod-scenario.mjs",
+        "arguments": [],
+        "workingDirectory": "."
+      },
+      "timeoutSeconds": 180,
+      "capabilities": ["cpu", "project-write", "gpu"],
+      "outputs": {
+        "format": "game-dev-capture-v1",
+        "path": "capture.json"
+      }
     }
   ]
 }
