@@ -38,8 +38,9 @@ assert.deepEqual(readAudioSettings({ getItem: () => '{' }), { enabled: true, vol
 let oscillators = 0;
 let createdContext;
 const parameter = () => ({
-  value: 0, lastTarget: null,
-  setValueAtTime() {}, exponentialRampToValueAtTime() {},
+  value: 0, lastTarget: null, scheduledValues: [],
+  setValueAtTime(value) { this.scheduledValues.push(value); },
+  exponentialRampToValueAtTime(value) { this.scheduledValues.push(value); },
   setTargetAtTime(value) { this.lastTarget = value; },
 });
 const node = () => ({ connect() {}, disconnect() {}, start() {}, stop() {} });
@@ -52,8 +53,14 @@ class FakeAudioContext {
   sampleRate = 100;
   destination = node();
   gains = [];
+  oscillatorNodes = [];
   createGain() { const gain = { ...node(), gain: parameter() }; this.gains.push(gain); return gain; }
-  createOscillator() { oscillators++; return { ...node(), frequency: parameter(), onended: null }; }
+  createOscillator() {
+    oscillators++;
+    const oscillator = { ...node(), frequency: parameter(), onended: null };
+    this.oscillatorNodes.push(oscillator);
+    return oscillator;
+  }
   createBuffer() { return { getChannelData: () => new Float32Array(300) }; }
   createBufferSource() { return node(); }
   createBiquadFilter() { return { ...node(), frequency: parameter() }; }
@@ -78,22 +85,36 @@ try {
   assert.deepEqual(cues, ['select']);
   assert.equal(audio.getStatus(), 'running');
   assert.equal(oscillators, 1);
+  const constructionStart = createdContext.oscillatorNodes.length;
   assert.equal(audio.play('building-complete'), true, 'finished construction schedules its own short cue');
   assert.equal(oscillators, 3, 'building completion is a restrained two-part cue');
   assert.equal(cues.at(-1), 'building-complete');
+  const constructionNotes = createdContext.oscillatorNodes.slice(constructionStart).map(({ type, frequency }) => ({
+    wave: type, from: frequency.scheduledValues[0], to: frequency.scheduledValues[1],
+  }));
+  assert.deepEqual(constructionNotes, [
+    { wave: 'triangle', from: 185, to: 185 },
+    { wave: 'sine', from: 277.18, to: 277.18 },
+  ], 'construction completion uses a low, open fifth distinct from the battle alert pitches');
   assert.equal(audio.play('building-complete'), false, 'repeated construction completions are rate limited');
+  const battleStart = createdContext.oscillatorNodes.length;
+  assert.equal(audio.play('battle-alert'), true);
+  const battlePitches = createdContext.oscillatorNodes.slice(battleStart).map(({ frequency }) => frequency.scheduledValues[0]);
+  assert.deepEqual(battlePitches, [196, 246.94]);
+  assert.ok(constructionNotes.every(({ from }) => !battlePitches.includes(from)), 'construction and battle alerts share no fundamentals');
+  assert.equal(oscillators, 5);
   for (let i = 0; i < 2000; i++) audio.play('move');
-  assert.equal(oscillators, 4, 'two thousand same-frame move orders make one move tone');
-  assert.deepEqual(cues, ['select', 'building-complete', 'move']);
+  assert.equal(oscillators, 6, 'two thousand same-frame move orders make one move tone');
+  assert.deepEqual(cues, ['select', 'building-complete', 'battle-alert', 'move']);
   audio.setSettings({ enabled: false });
   assert.equal(audio.getStatus(), 'muted');
   assert.equal(createdContext.suspendCalls, 1);
   assert.equal(audio.play('objective'), false);
-  assert.equal(oscillators, 4);
+  assert.equal(oscillators, 6);
   audio.setSettings({ enabled: true, volume: 0 });
   assert.equal(createdContext.suspendCalls, 2);
   assert.equal(audio.play('victory'), false);
-  assert.equal(oscillators, 4);
+  assert.equal(oscillators, 6);
   audio.setSettings({ enabled: true, volume: 0.3, ambience: false });
   assert.equal(audio.getStatus(), 'running');
   assert.equal(createdContext.resumeCalls, 1);

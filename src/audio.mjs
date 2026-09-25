@@ -173,8 +173,8 @@ export function createGameAudio({ storage = browserStorage(), doc = globalThis.d
       case 'queue': tone(470, at, 0.06, { wave: 'triangle', gain: 0.12 }); tone(590, at + 0.095, 0.07, { wave: 'triangle', gain: 0.1 }); break;
       case 'complete': tone(392, at, 0.13, { gain: 0.17 }); tone(587, at + 0.13, 0.23, { gain: 0.15 }); break;
       case 'building-complete':
-        tone(196, at, 0.09, { wave: 'triangle', endFrequency: 185, gain: 0.11 });
-        tone(246.94, at + 0.14, 0.22, { wave: 'sine', gain: 0.09 });
+        tone(185, at, 0.1, { wave: 'triangle', gain: 0.11 });
+        tone(277.18, at + 0.15, 0.2, { wave: 'sine', gain: 0.09 });
         break;
       case 'reject': tone(250, at, 0.13, { wave: 'sawtooth', endFrequency: 185, gain: 0.11 }); break;
       case 'battle-alert': tone(196, at, 0.17, { wave: 'triangle', gain: 0.14 }); tone(246.94, at + 0.17, 0.21, { wave: 'triangle', gain: 0.12 }); break;
