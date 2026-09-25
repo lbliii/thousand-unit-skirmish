@@ -61,11 +61,13 @@ On receipt, the server checks the response size and schema, request-ID binding a
 
 ## Cadence, budgets, and execution boundary
 
-Initial model-mode values, to tune from measured cost and playtests. The deterministic policy keeps its separate one-second cadence:
+Provisional limits for a local research prototype, for producer review only. These values do not authorize provider use; model mode stays off until the provider and limits are approved:
 
 - Ask for a model decision at most once every **5 seconds** per bot seat (12 requests/minute maximum), not on each regular state snapshot.
 - Permit **one in-flight request** per seat. Coalesce pending observations to the newest state; never build a backlog of stale decisions.
-- Bound observation bytes/input tokens and response bytes/output tokens. Set explicit per-match request, token, and estimated-cost ceilings before enabling a provider; exhaustion turns model requests off for that match.
+- Cap a match at **120 sent requests**, **256 KiB** of serialized v1 observation per request, **65,536 estimated input tokens** per request (including the system prompt), and **256 output tokens / 4 KiB** of response JSON. Enforce both input limits; if either is exceeded, skip that proposal and let the deterministic policy act. Never truncate away observation fields to fit.
+- Propose a **$1.00 estimated-cost ceiling per match**. Before sending, reserve the provider-priced worst-case cost for the input estimate and full output allowance; settle against reported usage afterward. If the selected provider cannot give a conservative estimate or usage, or the reservation would exceed the remaining cap, do not send the request. Count every sent request, including timeouts, against the request cap; after any cap is reached, keep the deterministic bot active for the rest of the match.
+- The byte ceiling is a provisional envelope informed by the merged baseline's 120,744-byte p95 full snapshot at 2,000 visible moving units; it is not a measurement of the PvE DTO. Measure actual v1 DTO bytes and token estimates at each supported roster size before provider use. If an observation exceeds the envelope, skip inference rather than dropping visible state.
 - Use asynchronous request I/O outside `simulateTick()`. Do not await, call a provider, build a large prompt, or apply a model result in the simulation callback. Bound DTO preparation and response parsing; measure event-loop/tick-start lag, and offload heavier preparation if it moves the tick budget.
 - A result carries its request ID; the server-side request record binds that ID to the v1 DTO tick, seat, and match. Discard it if that binding changed, the response is stale, or a newer decision superseded it. Accepted results enter the same authoritative command queue as ordinary commands.
 
