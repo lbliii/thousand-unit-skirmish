@@ -33,4 +33,4 @@ The authored scenario brief appears in the map picker: “Both Signals unlock th
 
 `node scripts/render-forked-vale-preview.mjs` refreshes the top-down diagram from the editor-authored map file.
 
-Three Crowns was also revised through Map Studio with two central stone shelves, a clear brief, a 20-second all-zone victory hold, and a 15-minute deadline. Its original large-army opening remains intact as a contrasting shipped stress scenario.
+Three Crowns was also revised through Map Studio with two central stone shelves, a clear brief, a 20-second all-zone victory hold, and a 15-minute deadline. A later marker correction makes both 1,000-unit starting formations fit on open terrain and gives each seat equal objective routes; see [Three Crowns layout notes](three-crowns-layout.md).

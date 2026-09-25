@@ -246,6 +246,22 @@ async function clickGridCell(column, row) {
   await cdp.call('Input.dispatchMouseEvent', { type: 'mouseReleased', x, y, button: 'left', clickCount: 1 });
 }
 
+async function moveResourceNode(type, fromColumn, fromRow, toColumn, toRow, stock) {
+  const tool = type === 'wood' ? 'resource-wood' : 'resource-food';
+  await click(`[data-map-tool="${tool}"]`);
+  await clickGridCell(fromColumn, fromRow);
+  const selectedStock = await cdp.evaluate(
+    "document.querySelector('#studio-resource-stock')?.value");
+  assert.equal(Number(selectedStock), stock, 'Map Studio should select the expected resource stock');
+  await click('#studio-remove-resource');
+  await setField('#studio-resource-stock', String(stock));
+  await clickGridCell(toColumn, toRow);
+  const message = `Added ${type} node at ${toColumn}, ${toRow} with ${stock} ${type}.`;
+  await waitForPage(
+    "document.querySelector('#studio-message')?.textContent === " + JSON.stringify(message),
+    'Map Studio resource placement');
+}
+
 async function gridPoint(column, row) {
   const bounds = await cdp.evaluate(`(() => {
     const rect = document.querySelector('#studio-grid').getBoundingClientRect();
@@ -334,6 +350,22 @@ try {
   await setField('#studio-deadline-seconds', '900');
   await paint('stone', 27, 19, 36, 22);
   await paint('stone', 27, 41, 36, 44);
+  await paint('azure', 11, 32);
+  await paint('ember', 52, 32);
+  await moveResourceNode('food', 11, 38, 14, 38, 350);
+  await moveResourceNode('wood', 11, 26, 14, 26, 350);
+  await moveResourceNode('food', 53, 38, 49, 38, 350);
+  await moveResourceNode('wood', 53, 26, 49, 26, 350);
+  await moveResourceNode('food', 32, 18, 31, 18, 500);
+  await moveResourceNode('wood', 32, 46, 32, 46, 500);
+  const expectedResources = [
+    { id: 'food-14-38', type: 'food', x: -17.5, z: 6.5, stock: 350 },
+    { id: 'wood-14-26', type: 'wood', x: -17.5, z: -5.5, stock: 350 },
+    { id: 'food-49-38', type: 'food', x: 17.5, z: 6.5, stock: 350 },
+    { id: 'wood-49-26', type: 'wood', x: 17.5, z: -5.5, stock: 350 },
+    { id: 'food-31-18', type: 'food', x: -0.5, z: -13.5, stock: 500 },
+    { id: 'wood-32-46', type: 'wood', x: 0.5, z: 14.5, stock: 500 },
+  ];
 
   await cdp.call('Page.setDownloadBehavior', { behavior: 'allow', downloadPath: tempRoot });
   await click('#studio-download');
@@ -350,8 +382,28 @@ try {
   assert.equal(saved.victoryHoldSeconds, 20);
   assert.equal(saved.timedVictory.objectiveId, 'heartland-keep');
   assert.equal(saved.obstacles.length, 6);
-  await import('node:fs/promises').then(({ copyFile }) =>
-    copyFile(downloaded, path.join(ROOT, 'maps', 'three-crowns.json')));
+  assert.deepEqual(saved.spawnPoints
+    .map((spawn) => [spawn.team, spawn.x, spawn.z])
+    .sort((left, right) => left[0] - right[0]),
+  [[0, -20.5, 0.5], [1, 20.5, 0.5]]);
+  for (const expected of expectedResources) {
+    assert.deepEqual(saved.resourceNodes.find((node) => node.id === expected.id), expected,
+      'Map Studio should preserve resource marker ' + expected.id);
+  }
+  const stableResourceIds = {
+    'food-14-38': 'azure-berries',
+    'wood-14-26': 'azure-timber',
+    'food-49-38': 'ember-berries',
+    'wood-49-26': 'ember-timber',
+    'food-31-18': 'north-market-food',
+    'wood-32-46': 'south-market-wood',
+  };
+  for (const node of saved.resourceNodes) {
+    assert.ok(stableResourceIds[node.id], 'Map Studio created an unexpected resource node ' + node.id);
+    node.id = stableResourceIds[node.id];
+  }
+  await writeFile(path.join(ROOT, 'maps', 'three-crowns.json'),
+    JSON.stringify(saved, null, 2) + '\n');
   console.log(JSON.stringify({ status: 'passed', map: saved.id, authoredIn: 'Map Studio',
     savedPath: 'maps/three-crowns.json', summary: saved.summary,
     terrainBlocks: saved.obstacles.length, holdSeconds: saved.victoryHoldSeconds }, null, 2));

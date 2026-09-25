@@ -10,56 +10,56 @@
   "spawnPoints": [
     {
       "team": 0,
-      "x": -24,
-      "z": 0
+      "x": -20.5,
+      "z": 0.5
     },
     {
       "team": 1,
-      "x": 24,
-      "z": 0
+      "x": 20.5,
+      "z": 0.5
     }
   ],
   "resourceNodes": [
     {
       "id": "azure-berries",
       "type": "food",
-      "x": -21,
-      "z": 6,
+      "x": -17.5,
+      "z": 6.5,
       "stock": 350
     },
     {
       "id": "azure-timber",
       "type": "wood",
-      "x": -21,
-      "z": -6,
+      "x": -17.5,
+      "z": -5.5,
       "stock": 350
     },
     {
       "id": "ember-berries",
       "type": "food",
-      "x": 21,
-      "z": 6,
+      "x": 17.5,
+      "z": 6.5,
       "stock": 350
     },
     {
       "id": "ember-timber",
       "type": "wood",
-      "x": 21,
-      "z": -6,
+      "x": 17.5,
+      "z": -5.5,
       "stock": 350
     },
     {
       "id": "north-market-food",
       "type": "food",
-      "x": 0,
-      "z": -14,
+      "x": -0.5,
+      "z": -13.5,
       "stock": 500
     },
     {
       "id": "south-market-wood",
       "type": "wood",
-      "x": 0,
-      "z": 14,
+      "x": 0.5,
+      "z": 14.5,
       "stock": 500
     }
   ],

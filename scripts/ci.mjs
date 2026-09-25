@@ -50,6 +50,7 @@ const scenarios = [
   ['scripts/forked-vale-scenario.mjs', 'Forked Vale economy-to-victory (Team 0)', '0'],
   ['scripts/forked-vale-scenario.mjs', 'Forked Vale economy-to-victory (Team 1)', '1'],
   ['scripts/forked-vale-layout.mjs', 'Forked Vale layout'],
+  ['scripts/three-crowns-layout.mjs', 'Three Crowns layout'],
   ['scripts/formation-assignment-scenario.mjs', 'Formation assignment'],
   ['scripts/unit-selection-scenario.mjs', 'Unit selection'],
   ['scripts/pve-opponent-scenario.mjs', 'PvE opponent seats'],
