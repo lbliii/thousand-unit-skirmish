@@ -948,7 +948,8 @@ function reconcileBuildings(buildings = [], initial = false) {
   const priorSelectedBuildingId = selectedBuildingId;
   const previousBuildings = new Map(latestBuildings.map((building) => [building.id, building]));
   let buildingDamage = 0;
-  let completedOwnBuilding = false;
+  let finishedFriendlyConstruction = false;
+  let finishedFriendlyProduction = false;
   const priorSelectedRallyCell = latestBuildings.find((building) => building.id === selectedBuildingId)?.rallyCell ?? -1;
   if (selectedBuildingId !== null && !rows.some((building) => building.id === selectedBuildingId
     && building.team === localTeam)) selectedBuildingId = null;
@@ -957,8 +958,8 @@ function reconcileBuildings(buildings = [], initial = false) {
     const previous = previousBuildings.get(building.id);
     if (previous && building.team === localTeam) {
       if (Number.isFinite(previous.hp) && Number.isFinite(building.hp) && building.hp < previous.hp) buildingDamage++;
-      if (previous.complete !== true && building.complete === true) completedOwnBuilding = true;
-      if (getBuildingQueueLength(previous) > getBuildingQueueLength(building)) completedOwnBuilding = true;
+      if (previous.complete !== true && building.complete === true) finishedFriendlyConstruction = true;
+      if (getBuildingQueueLength(previous) > getBuildingQueueLength(building)) finishedFriendlyProduction = true;
     }
     seen.add(building.id);
     let visual = buildingVisuals.get(building.id);
@@ -984,7 +985,8 @@ function reconcileBuildings(buildings = [], initial = false) {
     buildingVisuals.delete(id);
   }
   latestBuildings = rows;
-  if (!initial && completedOwnBuilding) audio.play('complete');
+  if (!initial && finishedFriendlyConstruction) audio.play('building-complete');
+  if (!initial && finishedFriendlyProduction) audio.play('complete');
   const selectedBuilding = rows.find((building) => building.id === selectedBuildingId
     && building.team === localTeam) || null;
   if (priorSelectedBuildingId !== selectedBuildingId
