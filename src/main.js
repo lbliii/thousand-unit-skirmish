@@ -3,6 +3,7 @@ import {
   addObstacleEnvironmentSprites, createEnvironmentSprite, createEnvironmentSpriteInstances,
   createGroundSurfaces, environmentTheme, setEnvironmentSpriteInstance, TERRAIN_MATERIALS,
 } from './environment-art.mjs';
+import { unitActionPoseAllowed, unitCargoVisualState } from './unit-visual-state.mjs';
 import {
   capturePrerequisiteIds, findInvalidCapturePrerequisite, findInvalidScenarioEventChain,
   findUnreachableCaptureZone, findUnreachableResourceNode, scenarioEventSourceIds,
@@ -276,6 +277,13 @@ const color = new THREE.Color();
 const workerBodyTint = new THREE.Color(0xe1bc63);
 const archerBodyTint = new THREE.Color(0xc3c995);
 const unitDamageFlashTint = new THREE.Color(0xffedc9);
+const unitCargoPackColors = {
+  none: new THREE.Color(0x9c754c),
+  wood: new THREE.Color(0x9bb877),
+  food: new THREE.Color(0xe4bd63),
+  unknown: new THREE.Color(0xb8ad92),
+};
+const unitCargoPackColorDirty = [false, false];
 const facing = new THREE.Quaternion();
 const worldUp = new THREE.Vector3(0, 1, 0);
 const ringRotation = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI / 2);
@@ -1875,7 +1883,7 @@ for (let team = 0; team < 2; team++) {
   );
   packMeshes[team] = makeInstances(
     new THREE.BoxGeometry(0.34, 0.32, 0.22),
-    new THREE.MeshBasicMaterial({ color: 0x9c754c }),
+    new THREE.MeshBasicMaterial({ color: 0xffffff }),
     MAX_PER_TEAM,
   );
   quiverMeshes[team] = makeInstances(
@@ -2016,6 +2024,21 @@ placementGhost.visible = false;
 placementGhost.renderOrder = 4;
 scene.add(placementGhost);
 
+function updateUnitCargoCueColor(unit) {
+  const state = unitCargoVisualState(unit.kind, unit.hp, unit.visible, unit.cargo, unit.cargoType);
+  if (unit.cargoVisualState === state) return;
+  // Cargo color is state data, not team identity, and stays in the existing backpack batch.
+  packMeshes[unit.team].setColorAt(unit.slot, unitCargoPackColors[state]);
+  unitCargoPackColorDirty[unit.team] = true;
+  unit.cargoVisualState = state;
+}
+
+function flushUnitCargoPackColor(team) {
+  if (!unitCargoPackColorDirty[team]) return;
+  if (packMeshes[team].instanceColor) packMeshes[team].instanceColor.needsUpdate = true;
+  unitCargoPackColorDirty[team] = false;
+}
+
 function setUnitTint(unit) {
   const health = Math.max(0, unit.hp) / 100;
   const strength = unit.hp > 0 ? 0.7 + health * 0.3 : unit.defeatStartedAt > 0 ? 0.58 : 0;
@@ -2045,15 +2068,19 @@ function updateUnitTransform(unit, now = performance.now()) {
   const isWorker = unit.kind === 'worker';
   const isArcher = unit.kind === 'archer';
   const bodyScale = isWorker ? visibleScale * 0.82 : isArcher ? visibleScale * 0.9 : visibleScale;
-  const stride = unit.walking ? Math.sin(unit.motionPhase || 0) * 0.038 : 0;
-  const idleBreath = unit.hp > 0 && !unit.walking
+  const actionPoseAllowed = unitActionPoseAllowed(unit.hp, unit.defeatStartedAt);
+  const stride = actionPoseAllowed && unit.walking ? Math.sin(unit.motionPhase || 0) * 0.038 : 0;
+  const idleBreath = actionPoseAllowed && !unit.walking
     && unit.task !== 'gathering' && unit.task !== 'building' && unit.attackStartedAt === 0
     ? Math.sin(now * 0.0024 + unit.id * 1.7) * 0.018 : 0;
-  const attackAge = unit.attackStartedAt > 0 ? (now - unit.attackStartedAt) / ATTACK_POSE_MS : 1;
+  const attackAge = actionPoseAllowed && unit.attackStartedAt > 0
+    ? (now - unit.attackStartedAt) / ATTACK_POSE_MS : 1;
   const attackPose = attackAge >= 0 && attackAge < 1 ? Math.sin(attackAge * Math.PI) : 0;
-  const hitAge = unit.hitStartedAt > 0 ? (now - unit.hitStartedAt) / HIT_POSE_MS : 1;
+  const hitAge = actionPoseAllowed && unit.hitStartedAt > 0
+    ? (now - unit.hitStartedAt) / HIT_POSE_MS : 1;
   const hitPose = hitAge >= 0 && hitAge < 1 ? Math.sin(hitAge * Math.PI) : 0;
-  const workSwing = isWorker && (unit.task === 'gathering' || unit.task === 'building')
+  const workSwing = actionPoseAllowed && isWorker && !unit.walking
+    && (unit.task === 'gathering' || unit.task === 'building')
     ? Math.sin(unit.motionPhase || 0) * 0.46 : isWorker ? attackPose * 0.55 : 0;
   const forwardX = Math.sin(unit.angle);
   const forwardZ = Math.cos(unit.angle);
@@ -2193,9 +2220,11 @@ function setArmySize(count, showMessage = false) {
     unitArtMeshes.forEach((pair) => { pair[team].count = slot + 1; });
     setUnitTint(unit);
     updateUnitTransform(unit);
+    updateUnitCargoCueColor(unit);
   }
   for (let team = 0; team < 2; team++) {
     unitArtMeshes.forEach((pair) => { pair[team].instanceMatrix.needsUpdate = true; });
+    flushUnitCargoPackColor(team);
   }
   attackFocusMesh.count = nextAttackFocusSlot;
   if (attackFocusDirty) {
@@ -2787,6 +2816,7 @@ function appendUnitFromState(row, animateSpawn = false) {
   attackFocusMesh.count = nextAttackFocusSlot;
   setUnitTint(unit);
   updateUnitTransform(unit);
+  updateUnitCargoCueColor(unit);
   return unit;
 }
 
@@ -2808,6 +2838,7 @@ function applyState(state, initial = false) {
     const unit = existingUnit || appendUnitFromState(row, !initial);
     if (!unit || unit.team !== team) continue;
     const wasVisible = unit.visible !== false;
+    let cargoVisualMayChange = !existingUnit || !wasVisible;
     unit.visible = true;
     if (localTeam !== null && team !== localTeam) visibleEnemyIds.add(id);
     if (!existingUnit) changed = true;
@@ -2830,6 +2861,7 @@ function applyState(state, initial = false) {
       unit.lastPlayedAttackTick = -1;
       unit.angle = team === 0 ? Math.PI / 2 : -Math.PI / 2;
       unit.targetAngle = unit.angle;
+      cargoVisualMayChange = true;
       setUnitTint(unit);
       updateUnitTransform(unit);
       changed = true;
@@ -2838,6 +2870,7 @@ function applyState(state, initial = false) {
     unit.serverZ = z;
     if (kind && unit.kind !== kind) {
       unit.kind = kind;
+      cargoVisualMayChange = true;
       setUnitTint(unit);
       updateUnitTransform(unit);
       changed = true;
@@ -2849,10 +2882,16 @@ function applyState(state, initial = false) {
       updateUnitTransform(unit);
       changed = true;
     }
-    unit.cargo = Number.isFinite(cargo) ? cargo : unit.cargo || 0;
-    if (cargoType === 'food' || cargoType === 'wood') unit.cargoType = cargoType;
-    else if (cargoType === null) unit.cargoType = null;
+    const nextCargo = Number.isFinite(cargo) ? cargo : unit.cargo || 0;
+    const nextCargoType = cargoType === 'food' || cargoType === 'wood' ? cargoType
+      : cargoType === null ? null : unit.cargoType;
+    if (unit.cargo !== nextCargo || unit.cargoType !== nextCargoType) {
+      unit.cargo = nextCargo;
+      unit.cargoType = nextCargoType;
+      cargoVisualMayChange = true;
+    }
     if (unit.hp !== hp) {
+      cargoVisualMayChange = true;
       const tookDamage = hp < unit.hp && hp > 0;
       if (!audioReset && hp < unit.hp && unit.team === localTeam) {
         friendlyDamage++;
@@ -2896,11 +2935,13 @@ function applyState(state, initial = false) {
       updateUnitTransform(unit);
       changed = true;
     }
+    if (cargoVisualMayChange) updateUnitCargoCueColor(unit);
   }
   if (state.fogOfWar === true && localTeam !== null) {
     for (const unit of teamUnits[1 - localTeam]) {
       if (visibleEnemyIds.has(unit.id) || unit.visible === false) continue;
       unit.visible = false;
+      updateUnitCargoCueColor(unit);
       updateUnitTransform(unit);
       changed = true;
     }
@@ -2911,6 +2952,7 @@ function applyState(state, initial = false) {
       unitArtMeshes.forEach((pair) => { pair[team].instanceMatrix.needsUpdate = true; });
     }
   }
+  for (let team = 0; team < 2; team++) flushUnitCargoPackColor(team);
   if (attackFocusDirty) {
     attackFocusMesh.instanceMatrix.needsUpdate = true;
     attackFocusDirty = false;
