@@ -109,12 +109,12 @@ matchup.
 
 Worker damage against units is now **4 per 0.85 s**, versus infantry's
 **10 per 0.85 s**. Worker HP remains 100, so existing unit health presentation
-is unchanged. The same two mirrored duels now finish with infantry winning:
-Ember infantry has 60 HP left in the first, and Azure infantry has 64 HP left
-in the second. The worker can still hurt an attacker but loses the equal-cost
-fight. `node scripts/worker-combat-scenario.mjs` records and asserts those
-outcomes. This is controlled combat evidence, not a claim about raids, worker
-survival in a full match, or player understanding.
+is unchanged. An earlier post-change run had Ember infantry at 60 HP and
+Azure infantry at 64 HP. The merged-baseline retest below records the current
+result. The worker can still hurt an attacker but loses the equal-cost fight.
+`node scripts/worker-combat-scenario.mjs` records and asserts the outcomes.
+This is controlled combat evidence, not a claim about raids, worker survival
+in a full match, or player understanding.
 
 ## Forked Vale scripted pacing check
 
@@ -166,6 +166,14 @@ blocked roster tuning until the combat-order fix passed the mirrored check.
 The following two-seat protocol scenarios ran locally on macOS arm64 with
 Node 24.9.0. They establish repeatable fixture outcomes; they are not human
 match results or hosted-network evidence.
+
+### Worker-versus-infantry counter
+
+`node scripts/worker-combat-scenario.mjs` passed both team assignments from
+100 HP starts. With Azure's worker facing Ember infantry, the infantry won
+with 60 HP left; after swapping roles, Azure infantry also won with 60 HP
+left. This confirms the intended direct-combat counter on both seats for this
+fixture, without establishing worker survival or raid value in a full match.
 
 ### Combat parity
 
