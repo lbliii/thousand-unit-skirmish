@@ -1,6 +1,7 @@
 *
 !server.mjs
 !room-supervisor.mjs
+!origin-policy.mjs
 !index.html
 !style.css
 !src/
