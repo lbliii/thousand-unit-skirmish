@@ -37,6 +37,8 @@ const syntaxFiles = [
 for (const file of syntaxFiles) run(['--check', file], `Syntax: ${file}`);
 
 const scenarios = [
+  ['scripts/origin-policy-scenario.mjs', 'Origin policy'],
+  ['scripts/origin-proxy-scenario.mjs', 'Origin policy through room proxy'],
   ['scripts/audio-policy-scenario.mjs', 'Audio policy'],
   ['scripts/map-utils-scenario.mjs', 'Map utilities'],
   ['scripts/forked-vale-layout.mjs', 'Forked Vale layout'],

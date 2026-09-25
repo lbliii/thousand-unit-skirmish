@@ -4,6 +4,7 @@ import { mkdir, open, readFile, readdir, rename, stat, unlink, writeFile } from 
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { deflateRawSync, inflateRawSync, constants as zlibConstants } from 'node:zlib';
+import { configuredPublicOrigins, sameOriginRequest } from './origin-policy.mjs';
 import {
   capturePrerequisiteIds, findInvalidCapturePrerequisite, findInvalidScenarioEventChain,
   findUnreachableCaptureZone, findUnreachableResourceNode, scenarioEventSourceIds,
@@ -13,9 +14,14 @@ import { orderUnitsForFormation } from './src/formation-assignment.mjs';
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const HOST = process.env.RTS_HOST || '127.0.0.1';
 const PORT = Number(process.env.PORT || 4173);
+const RAILWAY_DEPLOYMENT = Boolean(process.env.RAILWAY_PROJECT_ID || process.env.RAILWAY_ENVIRONMENT);
+const PUBLIC_ORIGINS = configuredPublicOrigins();
 const MAX_PEERS = Number(process.env.RTS_MAX_PEERS || 32);
 const SESSION_GRACE_MS = Number(process.env.RTS_SESSION_GRACE_MS ?? 120_000);
 const RECOVERY_SESSION_GRACE_MS = SESSION_GRACE_MS;
+if (RAILWAY_DEPLOYMENT && PUBLIC_ORIGINS.size === 0) {
+  throw new Error('Set RAILWAY_PUBLIC_DOMAIN or RTS_PUBLIC_ORIGINS before exposing the match server.');
+}
 // Bump schema for persisted-shape changes and rules for incompatible simulation semantics.
 const MATCH_CHECKPOINT_SCHEMA_VERSION = 9;
 // Older compatible checkpoints remain resumable after their persisted shape is migrated.
@@ -5578,17 +5584,10 @@ function createPeer(socket, resumeToken, compressionEnabled = false) {
 }
 
 function isSameOriginWebSocketRequest(request) {
-  const originHeader = request.headers.origin;
-  if (originHeader === undefined) return true;
-  let origin;
-  try { origin = new URL(originHeader); } catch { return false; }
-  if (!['http:', 'https:'].includes(origin.protocol) || origin.username || origin.password) return false;
-  const forwardedScheme = String(request.headers['x-forwarded-proto'] || '').split(',')[0].trim();
-  const scheme = forwardedScheme || (request.socket.encrypted ? 'https' : 'http');
-  if (!['http', 'https'].includes(scheme)) return false;
-  const forwardedHost = String(request.headers['x-forwarded-host'] || '').split(',')[0].trim();
-  const host = forwardedHost || request.headers.host || '';
-  return origin.origin.toLowerCase() === `${scheme}://${host}`.toLowerCase();
+  return sameOriginRequest(request, {
+    allowedOrigins: PUBLIC_ORIGINS,
+    httpsTerminatedAtEdge: RAILWAY_DEPLOYMENT,
+  });
 }
 
 function hasCompatiblePerMessageDeflateOffer(request) {

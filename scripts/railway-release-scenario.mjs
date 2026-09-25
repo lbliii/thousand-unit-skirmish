@@ -3,21 +3,26 @@ import { randomBytes } from 'node:crypto';
 import { spawn, spawnSync } from 'node:child_process';
 import { request as httpRequest } from 'node:http';
 import { createServer } from 'node:net';
-import { mkdtemp, rm, stat } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, stat } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const entry = path.join(root, 'room-supervisor.mjs');
+const dockerfile = await readFile(path.join(root, 'Dockerfile'), 'utf8');
+assert.match(dockerfile, /^\s*COPY\b[^\n]*\borigin-policy\.mjs\b/m,
+  'the shared origin policy must be included in the Railway image');
 const secret = 'test-release-password-please-change';
 const volume = await mkdtemp(path.join(os.tmpdir(), 'rts-railway-release-'));
 const environment = {
   ...process.env,
   RAILWAY_ENVIRONMENT: 'production',
+  RAILWAY_PUBLIC_DOMAIN: 'game-production.up.railway.app',
   RAILWAY_VOLUME_MOUNT_PATH: volume,
   RTS_ACCESS_USER: 'players',
   RTS_ACCESS_PASSWORD: secret,
+  RTS_PUBLIC_ORIGINS: '',
   RTS_HOST: '127.0.0.1',
 };
 delete environment.RTS_ROOM_DATA_DIRECTORY;
@@ -48,7 +53,7 @@ function upgrade(port, authorization) {
       connection: 'Upgrade', upgrade: 'websocket',
       'sec-websocket-version': '13',
       'sec-websocket-key': randomBytes(16).toString('base64'),
-      origin: `http://127.0.0.1:${port}`,
+      origin: `https://${environment.RAILWAY_PUBLIC_DOMAIN}`,
     };
     if (authorization) headers.authorization = authorization;
     const request = httpRequest({ hostname: '127.0.0.1', port, path: '/ws', headers });
@@ -64,6 +69,7 @@ let child;
 try {
   rejectsMissingConfiguration({ RAILWAY_VOLUME_MOUNT_PATH: '' }, /Attach a Railway volume/);
   rejectsMissingConfiguration({ RTS_ACCESS_PASSWORD: '' }, /RTS_ACCESS_PASSWORD/);
+  rejectsMissingConfiguration({ RAILWAY_PUBLIC_DOMAIN: '' }, /RAILWAY_PUBLIC_DOMAIN or RTS_PUBLIC_ORIGINS/);
 
   const port = await availablePort();
   child = spawn(process.execPath, [entry], {

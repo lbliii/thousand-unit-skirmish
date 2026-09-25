@@ -47,6 +47,11 @@ for (const line of dockerfile.split(/\r?\n/)) {
     entries.add(relative);
   }
 }
+for (const runtimeSource of ['room-supervisor.mjs', 'server.mjs', 'origin-policy.mjs']) {
+  if (!entries.has(runtimeSource)) {
+    throw new Error(`Dockerfile COPY sources must include runtime source ${runtimeSource}`);
+  }
+}
 try {
   await lstat(path.join(root, 'railway.json'));
   entries.add('railway.json');

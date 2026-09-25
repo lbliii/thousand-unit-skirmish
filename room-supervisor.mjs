@@ -6,6 +6,7 @@ import { connect as connectTcp } from 'node:net';
 import { mkdir, readFile, readdir, rename, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { configuredPublicOrigins, sameOriginRequest } from './origin-policy.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const WORKER_PATH = path.join(ROOT, 'server.mjs');
@@ -15,6 +16,7 @@ const MAX_ROOMS = Number(process.env.RTS_MAX_ROOMS || 4);
 const ROOM_IDLE_TTL_MS = Number(process.env.RTS_ROOM_IDLE_TTL_MS || 6 * 60 * 60 * 1000);
 const ROOM_ID_PATTERN = /^[A-Za-z0-9_-]{32}$/;
 const RAILWAY_DEPLOYMENT = Boolean(process.env.RAILWAY_PROJECT_ID || process.env.RAILWAY_ENVIRONMENT);
+const PUBLIC_ORIGINS = configuredPublicOrigins();
 const VOLUME_MOUNT_PATH = process.env.RAILWAY_VOLUME_MOUNT_PATH || null;
 const ACCESS_USER = process.env.RTS_ACCESS_USER || 'players';
 const ACCESS_PASSWORD = process.env.RTS_ACCESS_PASSWORD || null;
@@ -40,6 +42,9 @@ if (VOLUME_MOUNT_PATH && !path.isAbsolute(VOLUME_MOUNT_PATH)) {
 }
 if (RAILWAY_DEPLOYMENT && (!ACCESS_PASSWORD || ACCESS_PASSWORD.length < 16)) {
   throw new Error('Set RTS_ACCESS_PASSWORD to at least 16 characters before exposing the Railway service.');
+}
+if (RAILWAY_DEPLOYMENT && PUBLIC_ORIGINS.size === 0) {
+  throw new Error('Set RAILWAY_PUBLIC_DOMAIN or RTS_PUBLIC_ORIGINS before exposing the match service.');
 }
 if (VOLUME_MOUNT_PATH) {
   const mount = path.resolve(VOLUME_MOUNT_PATH);
@@ -173,25 +178,11 @@ function touchRoom(room) {
   room.lastActiveAt = Date.now();
 }
 
-function trustedForwardedHost(request) {
-  return String(request.headers['x-forwarded-host'] || request.headers.host || 'localhost')
-    .split(',')[0].trim();
-}
-
-function trustedForwardedProto(request) {
-  const forwarded = String(request.headers['x-forwarded-proto'] || '').split(',')[0].trim().toLowerCase();
-  if (forwarded === 'http' || forwarded === 'https') return forwarded;
-  return request.socket.encrypted ? 'https' : 'http';
-}
-
 function sameOrigin(request) {
-  const originHeader = request.headers.origin;
-  if (originHeader === undefined) return true;
-  let origin;
-  try { origin = new URL(originHeader); } catch { return false; }
-  if (!['http:', 'https:'].includes(origin.protocol) || origin.username || origin.password) return false;
-  return origin.origin.toLowerCase()
-    === `${trustedForwardedProto(request)}://${trustedForwardedHost(request)}`.toLowerCase();
+  return sameOriginRequest(request, {
+    allowedOrigins: PUBLIC_ORIGINS,
+    httpsTerminatedAtEdge: RAILWAY_DEPLOYMENT,
+  });
 }
 
 function hasAccess(request) {
@@ -431,8 +422,6 @@ function proxyUpgrade(request, socket, head, worker, room = null) {
       if (['authorization', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-for', 'forwarded'].includes(lower)) continue;
       headers.push(`${name}: ${request.rawHeaders[index + 1]}`);
     }
-    headers.push(`X-Forwarded-Host: ${trustedForwardedHost(request)}`);
-    headers.push(`X-Forwarded-Proto: ${trustedForwardedProto(request)}`);
     upstream.write(`${request.method} ${request.url} HTTP/${request.httpVersion}\r\n${headers.join('\r\n')}\r\n\r\n`);
     if (head?.length) upstream.write(head);
     socket.pipe(upstream);

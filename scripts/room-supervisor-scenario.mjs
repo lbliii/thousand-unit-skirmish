@@ -364,6 +364,19 @@ try {
   });
   assert.equal(crossOriginCreate.status, 403, 'cross-origin room creation should be rejected');
 
+  const forwardedOriginCreate = await fetch(`http://127.0.0.1:${port}/api/rooms`, {
+    method: 'POST',
+    headers: {
+      Origin: 'https://attacker.example',
+      'X-Forwarded-Host': 'attacker.example',
+      'X-Forwarded-Proto': 'https',
+      'Content-Type': 'application/json',
+    },
+    body: '{}',
+  });
+  assert.equal(forwardedOriginCreate.status, 403,
+    'client-controlled forwarded headers must not make cross-origin room creation appear same-origin');
+
   const created = [];
   for (let index = 0; index < 2; index++) {
     const response = await fetch(`http://127.0.0.1:${port}/api/rooms`, {

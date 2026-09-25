@@ -5,7 +5,7 @@ import { connect } from 'node:net';
 const port = Number(process.argv[2] || 4178);
 const sockets = new Set();
 
-function openWebSocket(origin) {
+function openWebSocket(origin, forwardedHeaders = {}) {
   const socket = connect({ host: '127.0.0.1', port });
   sockets.add(socket);
   return new Promise((resolve, reject) => {
@@ -42,6 +42,7 @@ function openWebSocket(origin) {
         'Sec-WebSocket-Version: 13',
       ];
       if (origin) headers.push(`Origin: ${origin}`);
+      for (const [name, value] of Object.entries(forwardedHeaders)) headers.push(`${name}: ${value}`);
       socket.write(`${headers.join('\r\n')}\r\n\r\n`);
     });
   });
@@ -102,6 +103,14 @@ try {
   const crossOrigin = await openWebSocket('https://other-site.example');
   assert.equal(crossOrigin.status, 403, 'cross-origin browser handshakes should be rejected');
   crossOrigin.socket.destroy();
+
+  const forwardedOriginSpoof = await openWebSocket('https://attacker.example', {
+    'X-Forwarded-Host': 'attacker.example',
+    'X-Forwarded-Proto': 'https',
+  });
+  assert.equal(forwardedOriginSpoof.status, 403,
+    'client-controlled forwarded headers must not make a cross-origin handshake appear same-origin');
+  forwardedOriginSpoof.socket.destroy();
 
   const sameOrigin = await openWebSocket(`http://127.0.0.1:${port}`);
   assert.equal(sameOrigin.status, 101, 'same-origin browser handshakes should be accepted');
