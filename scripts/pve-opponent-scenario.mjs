@@ -40,7 +40,7 @@ function verifyPureContract() {
     ],
     triggers: [
       { id: 'ford-visible', zone: { column: 1, row: 1, width: 1, height: 1 } },
-      { id: 'ford-hidden', zone: { column: 14, row: 14, width: 1, height: 1 } },
+      { id: 'ford-hidden', zone: { column: 1, row: 1, width: 3, height: 1 } },
       { id: 'ford-north', zone: { column: 14, row: 1, width: 1, height: 1 } },
     ],
   };
@@ -52,6 +52,7 @@ function verifyPureContract() {
       [1, 0, -6.5, -6.5, 100, 'worker', 0, '', 1, 'idle', 0],
       [2, 0, -5.5, -6.5, 100, 'infantry', 0, '', 1, null, 0],
       [16, 1, 6.5, 6.5, 100, 'infantry', 0, '', 1, null, 0],
+      [17, 1, -5.5, -6.5, 100, 'infantry', 0, '', 1, null, 0],
     ],
     buildings: [
       { id: 1, team: 0, type: 'town-center', x: -6.5, z: -6.5, hp: 1800 },
@@ -89,7 +90,8 @@ function verifyPureContract() {
   assert.equal(observation.schemaVersion, OPPONENT_OBSERVATION_SCHEMA_VERSION);
   assert.equal(observation.team, 0);
   assert.deepEqual(observation.resources, { food: 220, wood: 180 });
-  assert.deepEqual(observation.units.visibleEnemies, [], 'hidden enemy units must be omitted');
+  assert.deepEqual(observation.units.visibleEnemies.map((unit) => unit.id), [17],
+    'only individually visible enemy units must be included');
   assert.deepEqual(observation.buildings.visibleEnemies, [], 'hidden enemy buildings must be omitted');
   assert.deepEqual(observation.resourceNodes.map((node) => node.id), ['food-visible'],
     'hidden resource nodes must be omitted');
@@ -98,20 +100,28 @@ function verifyPureContract() {
   const objectivesById = new Map(observation.objectives.map((objective) => [objective.id, objective]));
   assert.deepEqual(objectivesById.get('ford-visible').zone,
     { column: 1, row: 1, width: 1, height: 1 }, 'visible objective location is public');
-  assert.deepEqual(objectivesById.get('ford-visible').unitCounts, [0, 0],
+  assert.deepEqual(objectivesById.get('ford-visible').unitCounts, [1, 0],
     'visible objective counts remain available');
+  assert.equal(objectivesById.get('ford-visible').progressTeam, -1,
+    'fully visible objective progress team remains available');
+  assert.equal(objectivesById.get('ford-visible').progress, 0,
+    'fully visible objective capture progress remains available');
   assert.equal(objectivesById.get('ford-hidden').owner, 1,
     'hidden objective ownership remains public');
   assert.deepEqual(objectivesById.get('ford-hidden').zone,
-    { column: 14, row: 14, width: 1, height: 1 }, 'hidden objective location remains public');
+    { column: 1, row: 1, width: 3, height: 1 }, 'partially visible objective location remains public');
+  assert.deepEqual(objectivesById.get('ford-hidden').unitCounts, [2, 1],
+    'partial-zone counts include only individually observable units');
   assert.equal(objectivesById.get('ford-hidden').requiredOwner, 0,
     'hidden objective prerequisite owner remains public');
   assert.deepEqual(objectivesById.get('ford-hidden').requiresAll, ['ford-visible', 'ford-north']);
   assert.deepEqual(objectivesById.get('ford-hidden').requiredOwners, [0, -1]);
+  assert.deepEqual(objectivesById.get('ford-north').unitCounts, [0, 0],
+    'fully hidden zone counts do not copy concealed snapshot totals');
   for (const id of ['ford-hidden', 'ford-north']) {
-    for (const transient of ['unitCounts', 'progressTeam', 'progress']) {
+    for (const transient of ['progressTeam', 'progress']) {
       assert.equal(Object.hasOwn(objectivesById.get(id), transient), false,
-        `hidden objective ${id} omits transient ${transient}`);
+        `objective ${id} without full-zone visibility omits transient ${transient}`);
     }
   }
   assert.equal(Object.hasOwn(observation, 'victoryHold'), false);
@@ -399,20 +409,34 @@ function stateObservation(client) {
   return toOpponentObservation(client.feed.latest, client.welcome.player.team, client.welcome.map);
 }
 
-function isObjectiveZoneVisible(state, zone) {
+function isObjectiveZoneFullyVisible(state, zone) {
   if (state.fogOfWar !== true) return true;
   const visibility = state.visibility;
   if (!visibility || !Number.isInteger(visibility.columns) || !Number.isInteger(visibility.rows)
-    || typeof visibility.data !== 'string') return false;
+    || typeof visibility.data !== 'string'
+    || zone.column < 0 || zone.row < 0 || zone.width < 1 || zone.height < 1
+    || zone.column + zone.width > visibility.columns
+    || zone.row + zone.height > visibility.rows) return false;
   const packed = Buffer.from(visibility.data, 'base64');
   for (let row = zone.row; row < zone.row + zone.height; row++) {
     for (let column = zone.column; column < zone.column + zone.width; column++) {
-      if (column < 0 || column >= visibility.columns || row < 0 || row >= visibility.rows) continue;
       const cell = row * visibility.columns + column;
-      if (((packed[cell >> 2] >> ((cell & 3) * 2)) & 0b11) === 2) return true;
+      if (((packed[cell >> 2] >> ((cell & 3) * 2)) & 0b11) !== 2) return false;
     }
   }
-  return false;
+  return true;
+}
+
+function countObservableUnits(observation, zone, map) {
+  const counts = [0, 0];
+  const units = [...observation.units.friendly, ...observation.units.visibleEnemies];
+  for (const unit of units) {
+    const column = Math.floor(unit.x + map.width / 2);
+    const row = Math.floor(unit.z + map.height / 2);
+    if (column >= zone.column && column < zone.column + zone.width
+      && row >= zone.row && row < zone.row + zone.height) counts[unit.team]++;
+  }
+  return counts;
 }
 
 function verifyObjectiveContract(client, observation) {
@@ -442,17 +466,18 @@ function verifyObjectiveContract(client, observation) {
       if (Object.hasOwn(record, field)) assert.deepEqual(objective[field], record[field]);
     }
 
-    if (isObjectiveZoneVisible(state, trigger.zone)) {
-      assert.deepEqual(objective.unitCounts, record.unitCounts,
-        `visible objective ${id} includes its transient unit counts`);
+    assert.deepEqual(objective.unitCounts, countObservableUnits(observation, trigger.zone, map),
+      `objective ${id} counts only individually observable units`);
+
+    if (isObjectiveZoneFullyVisible(state, trigger.zone)) {
       assert.equal(objective.progressTeam, record.progressTeam,
-        `visible objective ${id} includes its transient progress team`);
+        `fully visible objective ${id} includes its progress team`);
       assert.equal(objective.progress, record.progress,
-        `visible objective ${id} includes its transient capture progress`);
+        `fully visible objective ${id} includes its capture progress`);
     } else {
-      for (const field of ['unitCounts', 'progressTeam', 'progress']) {
+      for (const field of ['progressTeam', 'progress']) {
         assert.equal(Object.hasOwn(objective, field), false,
-          `hidden objective ${id} omits transient ${field}`);
+          `objective ${id} without full-zone vision omits transient ${field}`);
       }
     }
   }

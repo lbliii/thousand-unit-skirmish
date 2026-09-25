@@ -65,17 +65,19 @@ function decodeVisibility(state, map) {
     return false;
   }
 
-  function zoneVisible(zone) {
+  function zoneFullyVisible(zone) {
     if (!zone || !Number.isInteger(zone.column) || !Number.isInteger(zone.row)
-      || !Number.isInteger(zone.width) || !Number.isInteger(zone.height)) return false;
+      || !Number.isInteger(zone.width) || !Number.isInteger(zone.height)
+      || zone.width < 1 || zone.height < 1
+      || zone.column < 0 || zone.row < 0
+      || zone.column + zone.width > columns || zone.row + zone.height > rows) return false;
     for (let row = zone.row; row < zone.row + zone.height; row++) {
       for (let column = zone.column; column < zone.column + zone.width; column++) {
-        if (column < 0 || column >= columns || row < 0 || row >= rows) continue;
         const cell = row * columns + column;
-        if (((bytes[cell >> 2] >> ((cell & 3) * 2)) & 0b11) === 2) return true;
+        if (((bytes[cell >> 2] >> ((cell & 3) * 2)) & 0b11) !== 2) return false;
       }
     }
-    return false;
+    return true;
   }
 
   return {
@@ -84,7 +86,7 @@ function decodeVisibility(state, map) {
     data: mask.data,
     cellStateAtWorld,
     buildingVisibleAtWorld,
-    zoneVisible,
+    zoneFullyVisible,
   };
 }
 
@@ -189,7 +191,22 @@ function normalizeObjectiveZone(zone) {
   };
 }
 
-function projectObjectives(state, map, visibility) {
+function countObservableUnits(units, zone, map, visibility) {
+  const columns = Number.isInteger(map?.width) ? map.width : visibility?.columns;
+  const rows = Number.isInteger(map?.height) ? map.height : visibility?.rows;
+  const counts = [0, 0];
+  if (!zone || !Number.isInteger(columns) || !Number.isInteger(rows)) return counts;
+  for (const unit of units) {
+    if (unit.hp <= 0) continue;
+    const column = Math.floor(unit.x + columns / 2);
+    const row = Math.floor(unit.z + rows / 2);
+    if (column >= zone.column && column < zone.column + zone.width
+      && row >= zone.row && row < zone.row + zone.height) counts[unit.team]++;
+  }
+  return counts;
+}
+
+function projectObjectives(state, map, visibility, units) {
   const stateObjectives = Array.isArray(state.objectives) ? state.objectives : [];
   const triggers = new Map((Array.isArray(map?.triggers) ? map.triggers : [])
     .filter((trigger) => typeof trigger?.id === 'string')
@@ -215,13 +232,11 @@ function projectObjectives(state, map, visibility) {
         .filter((owner) => Number.isInteger(owner));
     }
 
-    const transientStateVisible = !visibility || (zone !== null && visibility.zoneVisible(zone));
-    if (transientStateVisible) {
+    objective.unitCounts = countObservableUnits(units, zone, map, visibility);
+    const progressVisible = !visibility || (zone !== null && visibility.zoneFullyVisible(zone));
+    if (progressVisible) {
       objective.progressTeam = Number.isInteger(record.progressTeam) ? record.progressTeam : -1;
       objective.progress = Number.isFinite(record.progress) ? record.progress : 0;
-      objective.unitCounts = Array.isArray(record.unitCounts)
-        ? record.unitCounts.map((count) => Number.isInteger(count) ? count : 0)
-        : [0, 0];
     }
     objectives.push(objective);
   }
@@ -283,7 +298,7 @@ export function toOpponentObservation(state, team, map = null) {
     ),
     research,
     resourceNodes: visibleResources(state, map, visibility),
-    objectives: projectObjectives(state, map, visibility),
+    objectives: projectObjectives(state, map, visibility, units),
   };
 }
 
@@ -336,7 +351,6 @@ function isPristineMatchState(state, team, map) {
     objective.owner !== -1
       || (Object.hasOwn(objective, 'progressTeam') && objective.progressTeam !== -1)
       || (Object.hasOwn(objective, 'progress') && objective.progress !== 0)
-      || (Array.isArray(objective.unitCounts) && objective.unitCounts.some((count) => count !== 0))
   ))) return false;
   return true;
 }
