@@ -20,3 +20,9 @@ Run `node scripts/improve-three-crowns.mjs` to author the map in Map Studio and 
 The `node scripts/three-crowns-layout.mjs` check verifies mirrored terrain and starts, equal shortest routes to all three objectives, equal home-resource routes, equal combined market access, and both open 1,000-unit formation envelopes. It is included in `npm test`.
 
 The `node scripts/three-crowns-scenario.mjs 0` and `node scripts/three-crowns-scenario.mjs 1` runs exercise both winner seats through crown capture, keep gating, victory, synchronized rematch, and reset.
+
+## Recorded QA evidence
+
+On 2026-09-25, `node scripts/improve-three-crowns.mjs` completed the Map Studio authoring and export round trip. `node scripts/three-crowns-layout.mjs` passed with mirrored 11/52 spawn cells, equal objective and home-resource routes, equal 69-cell combined market routes, and both default 500-unit formations fully inside the open map.
+
+Both local loopback scenarios passed without stress mode. Winner team 0 and winner team 1 each took the opposing crown, kept the Heartland Keep locked through 15 snapshots, won by the keep's capture hold after meeting both crown prerequisites, and reset both seats to their 500-unit rosters. These runs establish match correctness; their elapsed times are not performance measurements.

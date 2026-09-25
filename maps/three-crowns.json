@@ -183,5 +183,7 @@
   "timedVictory": {
     "afterSeconds": 900,
     "objectiveId": "heartland-keep"
-  }
+  },
+  "terrainBase": "meadow",
+  "terrainPatches": []
 }
