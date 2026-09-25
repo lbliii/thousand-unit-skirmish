@@ -10,7 +10,7 @@ Keep inference outside the 30 Hz simulation callback. The model receives a compa
 
 Prototype work is gated on both of these:
 
-1. The PvE adapter PR [#27](https://github.com/lbliii/thousand-unit-skirmish/pull/27) merges. It depends on the shared gameplay contract PR [#25](https://github.com/lbliii/thousand-unit-skirmish/pull/25); both are currently drafts.
+1. The PvE adapter PR [#27](https://github.com/lbliii/thousand-unit-skirmish/pull/27) and its shared gameplay contract dependency [#25](https://github.com/lbliii/thousand-unit-skirmish/pull/25) are integrated. Verify the merged implementation and schema on the target branch before starting prototype work.
 2. The producer reviews and approves the concrete prototype scope, provider choice, cadence, and token/cost ceilings.
 
 This checkpoint does not edit runtime code. Model integration follows the merged PvE adapter and its gameplay contract, not a parallel command path.
