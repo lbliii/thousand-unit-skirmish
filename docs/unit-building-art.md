@@ -1,6 +1,6 @@
 # Unit and building art — frontier kit v1
 
-This document defines the authored character and building kit for the 1v1 vertical slice. It follows the oblique camera, Azure and Ember team colors, and illustrated frontier materials. Terrain and neutral landmarks belong to the environment art track. The state mapping, manifest, batching limits, and runtime gates are specified in [the renderer contract](renderer-state-contract.md).
+This document defines the authored character and building kit for the 1v1 vertical slice. It follows the oblique camera, Azure and Ember team colors, and illustrated frontier materials. Terrain and neutral landmarks belong to the environment art track. The state mapping, manifest, batching limits, and runtime gates are specified in [the renderer contract](renderer-state-contract.md). Cross-pack palette, scale, asset format, visual-state names, and review gates are summarized in [the unit and building art format and finish review](unit-building-art-output-proposal.md).
 
 ## Authored shape language
 
