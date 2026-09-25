@@ -44,6 +44,7 @@ const scenarios = [
   ['scripts/forked-vale-layout.mjs', 'Forked Vale layout'],
   ['scripts/formation-assignment-scenario.mjs', 'Formation assignment'],
   ['scripts/unit-selection-scenario.mjs', 'Unit selection'],
+  ['scripts/pve-opponent-scenario.mjs', 'PvE opponent seats'],
   ['scripts/room-supervisor-scenario.mjs', 'Room supervisor integration'],
   ['scripts/railway-release-scenario.mjs', 'Railway release integration'],
 ];
