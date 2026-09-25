@@ -1637,11 +1637,11 @@ function snapshotObjectives(viewTeam = null) {
     let progress = Math.min(1, state.progress / trigger.captureSeconds);
     if (mapDefinition.fogOfWar && [0, 1].includes(viewTeam)) {
       unitCounts = [0, 0];
-      let zoneVisible = false;
-      for (let row = trigger.zone.row; row < trigger.zone.row + trigger.zone.height && !zoneVisible; row++) {
+      let zoneFullyVisible = true;
+      for (let row = trigger.zone.row; row < trigger.zone.row + trigger.zone.height && zoneFullyVisible; row++) {
         for (let column = trigger.zone.column; column < trigger.zone.column + trigger.zone.width; column++) {
-          if (visibleCellsByTeam[viewTeam][row * MAP_WIDTH + column]) {
-            zoneVisible = true;
+          if (!visibleCellsByTeam[viewTeam][row * MAP_WIDTH + column]) {
+            zoneFullyVisible = false;
             break;
           }
         }
@@ -1654,7 +1654,7 @@ function snapshotObjectives(viewTeam = null) {
         if (column >= trigger.zone.column && column < trigger.zone.column + trigger.zone.width
           && row >= trigger.zone.row && row < trigger.zone.row + trigger.zone.height) unitCounts[unit.team]++;
       }
-      if (!zoneVisible) {
+      if (!zoneFullyVisible) {
         progressTeam = -1;
         progress = 0;
       }

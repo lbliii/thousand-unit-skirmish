@@ -41,6 +41,7 @@ const scenarios = [
   ['scripts/origin-proxy-scenario.mjs', 'Origin policy through room proxy'],
   ['scripts/audio-policy-scenario.mjs', 'Audio policy'],
   ['scripts/map-utils-scenario.mjs', 'Map utilities'],
+  ['scripts/objective-fog-visibility-scenario.mjs', 'Objective fog visibility'],
   ['scripts/forked-vale-layout.mjs', 'Forked Vale layout'],
   ['scripts/formation-assignment-scenario.mjs', 'Formation assignment'],
   ['scripts/unit-selection-scenario.mjs', 'Unit selection'],
