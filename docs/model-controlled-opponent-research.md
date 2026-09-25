@@ -77,6 +77,8 @@ Start with a **2 second request deadline** and no immediate retry. A valid `wait
 
 ## Measurement and comparison
 
+The locally cached `origin/main` includes `docs/performance-reliability-baseline-2026-09-25.md` at `322e68e` (PR #24), measured against game source `f1d6482`. Its 10-second, two-client Open Field profile with 2,000 visible moving units recorded 98 snapshots per seat (9.8/s), 120,744-byte p95 JSON payloads, 308.43 KiB/s combined compressed server egress, tick p50/p95/max of 2.418/6.395/13.940 ms, and tick-start-lag p95/max of 2.629/10.566 ms. These are synthetic localhost diagnostics on an Apple M2, not hosted-capacity or target-hardware evidence. Use the same profile and machine for the no-model versus model-mode comparison where possible; keep provider latency, decision age, request counts, and estimated cost as additional measurements.
+
 Record bounded aggregate metrics per decision: model/version, observation bytes and token counts, response token count, provider latency, end-to-end decision age (source tick to command acceptance), schema/authority rejection reason, timeout/fallback reason, request count, and estimated cost using the selected provider's current rates. Do not retain raw prompts, credentials, or private player text in telemetry.
 
 Compare the experiment with the deterministic bot on the same seeded maps and seats. Report request/cost per match, latency p50/p95, timeout and rejection rates, resource/build/production progress, objective outcomes, and tick duration/start-lag p50/p95/p99 at 250, 1,000, and 2,000 total units. Keep the game at its existing 30 Hz tick target; model work must not increase tick work or create command backlog.
