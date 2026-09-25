@@ -142,6 +142,29 @@ establish the intended 6–10-minute contested match length, opening win
 rates, human comprehension, or 2,000-unit sustained performance. Outside
 player sessions remain to be measured.
 
+### Brief and rematch-reset follow-up on map PR #28 (`bbfdc81`)
+
+After adding explicit reset assertions and updating the map-picker brief, the
+scenario owner reran `node scripts/forked-vale-scenario.mjs 0` and
+`node scripts/forked-vale-scenario.mjs 1` on the map branch. Both winner
+assignments passed, including a reset observed by both seats that restored
+neutral objectives and the authored 24-unit opening army.
+
+| Checkpoint | Azure wins | Ember wins |
+| --- | ---: | ---: |
+| Both teams deposited food and wood | 18.4 s | 18.3 s |
+| Both completed Barracks and trained one infantry | 42.1 s | 41.9 s |
+| Opposing Signal ownership | 66.5 s | 66.3 s |
+| Watch remained locked through 15 snapshots | 77.4 s | 76.8 s |
+| Winner recaptured the other Signal | 91.6 s | 91.4 s |
+| All-zone hold victory | 130.5 s | 130.2 s |
+
+This run was on the unmerged map PR branch and did not include `--stress`; its
+elapsed checkpoints are not a like-for-like comparison with the earlier
+stress-enabled replay above. Both are fixed cooperative paths without
+contested combat, so they support seat symmetry and reset behavior but do not
+measure human match pacing or strategy balance.
+
 ## Combat-order fairness diagnostic
 
 On merged `main` at `158578b`,
