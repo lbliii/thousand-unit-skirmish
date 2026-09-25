@@ -1716,14 +1716,25 @@ function drawMinimap(now = performance.now(), force = false) {
 
   for (let team = 0; team < teamUnits.length; team++) {
     context.fillStyle = team === 0 ? '#73b8e8' : '#ef886c';
+    context.strokeStyle = 'rgba(13, 21, 15, .94)';
+    context.lineWidth = 0.8;
     context.beginPath();
     for (const unit of teamUnits[team]) {
       if (unit.hp <= 0 || unit.visible === false) continue;
       const point = minimapPoint(unit.renderX, unit.renderZ, rect);
-      context.moveTo(point.x + (selected.has(unit.id) ? 3.4 : 2.2), point.y);
-      context.arc(point.x, point.y, selected.has(unit.id) ? 3.4 : 2.2, 0, Math.PI * 2);
+      const radius = selected.has(unit.id) ? 3.4 : 2.2;
+      if (team === 0) {
+        context.rect(point.x - radius, point.y - radius, radius * 2, radius * 2);
+      } else {
+        context.moveTo(point.x, point.y - radius);
+        context.lineTo(point.x + radius, point.y);
+        context.lineTo(point.x, point.y + radius);
+        context.lineTo(point.x - radius, point.y);
+        context.closePath();
+      }
     }
     context.fill();
+    context.stroke();
   }
 
   // Resource markers stay legible when hundreds of unit dots cover the same area.

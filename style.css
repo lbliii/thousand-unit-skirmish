@@ -213,9 +213,9 @@ h2 { font-size: 16px; font-weight: 700; }
 .control-group-mix-legend .worker-mix-key { color: #76c596; }
 .control-group-mix-legend .infantry-mix-key { color: #d5ef78; }
 .control-group-mix-legend .archer-mix-key { color: #efa071; }
-.team-dot { width: 6px; height: 6px; border-radius: 50%; }
+.team-dot { width: 6px; height: 6px; border-radius: 1px; }
 .blue-dot { background: var(--blue); box-shadow: 0 0 7px rgba(115,184,232,.55); }
-.red-dot { background: var(--ember); box-shadow: 0 0 7px rgba(239,136,108,.45); }
+.red-dot { transform: rotate(45deg); background: var(--ember); box-shadow: 0 0 7px rgba(239,136,108,.45); }
 .field-strength { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; padding-top: 9px; border-top: 1px solid rgba(214,226,197,.07); color: #718070; font: 8px 'DM Mono', monospace; letter-spacing: .08em; }
 .field-strength div { display: flex; align-items: center; gap: 6px; color: #687667; }
 .field-strength b { color: #d1d9c7; font-weight: 500; }
