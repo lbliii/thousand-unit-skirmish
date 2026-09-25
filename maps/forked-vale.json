@@ -1,7 +1,7 @@
 {
   "id": "forked-vale",
   "name": "FORKED VALE",
-  "summary": "Claim both signal fords, then hold the watch. At 15:00, its owner wins regardless of signals; unclaimed is a draw.",
+  "summary": "Both Signals unlock the Watch. Hold all three for 20s. Relief at 2:00; 15:00, Watch owner wins or unclaimed is a draw.",
   "width": 80,
   "height": 64,
   "terrainSeed": 881,
@@ -211,6 +211,7 @@
       "message": "{team} RELIEF CARAVAN ARRIVED · +{reward} FOOD · +{wood} WOOD"
     }
   ],
+  "terrainBase": "meadow",
   "startingArmySize": 24,
   "startingResources": {
     "food": 150,
@@ -220,5 +221,6 @@
   "timedVictory": {
     "afterSeconds": 900,
     "objectiveId": "capture-zone-3"
-  }
+  },
+  "terrainPatches": []
 }

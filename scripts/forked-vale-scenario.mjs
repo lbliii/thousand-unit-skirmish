@@ -69,6 +69,13 @@ function createClient(team) {
       client.waiters.push(waiter);
     });
   };
+  client.waitNextState = (predicate, timeoutMs = 12000) => new Promise((resolve, reject) => {
+    const waiter = { predicate, resolve, timeout: setTimeout(() => {
+      client.waiters.splice(client.waiters.indexOf(waiter), 1);
+      reject(new Error(`new state timeout for team ${client.team}`));
+    }, timeoutMs) };
+    client.waiters.push(waiter);
+  });
   clients.push(client);
   return client;
 }
@@ -109,6 +116,8 @@ try {
   assert.equal(emberWelcome.map.id, 'forked-vale');
   assert.equal(azureWelcome.state.armySize, 24);
   assert.equal(emberWelcome.state.armySize, 24);
+  const initialUnitCounts = [azureWelcome, emberWelcome].map((welcome, team) =>
+    welcome.state.units.filter(row => row[1] === team && row[4] > 0).length);
   assert.deepEqual(azureWelcome.state.food, [150, null]);
   assert.deepEqual(emberWelcome.state.food, [null, 150]);
   assert.deepEqual(azureWelcome.state.wood, [250, null]);
@@ -215,6 +224,23 @@ try {
       Array(3).fill(winnerTeam));
   }
   logStep(`Team ${winnerTeam} completed the 20-second all-zone victory hold`);
+
+  stage = 'resetting the completed match for both player seats';
+  const resetStates = clientsByTeam.map(client => client.waitNextState(state => (
+    state.mapId === 'forked-vale' && state.winner === -1
+      && state.objectives.filter(row => row.victory).every(row => row.owner === -1)
+  )));
+  azure.socket.send(JSON.stringify({ type: 'reset' }));
+  const resetResults = await Promise.all(resetStates);
+  for (const [team, state] of resetResults.entries()) {
+    assert.equal(state.armySize, 24, 'rematch must restore the authored army size');
+    assert.equal(state.units.filter(row => row[1] === team && row[4] > 0).length,
+      initialUnitCounts[team], 'rematch must restore the player army');
+    assert.equal(state.winnerTriggerId, null, 'rematch must clear the winning trigger');
+    assert.equal(state.winnerReason, null, 'rematch must clear the victory reason');
+  }
+  logStep('both seats reset to neutral objectives and the authored opening army');
+
   let stressResult = null;
   if (process.argv.includes('--stress')) {
     stage = '2,000-unit two-lane stress reset';
@@ -263,7 +289,7 @@ try {
     oppositeFlanks: [winnerTeam, loserTeam], lockedKeepSnapshots: gatedSnapshots.length,
     finalOwners: finalAzure.objectives.filter(row => row.victory).map(row => row.owner),
     winner: finalAzure.winner, winnerTriggerId: finalAzure.winnerTriggerId,
-    winnerReason: finalAzure.winnerReason, stressResult,
+    winnerReason: finalAzure.winnerReason, rematchReset: 'both seats restored', stressResult,
   }, null, 2));
 } catch (error) {
   console.error(JSON.stringify({ stage, error: error.message, log,

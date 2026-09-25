@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SERVER_ENTRY = path.join(ROOT, 'server.mjs');
+const SCENARIO_SUMMARY = 'Both Signals unlock the Watch. Hold all three for 20s. Relief at 2:00; 15:00, Watch owner wins or unclaimed is a draw.';
 const children = new Set();
 let tempRoot = null;
 let cdp = null;
@@ -340,7 +341,7 @@ try {
   await setField('#studio-width', '80');
   await setField('#studio-name', 'FORKED VALE');
   await setField('#studio-id', 'forked-vale');
-  await setField('#studio-summary', 'Claim both signal fords, then hold the watch. At 15:00, its owner wins regardless of signals; unclaimed is a draw.');
+  await setField('#studio-summary', SCENARIO_SUMMARY);
   await setField('#studio-starting-army-size', '24');
   await setField('#studio-starting-food', '150');
   await setField('#studio-starting-wood', '250');
@@ -399,6 +400,7 @@ try {
   const savedPath = path.join(customMapDirectory, 'forked-vale.json');
   const saved = JSON.parse(await readFile(savedPath, 'utf8'));
   assert.equal(saved.id, 'forked-vale');
+  assert.equal(saved.summary, SCENARIO_SUMMARY);
   assert.equal(saved.startingArmySize, 24);
   assert.equal(saved.triggers.length, 3);
   assert.equal(saved.scenarioEvents.length, 1);
@@ -420,7 +422,7 @@ try {
     hold: document.querySelector('#studio-victory-hold-seconds').value,
   }))()`);
   assert.equal(restored.name, 'FORKED VALE CUSTOM');
-  assert.equal(restored.summary, saved.summary);
+  assert.equal(restored.summary, SCENARIO_SUMMARY);
   assert.equal(restored.army, '24');
   assert.equal(restored.objectives, '3 / 32');
   assert.equal(restored.events, '1 / 32');

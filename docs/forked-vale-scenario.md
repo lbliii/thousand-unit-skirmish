@@ -23,13 +23,13 @@ Both teams have the same shortest walkable distance to each objective: 31 cells 
 | Relief Caravan | At 2:00, both teams receive 100 food and 75 wood | Keeps the losing side able to produce or rebuild. |
 | Deadline | At 15:00, the Vale Watch owner wins regardless of signal ownership; if unclaimed, draw | Resolves a stalled match with an explicitly stated fallback. |
 
-The authored scenario brief appears in the map picker: “Claim both signal fords, then hold the watch. At 15:00, its owner wins regardless of signals; unclaimed is a draw.” Objective callouts use the same North Signal, South Signal, and Vale Watch names in the editor and game.
+The authored scenario brief appears in the map picker: “Both Signals unlock the Watch. Hold all three for 20s. Relief at 2:00; 15:00, Watch owner wins or unclaimed is a draw.” It names the all-zone hold and its duration, the Relief Caravan arrival, and the deadline result. Objective callouts use the same North Signal, South Signal, and Vale Watch names in the editor and game.
 
 ## Authoring and checks
 
 `node scripts/author-forked-vale.mjs` drives Map Studio in a local headless browser. It paints the terrain, places spawns and resources, sets every objective and event through editor controls, publishes the map, copies the editor-produced file to `maps/forked-vale.json`, and reopens it in Map Studio to check the round trip. It backs up an existing shipped file and restores it if authoring fails. No scenario JSON is hand edited.
 
-`node scripts/forked-vale-layout.mjs` checks mirrored terrain and resources, equal path distance from both spawns, open crossing cells, and the large-army starting footprint. `node scripts/forked-vale-scenario.mjs 0 --stress` and `node scripts/forked-vale-scenario.mjs 1 --stress` exercise both winner assignments, both teams' economy, opposed signal ownership, the locked watch, recapture, victory, and a 2,000-unit match. Stress checks at least 950 units from each side move toward separate crossings, then attack-moves both full armies into a contested engagement and requires at least 10 units damaged or killed on each side. These are local simulation checks; match feel and internet performance still need player testing.
+`node scripts/forked-vale-layout.mjs` checks mirrored terrain and resources, equal path distance from both spawns, open crossing cells, and the large-army starting footprint. `node scripts/forked-vale-scenario.mjs 0 --stress` and `node scripts/forked-vale-scenario.mjs 1 --stress` exercise both winner assignments, both teams' economy, opposed signal ownership, the locked watch, recapture, victory, synchronized rematch reset, and a 2,000-unit match. Stress checks at least 950 units from each side move toward separate crossings, then attack-moves both full armies into a contested engagement and requires at least 10 units damaged or killed on each side. These are local simulation checks; match feel and internet performance still need player testing.
 
 `node scripts/render-forked-vale-preview.mjs` refreshes the top-down diagram from the editor-authored map file.
 
