@@ -99,6 +99,143 @@ function verifyPureContract() {
   process.stdout.write('PvE DTO contract passed: team-only resources, units, buildings, objectives, and seeded decisions.\n');
 }
 
+function createResetFixture() {
+  const map = {
+    id: 'opponent-lifecycle-smoke', width: 16, height: 16,
+    startingResources: { food: 220, wood: 180 },
+    resourceNodes: [
+      { id: 'lifecycle-food', type: 'food', x: -6.5, z: -6.5, stock: 400 },
+      { id: 'lifecycle-wood', type: 'wood', x: -5.5, z: -6.5, stock: 400 },
+    ],
+    triggers: [],
+  };
+  const units = [];
+  for (let team = 0; team < 2; team++) {
+    for (let slot = 0; slot < 6; slot++) {
+      const id = team * 6 + slot;
+      const baseX = team === 0 ? -6 : 6;
+      const baseZ = team === 0 ? -6 : 6;
+      units.push([
+        id, team, baseX + (slot % 3) * 0.5, baseZ + Math.floor(slot / 3) * 0.5,
+        100, slot < 4 ? 'worker' : 'infantry', 0, '', 1,
+        slot < 4 ? 'idle' : null, 0,
+      ]);
+    }
+  }
+  const state = {
+    type: 'state', tick: 1, armySize: 12, mapId: map.id,
+    fogOfWar: false, visibility: null,
+    food: [220, 220], wood: [180, 180], units, buildings: [],
+    workerProduction: [0, 1].map((team) => ({
+      team, queue: 0, trainingRemaining: 0, productionBlocked: false, trainingProgress: 0,
+    })),
+    teamResearch: [0, 1].map(() => ({
+      infantryAttack: false, archerAttack: false, active: null,
+    })),
+    resourceNodes: map.resourceNodes.map(({ id, type, stock }) => ({ id, type, stock })),
+    objectives: [], winner: -1,
+  };
+  return { map, state };
+}
+
+class FakeSocket {
+  constructor() {
+    this.readyState = 1;
+    this.listeners = new Map();
+    this.sent = [];
+  }
+
+  addEventListener(type, listener) {
+    const listeners = this.listeners.get(type) ?? new Set();
+    listeners.add(listener);
+    this.listeners.set(type, listeners);
+  }
+
+  removeEventListener(type, listener) {
+    this.listeners.get(type)?.delete(listener);
+  }
+
+  send(data) {
+    this.sent.push(JSON.parse(data));
+  }
+
+  emit(message) {
+    for (const listener of this.listeners.get('message') ?? []) {
+      listener({ data: JSON.stringify(message) });
+    }
+  }
+}
+
+async function waitForCount(values, count, description, timeoutMs = 2_000) {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    if (values.length >= count) return;
+    await delay(10);
+  }
+  throw new Error(`Timed out waiting for ${description}; received ${values.length} of ${count}.`);
+}
+
+async function verifyLifecycleRecovery() {
+  const { map, state } = createResetFixture();
+  const socket = new FakeSocket();
+  const commands = [];
+  const errors = [];
+  const opponent = attachDeterministicOpponent(socket, {
+    seed: DEFAULT_OPPONENT_SEED,
+    decisionIntervalMs: 100,
+    onCommand: ({ command }) => commands.push(command),
+    onError: (error) => errors.push(error),
+  });
+  const cleanState = { ...state };
+  try {
+    socket.emit({
+      type: 'welcome', player: { team: 0 }, map,
+      state: { ...cleanState, units: [...cleanState.units] },
+    });
+    await waitForCount(commands, 3, 'opening lifecycle commands');
+    assert.deepEqual(commands.map(({ type }) => type), ['gather', 'gather', 'attackMove']);
+
+    socket.emit({ type: 'victory', team: 1, reason: 'smoke' });
+    socket.emit({ type: 'notice', message: 'BATTLEFIELD RESET' });
+    socket.emit({
+      type: 'state', ...cleanState,
+      buildings: [{ id: 1, team: 0, type: 'barracks', x: -6, z: -6, hp: 100 }],
+    });
+    await delay(250);
+    assert.equal(commands.length, 3, 'a reset notice alone does not restart the policy');
+
+    socket.emit({ type: 'notice', message: 'BATTLEFIELD RESET · 12 UNITS' });
+    socket.emit({ type: 'state', ...cleanState, tick: 2, units: [...cleanState.units] });
+    await waitForCount(commands, 6, 'policy restart after a clean host reset');
+
+    socket.emit({ type: 'victory', team: 1, reason: 'smoke' });
+    socket.emit({ type: 'state', ...cleanState, tick: 3, winner: 0, units: [...cleanState.units] });
+    socket.emit({ type: 'state', ...cleanState, tick: 4, units: [...cleanState.units] });
+    await waitForCount(commands, 9, 'policy restart after winner clears');
+
+    const nextMap = { ...map, id: `${map.id}-next` };
+    socket.emit({
+      type: 'mapChange', map: nextMap,
+      state: { ...cleanState, tick: 5, mapId: nextMap.id, units: [...cleanState.units] },
+    });
+    await waitForCount(commands, 12, 'policy restart after map change');
+
+    assert.deepEqual(commands.map(({ type }) => type), [
+      'gather', 'gather', 'attackMove',
+      'gather', 'gather', 'attackMove',
+      'gather', 'gather', 'attackMove',
+      'gather', 'gather', 'attackMove',
+    ]);
+    assert.deepEqual(commands.map(({ clientOrderToken }) => clientOrderToken),
+      Array.from({ length: 12 }, (_, index) => index + 1),
+      'order tokens remain unique across rematches');
+    assert.equal(errors.length, 0, `lifecycle adapter errors: ${errors.map((error) => error.message).join('; ')}`);
+  } finally {
+    opponent.close();
+  }
+  process.stdout.write('PvE lifecycle recovery passed: clean reset state, winner-clear transition, and map change.\n');
+}
+
 function createFeed(socket) {
   const feed = { latest: null, messages: [], stateWaiters: [], messageWaiters: [] };
   socket.addEventListener('message', (event) => {
@@ -341,6 +478,24 @@ async function runSeatSmoke(botTeam) {
     }));
     await rejection;
 
+    const resetHost = botTeam === 0 ? bot : human;
+    const resetNotice = waitForMessage(bot,
+      (message) => message.type === 'notice' && message.message === 'BATTLEFIELD RESET',
+      `team ${botTeam} host reset notice`);
+    const rematchGatherFood = waitForMessage(bot, (message) => message.type === 'notice'
+      && message.clientOrderToken === 4 && message.message?.startsWith('GATHER ORDER'),
+    `team ${botTeam} rematch food gather`);
+    const rematchGatherWood = waitForMessage(bot, (message) => message.type === 'notice'
+      && message.clientOrderToken === 5 && message.message?.startsWith('GATHER ORDER'),
+    `team ${botTeam} rematch wood gather`);
+    const rematchAttackMove = waitForMessage(bot, (message) => message.type === 'notice'
+      && message.clientOrderToken === 6 && message.message?.startsWith('PLANNING ATTACK MOVE'),
+    `team ${botTeam} rematch attack-move`);
+    resetHost.socket.send(JSON.stringify({ type: 'reset' }));
+    await Promise.all([resetNotice, rematchGatherFood, rematchGatherWood, rematchAttackMove]);
+    assert.deepEqual(commands.slice(3).map(({ command }) => command.type),
+      ['gather', 'gather', 'attackMove'], 'the deterministic policy reopens after a host reset');
+
     process.stdout.write(`${JSON.stringify({
       botTeam,
       seed: DEFAULT_OPPONENT_SEED,
@@ -355,6 +510,7 @@ async function runSeatSmoke(botTeam) {
           && Math.hypot(unit.x - before.x, unit.z - before.z) > 0.5;
       }).length,
       foreignUnitRejected: true,
+      rematchCommands: commands.slice(3).map(({ command }) => command.type),
     })}\n`);
   } catch (error) {
     throw new Error(`PvE smoke for team ${botTeam} failed: ${error.message}\n${serverOutput}`);
@@ -365,6 +521,7 @@ async function runSeatSmoke(botTeam) {
 }
 
 verifyPureContract();
+await verifyLifecycleRecovery();
 await runSeatSmoke(0);
 await runSeatSmoke(1);
 process.stdout.write('PvE WebSocket smoke passed for Azure and Ember bot seats.\n');

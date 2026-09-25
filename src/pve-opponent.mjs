@@ -268,6 +268,50 @@ function seededIndex(seed, team, stream, length) {
   return (value >>> 0) % length;
 }
 
+function isPristineMatchState(state, team, map) {
+  if (!state || state.type !== 'state' || state.winner !== -1
+    || !Number.isInteger(state.armySize) || state.armySize < 2 || state.armySize % 2 !== 0
+    || !Array.isArray(state.buildings) || state.buildings.length !== 0) return false;
+
+  let observation;
+  try {
+    observation = toOpponentObservation(state, team, map);
+  } catch {
+    return false;
+  }
+
+  const teamSize = state.armySize / 2;
+  if (observation.units.friendly.length !== teamSize
+    || observation.units.friendly.some((unit, slot) => (
+      unit.id !== team * teamSize + slot
+      || unit.kind !== (slot < 4 ? 'worker' : 'infantry')
+      || unit.hp !== 100
+      || unit.cargo !== 0
+      || (slot < 4 && unit.task !== 'idle')
+    ))) return false;
+
+  const startingResources = map?.startingResources ?? {};
+  if (observation.resources.food !== (startingResources.food ?? 0)
+    || observation.resources.wood !== (startingResources.wood ?? 0)) return false;
+
+  const production = observation.workerProduction;
+  if (!production || production.queue !== 0 || production.trainingRemaining !== 0
+    || production.productionBlocked) return false;
+
+  const research = observation.research;
+  if (!research || research.infantryAttack || research.archerAttack || research.active !== null) return false;
+
+  const mapResources = new Map((Array.isArray(map?.resourceNodes) ? map.resourceNodes : [])
+    .filter((node) => typeof node?.id === 'string')
+    .map((node) => [node.id, node.stock]));
+  if (observation.resourceNodes.some((node) => mapResources.get(node.id) !== node.stock)) return false;
+  if (observation.objectives.some((objective) => (
+    objective.owner !== -1 || objective.progressTeam !== -1 || objective.progress !== 0
+      || objective.unitCounts.some((count) => count !== 0)
+  ))) return false;
+  return true;
+}
+
 function nearestResource(nodes, worker) {
   return [...nodes].sort((left, right) => (
     ((left.x - worker.x) ** 2 + (left.z - worker.z) ** 2)
@@ -362,7 +406,15 @@ export function attachDeterministicOpponent(socket, {
   let nextClientOrderToken = 1;
   let reportedNoSeat = false;
   let timer = null;
-  const policy = createDeterministicPolicy(seed);
+  let policy = createDeterministicPolicy(seed);
+  let previousWinner = null;
+  let hostResetPending = false;
+
+  const resetForNewMatch = () => {
+    policy = createDeterministicPolicy(seed);
+    finished = false;
+    hostResetPending = false;
+  };
 
   const handleMessage = async (event) => {
     let message;
@@ -379,6 +431,7 @@ export function attachDeterministicOpponent(socket, {
       team = validTeam(message.player?.team) ? message.player.team : null;
       map = message.map && typeof message.map === 'object' ? message.map : null;
       latestState = message.state?.type === 'state' ? message.state : null;
+      previousWinner = Number.isInteger(latestState?.winner) ? latestState.winner : null;
       if (team === null && !reportedNoSeat) {
         reportedNoSeat = true;
         onError(new Error('The server assigned this connection as a spectator; no bot seat is available.'));
@@ -386,8 +439,20 @@ export function attachDeterministicOpponent(socket, {
     } else if (message.type === 'mapChange') {
       map = message.map && typeof message.map === 'object' ? message.map : map;
       latestState = message.state?.type === 'state' ? message.state : latestState;
+      previousWinner = Number.isInteger(latestState?.winner) ? latestState.winner : null;
+      resetForNewMatch();
+    } else if (message.type === 'notice'
+      && typeof message.message === 'string' && message.message.startsWith('BATTLEFIELD RESET')) {
+      hostResetPending = true;
     } else if (message.type === 'state') {
       latestState = message;
+      const winner = Number.isInteger(message.winner) ? message.winner : null;
+      const winnerCleared = previousWinner !== null && previousWinner >= 0 && winner === -1;
+      const hostResetConfirmed = hostResetPending && team !== null
+        && isPristineMatchState(message, team, map);
+      hostResetPending = false;
+      previousWinner = winner;
+      if (winnerCleared || hostResetConfirmed) resetForNewMatch();
     } else if (message.type === 'victory') {
       finished = true;
     }
