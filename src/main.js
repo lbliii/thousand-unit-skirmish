@@ -312,9 +312,11 @@ const scenarioEventVisuals = new Map();
 let timedVictoryVisual = null;
 let victoryHoldVisual = null;
 const resourceNodeVisuals = new Map();
+const resourceCalloutTextures = new Map();
 const woodTreeNodeSlots = new Map();
 const buildingVisuals = new Map();
 let woodTreeMeshes = [];
+let lastResourceCalloutUpdateAt = -Infinity;
 let localTeam = null;
 let isHost = false;
 let currentArmySize = 1000;
@@ -443,6 +445,8 @@ function resize() {
   camera.updateProjectionMatrix();
   renderer.setSize(width, height, false);
   setCamera();
+  resizeResourceCallouts();
+  updateResourceNodeCallouts(performance.now(), true);
   drawMinimap(performance.now(), true);
 }
 
@@ -1094,6 +1098,44 @@ function buildingFootprint(type) {
   return type === 'barracks' ? BARRACKS_SIZE : ARCHERY_RANGE_SIZE;
 }
 
+function resourceCalloutTexture(type) {
+  if (resourceCalloutTextures.has(type)) return resourceCalloutTextures.get(type);
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 64;
+  const context = canvas.getContext('2d');
+  const accent = type === 'wood' ? '#9bb877' : '#e4bd63';
+  context.fillStyle = 'rgba(13, 21, 15, 0.96)';
+  context.strokeStyle = 'rgba(235, 243, 222, 0.92)';
+  context.lineWidth = 3;
+  context.roundRect(2, 2, canvas.width - 4, canvas.height - 4, 14);
+  context.fill();
+  context.stroke();
+  context.beginPath();
+  context.arc(29, 32, 10, 0, Math.PI * 2);
+  context.fillStyle = accent;
+  context.fill();
+  context.font = '700 26px "DM Mono", monospace';
+  context.textAlign = 'left';
+  context.textBaseline = 'middle';
+  context.fillStyle = '#f2f6dd';
+  context.fillText(type === 'wood' ? 'WOOD' : 'FOOD', 50, 33);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  resourceCalloutTextures.set(type, texture);
+  return texture;
+}
+
+function resizeResourceCallouts() {
+  const height = Math.max(1, viewport.clientHeight);
+  const heightPixels = THREE.MathUtils.clamp(height * 0.04, 18, 30);
+  const worldHeight = heightPixels * baseFrustum / (height * zoom);
+  for (const visual of resourceNodeVisuals.values()) {
+    if (!visual.callout) continue;
+    visual.callout.scale.set(worldHeight * 4, worldHeight, 1);
+  }
+}
+
 function addResourceNodeVisual(node) {
   const nodeType = node.type === 'wood' ? 'wood' : 'food';
   const ringColor = nodeType === 'wood' ? 0x9bb877 : 0xe4bd63;
@@ -1112,7 +1154,17 @@ function addResourceNodeVisual(node) {
     addMapObject(berries);
     props.push(berries);
   }
-  resourceNodeVisuals.set(node.id, { type: nodeType, ring, props, stock: node.stock });
+  const callout = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: resourceCalloutTexture(nodeType), transparent: true, depthTest: false,
+    depthWrite: false, fog: false, toneMapped: false,
+  }));
+  callout.position.set(node.x, 1.8, node.z);
+  callout.renderOrder = 15;
+  callout.visible = false;
+  addMapObject(callout);
+  resourceNodeVisuals.set(node.id, {
+    type: nodeType, ring, props, stock: node.stock, x: node.x, z: node.z, callout,
+  });
 }
 
 function updateResourceNodeVisual(id, stock) {
@@ -1125,6 +1177,74 @@ function updateResourceNodeVisual(id, stock) {
   visual.ring.material.opacity = stock > 0 ? 0.78 : 0.35;
   for (const prop of visual.props) prop.visible = stock > 0;
   if (visual.type === 'wood') setWoodNodeTreesVisible(id, stock > 0);
+}
+
+function updateResourceNodeCallouts(now, force = false) {
+  if ((!force && now - lastResourceCalloutUpdateAt < 350) || resourceNodeVisuals.size === 0) return;
+  lastResourceCalloutUpdateAt = now;
+  const crowdRadiusSquared = 36;
+  const crowdThreshold = 8;
+  const viewportRect = renderer.domElement.getBoundingClientRect();
+  const pixelsPerWorldUnit = viewportRect.height * zoom / baseFrustum;
+  const occlusionRects = [...document.querySelectorAll(
+    '.topbar, .map-label, .topbar-center, .scenario-brief-panel, .objective-panel, .minimap-panel, .field-hint, .field-order-feedback, .control-dock, .toast, .match-result, .compass',
+  )].filter((element) => {
+    if (element.hidden || element.getClientRects().length === 0) return false;
+    const style = getComputedStyle(element);
+    return style.visibility !== 'hidden' && Number(style.opacity) !== 0;
+  }).map((element) => element.getBoundingClientRect());
+  for (const visual of resourceNodeVisuals.values()) {
+    if (visual.stock <= 0) {
+      visual.callout.visible = false;
+      continue;
+    }
+    const column = Math.floor(visual.x + MAP_HALF_X);
+    const row = Math.floor(visual.z + MAP_HALF_Z);
+    const fogState = latestFogCells?.[row * MAP_WIDTH + column] ?? 2;
+    if (fogState === 0) {
+      visual.callout.visible = false;
+      continue;
+    }
+    let nearbyUnits = 0;
+    for (const team of teamUnits) {
+      for (const unit of team) {
+        if (!unit || unit.visible === false || unit.hp <= 0) continue;
+        const dx = unit.renderX - visual.x;
+        const dz = unit.renderZ - visual.z;
+        if (dx * dx + dz * dz <= crowdRadiusSquared) nearbyUnits++;
+        if (nearbyUnits >= crowdThreshold) break;
+      }
+      if (nearbyUnits >= crowdThreshold) break;
+    }
+    const halfWidth = visual.callout.scale.x * pixelsPerWorldUnit * 0.5;
+    const halfHeight = visual.callout.scale.y * pixelsPerWorldUnit * 0.5;
+    visual.callout.position.set(visual.x, 1.8, visual.z);
+    screenPoint.set(visual.x, visual.callout.position.y, visual.z).project(camera);
+    let centerX = viewportRect.left + (screenPoint.x * 0.5 + 0.5) * viewportRect.width;
+    let centerY = viewportRect.top + (-screenPoint.y * 0.5 + 0.5) * viewportRect.height;
+    const minCenterX = viewportRect.left + halfWidth + 8;
+    const maxCenterX = viewportRect.right - halfWidth - 8;
+    const clampedCenterX = THREE.MathUtils.clamp(centerX, minCenterX, maxCenterX);
+    if (clampedCenterX !== centerX) {
+      const cameraRight = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0);
+      visual.callout.position.addScaledVector(cameraRight, (clampedCenterX - centerX) / pixelsPerWorldUnit);
+      screenPoint.set(visual.callout.position.x, visual.callout.position.y, visual.callout.position.z).project(camera);
+      centerX = viewportRect.left + (screenPoint.x * 0.5 + 0.5) * viewportRect.width;
+      centerY = viewportRect.top + (-screenPoint.y * 0.5 + 0.5) * viewportRect.height;
+    }
+    const left = centerX - halfWidth;
+    const right = centerX + halfWidth;
+    const top = centerY - halfHeight;
+    const bottom = centerY + halfHeight;
+    const fitsViewport = screenPoint.z >= -1 && screenPoint.z <= 1
+      && left >= viewportRect.left && right <= viewportRect.right
+      && top >= viewportRect.top && bottom <= viewportRect.bottom;
+    const overlapsHud = occlusionRects.some((rect) => (
+      left < rect.right && right > rect.left && top < rect.bottom && bottom > rect.top
+    ));
+    visual.callout.visible = nearbyUnits >= crowdThreshold && fitsViewport && !overlapsHud;
+    visual.callout.material.opacity = fogState === 1 ? 0.58 : 1;
+  }
 }
 
 function setWoodNodeTreesVisible(id, visible) {
@@ -1299,6 +1419,7 @@ function buildMap(definition) {
     addResourceNodeVisual(node);
     latestResourceStocks.set(node.id, node.stock);
   }
+  resizeResourceCallouts();
 
   for (const trigger of definition.triggers || []) {
     if (trigger.type !== 'capture-zone' || !trigger.zone) continue;
@@ -6743,6 +6864,7 @@ function animate(now) {
     moveMarker.material.opacity = Math.max(0, 0.95 - moveMarkerAge * 0.9);
     if (moveMarkerAge > 1.05) moveMarker.visible = false;
   }
+  updateResourceNodeCallouts(now);
   renderer.render(scene, camera);
   drawMinimap(now);
   fpsFrames++;

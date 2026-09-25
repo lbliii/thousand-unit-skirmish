@@ -74,8 +74,8 @@ h2 { font-size: 16px; font-weight: 700; }
 .objective-panel:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
 .objective-card { padding: 9px 10px 8px; border: 1px solid rgba(225,236,207,.19); border-radius: 5px; background: rgba(18,27,19,.76); box-shadow: 0 5px 18px rgba(0,0,0,.13); backdrop-filter: blur(7px); }
 .objective-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.objective-kicker { color: #8a9885; font: 500 7px 'DM Mono', monospace; letter-spacing: .13em; }
-.objective-status { min-width: 0; max-width: 68%; overflow: hidden; color: var(--lime); font: 500 7px 'DM Mono', monospace; letter-spacing: .06em; text-align: right; text-overflow: ellipsis; white-space: nowrap; }
+.objective-kicker { color: #8a9885; font: 500 7px 'DM Mono', monospace; letter-spacing: .13em; white-space: nowrap; }
+.objective-status { min-width: 0; max-width: 74%; overflow: hidden; color: var(--lime); font: 500 7px 'DM Mono', monospace; letter-spacing: .03em; text-align: right; text-overflow: ellipsis; white-space: nowrap; }
 .objective-card[data-team="azure"] .objective-status { color: var(--blue); }
 .objective-card[data-team="ember"] .objective-status { color: var(--ember); }
 .objective-card[data-locked="true"] .objective-status { color: #d0ac63; }
@@ -646,9 +646,10 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
 .compass { top: 85px; right: 279px; }
 .objective-panel { top: 81px; right: 18px; width: 248px; max-height: min(330px, calc(100% - 390px)); }
 .objective-card { padding: 11px 12px; background: rgba(13,23,16,.86); }
-.objective-kicker, .objective-status { font-size: 8px; }
+.objective-kicker { font-size: 9px; }
+.objective-status { font-size: 9px; }
 .objective-title { font-size: 12px; }
-.objective-detail { font-size: 9px; }
+.objective-detail { font-size: 10px; }
 .match-result { z-index: 7; top: calc((100% - 284px + 58px) / 2); width: min(400px, calc(100% - 28px)); max-width: none; max-height: calc(100% - 358px); overflow: auto; padding: 23px 24px 20px; transform: translate(-50%, -50%); border-color: rgba(213,239,120,.55); border-radius: 8px; background: rgba(12,22,15,.96); box-shadow: 0 20px 70px rgba(0,0,0,.42); text-align: left; pointer-events: auto; }
 .match-result-kicker { color: #aabb9d; font: 600 9px 'DM Mono', monospace; letter-spacing: .16em; }
 .match-result-title { display: block; margin-top: 8px; color: var(--lime); font: 750 29px/1.05 'Manrope', sans-serif; letter-spacing: -.045em; }
@@ -666,7 +667,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
 .minimap-panel { z-index: 6; right: 16px; bottom: 14px; width: 220px; padding: 8px; background: rgba(13,23,16,.92); border-color: rgba(229,241,211,.36); }
 .minimap-heading { font-size: 8px; }
 .minimap-legend { font-size: 7px; }
-.field-hint { bottom: 300px; left: 18px; font-size: 9px; background: rgba(13,23,16,.78); }
+.field-hint { bottom: 300px; left: 18px; font-size: 10px; background: rgba(13,23,16,.78); }
 .placement-status { display: block; margin-top: 6px; padding-top: 5px; border-top: 1px solid rgba(225,237,209,.14); color: #d8eac2; letter-spacing: .055em; }
 .placement-status[hidden] { display: none; }
 .placement-status[data-state="blocked"] { color: #ffb39d; }
@@ -834,17 +835,21 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
   .hud-readouts .resource-stock { min-width: 74px; min-height: 31px; flex-direction: row; align-items: center; gap: 6px; }
   .hud-readouts .resource-stock strong { font-size: 14px; }
   .map-label { top: 101px; left: 10px; right: 10px; max-width: none; white-space: nowrap; font-size: 8px; }
+  .scenario-brief-toggle { min-height: 44px; padding: 0 7px; font-size: 9px; }
   .scenario-brief-panel { top: 174px; left: 10px; width: calc(100% - 20px); max-height: min(300px, calc(100% - 190px)); }
-  .topbar-center { top: 138px; left: 10px; }
+  .topbar-center { top: 164px; left: 10px; }
   #map-label-title, #map-summary { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
   .compass { display: none; }
-  .objective-panel { top: 143px; right: 10px; width: min(200px, 54vw); max-height: 130px; }
+  /* Reserve the minimap card and its 22px gap beneath the objective scroller. */
+  .objective-panel { top: 164px; right: 10px; bottom: calc(var(--command-deck-height) + 182px); width: min(200px, 54vw); max-height: none; }
   .objective-card { padding: 8px; }
-  .objective-title { font-size: 10px; }
+  .objective-title { font-size: 11px; }
+  .objective-kicker, .objective-status { font-size: 9px; }
+  .objective-detail { font-size: 9px; }
   .minimap-panel { right: 10px; width: 118px; padding: 5px; }
   .minimap-heading { font-size: 6px; }
   .minimap-legend { font-size: 6px; }
-  .field-hint { left: 10px; max-width: calc(100% - 150px); padding: 5px; font-size: 8px; line-height: 1.5; }
+  .field-hint { left: 10px; max-width: calc(100% - 150px); padding: 5px; font-size: 9px; line-height: 1.5; }
   .control-dock { right: 10px; left: 10px; }
   .minimap-panel { bottom: calc(var(--command-deck-height) + 22px); }
   .field-hint { bottom: calc(var(--command-deck-height) + 22px); }
