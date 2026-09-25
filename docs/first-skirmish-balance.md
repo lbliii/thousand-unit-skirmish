@@ -1,14 +1,15 @@
 # First 1v1 skirmish balance ledger
 
-Status: early tuning, 25 September 2026. This is a test plan and evidence
-record, not a claim that the skirmish is balanced. Scope follows the
+Status: early tuning; merged-baseline evidence retested at `f1d6482` on
+25 September 2026. This is a test plan and evidence record, not a claim that
+the skirmish is balanced. Scope follows the
 working Game Bible and RTS Feature Coverage Inventory, maintained by the
 product team: one complete invite-first 1v1 scenario with a small roster.
 Large armies remain a separate stress workload.
 
 ## Baseline found in the prototype
 
-| Rule | Current value | Design implication |
+| Rule | Original value when this ledger began | Design implication |
 | --- | ---: | --- |
 | Default start | 1,000 total, 500 per team | Opening economy and production have little leverage. |
 | Initial workers | 4 per team | There are 496 starting infantry per team at the default size. |
@@ -157,17 +158,64 @@ target acquisition or movement.
 The script's default mode records all four outcomes; `--single` runs one
 case quickly, and `--expect-parity` asserts at most one survivor and
 100 HP difference in each case for post-fix regression checks. These are
-controlled protocol fights, not player win rates. Roster costs and training
-times should not be tuned from opening results until the combat-order fix
-passes the mirrored check.
+controlled protocol fights, not player win rates. The original results
+blocked roster tuning until the combat-order fix passed the mirrored check.
+
+## Merged-baseline retest · `f1d6482`
+
+The following two-seat protocol scenarios ran locally on macOS arm64 with
+Node 24.9.0. They establish repeatable fixture outcomes; they are not human
+match results or hosted-network evidence.
+
+### Combat parity
+
+`node scripts/infantry-seat-combat-scenario.mjs --expect-parity` passed all
+four 8v8 infantry attack-move cases. Each resolved at 12.3 seconds. The
+small survivor/health edge followed spawn side and reversed with the sides;
+reversing command send order did not change a result.
+
+| Azure spawn side | Command order `[0,1]` | Command order `[1,0]` |
+| --- | --- | --- |
+| Left | Azure 3 survivors / 300 HP; Ember 4 / 350 HP | Azure 3 / 300 HP; Ember 4 / 350 HP |
+| Right | Azure 4 survivors / 350 HP; Ember 3 / 300 HP | Azure 4 / 350 HP; Ember 3 / 300 HP |
+
+The first combat implementation gave Azure 5 survivors versus Ember's 3 in
+all four cases. The merged result removes that team-identity advantage in
+this fixture; it does not establish balanced strategy or human win rates.
+
+### Forked Vale production opening
+
+Run:
+
+```sh
+RTS_OPENING_MAP=maps/forked-vale.json RTS_OPENING_BUILD_X=21.5 node scripts/opening-production-scenario.mjs --expect-builder-parity --verbose
+```
+
+This ran two 24-unit rounds with 4 workers, 8 infantry, 150 food, and 250
+wood per team. Round one assigned Azure a Barracks and Ember an Archery
+Range; round two swapped those assignments. The earlier QA-003 measurement
+was 20.5 s versus 11.1 s for mirrored Forked Vale builds. On `f1d6482`, each
+of the four builds completed at 10.9 s. First infantry appeared at 23.0 s and
+the first archer at 18.0 s, regardless of seat. At 10 s, both assigned
+builders on each side were still building and construction progress was
+0.915–0.918.
+
+After the first unit, the Barracks opening had 100 food / 75 wood and the
+Range opening had 125 food / 55 wood on either seat, matching the configured
+costs. The five-second reinforcement timing difference follows the existing
+12-second infantry and 7-second archer training rules. This scripted result
+does not justify changing either unit's cost or training time; compare these
+openings in contested human matches before tuning.
 
 ## Next tuning decisions
 
 - Measure worker losses and 4v4 worker-vs-infantry fights in the authored
   scenario; adjust damage again if workers remain a substitute for infantry
   or early raids erase the economy too easily.
-- Compare first reinforcement and income timing for barracks and range
-  openings. Adjust one cost or time at a time, then rerun mirrored matches.
+- Compare first reinforcement and income timing for Barracks and Range
+  openings in contested human matches. The scripted builder fixture now
+  completes symmetrically; adjust one cost or time at a time only if match
+  evidence supports it.
 - If objectives resolve before armies and economy matter, adjust capture
   prerequisites, hold time, or map routes in the authored scenario. Preserve
   an understandable ending and a reason to leave the base.

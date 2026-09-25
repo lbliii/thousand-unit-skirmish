@@ -11,8 +11,8 @@ Updated 25 September 2026. This is a living acceptance record for the first invi
 | P0 | Two invited players join the **same** room, claim Azure and Ember, see the same map and match state; another room remains isolated. | `npm test` covers room isolation. `qa-staging-smoke.mjs` passed both seats in a new HTTPS invite room. `qa-staging-browser.mjs` passed with separate Chrome profiles: both showed `ROOM LIVE`, `2 / 2 PLAYERS`, and Stone Pass; both WSS upgrades returned 101. | Local and staging browser pass |
 | P0 | A new player can identify their team, the objective, a route, and the basic select/move controls within 2 minutes without coaching. | Silent first-glance task in the external protocol below; capture each player's words. | Pending external playtest |
 | P0 | Both seats can gather, build, produce, issue army orders, contest the objective, and complete one authored scenario. Record first building, first contest, win time, starvation, and two distinct viable responses per seat. | Economy and Three Crowns scripts cover mechanics in isolation. A complete unassisted human match is still required. | Pending end-to-end playtest |
-| P0 | Mirrored two-worker openings reach building work range and complete equivalent Barracks/Range builds within 2 seconds on both seats. | Balance lead found a worker parked 1.5 units from a building edge, outside the 1.4 work threshold, producing an approximately 10-second team difference (QA-003). Independent QA reran their mirrored Forked Vale harness against the isolated gameplay-plus-balance integration checkout `9865c48`: both seats finished Barracks and Range at 10.9 s after swapping assignments. Merge and deployed confirmation remain pending. | Combined local pass; release confirmation pending |
-| P0 | Mirrored equal-force combat does not favor a seat because of simulation order. | A controlled 8v8 infantry attack-move scenario on merged main gave Azure 5 survivors and Ember 3 in all four spawn-side/command-order combinations; reversing the first per-unit simulation pass flipped the advantage (QA-005). Gameplay is testing simultaneous same-tick damage. | Open; mirrored fix retest pending |
+| P0 | Mirrored two-worker openings reach building work range and complete equivalent Barracks/Range builds within 2 seconds on both seats. | QA-003's pre-fix Forked Vale result was 20.5 s versus 11.1 s. On merged `f1d6482`, the 24-unit Forked Vale harness swapped Barracks/Range assignments; all four builds completed at 10.9 s, with first infantry at 23.0 s and first archer at 18.0 s. Both builders per team were in work range and contributing. | Merged-main local pass; deployed confirmation pending |
+| P0 | Mirrored equal-force combat does not favor a seat because of simulation order. | The pre-fix fixture gave Azure 5 survivors and Ember 3 in all four cases. On merged `f1d6482`, all four 8v8 cases pass `--expect-parity`: each side has 3 or 4 survivors, the edge flips with spawn side, and command order does not change outcomes. | Merged-main local fixture pass; human contest pending |
 | P0 | A match ends on both clients with the same winner and reason; the next match starts with neutral objectives, full rosters, and usable commands. Both players understand who can start it. | `scripts/three-crowns-scenario.mjs 0` and `1` passed victory followed by synchronized host reset. Staging protocol passed elimination victory and reset. On integrated main, a two-browser Stone Pass capture showed Azure's visible `Play again`, Ember's `WAITING FOR HOST TO RESET`, and both clients returning to neutral 500:500 after Azure reset. Human understanding and deployed visual confirmation remain open. | Protocol and local browser behavior pass; deployed/human pending |
 | P0 | Either player can reconnect to their original seat and current match after tab reload, temporary disconnect, and worker restart. The other player retains control. | `npm test` covers worker recovery; expanded `scripts/resume-session-scenario.mjs` and staging smoke passed independent Azure/Ember reconnect. Browser reload and deployed worker restart remain pending. | Protocol pass; browser/restart pending |
 | P0 | The host can author a valid map and scenario in Map Studio, validate it, export/save it, reload it, and invite a second player into it. Invalid or unreachable setups name a fix. | `qa-staging-browser.mjs --author` added a scenario event and starting food in the host editor, downloaded valid JSON, saved it, synced it to the guest, and reloaded both browser seats with the same map. The editor rejected an invalid ID with the allowed format and a divided map with the unreachable resource named. Browser draft recovery passed locally. | Scripted browser flow pass; human usability pending |
@@ -50,11 +50,17 @@ Updated 25 September 2026. This is a living acceptance record for the first invi
 
 **Reproduce:** On the balance lead's mirrored 24-unit open-field setup, order two workers per team to build equivalent production buildings. Repeat on Forked Vale with symmetric Barracks/Range placements at ±21.5. Measure completion time and each worker's distance from the building edge.
 
-**Observed:** The balance lead reported roughly 20.0 s for Azure against 10.4 s for Ember on open field, and roughly 20.5 s against 11.1 s on Forked Vale. One Azure worker parks 1.5 units from the building edge, outside the 1.4 work threshold, while still marked as building. The difference persisted when Barracks and Range assignments were swapped. The combined-checkout fix passed an independent QA rerun, as detailed below.
+**Observed before fix:** The balance lead reported roughly 20.0 s for Azure against 10.4 s for Ember on open field, and roughly 20.5 s against 11.1 s on Forked Vale. One Azure worker parked 1.5 units from the building edge, outside the 1.4 work threshold, while still marked as building. The difference persisted when Barracks and Range assignments were swapped.
 
 **Expected:** Both workers reach work range and contribute. Equivalent mirrored builds finish within 2 seconds on both seats, with no worker stalled just outside the threshold.
 
-**Routing:** Gameplay systems owner committed builder routing to accessible work cells in `e28907b`. QA independently ran `RTS_OPENING_MAP=<Forked Vale map> RTS_OPENING_BUILD_X=21.5 node scripts/opening-production-scenario.mjs --expect-builder-parity` against the isolated gameplay-plus-balance checkout `9865c48`. Both seats finished either building at 10.9 s after swapping assignments, with first infantry at 23.0 s and first archer at 18.0 s. Confirm this after release integration before comparing opening pace with human players.
+**Merged-main retest:** Commit `e28907b` is included in `f1d6482`. Run:
+
+```sh
+RTS_OPENING_MAP=maps/forked-vale.json RTS_OPENING_BUILD_X=21.5 node scripts/opening-production-scenario.mjs --expect-builder-parity --verbose
+```
+
+With 24 total units, four workers and eight infantry per seat, Azure and Ember each completed both the Barracks and Range at 10.9 s when assignments were swapped. First infantry appeared at 23.0 s and first archer at 18.0 s for either seat. At 10 s, each pair of builders was still marked `building`; progress was 0.915–0.918 and measured distance to the building edge was 0.5. The first-unit stocks matched costs: Barracks 100 food/75 wood and Range 125 food/55 wood. This is a local scripted opening, not a contested human match or deployed retest.
 
 ### QA-004 · Result card action obscured by command dock in short desktop window · P1
 
@@ -68,13 +74,15 @@ Updated 25 September 2026. This is a living acceptance record for the first invi
 
 ### QA-005 · Equal infantry fight favors Azure due to combat update order · P0
 
-**Reproduce:** Run the balance lead's controlled 8v8 infantry-only attack-move fight on merged main `158578b`, reversing spawn side and command order across four cases. Compare survivors, then reverse the first per-unit server simulation pass as a control.
+**Reproduce:** Run `node scripts/infantry-seat-combat-scenario.mjs --expect-parity` on the merged baseline. The fixture reverses Azure's spawn side and both client command-send orders across four 8v8 infantry-only attack-move fights.
 
-**Observed:** Azure had five survivors and Ember three in all four mainline cases. The reversed simulation pass flipped the advantage. These are balance lead measurements; QA has not independently rerun this harness.
+**Observed before fix:** On `158578b`, Azure had five survivors and Ember three in all four cases. Reversing the first per-unit simulation pass flipped the advantage; this was a balance-lead measurement.
+
+**Merged-main retest:** On `f1d6482`, all four runs resolved at 12.3 s. With Azure spawning left, Azure had 3 survivors/300 HP and Ember 4/350 HP under both command orders. With Azure spawning right, Azure had 4/350 HP and Ember 3/300 HP under both orders. The fixture's one-survivor/50-HP edge tracks spawn side, not team identity or command order; `--expect-parity` passed.
 
 **Expected:** Mirrored equal forces resolve without a consistent seat advantage caused by update order.
 
-**Routing:** Gameplay is testing simultaneous same-tick damage. Retest the four combinations on the integrated fix before interpreting human opening win rates.
+**Routing:** The simultaneous-damage and mirrored-cadence fix is in merged commit `f1d6482`. The local fixture now passes; this does not establish strategic balance or human opening win rates.
 
 ## Baseline record · 25 September 2026
 
