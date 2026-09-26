@@ -28,9 +28,9 @@ if (RAILWAY_DEPLOYMENT && PUBLIC_ORIGINS.size === 0) {
   throw new Error('Set RAILWAY_PUBLIC_DOMAIN or RTS_PUBLIC_ORIGINS before exposing the match server.');
 }
 // Bump schema for persisted-shape changes and rules for incompatible simulation semantics.
-const MATCH_CHECKPOINT_SCHEMA_VERSION = 9;
+const MATCH_CHECKPOINT_SCHEMA_VERSION = 10;
 // Older compatible checkpoints remain resumable after their persisted shape is migrated.
-const MATCH_RULES_VERSION = 4;
+const MATCH_RULES_VERSION = 5;
 const MATCH_CHECKPOINT_INTERVAL_TICKS = 30;
 const HEARTBEAT_INTERVAL_MS = 15_000;
 const HEARTBEAT_TIMEOUT_MS = 45_000;
@@ -104,6 +104,19 @@ if (MATCH_STATE_PATH && (MATCH_STATE_PATH === MAP_DIRECTORY || MATCH_STATE_PATH.
 }
 
 let shuttingDown = false;
+
+function forestCellsForDefinition(definition) {
+  const cells = new Uint8Array(definition.width * definition.height);
+  for (const obstacle of definition.obstacles || []) {
+    if (obstacle.material !== 'forest') continue;
+    for (let row = obstacle.row; row < obstacle.row + obstacle.height; row++) {
+      for (let column = obstacle.column; column < obstacle.column + obstacle.width; column++) {
+        cells[row * definition.width + column] = 1;
+      }
+    }
+  }
+  return cells;
+}
 
 function validateMapDefinition(definition, filename) {
   if (!definition || typeof definition !== 'object' || Array.isArray(definition)) {
@@ -469,6 +482,7 @@ const ATTACK_MOVE_MAX_CANDIDATES = 64;
 const ATTACK_MOVE_MAX_FLOW_BUILDS_PER_TICK = 1;
 const MIN_SEPARATION = 0.56;
 const GATHER_RATE = 1;
+const FOREST_WOOD_PER_CELL = 6;
 const WORKER_CARRY_CAPACITY = 10;
 const WORKER_INTERACTION_RANGE = 1.5;
 const BUILDER_INTERACTION_RANGE = 1.4;
@@ -587,6 +601,12 @@ let spawnByTeam = [];
 let elevationLevelByCell = new Uint8Array(0);
 let mapHasElevation = false;
 let blocked = new Uint8Array(0);
+let forestCellMask = new Uint8Array(0);
+let forestWoodRemaining = new Float32Array(0);
+let forestVisionBaseHeights = new Float32Array(0);
+let forestEpoch = 0;
+const pendingForestClears = new Set();
+const forestStockChangedCells = new Set();
 let buildingBlocked = new Uint8Array(0);
 let visionBlockers = new Uint8Array(0);
 let visionBlockHeights = new Float32Array(0);
@@ -680,6 +700,15 @@ function activateMap(definition) {
   elevationLevelByCell = buildElevationGrid(MAP_WIDTH, MAP_HEIGHT, definition.elevationPatches);
   mapHasElevation = hasElevation(elevationLevelByCell);
   blocked = new Uint8Array(CELL_COUNT);
+  forestCellMask = forestCellsForDefinition(definition);
+  forestWoodRemaining = new Float32Array(CELL_COUNT);
+  forestVisionBaseHeights = new Float32Array(CELL_COUNT);
+  for (let cell = 0; cell < CELL_COUNT; cell++) {
+    if (forestCellMask[cell]) forestWoodRemaining[cell] = FOREST_WOOD_PER_CELL;
+  }
+  pendingForestClears.clear();
+  forestStockChangedCells.clear();
+  forestEpoch++;
   buildingBlocked = new Uint8Array(CELL_COUNT);
   visionBlockers = new Uint8Array(CELL_COUNT);
   visionBlockHeights = new Float32Array(CELL_COUNT);
@@ -731,6 +760,7 @@ function activateMap(definition) {
         if (blocksVision) {
           visionBlockers[cell] = 1;
           visionBlockHeights[cell] = visionHeight;
+          if (forestCellMask[cell]) forestVisionBaseHeights[cell] = visionHeight;
         }
       }
     }
@@ -801,6 +831,24 @@ let activeMovePlanningJob = null;
 let movePlanningEpoch = 0;
 let nextMoveOrderId = 1;
 let navigationRevision = 0;
+
+function resetForestStocks() {
+  let changed = false;
+  pendingForestClears.clear();
+  forestStockChangedCells.clear();
+  for (let cell = 0; cell < CELL_COUNT; cell++) {
+    if (!forestCellMask[cell]) continue;
+    if (forestWoodRemaining[cell] < FOREST_WOOD_PER_CELL) changed = true;
+    forestWoodRemaining[cell] = FOREST_WOOD_PER_CELL;
+    blocked[cell] = 1;
+    visionBlockers[cell] = 1;
+    visionBlockHeights[cell] = forestVisionBaseHeights[cell] || 1.12;
+  }
+  forestEpoch++;
+  if (changed) navigationRevision++;
+  visionCoverageBySourceCell = new Array(CELL_COUNT);
+  attackFlowFields.clear();
+}
 
 function recordTickDuration(durationMs, diagnostic = null) {
   tickDurationsMs[tickDurationCursor] = durationMs;
@@ -1415,7 +1463,7 @@ function makeUnit(id, team, x, z, kind, teamSlot) {
     attackMoveAnchorX: 0, attackMoveAnchorZ: 0,
     attackMoveScanTick: tickNumber + (id % ATTACK_MOVE_SCAN_INTERVAL_TICKS),
     attackMoveBucketScanOffset: id % attackMoveBucketOffsets.length,
-    kind, cargo: 0, cargoType: null, gatherNodeId: null, gatherPhase: '',
+    kind, cargo: 0, cargoType: null, gatherNodeId: null, gatherForestCell: -1, gatherPhase: '',
     buildingTargetId: null, moveGoalCell: -1, queuedWaypoints: [],
   };
 }
@@ -1491,6 +1539,7 @@ function resetArmy(count = currentArmySize) {
   buildings.length = 0;
   buildingsById.clear();
   buildingBlocked.fill(0);
+  resetForestStocks();
   attackFlowFields.clear();
   rebuildWalkableComponents();
   for (const node of mapDefinition.resourceNodes) {
@@ -1587,7 +1636,9 @@ function snapshotQueuedWaypointCounts(viewTeam = null) {
 }
 
 function workerTaskStatus(unit) {
-  if (unit.gatherNodeId !== null) return unit.gatherPhase === 'to-base' ? 'returning' : 'gathering';
+  if (unit.gatherNodeId !== null || unit.gatherForestCell >= 0) {
+    return unit.gatherPhase === 'to-base' ? 'returning' : 'gathering';
+  }
   if (unit.buildingTargetId !== null) return 'building';
   if (unit.attackTargetId >= 0 || unit.attackBuildingTargetId >= 0) return 'attacking';
   if (unit.movePlanningPending || unit.pathIndex < unit.path.length || unit.attackMove) return 'moving';
@@ -1659,6 +1710,19 @@ function updateVisionMasks() {
 
 function cellVisibleToTeam(team, cell) {
   return !mapDefinition.fogOfWar || visibleCellsByTeam[team]?.[cell] === 1;
+}
+
+function forestStockEntries(viewTeam = null) {
+  const fogView = mapDefinition.fogOfWar && [0, 1].includes(viewTeam);
+  const entries = [];
+  const changedCells = [...forestStockChangedCells].sort((left, right) => left - right);
+  for (const cell of changedCells) {
+    const stock = forestWoodRemaining[cell];
+    if (!forestCellMask[cell] || stock >= FOREST_WOOD_PER_CELL) continue;
+    if (fogView && !cellVisibleToTeam(viewTeam, cell)) continue;
+    entries.push([cell, Math.round(stock * 1_000_000) / 1_000_000]);
+  }
+  return entries;
 }
 
 function buildingVisibleToTeam(team, building) {
@@ -2215,6 +2279,8 @@ function roomPayload(viewTeam = null, includeWaypointCounts = true) {
     resourceNodes: resourceNodes.map(({ id, type }) => ({
       id, type, stock: resourceNodeStates.get(id)?.stock ?? 0,
     })),
+    forestEpoch,
+    forestStocks: forestStockEntries(fogView ? viewTeam : null),
   };
 }
 
@@ -2262,6 +2328,8 @@ function captureMatchCheckpoint(sequence, savedAt = Date.now()) {
       buildings: buildings.map((building) => ({ ...building, footprint: [...building.footprint] })),
       nextBuildingId,
       resourceNodes: [...resourceNodeStates.values()].map((node) => ({ ...node })),
+      forestStocks: forestStockEntries(),
+      forestEpoch,
       triggerStates: [...triggerStates.values()].map((state) => ({ ...state, unitCounts: [...state.unitCounts] })),
       scenarioEventStates: [...scenarioEventStates.values()].map((state) => ({ ...state })),
       matchElapsedSeconds,
@@ -2295,7 +2363,7 @@ function validCellPath(value, cellCount) {
 function validateMatchCheckpoint(snapshot) {
   assertSnapshot(snapshot && typeof snapshot === 'object' && !Array.isArray(snapshot), 'expected an object');
   assertSnapshot(snapshot.schemaVersion === MATCH_CHECKPOINT_SCHEMA_VERSION, 'unsupported schema version');
-  assertSnapshot([1, 2, 3, MATCH_RULES_VERSION].includes(snapshot.rulesVersion),
+  assertSnapshot([1, 2, 3, 4, MATCH_RULES_VERSION].includes(snapshot.rulesVersion),
     'unsupported game rules version');
   assertSnapshot(Number.isSafeInteger(snapshot.sequence) && snapshot.sequence >= 1, 'invalid sequence');
   assertSnapshot(Number.isFinite(snapshot.savedAt) && snapshot.savedAt > 0, 'invalid save time');
@@ -2310,6 +2378,21 @@ function validateMatchCheckpoint(snapshot) {
   const cellCount = definition.width * definition.height;
   const finite = (value) => Number.isFinite(value);
   const integerIn = (value, min, max) => Number.isInteger(value) && value >= min && value <= max;
+  const checkpointForestMask = forestCellsForDefinition(definition);
+  assertSnapshot(Array.isArray(state.forestStocks), 'invalid forest stock table');
+  assertSnapshot(integerIn(state.forestEpoch, 0, Number.MAX_SAFE_INTEGER), 'invalid forest epoch');
+  const savedForestStocks = new Map();
+  let previousForestCell = -1;
+  for (const row of state.forestStocks) {
+    const [cell, stock] = Array.isArray(row) ? row : [];
+    assertSnapshot(Array.isArray(row) && row.length === 2
+      && integerIn(cell, 0, cellCount - 1) && cell > previousForestCell
+      && checkpointForestMask[cell] === 1 && finite(stock)
+      && stock >= 0 && stock < FOREST_WOOD_PER_CELL,
+    'invalid forest stock entry');
+    savedForestStocks.set(cell, stock);
+    previousForestCell = cell;
+  }
   assertSnapshot(integerIn(state.tickNumber, 0, Number.MAX_SAFE_INTEGER), 'invalid tick');
   assertSnapshot(integerIn(state.currentArmySize, 2, MAX_UNITS) && state.currentArmySize % 2 === 0, 'invalid army size');
   assertSnapshot(Array.isArray(state.units) && state.units.length <= MAX_UNITS, 'invalid unit table');
@@ -2347,6 +2430,7 @@ function validateMatchCheckpoint(snapshot) {
     assertSnapshot(finite(unit.cargo) && unit.cargo >= 0 && unit.cargo <= WORKER_CARRY_CAPACITY
       && (unit.cargoType === null || ['food', 'wood'].includes(unit.cargoType))
       && (unit.gatherNodeId === null || typeof unit.gatherNodeId === 'string')
+      && (unit.gatherForestCell === undefined || integerIn(unit.gatherForestCell, -1, cellCount - 1))
       && ['', 'to-node', 'gathering', 'to-base'].includes(unit.gatherPhase)
       && (unit.buildingTargetId === null || integerIn(unit.buildingTargetId, 1, Number.MAX_SAFE_INTEGER))
       && integerIn(unit.moveGoalCell, -1, cellCount - 1), `invalid unit work state ${index}`);
@@ -2395,7 +2479,9 @@ function validateMatchCheckpoint(snapshot) {
   for (const obstacle of definition.obstacles) {
     for (let row = obstacle.row; row < obstacle.row + obstacle.height; row++) {
       for (let column = obstacle.column; column < obstacle.column + obstacle.width; column++) {
-        staticBlocked[row * definition.width + column] = 1;
+        const cell = row * definition.width + column;
+        if (!checkpointForestMask[cell]
+          || (savedForestStocks.get(cell) ?? FOREST_WOOD_PER_CELL) > 0) staticBlocked[cell] = 1;
       }
     }
   }
@@ -2577,7 +2663,16 @@ function validateMatchCheckpoint(snapshot) {
   }
   for (const unit of state.units) {
     assertSnapshot(unit.attackTargetId < state.units.length, 'unit target is out of range');
-    if (unit.gatherNodeId !== null) assertSnapshot(resourceIds.has(unit.gatherNodeId), 'unit references unknown resource');
+    const forestCell = unit.gatherForestCell ?? -1;
+    if (unit.gatherNodeId !== null) {
+      assertSnapshot(resourceIds.has(unit.gatherNodeId) && forestCell === -1,
+        'unit references unknown or conflicting gather targets');
+    }
+    if (forestCell >= 0) {
+      assertSnapshot(unit.kind === 'worker' && unit.gatherNodeId === null
+        && checkpointForestMask[forestCell] === 1,
+      'unit references an invalid forest target');
+    }
     if (unit.buildingTargetId !== null) assertSnapshot(buildingIds.has(unit.buildingTargetId), 'unit references unknown building');
     if (unit.attackBuildingTargetId >= 0) {
       const target = state.buildings.find((building) => building.id === unit.attackBuildingTargetId);
@@ -2608,12 +2703,23 @@ function restoreMatchCheckpoint(snapshot) {
     runtimeMapIds.add(definition.id);
   }
   activateMap(definition);
+  for (const [cell, stock] of state.forestStocks) {
+    forestWoodRemaining[cell] = stock;
+    forestStockChangedCells.add(cell);
+    if (stock === 0) {
+      blocked[cell] = 0;
+      visionBlockers[cell] = 0;
+      visionBlockHeights[cell] = 0;
+    }
+  }
+  forestEpoch = state.forestEpoch;
   currentArmySize = state.currentArmySize;
   tickNumber = state.tickNumber;
   units.length = 0;
   for (const record of state.units) {
     units.push({
       ...record,
+      gatherForestCell: record.gatherForestCell ?? -1,
       path: [...record.path],
       attackMoveResumePath: record.attackMoveResumePath === null ? null : [...record.attackMoveResumePath],
       queuedWaypoints: record.queuedWaypoints.map((waypoint) => ({ ...waypoint })),
@@ -2778,8 +2884,19 @@ function migrateMatchCheckpoint(snapshot) {
     snapshot.schemaVersion = 8;
   }
   if (snapshot?.schemaVersion === 8 && typeof snapshot.state === 'object' && snapshot.state !== null) {
+    snapshot.schemaVersion = 9;
+  }
+  if (snapshot?.schemaVersion === 9 && typeof snapshot.state === 'object' && snapshot.state !== null) {
+    snapshot.state.forestStocks ??= [];
+    snapshot.state.forestEpoch ??= 0;
+    if (Array.isArray(snapshot.state.units)) {
+      for (const unit of snapshot.state.units) {
+        if (unit && typeof unit === 'object' && !Array.isArray(unit)) unit.gatherForestCell ??= -1;
+      }
+    }
     snapshot.schemaVersion = MATCH_CHECKPOINT_SCHEMA_VERSION;
   }
+  if (snapshot?.rulesVersion === 4) snapshot.rulesVersion = MATCH_RULES_VERSION;
   if ([1, 2, 3].includes(snapshot?.rulesVersion)
     && !snapshot?.mapDefinition?.elevationPatches?.some((patch) => patch.level > 0)) {
     snapshot.rulesVersion = MATCH_RULES_VERSION;
@@ -3259,8 +3376,9 @@ function buildMoveFallbackPools(unitComponents, centerColumn, centerRow) {
 }
 
 function cancelGatherOrder(unit) {
-  const changed = unit.gatherNodeId !== null || unit.gatherPhase !== '';
+  const changed = unit.gatherNodeId !== null || unit.gatherForestCell >= 0 || unit.gatherPhase !== '';
   unit.gatherNodeId = null;
+  unit.gatherForestCell = -1;
   unit.gatherPhase = '';
   if (changed) dirty = true;
 }
@@ -3276,9 +3394,99 @@ function routeWorker(unit, phase, node) {
   unit.pathIndex = 0;
 }
 
+function forestOpenAccessCells(cell) {
+  if (!Number.isInteger(cell) || cell < 0 || cell >= CELL_COUNT || !forestCellMask[cell]) return [];
+  const column = cell % MAP_WIDTH;
+  const row = Math.floor(cell / MAP_WIDTH);
+  const access = [];
+  for (let dz = -1; dz <= 1; dz++) {
+    for (let dx = -1; dx <= 1; dx++) {
+      if (dx === 0 && dz === 0) continue;
+      const x = column + dx;
+      const z = row + dz;
+      if (x < 0 || x >= MAP_WIDTH || z < 0 || z >= MAP_HEIGHT) continue;
+      const candidate = cellIndex(x, z);
+      if (isWalkable(candidate)) access.push(candidate);
+    }
+  }
+  return access;
+}
+
+function routeForestWorker(unit, phase, cell) {
+  unit.orderRevision++;
+  unit.movePlanningPending = false;
+  unit.gatherPhase = phase;
+  let field = null;
+  if (phase === 'to-node') {
+    const start = nearestOpenCell(worldToCell(unit.x, unit.z));
+    const componentId = walkableComponents[start];
+    const goals = forestOpenAccessCells(cell)
+      .filter((goal) => walkableComponents[goal] === componentId);
+    if (goals.length > 0) field = getAttackFlowFieldForGoals(goals, `forest:${cell}:${componentId}`);
+  } else {
+    field = getAttackFlowField(worldToCell(spawnByTeam[unit.team].x, spawnByTeam[unit.team].z));
+  }
+  unit.moveGoalCell = field?.goal ?? -1;
+  unit.path = field ? pathFromAttackFlow(worldToCell(unit.x, unit.z), field) : [];
+  unit.pathIndex = 0;
+}
+
+function assignForestGather(player, command) {
+  const cell = Number(command.forestCell);
+  if (!Number.isInteger(cell) || cell < 0 || cell >= CELL_COUNT || !forestCellMask[cell]) {
+    sendOrderNotice(player, command, 'GATHER REJECTED · FOREST CELL NOT FOUND');
+    return;
+  }
+  if (mapDefinition.fogOfWar && !cellVisibleToTeam(player.team, cell)) {
+    sendOrderNotice(player, command, 'GATHER REJECTED · FOREST CELL NOT VISIBLE');
+    return;
+  }
+  if (forestWoodRemaining[cell] <= 0) {
+    sendOrderNotice(player, command, 'FOREST CELL CLEARED');
+    return;
+  }
+
+  const accessCells = forestOpenAccessCells(cell);
+  const baseCell = nearestOpenCell(worldToCell(spawnByTeam[player.team].x, spawnByTeam[player.team].z));
+  const componentId = walkableComponents[baseCell];
+  if (componentId < 0 || !accessCells.some((candidate) => walkableComponents[candidate] === componentId)) {
+    sendOrderNotice(player, command, 'FOREST CELL UNREACHABLE');
+    return;
+  }
+  const selectedUnits = commandUnits(command)
+    .filter((unit) => unit.hp > 0 && unit.team === player.team && unit.kind === 'worker'
+      && walkableComponents[nearestOpenCell(worldToCell(unit.x, unit.z))] === componentId);
+  if (selectedUnits.length === 0) {
+    sendOrderNotice(player, command, 'NO REACHABLE WORKERS SELECTED');
+    return;
+  }
+
+  for (const unit of selectedUnits) {
+    unit.orderRevision++;
+    unit.queuedWaypoints.length = 0;
+    clearAttackMoveOrder(unit);
+    unit.movePlanningPending = false;
+    unit.buildingTargetId = null;
+    unit.attackTargetId = -1;
+    unit.attackBuildingTargetId = -1;
+    unit.repathTimer = 0;
+    unit.lastAttackCell = -1;
+    unit.gatherNodeId = null;
+    unit.gatherForestCell = cell;
+    routeForestWorker(unit, unit.cargo > 0 && unit.cargoType !== 'wood'
+      || unit.cargo >= WORKER_CARRY_CAPACITY ? 'to-base' : 'to-node', cell);
+  }
+  dirty = true;
+  sendOrderNotice(player, command, `GATHER ORDER · ${selectedUnits.length} WORKERS`);
+}
+
 function assignGather(player, command) {
   if (player.team === null || !Array.isArray(command.ids)) {
     sendOrderNotice(player, command, 'GATHER REJECTED · NO VALID WORKERS');
+    return;
+  }
+  if (Object.hasOwn(command, 'forestCell')) {
+    assignForestGather(player, command);
     return;
   }
   const nodeId = String(command.nodeId ?? '');
@@ -3319,6 +3527,7 @@ function assignGather(player, command) {
     unit.repathTimer = 0;
     unit.lastAttackCell = -1;
     unit.gatherNodeId = nodeId;
+    unit.gatherForestCell = -1;
     routeWorker(unit, unit.cargo > 0 && unit.cargoType !== node.type ? 'to-base'
       : unit.cargo >= WORKER_CARRY_CAPACITY ? 'to-base' : 'to-node', node);
   }
@@ -3329,6 +3538,7 @@ function assignGather(player, command) {
 function stopGathering(unit) {
   unit.orderRevision++;
   unit.gatherNodeId = null;
+  unit.gatherForestCell = -1;
   unit.gatherPhase = '';
   unit.path = [];
   unit.pathIndex = 0;
@@ -3336,9 +3546,95 @@ function stopGathering(unit) {
   unit.moveGoalCell = -1;
 }
 
+function updateForestWorkerEconomy(unit) {
+  const cell = unit.gatherForestCell;
+  const point = cellToWorld(cell);
+  const targetDistance = Math.hypot(point.x - unit.x, point.z - unit.z);
+  const base = spawnByTeam[unit.team];
+  const baseDistance = Math.hypot(base.x - unit.x, base.z - unit.z);
+  const stock = forestWoodRemaining[cell];
+  if (unit.gatherPhase === 'to-node') {
+    if ((unit.cargo > 0 && unit.cargoType !== 'wood')
+      || unit.cargo >= WORKER_CARRY_CAPACITY || stock <= 0) {
+      routeForestWorker(unit, 'to-base', cell);
+    } else if (targetDistance <= WORKER_INTERACTION_RANGE) {
+      unit.orderRevision++;
+      unit.gatherPhase = 'gathering';
+      unit.path = [];
+      unit.pathIndex = 0;
+      unit.movePlanningPending = false;
+      unit.moveGoalCell = -1;
+    }
+  }
+
+  if (unit.gatherPhase === 'gathering') {
+    const remaining = forestWoodRemaining[cell];
+    if ((unit.cargo > 0 && unit.cargoType !== 'wood')
+      || unit.cargo >= WORKER_CARRY_CAPACITY || remaining <= 0) {
+      routeForestWorker(unit, 'to-base', cell);
+    } else if (targetDistance <= WORKER_INTERACTION_RANGE) {
+      const amount = Math.min(
+        GATHER_RATE * STEP_SECONDS,
+        WORKER_CARRY_CAPACITY - unit.cargo,
+        remaining,
+      );
+      const leftover = Math.max(0, remaining - amount);
+      if (unit.cargo <= 0) unit.cargoType = 'wood';
+      unit.cargo = Math.min(WORKER_CARRY_CAPACITY, unit.cargo + amount);
+      forestWoodRemaining[cell] = leftover <= 1e-5 ? 0 : leftover;
+      forestStockChangedCells.add(cell);
+      if (forestWoodRemaining[cell] === 0) pendingForestClears.add(cell);
+      dirty = true;
+      if (unit.cargo >= WORKER_CARRY_CAPACITY || forestWoodRemaining[cell] === 0) {
+        routeForestWorker(unit, 'to-base', cell);
+      }
+    }
+  }
+
+  if (unit.gatherPhase === 'to-base' && baseDistance <= WORKER_INTERACTION_RANGE) {
+    if (unit.cargo > 0) {
+      const bank = unit.cargoType === 'wood' ? teamWood : teamFood;
+      bank[unit.team] = Math.round((bank[unit.team] + unit.cargo) * 1_000_000) / 1_000_000;
+      unit.cargo = 0;
+      unit.cargoType = null;
+      dirty = true;
+    }
+    if (forestWoodRemaining[cell] > 0) routeForestWorker(unit, 'to-node', cell);
+    else stopGathering(unit);
+  }
+}
+
+function flushPendingForestClears() {
+  if (pendingForestClears.size === 0) return;
+  let changed = false;
+  for (const cell of pendingForestClears) {
+    if (forestWoodRemaining[cell] > 0 || !forestCellMask[cell] || blocked[cell] === 0) continue;
+    blocked[cell] = 0;
+    visionBlockers[cell] = 0;
+    visionBlockHeights[cell] = 0;
+    changed = true;
+  }
+  pendingForestClears.clear();
+  if (!changed) return;
+  navigationRevision++;
+  visionCoverageBySourceCell = new Array(CELL_COUNT);
+  attackFlowFields.clear();
+  rebuildWalkableComponents();
+  updateVisionMasks();
+  dirty = true;
+}
+
 function updateWorkerEconomy() {
   for (const unit of units) {
-    if (unit.hp <= 0 || unit.kind !== 'worker' || unit.gatherNodeId === null) continue;
+    if (unit.hp <= 0 || unit.kind !== 'worker') continue;
+    if (unit.gatherForestCell >= 0) {
+      if (!forestCellMask[unit.gatherForestCell]) {
+        stopGathering(unit);
+        dirty = true;
+      } else updateForestWorkerEconomy(unit);
+      continue;
+    }
+    if (unit.gatherNodeId === null) continue;
     const node = resourceNodeStates.get(unit.gatherNodeId);
     if (!node) {
       stopGathering(unit);
@@ -3398,6 +3694,7 @@ function updateWorkerEconomy() {
       }
     }
   }
+  flushPendingForestClears();
 }
 
 function queuedUnitsForTeam(team) {
@@ -4414,7 +4711,7 @@ function assignFormationMove(player, command, buildingTargetId = null, orderLabe
   }
   const queueWaypoint = command.queue === true && buildingTargetId === null;
   const canQueueBehindCurrentRoute = (unit) => unit.queuedWaypoints.length > 0
-    || (unit.gatherNodeId === null && unit.buildingTargetId === null
+    || (unit.gatherNodeId === null && unit.gatherForestCell < 0 && unit.buildingTargetId === null
       && (unit.movePlanningPending || unit.pathIndex < unit.path.length
         || unit.attackTargetId >= 0 || unit.attackBuildingTargetId >= 0 || unit.attackMove));
   if (queueWaypoint && selectedUnits.some((unit) => (
@@ -4670,7 +4967,7 @@ function advanceQueuedWaypoints() {
     }
     if (unit.queuedWaypoints.length === 0 || unit.movePlanningPending
       || unit.attackTargetId >= 0 || unit.attackBuildingTargetId >= 0
-      || unit.gatherNodeId !== null || unit.buildingTargetId !== null
+      || unit.gatherNodeId !== null || unit.gatherForestCell >= 0 || unit.buildingTargetId !== null
       || unit.pathIndex < unit.path.length
       || (unit.attackMoveResumePath !== null
         && unit.attackMoveResumePathIndex < unit.attackMoveResumePath.length)) continue;
@@ -5040,6 +5337,9 @@ function spreadInteractingUnits() {
     } else if (unit.attackBuildingTargetId >= 0) {
       building = buildingsById.get(unit.attackBuildingTargetId);
       range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+    } else if (unit.gatherPhase === 'gathering' && unit.gatherForestCell >= 0) {
+      target = cellToWorld(unit.gatherForestCell);
+      range = WORKER_INTERACTION_RANGE;
     } else if (unit.gatherPhase === 'gathering' && unit.gatherNodeId !== null) {
       target = resourceNodeStates.get(unit.gatherNodeId);
       range = WORKER_INTERACTION_RANGE;

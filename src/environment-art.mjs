@@ -422,6 +422,7 @@ function variation(index) {
 }
 
 export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObject) {
+  const forestTreeSlots = new Map();
   const pines = [];
   const oaks = [];
   const birches = [];
@@ -443,6 +444,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
           const treeType = variation(index + 7);
           const scaleVariation = variation(index + 31);
           const point = {
+            cell: index,
             x: x + (variation(index) - 0.5) * 0.28,
             z: z + (variation(index + 19) - 0.5) * 0.28,
             flip: variation(index + 43) < 0.5,
@@ -518,6 +520,13 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     ['cliff-end-cap', 4.2, 4.6, cliffCaps],
   ]) {
     const mesh = createEnvironmentSpriteInstances(name, width, height, points);
-    if (mesh) addObject(mesh);
+    if (!mesh) continue;
+    for (let index = 0; index < points.length; index++) {
+      const point = points[index];
+      if (!Number.isInteger(point.cell)) continue;
+      forestTreeSlots.set(point.cell, { mesh, index, ...point });
+    }
+    addObject(mesh);
   }
+  return forestTreeSlots;
 }
