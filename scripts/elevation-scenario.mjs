@@ -6,8 +6,9 @@ import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildElevationGrid } from '../src/map-utils.mjs';
 import {
-  BASE_ELEVATION_PATH_COST, buildElevationLevelGrid, canTraverseElevation, elevationPathCost,
+  BASE_ELEVATION_PATH_COST, canTraverseElevation, elevationPathCost,
 } from '../src/elevation.mjs';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -172,7 +173,7 @@ function verifyPath(snapshot, map, unitId, startCell) {
   const unit = snapshotUnit(snapshot, unitId);
   assert.ok(unit && unit.path.length > 0 && unit.pathIndex < unit.path.length,
     `unit ${unitId} should have a live planned path`);
-  const levels = buildElevationLevelGrid(map.width, map.height, map.elevationPatches);
+  const levels = buildElevationGrid(map.width, map.height, map.elevationPatches);
   let previous = startCell;
   let cost = 0;
   for (const cell of unit.path) {
