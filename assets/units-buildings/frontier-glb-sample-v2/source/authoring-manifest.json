@@ -1,5 +1,4 @@
 {
-  "schemaVersion": 1,
   "packId": "frontier-character-building-sample",
   "packVersion": "0.2.0",
   "packKind": "character-building",
@@ -284,7 +283,7 @@
     {
       "path": "README.md",
       "role": "documentation",
-      "sha256": "ca2cf23110f2577a61aa22630c4a3dcbb03f6b615f6ec6b2cf7422239d3899e3",
+      "sha256": "ba3fb26b865e2e90b09eee188c1bb61d48f415a6b89d1153c27deb39412c3d50",
       "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
       "provenance": "Project-internal review documentation."
     },
@@ -1195,5 +1194,8 @@
     },
     "headPoseTradeoff": "The shared neutral unit.humanoid-core contains head and torso and maps to bodyMeshes. The sash inherits the core pose plus its authored node transform; no independent head-sphere bob is retained.",
     "teamTint": "Apply TEAM_HEX to the sash only; keep the shared core neutral apart from renderer-owned health/damage modulation."
-  }
+  },
+  "authoringManifestVersion": 1,
+  "manifestKind": "source-review-only",
+  "runtimeReady": false
 }

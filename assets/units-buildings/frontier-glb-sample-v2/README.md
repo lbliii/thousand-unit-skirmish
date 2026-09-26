@@ -2,6 +2,8 @@
 
 Checkpoint 0.2.0 is the current compact GLB asset sample for the Worker, Infantry, Archer, and Barracks. The earlier v0.1.2 review package is superseded and is not shipped in this directory; its base Blender builder is retained under `source/` for provenance.
 
+**Scope:** source-review only. This is not a runtime-ready pack: the two GLBs embed separate copies of the atlas, and the expanded `source/authoring-manifest.json` is not the renderer's v1 runtime schema. Do not pass it to `validate-visual-pack.mjs` or load these models in the game. Runtime manifest, shared-texture loading, and in-game appearance remain separate integration work.
+
 ## Visual finish
 
 The models use simple faceted geometry with broad vertex-color value shapes and one shared, low-frequency material atlas for cloth, leather, wood, stone, slate, and metal. The matte finish is intended to sit beside the painterly environment cutouts; the renderer contract proposes displaying it through the existing unlit material path. Team color is limited to the shared unit sash and small, shape-coded building standards; role equipment and building architecture stay neutral. Here, “skin” means material finish. The parts are rigid and do not use skeletal skinning.
@@ -22,4 +24,4 @@ This focused source review contains six individual 1280×720 frames: one Azure W
 
 The Worker body is about 12 pixels tall at zoom 0.91. Its backpack and broad tool were not assessable in the full-field frame. At zoom 0.48, use the renderer-owned instanced role LOD without changing world scale. Exported atlas/UV data has been inspected and rendered, but the finish has not received broad art signoff; the generic validator reports the 768×512 atlas's shortest edge below its 1024-pixel guidance and its non-power-of-two dimensions. It passes the project's 512-pixel policy. Review native-size in-game frames before accepting the material finish.
 
-`manifest.json` records bounds, anchors, batch keys, team variants, atlas family/UV mapping, texture estimate, state samples, review views, provenance, and file hashes. Run `game-dev asset inspect models/unit-art-v2.glb --json` and `game-dev asset inspect models/barracks.glb --json` for read-only inspection. `SHA256SUMS.txt` covers every package file except itself.
+`source/authoring-manifest.json` records bounds, anchors, batch keys, team variants, atlas family/UV mapping, texture estimate, state samples, review views, provenance, and file hashes. Run `game-dev asset inspect models/unit-art-v2.glb --json` and `game-dev asset inspect models/barracks.glb --json` for read-only inspection. `SHA256SUMS.txt` covers every package file except itself.

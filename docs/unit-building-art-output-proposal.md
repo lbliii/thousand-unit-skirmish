@@ -1,6 +1,6 @@
 # Unit and building art format and finish review
 
-**Status:** source-based recommendation for the current sample. This does not change runtime code or supersede the open renderer contract draft.
+**Status:** source-based recommendation for the current sample. The v0.2.0 pack is a source-review sample, not runtime-ready: its authoring manifest does not match the renderer v1 schema, GLBs embed separate atlas copies, and loader integration remains a later checkpoint. This does not change runtime code or supersede the open renderer contract draft.
 
 ## Recommendation
 
