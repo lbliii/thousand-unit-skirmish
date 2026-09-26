@@ -1704,20 +1704,18 @@ function buildMap(definition) {
   // Rock silhouettes carry the visual boundary. Flat block tops made the ridge
   // look like a strip of square tiles when viewed from the oblique camera.
   const obstacleCount = definition.obstacles.reduce((count, obstacle) => (
-    count + (obstacle.material === 'stone' ? 0 : obstacle.width * obstacle.height)
+    count + (obstacle.material === 'water' ? obstacle.width * obstacle.height : 0)
   ), 0);
   const obstacles = new THREE.InstancedMesh(
     new THREE.BoxGeometry(1.02, 1.12, 1.02),
     new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.94, flatShading: true }),
     obstacleCount,
   );
-  const obstacleTints = { stone: [0x444944, 0x55594f], forest: [0x304934, 0x38533b], water: [0x3e6570, 0x4d7982] };
+  const obstacleTints = [0x3e6570, 0x4d7982];
   let obstacleIndex = 0;
   for (const obstacle of definition.obstacles) {
-    if (obstacle.material === 'stone') continue;
-    const tints = obstacleTints[obstacle.material] || obstacleTints.stone;
-    const visibleHeight = obstacle.material === 'forest' ? 0.17
-      : 0.025;
+    if (obstacle.material !== 'water') continue;
+    const visibleHeight = 0.025;
     for (let row = obstacle.row; row < obstacle.row + obstacle.height; row++) {
       for (let column = obstacle.column; column < obstacle.column + obstacle.width; column++) {
         dummy.position.set(column - MAP_HALF_X + 0.5, visibleHeight / 2, row - MAP_HALF_Z + 0.5);
@@ -1725,7 +1723,7 @@ function buildMap(definition) {
         dummy.scale.set(1, visibleHeight / 1.12, 1);
         dummy.updateMatrix();
         obstacles.setMatrixAt(obstacleIndex, dummy.matrix);
-        color.setHex((row + column + obstacleIndex) % 3 === 0 ? tints[0] : tints[1]);
+        color.setHex((row + column + obstacleIndex) % 3 === 0 ? obstacleTints[0] : obstacleTints[1]);
         obstacles.setColorAt(obstacleIndex, color);
         obstacleIndex++;
       }
@@ -3940,6 +3938,7 @@ const EDITOR_MATERIALS = ['stone', 'forest', 'water'];
 const EDITOR_MATERIAL_COLORS = ['#596653', '#496448', '#416a78'];
 const TERRAIN_COLORS = {
   meadow: '#60734f', 'short-grass': '#6d7a45', 'long-grass': '#52643e',
+  'forest-floor': '#4b5136',
   dirt: '#806047', sand: '#ac936d', scree: '#55564d', cinder: '#554c3d',
 };
 const MAP_STUDIO_DRAFT_VERSION = 1;

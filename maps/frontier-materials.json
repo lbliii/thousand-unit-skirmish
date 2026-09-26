@@ -14,6 +14,7 @@
     { "column": 0, "row": 27, "width": 64, "height": 9, "material": "dirt" },
     { "column": 48, "row": 18, "width": 16, "height": 9, "material": "sand" },
     { "column": 0, "row": 43, "width": 24, "height": 21, "material": "long-grass" },
+    { "column": 24, "row": 43, "width": 16, "height": 21, "material": "forest-floor" },
     { "column": 40, "row": 43, "width": 24, "height": 21, "material": "short-grass" }
   ],
   "spawnPoints": [

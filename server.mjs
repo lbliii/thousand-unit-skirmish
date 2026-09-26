@@ -146,7 +146,7 @@ function validateMapDefinition(definition, filename) {
     || definition.width > 256 || definition.height > 256) {
     throw new Error(`Map ${filename} width and height must be integers between 16 and 256.`);
   }
-  const terrainMaterials = ['meadow', 'short-grass', 'long-grass', 'dirt', 'sand', 'scree', 'cinder'];
+  const terrainMaterials = ['meadow', 'short-grass', 'long-grass', 'forest-floor', 'dirt', 'sand', 'scree', 'cinder'];
   if (definition.terrainBase !== undefined && !terrainMaterials.includes(definition.terrainBase)) {
     throw new Error(`Map ${filename} has an invalid base terrain material.`);
   }
@@ -5725,7 +5725,7 @@ const server = createServer(async (request, response) => {
   const publicEnvironmentAsset = path.dirname(relative) === 'assets/environment/frontier-v1'
     && ['.png', '.webp'].includes(path.extname(relative))
     && ['oak', 'pine', 'berries', 'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
-      'meadow', 'short-grass', 'long-grass', 'dirt', 'sand', 'scree', 'cinder'].includes(path.basename(relative, path.extname(relative)));
+      'meadow', 'short-grass', 'long-grass', 'forest-floor', 'dirt', 'sand', 'scree', 'cinder'].includes(path.basename(relative, path.extname(relative)));
   const publicInteractiveEnvironmentAsset = path.dirname(relative) === 'assets/environment/frontier-interactive-v1'
     && (relative === 'assets/environment/frontier-interactive-v1/manifest.json'
       || (path.extname(relative) === '.webp'

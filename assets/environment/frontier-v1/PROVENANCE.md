@@ -13,6 +13,7 @@ Original environment art generated for Thousand Unit Skirmish on 25 September 20
 | `cinder.png` | `exec-5f4d4837-9628-4e9d-b241-da937b3297b8.png` | `c8bfcf36f98d66d4bd07d4ae5a77fe05bd61e650854ff1ef5a926df49d7da67a` |
 | `short-grass.png` | `exec-98199c5e-302e-43f4-a4e9-c1c93ab958b6.png` | `e10a2bd76c8733c6037f743345c7a189686b78faa85a4affac9aaa2298955a2a` |
 | `long-grass.png` | `exec-f9166259-a969-46bb-a850-05784fd5a28e.png` | `b43fa5c95c2c00d0452eaca03b406429fb941d3f71be8895bac09d17b73b8de3` |
+| `forest-floor.png` | `exec-f350bdbe-e15e-4332-a2a8-02f247521708.png` | `e091cea3db9dd870e7b1c39b67504cd8daf798d9e87d75bb2bad32d4ce187a70` |
 | `dirt.png` | `exec-7ffb3c1e-d6ce-4546-9b2b-471449b76780.png` | `f442a560c029c431a61f5bdc358b550ecff3425ee6984053a33124c32e71b1dd` |
 | `sand.png` | `exec-98b2f839-b3cb-43b0-aff3-1a78e1f86675.png` | `e8a7e948f8ceb869b9a0fef00797f265559f1af3ddfdfa7a35c4f43805db1493` |
 | `scree.png` | `exec-cc494509-7f80-49f9-85fa-7388f3b273fe.png` | `4b9bab49e6d03c85256c2a9d8cf2ad32ba5600c4701558425894e342d560c5b7` |
@@ -68,6 +69,10 @@ Three original forest cutouts extend the existing oak and pine silhouettes. Sour
 ### long-grass.png
 
 > Use case: game asset. Seamless top-down orthographic square albedo texture for an original oblique RTS terrain brush. LONG WILD GRASS: muted sage and olive blades with scattered straw-ochre tufts, slightly rougher and lighter than short meadow grass but still quiet at strategic zoom. Flat material only, no objects, no horizon or perspective, no cast shadows, no large motifs or vignette. Even color and value edge-to-edge, perfectly tileable infinite pattern. Painterly natural material, low contrast under hundreds of units. Full bleed opaque square.
+
+### forest-floor.png
+
+> Seamless tileable square top-down opaque forest floor albedo texture for a painterly strategy game: fine moss, muted leaf litter, tiny pine needles and earthy specks, deep olive and dark warm brown, understated contrast, no directional light, shadows, trees, objects, horizon, vignette or border. Full bleed, evenly patterned, game-ready material.
 
 ### dirt.png
 

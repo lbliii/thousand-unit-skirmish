@@ -3,7 +3,8 @@ import { RESOURCE_VISUAL_STAGES } from './resource-visual-state.mjs';
 
 const ASSET_ROOT = './assets/environment/frontier-v1/';
 const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
-export const TERRAIN_MATERIALS = ['meadow', 'short-grass', 'long-grass', 'dirt', 'sand', 'scree', 'cinder'];
+const GROUND_RENDER_ORDER = -20;
+export const TERRAIN_MATERIALS = ['meadow', 'short-grass', 'long-grass', 'forest-floor', 'dirt', 'sand', 'scree', 'cinder'];
 const spriteNames = [
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
@@ -231,12 +232,11 @@ function groundBuffer() {
   return { vertices: [], uvs: [], colors: [], indices: [] };
 }
 
-function paintedGroundGeometry(rectangles, definition, materialIndex, materialGrid) {
+function paintedGroundGeometry(rectangles, definition, materialIndex, materialGrid, y = -0.019) {
   const buffer = groundBuffer();
   const halfX = definition.width / 2;
   const halfZ = definition.height / 2;
   const feather = 0.42;
-  const y = -0.019;
   for (const rect of rectangles) {
     const x0 = rect.column - halfX;
     const z0 = rect.row - halfZ;
@@ -301,8 +301,27 @@ export function createGroundSurfaces(definition) {
       new THREE.MeshBasicMaterial({ map: grounds[material], color: 0xd2d4bd,
         vertexColors: true, transparent: true, depthWrite: false }),
     );
-    mesh.renderOrder = materialIndex + 1;
+    // Transparent ground paints must draw before transparent props and units.
+    mesh.renderOrder = GROUND_RENDER_ORDER + materialIndex;
     meshes.push(mesh);
+  }
+  const forestRects = (definition.obstacles || []).filter((obstacle) => obstacle.material === 'forest');
+  if (forestRects.length) {
+    const forestGrid = new Uint8Array(definition.width * definition.height);
+    for (const rect of forestRects) {
+      for (let row = rect.row; row < rect.row + rect.height; row++) {
+        for (let column = rect.column; column < rect.column + rect.width; column++) {
+          forestGrid[row * definition.width + column] = 1;
+        }
+      }
+    }
+    const forestFloor = new THREE.Mesh(
+      paintedGroundGeometry(forestRects, definition, 1, forestGrid, -0.012),
+      new THREE.MeshBasicMaterial({ map: grounds['forest-floor'], color: 0xd2d4bd,
+        vertexColors: true, transparent: true, depthWrite: false }),
+    );
+    forestFloor.renderOrder = GROUND_RENDER_ORDER + TERRAIN_MATERIALS.length;
+    meshes.push(forestFloor);
   }
   return meshes;
 }
