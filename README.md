@@ -398,11 +398,11 @@ node scripts/network-snapshot-scenario.mjs 4174 40
 
 A 40-second Node 24.9.0 / arm64 run delivered 754 compressed state frames across two clients (377 per client) for 2,000 units. Combined JSON WebSocket egress was 247 KiB/s, compared with 2,144 KiB/s for the same JSON frames at their uncompressed sizes, an 88.5% reduction before TCP/TLS overhead. Tick p95 / maximum in the final 10-second window was 3.573 / 5.867 ms. The scenario verifies the clients still parse full state and that server tick p95 remains within its 33.333 ms budget. These are local measurements, not internet-hosting guarantees.
 
-Verify attack acquisition, route resumption after target death or a leash break, and manual move cancellation with two clients on a disposable local server:
+Check consecutive attack-move targets plus combat and shared-node harvest spacing on a disposable open-field server:
 
 ```sh
-PORT=4174 node server.mjs
-node scripts/attack-move-scenario.mjs 4174
+RTS_MAP=maps/open-field.json PORT=4174 node server.mjs
+node scripts/interaction-spacing-scenario.mjs 4174
 ```
 
 Verify that attack-move acquires a reachable enemy after 65 earlier out-of-range candidates in one crowded spatial bucket:

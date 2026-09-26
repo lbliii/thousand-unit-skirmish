@@ -455,6 +455,7 @@ const MIN_SEPARATION = 0.56;
 const GATHER_RATE = 1;
 const WORKER_CARRY_CAPACITY = 10;
 const WORKER_INTERACTION_RANGE = 1.5;
+const BUILDER_INTERACTION_RANGE = 1.4;
 const INFANTRY_FOOD_COST = 50;
 const INFANTRY_TRAIN_SECONDS = 12;
 const WORKER_FOOD_COST = 50;
@@ -3076,7 +3077,8 @@ function clearAttackTarget(unit) {
     unit.pathIndex = unit.attackMoveResumePathIndex;
     unit.attackMoveResumePath = null;
     unit.attackMoveResumePathIndex = 0;
-    unit.attackMoveScanTick = tickNumber + ATTACK_MOVE_SCAN_INTERVAL_TICKS;
+    // The next enemy can already be in reach when this one falls.
+    unit.attackMoveScanTick = tickNumber;
     dirty = true;
   } else if (unit.attackMove && !unit.attackMoveRouteReady
     && unit.moveGoalCell >= 0 && !unit.movePlanningPending) {
@@ -4105,7 +4107,7 @@ function updateBuildingAndProduction() {
     }
     const dx = Math.max(0, Math.abs(unit.x - building.x) - 1.5);
     const dz = Math.max(0, Math.abs(unit.z - building.z) - 1.5);
-    if (dx * dx + dz * dz > 1.4 * 1.4) continue;
+    if (dx * dx + dz * dz > BUILDER_INTERACTION_RANGE * BUILDER_INTERACTION_RANGE) continue;
     const rules = buildingRulesFor(building.type);
     building.progress = Math.min(1, building.progress + STEP_SECONDS / rules.buildSeconds);
     dirty = true;
@@ -4953,6 +4955,112 @@ function getMoveVector(unit, remainingStep = WALK_SPEED * STEP_SECONDS) {
   return { x: vx, z: vz, target, stepDistance: remainingStep };
 }
 
+// Units stop following paths while working or striking. Keep separating them
+// at that point too, so a squad can occupy the edge of a target instead of
+// collapsing into one position. The spatial query has a fixed work budget.
+function spreadInteractingUnits() {
+  const maxCandidates = 64;
+  const searchRadius = MIN_SEPARATION + WALK_SPEED * STEP_SECONDS;
+  for (const unit of units) {
+    if (unit.hp <= 0 || unit.pathIndex < unit.path.length) continue;
+    let target = null;
+    let building = null;
+    let range = 0;
+    if (unit.attackTargetId >= 0) {
+      target = units[unit.attackTargetId];
+      range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+    } else if (unit.attackBuildingTargetId >= 0) {
+      building = buildingsById.get(unit.attackBuildingTargetId);
+      range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+    } else if (unit.gatherPhase === 'gathering' && unit.gatherNodeId !== null) {
+      target = resourceNodeStates.get(unit.gatherNodeId);
+      range = WORKER_INTERACTION_RANGE;
+    } else if (unit.buildingTargetId !== null) {
+      building = buildingsById.get(unit.buildingTargetId);
+      range = BUILDER_INTERACTION_RANGE;
+    }
+    if ((!target || target.hp === 0) && !building) continue;
+    if (target && Math.hypot(unit.x - target.x, unit.z - target.z) > range) continue;
+    if (building && distanceToBuildingEdge(unit, building) > range) continue;
+
+    let forceX = 0;
+    let forceZ = 0;
+    let visited = 0;
+    const minColumn = spatialBucketColumn(unit.x - searchRadius);
+    const maxColumn = spatialBucketColumn(unit.x + searchRadius);
+    const minRow = spatialBucketRow(unit.z - searchRadius);
+    const maxRow = spatialBucketRow(unit.z + searchRadius);
+    for (let row = minRow; row <= maxRow && visited < maxCandidates; row++) {
+      for (let column = minColumn; column <= maxColumn && visited < maxCandidates; column++) {
+        const bucket = row * spatialBucketColumns + column;
+        const count = spatialBucketTeamCounts[unit.team][bucket];
+        if (count === 0) continue;
+        const head = spatialBucketTeamHeads[unit.team][bucket];
+        let otherId = spatialBucketOfUnit[unit.id] === bucket
+          ? spatialBucketTeamNext[unit.team][unit.id] : head;
+        for (let index = 0; index < count && visited < maxCandidates; index++) {
+          const other = units[otherId];
+          otherId = spatialBucketTeamNext[unit.team][otherId];
+          if (other.id === unit.id || other.hp <= 0) continue;
+          visited++;
+          let dx = unit.x - other.x;
+          let dz = unit.z - other.z;
+          let distance = Math.hypot(dx, dz);
+          if (distance >= MIN_SEPARATION) continue;
+          if (distance < 0.0001) {
+            const angle = (Math.min(unit.id, other.id) * 2.399963229728653) % (Math.PI * 2);
+            const sign = unit.id < other.id ? 1 : -1;
+            dx = Math.cos(angle) * sign;
+            dz = Math.sin(angle) * sign;
+            distance = 0;
+          } else {
+            dx /= distance;
+            dz /= distance;
+          }
+          const strength = (MIN_SEPARATION - distance) / MIN_SEPARATION;
+          forceX += dx * strength;
+          forceZ += dz * strength;
+        }
+      }
+    }
+    if (target) {
+      const dx = unit.x - target.x;
+      const dz = unit.z - target.z;
+      const distance = Math.hypot(dx, dz);
+      if (distance < 0.62) {
+        const angle = (unit.id * 2.399963229728653) % (Math.PI * 2);
+        const radialX = distance > 0.0001 ? dx / distance : Math.cos(angle);
+        const radialZ = distance > 0.0001 ? dz / distance : Math.sin(angle);
+        forceX += radialX * (0.62 - distance) / 0.62;
+        forceZ += radialZ * (0.62 - distance) / 0.62;
+      }
+    }
+    const strength = Math.hypot(forceX, forceZ);
+    if (strength < 0.01) continue;
+    const step = Math.min(WALK_SPEED * STEP_SECONDS, strength * 0.08);
+    let x = unit.x + forceX / strength * step;
+    let z = unit.z + forceZ / strength * step;
+    if (target) {
+      const dx = x - target.x;
+      const dz = z - target.z;
+      const distance = Math.hypot(dx, dz);
+      if (distance > range - 0.02) {
+        x = target.x + dx / distance * (range - 0.02);
+        z = target.z + dz / distance * (range - 0.02);
+      }
+    } else if (distanceToBuildingEdge({ x, z }, building) > range - 0.02) {
+      continue;
+    }
+    if (x <= -MAP_HALF_X + 0.5 || x >= MAP_HALF_X - 0.5
+      || z <= -MAP_HALF_Z + 0.5 || z >= MAP_HALF_Z - 0.5
+      || !isWalkable(worldToCell(x, z))) continue;
+    unit.x = x;
+    unit.z = z;
+    unit.lastMoveTick = tickNumber;
+    dirty = true;
+  }
+}
+
 function simulateTick() {
   if (SEPARATION_DIAGNOSTICS_ENABLED) {
     separationTickCandidateVisits = 0;
@@ -5012,7 +5120,8 @@ function simulateTick() {
           }
           continue;
         }
-        if (unit.repathTimer <= 0 && targetCell !== unit.lastAttackCell) {
+        if (unit.repathTimer <= 0
+          && (targetCell !== unit.lastAttackCell || unit.pathIndex >= unit.path.length)) {
           let nextPath;
           if (unit.attackMove) {
             const movePath = getAttackMovePath(unit, target, attackMoveFlowBudget);
@@ -5130,7 +5239,30 @@ function simulateTick() {
 
   const blockedRouteRepairs = [];
   for (const unit of units) {
-    if (unit.hp <= 0 || unit.pathIndex >= unit.path.length) continue;
+    if (unit.hp <= 0) continue;
+    // A target can move within its current cell after the flow path ends.
+    // Close that last gap directly so the attacker does not wait in place.
+    if (unit.pathIndex >= unit.path.length && unit.attackTargetId >= 0) {
+      const target = units[unit.attackTargetId];
+      const range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+      if (target?.hp > 0 && worldToCell(unit.x, unit.z) === worldToCell(target.x, target.z)) {
+        const dx = target.x - unit.x;
+        const dz = target.z - unit.z;
+        const distance = Math.hypot(dx, dz);
+        if (distance > range && distance > 0) {
+          const step = Math.min(WALK_SPEED * STEP_SECONDS, distance - range + 0.02);
+          const x = unit.x + dx / distance * step;
+          const z = unit.z + dz / distance * step;
+          if (isWalkable(worldToCell(x, z))) {
+            unit.x = x;
+            unit.z = z;
+            unit.lastMoveTick = tickNumber;
+            dirty = true;
+          }
+        }
+      }
+    }
+    if (unit.pathIndex >= unit.path.length) continue;
     let remainingStep = WALK_SPEED * STEP_SECONDS;
     while (remainingStep > 0 && unit.pathIndex < unit.path.length) {
       const move = getMoveVector(unit, remainingStep);
@@ -5182,6 +5314,7 @@ function simulateTick() {
     }
   }
   enqueueRouteRepairs(blockedRouteRepairs);
+  spreadInteractingUnits();
   advanceQueuedWaypoints();
 }
 
