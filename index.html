@@ -319,7 +319,7 @@
               <div class="audio-recognition-heading">
                 <div>
                   <strong>Sound recognition</strong>
-                  <small>Ten shuffled samples, including victory, defeat, and draw. Turn ambience off for a quiet check.</small>
+                  <small>Ten shuffled samples, including victory, defeat, and draw. Choose “Not sure” if you cannot identify a cue.</small>
                 </div>
                 <button id="audio-recognition-start" class="audio-preview" type="button">Start check</button>
               </div>
@@ -334,6 +334,7 @@
                   <button type="button" data-audio-recognition-answer="victory" disabled>Victory</button>
                   <button type="button" data-audio-recognition-answer="defeat" disabled>Defeat</button>
                   <button type="button" data-audio-recognition-answer="draw" disabled>Draw</button>
+                  <button type="button" data-audio-recognition-answer="unsure" disabled>Not sure</button>
                 </div>
                 <small id="audio-recognition-feedback" class="audio-recognition-feedback" role="status" aria-live="polite"></small>
                 <div class="audio-recognition-actions">

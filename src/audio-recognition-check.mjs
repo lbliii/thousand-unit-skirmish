@@ -22,10 +22,17 @@ export const AUDIO_RECOGNITION_CUE_LABELS = Object.freeze({
   draw: 'Match draw',
 });
 
+export const AUDIO_RECOGNITION_UNSURE_ANSWER = 'unsure';
+export const AUDIO_RECOGNITION_UNSURE_LABEL = 'Not sure';
+
 export function summarizeAudioRecognitionResponses(responses, { captionsEnabled = false, mixSettings = null } = {}) {
   if (!Array.isArray(responses)) throw new TypeError('responses must be an array');
-  const labelById = new Map(AUDIO_RECOGNITION_CATEGORIES.map(({ id, label }) => [id, label]));
+  const labelById = new Map([
+    ...AUDIO_RECOGNITION_CATEGORIES.map(({ id, label }) => [id, label]),
+    [AUDIO_RECOGNITION_UNSURE_ANSWER, AUDIO_RECOGNITION_UNSURE_LABEL],
+  ]);
   const correct = responses.filter((response) => response.correct).length;
+  const unsure = responses.filter((response) => response.answer === AUDIO_RECOGNITION_UNSURE_ANSWER).length;
   const formatLevel = (value) => Number.isFinite(value) ? `${Math.round(value * 100)}%` : 'unknown';
   const conditions = mixSettings ? [
     `master ${formatLevel(mixSettings.volume)}`,
@@ -43,7 +50,7 @@ export function summarizeAudioRecognitionResponses(responses, { captionsEnabled 
     const missedAs = [...misreads].map(([answerLabel, count]) => `${count} as ${answerLabel.toLowerCase()}`);
     return `${label} ${categoryCorrect}/${categoryResponses.length}${missedAs.length ? ` · missed ${missedAs.join(', ')}` : ''}`;
   });
-  const score = `${correct}/${responses.length} correct · captions ${captionsEnabled ? 'on' : 'off'} · ${breakdown.join(' · ')}`;
+  const score = `${correct}/${responses.length} correct · ${unsure} unsure · captions ${captionsEnabled ? 'on' : 'off'} · ${breakdown.join(' · ')}`;
   const trialNotes = responses.map((response, index) => {
     const expectedLabel = labelById.get(response.expected) || response.expected;
     const answerLabel = labelById.get(response.answer) || response.answer;
@@ -53,13 +60,13 @@ export function summarizeAudioRecognitionResponses(responses, { captionsEnabled 
     'Thousand Unit Skirmish audio recognition check',
     `Captions: ${captionsEnabled ? 'on' : 'off'}`,
     ...(conditions ? [`Mix: ${conditions}`] : []),
-    `Score: ${correct}/${responses.length}`,
+    `Score: ${correct}/${responses.length} (${unsure} marked not sure)`,
     ...breakdown,
     '',
-    'Guesses:',
+    'Answers:',
     ...trialNotes,
   ].join('\n');
-  return { correct, total: responses.length, score, report, conditions };
+  return { correct, unsure, total: responses.length, score, report, conditions };
 }
 
 export async function copyAudioRecognitionText(text, {
@@ -114,7 +121,10 @@ export function createAudioRecognitionRound({ random = Math.random, repetitions 
 
   let cursor = 0;
   const responses = [];
-  const validAnswers = new Set(AUDIO_RECOGNITION_CATEGORIES.map(({ id }) => id));
+  const validAnswers = new Set([
+    ...AUDIO_RECOGNITION_CATEGORIES.map(({ id }) => id),
+    AUDIO_RECOGNITION_UNSURE_ANSWER,
+  ]);
 
   return {
     get total() { return trials.length; },

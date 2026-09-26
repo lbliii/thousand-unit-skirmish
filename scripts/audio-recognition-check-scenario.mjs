@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {
-  AUDIO_RECOGNITION_CATEGORIES, AUDIO_RECOGNITION_CUE_LABELS, copyAudioRecognitionText, createAudioRecognitionRound,
+  AUDIO_RECOGNITION_CATEGORIES, AUDIO_RECOGNITION_CUE_LABELS, AUDIO_RECOGNITION_UNSURE_ANSWER,
+  copyAudioRecognitionText, createAudioRecognitionRound,
   summarizeAudioRecognitionResponses,
 } from '../src/audio-recognition-check.mjs';
 
@@ -14,6 +15,8 @@ for (let index = 0; index < round.total; index++) {
   const trial = round.current();
   assert.equal(trial.position, index + 1);
   const answer = index === 0
+    ? AUDIO_RECOGNITION_UNSURE_ANSWER
+    : index === 1
     ? (trial.expected === 'move' ? 'attack' : 'move')
     : trial.expected;
   const result = round.submit(answer);
@@ -22,7 +25,8 @@ for (let index = 0; index < round.total; index++) {
 }
 
 assert.equal(round.current(), null, 'the check ends after its ten balanced samples');
-assert.equal(submitted.filter((result) => result.correct).length, 9);
+assert.equal(submitted.filter((result) => result.correct).length, 8);
+assert.equal(submitted.filter((result) => result.answer === AUDIO_RECOGNITION_UNSURE_ANSWER).length, 1);
 assert.deepEqual(round.responses, submitted, 'responses remain available for a local score summary');
 const categoryCounts = Object.fromEntries(AUDIO_RECOGNITION_CATEGORIES.map(({ id }) => [
   id, submitted.filter((result) => result.expected === id).length,
@@ -38,13 +42,16 @@ assert.deepEqual(AUDIO_RECOGNITION_CUE_LABELS, {
 });
 const mixSettings = { volume: 0.5, effectsLevel: 0.8, ambience: true, ambienceLevel: 0.25 };
 const summary = summarizeAudioRecognitionResponses(submitted, { captionsEnabled: true, mixSettings });
-assert.equal(summary.correct, 9);
+assert.equal(summary.correct, 8);
+assert.equal(summary.unsure, 1);
 assert.equal(summary.total, 10);
-assert.match(summary.score, /^9\/10 correct · captions on/);
+assert.match(summary.score, /^8\/10 correct · 1 unsure · captions on/);
 assert.equal(summary.conditions, 'master 50% · effects 80% · ambience on at 25%');
 assert.match(summary.report, /Captions: on/);
 assert.match(summary.report, /Mix: master 50% · effects 80% · ambience on at 25%/);
-assert.match(summary.report, /Guesses:/);
+assert.match(summary.report, /Score: 8\/10 \(1 marked not sure\)/);
+assert.match(summary.report, /missed 1 as not sure/);
+assert.match(summary.report, /Answers:/);
 for (const label of ['Match victory 2/2', 'Match defeat 2/2', 'Match draw 2/2']) {
   assert.ok(summary.report.includes(label), `the report separates ${label}`);
 }
@@ -54,7 +61,10 @@ const quietSummary = summarizeAudioRecognitionResponses(submitted, {
 assert.equal(quietSummary.conditions, 'master 100% · effects 100% · ambience off');
 assert.match(quietSummary.report, /Captions: off\nMix: master 100% · effects 100% · ambience off/);
 const missed = submitted.find((response) => !response.correct);
-const labelById = new Map(AUDIO_RECOGNITION_CATEGORIES.map(({ id, label }) => [id, label]));
+const labelById = new Map([
+  ...AUDIO_RECOGNITION_CATEGORIES.map(({ id, label }) => [id, label]),
+  [AUDIO_RECOGNITION_UNSURE_ANSWER, 'Not sure'],
+]);
 assert.ok(summary.report.includes(`${missed.position}. ${labelById.get(missed.expected)} → ${labelById.get(missed.answer)} (missed)`));
 
 const modernClipboard = { calls: [], async writeText(text) { this.calls.push(text); } };

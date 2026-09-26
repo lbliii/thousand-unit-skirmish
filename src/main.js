@@ -37,7 +37,8 @@ import { classifyOrderNotice } from './order-feedback.mjs';
 import { AMBIENCE_PREVIEW_DURATION_MS, createGameAudio } from './audio.mjs';
 import { CombatAudioGate, cueForNotice, cueForScenarioEvent, isLocalRejection } from './audio-policy.mjs';
 import {
-  AUDIO_RECOGNITION_CUE_LABELS, copyAudioRecognitionText, createAudioRecognitionRound,
+  AUDIO_RECOGNITION_CUE_LABELS, AUDIO_RECOGNITION_UNSURE_ANSWER,
+  copyAudioRecognitionText, createAudioRecognitionRound,
   summarizeAudioRecognitionResponses,
 } from './audio-recognition-check.mjs';
 import {
@@ -7017,7 +7018,10 @@ for (const button of audioRecognitionAnswerButtons) {
     audioRecognitionTrialPlayed = false;
     audioRecognitionAwaitingNext = true;
     ui.audioRecognitionAnswers.hidden = true;
-    ui.audioRecognitionFeedback.textContent = `${response.correct ? 'Correct.' : 'Not quite.'} It was ${AUDIO_RECOGNITION_CUE_LABELS[response.cue]}.`;
+    const answerFeedback = response.answer === AUDIO_RECOGNITION_UNSURE_ANSWER
+      ? 'Marked not sure.'
+      : response.correct ? 'Correct.' : 'Not quite.';
+    ui.audioRecognitionFeedback.textContent = `${answerFeedback} It was ${AUDIO_RECOGNITION_CUE_LABELS[response.cue]}.`;
     ui.audioRecognitionNext.textContent = audioRecognitionRound.current() ? 'Next sample' : 'See results';
     ui.audioRecognitionNext.hidden = false;
     syncAudioControls();
