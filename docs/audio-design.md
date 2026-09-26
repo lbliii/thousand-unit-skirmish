@@ -84,3 +84,7 @@ When overall audio is enabled but both effects and ambience output are set to ze
 ## Settings audition samples · 26 September 2026
 
 The settings panel can preview every gameplay cue at the current effects and master levels, grouped into commands, progress, tactics, and match results. When critical captions are enabled, a preview also shows the mapped caption; command cues without critical captions remain identified by the sample selector. Preview playback bypasses gameplay cooldowns and does not trigger ambience ducking or increment the in-match cue counter, so players can compare the entire palette without changing match feedback state. A separate music-layer preview uses its own gain path, so it can be auditioned during a tactical duck without changing the live ambience mix.
+
+## Cue recognition check · 26 September 2026
+
+Audio settings also offers six shuffled samples: two each for move order, attack order, and match result. The player guesses before the cue label is revealed, and the page shows an overall score, per-category scores, and which category a wrong answer was mistaken for. The selected caption setting stays fixed for a run; with captions enabled, the normal result caption remains part of what the player sees. Scores stay in page memory only and are not saved or sent. This is a lightweight way to collect first-pass observations, not evidence that fresh players have already understood the cues. The result category currently samples victory; defeat and draw recognition remain outside this check.

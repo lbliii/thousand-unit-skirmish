@@ -279,7 +279,7 @@
             <label class="audio-check"><input id="audio-captions" type="checkbox"><span>Caption important sounds</span></label>
             <label class="audio-range" for="audio-volume"><span>Overall volume</span><input id="audio-volume" type="range" min="0" max="100" value="50"><output id="audio-volume-value" for="audio-volume">50%</output></label>
             <label class="audio-range" for="audio-effects-level"><span>Effects level</span><input id="audio-effects-level" type="range" min="0" max="200" value="100"><output id="audio-effects-level-value" for="audio-effects-level">100%</output></label>
-            <div class="audio-preview-controls">
+            <div id="audio-preview-controls" class="audio-preview-controls">
               <label for="audio-preview-cue">Sample</label>
               <select id="audio-preview-cue" class="audio-preview-cue">
                 <optgroup label="Commands">
@@ -314,6 +314,36 @@
                 </optgroup>
               </select>
               <button id="audio-preview" class="audio-preview" type="button">Play preview</button>
+            </div>
+            <div class="audio-recognition-card">
+              <div class="audio-recognition-heading">
+                <div>
+                  <strong>Sound recognition</strong>
+                  <small>Six shuffled samples. Turn ambience off for a quiet check. No score is saved or sent.</small>
+                </div>
+                <button id="audio-recognition-start" class="audio-preview" type="button">Start check</button>
+              </div>
+              <div id="audio-recognition-run" class="audio-recognition-run" hidden>
+                <small id="audio-recognition-condition" class="audio-recognition-condition"></small>
+                <div id="audio-recognition-progress" class="audio-recognition-progress"></div>
+                <p id="audio-recognition-prompt">Play the sample, then choose what it means.</p>
+                <button id="audio-recognition-play" class="audio-preview" type="button">Play sample</button>
+                <div id="audio-recognition-answers" class="audio-recognition-answers" role="group" aria-label="Choose what the sound means">
+                  <button type="button" data-audio-recognition-answer="move" disabled>Move order</button>
+                  <button type="button" data-audio-recognition-answer="attack" disabled>Attack order</button>
+                  <button type="button" data-audio-recognition-answer="result" disabled>Match result</button>
+                </div>
+                <small id="audio-recognition-feedback" class="audio-recognition-feedback" role="status" aria-live="polite"></small>
+                <div class="audio-recognition-actions">
+                  <button id="audio-recognition-next" class="audio-preview" type="button" hidden>Next sample</button>
+                  <button id="audio-recognition-end" class="audio-preview" type="button">End check</button>
+                </div>
+              </div>
+              <div id="audio-recognition-results" class="audio-recognition-results" role="status" hidden>
+                <strong>Check results</strong>
+                <p id="audio-recognition-score"></p>
+                <small>Run again with the other caption setting to compare.</small>
+              </div>
             </div>
             <label class="audio-check"><input id="audio-ambience" type="checkbox" checked><span>Ambience and music</span></label>
             <div class="audio-preview-controls audio-ambience-preview-controls">

@@ -42,6 +42,7 @@ const scenarios = [
   ['scripts/origin-policy-scenario.mjs', 'Origin policy'],
   ['scripts/origin-proxy-scenario.mjs', 'Origin policy through room proxy'],
   ['scripts/audio-policy-scenario.mjs', 'Audio policy'],
+  ['scripts/audio-recognition-check-scenario.mjs', 'Audio recognition check'],
   ['scripts/map-utils-scenario.mjs', 'Map utilities'],
   ['scripts/camera-controls-scenario.mjs', 'Camera controls'],
   ['scripts/objective-fog-visibility-scenario.mjs', 'Objective fog visibility'],

@@ -360,6 +360,21 @@ h2 { font-size: 16px; font-weight: 700; }
 .audio-preview:hover:not(:disabled) { border-color: rgba(213,239,120,.4); background: rgba(255,255,255,.05); color: #e1e7d5; }
 .audio-preview:focus-visible { outline: 1px solid var(--lime); outline-offset: 2px; }
 .audio-preview:disabled { opacity: .45; cursor: not-allowed; }
+.audio-recognition-card { display: grid; gap: 8px; padding: 9px; border: 1px solid rgba(214,226,197,.12); border-radius: 4px; background: rgba(255,255,255,.018); }
+.audio-recognition-heading, .audio-recognition-actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.audio-recognition-heading > div { display: grid; gap: 4px; min-width: 0; }
+.audio-recognition-heading strong, .audio-recognition-results strong { color: #cbd6c1; font: 600 8px 'DM Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
+.audio-recognition-heading small, .audio-recognition-results small { color: #849182; font-size: 8px; line-height: 1.45; }
+.audio-recognition-run { display: grid; gap: 7px; }
+.audio-recognition-condition, .audio-recognition-progress { color: #a9b89e; font: 500 8px 'DM Mono', monospace; letter-spacing: .07em; }
+.audio-recognition-prompt { margin: 0; color: #d9e3d3; font-size: 10px; }
+.audio-recognition-answers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
+.audio-recognition-answers button { min-height: 29px; padding: 4px; border: 1px solid rgba(214,226,197,.16); border-radius: 4px; background: rgba(255,255,255,.025); color: #c4cebb; font: 8px 'DM Mono', monospace; cursor: pointer; }
+.audio-recognition-answers button:hover:not(:disabled), .audio-recognition-answers button:focus-visible { border-color: rgba(213,239,120,.4); color: #e1e7d5; outline: none; }
+.audio-recognition-answers button:disabled { opacity: .45; cursor: not-allowed; }
+.audio-recognition-feedback { color: #aebea5; font-size: 9px; line-height: 1.4; }
+.audio-recognition-results { display: grid; gap: 4px; }
+.audio-recognition-results p { margin: 0; color: #d9e3d3; font-size: 9px; line-height: 1.5; }
 .audio-status { color: #aebea5; font-size: 10px; letter-spacing: .07em; }
 .audio-status[data-state="running"] { color: var(--lime); }
 .audio-status[data-state="unavailable"], .audio-status[data-state="interrupted"] { color: #f0ad8c; }

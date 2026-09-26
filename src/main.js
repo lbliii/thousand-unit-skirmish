@@ -33,6 +33,9 @@ import { classifyOrderNotice } from './order-feedback.mjs';
 import { AMBIENCE_PREVIEW_DURATION_MS, createGameAudio } from './audio.mjs';
 import { CombatAudioGate, cueForNotice, cueForScenarioEvent, isLocalRejection } from './audio-policy.mjs';
 import {
+  AUDIO_RECOGNITION_CATEGORIES, AUDIO_RECOGNITION_CUE_LABELS, createAudioRecognitionRound,
+} from './audio-recognition-check.mjs';
+import {
   canEdgeScroll,
   clampCameraTargetToGroundBounds,
   edgeScrollCameraDelta,
@@ -272,8 +275,21 @@ const ui = {
   audioVolumeValue: document.querySelector('#audio-volume-value'),
   audioEffectsLevel: document.querySelector('#audio-effects-level'),
   audioEffectsLevelValue: document.querySelector('#audio-effects-level-value'),
+  audioPreviewControls: document.querySelector('#audio-preview-controls'),
   audioPreview: document.querySelector('#audio-preview'),
   audioPreviewCue: document.querySelector('#audio-preview-cue'),
+  audioRecognitionStart: document.querySelector('#audio-recognition-start'),
+  audioRecognitionRun: document.querySelector('#audio-recognition-run'),
+  audioRecognitionCondition: document.querySelector('#audio-recognition-condition'),
+  audioRecognitionProgress: document.querySelector('#audio-recognition-progress'),
+  audioRecognitionPrompt: document.querySelector('#audio-recognition-prompt'),
+  audioRecognitionPlay: document.querySelector('#audio-recognition-play'),
+  audioRecognitionAnswers: document.querySelector('#audio-recognition-answers'),
+  audioRecognitionFeedback: document.querySelector('#audio-recognition-feedback'),
+  audioRecognitionNext: document.querySelector('#audio-recognition-next'),
+  audioRecognitionEnd: document.querySelector('#audio-recognition-end'),
+  audioRecognitionResults: document.querySelector('#audio-recognition-results'),
+  audioRecognitionScore: document.querySelector('#audio-recognition-score'),
   audioAmbience: document.querySelector('#audio-ambience'),
   audioAmbiencePreview: document.querySelector('#audio-ambience-preview'),
   audioAmbienceLevel: document.querySelector('#audio-ambience-level'),
@@ -281,6 +297,12 @@ const ui = {
   audioStatus: document.querySelector('#audio-status'),
 };
 let ambiencePreviewPlaying = false;
+let audioRecognitionActive = false;
+let audioRecognitionTrialPlayed = false;
+let audioRecognitionAwaitingNext = false;
+let audioRecognitionCaptionState = false;
+let audioRecognitionRound = null;
+const audioRecognitionAnswerButtons = [...ui.audioRecognitionAnswers.querySelectorAll('[data-audio-recognition-answer]')];
 const audio = createGameAudio({
   onStatusChange: () => syncAudioControls(),
   onCueDecision: (cue) => showAudioCaption(cue),
@@ -6696,18 +6718,26 @@ function syncAudioControls() {
   ui.audioAmbience.checked = settings.ambience;
   ui.audioAmbienceLevel.value = String(Math.round(settings.ambienceLevel * 100));
   ui.audioAmbienceLevelValue.value = `${Math.round(settings.ambienceLevel * 100)}%`;
-  ui.audioVolume.disabled = !settings.enabled;
-  ui.audioEffectsLevel.disabled = !settings.enabled;
-  ui.audioAmbience.disabled = !settings.enabled;
-  ui.audioAmbienceLevel.disabled = !settings.enabled || !settings.ambience;
+  ui.audioEnabled.disabled = audioRecognitionActive;
+  ui.audioCaptions.disabled = audioRecognitionActive;
+  ui.audioVolume.disabled = !settings.enabled || audioRecognitionActive;
+  ui.audioEffectsLevel.disabled = !settings.enabled || audioRecognitionActive;
+  ui.audioAmbience.disabled = !settings.enabled || audioRecognitionActive;
+  ui.audioAmbienceLevel.disabled = !settings.enabled || !settings.ambience || audioRecognitionActive;
   const status = audio.getStatus();
   ui.audioStatus.dataset.state = status;
   const previewDisabled = status === 'muted' || status === 'unavailable' || status === 'closed'
     || settings.effectsLevel <= 0;
-  ui.audioPreview.disabled = previewDisabled;
-  ui.audioPreviewCue.disabled = previewDisabled;
+  ui.audioPreview.disabled = previewDisabled || audioRecognitionActive;
+  ui.audioPreviewCue.disabled = previewDisabled || audioRecognitionActive;
+  ui.audioPreviewControls.hidden = audioRecognitionActive;
+  ui.audioRecognitionStart.disabled = previewDisabled || audioRecognitionActive;
+  ui.audioRecognitionPlay.disabled = previewDisabled || !audioRecognitionActive || audioRecognitionAwaitingNext;
+  for (const button of audioRecognitionAnswerButtons) {
+    button.disabled = previewDisabled || !audioRecognitionTrialPlayed;
+  }
   ui.audioAmbiencePreview.disabled = ambiencePreviewPlaying || status === 'muted' || status === 'unavailable' || status === 'closed'
-    || !settings.ambience || settings.ambienceLevel <= 0;
+    || !settings.ambience || settings.ambienceLevel <= 0 || audioRecognitionActive;
   ui.audioStatus.textContent = {
     running: 'SOUND READY', waiting: 'SOUND STARTS WITH FIRST INPUT', muted: 'SOUND MUTED',
     silent: 'NO AUDIBLE CHANNELS',
@@ -6724,6 +6754,113 @@ ui.audioCaptions.addEventListener('change', () => {
 ui.audioVolume.addEventListener('input', () => { audio.setSettings({ volume: Number(ui.audioVolume.value) / 100 }); syncAudioControls(); });
 ui.audioEffectsLevel.addEventListener('input', () => { audio.setSettings({ effectsLevel: Number(ui.audioEffectsLevel.value) / 100 }); syncAudioControls(); });
 ui.audioPreview.addEventListener('click', () => { audio.unlock(); audio.preview(ui.audioPreviewCue.value); });
+function renderAudioRecognitionTrial() {
+  const trial = audioRecognitionRound?.current();
+  if (!trial) return false;
+  audioRecognitionTrialPlayed = false;
+  audioRecognitionAwaitingNext = false;
+  ui.audioRecognitionProgress.textContent = `SAMPLE ${trial.position} OF ${trial.total}`;
+  ui.audioRecognitionPrompt.textContent = 'Play the sample, then choose what it means.';
+  ui.audioRecognitionPlay.textContent = 'Play sample';
+  ui.audioRecognitionAnswers.hidden = false;
+  ui.audioRecognitionFeedback.textContent = 'No cue label is shown until you answer.';
+  ui.audioRecognitionNext.hidden = true;
+  syncAudioControls();
+  return true;
+}
+
+function endAudioRecognitionCheck({ showResults = false } = {}) {
+  if (showResults && audioRecognitionRound) {
+    const responses = audioRecognitionRound.responses;
+    const correct = responses.filter((response) => response.correct).length;
+    const breakdown = AUDIO_RECOGNITION_CATEGORIES.map(({ id, label }) => {
+      const categoryResponses = responses.filter((response) => response.expected === id);
+      const categoryCorrect = categoryResponses.filter((response) => response.correct).length;
+      const misreads = new Map();
+      for (const response of categoryResponses.filter((candidate) => !candidate.correct)) {
+        const answerLabel = AUDIO_RECOGNITION_CATEGORIES.find(({ id: answerId }) => answerId === response.answer)?.label;
+        if (answerLabel) misreads.set(answerLabel, (misreads.get(answerLabel) || 0) + 1);
+      }
+      const misreadSummary = [...misreads].map(([answerLabel, count]) => `${count} as ${answerLabel.toLowerCase()}`);
+      return `${label} ${categoryCorrect}/${categoryResponses.length}${misreadSummary.length ? ` · missed ${misreadSummary.join(', ')}` : ''}`;
+    });
+    ui.audioRecognitionScore.textContent = `${correct}/${responses.length} correct · captions ${audioRecognitionCaptionState ? 'on' : 'off'} · ${breakdown.join(' · ')}`;
+    ui.audioRecognitionResults.hidden = false;
+    ui.audioRecognitionStart.textContent = 'Run again';
+  } else {
+    ui.audioRecognitionResults.hidden = true;
+    ui.audioRecognitionStart.textContent = 'Start check';
+  }
+  audioRecognitionActive = false;
+  audioRecognitionTrialPlayed = false;
+  audioRecognitionAwaitingNext = false;
+  audioRecognitionRound = null;
+  ui.audioRecognitionRun.hidden = true;
+  ui.audioRecognitionNext.hidden = true;
+  clearAudioCaption();
+  syncAudioControls();
+}
+
+ui.audioRecognitionStart.addEventListener('click', () => {
+  audio.unlock();
+  clearAudioCaption();
+  audioRecognitionRound = createAudioRecognitionRound();
+  audioRecognitionCaptionState = audio.getSettings().captions;
+  audioRecognitionActive = true;
+  ui.audioRecognitionCondition.textContent = audioRecognitionCaptionState
+    ? 'CAPTIONS ON · NORMAL CAPTIONS ARE PART OF THIS CHECK'
+    : 'CAPTIONS OFF · FIXED FOR THIS CHECK';
+  ui.audioRecognitionResults.hidden = true;
+  ui.audioRecognitionRun.hidden = false;
+  ui.audioRecognitionNext.hidden = true;
+  renderAudioRecognitionTrial();
+  syncAudioControls();
+  ui.audioRecognitionPlay.focus();
+});
+
+ui.audioRecognitionPlay.addEventListener('click', () => {
+  const trial = audioRecognitionRound?.current();
+  if (!audioRecognitionActive || !trial) return;
+  audio.unlock();
+  if (!audio.preview(trial.cue)) {
+    ui.audioRecognitionFeedback.textContent = 'The sample did not play. Check the audio output settings and try again.';
+    return;
+  }
+  audioRecognitionTrialPlayed = true;
+  ui.audioRecognitionPlay.textContent = 'Replay sample';
+  ui.audioRecognitionFeedback.textContent = 'Choose what you heard.';
+  syncAudioControls();
+});
+
+for (const button of audioRecognitionAnswerButtons) {
+  button.addEventListener('click', () => {
+    if (!audioRecognitionActive || !audioRecognitionTrialPlayed) return;
+    const response = audioRecognitionRound.submit(button.dataset.audioRecognitionAnswer);
+    if (!response) return;
+    audioRecognitionTrialPlayed = false;
+    audioRecognitionAwaitingNext = true;
+    ui.audioRecognitionAnswers.hidden = true;
+    ui.audioRecognitionFeedback.textContent = `${response.correct ? 'Correct.' : 'Not quite.'} It was ${AUDIO_RECOGNITION_CUE_LABELS[response.cue]}.`;
+    ui.audioRecognitionNext.textContent = audioRecognitionRound.current() ? 'Next sample' : 'See results';
+    ui.audioRecognitionNext.hidden = false;
+    syncAudioControls();
+  });
+}
+
+ui.audioRecognitionNext.addEventListener('click', () => {
+  if (audioRecognitionRound?.current()) {
+    renderAudioRecognitionTrial();
+    ui.audioRecognitionPlay.focus();
+    return;
+  }
+  endAudioRecognitionCheck({ showResults: true });
+  ui.audioRecognitionStart.focus();
+});
+
+ui.audioRecognitionEnd.addEventListener('click', () => {
+  endAudioRecognitionCheck();
+  ui.audioRecognitionStart.focus();
+});
 ui.audioAmbience.addEventListener('change', () => { audio.setSettings({ ambience: ui.audioAmbience.checked }); syncAudioControls(); });
 ui.audioAmbiencePreview.addEventListener('click', () => {
   audio.unlock();
