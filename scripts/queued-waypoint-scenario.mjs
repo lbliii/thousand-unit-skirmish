@@ -208,9 +208,14 @@ try {
   stage = 'initial connection state';
   assert.equal(azure.welcome.player.team, 0);
   assert.equal(ember.welcome.player.team, 1);
+  const previousGeneration = unitById(azure.state.latest, 0)?.[8];
   send(azure, { type: 'selectArmySize', count: 250 });
-  await azure.waitForState((state) => unitById(state, 0), 5_000);
-  await ember.waitForState((state) => unitById(state, 125), 5_000);
+  // Existing welcome snapshots already contain these IDs. Wait for the reset
+  // before sending an order with the unit's replacement generation.
+  await azure.waitForState((state) => state.armySize === 250
+    && unitById(state, 0)?.[8] !== previousGeneration && unitById(state, 0)?.[1] === 0, 5_000);
+  await ember.waitForState((state) => state.armySize === 250
+    && unitById(state, 125)?.[1] === 1, 5_000);
   const azureToken = azure.welcome.player.sessionToken;
   const emberToken = ember.welcome.player.sessionToken;
 
