@@ -227,7 +227,7 @@ try {
   const mapId = `research-${Date.now().toString(36)}`;
   const map = {
     id: mapId, name: 'Research Scenario', width: 64, height: 64, terrainSeed: 91,
-    fogOfWar: true, startingResources: { food: 1000, wood: 1000 },
+    fogOfWar: true, startingArmySize: 250, startingResources: { food: 1000, wood: 1000 },
     spawnPoints: [{ team: 0, x: -10, z: 0 }, { team: 1, x: 10, z: 0 }],
     obstacles: [], resourceNodes: [], triggers: [], scenarioEvents: [],
   };
@@ -417,7 +417,7 @@ try {
   };
   const eventMap = {
     id: eventMapId, name: 'Research Cache', width: 64, height: 64, terrainSeed: 93,
-    fogOfWar: true, startingResources: { food: 0, wood: 0 },
+    fogOfWar: true, startingArmySize: 250, startingResources: { food: 0, wood: 0 },
     spawnPoints: [{ team: 0, x: -10, z: 0 }, { team: 1, x: 10, z: 0 }],
     obstacles: [], resourceNodes: [],
     triggers: [{

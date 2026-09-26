@@ -211,22 +211,25 @@ try {
   const taskSwitchWorkerId = workers[winnerTeam][0];
   const taskSwitchWoodNodeId = winnerTeam === 0 ? 'wood-17-25' : 'wood-62-25';
   const taskSwitchSpawn = { x: winnerTeam === 0 ? -26.5 : 26.5, z: 0.5 };
+  const taskSwitchBaselineTick = taskSwitchClient.states.at(-1)?.tick ?? -1;
   const carryingFood = await taskSwitchClient.waitState(state => {
     const worker = state.units.find(row => row[0] === taskSwitchWorkerId);
-    return worker?.[6] > 0 && worker[6] <= 5 && worker[7] === 'food'
+    return state.tick > taskSwitchBaselineTick
+      && worker?.[6] > 0 && worker[6] <= 5 && worker[7] === 'food'
       && worker[9] === 'gathering';
   }, 90000);
   const carryingWorker = carryingFood.units.find(row => row[0] === taskSwitchWorkerId);
   const cargoBeforeInterrupt = carryingWorker[6];
   const foodBeforeInterrupt = carryingFood.food[winnerTeam];
   const moveAckIndex = taskSwitchClient.messages.length;
+  const interruptedBaselineTick = taskSwitchClient.states.at(-1)?.tick ?? taskSwitchBaselineTick;
   const moveAck = taskSwitchClient.waitMessage(message => message.type === 'notice'
     && message.message?.startsWith('MOVE ORDER'), moveAckIndex);
   move(taskSwitchClient, [taskSwitchWorkerId], taskSwitchSpawn.x, taskSwitchSpawn.z);
   await moveAck;
   const interruptedGather = await taskSwitchClient.waitState(state => {
     const worker = state.units.find(row => row[0] === taskSwitchWorkerId);
-    return worker?.[9] === 'idle'
+    return state.tick > interruptedBaselineTick && worker?.[9] === 'idle'
       && Math.hypot(worker[2] - taskSwitchSpawn.x, worker[3] - taskSwitchSpawn.z) < 1.5;
   }, 90000);
   const interruptedWorker = interruptedGather.units.find(row => row[0] === taskSwitchWorkerId);
@@ -239,6 +242,7 @@ try {
 
   stage = `retasking Team ${winnerTeam} worker from food cargo to wood`;
   const gatherAckIndex = taskSwitchClient.messages.length;
+  const retaskBaselineTick = taskSwitchClient.states.at(-1)?.tick ?? interruptedBaselineTick;
   const gatherAck = taskSwitchClient.waitMessage(message => message.type === 'notice'
     && message.message === 'GATHER ORDER · 1 WORKERS', gatherAckIndex);
   taskSwitchClient.socket.send(JSON.stringify({ type: 'gather', ids: [taskSwitchWorkerId],
@@ -246,7 +250,8 @@ try {
   await gatherAck;
   const depositedFood = await taskSwitchClient.waitState(state => {
     const worker = state.units.find(row => row[0] === taskSwitchWorkerId);
-    return state.food?.[winnerTeam] >= foodBeforeInterrupt + cargoBeforeInterrupt - 0.02
+    return state.tick > retaskBaselineTick
+      && state.food?.[winnerTeam] >= foodBeforeInterrupt + cargoBeforeInterrupt - 0.02
       && worker?.[6] === 0 && worker[7] === null && worker[9] === 'gathering';
   }, 90000);
   const foodDeposit = depositedFood.food[winnerTeam] - foodBeforeInterrupt;
@@ -255,9 +260,11 @@ try {
   const clearedCargoWorker = depositedFood.units.find(row => row[0] === taskSwitchWorkerId);
   assert.equal(clearedCargoWorker[7], null,
     'the worker must clear its old cargo after depositing before switching resources');
+  const switchedBaselineTick = depositedFood.tick;
   const switchedResource = await taskSwitchClient.waitState(state => {
     const worker = state.units.find(row => row[0] === taskSwitchWorkerId);
-    return worker?.[6] > 0 && worker[7] === 'wood' && worker[9] === 'gathering';
+    return state.tick > switchedBaselineTick
+      && worker?.[6] > 0 && worker[7] === 'wood' && worker[9] === 'gathering';
   }, 90000);
   const switchedWorker = switchedResource.units.find(row => row[0] === taskSwitchWorkerId);
   workerTaskSwitch = {

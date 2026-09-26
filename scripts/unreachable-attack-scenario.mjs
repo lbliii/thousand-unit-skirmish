@@ -124,6 +124,7 @@ try {
   const map = {
     id: 'unreachable-attack-test', name: 'Unreachable Attack Test',
     width: 64, height: 64, terrainSeed: 19, fogOfWar: false,
+    startingArmySize: 250,
     spawnPoints: [{ team: 0, x: -18, z: 0 }, { team: 1, x: 18, z: 0 }],
     obstacles: [{ id: 'dividing-wall', column: 31, row: 0, width: 2, height: 64 }],
     resourceNodes: [], triggers: [], scenarioEvents: [],
