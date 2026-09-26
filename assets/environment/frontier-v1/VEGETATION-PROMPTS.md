@@ -1,0 +1,21 @@
+# Vegetation source prompts — 26 September 2026
+
+Generated with Codex's built-in ImageGen. The prompts request transparent cutouts for the existing painterly frontier style; no reference image or external provider was used.
+
+## Silver birch
+
+ImageGen output: `exec-1cbfa37d-1e3d-4798-9493-fe87798ca21a.png`
+
+> Use case: stylized-concept. Asset type: transparent 2D cutout environment sprite for an original browser RTS. Primary request: create one full, single mature silver birch tree as a new forest silhouette, visibly different from a broad oak or conifer. Subject: an upright slender pale gray-barked trunk with small dark horizontal bark marks, gently branching into an airy elongated crown of clustered muted sage and olive leaves with a few restrained ochre tips. Style/medium: painterly sculptural 3D cutout matching a grounded medieval frontier game, natural material detail but simplified value groups that remain readable at small strategic zoom. Composition/framing: whole tree from roots to crown, centered, front three-quarter elevated orthographic RTS view, generous transparent margin, no crop. Lighting/mood: soft neutral daylight, subtle contact shadow only. Palette: moss, muted olive, weathered gray bark, warm ochre accents. Constraints: actual transparent alpha background, crisp silhouette, no ground plane, no grass, no sky, no backdrop, no glow, no text, no label, no border, no extra tree, no props, no people, no fruit, no UI, no franchise resemblance.
+
+## Field maple
+
+ImageGen output: `exec-dcfce9e6-96dd-4fa2-b5a6-159640d5e836.png`
+
+> Use case: stylized-concept. Asset type: transparent 2D cutout environment sprite for an original browser RTS. Primary request: create one full, single mature field maple as a second broadleaf forest silhouette, visibly different from the project's massive oak. Subject: a compact medium-height tree with a slightly leaning dark weathered trunk, two or three clear upward limbs and a dense but irregular rounded crown of small olive-green leaves, a few muted yellow-ochre leaf patches, open gaps between several outer boughs. Style/medium: painterly sculptural 3D cutout for a grounded medieval frontier game, matching a natural hand-painted environment pack, readable at ordinary RTS zoom with restrained bark and leaf detail. Composition/framing: whole tree from visible root flare to crown, centered, front three-quarter elevated orthographic RTS view, generous transparent margin, no crop. Lighting/mood: soft neutral daylight, subtle contact shadow only. Palette: moss, sage, muted olive, weathered umber bark, restrained ochre. Constraints: actual transparent alpha background, broad asymmetrical silhouette with a lower and wider crown than a birch, no ground plane, no grass, no sky, no backdrop, no glow, no text, no label, no border, no extra tree, no props, no people, no fruit, no UI, no franchise resemblance.
+
+## Hazel thicket
+
+ImageGen output: `exec-05e50d97-58a1-441c-b707-114129b084a1.png`
+
+> Use case: stylized-concept. Asset type: transparent 2D cutout environment sprite for an original browser RTS. Primary request: create one low hazel thicket clump to add a shrub-height silhouette to dense temperate forests. Subject: a single broad ground-hugging cluster of several slender branching stems with layered small muted sage and dark olive leaves, asymmetrical outline, a few visible dark interior gaps so the clump does not read as a solid blob; no flowers and no fruit. Style/medium: painterly sculptural 3D cutout matching a grounded medieval frontier game, natural hand-painted surfaces simplified into clear masses that remain legible at ordinary RTS zoom. Composition/framing: whole shrub including base, centered, elevated three-quarter orthographic RTS view, generously padded transparent canvas, no crop. Lighting/mood: soft neutral daylight, subtle contact shadow only. Palette: moss, sage, olive, restrained warm ochre on a few leaf tips, dark earthy stems. Constraints: actual transparent alpha background, clearly much shorter and wider than the trees, no ground plane, no grass, no sky, no backdrop, no glow, no text, no label, no border, no extra plants, no trees, no props, no people, no berries, no fruit, no UI, no franchise resemblance.

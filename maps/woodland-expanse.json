@@ -1,0 +1,91 @@
+{
+  "id": "woodland-expanse",
+  "name": "WOODLAND EXPANSE",
+  "summary": "160 × 160 · mixed-height forests · three signal lanes",
+  "width": 160,
+  "height": 160,
+  "terrainSeed": 731,
+  "fogOfWar": false,
+  "spawnPoints": [
+    { "team": 0, "x": -62, "z": 0 },
+    { "team": 1, "x": 62, "z": 0 }
+  ],
+  "resourceNodes": [
+    { "id": "azure-food-home", "type": "food", "x": -61, "z": 10, "stock": 600 },
+    { "id": "azure-wood-home", "type": "wood", "x": -61, "z": -10, "stock": 600 },
+    { "id": "ember-food-home", "type": "food", "x": 61, "z": 10, "stock": 600 },
+    { "id": "ember-wood-home", "type": "wood", "x": 61, "z": -10, "stock": 600 },
+    { "id": "north-food-west", "type": "food", "x": -16, "z": -30, "stock": 400 },
+    { "id": "north-food-east", "type": "food", "x": 16, "z": -30, "stock": 400 },
+    { "id": "south-wood-west", "type": "wood", "x": -16, "z": 30, "stock": 400 },
+    { "id": "south-wood-east", "type": "wood", "x": 16, "z": 30, "stock": 400 }
+  ],
+  "obstacles": [
+    { "id": "northwest-grove", "column": 9, "row": 13, "width": 22, "height": 26, "material": "forest" },
+    { "id": "northeast-grove", "column": 129, "row": 13, "width": 22, "height": 26, "material": "forest" },
+    { "id": "southwest-grove", "column": 9, "row": 121, "width": 22, "height": 26, "material": "forest" },
+    { "id": "southeast-grove", "column": 129, "row": 121, "width": 22, "height": 26, "material": "forest" },
+    { "id": "west-approach-woods", "column": 30, "row": 52, "width": 18, "height": 34, "material": "forest" },
+    { "id": "east-approach-woods", "column": 112, "row": 52, "width": 18, "height": 34, "material": "forest" },
+    { "id": "northwest-central-woods", "column": 56, "row": 20, "width": 18, "height": 24, "material": "forest" },
+    { "id": "northeast-central-woods", "column": 86, "row": 20, "width": 18, "height": 24, "material": "forest" },
+    { "id": "southwest-central-woods", "column": 56, "row": 116, "width": 18, "height": 24, "material": "forest" },
+    { "id": "southeast-central-woods", "column": 86, "row": 116, "width": 18, "height": 24, "material": "forest" }
+  ],
+  "triggers": [
+    {
+      "id": "north-signal",
+      "name": "North Signal",
+      "type": "capture-zone",
+      "zone": { "column": 71, "row": 46, "width": 18, "height": 17 },
+      "requiredUnits": 5,
+      "captureSeconds": 9,
+      "foodReward": 75,
+      "woodReward": 50,
+      "victory": true,
+      "message": "{team} CLAIMED THE NORTH SIGNAL"
+    },
+    {
+      "id": "south-signal",
+      "name": "South Signal",
+      "type": "capture-zone",
+      "zone": { "column": 71, "row": 97, "width": 18, "height": 17 },
+      "requiredUnits": 5,
+      "captureSeconds": 9,
+      "foodReward": 75,
+      "woodReward": 50,
+      "victory": true,
+      "message": "{team} CLAIMED THE SOUTH SIGNAL"
+    },
+    {
+      "id": "woodland-watch",
+      "name": "Woodland Watch",
+      "type": "capture-zone",
+      "zone": { "column": 72, "row": 72, "width": 16, "height": 16 },
+      "requiredUnits": 8,
+      "captureSeconds": 12,
+      "victory": true,
+      "requiresAll": ["north-signal", "south-signal"],
+      "message": "{team} HOLDS THE WOODLAND WATCH"
+    }
+  ],
+  "victoryMode": "all",
+  "scenarioEvents": [
+    {
+      "id": "woodland-relief",
+      "name": "Woodland Relief",
+      "type": "timed-supply",
+      "afterSeconds": 120,
+      "team": "both",
+      "foodReward": 100,
+      "woodReward": 75,
+      "message": "{team} RELIEF ARRIVED · +{reward} FOOD · +{wood} WOOD"
+    }
+  ],
+  "terrainBase": "meadow",
+  "startingArmySize": 24,
+  "startingResources": { "food": 150, "wood": 250 },
+  "victoryHoldSeconds": 20,
+  "timedVictory": { "afterSeconds": 900, "objectiveId": "woodland-watch" },
+  "terrainPatches": []
+}

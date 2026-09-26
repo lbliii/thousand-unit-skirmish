@@ -21,6 +21,16 @@ Original environment art generated for Thousand Unit Skirmish on 25 September 20
 
 The matching `.webp` files are quality-86 runtime encodes of these PNG sources. The browser loads WebP; PNGs remain editable source art. Ground textures repeat with mirrored wrapping and use global map coordinates, so a material's pattern continues across separate painted regions.
 
+## Vegetation addition — 26 September 2026
+
+Three original forest cutouts extend the existing oak and pine silhouettes. Source PNG masters and their optimized runtime WebPs are listed with hashes, dimensions, world size, pivot, and scale range in [`vegetation-manifest.json`](vegetation-manifest.json). Exact prompts are in [`VEGETATION-PROMPTS.md`](VEGETATION-PROMPTS.md). The PNG masters are editable raster sources; WebPs were encoded with Pillow 12.3.0 at quality 86 after resizing to a 1024-pixel maximum edge. All three use actual transparent alpha and contain no external reference imagery.
+
+| Source | ImageGen output | SHA-256 |
+| --- | --- | --- |
+| `silver-birch.png` | `exec-1cbfa37d-1e3d-4798-9493-fe87798ca21a.png` | `9ffb93a6c18feea2e68269b749fd4ff0010202dd93c1bc41b565e0cad6703fe2` |
+| `field-maple.png` | `exec-dcfce9e6-96dd-4fa2-b5a6-159640d5e836.png` | `345fb61f06c97948501a830a684fa95d4e90375c6c37817deb339c8f6099fea2` |
+| `hazel-thicket.png` | `exec-05e50d97-58a1-441c-b707-114129b084a1.png` | `a4ba3fc6a1c5c3913fab1eec03366623e3472fc6c2f78d8a426df929434baa47` |
+
 ## Exact generation prompts
 
 ### oak.png

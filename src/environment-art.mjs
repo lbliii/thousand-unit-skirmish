@@ -4,7 +4,10 @@ import { RESOURCE_VISUAL_STAGES } from './resource-visual-state.mjs';
 const ASSET_ROOT = './assets/environment/frontier-v1/';
 const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
 export const TERRAIN_MATERIALS = ['meadow', 'short-grass', 'long-grass', 'dirt', 'sand', 'scree', 'cinder'];
-const spriteNames = ['pine', 'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone'];
+const spriteNames = [
+  'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
+  'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
+];
 const textureLoader = new THREE.TextureLoader();
 const spriteMaterials = new Map();
 const constructionTextures = new Map();
@@ -401,6 +404,9 @@ function variation(index) {
 export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObject) {
   const pines = [];
   const oaks = [];
+  const birches = [];
+  const maples = [];
+  const hazelThickets = [];
   const outcrops = [];
   const ridges = [];
   const cliffs = [];
@@ -411,13 +417,29 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
         const x = column - halfX + 0.5;
         const z = row - halfZ + 0.5;
         if (obstacle.material === 'forest') {
+          const treeType = variation(index + 7);
+          const scaleVariation = variation(index + 31);
           const point = {
             x: x + (variation(index) - 0.5) * 0.28,
             z: z + (variation(index + 19) - 0.5) * 0.28,
-            scale: 0.78 + variation(index + 31) * 0.17,
+            flip: variation(index + 43) < 0.5,
           };
-          if (variation(index + 7) < 0.28) oaks.push(point);
-          else pines.push(point);
+          if (treeType < 0.2) {
+            point.scale = 0.76 + scaleVariation * 0.2;
+            oaks.push(point);
+          } else if (treeType < 0.4) {
+            point.scale = 0.76 + scaleVariation * 0.2;
+            pines.push(point);
+          } else if (treeType < 0.6) {
+            point.scale = 0.68 + scaleVariation * 0.3;
+            birches.push(point);
+          } else if (treeType < 0.8) {
+            point.scale = 0.68 + scaleVariation * 0.3;
+            maples.push(point);
+          } else {
+            point.scale = 0.62 + scaleVariation * 0.24;
+            hazelThickets.push(point);
+          }
         } else if (obstacle.material === 'stone') {
           const vertical = obstacle.height >= obstacle.width;
           const centerLine = vertical
@@ -441,6 +463,9 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
   for (const [name, width, height, points] of [
     ['pine', 2.25, 3.4, pines],
     ['oak', 3.05, 2.86, oaks],
+    ['silver-birch', 2.3, 3.45, birches],
+    ['field-maple', 3.05, 3.25, maples],
+    ['hazel-thicket', 3.1, 2.07, hazelThickets],
     ['rock-outcrop', 3.5, 2.2, outcrops],
     ['basalt-ridge', 3.6, 3.05, ridges],
     ['cliff', 4.2, 4.6, cliffs],

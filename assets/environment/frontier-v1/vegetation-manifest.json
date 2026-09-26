@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.frontier-vegetation",
+  "packVersion": "1.0.0",
+  "parentPack": "environment.frontier-v1",
+  "provenance": {
+    "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+    "source": "Codex built-in ImageGen, generated from the prompts in VEGETATION-PROMPTS.md without external reference images.",
+    "authoringTool": "Codex built-in ImageGen; Pillow 12.3.0 WebP encoder, quality 86.",
+    "notes": "PNG source masters are editable raster assets. Runtime WebPs preserve alpha and are resized to a 1024-pixel maximum edge. The renderer mirrors each silhouette and varies instance scale deterministically."
+  },
+  "files": [
+    {
+      "path": "silver-birch.png",
+      "role": "source-image",
+      "sha256": "9ffb93a6c18feea2e68269b749fd4ff0010202dd93c1bc41b565e0cad6703fe2",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "ImageGen output exec-1cbfa37d-1e3d-4798-9493-fe87798ca21a; exact prompt in VEGETATION-PROMPTS.md.",
+      "dimensionsPx": { "width": 1024, "height": 1536 }
+    },
+    {
+      "path": "silver-birch.webp",
+      "role": "runtime-image",
+      "sha256": "1d234c257aad14533be0a506f34c3d748f9a73344664798e0af3ea8ecb9b835c",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "Pillow 12.3.0 RGBA resize to 683x1024 and WebP quality-86 encode from silver-birch.png.",
+      "dimensionsPx": { "width": 683, "height": 1024 }
+    },
+    {
+      "path": "field-maple.png",
+      "role": "source-image",
+      "sha256": "345fb61f06c97948501a830a684fa95d4e90375c6c37817deb339c8f6099fea2",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "ImageGen output exec-dcfce9e6-96dd-4fa2-b5a6-159640d5e836; exact prompt in VEGETATION-PROMPTS.md.",
+      "dimensionsPx": { "width": 1216, "height": 1294 }
+    },
+    {
+      "path": "field-maple.webp",
+      "role": "runtime-image",
+      "sha256": "39c1b4e0b51d324dc3789e77fda4e6d8b90dcd147d3ef175294949c250773979",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "Pillow 12.3.0 RGBA resize to 962x1024 and WebP quality-86 encode from field-maple.png.",
+      "dimensionsPx": { "width": 962, "height": 1024 }
+    },
+    {
+      "path": "hazel-thicket.png",
+      "role": "source-image",
+      "sha256": "a4ba3fc6a1c5c3913fab1eec03366623e3472fc6c2f78d8a426df929434baa47",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "ImageGen output exec-05e50d97-58a1-441c-b707-114129b084a1; exact prompt in VEGETATION-PROMPTS.md.",
+      "dimensionsPx": { "width": 1536, "height": 1024 }
+    },
+    {
+      "path": "hazel-thicket.webp",
+      "role": "runtime-image",
+      "sha256": "b57474317c36a824cceeb5209627e52a9897f20021b1b2ae42999623c6018b81",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "Pillow 12.3.0 RGBA resize to 1024x683 and WebP quality-86 encode from hazel-thicket.png.",
+      "dimensionsPx": { "width": 1024, "height": 683 }
+    }
+  ],
+  "assets": [
+    {
+      "id": "silver-birch",
+      "kind": "forest-sprite",
+      "sourceFile": "silver-birch.png",
+      "runtimeFile": "silver-birch.webp",
+      "sourceOutputId": "exec-1cbfa37d-1e3d-4798-9493-fe87798ca21a",
+      "dimensionsPx": { "source": { "width": 1024, "height": 1536 }, "runtime": { "width": 683, "height": 1024 } },
+      "worldSize": { "width": 2.3, "height": 3.45 },
+      "pivot": [0.5, 1.0],
+      "cameraFacing": true,
+      "alphaMode": "cutout",
+      "scaleVariants": { "min": 0.68, "max": 0.98, "horizontalFlip": true },
+      "forestSelectionShare": 0.2
+    },
+    {
+      "id": "field-maple",
+      "kind": "forest-sprite",
+      "sourceFile": "field-maple.png",
+      "runtimeFile": "field-maple.webp",
+      "sourceOutputId": "exec-dcfce9e6-96dd-4fa2-b5a6-159640d5e836",
+      "dimensionsPx": { "source": { "width": 1216, "height": 1294 }, "runtime": { "width": 962, "height": 1024 } },
+      "worldSize": { "width": 3.05, "height": 3.25 },
+      "pivot": [0.5, 1.0],
+      "cameraFacing": true,
+      "alphaMode": "cutout",
+      "scaleVariants": { "min": 0.68, "max": 0.98, "horizontalFlip": true },
+      "forestSelectionShare": 0.2
+    },
+    {
+      "id": "hazel-thicket",
+      "kind": "forest-sprite",
+      "sourceFile": "hazel-thicket.png",
+      "runtimeFile": "hazel-thicket.webp",
+      "sourceOutputId": "exec-05e50d97-58a1-441c-b707-114129b084a1",
+      "dimensionsPx": { "source": { "width": 1536, "height": 1024 }, "runtime": { "width": 1024, "height": 683 } },
+      "worldSize": { "width": 3.1, "height": 2.07 },
+      "pivot": [0.5, 1.0],
+      "cameraFacing": true,
+      "alphaMode": "cutout",
+      "scaleVariants": { "min": 0.62, "max": 0.86, "horizontalFlip": true },
+      "forestSelectionShare": 0.2
+    }
+  ]
+}
