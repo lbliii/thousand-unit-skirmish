@@ -4,6 +4,9 @@ import {
   scenarioEventSourceIds,
   findUnreachableCaptureZone, findUnreachableResourceNode, validateElevationPatches,
 } from '../src/map-utils.mjs';
+import {
+  canTraverseElevation, elevationPathCost, hasElevation,
+} from '../src/elevation.mjs';
 
 const width = 8;
 const height = 8;
@@ -74,6 +77,40 @@ for (const [patches, reason, label] of [
   assert.equal(validateElevationPatches(width, height, patches)?.reason, reason,
     `${label} should be rejected`);
 }
+
+const slopeLevels = buildElevationGrid(width, height, [
+  { column: 3, row: 0, width: 1, height, level: 1 },
+]);
+assert.equal(hasElevation(slopeLevels), true, 'authored elevation should build a non-flat cell grid');
+assert.equal(canTraverseElevation(slopeLevels, 2 * width + 3, 2 * width + 4), true,
+  'one-level changes should remain traversable');
+assert.equal(elevationPathCost(slopeLevels, 2 * width + 2, 2 * width + 3), 115,
+  'moving uphill should add the prototype path weight');
+assert.equal(elevationPathCost(slopeLevels, 2 * width + 3, 2 * width + 2), 100,
+  'moving downhill should use the base path weight');
+assert.equal(findUnreachableCaptureZone(width, height, passMap, spawnPoints, triggers, slopeLevels), null,
+  'a one-level ridge should preserve objective reachability from both spawns');
+
+const cliffLevels = buildElevationGrid(width, height, [
+  { column: 3, row: 0, width: 1, height, level: 2 },
+]);
+assert.equal(canTraverseElevation(cliffLevels, 2 * width + 2, 2 * width + 3), false,
+  'a two-level edge should be a cliff');
+assert.deepEqual(
+  findUnreachableResourceNode(width, height, passMap, spawnPoints,
+    [{ id: 'west-berries', x: -2.5, z: -0.5 }], cliffLevels),
+  { nodeId: 'west-berries', team: 1 },
+  'resource reachability should account for a cliff that splits walkable terrain',
+);
+assert.deepEqual(
+  findUnreachableCaptureZone(width, height, passMap, spawnPoints, triggers, cliffLevels),
+  { triggerId: 'west-objective', team: 1 },
+  'objective reachability should account for a cliff that splits walkable terrain',
+);
+assert.throws(() => buildElevationGrid(width, height, [
+  { column: 1, row: 1, width: 2, height: 1, level: 1 },
+  { column: 2, row: 1, width: 1, height: 1, level: 2 },
+]), /Invalid elevation patches: overlap/, 'overlapping elevation patches should be rejected');
 
 const gateGraph = [
   { id: 'north-gate' },
