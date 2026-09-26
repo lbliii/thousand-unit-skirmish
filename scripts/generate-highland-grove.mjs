@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildElevationGrid, validateElevationPatches } from '../src/map-utils.mjs';
 
 // Keep this as a layout preview until the server accepts the agreed trade-node schema.
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -193,6 +194,10 @@ const terrainPatches = compressCells(groundByCell, material => material !== null
   .map(({ column, row, width, height, value: material }) => ({ column, row, width, height, material }));
 const elevationPatches = compressCells(levelsByCell, level => level > 0)
   .map(({ column, row, width, height, value: level }) => ({ column, row, width, height, level }));
+assert.equal(validateElevationPatches(WIDTH, HEIGHT, elevationPatches), null,
+  'Generated Highland Grove elevation patches should satisfy the shared map schema.');
+assert.deepEqual(buildElevationGrid(WIDTH, HEIGHT, elevationPatches), levelsByCell,
+  'Generated Highland Grove patches should round-trip to the authored cell levels.');
 const forestCount = obstacleByCell.filter(material => material === 'forest').length;
 const forestPercent = forestCount / CELL_COUNT * 100;
 assert.ok(forestPercent >= 12 && forestPercent <= 20,
