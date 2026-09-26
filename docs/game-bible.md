@@ -95,6 +95,8 @@ These checkboxes describe implementation, not finished-game quality or balance.
 
 Player accounts, public matchmaking, ranked play, persistent progression, campaign missions, many factions, a broad technology tree, and fully general scripting can be considered after the vertical slice earns them.
 
+**Future terrain idea — worker-dug earthworks.** Workers could dig trenches and canals from a river or coast toward a farm, mill, industry, or other useful site. A dry trench might instead form a soft defensive line that slows crossing. Explore water flow, useful destinations, pathfinding, counterplay, and how dug ground is filled or repaired in a small playable experiment later. This is an idea to revisit, not a current milestone or assigned build.
+
 ## 6. Visual direction
 
 ### Battlefield
