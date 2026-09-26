@@ -225,6 +225,27 @@ async function clickMapCell(column, row) {
   });
 }
 
+async function readMapCellLevel(column, row) {
+  await waitForPage(`(() => {
+    const canvas = document.querySelector('#studio-grid');
+    if (!canvas?.isConnected) return false;
+    const rect = canvas.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  })()`, 'visible Map Studio grid');
+  const point = await cdp.evaluate(`(() => {
+    const canvas = document.querySelector('#studio-grid');
+    const rect = canvas.getBoundingClientRect();
+    const width = Number(document.querySelector('#studio-width').value);
+    const height = Number(document.querySelector('#studio-height').value);
+    return { x: rect.left + ((${column}) + 0.5) * rect.width / width,
+      y: rect.top + ((${row}) + 0.5) * rect.height / height };
+  })()`);
+  await cdp.call('Input.dispatchMouseEvent', {
+    type: 'mouseMoved', x: point.x, y: point.y, button: 'none',
+  });
+  return cdp.evaluate("document.querySelector('#studio-grid-position').textContent");
+}
+
 async function importJsonIntoStudio(definition, filename) {
   const jsonLiteral = JSON.stringify(JSON.stringify(definition));
   const filenameLiteral = JSON.stringify(filename);
@@ -353,8 +374,9 @@ async function roundTripMap(definition, downloadsDirectory, options = {}) {
     name: definition.name,
     width: definition.width,
     height: definition.height,
-    gridSize: `${definition.width} × ${definition.height} CELLS`,
+      gridSize: `${definition.width} × ${definition.height} CELLS`,
   });
+  if (options.afterReload) await options.afterReload();
   return exported;
 }
 
@@ -408,7 +430,12 @@ try {
       { column: 35, row: 20, width: 4, height: 8, level: 1 },
     ],
   };
-  await roundTripMap(legacyMap, downloadsDirectory);
+  await roundTripMap(legacyMap, downloadsDirectory, {
+    afterReload: async () => {
+      assert.equal(await readMapCellLevel(20, 20), 'CELL 21, 21 · LEVEL 0',
+        'reloaded legacy maps should remain at level zero');
+    },
+  });
   const expectedElevationLevels = buildElevationGrid(
     elevationFixture.width, elevationFixture.height, elevationFixture.elevationPatches,
   );
@@ -435,6 +462,13 @@ try {
           width: 1, height: 1, level }
         : null).filter(Boolean),
     }),
+    afterReload: async () => {
+      assert.equal(await readMapCellLevel(5, 5), 'CELL 6, 6 · LEVEL 0');
+      assert.equal(await readMapCellLevel(6, 5), 'CELL 7, 6 · LEVEL 2');
+      assert.equal(await readMapCellLevel(22, 22), 'CELL 23, 23 · LEVEL 1');
+      assert.equal(await readMapCellLevel(32, 22), 'CELL 33, 23 · LEVEL 2');
+      assert.equal(await readMapCellLevel(36, 22), 'CELL 37, 23 · LEVEL 1');
+    },
   });
   const frontierExport = await roundTripMap(frontierMap, downloadsDirectory);
 
