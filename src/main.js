@@ -42,6 +42,7 @@ import {
   summarizeAudioRecognitionResponses,
 } from './audio-recognition-check.mjs';
 import {
+  cameraPanDeltaFromScreen,
   cameraTargetForZoomAnchor,
   canEdgeScroll,
   clampCameraTargetToGroundBounds,
@@ -78,8 +79,8 @@ const MAX_MAP_TRIGGERS = 32;
 const MAX_MAP_SCENARIO_EVENTS = 32;
 const MAX_SCENARIO_EVENT_REPEATS = 20;
 const MIN_SCENARIO_EVENT_REPEAT_SECONDS = 5;
-const CAMERA_EDGE_ZONE_PX = 28;
-const CAMERA_EDGE_SPEED_PX_PER_SECOND = 420;
+const CAMERA_EDGE_ZONE_PX = 40;
+const CAMERA_EDGE_SPEED_PX_PER_SECOND = 650;
 // Full meshes failed the 0.91 worker-role gate; keep the role LOD through both required views.
 const UNIT_LOD_ZOOM_THRESHOLD = 0.91;
 const MAX_OBJECTIVE_FOOD_REWARD = 10000;
@@ -504,14 +505,11 @@ function setCamera() {
   camera.updateMatrixWorld();
   if (!mapDefinition) return;
 
-  const bounds = cameraGroundBounds();
-  if (!bounds) return;
   const clampedTarget = clampCameraTargetToGroundBounds({
     x: cameraTarget.x,
     z: cameraTarget.z,
     halfX: MAP_HALF_X,
     halfZ: MAP_HALF_Z,
-    bounds,
   });
   if (clampedTarget.x !== cameraTarget.x || clampedTarget.z !== cameraTarget.z) {
     cameraTarget.x = clampedTarget.x;
@@ -520,22 +518,6 @@ function setCamera() {
     camera.lookAt(cameraTarget);
     camera.updateMatrixWorld();
   }
-}
-
-function cameraGroundBounds() {
-  const corners = [[-1, -1], [1, -1], [1, 1], [-1, 1]];
-  const bounds = { left: Infinity, right: -Infinity, top: Infinity, bottom: -Infinity };
-  for (const [x, y] of corners) {
-    pointerNdc.set(x, y);
-    raycaster.setFromCamera(pointerNdc, camera);
-    const point = raycaster.ray.intersectPlane(groundPlane, groundHit);
-    if (!point) return null;
-    bounds.left = Math.min(bounds.left, point.x);
-    bounds.right = Math.max(bounds.right, point.x);
-    bounds.top = Math.min(bounds.top, point.z);
-    bounds.bottom = Math.max(bounds.bottom, point.z);
-  }
-  return bounds;
 }
 
 function resize() {
@@ -6726,9 +6708,15 @@ renderer.domElement.addEventListener('pointermove', (event) => {
   if (pan) {
     const dx = event.clientX - pan.x;
     const dy = event.clientY - pan.y;
-    const unitsPerPixel = baseFrustum / (viewport.clientHeight * zoom);
-    cameraTarget.x -= (dx - dy * 0.65) * unitsPerPixel * 0.7;
-    cameraTarget.z += (dx + dy * 0.65) * unitsPerPixel * 0.7;
+    const delta = cameraPanDeltaFromScreen({
+      dx,
+      dy,
+      viewportHeight: viewport.clientHeight,
+      baseFrustum,
+      zoom,
+    });
+    cameraTarget.x += delta.x;
+    cameraTarget.z += delta.z;
     pan = { x: event.clientX, y: event.clientY };
     setCamera();
     return;
@@ -8101,7 +8089,12 @@ function animate(now) {
     const hoveredElement = insideViewport ? document.elementFromPoint(edgeScrollPointer.x, edgeScrollPointer.y) : null;
     const hudControlHovered = hoveredElement instanceof Element
       && Boolean(hoveredElement.closest(
-        'button, a[href], input, select, textarea, [contenteditable="true"], [role="button"], [role="tab"], .control-dock, .minimap-panel, .objective-panel',
+        'button, a[href], input, select, textarea, [contenteditable="true"], [role="button"], [role="tab"], .control-dock, #minimap-canvas, .minimap-panel, .objective-panel, .scenario-brief-panel, .match-result, #art-review-panel',
+      ));
+    const activeElement = document.activeElement;
+    const hudControlFocused = activeElement instanceof Element
+      && Boolean(activeElement.closest(
+        'button, a[href], input, select, textarea, [contenteditable="true"], [role="button"], [role="tab"], .control-dock, #minimap-canvas, .minimap-panel, .objective-panel, .scenario-brief-panel, .match-result, #art-review-panel',
       ));
     const eligible = canEdgeScroll({
       pointerType: edgeScrollPointer.pointerType,
@@ -8117,6 +8110,7 @@ function animate(now) {
       dialogOpen: Boolean(document.querySelector('dialog[open]')),
       hudPanelOpen: !matchMenu.hidden || !helpPanel.hidden || !scenarioBriefPanel.hidden || !hudScrim.hidden,
       hudControlHovered,
+      hudControlFocused,
     });
     if (eligible) {
       const direction = edgeScrollDirection(localX, localY, rect.width, rect.height, CAMERA_EDGE_ZONE_PX);
