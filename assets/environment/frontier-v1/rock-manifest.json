@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.frontier-stone-modules",
+  "packVersion": "1.0.0",
+  "parentPack": "environment.frontier-v1",
+  "provenance": {
+    "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+    "source": "Codex built-in ImageGen; source output IDs are listed per file, and ROCK-PROMPTS.md records each asset brief. No external reference images.",
+    "authoringTool": "Codex built-in ImageGen; Pillow 12.3.0 WebP encoder, quality 86.",
+    "notes": "PNG source masters are editable raster assets. Runtime WebPs preserve alpha and are resized to a 1024-pixel maximum edge; the renderer uses deterministic scale, flip, and barrier-end selection."
+  },
+  "files": [
+    {
+      "path": "rock-boulder-cluster.png",
+      "role": "source-image",
+      "sha256": "df16e1b829b75b61cae2c4c92d57530c5497d20800e8532c38844190a7e3b035",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "Codex built-in ImageGen output exec-3d0deef4-b10f-41cf-b794-41781ba3862e; asset brief in ROCK-PROMPTS.md.",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "rock-boulder-cluster.webp",
+      "role": "runtime-image",
+      "sha256": "ada9be6d30d25d0da289bac6c8aa03f2dca9ceb09a24615b8218c880c4f2b01b",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "Pillow 12.3.0 RGBA resize and WebP quality-86 encode from rock-boulder-cluster.png; alpha retained.",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 683
+      }
+    },
+    {
+      "path": "basalt-ridge-cap.png",
+      "role": "source-image",
+      "sha256": "dc1966fc1e7f07ad710cc3b6af9c4993be30249cb7a5b9becacba6e35a6ef734",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "Codex built-in ImageGen output exec-d1b4a6a6-8300-48e1-aefd-628c9660477f; asset brief in ROCK-PROMPTS.md.",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "basalt-ridge-cap.webp",
+      "role": "runtime-image",
+      "sha256": "7a2520ada9eba8b41cee449f98f8f4186415d6f726646a1ed00f5cdd7a1b01bc",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "Pillow 12.3.0 RGBA resize and WebP quality-86 encode from basalt-ridge-cap.png; alpha retained.",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 683
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "rock-boulder-cluster",
+      "output": "exec-3d0deef4-b10f-41cf-b794-41781ba3862e",
+      "worldSize": {
+        "width": 2.7,
+        "height": 1.8
+      },
+      "dimensionsPx": {
+        "source": {
+          "width": 1536,
+          "height": 1024
+        },
+        "runtime": {
+          "width": 1024,
+          "height": 683
+        }
+      },
+      "sourceFile": "rock-boulder-cluster.png",
+      "runtimeFile": "rock-boulder-cluster.webp",
+      "kind": "environment-sprite",
+      "pivot": [
+        0.5,
+        1.0
+      ],
+      "cameraFacing": true,
+      "alphaMode": "cutout",
+      "scaleVariants": {
+        "min": 0.82,
+        "max": 1.12,
+        "horizontalFlip": true
+      },
+      "description": "Low scattered boulder cluster; horizontal flip and scale vary repeated low outcrops."
+    },
+    {
+      "id": "basalt-ridge-cap",
+      "output": "exec-d1b4a6a6-8300-48e1-aefd-628c9660477f",
+      "worldSize": {
+        "width": 3.4,
+        "height": 2.25
+      },
+      "dimensionsPx": {
+        "source": {
+          "width": 1536,
+          "height": 1024
+        },
+        "runtime": {
+          "width": 1024,
+          "height": 683
+        }
+      },
+      "sourceFile": "basalt-ridge-cap.png",
+      "runtimeFile": "basalt-ridge-cap.webp",
+      "kind": "environment-sprite",
+      "pivot": [
+        0.5,
+        1.0
+      ],
+      "cameraFacing": true,
+      "alphaMode": "cutout",
+      "scaleVariants": {
+        "min": 0.88,
+        "max": 1.1,
+        "horizontalFlip": true
+      },
+      "description": "Broken tapered ridge end-cap used at the ends of medium-height stone barriers."
+    }
+  ]
+}

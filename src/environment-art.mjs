@@ -8,6 +8,7 @@ export const TERRAIN_MATERIALS = ['meadow', 'short-grass', 'long-grass', 'forest
 const spriteNames = [
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
+  'rock-boulder-cluster', 'basalt-ridge-cap',
 ];
 const textureLoader = new THREE.TextureLoader();
 const spriteMaterials = new Map();
@@ -427,7 +428,9 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
   const maples = [];
   const hazelThickets = [];
   const outcrops = [];
+  const boulderClusters = [];
   const ridges = [];
+  const ridgeCaps = [];
   const cliffs = [];
   for (const obstacle of definition.obstacles) {
     for (let row = obstacle.row; row < obstacle.row + obstacle.height; row++) {
@@ -465,15 +468,30 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
             ? column === obstacle.column + Math.floor(obstacle.width / 2)
             : row === obstacle.row + Math.floor(obstacle.height / 2);
           const along = vertical ? row - obstacle.row : column - obstacle.column;
-          if (centerLine && along % 2 === 0) {
+          const barrierLength = vertical ? obstacle.height : obstacle.width;
+          const atBarrierEnd = along === 0 || along === barrierLength - 1;
+          if (centerLine && (along % 2 === 0 || atBarrierEnd)) {
             const point = {
               x, z,
               scale: 0.88 + variation(index + 13) * 0.24,
               flip: variation(index + 41) < 0.5,
             };
-            if ((obstacle.elevation ?? 1.12) < 1) outcrops.push(point);
+            if ((obstacle.elevation ?? 1.12) < 1) {
+              if (variation(index + 59) < 0.5) {
+                boulderClusters.push({
+                  ...point,
+                  scale: 0.82 + variation(index + 61) * 0.3,
+                });
+              } else outcrops.push(point);
+            }
             else if ((obstacle.elevation ?? 1.12) >= 1.75) cliffs.push(point);
-            else ridges.push(point);
+            else if (atBarrierEnd) {
+              ridgeCaps.push({
+                ...point,
+                scale: 0.88 + variation(index + 71) * 0.22,
+                flip: along === 0,
+              });
+            } else ridges.push(point);
           }
         }
       }
@@ -486,7 +504,9 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     ['field-maple', 3.05, 3.25, maples],
     ['hazel-thicket', 3.1, 2.07, hazelThickets],
     ['rock-outcrop', 3.5, 2.2, outcrops],
+    ['rock-boulder-cluster', 2.7, 1.8, boulderClusters],
     ['basalt-ridge', 3.6, 3.05, ridges],
+    ['basalt-ridge-cap', 3.4, 2.25, ridgeCaps],
     ['cliff', 4.2, 4.6, cliffs],
   ]) {
     const mesh = createEnvironmentSpriteInstances(name, width, height, points);

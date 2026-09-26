@@ -24,8 +24,10 @@ assert.equal(map.elevationPatches, undefined,
 const cellCount = width * height;
 const blocked = new Uint8Array(cellCount);
 const obstacleMaterial = new Array(cellCount).fill(null);
+const obstacleElevation = new Array(cellCount).fill(null);
 const forestCells = new Uint8Array(cellCount);
 const waterByRow = new Uint16Array(height);
+const stoneElevations = new Set();
 for (const obstacle of map.obstacles) {
   assert.ok(['stone', 'forest', 'water'].includes(obstacle.material));
   assert.ok([obstacle.column, obstacle.row, obstacle.width, obstacle.height].every(Number.isInteger));
@@ -37,11 +39,15 @@ for (const obstacle of map.obstacles) {
       assert.equal(blocked[index], 0, `obstacles overlap at ${column},${row}`);
       blocked[index] = 1;
       obstacleMaterial[index] = obstacle.material;
+      obstacleElevation[index] = obstacle.material === 'stone' ? (obstacle.elevation ?? 1.12) : null;
+      if (obstacle.material === 'stone') stoneElevations.add(obstacleElevation[index]);
       if (obstacle.material === 'forest') forestCells[index] = 1;
       if (obstacle.material === 'water') waterByRow[row]++;
     }
   }
 }
+assert.ok(stoneElevations.has(0.72), 'the paired outer shelves should use the low-rock silhouettes');
+assert.ok(stoneElevations.has(1.12), 'the matched highland shelves should retain the medium ridge silhouettes');
 
 const forestCount = forestCells.reduce((sum, value) => sum + value, 0);
 const forestPercent = forestCount / cellCount * 100;
@@ -77,6 +83,8 @@ for (let row = 0; row < height; row++) {
     const mirroredIndex = row * width + width - column - 1;
     assert.equal(obstacleMaterial[index], obstacleMaterial[mirroredIndex],
       `obstacles should mirror across the team axis at ${column},${row}`);
+    assert.equal(obstacleElevation[index], obstacleElevation[mirroredIndex],
+      `obstacle elevation should mirror across the team axis at ${column},${row}`);
     assert.equal(terrain[index], terrain[mirroredIndex],
       `ground materials should mirror across the team axis at ${column},${row}`);
   }

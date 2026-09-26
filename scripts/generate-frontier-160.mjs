@@ -9,6 +9,7 @@ const WIDTH = 160;
 const HEIGHT = 160;
 const CELL_COUNT = WIDTH * HEIGHT;
 const obstaclesByCell = new Array(CELL_COUNT).fill(null);
+const lowStoneCells = new Uint8Array(CELL_COUNT);
 const groundByCell = new Array(CELL_COUNT).fill(null);
 
 function index(column, row) {
@@ -132,11 +133,18 @@ for (const lobe of westernWoodlandLobes) {
   }
 }
 
-// Small matched stone shelves make landmarks without narrowing the ford lanes.
+// Matched highland shelves use medium ridges; outer pairs stay low enough for boulder scatter.
 for (const [column, row, width, height] of [
   [67, 36, 3, 5], [67, 120, 3, 5], [13, 57, 3, 5], [13, 98, 3, 5],
 ]) {
   mirrorRectangle(column, row, width, height, 'stone');
+  if (column === 13) {
+    for (const startColumn of [column, WIDTH - column - width]) {
+      for (let y = row; y < row + height; y++) {
+        for (let x = startColumn; x < startColumn + width; x++) lowStoneCells[index(x, y)] = 1;
+      }
+    }
+  }
 }
 
 const terrainBase = 'meadow';
@@ -216,7 +224,13 @@ assert.equal(resources.filter(node => node.type === 'food').length, 32);
 assert.equal(resources.filter(node => node.type === 'wood').length, 32);
 
 const obstacles = compressCells(obstaclesByCell, value => value !== null)
-  .map(({ column, row, width, height, value: material }) => ({ column, row, width, height, material }));
+  .map(({ column, row, width, height, value: material }) => {
+    const obstacle = { column, row, width, height, material };
+    if (material === 'stone') {
+      obstacle.elevation = lowStoneCells[index(column, row)] ? 0.72 : 1.12;
+    }
+    return obstacle;
+  });
 const terrainPatches = compressCells(groundByCell, value => value !== null)
   .map(({ column, row, width, height, value: material }) => ({ column, row, width, height, material }));
 const map = {

@@ -11,7 +11,7 @@ The rendering is **not pixel art**. Eight opaque ground textures repeat across a
 | `meadow.png`, `short-grass.png`, `long-grass.png` | Three states of living ground | Quiet base, short pasture, and coarser wild growth |
 | `forest-floor.png` | Woodland ground | Moss, leaf litter, and needle cover below forest sprites or in painted clearings |
 | `dirt.png`, `sand.png`, `scree.png`, `cinder.png` | Worn, dry, rocky, and exhausted ground | Distinct regions or paths without changing movement rules |
-| `rock-outcrop.png`, `basalt-ridge.png`, `cliff.png` | Three stone obstacle heights | Low rocks, medium impassable ridge, tall cliff; flips and scale changes break repetition |
+| `rock-outcrop.png`, `rock-boulder-cluster.png`, `basalt-ridge.png`, `basalt-ridge-cap.png`, `cliff.png` | Stone obstacles and barrier modules | Low rocks and boulders, medium impassable ridge with end caps, tall cliff; deterministic flips and scale changes break repetition |
 | `pine.png`, `oak.png`, `silver-birch.png`, `field-maple.png`, `hazel-thicket.png` | Forest obstacles | Conifer, open pale-barked tree, broadleaf crowns, and a shrub-height silhouette mark blocked woodland |
 | `oak.png` | Harvestable wood node | A single large tree with its existing resource ring and stock behavior |
 | `berries.png` | Harvestable food node | Rust-red food accent, paired with the existing resource ring |
@@ -23,7 +23,7 @@ Source PNGs, hashes, and generation prompts are in [`assets/environment/frontier
 
 1. Start the game with `npm start` and open **Match Controls**.
 2. Choose **Frontier Materials** to compare all eight ground materials and all three rock heights in the same lighting. **Stone Pass** and **Cinder Ridge** show the two original regional palettes in normal play.
-3. Choose **Woodland Expanse** for the 160 × 160 mixed forest scene and inspect it at ordinary and closer zoom.
+3. Choose **Frontier Reach** for the 160 × 160 forest, river basin, and resource scene. Its low outer shelves and medium highland shelves show the boulder-cluster and ridge-cap modules at ordinary zoom.
 4. Open **Map Studio**. Choose a **Base Ground** material, then choose a 1, 3, or 5-cell ground brush and draw across the map grid. **Base ground** brushes a region back to the base. Rocks, Ridge, and Cliff retain rectangle painting for collision obstacles; ground paint leaves resources and passability intact.
 5. Save and play a custom map, then reopen it. Painted regions and obstacle height survive export, server validation, and map reload.
 6. Zoom between ordinary strategic view and closer inspection with the mouse wheel. Compare these questions: Are brush boundaries quiet? Are rock heights unmistakable? Are berry and wood nodes obvious beside a 1,000-unit army? Does the objective read as a world feature without masking units or the capture outline? Are Azure and Ember still the first colors you notice?
@@ -32,7 +32,7 @@ The first review pass found that raised square stone blocks made the ridge look 
 
 ## Current limits and next art tests
 
-- Each rock height currently has one silhouette, flipped and scaled across a barrier. Additional modules and cap/corner pieces would make long cliffs more natural.
+- Low rocks now have a boulder-cluster alternative and medium ridges have a tapered end cap, each with a deterministic selection rule and source/runtime manifest. Tall cliffs still use one silhouette; corners and curved joins remain future module work.
 - Forest cells now choose among oak, pine, silver birch, field maple, and hazel thicket. The three new source/runtime pairs, deterministic size ranges, and generation provenance are in [`vegetation-manifest.json`](../assets/environment/frontier-v1/vegetation-manifest.json); resource harvesting remains on its existing oak and berry states.
 - Ground brushes now draw connected strokes with soft outer edges. More varied transitions, roads, and shorelines remain for the next map-making pass.
 - Sprites face the fixed oblique camera. They suit this prototype camera, but free camera rotation would need new views or 3D props.

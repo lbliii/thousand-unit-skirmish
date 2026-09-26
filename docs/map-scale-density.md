@@ -17,6 +17,10 @@ This audit reads the shipped maps on `main` at `a8bd1e9`. “Forest” counts bl
 
 A 160 × 160 map has **6.25 times** the area of today's 64 × 64 maps; 224 × 224 has **12.25 times** the area. Both sizes are already inside the Map Studio and server limit of 16–256 cells per side. Map JSON allows at most 128 resource nodes, 4,096 obstacle rectangles, and 4,096 ground-paint patches. Those are schema limits, not evidence that a crowded 2,000-unit match at 224 performs well.
 
+## First playable regional addition
+
+[`Frontier Reach`](../maps/frontier-160.json) is the selectable 160 × 160 map added on current main: 16.5% shaped forest, 64 food and wood nodes, a widened river basin, and three crossings. Its forest cells remain blocked scenery until the separate cut-to-clear interaction lands. The map and editor round trip establish a first layout; first-contact, route-use, harvesting, and player observations remain open.
+
 The static audit on `0067c31` gives a compact-map geometry reference for
 `maps/forked-vale.json`: both seats have 30–31-cell shortest paths to the
 Signals (11.5–11.9 nominal seconds at current single-unit speed) and a
@@ -25,16 +29,16 @@ edge-disjoint alternate. Each spawn is nearest to 1,000 food and 1,000 wood
 stock, plus 150 starting food and 250 starting wood. This describes layout,
 not observed first contact, harvesting, or strategic route viability.
 
-## Build one full-sized map now
+## First-layout targets
 
-Author a selectable **160 × 160 Frontier** 1v1 map. Treat these as first-layout targets, then tune from play:
+Frontier Reach now provides the selectable **160 × 160 Frontier** 1v1 layout. Use these first-layout targets to guide iteration from matches, not as proof that routes or opening choices work in play:
 
 - **Woodland:** about 12–20% of cells in several shaped forest regions, with gaps and clear edges. Do not fill a rectangle uniformly just to hit a percentage. Keep at least two broad army routes and smaller flanking paths; make open areas useful for building and formations.
 - **Functional resources:** cluster authored food and wood sites into protected starting pockets, expansion regions, and contested pockets. The visual forest now has a stronger player promise: woody trees and thickets should themselves be harvestable, including deeper cells that workers can cut to open routes. See the [harvestable woodland pilot](harvestable-woodland-pilot.md) for the separate compact forest-cell model; the 128-node cap applies to ordinary authored resource sites, not a target number of harvestable trees.
 - **Authored identity:** give the map 3–4 recognizable regions using existing ground materials, rock/water shapes, landmarks, and resource patterns. Place objectives and future specialty-crop candidates where holding land competes with another useful route. Leave room for the separate elevation pilot without making height a dependency of this map.
 - **Two seats:** check mirrored travel to starting resources and contest sites, reachable nodes, buildable base and expansion space, and more than one viable opening. A larger map should create choices and exploration, not a longer walk across empty ground. Revisit the current 15-minute scenario deadlines against actual first-contact and objective travel times.
 
-Ship the map in a scoped author-owned PR when it is useful. A static layout audit and an editor export/reload are proportionate initial evidence. Gather a normal-zoom overview and a two-seat play observation afterward; adjust resource stock, positions, routes, and objectives from what players actually use. This need not wait for full 2,000-unit or external-playtest acceptance.
+The map's authoring and editor round-trip checks are represented in `scripts/generate-frontier-160.mjs`, `scripts/frontier-160-layout.mjs`, and `scripts/frontier-160-map-studio-roundtrip.mjs`. Gather a normal-zoom overview and a two-seat play observation, then adjust resource stock, positions, routes, and objectives from what players actually use. This need not wait for full 2,000-unit or external-playtest acceptance.
 
 A **224 × 224 Epic** variant can follow as a separate scale probe or authored scenario, not merely an enlarged blank copy. It can have more regions and longer routes. Keep existing compact maps as fast skirmishes and diagnostics. Decide whether the larger map should become the staging default after seeing first-contact time, travel, economy, and player preference.
 

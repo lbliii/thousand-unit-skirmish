@@ -22,6 +22,15 @@ Original environment art generated for Thousand Unit Skirmish on 25 September 20
 
 The matching `.webp` files are quality-86 runtime encodes of these PNG sources. The browser loads WebP; PNGs remain editable source art. Ground textures repeat with mirrored wrapping and use global map coordinates, so a material's pattern continues across separate painted regions.
 
+## Rock module addition — 26 September 2026
+
+Two original transparent rock modules add a low boulder scatter and tapered medium-ridge end cap. The output identifiers and SHA-256 hashes bind the source PNGs to the generated outputs; [`rock-manifest.json`](rock-manifest.json) records source/runtime dimensions, world size, pivot, alpha mode, role, and deterministic variation range. [`ROCK-PROMPTS.md`](ROCK-PROMPTS.md) keeps the art brief for each source. Pillow 12.3.0 resized the RGBA sources to a 1024-pixel maximum edge and encoded quality-86 WebPs with alpha retained.
+
+| Source | ImageGen output | SHA-256 |
+| --- | --- | --- |
+| `rock-boulder-cluster.png` | `exec-3d0deef4-b10f-41cf-b794-41781ba3862e.png` | `df16e1b829b75b61cae2c4c92d57530c5497d20800e8532c38844190a7e3b035` |
+| `basalt-ridge-cap.png` | `exec-d1b4a6a6-8300-48e1-aefd-628c9660477f.png` | `dc1966fc1e7f07ad710cc3b6af9c4993be30249cb7a5b9becacba6e35a6ef734` |
+
 ## Vegetation addition — 26 September 2026
 
 Three original forest cutouts extend the existing oak and pine silhouettes. Source PNG masters and their optimized runtime WebPs are listed with hashes, dimensions, world size, pivot, and scale range in [`vegetation-manifest.json`](vegetation-manifest.json). Exact prompts are in [`VEGETATION-PROMPTS.md`](VEGETATION-PROMPTS.md). The PNG masters are editable raster sources; WebPs were encoded with Pillow 12.3.0 at quality 86 after resizing to a 1024-pixel maximum edge. All three use actual transparent alpha and contain no external reference imagery.
