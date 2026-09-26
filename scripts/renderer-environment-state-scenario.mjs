@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { spawn, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { createServer as createNetServer } from 'node:net';
-import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises';
+import { link, mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -13,6 +13,7 @@ import { constructionGroundStage } from '../src/building-visual-state.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SERVER_ENTRY = path.join(ROOT, 'server.mjs');
+const QA_EVIDENCE_ROOT = path.join(ROOT, 'docs/qa-evidence/environment-state-pack-v1');
 const ENVIRONMENT_PACK_ROOT = path.join(ROOT, 'assets/environment/frontier-interactive-v1');
 const ENVIRONMENT_MANIFEST_PATH = path.join(ENVIRONMENT_PACK_ROOT, 'manifest.json');
 const GAME_DEV_RUN_DIR = process.env.GAME_DEV_RUN_DIR;
@@ -669,8 +670,12 @@ async function writeFrame(browser, runDirectory, frameIndex, mapLabel, stateId, 
   };
 }
 
-async function writeCaptureManifest(frames, renderer, runDirectory, { pilotPlan = null } = {}) {
+async function writeCaptureManifest(frames, renderer, runDirectory, { pilotPlan = null, qaEvidence = null } = {}) {
   const isPilot = pilotPlan !== null;
+  if (!isPilot) {
+    assert.ok(qaEvidence?.complete === true && qaEvidence.frameCount === EXPECTED_FRAME_COUNT,
+      'full-matrix capture manifest requires its 40-file QA evidence handoff');
+  }
   const manifest = {
     schema: 'game_dev.capture.v1',
     runId: GAME_DEV_RUN_ID,
@@ -687,7 +692,8 @@ async function writeCaptureManifest(frames, renderer, runDirectory, { pilotPlan 
       gpuCompletionIdentityReported: false,
       pixelVisualInspectionPerformed: false,
       notes: isPilot ? [
-        'Four-frame environment pilot; no performance measurements were collected.',
+        'Four-frame environment pilot preview only; it does not satisfy final 40-frame evidence requirements.',
+        'No performance measurements were collected.',
         'Every image was captured from an in-game client with a server-provided fog visibility mask.',
         'All ten runtime images were fetched, SHA-256 checked, decoded, and dimension-matched before capture.',
         'Resource stock changed through normal gathering from startingStock 100.',
@@ -699,18 +705,23 @@ async function writeCaptureManifest(frames, renderer, runDirectory, { pilotPlan 
         'All ten runtime images were fetched, SHA-256 checked, decoded, and dimension-matched before capture.',
         'Resource stock changed through normal gathering from startingStock 100.',
         'Construction clear was asserted to have no decal or instance and has no screenshot frame.',
+        `All 40 full-matrix PNGs were copied to ${qaEvidence?.directory || 'the documented QA evidence directory'}.`,
         'Human review is required to assess authored art appearance.',
       ],
       environmentStateCoverage: isPilot ? {
-        mode: 'pilot',
+        mode: 'pilot-preview',
+        acceptanceStatus: 'preview-only',
+        satisfiesFinalEvidenceRequirement: false,
         tuples: pilotPlan,
       } : {
         mode: 'full-matrix',
+        acceptanceStatus: 'awaiting-human-art-review',
         resourceFamilies: RESOURCE_FAMILIES.map(({ id }) => id),
         stockSamples: [100, 50, 20, 0],
         constructionImages: ['earthwork', 'foundation'],
         constructionClearImage: null,
         constructionClearAssertedWithoutScreenshot: true,
+        qaEvidence,
       },
       screenshotViewport: {
         cssWidth: VIEWPORT_WIDTH,
@@ -979,6 +990,106 @@ function buildFramePlan(maps) {
   return frames;
 }
 
+async function preserveFullMatrixEvidence({ maps, frames, runDirectory }) {
+  assert.equal(frames.length, EXPECTED_FRAME_COUNT,
+    'persistent QA evidence should only be copied after all 40 frames exist');
+  const evidenceRows = capturedFrameEvidence.slice(-frames.length);
+  assert.equal(evidenceRows.length, EXPECTED_FRAME_COUNT, 'all full-matrix frames need capture evidence');
+  assert.equal(new Set(frames.map((frame) => frame.index)).size, EXPECTED_FRAME_COUNT,
+    'full-matrix frame indexes must be unique');
+
+  const expectedFrames = buildFramePlan(maps);
+  const expectedDestinations = expectedFrames.map(({ mapLabel, stateId, zoom }) => (
+    path.posix.join(mapLabel, `zoom-${zoom.toFixed(2)}`, `${stateId}.png`)
+  ));
+  const expectedKeys = new Set(expectedFrames.map((frame) => `${frame.mapLabel}:${frame.stateId}:${frame.zoom}`));
+  const evidenceByIndex = new Map(evidenceRows.map((row) => [row.index, row]));
+  const files = frames.map((frame) => {
+    const evidence = evidenceByIndex.get(frame.index);
+    assert.ok(evidence, `frame ${frame.index} must have its map, state, and zoom evidence`);
+    const key = `${evidence.mapLabel}:${evidence.stateId}:${evidence.zoom}`;
+    assert.ok(expectedKeys.has(key), `frame ${frame.index} is outside the full-matrix plan`);
+    const attachment = frame.attachments?.find((item) => item.kind === 'color' && item.encoding === 'png');
+    assert.ok(attachment, `frame ${frame.index} must include a PNG attachment`);
+    const sourcePath = path.resolve(runDirectory, attachment.path);
+    assert.ok(sourcePath.startsWith(`${runDirectory}${path.sep}`),
+      `frame ${frame.index} attachment should stay inside the game-dev run directory`);
+    return {
+      key,
+      sourcePath,
+      relativePath: path.posix.join(
+        evidence.mapLabel,
+        `zoom-${evidence.zoom.toFixed(2)}`,
+        `${evidence.stateId}.png`,
+      ),
+    };
+  });
+  const destinationNames = files.map((file) => file.relativePath);
+  assert.equal(new Set(destinationNames).size, EXPECTED_FRAME_COUNT,
+    'the 40 documented destination names must be unique');
+  assert.deepEqual([...destinationNames].sort(), [...expectedDestinations].sort(),
+    'destination files must cover every state, theme, and zoom in the full matrix');
+  assert.equal(new Set(files.map((file) => file.key)).size, EXPECTED_FRAME_COUNT,
+    'each full-matrix state/theme/zoom tuple must map to exactly one destination');
+
+  await mkdir(QA_EVIDENCE_ROOT, { recursive: true });
+  const destinationPaths = files.map((file) => path.join(QA_EVIDENCE_ROOT, ...file.relativePath.split('/')));
+  const assertDestinationsAvailable = async () => {
+    const occupied = [];
+    for (const [index, destinationPath] of destinationPaths.entries()) {
+      try {
+        await stat(destinationPath);
+        occupied.push(files[index].relativePath);
+      } catch (error) {
+        if (error.code !== 'ENOENT') throw error;
+      }
+    }
+    assert.deepEqual(occupied, [],
+      `refusing to overwrite existing environment QA evidence: ${occupied.join(', ')}`);
+  };
+  await assertDestinationsAvailable();
+  const stagingRoot = await mkdtemp(path.join(QA_EVIDENCE_ROOT, '.environment-state-pack-v1-pending-'));
+  const publishedPaths = [];
+  try {
+    for (const file of files) {
+      const stagedPath = path.join(stagingRoot, ...file.relativePath.split('/'));
+      await mkdir(path.dirname(stagedPath), { recursive: true });
+      const imageBytes = await readFile(file.sourcePath);
+      file.sha256 = createHash('sha256').update(imageBytes).digest('hex');
+      await writeFile(stagedPath, imageBytes);
+    }
+    await assertDestinationsAvailable();
+    try {
+      for (const [index, file] of files.entries()) {
+        const destinationPath = destinationPaths[index];
+        await mkdir(path.dirname(destinationPath), { recursive: true });
+        await link(path.join(stagingRoot, ...file.relativePath.split('/')), destinationPath);
+        publishedPaths.push(destinationPath);
+      }
+    } catch (error) {
+      const rollbackErrors = [];
+      for (const destinationPath of publishedPaths.reverse()) {
+        try { await rm(destinationPath, { force: true }); } catch (rollbackError) { rollbackErrors.push(rollbackError); }
+      }
+      if (rollbackErrors.length > 0) {
+        throw new AggregateError([error, ...rollbackErrors],
+          'environment QA evidence publish failed and could not fully roll back');
+      }
+      throw error;
+    }
+  } finally {
+    await rm(stagingRoot, { recursive: true, force: true });
+  }
+
+  return {
+    complete: true,
+    directory: 'docs/qa-evidence/environment-state-pack-v1',
+    runId: GAME_DEV_RUN_ID,
+    frameCount: files.length,
+    files: files.map(({ relativePath, sha256 }) => ({ path: relativePath, sha256 })),
+  };
+}
+
 function buildPilotFramePlan(maps) {
   const frames = PILOT_FRAME_SPECS.map((spec, index) => {
     const map = maps.find((candidate) => candidate.id === spec.mapId);
@@ -1039,6 +1150,7 @@ async function runStaticPilotPlan() {
   const report = {
     ok: true,
     mode: 'pilot-plan-only',
+    acceptanceStatus: 'preview-only',
     scenarioId: 'renderer-environment-state-pilot',
     captureExecuted: false,
     serverLaunched: false,
@@ -1219,6 +1331,7 @@ async function run({ pilot = false } = {}) {
         scenario: GAME_DEV_SCENARIO_ID,
         mode: 'pilot-capture',
         captureExecuted: true,
+        acceptanceStatus: 'preview-only',
         maps: maps.map((map) => ({ id: map.id, terrainBase: map.terrainBase, fogOfWar: map.fogOfWar })),
         environmentPack: {
           packId: verifiedPack.manifest.packId,
@@ -1248,7 +1361,8 @@ async function run({ pilot = false } = {}) {
       assert.deepEqual([...actualFrameKeys].sort(), [...expectedFrameKeys].sort(),
         'captured frame roster must exactly match the 40-state matrix');
       assert.equal(clearAssertions.length, 2, 'clear-state assertions should pass on both maps');
-      const manifest = await writeCaptureManifest(frames, renderer, runDirectory);
+      const qaEvidence = await preserveFullMatrixEvidence({ maps, frames, runDirectory });
+      const manifest = await writeCaptureManifest(frames, renderer, runDirectory, { qaEvidence });
       assert.equal(manifest.measurements.length, 0, 'environment appearance capture must not report performance metrics');
       console.log(JSON.stringify({
         scenario: GAME_DEV_SCENARIO_ID,
@@ -1262,6 +1376,8 @@ async function run({ pilot = false } = {}) {
         stateChecks: evidence,
         constructionClearAssertions: clearAssertions,
         frames: frames.map((frame) => frame.label),
+        acceptanceStatus: 'awaiting-human-art-review',
+        qaEvidence,
         capturePath: path.join(runDirectory, 'capture.json'),
         humanArtReviewPending: true,
       }, null, 2));
