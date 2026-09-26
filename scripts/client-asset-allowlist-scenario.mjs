@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const html = readFileSync(path.join(root, 'index.html'), 'utf8');
 const server = readFileSync(path.join(root, 'server.mjs'), 'utf8');
+const environmentArt = readFileSync(path.join(root, 'src/environment-art.mjs'), 'utf8');
 const clientAllowlist = server.match(/const publicClientAsset = \[([\s\S]*?)\]\.includes\(relative\);/);
 assert.ok(clientAllowlist, 'server static client asset allowlist should be declared');
 const allowed = new Set([...clientAllowlist[1].matchAll(/'([^']+)'/g)].map((match) => match[1]));
@@ -14,6 +15,19 @@ assert.ok(uiAllowlist, 'server UI asset allowlist should be declared');
 const allowedUi = new Set([...uiAllowlist[1].matchAll(/'([^']+)'/g)].map((match) => match[1]));
 const environmentModule = server.match(/const publicEnvironmentModule = relative === '([^']+)'/)?.[1];
 assert.ok(environmentModule, 'server should explicitly allow the environment renderer module');
+const spriteNames = environmentArt.match(/const spriteNames = \[([\s\S]*?)\];/);
+assert.ok(spriteNames, 'environment renderer should declare its environment sprite families');
+const servedEnvironmentAssets = server.match(/const publicEnvironmentAsset = ([\s\S]*?);\n  const publicInteractiveEnvironmentAsset/);
+assert.ok(servedEnvironmentAssets, 'server should explicitly allow environment sprites');
+const allowedEnvironmentNames = new Set([...servedEnvironmentAssets[1].matchAll(/'([^']+)'/g)]
+  .map((match) => match[1]));
+const rendererSpriteNames = new Set([...spriteNames[1].matchAll(/'([^']+)'/g)]
+  .map((match) => match[1]));
+rendererSpriteNames.add('oak');
+rendererSpriteNames.add('berries');
+for (const name of rendererSpriteNames) {
+  assert.ok(allowedEnvironmentNames.has(name), `environment sprite ${name} is loaded by the renderer but missing from the server asset allowlist`);
+}
 
 const entryModules = [...html.matchAll(/<script\s+type="module"\s+src="\.\/([^\"]+)"/g)]
   .map((match) => match[1]);
