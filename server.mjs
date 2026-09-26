@@ -17,6 +17,7 @@ import { orderUnitsForFormation } from './src/formation-assignment.mjs';
 import { createDeterministicPolicy, toOpponentObservation } from './src/pve-opponent.mjs';
 import { readPveLaunchOptions } from './src/pve-match.mjs';
 import { townCenterSpawnPosition } from './src/town-center-spawn.mjs';
+import { advanceTickDeadline } from './simulation-scheduler.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const HOST = process.env.RTS_HOST || '127.0.0.1';
@@ -464,6 +465,7 @@ for (const entry of persistedMapFiles) {
 }
 
 const TICK_RATE = 30;
+const TICK_INTERVAL_MS = 1000 / TICK_RATE;
 const STEP_SECONDS = 1 / TICK_RATE;
 const STATE_EVERY_TICKS = 3;
 const TICK_SAMPLE_WINDOW = TICK_RATE * 10;
@@ -831,6 +833,9 @@ let tickDurationCursor = 0;
 let tickDurationCount = 0;
 let tickStartLagCursor = 0;
 let tickStartLagCount = 0;
+let skippedTickSlotsTotal = 0;
+let lastOverloadSkippedSlots = 0;
+let lastOverloadTick = null;
 let separationWorkCursor = 0;
 let separationWorkCount = 0;
 let separationTickCandidateVisits = 0;
@@ -910,6 +915,12 @@ function tickTimingPayload() {
     maxMs: count ? Number(samples[count - 1].toFixed(3)) : null,
     startLagP95Ms: lagAt(0.95),
     startLagMaxMs: lagCount ? Number(lags[lagCount - 1].toFixed(3)) : null,
+    scheduler: {
+      policy: 'drop-elapsed-slots',
+      skippedTickSlotsTotal,
+      lastOverloadSkippedSlots,
+      lastOverloadTick,
+    },
     ...(tickDiagnosticSamples ? { slowestTick } : {}),
   };
 }
@@ -6410,7 +6421,9 @@ const pveOpponentTimer = pveLaunchOptions
   ? setInterval(() => { void drivePveOpponent(); }, PVE_DECISION_INTERVAL_MS)
   : null;
 pveOpponentTimer?.unref();
-const simulationTimer = setInterval(() => {
+let simulationDeadlineMs = performance.now() + TICK_INTERVAL_MS;
+let simulationTimer = null;
+function runSimulationTick() {
   const tickStartedAt = performance.now();
   const cpuStartedAt = tickDiagnosticSamples ? process.cpuUsage() : null;
   if (lastSimulationTickStartedAt !== null) {
@@ -6450,7 +6463,26 @@ const simulationTimer = setInterval(() => {
     };
   }
   recordTickDuration(durationMs, diagnostic);
-}, 1000 / TICK_RATE);
+  const schedule = advanceTickDeadline(simulationDeadlineMs, tickEndedAt, TICK_INTERVAL_MS);
+  if (schedule.skippedTickSlots > 0) {
+    skippedTickSlotsTotal += schedule.skippedTickSlots;
+    lastOverloadSkippedSlots = schedule.skippedTickSlots;
+    lastOverloadTick = tickNumber;
+  }
+  simulationDeadlineMs = schedule.nextDeadlineMs;
+  scheduleSimulationTick();
+}
+
+function scheduleSimulationTick() {
+  const delayMs = Math.max(0, simulationDeadlineMs - performance.now());
+  simulationTimer = setTimeout(() => {
+    simulationTimer = null;
+    runSimulationTick();
+  }, delayMs);
+  simulationTimer.unref();
+}
+
+scheduleSimulationTick();
 
 let shutdownSockets = new Set();
 let forcedShutdownTimer = null;
@@ -6463,7 +6495,7 @@ function shutdown(signal) {
   shuttingDown = true;
   clearInterval(heartbeatTimer);
   if (pveOpponentTimer) clearInterval(pveOpponentTimer);
-  clearInterval(simulationTimer);
+  if (simulationTimer) clearTimeout(simulationTimer);
   cancelMovePlanningJobs();
   const finalCheckpoint = queueMatchCheckpoint();
   shutdownSockets = new Set(peers);
