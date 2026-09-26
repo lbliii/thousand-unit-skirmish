@@ -30,7 +30,7 @@ not observed first contact, harvesting, or strategic route viability.
 Author a selectable **160 × 160 Frontier** 1v1 map. Treat these as first-layout targets, then tune from play:
 
 - **Woodland:** about 12–20% of cells in several shaped forest regions, with gaps and clear edges. Do not fill a rectangle uniformly just to hit a percentage. Keep at least two broad army routes and smaller flanking paths; make open areas useful for building and formations.
-- **Functional resources:** roughly 48–72 food and wood nodes, within today's 128-node cap. Cluster them into protected starting pockets, several expansion regions, and a few contested pockets. Put harvestable wood along accessible forest edges; the deep forest can remain scenery and pathing terrain. A player should understand which trees can be worked.
+- **Functional resources:** cluster authored food and wood sites into protected starting pockets, expansion regions, and contested pockets. The visual forest now has a stronger player promise: woody trees and thickets should themselves be harvestable, including deeper cells that workers can cut to open routes. See the [harvestable woodland pilot](harvestable-woodland-pilot.md) for the separate compact forest-cell model; the 128-node cap applies to ordinary authored resource sites, not a target number of harvestable trees.
 - **Authored identity:** give the map 3–4 recognizable regions using existing ground materials, rock/water shapes, landmarks, and resource patterns. Place objectives and future specialty-crop candidates where holding land competes with another useful route. Leave room for the separate elevation pilot without making height a dependency of this map.
 - **Two seats:** check mirrored travel to starting resources and contest sites, reachable nodes, buildable base and expansion space, and more than one viable opening. A larger map should create choices and exploration, not a longer walk across empty ground. Revisit the current 15-minute scenario deadlines against actual first-contact and objective travel times.
 
@@ -44,7 +44,7 @@ Map Studio now supports scrollable zoom and pan navigation through [PR #93](http
 
 The next authoring improvements are larger brushes or region fill and a repeatable forest/resource-cluster stamp. A script-generated first draft imported into Map Studio is a reasonable fast path; the editor should still round-trip and allow local edits. Keep the actual map and authoring-tool changes separate if that helps both owners merge sooner.
 
-The renderer currently instances one tree sprite for every blocked forest cell. On a 160 × 160 map, 12–20% forest would mean about **3,100–5,100** tree instances, compared with 140 forest cells in the fullest shipped map. Renderer and Environment can use instancing, distance detail, and canopy treatment to keep the view full and readable. Decorative forest and harvestable edge trees need related silhouettes so the visual promise matches the economic action.
+The renderer currently instances one tree sprite for every blocked forest cell. On a 160 × 160 map, 12–20% forest would mean about **3,100–5,100** tree instances, compared with 140 forest cells in the fullest compact shipped map. Woodland Expanse now has 5,240 forest cells. Renderer and Environment can use instancing, distance detail, and canopy treatment to keep the view full and readable. Each woody forest sprite should lead to the same harvest-and-clear interaction, so its silhouette matches the economic action.
 
 ## What to measure while building
 
