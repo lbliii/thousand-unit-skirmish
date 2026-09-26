@@ -1,0 +1,24 @@
+{
+  "name": "Frontier Barracks",
+  "version": "0.2.0",
+  "description": "Project-authored five-stage Barracks construction samples with neutral architecture and shape-coded team standards.",
+  "category": "architecture",
+  "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+  "provenance": {
+    "origin": "authored",
+    "packProvenancePath": "assets/units-buildings/frontier-glb-sample-v2/PROVENANCE.md",
+    "notes": "See the versioned v0.2 pack manifest for anchors, construction states, standard variants, atlas mapping, texture budget, and file digests. The model and atlas are project-authored; no provider-generated source was used."
+  },
+  "policy": {
+    "requireUVs": true,
+    "requireNormals": true,
+    "requireTangentsWithNormalMap": true,
+    "requireBaseColorTexture": true,
+    "maxTriangles": 1200,
+    "maxMaterials": 3,
+    "minTextureSize": 512,
+    "requirePowerOfTwoTextures": false,
+    "maxDimensionMeters": 4.0,
+    "minDimensionMeters": 0.1
+  }
+}

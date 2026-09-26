@@ -1,0 +1,24 @@
+{
+  "name": "Frontier Three-Role Unit Kit",
+  "version": "0.2.0",
+  "description": "Project-authored Worker, Infantry, and Archer rigid-part models with a shared painted material atlas.",
+  "category": "character",
+  "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+  "provenance": {
+    "origin": "authored",
+    "packProvenancePath": "assets/units-buildings/frontier-glb-sample-v2/PROVENANCE.md",
+    "notes": "See the versioned v0.2 pack manifest for anchors, role parts, team variants, state samples, texture budget, and file digests. The model and atlas are project-authored; no provider-generated source was used."
+  },
+  "policy": {
+    "requireUVs": true,
+    "requireNormals": true,
+    "requireTangentsWithNormalMap": true,
+    "requireBaseColorTexture": true,
+    "maxTriangles": 1200,
+    "maxMaterials": 3,
+    "minTextureSize": 512,
+    "requirePowerOfTwoTextures": false,
+    "maxDimensionMeters": 4.0,
+    "minDimensionMeters": 0.1
+  }
+}

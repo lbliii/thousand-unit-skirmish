@@ -1,0 +1,1199 @@
+{
+  "schemaVersion": 1,
+  "packId": "frontier-character-building-sample",
+  "packVersion": "0.2.0",
+  "packKind": "character-building",
+  "coordinateSystem": {
+    "units": "world-unit",
+    "up": "+Y",
+    "forward": "+Z",
+    "right": "+X"
+  },
+  "provenance": {
+    "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+    "source": "Original Infantry/Archer role equipment and five Barracks progress samples authored in Blender, combined with the 0.1.2 shared core/Worker parts/Barracks source; the Worker tool is widened 1.25x within its existing batch. No external model provider or third-party model source.",
+    "authoringTool": "Blender 5.2.1 LTS",
+    "notes": "Renderer owner accepted the compact eight-bin unit mapping: unit.humanoid-core maps to bodyMeshes as a neutral head-and-torso core; unit.team-accent replaces the old headMeshes sphere slot with teamAccentMeshes and receives TEAM_HEX on the sash only. The sash inherits the core pose and authored node transform; independent head-sphere bob is dropped. The remaining six role parts map to packMeshes, toolMeshes, shieldMeshes, spearMeshes, bowMeshes, and quiverMeshes; Worker cargo color remains renderer-owned. This contract is accepted, but loader integration and runtime measurement remain pending. Both model GLBs embed the same 768x512 sRGB RGBA8 atlas, multiplied by broad vertex colors. The focused source review shows one Azure Worker and five Azure Barracks stages at zoom 0.91 over Meadow. The sequence reads in order, but roof and complete are too similar at about 50 pixels wide; the cyan complete-stage cue is preview-only and does not demonstrate the Azure standard. Worker gear readability, other role/state views, Ember presentation, strategic zoom, and Cinder remain unreviewed; source renders are not runtime signoff."
+  },
+  "canonicalGameDevPackages": {
+    "status": "metadata-requests-prepared-not-built",
+    "buildOperation": "game-dev package build",
+    "unit": {
+      "modelFile": "models/unit-art-v2.glb",
+      "requestFile": "source/game-dev-package-unit.json"
+    },
+    "barracks": {
+      "modelFile": "models/barracks.glb",
+      "requestFile": "source/game-dev-package-barracks.json"
+    }
+  },
+  "materialAtlas": {
+    "sourceFile": "source/frontier-material-atlas.png",
+    "format": "PNG RGBA8 sRGB",
+    "dimensionsPx": {
+      "width": 768,
+      "height": 512
+    },
+    "material": "atlas albedo multiplied by per-face vertex color",
+    "uvMap": "UVMap",
+    "tileSizePx": [
+      256,
+      256
+    ],
+    "gutterFraction": 0.055,
+    "runtimeMaterialIntent": {
+      "status": "proposed-not-runtime-implemented",
+      "shader": "unlit base-color material compatible with the current renderer style",
+      "textureColorSpace": "sRGB",
+      "vertexColorAttribute": "glTF COLOR_0 exported from Blender Col",
+      "baseColorOperation": "sampled atlas multiplied by per-face vertex color",
+      "teamAccent": "Keep the unit sash and Azure/Ember Barracks standards in separate accent batches outside the atlas."
+    },
+    "validationStatus": "glb-inspected-and-source-rendered; atlas-passes-project-512px-policy-with-generic-validator-warnings; broader-art-fit-review-pending",
+    "memoryEstimate": {
+      "status": "estimate-only",
+      "bytesPerEmbeddedCopyWithFullMipChain": 2097152,
+      "embeddedCopies": 2,
+      "residentBytesAcrossUnitAndBarracksModels": 4194304,
+      "assumption": "One uncompressed RGBA8 GPU image per GLB with a full mip chain; texture sharing between model loaders is not assumed."
+    },
+    "families": [
+      {
+        "id": "cloth",
+        "tileXYFromBottomLeft": [
+          0,
+          0
+        ],
+        "vertexColors": [
+          "#B99B50",
+          "#B48664",
+          "#9B7848",
+          "#DEC579",
+          "#68764F",
+          "#78845B",
+          "#556347"
+        ]
+      },
+      {
+        "id": "leather",
+        "tileXYFromBottomLeft": [
+          1,
+          0
+        ],
+        "vertexColors": [
+          "#715137",
+          "#3D3C31",
+          "#3D443F",
+          "#626B65"
+        ]
+      },
+      {
+        "id": "wood",
+        "tileXYFromBottomLeft": [
+          2,
+          0
+        ],
+        "vertexColors": [
+          "#6F5034",
+          "#564533",
+          "#745C3D",
+          "#302D27",
+          "#826646",
+          "#39372F"
+        ]
+      },
+      {
+        "id": "stone",
+        "tileXYFromBottomLeft": [
+          0,
+          1
+        ],
+        "vertexColors": [
+          "#918C79",
+          "#AAA28A"
+        ]
+      },
+      {
+        "id": "slate",
+        "tileXYFromBottomLeft": [
+          1,
+          1
+        ],
+        "vertexColors": [
+          "#444B4A",
+          "#5B625D"
+        ]
+      },
+      {
+        "id": "metal",
+        "tileXYFromBottomLeft": [
+          2,
+          1
+        ],
+        "vertexColors": [
+          "#AAB4B1",
+          "#ADB4B1",
+          "#78858A",
+          "#51595D",
+          "#716D5E",
+          "#E2DED1"
+        ]
+      }
+    ],
+    "vertexColorOverrides": [
+      {
+        "node": "barracks.site.neutralCloth",
+        "vertexColor": "#826646",
+        "family": "cloth",
+        "reason": "The same brown tone marks timber scaffolding; this node is authoritatively cloth."
+      }
+    ],
+    "roleMaterialMapping": {
+      "worker": {
+        "humanoid-core": [
+          "cloth",
+          "leather"
+        ],
+        "backpack": [
+          "leather",
+          "cloth",
+          "wood"
+        ],
+        "tool": [
+          "wood",
+          "metal"
+        ],
+        "team-accent": "outside-atlas"
+      },
+      "infantry": {
+        "humanoid-core": [
+          "cloth",
+          "leather"
+        ],
+        "shield": [
+          "leather",
+          "metal"
+        ],
+        "spear": [
+          "wood",
+          "metal"
+        ],
+        "team-accent": "outside-atlas"
+      },
+      "archer": {
+        "humanoid-core": [
+          "cloth",
+          "leather"
+        ],
+        "bow": [
+          "wood",
+          "metal"
+        ],
+        "quiver": [
+          "leather",
+          "cloth",
+          "wood"
+        ],
+        "team-accent": "outside-atlas"
+      },
+      "barracks": {
+        "foundation": [
+          "stone"
+        ],
+        "construction-frame": [
+          "wood",
+          "leather"
+        ],
+        "construction-cloth": [
+          "cloth"
+        ],
+        "wall-shell": [
+          "wood",
+          "leather"
+        ],
+        "gate": [
+          "wood",
+          "stone"
+        ],
+        "roof": [
+          "slate"
+        ],
+        "neutral-trim": [
+          "metal"
+        ],
+        "banner-pole": [
+          "wood"
+        ],
+        "standards": "outside-atlas"
+      }
+    },
+    "embeddedInModelFiles": [
+      "models/unit-art-v2.glb",
+      "models/barracks.glb"
+    ]
+  },
+  "budgets": {
+    "maxUnitPartBins": 8,
+    "maxUnitTeamBatches": 16,
+    "projectedUnitPartBins": 8,
+    "projectedUnitTeamBatches": 16,
+    "maxEnvironmentBatches": 10,
+    "projectedEnvironmentBatches": 0,
+    "maxTextureMemoryBytes": 8388608,
+    "projectedTextureMemoryBytes": 4194304,
+    "maxAdditionalDrawCalls": 8,
+    "projectedAdditionalDrawCalls": 8,
+    "projectedBuildingDrawCallsPerStructure": 9
+  },
+  "teamVariants": [
+    {
+      "team": "azure",
+      "instanceColor": "#5AA7D7",
+      "instanceColorTarget": "unit.team-accent",
+      "markerShape": "square",
+      "buildingStandard": {
+        "paletteSlot": "team-accent",
+        "materialName": "team-accent-building-standard",
+        "teamColor": "#5AA7D7",
+        "shape": "straight-cut-pennant",
+        "mark": "one-centered-bar"
+      }
+    },
+    {
+      "team": "ember",
+      "instanceColor": "#E67A5E",
+      "instanceColorTarget": "unit.team-accent",
+      "markerShape": "diamond",
+      "buildingStandard": {
+        "paletteSlot": "team-accent",
+        "materialName": "team-accent-building-standard",
+        "teamColor": "#E67A5E",
+        "shape": "forked-tail-pennant",
+        "mark": "split-bar"
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "PROVENANCE.md",
+      "role": "documentation",
+      "sha256": "fcafdebc5bb2b37dce798b6e3b873b4f1ffa4ff946bef19b0a398852e0a9f4c1",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Project-internal review documentation."
+    },
+    {
+      "path": "README.md",
+      "role": "documentation",
+      "sha256": "dd58d5ed4f4ee3653dceb2575c5983f7d2d23db4aeababe21663671ff135304d",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Project-internal review documentation."
+    },
+    {
+      "path": "models/barracks.glb",
+      "role": "model",
+      "sha256": "676a7594c4869bf1fd545914a2a01f1482813449de965a7fe080bf1d126c8991",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Original or retained Blender-authored low-poly GLB for the oblique Three.js renderer."
+    },
+    {
+      "path": "models/unit-art-v2.glb",
+      "role": "model",
+      "sha256": "c3caad9b3dbf4db9acbb870b933ad526c0efaf408ff0ce5d65926dc257aac812",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Original or retained Blender-authored low-poly GLB for the oblique Three.js renderer."
+    },
+    {
+      "path": "previews/barracks-stage-00-foundation-meadow-zoom-0.91-1280x720.png",
+      "role": "review-image",
+      "sha256": "463333176b0f4b7f24497fe384911ac2e3bcb12e25dd4a583a28977b28097065",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Native 1280x720 Blender source render at the named game zoom over copied Meadow terrain and preview-only billboards; the focused frame shows one Azure instance. One of five aligned Barracks progress-state samples sharing the same footprint, ground pivot, and review camera.",
+      "dimensionsPx": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "path": "previews/barracks-stage-100-complete-meadow-zoom-0.91-1280x720.png",
+      "role": "review-image",
+      "sha256": "810827e66d6ca3dd75402ef560598285d2e0be48ac1e039e540cf34a2ba94195",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Native 1280x720 Blender source render at the named game zoom over copied Meadow terrain and preview-only billboards; the focused frame shows one Azure instance. One of five aligned Barracks progress-state samples sharing the same footprint, ground pivot, and review camera. A temporary renderer-owned queue cue stand-in appears for context only; it is absent from both model GLBs.",
+      "dimensionsPx": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "path": "previews/barracks-stage-25-frame-meadow-zoom-0.91-1280x720.png",
+      "role": "review-image",
+      "sha256": "28e003caaabf99febbd902c2d0273a3b5c6a418bdd36fad76ce75f8702a123e9",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Native 1280x720 Blender source render at the named game zoom over copied Meadow terrain and preview-only billboards; the focused frame shows one Azure instance. One of five aligned Barracks progress-state samples sharing the same footprint, ground pivot, and review camera.",
+      "dimensionsPx": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "path": "previews/barracks-stage-50-walls-meadow-zoom-0.91-1280x720.png",
+      "role": "review-image",
+      "sha256": "ed1812217cc9b5e8bfbe20583900c54e7209939d9a31dbdc2e1401a1e2a4cbff",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Native 1280x720 Blender source render at the named game zoom over copied Meadow terrain and preview-only billboards; the focused frame shows one Azure instance. One of five aligned Barracks progress-state samples sharing the same footprint, ground pivot, and review camera.",
+      "dimensionsPx": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "path": "previews/barracks-stage-75-roof-meadow-zoom-0.91-1280x720.png",
+      "role": "review-image",
+      "sha256": "14815659fef143a648c09bd370c0ce1400f98a4eeef20475d50626b862b8631a",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Native 1280x720 Blender source render at the named game zoom over copied Meadow terrain and preview-only billboards; the focused frame shows one Azure instance. One of five aligned Barracks progress-state samples sharing the same footprint, ground pivot, and review camera.",
+      "dimensionsPx": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "path": "previews/worker-idle-meadow-zoom-0.91-1280x720.png",
+      "role": "review-image",
+      "sha256": "dc4af72abb054538cc80e06734eac8a4a02ec9901b000b1df0d22f2b34456f5f",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Native 1280x720 Blender source render at the named game zoom over copied Meadow terrain and preview-only billboards; the focused frame shows one Azure instance.",
+      "dimensionsPx": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "path": "source/base_build_sample_v0_1_2.py",
+      "role": "authoring-source",
+      "sha256": "bfa0c8b5769830012ef36d6af6fcef90a93c36f788cda402a0e5e1e12866b3e5",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Local Python/Blender source used to construct or reproduce this pack."
+    },
+    {
+      "path": "source/build_frontier_character_pack_v2.py",
+      "role": "authoring-source",
+      "sha256": "c9f4a72b49075219341355d52e33d6a47d3d70ef454cf7f3468dd95979b0583c",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Local Python/Blender source used to construct or reproduce this pack."
+    },
+    {
+      "path": "source/environment/oak.webp",
+      "role": "source-image",
+      "sha256": "dca6d091bc585e501eb19f07dc969757f0bfddd629a0bf0a9adee0bcf621a35c",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Byte-for-byte in-repository environment input copied for deterministic package review."
+    },
+    {
+      "path": "source/environment/pine.webp",
+      "role": "source-image",
+      "sha256": "1aac042f2d0aeb1ebdb93c1196a92c7628630837f2fc0496c39686f90c40b600",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Byte-for-byte in-repository environment input copied for deterministic package review."
+    },
+    {
+      "path": "source/environment/rock-outcrop.webp",
+      "role": "source-image",
+      "sha256": "2faf182a4ef467a7cea0b081d88b8efb840de9440efaf39b7e9f0385e6419cec",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Byte-for-byte in-repository environment input copied for deterministic package review."
+    },
+    {
+      "path": "source/frontier-character-pack-v2.blend",
+      "role": "source-project",
+      "sha256": "fb8aea64959382397c0b75c472f654481d2b22b91fc4eb83e3c08316065b1b26",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Editable Blender authoring scene saved from the v0.2 pack generator."
+    },
+    {
+      "path": "source/frontier-material-atlas.png",
+      "role": "source-image",
+      "sha256": "5ebc8411d26eca453db2c2ab889e4ad8c6b3554ee8f9a6270265b8997022cef3",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Deterministic 768x512 RGBA8 project-authored material atlas; the shared image is embedded in both model GLBs.",
+      "dimensionsPx": {
+        "width": 768,
+        "height": 512
+      }
+    },
+    {
+      "path": "source/game-dev-package-barracks.json",
+      "role": "source-data",
+      "sha256": "26bcad5d37589ea80f64da59e4c9c8ad8713a7a4d9909e77d651cf264f73b8ea",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Policy/provenance request for a separate canonical per-model game-dev package build; no package build is performed by this script."
+    },
+    {
+      "path": "source/game-dev-package-unit.json",
+      "role": "source-data",
+      "sha256": "ffbe4b448cc119638bcda55f2dd524f96252c058a847ef06f1ae76d8449cc367",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Policy/provenance request for a separate canonical per-model game-dev package build; no package build is performed by this script."
+    },
+    {
+      "path": "source/pose-samples.json",
+      "role": "source-data",
+      "sha256": "0f70bdf25df6e801c18d1a6b794b55f5621ed12c1388fcdb8638d6b894c2755d",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Manifested pose samples and named rigid-part transforms."
+    },
+    {
+      "path": "source/terrain/cinder.png",
+      "role": "source-image",
+      "sha256": "c8bfcf36f98d66d4bd07d4ae5a77fe05bd61e650854ff1ef5a926df49d7da67a",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Byte-for-byte in-repository environment input copied for deterministic package review.",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      }
+    },
+    {
+      "path": "source/terrain/meadow.png",
+      "role": "source-image",
+      "sha256": "9268abaa3304196ca0cd774c8ae137f2c57612d57ef8cff0f46e234432af6689",
+      "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+      "provenance": "Byte-for-byte in-repository environment input copied for deterministic package review.",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      }
+    }
+  ],
+  "rendererOwnedSignals": {
+    "barracksProduction": {
+      "anchor": "barracks.anchor.productionCue",
+      "anchorOnly": true,
+      "lampOrQueueStateInGlb": false,
+      "owner": "renderer",
+      "reviewFrameStandIn": "v0.2.0 completed-Barracks preview contains a temporary cyan cue stand-in; absent from GLBs and not standard-readability evidence"
+    }
+  },
+  "unitBatchRegistry": [
+    {
+      "batchKey": "unit.humanoid-core",
+      "status": "active",
+      "modelFile": "models/unit-art-v2.glb",
+      "node": "unit.humanoid-core",
+      "rendererSlot": "bodyMeshes",
+      "tintPolicy": "neutral-core"
+    },
+    {
+      "batchKey": "unit.team-accent",
+      "status": "active",
+      "modelFile": "models/unit-art-v2.glb",
+      "node": "unit.team-accent",
+      "rendererSlot": "teamAccentMeshes",
+      "tintPolicy": "team-hex-on-sash-only",
+      "replacesRendererSlot": "headMeshes",
+      "poseBehavior": "inherits-core-body-pose-and-authored-node-transform; no-independent-head-sphere-bob"
+    },
+    {
+      "batchKey": "unit.worker.backpack",
+      "status": "active",
+      "modelFile": "models/unit-art-v2.glb",
+      "node": "unit.worker.backpack",
+      "rendererSlot": "packMeshes",
+      "tintPolicy": "cargo-color-when-known-otherwise-neutral"
+    },
+    {
+      "batchKey": "unit.worker.tool",
+      "status": "active",
+      "modelFile": "models/unit-art-v2.glb",
+      "node": "unit.worker.tool",
+      "rendererSlot": "toolMeshes",
+      "tintPolicy": "neutral"
+    },
+    {
+      "batchKey": "unit.infantry.shield",
+      "status": "active",
+      "modelFile": "models/unit-art-v2.glb",
+      "node": "unit.infantry.shield",
+      "rendererSlot": "shieldMeshes",
+      "tintPolicy": "neutral"
+    },
+    {
+      "batchKey": "unit.infantry.spear",
+      "status": "active",
+      "modelFile": "models/unit-art-v2.glb",
+      "node": "unit.infantry.spear",
+      "rendererSlot": "spearMeshes",
+      "tintPolicy": "neutral"
+    },
+    {
+      "batchKey": "unit.archer.bow",
+      "status": "active",
+      "modelFile": "models/unit-art-v2.glb",
+      "node": "unit.archer.bow",
+      "rendererSlot": "bowMeshes",
+      "tintPolicy": "neutral"
+    },
+    {
+      "batchKey": "unit.archer.quiver",
+      "status": "active",
+      "modelFile": "models/unit-art-v2.glb",
+      "node": "unit.archer.quiver",
+      "rendererSlot": "quiverMeshes",
+      "tintPolicy": "neutral"
+    }
+  ],
+  "assets": [
+    {
+      "id": "worker",
+      "kind": "unit",
+      "modelFile": "models/unit-art-v2.glb",
+      "boundsWorld": {
+        "width": 1.1389,
+        "height": 0.7775,
+        "depth": 0.455
+      },
+      "bodyHeightWorld": 0.7775,
+      "groundAnchor": "ground",
+      "parts": [
+        {
+          "id": "humanoid-core",
+          "node": "unit.humanoid-core",
+          "batchKey": "unit.humanoid-core",
+          "paletteSlot": "neutral"
+        },
+        {
+          "id": "team-accent",
+          "node": "unit.team-accent",
+          "batchKey": "unit.team-accent",
+          "paletteSlot": "team-accent",
+          "instanceTint": {
+            "mode": "instanceColor",
+            "teams": [
+              "azure",
+              "ember"
+            ]
+          }
+        },
+        {
+          "id": "backpack",
+          "node": "unit.worker.backpack",
+          "batchKey": "unit.worker.backpack",
+          "paletteSlot": "neutral"
+        },
+        {
+          "id": "tool",
+          "node": "unit.worker.tool",
+          "batchKey": "unit.worker.tool",
+          "paletteSlot": "neutral",
+          "notes": "Original axe mesh widened 1.25x in the same batch to strengthen the broad hand-tool cue."
+        }
+      ],
+      "anchors": [
+        {
+          "id": "ground",
+          "node": "unit.anchor.ground",
+          "position": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "foot",
+          "node": "unit.anchor.foot",
+          "position": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "headPivot",
+          "node": "unit.anchor.headPivot",
+          "position": [
+            0,
+            0.58,
+            0.055
+          ]
+        },
+        {
+          "id": "teamAccent",
+          "node": "unit.anchor.teamAccent",
+          "position": [
+            0,
+            0.43,
+            0.18
+          ]
+        },
+        {
+          "id": "toolGrip",
+          "node": "unit.anchor.toolGrip",
+          "position": [
+            0.275,
+            0.395,
+            0.105
+          ]
+        },
+        {
+          "id": "backpackSocket",
+          "node": "unit.anchor.backpackSocket",
+          "position": [
+            0.18,
+            0.52,
+            -0.1
+          ]
+        }
+      ],
+      "stateSamples": [
+        {
+          "state": "idle",
+          "poseId": "worker-idle",
+          "previewFile": "previews/worker-idle-meadow-zoom-0.91-1280x720.png",
+          "reviewFiles": [
+            "previews/worker-idle-meadow-zoom-0.91-1280x720.png"
+          ],
+          "reviewStatus": "rendered-in-focused-review"
+        },
+        {
+          "state": "build",
+          "poseId": "worker-build",
+          "previewFile": null,
+          "reviewFiles": [],
+          "reviewStatus": "pose-data-only"
+        }
+      ]
+    },
+    {
+      "id": "infantry",
+      "kind": "unit",
+      "modelFile": "models/unit-art-v2.glb",
+      "boundsWorld": {
+        "width": 0.7915,
+        "height": 1.08,
+        "depth": 0.411
+      },
+      "bodyHeightWorld": 0.7775,
+      "groundAnchor": "ground",
+      "parts": [
+        {
+          "id": "humanoid-core",
+          "node": "unit.humanoid-core",
+          "batchKey": "unit.humanoid-core",
+          "paletteSlot": "neutral"
+        },
+        {
+          "id": "team-accent",
+          "node": "unit.team-accent",
+          "batchKey": "unit.team-accent",
+          "paletteSlot": "team-accent",
+          "instanceTint": {
+            "mode": "instanceColor",
+            "teams": [
+              "azure",
+              "ember"
+            ]
+          }
+        },
+        {
+          "id": "shield",
+          "node": "unit.infantry.shield",
+          "batchKey": "unit.infantry.shield",
+          "paletteSlot": "neutral",
+          "notes": "Dark six-sided neutral shield; per-unit team tint stays on the shared sash."
+        },
+        {
+          "id": "spear",
+          "node": "unit.infantry.spear",
+          "batchKey": "unit.infantry.spear",
+          "paletteSlot": "neutral",
+          "notes": "One neutral role bin combines the wood spear, iron tip, and steel-grey cap."
+        }
+      ],
+      "anchors": [
+        {
+          "id": "ground",
+          "node": "unit.anchor.ground",
+          "position": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "foot",
+          "node": "unit.anchor.foot",
+          "position": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "headPivot",
+          "node": "unit.anchor.headPivot",
+          "position": [
+            0,
+            0.58,
+            0.055
+          ]
+        },
+        {
+          "id": "teamAccent",
+          "node": "unit.anchor.teamAccent",
+          "position": [
+            0,
+            0.43,
+            0.18
+          ]
+        },
+        {
+          "id": "shieldGrip",
+          "node": "unit.anchor.infantryShieldGrip",
+          "position": [
+            -0.31,
+            0.38,
+            0.23
+          ]
+        },
+        {
+          "id": "spearGrip",
+          "node": "unit.anchor.infantrySpearGrip",
+          "position": [
+            0.29,
+            0.42,
+            0.02
+          ]
+        }
+      ],
+      "stateSamples": [
+        {
+          "state": "idle",
+          "poseId": "infantry-idle",
+          "previewFile": null,
+          "reviewFiles": [],
+          "reviewStatus": "pose-data-only"
+        },
+        {
+          "state": "attack",
+          "poseId": "infantry-attack",
+          "previewFile": null,
+          "reviewFiles": [],
+          "reviewStatus": "pose-data-only"
+        }
+      ]
+    },
+    {
+      "id": "archer",
+      "kind": "unit",
+      "modelFile": "models/unit-art-v2.glb",
+      "boundsWorld": {
+        "width": 0.719,
+        "height": 0.855,
+        "depth": 0.4825
+      },
+      "bodyHeightWorld": 0.7775,
+      "groundAnchor": "ground",
+      "parts": [
+        {
+          "id": "humanoid-core",
+          "node": "unit.humanoid-core",
+          "batchKey": "unit.humanoid-core",
+          "paletteSlot": "neutral"
+        },
+        {
+          "id": "team-accent",
+          "node": "unit.team-accent",
+          "batchKey": "unit.team-accent",
+          "paletteSlot": "team-accent",
+          "instanceTint": {
+            "mode": "instanceColor",
+            "teams": [
+              "azure",
+              "ember"
+            ]
+          }
+        },
+        {
+          "id": "bow",
+          "node": "unit.archer.bow",
+          "batchKey": "unit.archer.bow",
+          "paletteSlot": "neutral"
+        },
+        {
+          "id": "quiver",
+          "node": "unit.archer.quiver",
+          "batchKey": "unit.archer.quiver",
+          "paletteSlot": "neutral",
+          "notes": "One neutral role bin combines the leather quiver, arrows, and moss hood."
+        }
+      ],
+      "anchors": [
+        {
+          "id": "ground",
+          "node": "unit.anchor.ground",
+          "position": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "foot",
+          "node": "unit.anchor.foot",
+          "position": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "headPivot",
+          "node": "unit.anchor.headPivot",
+          "position": [
+            0,
+            0.58,
+            0.055
+          ]
+        },
+        {
+          "id": "teamAccent",
+          "node": "unit.anchor.teamAccent",
+          "position": [
+            0,
+            0.43,
+            0.18
+          ]
+        },
+        {
+          "id": "bowGrip",
+          "node": "unit.anchor.archerBowGrip",
+          "position": [
+            0.25,
+            0.43,
+            0.24
+          ]
+        },
+        {
+          "id": "quiverSocket",
+          "node": "unit.anchor.archerQuiverSocket",
+          "position": [
+            -0.2,
+            0.53,
+            -0.13
+          ]
+        }
+      ],
+      "stateSamples": [
+        {
+          "state": "idle",
+          "poseId": "archer-idle",
+          "previewFile": null,
+          "reviewFiles": [],
+          "reviewStatus": "pose-data-only"
+        },
+        {
+          "state": "attack",
+          "poseId": "archer-attack",
+          "previewFile": null,
+          "reviewFiles": [],
+          "reviewStatus": "pose-data-only"
+        }
+      ]
+    },
+    {
+      "id": "barracks",
+      "kind": "building",
+      "modelFile": "models/barracks.glb",
+      "boundsWorld": {
+        "width": 3.0408,
+        "height": 2.31,
+        "depth": 3.173
+      },
+      "footprintWorld": {
+        "width": 3,
+        "depth": 3
+      },
+      "groundAnchor": "ground",
+      "parts": [
+        {
+          "id": "foundation",
+          "node": "barracks.foundation",
+          "batchKey": "building.barracks.foundation",
+          "paletteSlot": "neutral"
+        },
+        {
+          "id": "construction-frame",
+          "node": "barracks.site.partialFrame",
+          "batchKey": "building.barracks.site",
+          "paletteSlot": "neutral"
+        },
+        {
+          "id": "construction-cloth",
+          "node": "barracks.site.neutralCloth",
+          "batchKey": "building.barracks.site-cloth",
+          "paletteSlot": "neutral"
+        },
+        {
+          "id": "wall-shell",
+          "node": "barracks.complete.wallShell",
+          "batchKey": "building.barracks.shell",
+          "paletteSlot": "neutral"
+        },
+        {
+          "id": "gate",
+          "node": "barracks.complete.gate",
+          "batchKey": "building.barracks.gate",
+          "paletteSlot": "neutral"
+        },
+        {
+          "id": "roof",
+          "node": "barracks.complete.gabledRoof",
+          "batchKey": "building.barracks.roof",
+          "paletteSlot": "neutral"
+        },
+        {
+          "id": "neutral-trim",
+          "node": "barracks.complete.neutralTrim",
+          "batchKey": "building.barracks.neutral-trim",
+          "paletteSlot": "neutral"
+        },
+        {
+          "id": "standard-azure",
+          "node": "barracks.standard.azure",
+          "batchKey": "building.barracks.standard.azure",
+          "paletteSlot": "team-accent",
+          "teamVariant": {
+            "group": "standard",
+            "team": "azure",
+            "teamColor": "#5AA7D7",
+            "materialName": "team-accent-building-standard",
+            "shape": "straight-cut-pennant",
+            "mark": "one-centered-bar"
+          }
+        },
+        {
+          "id": "standard-ember",
+          "node": "barracks.standard.ember",
+          "batchKey": "building.barracks.standard.ember",
+          "paletteSlot": "team-accent",
+          "teamVariant": {
+            "group": "standard",
+            "team": "ember",
+            "teamColor": "#E67A5E",
+            "materialName": "team-accent-building-standard",
+            "shape": "forked-tail-pennant",
+            "mark": "split-bar"
+          }
+        },
+        {
+          "id": "banner-pole",
+          "node": "barracks.complete.bannerPole",
+          "batchKey": "building.barracks.banner-pole",
+          "paletteSlot": "neutral"
+        }
+      ],
+      "anchors": [
+        {
+          "id": "ground",
+          "node": "barracks.anchor.ground",
+          "position": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "gate",
+          "node": "barracks.anchor.gate",
+          "position": [
+            0,
+            0,
+            1.5
+          ]
+        },
+        {
+          "id": "standard",
+          "node": "barracks.anchor.banner",
+          "position": [
+            0.55,
+            2.31,
+            1.54
+          ]
+        },
+        {
+          "id": "rallyPoint",
+          "node": "barracks.anchor.rallyPoint",
+          "position": [
+            0,
+            0,
+            2.15
+          ]
+        },
+        {
+          "id": "productionCue",
+          "node": "barracks.anchor.productionCue",
+          "position": [
+            -0.72,
+            1.32,
+            1.28
+          ]
+        }
+      ],
+      "stateSamples": [
+        {
+          "state": "foundation",
+          "poseId": "barracks-stage-00-foundation",
+          "previewFile": "previews/barracks-stage-00-foundation-meadow-zoom-0.91-1280x720.png",
+          "reviewFiles": [
+            "previews/barracks-stage-00-foundation-meadow-zoom-0.91-1280x720.png"
+          ],
+          "reviewStatus": "rendered-in-focused-review",
+          "buildingProgress": 0.0,
+          "visibleNodes": [
+            "barracks.foundation"
+          ],
+          "hiddenNodes": [
+            "barracks.state.construction",
+            "barracks.state.complete"
+          ]
+        },
+        {
+          "state": "frame",
+          "poseId": "barracks-stage-25-frame",
+          "previewFile": "previews/barracks-stage-25-frame-meadow-zoom-0.91-1280x720.png",
+          "reviewFiles": [
+            "previews/barracks-stage-25-frame-meadow-zoom-0.91-1280x720.png"
+          ],
+          "reviewStatus": "rendered-in-focused-review",
+          "buildingProgress": 0.25,
+          "visibleNodes": [
+            "barracks.foundation",
+            "barracks.state.construction"
+          ],
+          "hiddenNodes": [
+            "barracks.state.complete"
+          ]
+        },
+        {
+          "state": "walls",
+          "poseId": "barracks-stage-50-walls",
+          "previewFile": "previews/barracks-stage-50-walls-meadow-zoom-0.91-1280x720.png",
+          "reviewFiles": [
+            "previews/barracks-stage-50-walls-meadow-zoom-0.91-1280x720.png"
+          ],
+          "reviewStatus": "rendered-in-focused-review",
+          "buildingProgress": 0.5,
+          "visibleNodes": [
+            "barracks.foundation",
+            "barracks.complete.wallShell"
+          ],
+          "hiddenNodes": [
+            "barracks.state.construction",
+            "barracks.complete.gate",
+            "barracks.complete.gabledRoof",
+            "barracks.complete.neutralTrim",
+            "barracks.complete.bannerPole",
+            "barracks.standard.azure",
+            "barracks.standard.ember"
+          ]
+        },
+        {
+          "state": "roof",
+          "poseId": "barracks-stage-75-roof",
+          "previewFile": "previews/barracks-stage-75-roof-meadow-zoom-0.91-1280x720.png",
+          "reviewFiles": [
+            "previews/barracks-stage-75-roof-meadow-zoom-0.91-1280x720.png"
+          ],
+          "reviewStatus": "rendered-in-focused-review",
+          "buildingProgress": 0.75,
+          "visibleNodes": [
+            "barracks.foundation",
+            "barracks.complete.wallShell",
+            "barracks.complete.gabledRoof"
+          ],
+          "hiddenNodes": [
+            "barracks.state.construction",
+            "barracks.complete.gate",
+            "barracks.complete.neutralTrim",
+            "barracks.complete.bannerPole",
+            "barracks.standard.azure",
+            "barracks.standard.ember"
+          ]
+        },
+        {
+          "state": "complete",
+          "poseId": "barracks-stage-100-complete",
+          "previewFile": "previews/barracks-stage-100-complete-meadow-zoom-0.91-1280x720.png",
+          "reviewFiles": [
+            "previews/barracks-stage-100-complete-meadow-zoom-0.91-1280x720.png"
+          ],
+          "reviewStatus": "rendered-in-focused-review",
+          "buildingProgress": 1.0,
+          "visibleNodes": [
+            "barracks.foundation",
+            "barracks.state.complete",
+            "barracks.standard.azure",
+            "barracks.standard.ember"
+          ],
+          "hiddenNodes": [
+            "barracks.state.construction"
+          ]
+        }
+      ],
+      "constructionProgressRange": [
+        0.0,
+        1.0
+      ],
+      "constructionStateSelection": "Renderer-owned: complete=true or clamp(progress, 0, 1)=1 selects complete; otherwise index=floor(clamp(progress, 0, 1)*4) into ordered stateSamples (0-<0.25 foundation, 0.25-<0.5 frame, 0.5-<0.75 walls, 0.75-<1 roof).",
+      "teamVariantSelection": {
+        "status": "accepted-renderer-contract",
+        "rule": "For a completed Barracks, render exactly the standard whose teamVariant matches the building owner; never render both standards.",
+        "standardsVisibleOnlyWhenComplete": true
+      },
+      "maxActivePartBatches": 9,
+      "partBatchCountIncludingMutuallyExclusiveStandards": 10
+    }
+  ],
+  "reviewViews": [
+    {
+      "zoom": 0.91,
+      "ground": "meadow",
+      "purpose": "gameplay",
+      "teams": [
+        "azure"
+      ],
+      "framePattern": "previews/{sampleId}-meadow-zoom-0.91-1280x720.png"
+    }
+  ],
+  "nextBuildingScope": [
+    {
+      "id": "town-center",
+      "read": "wide stone hall with taller rear tower and small shape-coded team standard; architectural trim remains neutral",
+      "status": "planned-next-checkpoint"
+    },
+    {
+      "id": "archery-range",
+      "read": "open canopy with front target and small shape-coded team standard; architectural trim remains neutral",
+      "status": "planned-next-checkpoint"
+    }
+  ],
+  "visualHold": {
+    "focusedReviewScope": "Six source frames were reviewed: Azure Worker idle and five Azure Barracks construction states over Meadow at zoom 0.91; other roles, poses, teams, grounds, and zooms remain unreviewed",
+    "buildingProgressReadability": "stage order broadly reads; roof and complete are too similar at about 50 pixels wide; broaden neutral gate/front trim and clarify both standards within existing part groups",
+    "workerDefaultZoom": "Worker is about 12 pixels tall; backpack/tool are not assessable in the full-field source frame",
+    "materialAtlas": "exported UV and embedded atlas inspected and source-rendered; passes project 512px policy with generic shortest-edge and NPOT warnings; broader art-fit review pending",
+    "productionCuePreview": "v0.2.0 complete frame contains a temporary cyan renderer cue; it is absent from the GLB and is not evidence of the Azure standard",
+    "runtimeSignoff": "pending approved in-game review at 0.91 and 0.48 over both grounds"
+  },
+  "rendererContract": {
+    "status": "accepted-design-pending-runtime-integration",
+    "fullDetailUnitBinsPerTeam": 8,
+    "legacySlotReplacement": {
+      "replacedSlot": "headMeshes",
+      "newSlot": "teamAccentMeshes",
+      "part": "unit.team-accent"
+    },
+    "headPoseTradeoff": "The shared neutral unit.humanoid-core contains head and torso and maps to bodyMeshes. The sash inherits the core pose plus its authored node transform; no independent head-sphere bob is retained.",
+    "teamTint": "Apply TEAM_HEX to the sash only; keep the shared core neutral apart from renderer-owned health/damage modulation."
+  }
+}

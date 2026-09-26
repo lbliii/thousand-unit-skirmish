@@ -1,0 +1,410 @@
+{
+  "schemaVersion": 1,
+  "sampledPoses": {
+    "worker-idle": {
+      "state": "idle",
+      "partTransforms": {
+        "unit.humanoid-core": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            0,
+            0,
+            0
+          ]
+        },
+        "unit.team-accent": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            0,
+            0,
+            0
+          ]
+        },
+        "unit.worker.backpack": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            0,
+            0,
+            0
+          ]
+        },
+        "unit.worker.tool": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "notes": "Base rigid-part pose with foot root on the ground anchor."
+    },
+    "worker-build": {
+      "state": "build",
+      "partTransforms": {
+        "unit.humanoid-core": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            22,
+            0,
+            0
+          ]
+        },
+        "unit.team-accent": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            22,
+            0,
+            0
+          ]
+        },
+        "unit.worker.backpack": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            22,
+            0,
+            0
+          ]
+        },
+        "unit.worker.tool": {
+          "translationDeltaWorld": [
+            0,
+            0.08,
+            0.025
+          ],
+          "rotationDegXYZ": [
+            76,
+            0,
+            0
+          ]
+        }
+      },
+      "notes": "Exaggerated, high-contrast build-swing sample for recognition at game zoom. The renderer may interpolate from idle while retaining rigid-part instancing."
+    },
+    "infantry-idle": {
+      "state": "idle",
+      "partTransforms": {
+        "unit.humanoid-core": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            0,
+            0,
+            0
+          ]
+        },
+        "unit.team-accent": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            0,
+            0,
+            0
+          ]
+        },
+        "unit.infantry.shield": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            0,
+            0,
+            0
+          ]
+        },
+        "unit.infantry.spear": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "notes": "Upright spear and forward six-sided shield; rigid-part base pose."
+    },
+    "infantry-attack": {
+      "state": "attack",
+      "partTransforms": {
+        "unit.humanoid-core": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            3,
+            0,
+            0
+          ]
+        },
+        "unit.team-accent": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            3,
+            0,
+            0
+          ]
+        },
+        "unit.infantry.shield": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            -4,
+            0,
+            0
+          ]
+        },
+        "unit.infantry.spear": {
+          "translationDeltaWorld": [
+            0.025,
+            0.03,
+            0.1
+          ],
+          "rotationDegXYZ": [
+            38,
+            0,
+            0
+          ]
+        }
+      },
+      "notes": "Short forward spear sample. The renderer may interpolate from idle while retaining rigid-part instancing."
+    },
+    "archer-idle": {
+      "state": "idle",
+      "partTransforms": {
+        "unit.humanoid-core": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            0,
+            0,
+            0
+          ]
+        },
+        "unit.team-accent": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            0,
+            0,
+            0
+          ]
+        },
+        "unit.archer.bow": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            0,
+            0,
+            0
+          ]
+        },
+        "unit.archer.quiver": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "notes": "Narrow bow-and-quiver profile; rigid-part base pose."
+    },
+    "archer-attack": {
+      "state": "attack",
+      "partTransforms": {
+        "unit.humanoid-core": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            2,
+            0,
+            0
+          ]
+        },
+        "unit.team-accent": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            2,
+            0,
+            0
+          ]
+        },
+        "unit.archer.bow": {
+          "translationDeltaWorld": [
+            0.02,
+            0.02,
+            0.05
+          ],
+          "rotationDegXYZ": [
+            -10,
+            0,
+            -8
+          ]
+        },
+        "unit.archer.quiver": {
+          "translationDeltaWorld": [
+            0,
+            0,
+            0
+          ],
+          "rotationDegXYZ": [
+            2,
+            0,
+            0
+          ]
+        }
+      },
+      "notes": "Brief forward draw/release sample; renderer owns continuous timing and projectiles."
+    },
+    "barracks-stage-00-foundation": {
+      "state": "foundation",
+      "buildingProgress": 0.0,
+      "visibleNodes": [
+        "barracks.foundation"
+      ],
+      "hiddenNodes": [
+        "barracks.state.construction",
+        "barracks.state.complete"
+      ],
+      "notes": "Stone footings establish the footprint before the timber frame is raised."
+    },
+    "barracks-stage-25-frame": {
+      "state": "frame",
+      "buildingProgress": 0.25,
+      "visibleNodes": [
+        "barracks.foundation",
+        "barracks.state.construction"
+      ],
+      "hiddenNodes": [
+        "barracks.state.complete"
+      ],
+      "notes": "Low wall courses and exposed timber/scaffolding indicate the active build."
+    },
+    "barracks-stage-50-walls": {
+      "state": "walls",
+      "buildingProgress": 0.5,
+      "visibleNodes": [
+        "barracks.foundation",
+        "barracks.complete.wallShell"
+      ],
+      "hiddenNodes": [
+        "barracks.state.construction",
+        "barracks.complete.gate",
+        "barracks.complete.gabledRoof",
+        "barracks.complete.neutralTrim",
+        "barracks.complete.bannerPole",
+        "barracks.standard.azure",
+        "barracks.standard.ember"
+      ],
+      "notes": "The enclosed wall silhouette is complete; the roof and finished entrance remain absent."
+    },
+    "barracks-stage-75-roof": {
+      "state": "roof",
+      "buildingProgress": 0.75,
+      "visibleNodes": [
+        "barracks.foundation",
+        "barracks.complete.wallShell",
+        "barracks.complete.gabledRoof"
+      ],
+      "hiddenNodes": [
+        "barracks.state.construction",
+        "barracks.complete.gate",
+        "barracks.complete.neutralTrim",
+        "barracks.complete.bannerPole",
+        "barracks.standard.azure",
+        "barracks.standard.ember"
+      ],
+      "notes": "The roof completes the large silhouette; the gate, neutral trim, and team standard are pending."
+    },
+    "barracks-stage-100-complete": {
+      "state": "complete",
+      "buildingProgress": 1.0,
+      "visibleNodes": [
+        "barracks.foundation",
+        "barracks.state.complete",
+        "barracks.standard.azure",
+        "barracks.standard.ember"
+      ],
+      "hiddenNodes": [
+        "barracks.state.construction"
+      ],
+      "notes": "Finished gate/trim and exactly one team-shaped standard complete the building.",
+      "rendererCue": {
+        "anchorId": "productionCue",
+        "condition": "building.complete === true && building.queue > 0 && building.productionBlocked !== true",
+        "style": "small team-tinted pulse",
+        "assetOwnedGeometry": false,
+        "sampleVisible": true
+      }
+    }
+  }
+}
