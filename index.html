@@ -95,8 +95,8 @@
           </div>
           <section class="minimap-panel" aria-label="Tactical map">
             <div class="minimap-heading"><span>TACTICAL MAP</span><span class="minimap-live">LIVE</span></div>
-            <canvas id="minimap-canvas" width="384" height="384" tabindex="0" aria-label="Tactical map. Azure units use square markers and Ember units use diamond markers; food and wood are named in the legend. Click or drag to move the camera; use arrow keys while focused to pan.">Tactical map.</canvas>
-            <div class="minimap-legend"><span><i class="blue-dot"></i>AZURE</span><span><i class="red-dot"></i>EMBER</span><span><i class="food-dot"></i>FOOD</span><span><i class="wood-dot"></i>WOOD</span></div>
+            <canvas id="minimap-canvas" width="384" height="384" tabindex="0" aria-label="Tactical map. Azure units use square markers and Ember units use diamond markers; food, wood, and high ground are named in the legend. Click or drag to move the camera; use arrow keys while focused to pan.">Tactical map.</canvas>
+            <div class="minimap-legend"><span><i class="blue-dot"></i>AZURE</span><span><i class="red-dot"></i>EMBER</span><span><i class="food-dot"></i>FOOD</span><span><i class="wood-dot"></i>WOOD</span><span id="minimap-elevation-legend" hidden><i class="elevation-dot"></i>HIGH GROUND</span></div>
           </section>
           <div id="selection-box" class="selection-box" aria-hidden="true"></div>
           <div class="field-hint"><span id="field-hint-primary-key" class="hint-key">LMB</span> <span id="field-hint-action">DRAG TO SELECT</span> <span class="hint-divider">·</span> <span id="field-hint-secondary-key" class="hint-key">RMB</span> <span id="field-hint-secondary">MOVE / ATTACK</span><span id="placement-status" class="placement-status" aria-live="off" hidden></span></div>
@@ -467,6 +467,26 @@
                 <button type="button" data-map-tool="ground:scree">Scree</button>
                 <button type="button" data-map-tool="ground:cinder">Cinder</button>
                 <button type="button" data-map-tool="ground-reset">Base ground</button>
+              </div>
+              <div class="studio-tool-heading">GROUND LEVEL</div>
+              <label>ELEVATION BRUSH SIZE
+                <select id="studio-elevation-brush-size">
+                  <option value="1" selected>Fine · 1 cell</option>
+                  <option value="3">Medium · 3 cells</option>
+                  <option value="5">Broad · 5 cells</option>
+                </select>
+              </label>
+              <div class="studio-tools" role="group" aria-label="Ground elevation brush">
+                <button type="button" data-map-tool="elevation:raise">Raise +1</button>
+                <button type="button" data-map-tool="elevation:lower">Lower −1</button>
+                <button type="button" data-map-tool="elevation:0">Level 0</button>
+                <button type="button" data-map-tool="elevation:1">Level 1</button>
+                <button type="button" data-map-tool="elevation:2">Level 2</button>
+              </div>
+              <div class="studio-elevation-key" aria-label="Elevation level colors">
+                <span><i class="elevation-level-one"></i>LEVEL 1</span>
+                <span><i class="elevation-level-two"></i>LEVEL 2</span>
+                <small>Two-step edges form cliffs; paint a level-1 ramp between them.</small>
               </div>
               <div class="studio-tool-heading">OBSTACLES &amp; MARKERS</div>
               <div class="studio-tools" role="group" aria-label="Map paint tool">

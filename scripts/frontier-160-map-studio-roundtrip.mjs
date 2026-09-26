@@ -202,6 +202,29 @@ async function click(selector) {
   })()`);
 }
 
+async function clickMapCell(column, row) {
+  await waitForPage(`(() => {
+    const canvas = document.querySelector('#studio-grid');
+    if (!canvas?.isConnected) return false;
+    const rect = canvas.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  })()`, 'visible Map Studio grid');
+  const point = await cdp.evaluate(`(() => {
+    const canvas = document.querySelector('#studio-grid');
+    const rect = canvas.getBoundingClientRect();
+    const width = Number(document.querySelector('#studio-width').value);
+    const height = Number(document.querySelector('#studio-height').value);
+    return { x: rect.left + ((${column}) + 0.5) * rect.width / width,
+      y: rect.top + ((${row}) + 0.5) * rect.height / height };
+  })()`);
+  await cdp.call('Input.dispatchMouseEvent', {
+    type: 'mousePressed', x: point.x, y: point.y, button: 'left', clickCount: 1,
+  });
+  await cdp.call('Input.dispatchMouseEvent', {
+    type: 'mouseReleased', x: point.x, y: point.y, button: 'left', clickCount: 1,
+  });
+}
+
 async function importJsonIntoStudio(definition, filename) {
   const jsonLiteral = JSON.stringify(JSON.stringify(definition));
   const filenameLiteral = JSON.stringify(filename);
@@ -299,16 +322,24 @@ function assertRoundTrip(source, exported) {
       obstacle => `${obstacle.material || 'stone'}:${obstacle.elevation ?? 1.12}`),
     'blocked terrain and obstacle heights should survive the editor round trip',
   );
+  const sourceLevels = buildElevationGrid(source.width, source.height, source.elevationPatches);
   const levels = buildElevationGrid(exported.width, exported.height, exported.elevationPatches);
-  assert.ok(levels.every(level => level === 0), 'both pilots should remain flat through this round trip');
+  assert.deepEqual(levels, sourceLevels, 'ground levels should survive the editor round trip');
+  if (source.elevationPatches === undefined) {
+    assert.equal(exported.elevationPatches, undefined,
+      'legacy flat maps should keep the optional elevation field absent');
+  }
 }
 
-async function roundTripMap(definition, downloadsDirectory) {
+async function roundTripMap(definition, downloadsDirectory, options = {}) {
   await importJsonIntoStudio(definition, `${definition.id}.json`);
+  if (options.beforeExport) await options.beforeExport();
   await click('#studio-download');
   const downloadPath = await waitForDownload(downloadsDirectory, `${definition.id}.json`);
   const exported = JSON.parse(await readFile(downloadPath, 'utf8'));
-  assertRoundTrip(definition, exported);
+  const expectedDefinition = typeof options.expectedDefinition === 'function'
+    ? options.expectedDefinition() : options.expectedDefinition || definition;
+  assertRoundTrip(expectedDefinition, exported);
   await importJsonIntoStudio(exported, `${definition.id}-reload.json`);
   const editorState = await cdp.evaluate(`(() => ({
     id: document.querySelector('#studio-id').value,
@@ -366,18 +397,63 @@ try {
 
   const legacyMap = JSON.parse(await readFile(path.join(ROOT, 'maps/stone-pass.json'), 'utf8'));
   const frontierMap = JSON.parse(await readFile(path.join(ROOT, 'maps/frontier-160.json'), 'utf8'));
+  const elevationFixture = {
+    ...legacyMap,
+    id: 'elevation-brush-roundtrip',
+    name: 'Elevation Brush Round Trip',
+    summary: 'Exercise level patches through Map Studio import, export, and reload.',
+    elevationPatches: [
+      { column: 20, row: 20, width: 10, height: 8, level: 1 },
+      { column: 30, row: 20, width: 5, height: 8, level: 2 },
+      { column: 35, row: 20, width: 4, height: 8, level: 1 },
+    ],
+  };
   await roundTripMap(legacyMap, downloadsDirectory);
+  const expectedElevationLevels = buildElevationGrid(
+    elevationFixture.width, elevationFixture.height, elevationFixture.elevationPatches,
+  );
+  const editedCell = (column, row) => row * elevationFixture.width + column;
+  const paintLevel = async (levelTool, column, row, expectedLevel) => {
+    await click(`[data-map-tool="${levelTool}"]`);
+    await clickMapCell(column, row);
+    const message = await cdp.evaluate("document.querySelector('#studio-message').textContent");
+    assert.match(message, /ground cell/);
+    expectedElevationLevels[editedCell(column, row)] = expectedLevel;
+  };
+  const elevationExport = await roundTripMap(elevationFixture, downloadsDirectory, {
+    beforeExport: async () => {
+      await paintLevel('elevation:1', 5, 5, 1);
+      await paintLevel('elevation:raise', 5, 5, 2);
+      await paintLevel('elevation:lower', 5, 5, 1);
+      await paintLevel('elevation:0', 5, 5, 0);
+      await paintLevel('elevation:2', 6, 5, 2);
+    },
+    expectedDefinition: () => ({
+      ...elevationFixture,
+      elevationPatches: Array.from(expectedElevationLevels, (level, index) => level > 0
+        ? { column: index % elevationFixture.width, row: Math.floor(index / elevationFixture.width),
+          width: 1, height: 1, level }
+        : null).filter(Boolean),
+    }),
+  });
   const frontierExport = await roundTripMap(frontierMap, downloadsDirectory);
 
   console.log(JSON.stringify({
     status: 'passed',
     legacyMap: legacyMap.id,
     legacyDimensions: `${legacyMap.width} × ${legacyMap.height}`,
+    legacyElevationFieldOmitted: true,
+    elevationFixture: elevationExport.id,
+    elevationFixtureLevels: [...new Set(buildElevationGrid(
+      elevationExport.width, elevationExport.height, elevationExport.elevationPatches,
+    ))],
     frontierMap: frontierMap.id,
     frontierDimensions: `${frontierExport.width} × ${frontierExport.height}`,
     frontierNodes: frontierExport.resourceNodes.length,
     frontierObjectives: frontierExport.triggers.length,
-    exportedElevationLevels: [0],
+    frontierElevationLevels: [...new Set(buildElevationGrid(
+      frontierExport.width, frontierExport.height, frontierExport.elevationPatches,
+    ))],
   }, null, 2));
 } catch (error) {
   failure = error;

@@ -21,8 +21,10 @@ import {
   unitActionPoseAllowed, unitCargoVisualState, unitWorkerActionPose,
 } from './unit-visual-state.mjs';
 import {
-  capturePrerequisiteIds, findInvalidCapturePrerequisite, findInvalidScenarioEventChain,
+  MAX_ELEVATION_PATCHES, buildElevationGrid, capturePrerequisiteIds,
+  findInvalidCapturePrerequisite, findInvalidScenarioEventChain,
   findUnreachableCaptureZone, findUnreachableResourceNode, scenarioEventSourceIds,
+  validateElevationPatches,
 } from './map-utils.mjs';
 import { townCenterSpawnPosition } from './town-center-spawn.mjs';
 import { resizeWorldMarkers } from './map-resize.mjs';
@@ -218,6 +220,7 @@ const ui = {
   studioHeight: document.querySelector('#studio-height'),
   studioTerrainBase: document.querySelector('#studio-terrain-base'),
   studioGroundBrushSize: document.querySelector('#studio-ground-brush-size'),
+  studioElevationBrushSize: document.querySelector('#studio-elevation-brush-size'),
   studioStartingArmySize: document.querySelector('#studio-starting-army-size'),
   studioStartingFood: document.querySelector('#studio-starting-food'),
   studioStartingWood: document.querySelector('#studio-starting-wood'),
@@ -431,6 +434,7 @@ let editorDraftWriteTimer = 0;
 let editorCellMaterials = new Int8Array(0);
 let editorCellElevations = new Float64Array(0);
 let editorGroundMaterials = new Int8Array(0);
+let editorGroundLevels = new Uint8Array(0);
 let editorTriggers = [];
 let editorScenarioEvents = [];
 let selectedEditorTriggerId = null;
@@ -2014,6 +2018,15 @@ function buildMinimapBackground(definition) {
   context.fillRect(rect.left, rect.top, rect.width, rect.height);
   for (const patch of definition.terrainPatches || []) {
     context.fillStyle = TERRAIN_COLORS[patch.material] || TERRAIN_COLORS.meadow;
+    context.fillRect(rect.left + patch.column * rect.scale, rect.top + patch.row * rect.scale,
+      patch.width * rect.scale, patch.height * rect.scale);
+  }
+  const elevationLegend = document.querySelector('#minimap-elevation-legend');
+  const elevationPatches = definition.elevationPatches || [];
+  if (elevationLegend) elevationLegend.hidden = !elevationPatches.some((patch) => patch.level > 0);
+  for (const patch of elevationPatches) {
+    if (patch.level <= 0) continue;
+    context.fillStyle = ELEVATION_LEVEL_COLORS[patch.level];
     context.fillRect(rect.left + patch.column * rect.scale, rect.top + patch.row * rect.scale,
       patch.width * rect.scale, patch.height * rect.scale);
   }
@@ -3944,6 +3957,10 @@ const TERRAIN_COLORS = {
   'forest-floor': '#4b5136',
   dirt: '#806047', sand: '#ac936d', scree: '#55564d', cinder: '#554c3d',
 };
+const ELEVATION_LEVEL_COLORS = [null, 'rgba(255, 211, 109, .34)', 'rgba(246, 140, 90, .46)'];
+const ELEVATION_EDITOR_TOOLS = new Set([
+  'elevation:raise', 'elevation:lower', 'elevation:0', 'elevation:1', 'elevation:2',
+]);
 const MAP_STUDIO_DRAFT_VERSION = 1;
 const MAP_STUDIO_DRAFT_DEBOUNCE_MS = 160;
 
@@ -4018,7 +4035,7 @@ function captureMapStudioDraft() {
   saveEditorVictoryHoldFields();
   saveEditorStartingResourcesFields();
   saveSelectedEditorResourceStock();
-  const definition = {
+  const definition = withCurrentEditorElevation({
     ...editorDefinition,
     id: ui.studioId.value,
     name: ui.studioName.value,
@@ -4028,7 +4045,7 @@ function captureMapStudioDraft() {
     resourceNodes: JSON.parse(JSON.stringify(editorResourceNodes)),
     triggers: JSON.parse(JSON.stringify(editorTriggers)),
     scenarioEvents: JSON.parse(JSON.stringify(editorScenarioEvents)),
-  };
+  });
   return {
     version: MAP_STUDIO_DRAFT_VERSION,
     sourceMapId: editorDraftSourceMapId,
@@ -4094,6 +4111,7 @@ function restoreMapStudioDraft(draft) {
   syncEditorScenarioEventControls();
   syncEditorResourceControls();
   setEditorTool(EDITOR_MATERIALS.includes(state.editorTool) || ['rock', 'cliff', 'ground-reset', 'erase', 'azure', 'ember', 'resource-food', 'resource-wood', 'objective', 'pan'].includes(state.editorTool)
+    || ELEVATION_EDITOR_TOOLS.has(state.editorTool)
     || (typeof state.editorTool === 'string' && state.editorTool.startsWith('ground:')
       && TERRAIN_MATERIALS.includes(state.editorTool.slice(7)))
     ? state.editorTool : 'stone');
@@ -4810,6 +4828,8 @@ function populateMapEditor(definition, message) {
   }
   editorCellMaterials = new Int8Array(editorDefinition.width * editorDefinition.height);
   editorCellMaterials.fill(-1);
+  editorGroundLevels = buildElevationGrid(editorDefinition.width, editorDefinition.height,
+    editorDefinition.elevationPatches);
   editorCellElevations = new Float64Array(editorDefinition.width * editorDefinition.height);
   editorCellElevations.fill(1.12);
   for (const obstacle of editorDefinition.obstacles) {
@@ -4902,6 +4922,17 @@ function validateImportedMap(value) {
     || definition.width < 16 || definition.height < 16 || definition.width > 256 || definition.height > 256) {
     throw new Error('Map width and height must be whole numbers between 16 and 256.');
   }
+  const invalidElevationPatches = validateElevationPatches(
+    definition.width, definition.height, definition.elevationPatches,
+  );
+  if (invalidElevationPatches) {
+    const reason = invalidElevationPatches.reason === 'limit' ? 'more than 4,096 patches'
+      : invalidElevationPatches.reason === 'overlap' ? 'overlapping patches'
+        : invalidElevationPatches.reason === 'level' ? 'a level outside 0–2'
+          : invalidElevationPatches.reason === 'bounds' ? 'a patch outside the map grid'
+            : 'an invalid patch list';
+    throw new Error(`Map has invalid elevation patches: ${reason}.`);
+  }
   if (definition.terrainBase !== undefined && !TERRAIN_MATERIALS.includes(definition.terrainBase)) {
     throw new Error('Map has an invalid base ground material.');
   }
@@ -4982,8 +5013,11 @@ function validateImportedMap(value) {
     const row = Math.floor(node.z + definition.height / 2);
     if (blockedCells[row * definition.width + column]) throw new Error(`Resource node ${node.id} is on blocked terrain.`);
   }
+  const elevationLevels = (definition.elevationPatches || []).some((patch) => patch.level > 0)
+    ? buildElevationGrid(definition.width, definition.height, definition.elevationPatches) : null;
   const unreachableNode = findUnreachableResourceNode(
     definition.width, definition.height, blockedCells, definition.spawnPoints, definition.resourceNodes,
+    elevationLevels,
   );
   if (unreachableNode) {
     throw new Error(`Resource node ${unreachableNode.nodeId} must be reachable from both team spawns.`);
@@ -5053,6 +5087,7 @@ function validateImportedMap(value) {
   }
   const unreachableTrigger = findUnreachableCaptureZone(
     definition.width, definition.height, blockedCells, definition.spawnPoints, definition.triggers,
+    elevationLevels,
   );
   if (unreachableTrigger) {
     throw new Error(`Capture zone ${unreachableTrigger.triggerId} is unreachable from team ${unreachableTrigger.team}.`);
@@ -5148,6 +5183,16 @@ function isGroundEditorTool(tool) {
   return tool === 'ground-reset' || tool.startsWith('ground:');
 }
 
+function isElevationEditorTool(tool) {
+  return ELEVATION_EDITOR_TOOLS.has(tool);
+}
+
+function elevationBrushTarget(tool, currentLevel) {
+  if (tool === 'elevation:raise') return Math.min(2, currentLevel + 1);
+  if (tool === 'elevation:lower') return Math.max(0, currentLevel - 1);
+  return Number(tool.slice('elevation:'.length));
+}
+
 function setEditorTool(tool) {
   editorTool = tool;
   ui.studioGrid.dataset.editorTool = tool;
@@ -5164,6 +5209,11 @@ function setEditorTool(tool) {
     ember: 'CLICK TO PLACE EMBER SPAWN', 'resource-food': 'CLICK EMPTY CELL TO PLACE · CLICK NODE TO EDIT',
     'resource-wood': 'CLICK EMPTY CELL TO PLACE · CLICK NODE TO EDIT',
     pan: 'DRAG TO PAN · WHEEL TO ZOOM',
+    'elevation:raise': 'DRAG TO RAISE GROUND ONE LEVEL · MAX 2',
+    'elevation:lower': 'DRAG TO LOWER GROUND ONE LEVEL · MIN 0',
+    'elevation:0': 'DRAG TO LEVEL GROUND AT 0',
+    'elevation:1': 'DRAG TO LEVEL GROUND AT 1',
+    'elevation:2': 'DRAG TO LEVEL GROUND AT 2',
     objective: editorTriggerCreationPending ? 'DRAG TO PLACE A NEW CAPTURE ZONE'
       : getSelectedEditorTrigger() ? 'DRAG TO RESIZE THE SELECTED CAPTURE ZONE' : 'ADD A CAPTURE ZONE, THEN DRAG TO PLACE IT',
   };
@@ -5248,17 +5298,20 @@ function resizeEditorMap() {
   resized.fill(-1);
   const resizedGround = new Int8Array(width * height);
   resizedGround.fill(-1);
+  const resizedGroundLevels = new Uint8Array(width * height);
   const resizedElevations = new Float64Array(width * height);
   resizedElevations.fill(1.12);
   for (let row = 0; row < Math.min(height, oldHeight); row++) {
     for (let column = 0; column < Math.min(width, oldWidth); column++) {
       resized[row * width + column] = editorCellMaterials[row * oldWidth + column];
       resizedGround[row * width + column] = editorGroundMaterials[row * oldWidth + column];
+      resizedGroundLevels[row * width + column] = editorGroundLevels[row * oldWidth + column];
       resizedElevations[row * width + column] = editorCellElevations[row * oldWidth + column];
     }
   }
   editorCellMaterials = resized;
   editorGroundMaterials = resizedGround;
+  editorGroundLevels = resizedGroundLevels;
   editorCellElevations = resizedElevations;
   editorDefinition.width = width;
   editorDefinition.height = height;
@@ -5300,7 +5353,8 @@ function editorCellFromPointer(event) {
 
 function updateMapStudioCellReadout(cell) {
   ui.studioGridPosition.textContent = cell
-    ? `CELL ${cell.column + 1}, ${cell.row + 1}` : 'CELL —';
+    ? `CELL ${cell.column + 1}, ${cell.row + 1} · LEVEL ${editorGroundLevels[cell.row * editorDefinition.width + cell.column]}`
+    : 'CELL —';
 }
 
 function editorDragRect(drag) {
@@ -5317,6 +5371,27 @@ function paintEditorGroundStroke(drag, next) {
   const from = drag.current;
   const steps = Math.max(Math.abs(next.column - from.column), Math.abs(next.row - from.row));
   const radius = (Number(ui.studioGroundBrushSize.value) - 1) / 2;
+  const limit = (radius + 0.2) ** 2;
+  for (let step = 0; step <= steps; step++) {
+    const column = Math.round(from.column + (next.column - from.column) * step / Math.max(1, steps));
+    const row = Math.round(from.row + (next.row - from.row) * step / Math.max(1, steps));
+    for (let dy = -radius; dy <= radius; dy++) {
+      for (let dx = -radius; dx <= radius; dx++) {
+        if (dx * dx + dy * dy > limit) continue;
+        const paintedColumn = column + dx;
+        const paintedRow = row + dy;
+        if (paintedColumn < 0 || paintedRow < 0
+          || paintedColumn >= editorDefinition.width || paintedRow >= editorDefinition.height) continue;
+        drag.paintCells.add(paintedRow * editorDefinition.width + paintedColumn);
+      }
+    }
+  }
+}
+
+function paintEditorElevationStroke(drag, next) {
+  const from = drag.current;
+  const steps = Math.max(Math.abs(next.column - from.column), Math.abs(next.row - from.row));
+  const radius = (Number(ui.studioElevationBrushSize.value) - 1) / 2;
   const limit = (radius + 0.2) ** 2;
   for (let step = 0; step <= steps; step++) {
     const column = Math.round(from.column + (next.column - from.column) * step / Math.max(1, steps));
@@ -5363,6 +5438,7 @@ function drawEditorGrid() {
   context.setTransform(scaleX, 0, 0, scaleY, 0, 0);
   context.fillStyle = TERRAIN_COLORS[ui.studioTerrainBase.value] || TERRAIN_COLORS.meadow;
   context.fillRect(0, 0, editorDefinition.width, editorDefinition.height);
+  const cellPixels = Math.min(size.width / editorDefinition.width, size.height / editorDefinition.height);
   for (let row = 0; row < editorDefinition.height; row++) {
     for (let column = 0; column < editorDefinition.width; column++) {
       const index = row * editorDefinition.width + column;
@@ -5370,6 +5446,18 @@ function drawEditorGrid() {
       if (ground >= 0) {
         context.fillStyle = TERRAIN_COLORS[TERRAIN_MATERIALS[ground]];
         context.fillRect(column, row, 1, 1);
+      }
+      const level = editorGroundLevels[index];
+      if (level > 0) {
+        context.fillStyle = ELEVATION_LEVEL_COLORS[level];
+        context.fillRect(column, row, 1, 1);
+        if (cellPixels >= 10 && editorCellMaterials[index] < 0) {
+          context.fillStyle = 'rgba(24, 28, 20, .92)';
+          context.font = '0.55px monospace';
+          context.textAlign = 'center';
+          context.textBaseline = 'middle';
+          context.fillText(String(level), column + 0.5, row + 0.5);
+        }
       }
       const material = editorCellMaterials[index];
       if (material < 0) continue;
@@ -5379,6 +5467,8 @@ function drawEditorGrid() {
       context.fillRect(column + 0.06, row + 0.06, 0.88, 0.08);
     }
   }
+  context.textAlign = 'start';
+  context.textBaseline = 'alphabetic';
   for (let column = 0; column <= editorDefinition.width; column += editorDefinition.width > 128 ? 8 : 1) {
     context.beginPath();
     context.strokeStyle = column % 8 === 0 ? 'rgba(226,237,211,.32)' : 'rgba(226,237,211,.11)';
@@ -5453,7 +5543,13 @@ function drawEditorGrid() {
     context.fill();
     context.stroke();
   }
-  if (editorDrag && isGroundEditorTool(editorDrag.tool)) {
+  if (editorDrag && isElevationEditorTool(editorDrag.tool)) {
+    for (const index of editorDrag.paintCells) {
+      const level = elevationBrushTarget(editorDrag.tool, editorGroundLevels[index]);
+      context.fillStyle = level > 0 ? ELEVATION_LEVEL_COLORS[level] : 'rgba(224, 239, 202, .35)';
+      context.fillRect(index % editorDefinition.width, Math.floor(index / editorDefinition.width), 1, 1);
+    }
+  } else if (editorDrag && isGroundEditorTool(editorDrag.tool)) {
     const material = editorDrag.tool === 'ground-reset' ? ui.studioTerrainBase.value : editorDrag.tool.slice(7);
     context.fillStyle = TERRAIN_COLORS[material] || TERRAIN_COLORS.meadow;
     context.globalAlpha = 0.78;
@@ -5505,6 +5601,50 @@ function compressEditorGround() {
     }
   }
   return patches;
+}
+
+function compressEditorElevation() {
+  const width = editorDefinition.width;
+  const height = editorDefinition.height;
+  const visited = new Uint8Array(width * height);
+  const patches = [];
+  for (let row = 0; row < height; row++) {
+    for (let column = 0; column < width; column++) {
+      const index = row * width + column;
+      const level = editorGroundLevels[index];
+      if (level === 0 || visited[index]) continue;
+      let rectangleWidth = 1;
+      while (column + rectangleWidth < width
+        && editorGroundLevels[row * width + column + rectangleWidth] === level
+        && !visited[row * width + column + rectangleWidth]) rectangleWidth++;
+      let rectangleHeight = 1;
+      while (row + rectangleHeight < height) {
+        let same = true;
+        for (let dx = 0; dx < rectangleWidth; dx++) {
+          const next = (row + rectangleHeight) * width + column + dx;
+          if (editorGroundLevels[next] !== level || visited[next]) { same = false; break; }
+        }
+        if (!same) break;
+        rectangleHeight++;
+      }
+      for (let dy = 0; dy < rectangleHeight; dy++) {
+        for (let dx = 0; dx < rectangleWidth; dx++) visited[(row + dy) * width + column + dx] = 1;
+      }
+      patches.push({ column, row, width: rectangleWidth, height: rectangleHeight, level });
+      if (patches.length > MAX_ELEVATION_PATCHES) return patches;
+    }
+  }
+  return patches;
+}
+
+function withCurrentEditorElevation(definition) {
+  const elevationPatches = compressEditorElevation();
+  if (elevationPatches.length > MAX_ELEVATION_PATCHES) {
+    throw new Error(`This map has more than ${MAX_ELEVATION_PATCHES} separate elevation patches.`);
+  }
+  if (elevationPatches.length > 0) definition.elevationPatches = elevationPatches;
+  else delete definition.elevationPatches;
+  return definition;
 }
 
 function compressEditorObstacles() {
@@ -5573,7 +5713,7 @@ function collectEditorMap() {
   if (terrainPatches.length > 4096) throw new Error('This map has too many separate ground paint patches.');
   const triggers = JSON.parse(JSON.stringify(editorTriggers));
   const scenarioEvents = JSON.parse(JSON.stringify(editorScenarioEvents));
-  return validateImportedMap({
+  const definition = withCurrentEditorElevation({
     ...editorDefinition,
     id, name, victoryMode: ui.studioVictoryMode.value,
     ...(Number(ui.studioVictoryHoldSeconds.value) > 0
@@ -5588,6 +5728,7 @@ function collectEditorMap() {
     triggers,
     scenarioEvents,
   });
+  return validateImportedMap(definition);
 }
 
 function downloadEditorMap() {
@@ -7093,6 +7234,10 @@ ui.studioGroundBrushSize.addEventListener('change', () => {
   setEditorTool(editorTool);
   scheduleMapStudioDraftSave();
 });
+ui.studioElevationBrushSize.addEventListener('change', () => {
+  setEditorTool(editorTool);
+  scheduleMapStudioDraftSave();
+});
 ui.studioTerrainBase.addEventListener('change', () => {
   editorDefinition.terrainBase = ui.studioTerrainBase.value;
   drawEditorGrid();
@@ -7291,6 +7436,9 @@ ui.studioGrid.addEventListener('pointerdown', (event) => {
   if (isGroundEditorTool(editorTool)) {
     editorDrag.paintCells = new Set();
     paintEditorGroundStroke(editorDrag, cell);
+  } else if (isElevationEditorTool(editorTool)) {
+    editorDrag.paintCells = new Set();
+    paintEditorElevationStroke(editorDrag, cell);
   }
   ui.studioGrid.setPointerCapture(event.pointerId);
   drawEditorGrid();
@@ -7318,6 +7466,7 @@ ui.studioGrid.addEventListener('pointermove', (event) => {
   if (!editorDrag) return;
   if (cell) {
     if (isGroundEditorTool(editorDrag.tool)) paintEditorGroundStroke(editorDrag, cell);
+    else if (isElevationEditorTool(editorDrag.tool)) paintEditorElevationStroke(editorDrag, cell);
     editorDrag.current = cell;
   }
   drawEditorGrid();
@@ -7338,6 +7487,7 @@ function finishEditorPointer(event, commit) {
   if (commit) {
     const next = editorCellFromPointer(event) || drag.current;
     if (isGroundEditorTool(drag.tool)) paintEditorGroundStroke(drag, next);
+    else if (isElevationEditorTool(drag.tool)) paintEditorElevationStroke(drag, next);
     drag.current = next;
     const bounds = editorDragRect(drag);
     if (drag.tool === 'objective') {
@@ -7376,6 +7526,19 @@ function finishEditorPointer(event, commit) {
         syncEditorTriggerControls();
         ui.studioMessage.textContent = `Capture zone “${trigger.name}” set to ${bounds.width} × ${bounds.height} cells.`;
       }
+    } else if (isElevationEditorTool(drag.tool)) {
+      let changedCells = 0;
+      for (const index of drag.paintCells) {
+        const nextLevel = elevationBrushTarget(drag.tool, editorGroundLevels[index]);
+        if (nextLevel === editorGroundLevels[index]) continue;
+        editorGroundLevels[index] = nextLevel;
+        changedCells++;
+      }
+      const action = drag.tool === 'elevation:raise' ? 'Raised'
+        : drag.tool === 'elevation:lower' ? 'Lowered' : `Set to level ${drag.tool.slice('elevation:'.length)} at`;
+      ui.studioMessage.textContent = changedCells > 0
+        ? `${action} ${changedCells} ground cell${changedCells === 1 ? '' : 's'}.`
+        : 'No ground levels changed.';
     } else if (isGroundEditorTool(drag.tool)) {
       const material = drag.tool === 'ground-reset' ? -1
         : TERRAIN_MATERIALS.indexOf(drag.tool.slice(7));
