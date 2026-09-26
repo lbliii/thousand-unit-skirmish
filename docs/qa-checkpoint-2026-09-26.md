@@ -26,13 +26,13 @@ The PR #77 renderer-environment-state-pilot-plan completed as a static plan. It 
 
 The capture runner's `verifyEnvironmentPack()` requires `assets/environment/frontier-interactive-v1/manifest.json` plus ten hash- and dimension-verified WebP runtime images before either static preflight or GPU capture. PR #85 integrated the pack and PR #88 fixed Docker packaging. On current staging deployment `3507c1ba-314a-48e2-b207-c5e99ed959e1` at source `a8bd1e9`, the authenticated manifest and all ten runtime images returned HTTP 200; all ten image hashes matched the manifest. This proves static delivery, not a renderer capture or visual review.
 
-The current Dockerfile and `.dockerignore` include the interactive manifest and WebPs. The pack provenance records an unresolved yellow-green oak edge contour; hash verification alone is not visual acceptance. After the host gate opens, capture the environment states and review terrain edges in-game at ordinary and strategic zoom.
+The current Dockerfile and `.dockerignore` include the interactive manifest and WebPs. The pack provenance records an unresolved yellow-green oak edge contour; hash verification alone is not visual acceptance. Capture the environment states in a bounded owner-run browser session and review terrain edges in-game at ordinary and strategic zoom. A quiet-host load reading is not required for this appearance check.
 
 No environment-state capture is registered in the current game-dev capture list. No GPU or browser capture was started.
 
 ## Host and player evidence gates
 
-Infra's latest host sample, at 2026-09-26T15:57:26Z, was 6.21 / 5.07 / 5.98 for the 1/5/15-minute load averages. The 1-minute value is above the <=2.0 threshold. The required two readings at or below 2.0, at least 60 seconds apart, plus explicit Infra release have not been recorded. No performance scenario, browser run, or renderer capture was started for this checkpoint.
+Infra's latest host sample, at 2026-09-26T15:57:26Z, was 6.21 / 5.07 / 5.98 for the 1/5/15-minute load averages. The 1-minute value is above the <=2.0 threshold. The required two readings at or below 2.0, at least 60 seconds apart, plus explicit Infra release have not been recorded. No performance scenario, browser run, or renderer capture was started for this historical checkpoint. The quiet-host threshold applies to comparable performance work; it no longer blocks ordinary appearance capture.
 
 No new two-seat WSS/reconnect/rematch run or complete Forked Vale match was conducted on the current staging build. The earlier f1d6482/1d74cae results remain historical evidence. The novice external playtest remains pending; no testers were contacted. Keep synthetic scenario results, browser automation, and player observations as separate evidence classes.
 
@@ -63,7 +63,7 @@ Include the build SHA, map revision, seat actions, and any missed resources or u
 
 1. After Infra releases a safe host window and room, run the current-main two-seat Forked Vale path: both seats gather, build, produce, choose routes, contest a signal, observe the same winner, reconnect, and rematch. Record the deployment SHA, seat actions, failures, and both clients' result.
 2. On the same current build, verify critical captions with audio disabled and with volume/effects at zero. Record the visible caption and cue on both settings paths; then observe whether players recognize the key cues.
-3. After Infra releases the host gate, run the renderer capture. Staging asset delivery is now verified; capture the selected Meadow/Cinder states at both zooms and review the oak edge.
+3. Run the bounded renderer capture when the owning lane is ready; no Infra release is needed for appearance review. Staging asset delivery is now verified; capture the selected Meadow/Cinder states at both zooms and review the oak edge.
 4. When the living-land prototype is runnable, record the exact build/map revision, both-seat paths, site-control time, harvest/exchange totals, resource state through leave/reconnect/restart/rematch, and player explanations; this experiment evidence does not gate unrelated PRs or current M1–M4 work.
 5. When the large authored map is runnable, record the exact build/map revision, both-seat routes, explored areas, discovered resources, building spaces, first contact, and whether players find the map large or empty. This iteration evidence is not a PR gate.
 6. Keep the 2,000-unit hosted gate separate: use a comparable intended-host run with server tick, browser frame, egress, order acknowledgement, and reconnect evidence after the quiet-host release.

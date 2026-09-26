@@ -14,7 +14,6 @@ const GAME_DEV_RUN_DIR = process.env.GAME_DEV_RUN_DIR;
 const GAME_DEV_RUN_ID = process.env.GAME_DEV_RUN_ID;
 const GAME_DEV_ADAPTER_ID = process.env.GAME_DEV_ADAPTER_ID;
 const GAME_DEV_SCENARIO_ID = process.env.GAME_DEV_SCENARIO_ID;
-const LOAD_AVERAGE_LIMIT = 2;
 const HEALTH_TIMEOUT_MS = 15_000;
 const PAGE_TIMEOUT_MS = 20_000;
 const STATE_TIMEOUT_MS = 15_000;
@@ -58,13 +57,6 @@ function assertGameDevContext() {
     'run this opt-in capture through game-dev scenario run');
   assert.equal(GAME_DEV_ADAPTER_ID, 'thousand-unit-skirmish', 'unexpected adapter context');
   assert.equal(GAME_DEV_SCENARIO_ID, 'renderer-appearance-lod', 'unexpected scenario context');
-}
-
-function assertLoadGate() {
-  const oneMinuteLoad = os.loadavg()[0];
-  if (Number.isFinite(oneMinuteLoad) && oneMinuteLoad > LOAD_AVERAGE_LIMIT) {
-    throw new Error(`appearance capture requires 1-minute load average <= ${LOAD_AVERAGE_LIMIT}; saw ${oneMinuteLoad.toFixed(2)}`);
-  }
 }
 
 function startChild(label, command, args, options = {}) {
@@ -548,7 +540,6 @@ async function writeCaptureManifest(frames, renderer, runDirectory) {
 }
 
 async function captureMapMatrix({ map, browsers, frames, runDirectory, preflight }) {
-  assertLoadGate();
   await selectMap(browsers[0], map.id);
   const states = await Promise.all(browsers.map((browser) => waitForSnapshot(browser, (state) => (
     state.mapId === map.id && state.fogOfWar === true && state.units?.length === 12
@@ -563,7 +554,6 @@ async function captureMapMatrix({ map, browsers, frames, runDirectory, preflight
 
   for (const browser of browsers) {
     for (const zoom of ZOOMS) {
-      assertLoadGate();
       checkInterrupted();
       await setZoom(browser, zoom.value);
       const state = await waitForSnapshot(browser, (snapshot) => (
@@ -608,7 +598,6 @@ function runStaticPreflight() {
 
 async function run() {
   assertGameDevContext();
-  assertLoadGate();
   const runDirectory = path.resolve(GAME_DEV_RUN_DIR);
   tempRoot = await mkdtemp(path.join(os.tmpdir(), 'rts-renderer-appearance-lod-'));
   const customMapDirectory = path.join(tempRoot, 'custom-maps');

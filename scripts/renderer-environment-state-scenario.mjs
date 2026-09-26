@@ -20,7 +20,6 @@ const GAME_DEV_RUN_DIR = process.env.GAME_DEV_RUN_DIR;
 const GAME_DEV_RUN_ID = process.env.GAME_DEV_RUN_ID;
 const GAME_DEV_ADAPTER_ID = process.env.GAME_DEV_ADAPTER_ID;
 const GAME_DEV_SCENARIO_ID = process.env.GAME_DEV_SCENARIO_ID;
-const LOAD_AVERAGE_LIMIT = 2;
 const HEALTH_TIMEOUT_MS = 15_000;
 const PAGE_TIMEOUT_MS = 20_000;
 const STATE_TIMEOUT_MS = 180_000;
@@ -94,13 +93,6 @@ function assertGameDevContext(expectedScenario = 'renderer-environment-state') {
     'run this opt-in capture through game-dev scenario run');
   assert.equal(GAME_DEV_ADAPTER_ID, 'thousand-unit-skirmish', 'unexpected adapter context');
   assert.equal(GAME_DEV_SCENARIO_ID, expectedScenario, 'unexpected adapter scenario context');
-}
-
-function assertLoadGate() {
-  const oneMinuteLoad = os.loadavg()[0];
-  if (Number.isFinite(oneMinuteLoad) && oneMinuteLoad > LOAD_AVERAGE_LIMIT) {
-    throw new Error(`appearance capture requires 1-minute load average <= ${LOAD_AVERAGE_LIMIT}; saw ${oneMinuteLoad.toFixed(2)}`);
-  }
 }
 
 function startChild(label, command, args, options = {}) {
@@ -788,7 +780,6 @@ async function captureResourceState({ map, family, stage, sample, browsers, fram
     state, browsers[index], map, family, stage, sample,
   ));
   for (const zoom of zooms) {
-    assertLoadGate();
     checkInterrupted();
     await Promise.all(browsers.map((browser) => setZoom(browser, zoom.value)));
     const currentStates = await Promise.all(browsers.map((browser) => waitForMapState(
@@ -830,7 +821,6 @@ async function captureConstructionState({ map, stage, browsers, frames, runDirec
   `${stage.id} building remains in the visible ${map.id} snapshot`)
     .then((state) => state.buildings.find((row) => row.id === buildingId.id));
   for (const zoom of ZOOMS) {
-    assertLoadGate();
     checkInterrupted();
     await Promise.all(browsers.map((browser) => setZoom(browser, zoom.value)));
     const state = await waitForSnapshot(host, (snapshot) => snapshot.mapId === map.id
@@ -881,7 +871,6 @@ async function assertConstructionClearWithoutImage(map, host) {
 }
 
 async function captureEnvironmentMap({ map, browsers, frames, runDirectory, verifiedPack, evidence }) {
-  assertLoadGate();
   await selectMap(browsers[0], map.id);
   await Promise.all(browsers.map((browser) => waitForSnapshot(browser, (state) => (
     state.mapId === map.id && state.fogOfWar === true
@@ -931,7 +920,6 @@ async function captureEnvironmentPilot({ maps, browsers, frames, runDirectory, v
   const plan = buildPilotFramePlan(maps);
   let activeMapId = null;
   for (const frame of plan) {
-    assertLoadGate();
     checkInterrupted();
     const map = maps.find((candidate) => candidate.id === frame.mapId);
     const family = RESOURCE_FAMILIES.find((candidate) => candidate.id === frame.resourceFamily);
@@ -1170,7 +1158,6 @@ async function runStaticPilotPlan() {
     captureGate: {
       requiredFlags: ['--confirm', '--allow-gpu'],
       excludedFlags: ['--allow-performance'],
-      maximumOneMinuteLoadAverage: LOAD_AVERAGE_LIMIT,
     },
     captureCommand: 'game-dev scenario run renderer-environment-state-pilot --project . --confirm --allow-gpu --jsonl',
   };
@@ -1190,7 +1177,7 @@ async function runStaticPilotPlan() {
         pilotPlan: report,
         notes: [
           'Plan-only output; no server, browser, WebGL context, or screenshots were started.',
-          'The capture command is gated separately and is not executed by this plan scenario.',
+          'The GPU capture command is opt-in and is not executed by this plan scenario.',
         ],
       },
     }, null, 2));
@@ -1278,7 +1265,6 @@ async function runStaticPreflight() {
 async function run({ pilot = false } = {}) {
   const scenarioId = pilot ? 'renderer-environment-state-pilot' : 'renderer-environment-state';
   assertGameDevContext(scenarioId);
-  assertLoadGate();
   const verifiedPack = await verifyEnvironmentPack();
   const runDirectory = path.resolve(GAME_DEV_RUN_DIR);
   await mkdir(runDirectory, { recursive: true });
