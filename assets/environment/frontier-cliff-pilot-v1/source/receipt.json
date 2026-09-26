@@ -1,0 +1,11 @@
+{
+  "id": "01a0e003-8ecc-707f-9ca0-966ebfb6c52d",
+  "status": "SUCCEEDED",
+  "created_at": 1790464725803,
+  "started_at": 1790464725810,
+  "finished_at": 1790464812076,
+  "consumed_credits": 30,
+  "task_id": "01a0e003-8ecc-707f-9ca0-966ebfb6c52d",
+  "resource": "image-to-3d",
+  "spend_ceiling": 30
+}

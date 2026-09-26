@@ -1,0 +1,260 @@
+{
+  "asset": "frontier-cliff-straight-pilot",
+  "status": "review-only",
+  "taskId": "01a0e003-8ecc-707f-9ca0-966ebfb6c52d",
+  "resource": "image-to-3d",
+  "consumedCredits": 30,
+  "model": "source/cliff-source.glb",
+  "modelSha256": "88aeda40803f9592046b385894909135db12ca334bd360da32971f83b4f3f294",
+  "camera": {
+    "projection": "orthographic",
+    "elevationDegrees": 45.43590248481586,
+    "framePixels": [
+      640,
+      640
+    ],
+    "frameWorldUnits": [
+      5,
+      5
+    ],
+    "anchorPixelFromTopLeft": [
+      320,
+      376
+    ],
+    "near": 8,
+    "far": 20,
+    "groundOriginDistance": 14
+  },
+  "depthEncoding": "16-bit linear distance: (R*256+G)/65535 * 12 + 8; RGB bytes, alpha coverage; no color conversion",
+  "normalization": {
+    "rawBounds": {
+      "min": [
+        -0.952701985836029,
+        -0.23791299760341644,
+        -0.3115119934082031
+      ],
+      "max": [
+        0.9501240253448486,
+        0.23690199851989746,
+        0.3099449872970581
+      ],
+      "size": [
+        1.9028260111808777,
+        0.4748149961233139,
+        0.6214569807052612
+      ]
+    },
+    "normalizedSize": [
+      4,
+      0.9981259312902659,
+      1.306387398645219
+    ],
+    "baseScale": 2.102136494086306,
+    "fitScale": 1,
+    "effectiveScale": 2.102136494086306,
+    "triangleCount": 973328,
+    "framePixels": 640,
+    "elevationDegrees": 45.43590248481586,
+    "depthCameraNear": 8,
+    "depthCameraFar": 20,
+    "depthOriginDistance": 14,
+    "pixelsPerWorldUnit": 128,
+    "anchorPixelFromTopLeft": [
+      320,
+      376
+    ],
+    "viewAzimuthsDegrees": [
+      0,
+      45,
+      90,
+      135,
+      180,
+      225,
+      270,
+      315
+    ],
+    "projectedBoundsBeforeFit": {
+      "minX": 63.999999999999986,
+      "minY": 103.95859519741069,
+      "maxX": 576,
+      "maxY": 558.3912670494083
+    }
+  },
+  "frames": [
+    {
+      "index": 0,
+      "azimuthDegrees": 0,
+      "alphaBounds": [
+        64,
+        251,
+        576,
+        436
+      ],
+      "color": "runtime/cliff-color-00.webp",
+      "depth": "runtime/cliff-depth-00.png"
+    },
+    {
+      "index": 1,
+      "azimuthDegrees": 45,
+      "alphaBounds": [
+        109,
+        151,
+        537,
+        524
+      ],
+      "color": "runtime/cliff-color-01.webp",
+      "depth": "runtime/cliff-depth-01.png"
+    },
+    {
+      "index": 2,
+      "azimuthDegrees": 90,
+      "alphaBounds": [
+        236,
+        119,
+        404,
+        558
+      ],
+      "color": "runtime/cliff-color-02.webp",
+      "depth": "runtime/cliff-depth-02.png"
+    },
+    {
+      "index": 3,
+      "azimuthDegrees": 135,
+      "alphaBounds": [
+        112,
+        151,
+        541,
+        531
+      ],
+      "color": "runtime/cliff-color-03.webp",
+      "depth": "runtime/cliff-depth-03.png"
+    },
+    {
+      "index": 4,
+      "azimuthDegrees": 180,
+      "alphaBounds": [
+        64,
+        251,
+        576,
+        436
+      ],
+      "color": "runtime/cliff-color-04.webp",
+      "depth": "runtime/cliff-depth-04.png"
+    },
+    {
+      "index": 5,
+      "azimuthDegrees": 225,
+      "alphaBounds": [
+        103,
+        149,
+        531,
+        533
+      ],
+      "color": "runtime/cliff-color-05.webp",
+      "depth": "runtime/cliff-depth-05.png"
+    },
+    {
+      "index": 6,
+      "azimuthDegrees": 270,
+      "alphaBounds": [
+        236,
+        120,
+        404,
+        558
+      ],
+      "color": "runtime/cliff-color-06.webp",
+      "depth": "runtime/cliff-depth-06.png"
+    },
+    {
+      "index": 7,
+      "azimuthDegrees": 315,
+      "alphaBounds": [
+        99,
+        149,
+        528,
+        526
+      ],
+      "color": "runtime/cliff-color-07.webp",
+      "depth": "runtime/cliff-depth-07.png"
+    }
+  ],
+  "limits": [
+    "Rear geometry inferred from one image.",
+    "One shape only; corners and caps not generated.",
+    "No paid remesh. Source mesh is retained for offline capture only.",
+    "Gallery is an art and occlusion review; gameplay collision and elevation are unchanged."
+  ],
+  "runtimeBytes": 1028670,
+  "runtimeSha256": {
+    "cliff-depth-06.png": "988819c602af949d42927fc20299b8ff88ed85559b1f1d149386a4ec4e6df47e",
+    "cliff-depth-07.png": "d54f58f9e40d9b302efc80ce1570b63ed0a40352bef7e525fd767ed89c6c1092",
+    "cliff-color-07.webp": "436ed5fe27ab0d7456f6f85d47159f52ec6d66fd141f4940647a70be7fa517f1",
+    "cliff-depth-05.png": "520054846bb434cb7330c9c6e3caeadbb858436b7b43d3fd4f7eb913d871cedb",
+    "cliff-depth-04.png": "e38c407aa360e92b62da5011cdfe2c8ba347371d7763429b4276bdfacc69c584",
+    "cliff-depth-00.png": "3d2098095246c5cc318945c21e87d614aa9138ae23dcee546f8952319fe39754",
+    "cliff-depth-01.png": "bb704cd90b4b676e9e8339dbbe45ebc94f99e6835ec313d63611672f005edd14",
+    "cliff-color-06.webp": "07a5af07c642cd8f3d6297374e3848612b7384286a0948fb9f188f5ea32d7ed2",
+    "cliff-depth-03.png": "6f18f0cfaf833117dfa1f65ad27a92e99d396809397f90aab72aaae632f14b14",
+    "cliff-depth-02.png": "27725c0a98d10c09205b404cf9665cc5eeb6440b2a370125011171f14ff4c0eb",
+    "cliff-color-01.webp": "6a1654e0f2760ae4c7b7dbf1c54f41ae36516e00024fb9d9dfc173e9a9f9a936",
+    "cliff-color-00.webp": "9a77932797185a85d2072b6041a46460155a44d8992444a66bb8b281015a2dce",
+    "cliff-color-03.webp": "edad3fd14a245625a3d682088107ee15c37c57dcba1574949cee7cad6efb8466",
+    "cliff-color-02.webp": "d41fee7519de236d19a202f3120281c7c32149fdd5960acbc4487302719fcef7",
+    "cliff-color-05.webp": "41011df0f6dc439da7c736e6c00e0ec2296a3c83222316aa09640cdfdd750606",
+    "cliff-color-04.webp": "cec1aee8adcbf5a0231cec136d3496afc60404bc07bcff11df76dd098cdc54fd"
+  },
+  "verification": {
+    "frameDepthChecks": [
+      {
+        "view": 0,
+        "opaqueSamples": 81510,
+        "depthMin": 13.023575188830396,
+        "depthMax": 14.24014648661021
+      },
+      {
+        "view": 1,
+        "opaqueSamples": 74441,
+        "depthMin": 12.238773174639505,
+        "depthMax": 14.74277866788739
+      },
+      {
+        "view": 2,
+        "opaqueSamples": 57917,
+        "depthMin": 12.004577706569009,
+        "depthMax": 15.325795376516366
+      },
+      {
+        "view": 3,
+        "opaqueSamples": 76085,
+        "depthMin": 12.238773174639505,
+        "depthMax": 14.745891508354315
+      },
+      {
+        "view": 4,
+        "opaqueSamples": 83674,
+        "depthMin": 12.99519340810254,
+        "depthMax": 14.215609979400321
+      },
+      {
+        "view": 5,
+        "opaqueSamples": 76523,
+        "depthMin": 12.242069123369191,
+        "depthMax": 14.770611123826964
+      },
+      {
+        "view": 6,
+        "opaqueSamples": 58597,
+        "depthMin": 12.003479056992447,
+        "depthMax": 15.216479743648431
+      },
+      {
+        "view": 7,
+        "opaqueSamples": 74385,
+        "depthMin": 12.25140764476997,
+        "depthMax": 14.779583428702221
+      }
+    ],
+    "ui": "cycled all eight camera steps in the live gallery, no browser warnings or errors",
+    "ci": "Original checkout npm test passed; PR validation is recorded in the PR description."
+  }
+}

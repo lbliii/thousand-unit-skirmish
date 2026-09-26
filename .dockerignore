@@ -31,3 +31,8 @@
 !package-lock.json
 !deploy/
 !deploy/entrypoint.sh
+
+!environment-review.html
+!assets/environment/frontier-cliff-pilot-v1/
+!assets/environment/frontier-cliff-pilot-v1/runtime/
+!assets/environment/frontier-cliff-pilot-v1/runtime/**

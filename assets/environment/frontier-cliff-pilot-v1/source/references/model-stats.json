@@ -1,0 +1,54 @@
+{
+  "rawBounds": {
+    "min": [
+      -0.952701985836029,
+      -0.23791299760341644,
+      -0.3115119934082031
+    ],
+    "max": [
+      0.9501240253448486,
+      0.23690199851989746,
+      0.3099449872970581
+    ],
+    "size": [
+      1.9028260111808777,
+      0.4748149961233139,
+      0.6214569807052612
+    ]
+  },
+  "normalizedSize": [
+    4,
+    0.9981259312902659,
+    1.306387398645219
+  ],
+  "baseScale": 2.102136494086306,
+  "fitScale": 1,
+  "effectiveScale": 2.102136494086306,
+  "triangleCount": 973328,
+  "framePixels": 640,
+  "elevationDegrees": 45.43590248481586,
+  "depthCameraNear": 8,
+  "depthCameraFar": 20,
+  "depthOriginDistance": 14,
+  "pixelsPerWorldUnit": 128,
+  "anchorPixelFromTopLeft": [
+    320,
+    376
+  ],
+  "viewAzimuthsDegrees": [
+    0,
+    45,
+    90,
+    135,
+    180,
+    225,
+    270,
+    315
+  ],
+  "projectedBoundsBeforeFit": {
+    "minX": 63.999999999999986,
+    "minY": 103.95859519741069,
+    "maxX": 576,
+    "maxY": 558.3912670494083
+  }
+}

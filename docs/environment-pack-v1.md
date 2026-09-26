@@ -38,3 +38,7 @@ The first review pass found that raised square stone blocks made the ridge look 
 - Sprites face the fixed oblique camera. They suit this prototype camera, but free camera rotation would need new views or 3D props.
 - Harvestable oaks and impassable forests currently share species while only the isolated oaks can be worked. That visual promise is misleading. The next [harvestable woodland pilot](harvestable-woodland-pilot.md) makes every woody forest sprite actionable, with clearing states and worker-cut routes; the v1 art files can remain useful during that gameplay change.
 - Runtime WebP files are smaller than the source PNGs; measure downloads and texture memory on intended playtest devices before widening distribution.
+
+## Meshy cliff pilot
+
+Open **Match Controls → Terrain Art Pilot** for an isolated review of the new cliff captures beside current art. The [pilot package](../assets/environment/frontier-cliff-pilot-v1/README.md) includes the source model, eight color/depth views, capture scripts, and provenance. It costs no credits to view. This sample remains review art: normal battlefield terrain is unchanged.

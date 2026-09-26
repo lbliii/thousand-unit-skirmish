@@ -1,0 +1,73 @@
+{
+  "schema": "game_dev.result.v1",
+  "operation": "asset.inspect",
+  "ok": true,
+  "data": {
+    "filePath": "source/cliff-source.glb",
+    "fileBytes": 37809628,
+    "generator": "glTF-Transform v4.5.0",
+    "meshCount": 1,
+    "primitiveCount": 1,
+    "vertexCount": 516571,
+    "triangleCount": 973328,
+    "undrawnMeshCount": 0,
+    "undrawnPrimitiveCount": 0,
+    "undrawnTriangleCount": 0,
+    "sceneGraphFallback": false,
+    "materialCount": 1,
+    "textureCount": 3,
+    "textureResolutions": [
+      {
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 4309535
+      },
+      {
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 2208551
+      },
+      {
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 3079014
+      }
+    ],
+    "boundingBox": {
+      "min": [
+        -0.952701985836029,
+        -0.23791299760341644,
+        -0.3115119934082031
+      ],
+      "max": [
+        0.9501240253448486,
+        0.23690199851989746,
+        0.3099449872970581
+      ],
+      "sizeMeters": [
+        1.9028260111808777,
+        0.4748149961233139,
+        0.6214569807052612
+      ]
+    },
+    "boundingBoxEmpty": false,
+    "hasUVs": true,
+    "hasNormals": true,
+    "hasTangents": false,
+    "pbr": {
+      "hasBaseColorTexture": true,
+      "hasMetallicRoughnessTexture": true,
+      "hasNormalTexture": true,
+      "hasOcclusionTexture": false,
+      "hasEmissiveTexture": false
+    },
+    "animationCount": 0,
+    "hasSkin": false,
+    "warnings": [
+      "normal map present but not every primitive has TANGENT: tangents must be generated at import (MikkTSpace) or the normal map will light incorrectly"
+    ]
+  }
+}

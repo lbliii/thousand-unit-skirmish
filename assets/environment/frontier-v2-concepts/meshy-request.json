@@ -1,0 +1,17 @@
+{
+  "status": "completed",
+  "resource": "image-to-3d",
+  "image_url": "assets/environment/frontier-v2-concepts/cliff-straight-reference.png",
+  "model_type": "standard",
+  "should_texture": true,
+  "enable_pbr": true,
+  "texture_resolution": "2k",
+  "target_formats": [
+    "glb"
+  ],
+  "estimated_credits": 30,
+  "estimate_source": "Meshy CLI 0.4.0 make --dry-run, 2026-09-26",
+  "spend_ceiling": 30,
+  "task_id": "01a0e003-8ecc-707f-9ca0-966ebfb6c52d",
+  "consumed_credits": 30
+}

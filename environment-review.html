@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Terrain art pilot · Thousand Unit Skirmish</title>
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#151e17;color:#ecebd7;font:15px/1.45 system-ui,sans-serif;height:100dvh;display:flex;flex-direction:column}
+    header{padding:18px 24px;border-bottom:1px solid #536044;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    h1{font-size:21px;margin:3px 0}p{margin:0;color:#bdc5af;font-size:13px}.eyebrow{color:#bbc978;font-size:11px;letter-spacing:.13em;text-transform:uppercase}
+    nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}button,a{color:inherit}button{font:inherit;cursor:pointer;background:#293622;border:1px solid #7a8961;border-radius:5px;padding:9px 12px}button:hover{background:#425237}button:focus-visible,a:focus-visible{outline:3px solid #e0cf7f;outline-offset:3px}output{font-size:12px;min-width:115px;text-align:center}
+    main{position:relative;flex:1;min-height:220px}canvas{display:block;width:100%;height:100%}footer{padding:12px 24px;border-top:1px solid #536044;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}#status{color:#d1dba3}footer p{font-size:12px;max-width:780px}
+    @media(max-width:600px){header{padding:12px;gap:10px}h1{font-size:18px}footer{padding:10px 12px}nav{gap:6px}button{padding:7px 10px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div><div class="eyebrow">Thousand Unit Skirmish / Art study 01</div><h1>Frontier cliff · eight-view pilot</h1><p>Current art, one Meshy cliff, and a three-piece join test.</p></div>
+    <nav aria-label="Review controls">
+      <button id="previous" aria-label="Previous camera view">← Q</button><output id="angle" aria-live="polite">VIEW 02 · 45°</output><button id="next" aria-label="Next camera view">E →</button>
+      <button id="zoom" aria-pressed="false">Closer view</button><button id="motion" aria-pressed="true">Pause probes</button>
+    </nav>
+  </header>
+  <main id="stage" aria-label="Terrain comparison"></main>
+  <footer><p><b id="status" role="status">Loading cliff views…</b><br>Review art: uneven joins, a lower profile, and smoother grass than the concept. Blue probes test depth only; this page does not run a match.</p><a href="./">Back to game</a></footer>
+  <script type="module" src="./src/environment-review.mjs"></script>
+</body>
+</html>
