@@ -139,6 +139,36 @@
       }
     },
     {
+      "id": "renderer-environment-state-pilot-plan",
+      "title": "Plan four fog-safe environment pilot frames without capture",
+      "command": {
+        "executable": "scripts/renderer-environment-state-scenario.mjs",
+        "arguments": ["--pilot-plan"],
+        "workingDirectory": "."
+      },
+      "capabilities": ["cpu", "project-write"],
+      "timeoutSeconds": 60,
+      "outputs": {
+        "format": "game-dev-capture-v1",
+        "path": "capture.json"
+      }
+    },
+    {
+      "id": "renderer-environment-state-pilot",
+      "title": "Four-frame fog-safe environment appearance pilot",
+      "command": {
+        "executable": "scripts/renderer-environment-state-scenario.mjs",
+        "arguments": ["--pilot"],
+        "workingDirectory": "."
+      },
+      "capabilities": ["cpu", "project-write", "gpu"],
+      "timeoutSeconds": 600,
+      "outputs": {
+        "format": "game-dev-capture-v1",
+        "path": "capture.json"
+      }
+    },
+    {
       "id": "renderer-environment-state",
       "title": "Fog-safe resource and construction state appearance matrix",
       "command": {
