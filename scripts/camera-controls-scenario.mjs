@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
 import {
+  cameraDepthSafePlanes,
   cameraTargetForZoomAnchor,
   cameraPanDeltaFromScreen,
   canEdgeScroll,
@@ -83,6 +84,17 @@ for (const [name, width, height] of [
     [-width / 2, height / 2], [width / 2, height / 2]]) {
     const reachable = clampCameraTargetToGroundBounds({ x, z, halfX: width / 2, halfZ: height / 2 });
     assert.deepEqual(reachable, { x, z }, `${name} corner remains reachable at all zoom levels`);
+    const clipPlanes = cameraDepthSafePlanes({
+      halfX: width / 2,
+      halfZ: height / 2,
+      targetX: reachable.x,
+      targetZ: reachable.z,
+      cameraOffsetX: 0.78 / Math.hypot(0.78, 1.12, 0.78),
+      cameraOffsetZ: 0.78 / Math.hypot(0.78, 1.12, 0.78),
+    });
+    assert.ok(clipPlanes.distance - clipPlanes.extent >= 12
+      && clipPlanes.far - clipPlanes.distance >= clipPlanes.extent + 24,
+    `${name} corner stays between dynamic camera clip planes`);
   }
 }
 

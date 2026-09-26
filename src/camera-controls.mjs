@@ -52,6 +52,15 @@ export function cameraPanDeltaFromScreen({ dx, dy, viewportHeight, baseFrustum, 
   return { x: -screenMotionWorldX, z: -screenMotionWorldZ };
 }
 
+export function cameraDepthSafePlanes({
+  halfX, halfZ, targetX = 0, targetZ = 0, cameraOffsetX, cameraOffsetZ,
+}) {
+  const extent = Math.abs(cameraOffsetX) * (halfX + Math.abs(targetX))
+    + Math.abs(cameraOffsetZ) * (halfZ + Math.abs(targetZ));
+  const distance = Math.max(125, extent + 12);
+  return { distance, far: Math.max(300, distance + extent + 24), extent };
+}
+
 export function canEdgeScroll({
   pointerType,
   buttons,

@@ -42,6 +42,7 @@ import {
   summarizeAudioRecognitionResponses,
 } from './audio-recognition-check.mjs';
 import {
+  cameraDepthSafePlanes,
   cameraPanDeltaFromScreen,
   cameraTargetForZoomAnchor,
   canEdgeScroll,
@@ -499,8 +500,19 @@ const ROOM_INSTANCE_STORAGE_KEY = `${SESSION_STORAGE_KEY}:instance:${location.ho
 const ROOM_MATCH_STORAGE_KEY = `${SESSION_STORAGE_KEY}:match:${location.host}:${ROOM_ID || 'default'}`;
 
 function setCamera() {
-  const distance = 125;
-  camera.position.copy(cameraTarget).addScaledVector(cameraOffset, distance);
+  const clipPlanes = cameraDepthSafePlanes({
+    halfX: MAP_HALF_X,
+    halfZ: MAP_HALF_Z,
+    targetX: cameraTarget.x,
+    targetZ: cameraTarget.z,
+    cameraOffsetX: cameraOffset.x,
+    cameraOffsetZ: cameraOffset.z,
+  });
+  if (camera.far !== clipPlanes.far) {
+    camera.far = clipPlanes.far;
+    camera.updateProjectionMatrix();
+  }
+  camera.position.copy(cameraTarget).addScaledVector(cameraOffset, clipPlanes.distance);
   camera.lookAt(cameraTarget);
   camera.updateMatrixWorld();
   if (!mapDefinition) return;
@@ -514,9 +526,7 @@ function setCamera() {
   if (clampedTarget.x !== cameraTarget.x || clampedTarget.z !== cameraTarget.z) {
     cameraTarget.x = clampedTarget.x;
     cameraTarget.z = clampedTarget.z;
-    camera.position.copy(cameraTarget).addScaledVector(cameraOffset, distance);
-    camera.lookAt(cameraTarget);
-    camera.updateMatrixWorld();
+    setCamera();
   }
 }
 
