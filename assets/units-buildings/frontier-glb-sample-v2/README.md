@@ -1,6 +1,6 @@
 # Frontier character and Barracks pack
 
-Checkpoint 0.2.0 adds the Worker, Infantry, and Archer to the compact GLB asset set. The immutable 0.1.2 checkpoint remains a separate package.
+Checkpoint 0.2.0 is the current compact GLB asset sample for the Worker, Infantry, Archer, and Barracks. The earlier v0.1.2 review package is superseded and is not shipped in this directory; its base Blender builder is retained under `source/` for provenance.
 
 ## Visual finish
 

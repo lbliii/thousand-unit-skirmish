@@ -277,14 +277,14 @@
     {
       "path": "PROVENANCE.md",
       "role": "documentation",
-      "sha256": "fcafdebc5bb2b37dce798b6e3b873b4f1ffa4ff946bef19b0a398852e0a9f4c1",
+      "sha256": "ff17edd492c9e71704aa782b01b79bf72e094298b98a2efe8ad225c5b399f62f",
       "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
       "provenance": "Project-internal review documentation."
     },
     {
       "path": "README.md",
       "role": "documentation",
-      "sha256": "dd58d5ed4f4ee3653dceb2575c5983f7d2d23db4aeababe21663671ff135304d",
+      "sha256": "ca2cf23110f2577a61aa22630c4a3dcbb03f6b615f6ec6b2cf7422239d3899e3",
       "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
       "provenance": "Project-internal review documentation."
     },
