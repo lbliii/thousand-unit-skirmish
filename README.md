@@ -1,4 +1,4 @@
-# Thousand Unit Skirmish — prototype 0.95
+# Thousand Unit Skirmish — prototype 0.96
 
 For team priorities and the next independently shippable checkpoint in each workstream, see the [living roadmap](docs/roadmap.md). The [game bible](docs/game-bible.md) defines the player experience; the [QA plan](docs/qa-vertical-slice.md) records milestone evidence.
 
@@ -82,6 +82,12 @@ Exercise gathering, Archery Range and Barracks construction, Archer, Infantry, a
 ```sh
 PORT=4174 node server.mjs
 node scripts/building-economy-scenario.mjs 4174
+```
+
+Exercise Town Center worker production on a custom map with diagonal, reversed team spawns:
+
+```sh
+node scripts/worker-production-spawn-scenario.mjs
 ```
 
 Exercise both building-researched attack upgrades and a capture-triggered technology reward through two live clients, including costs, progress, combat damage, fog privacy, one-shot behavior, map persistence, and checkpoint recovery:
@@ -589,6 +595,8 @@ Prototype 0.91 starts the recovery grace period for connected seats when the wor
 Prototype 0.92 lets Map Studio join event branches with an all-of completion trigger. The server starts the joined event's delay only when every source has finished its repeat deliveries, preserves partially completed joins through checkpoints, rejects cycles and duplicate or missing sources, and carries the capturing team only when all branches share the same capture-root event.
 
 Prototype 0.93 adds standard directional RTS box selection. Left-to-right selects units enclosed by the box; right-to-left selects friendlies whose projected footprint crosses it. The box color and dashed outline show crossing mode while dragging, Shift adds either selection to the current group, and the crossing radius scales with camera zoom and viewport size.
+
+Prototype 0.96 places Town Centers and newly trained workers on the home side of each spawn, using the direction from the opposing spawn instead of assuming team 0 is west and team 1 east. Reversed and diagonal Map Studio layouts now keep production exits away from mid-map; normal shipped map placement stays the same. A two-seat server scenario checks both queues, the 50-food cost, one-worker roster change, and the produced worker's home-side position.
 
 Prototype 0.95 hardens the sustained Stone Pass scenario with explicit per-team flow and balance thresholds, failure messages that report observed counts and child-server logs, and cleanup on SIGTERM/SIGINT. A sealed 60-second Node 24.9 arm64 run passed with 1,000/1,000 units crossing per side and zero units below 24 world units of forward progress. Tick p95 was 8.741 ms and max 11.804 ms, within the 33.333 ms p95 and 100 ms max budgets; the earlier local capture read 7.177 ms p95 and 9.133 ms max. These are single local samples with no admitted hardware-performance evidence.
 

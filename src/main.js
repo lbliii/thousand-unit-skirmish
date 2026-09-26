@@ -24,6 +24,7 @@ import {
   capturePrerequisiteIds, findInvalidCapturePrerequisite, findInvalidScenarioEventChain,
   findUnreachableCaptureZone, findUnreachableResourceNode, scenarioEventSourceIds,
 } from './map-utils.mjs';
+import { townCenterSpawnPosition } from './town-center-spawn.mjs';
 import { resizeWorldMarkers } from './map-resize.mjs';
 import {
   clampMapStudioZoom, mapStudioCanvasSize, mapStudioCellAtPointer,
@@ -584,16 +585,18 @@ function updateBuildingProductionCue(visual, building) {
   applyProductionCueState(visual.productionLamp, state, visual.teamColor);
 }
 
-function addTownCenterVisual(spawn) {
-  const outward = spawn.team === 0 ? -1 : 1;
-  const x = THREE.MathUtils.clamp(spawn.x + outward * 3, -MAP_HALF_X + 1.5, MAP_HALF_X - 1.5);
+function addTownCenterVisual(spawn, definition) {
+  const townCenter = townCenterSpawnPosition(
+    definition.spawnPoints, spawn.team, definition.width, definition.height,
+  );
+  const { x, z } = townCenter;
   const stone = new THREE.MeshBasicMaterial({ color: 0x9b9580 });
   const slate = new THREE.MeshBasicMaterial({ color: 0x363d3f });
   const timber = new THREE.MeshBasicMaterial({ color: 0x514333 });
   const doorMaterial = new THREE.MeshBasicMaterial({ color: 0x2d302b });
   const piece = (geometry, material, px, py, pz, angle = 0) => {
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(x + px, py, spawn.z + pz);
+    mesh.position.set(x + px, py, z + pz);
     mesh.rotation.z = angle;
     addMapObject(mesh);
     return mesh;
@@ -1735,7 +1738,7 @@ function buildMap(definition) {
   addMapObject(obstacles);
   addObstacleEnvironmentSprites(definition, MAP_HALF_X, MAP_HALF_Z, addMapObject);
 
-  for (const spawn of definition.spawnPoints || []) addTownCenterVisual(spawn);
+  for (const spawn of definition.spawnPoints || []) addTownCenterVisual(spawn, definition);
   buildWoodNodeInstances(definition.resourceNodes || []);
   buildBerryNodeInstances(definition.resourceNodes || []);
   for (const node of definition.resourceNodes || []) {
@@ -6061,9 +6064,12 @@ function buildPlacementAt(clientX, clientY) {
         && startRow < zone.row + zone.height && zone.row < startRow + footprint) blockedReason ||= 'CAPTURE ZONE IN THIS SITE';
     }
     for (const spawn of mapDefinition.spawnPoints || []) {
-      const outward = spawn.team === 0 ? -1 : 1;
-      const townCenterX = THREE.MathUtils.clamp(spawn.x + outward * 3, -MAP_HALF_X + 1.5, MAP_HALF_X - 1.5);
-      if (Math.abs(x - townCenterX) < 2.8 && Math.abs(z - spawn.z) < 2.8) blockedReason ||= 'TOWN CENTER TOO CLOSE';
+      const townCenter = townCenterSpawnPosition(
+        mapDefinition.spawnPoints, spawn.team, mapDefinition.width, mapDefinition.height,
+      );
+      if (Math.abs(x - townCenter.x) < 2.8 && Math.abs(z - townCenter.z) < 2.8) {
+        blockedReason ||= 'TOWN CENTER TOO CLOSE';
+      }
     }
   }
   for (const team of teamUnits) {
