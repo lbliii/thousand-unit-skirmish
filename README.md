@@ -236,11 +236,10 @@ This scenario publishes a temporary fog-enabled map and resets the room, so use 
 
 ## Elimination scenario
 
-Run the two-client elimination, terminal-order, and reconnect-persistence scenario against a disposable local room. It publishes a temporary no-objective map and resets the room to 250 units:
+Run the isolated two-client elimination, terminal-order, and reconnect-persistence scenario. It starts its own temporary server, publishes a 24-unit no-objective map, gathers food for one side to check post-match production rejection, and removes its temporary data when finished:
 
 ```sh
-PORT=4178 node server.mjs
-node scripts/elimination-scenario.mjs 4178
+node scripts/elimination-scenario.mjs
 ```
 
 
