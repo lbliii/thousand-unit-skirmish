@@ -55,6 +55,39 @@ export function summarizeAudioRecognitionResponses(responses, { captionsEnabled 
   return { correct, total: responses.length, score, report };
 }
 
+export async function copyAudioRecognitionText(text, {
+  clipboard = globalThis.navigator?.clipboard,
+  document: doc = globalThis.document,
+} = {}) {
+  if (typeof text !== 'string' || text.length === 0) return false;
+  try {
+    if (typeof clipboard?.writeText === 'function') {
+      await clipboard.writeText(text);
+      return true;
+    }
+  } catch {}
+
+  if (!doc?.body || typeof doc.createElement !== 'function' || typeof doc.execCommand !== 'function') return false;
+  const previousFocus = doc.activeElement;
+  let field;
+  try {
+    field = doc.createElement('textarea');
+    field.value = text;
+    field.readOnly = true;
+    field.tabIndex = -1;
+    field.setAttribute('aria-hidden', 'true');
+    Object.assign(field.style, { position: 'fixed', left: '-9999px', top: '0', opacity: '0' });
+    doc.body.append(field);
+    field.select();
+    return doc.execCommand('copy') === true;
+  } catch {
+    return false;
+  } finally {
+    try { field?.remove(); } catch {}
+    try { previousFocus?.focus({ preventScroll: true }); } catch {}
+  }
+}
+
 export function createAudioRecognitionRound({ random = Math.random, repetitions = 2 } = {}) {
   if (typeof random !== 'function') throw new TypeError('random must be a function');
   if (!Number.isInteger(repetitions) || repetitions < 1) {

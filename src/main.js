@@ -34,7 +34,7 @@ import { classifyOrderNotice } from './order-feedback.mjs';
 import { AMBIENCE_PREVIEW_DURATION_MS, createGameAudio } from './audio.mjs';
 import { CombatAudioGate, cueForNotice, cueForScenarioEvent, isLocalRejection } from './audio-policy.mjs';
 import {
-  AUDIO_RECOGNITION_CUE_LABELS, createAudioRecognitionRound,
+  AUDIO_RECOGNITION_CUE_LABELS, copyAudioRecognitionText, createAudioRecognitionRound,
   summarizeAudioRecognitionResponses,
 } from './audio-recognition-check.mjs';
 import {
@@ -6867,11 +6867,9 @@ ui.audioRecognitionEnd.addEventListener('click', () => {
 });
 ui.audioRecognitionCopy.addEventListener('click', async () => {
   if (!audioRecognitionLastReport) return;
-  try {
-    if (typeof navigator.clipboard?.writeText !== 'function') throw new Error('Clipboard unavailable');
-    await navigator.clipboard.writeText(audioRecognitionLastReport);
+  if (await copyAudioRecognitionText(audioRecognitionLastReport)) {
     ui.audioRecognitionCopyStatus.textContent = 'Copied. Paste these notes into the audio playtest log.';
-  } catch {
+  } else {
     ui.audioRecognitionCopyStatus.textContent = 'Clipboard unavailable. Open trial notes and copy them manually.';
   }
 });

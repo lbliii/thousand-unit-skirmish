@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {
-  AUDIO_RECOGNITION_CATEGORIES, AUDIO_RECOGNITION_CUE_LABELS, createAudioRecognitionRound,
+  AUDIO_RECOGNITION_CATEGORIES, AUDIO_RECOGNITION_CUE_LABELS, copyAudioRecognitionText, createAudioRecognitionRound,
   summarizeAudioRecognitionResponses,
 } from '../src/audio-recognition-check.mjs';
 
@@ -48,4 +48,35 @@ for (const label of ['Match victory 2/2', 'Match defeat 2/2', 'Match draw 2/2'])
 const missed = submitted.find((response) => !response.correct);
 const labelById = new Map(AUDIO_RECOGNITION_CATEGORIES.map(({ id, label }) => [id, label]));
 assert.ok(summary.report.includes(`${missed.position}. ${labelById.get(missed.expected)} → ${labelById.get(missed.answer)} (missed)`));
+
+const modernClipboard = { calls: [], async writeText(text) { this.calls.push(text); } };
+assert.equal(await copyAudioRecognitionText(summary.report, { clipboard: modernClipboard }), true);
+assert.deepEqual(modernClipboard.calls, [summary.report], 'the browser clipboard API receives the report first');
+
+const fallbackCalls = [];
+const fallbackField = {
+  style: {},
+  setAttribute(name, value) { fallbackCalls.push(['attribute', name, value]); },
+  select() { fallbackCalls.push(['select']); },
+  remove() { fallbackCalls.push(['remove']); },
+};
+const previousFocus = { focus(options) { fallbackCalls.push(['restore-focus', options.preventScroll]); } };
+const fallbackDocument = {
+  activeElement: previousFocus,
+  body: { append(field) { assert.equal(field, fallbackField); fallbackCalls.push(['append']); } },
+  createElement(tag) { assert.equal(tag, 'textarea'); fallbackField.value = ''; return fallbackField; },
+  execCommand(command) { fallbackCalls.push(['command', command]); return true; },
+};
+assert.equal(await copyAudioRecognitionText(summary.report, {
+  clipboard: { async writeText() { throw new Error('permission denied'); } },
+  document: fallbackDocument,
+}), true, 'a denied async clipboard write falls back to selected text');
+assert.equal(fallbackField.value, summary.report);
+assert.ok(fallbackCalls.some(([kind, command]) => kind === 'command' && command === 'copy'));
+assert.ok(fallbackCalls.some(([kind]) => kind === 'remove'), 'the temporary field is removed');
+assert.ok(fallbackCalls.some(([kind]) => kind === 'restore-focus'), 'the previous control regains focus');
+
+assert.equal(await copyAudioRecognitionText(summary.report, {
+  clipboard: { async writeText() { throw new Error('permission denied'); } },
+}), false, 'copying reports unavailable when neither clipboard route exists');
 console.log('Audio recognition check scenario passed.');
