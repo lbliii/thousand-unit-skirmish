@@ -26,3 +26,15 @@ The rectangular look comes from authored obstacle rectangles, not a requirement 
 | Maps and scenarios | Replace blocky forest rectangles with a seeded irregular mask and author the forest-opening pilot. | Mask/row-span count, editor round trip, both-seat routes, and one observed choice about where to cut. |
 
 The shared address for a forest tree is its map cell (`row * width + column`); it is separate from the authored `resourceNodes` IDs. Keep the map definition static and transmit only mutable forest state needed by a seat. The team can evolve this representation if a smaller working implementation proves better. A local single-worker scenario is enough for the first code merge; density and 2,000-unit measurements are later scale evidence, not a blanket hold on useful code.
+
+## Environment-art mapping proposal
+
+The current `environment.frontier-interactive` v1.0.0 pack already contains the right visual for the berry-to-brushwood handoff: `berries-depleted` is a fruitless, woody thicket. Its transparent source and runtime images are both 1536 × 1024 px, use the berry family's 2.55 × 1.56 world-unit bounds and bottom-center `[0.5, 1.0]` pivot, and have source SHA-256 `7a601be8035a3af2ede958b170bf001a11add395c4c1431d5d84ac0751923011`.
+
+| Gameplay phase | Environment art | Proposed display rule |
+| --- | --- | --- |
+| Fruit remains | Existing `berries-full`, `berries-worked`, or `berries-low` | Keep the current stock-percentage mapping. |
+| Fruit is gone; brushwood remains | Existing `berries-depleted` | Keep the woody thicket visible and targetable for a later wood order. |
+| Brushwood is gone | No additional sprite required | Remove the thicket after its final harvest; do not add a duplicate `berries-cut` texture for the pilot. |
+
+This is an art-side recommendation, not an implemented gameplay or renderer contract. The renderer must retain the depleted food sprite while brushwood stock is positive, then hide it when both stocks are zero. The ordinary forest-cell species (oak, pine, silver birch, field maple, and hazel) remain a separate asset family; the resource-node oak stages do not imply intermediate art for those forest cells.
