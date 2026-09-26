@@ -30,6 +30,9 @@ Two original transparent rock modules add a low boulder scatter and tapered medi
 | --- | --- | --- |
 | `rock-boulder-cluster.png` | `exec-3d0deef4-b10f-41cf-b794-41781ba3862e.png` | `df16e1b829b75b61cae2c4c92d57530c5497d20800e8532c38844190a7e3b035` |
 | `basalt-ridge-cap.png` | `exec-d1b4a6a6-8300-48e1-aefd-628c9660477f.png` | `dc1966fc1e7f07ad710cc3b6af9c4993be30249cb7a5b9becacba6e35a6ef734` |
+| `cliff-end-cap.png` | `exec-9721362a-531f-4a06-ae0d-dd07d754054f.png` | `b6cc8d096ce3113dc4aade59eb01d77135aedf391e6e19d927101b354c0c1b10` |
+
+The tall cliff endpoint closes each authored cliff barrier with a tapered rubble edge facing outward and a sheer face oriented into the barrier. Its runtime WebP uses the same Pillow 12.3.0 RGBA resize and quality-86 encode settings; the versioned rock manifest records both file hashes and the 4.2 × 4.6 world size.
 
 ## Vegetation addition — 26 September 2026
 

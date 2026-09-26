@@ -11,7 +11,7 @@ The rendering is **not pixel art**. Eight opaque ground textures repeat across a
 | `meadow.png`, `short-grass.png`, `long-grass.png` | Three states of living ground | Quiet base, short pasture, and coarser wild growth |
 | `forest-floor.png` | Woodland ground | Moss, leaf litter, and needle cover below forest sprites or in painted clearings |
 | `dirt.png`, `sand.png`, `scree.png`, `cinder.png` | Worn, dry, rocky, and exhausted ground | Distinct regions or paths without changing movement rules |
-| `rock-outcrop.png`, `rock-boulder-cluster.png`, `basalt-ridge.png`, `basalt-ridge-cap.png`, `cliff.png` | Stone obstacles and barrier modules | Low rocks and boulders, medium impassable ridge with end caps, tall cliff; deterministic flips and scale changes break repetition |
+| `rock-outcrop.png`, `rock-boulder-cluster.png`, `basalt-ridge.png`, `basalt-ridge-cap.png`, `cliff.png`, `cliff-end-cap.png` | Stone obstacles and barrier modules | Low rocks and boulders, medium impassable ridge with end caps, tall cliff with tapered end caps; deterministic flips and scale changes break repetition |
 | `pine.png`, `oak.png`, `silver-birch.png`, `field-maple.png`, `hazel-thicket.png` | Forest obstacles | Conifer, open pale-barked tree, broadleaf crowns, and a shrub-height silhouette mark blocked woodland |
 | `oak.png` | Harvestable wood node | A single large tree with its existing resource ring and stock behavior |
 | `berries.png` | Harvestable food node | Rust-red food accent, paired with the existing resource ring |
@@ -32,7 +32,7 @@ The first review pass found that raised square stone blocks made the ridge look 
 
 ## Current limits and next art tests
 
-- Low rocks now have a boulder-cluster alternative and medium ridges have a tapered end cap, each with a deterministic selection rule and source/runtime manifest. Tall cliffs still use one silhouette; corners and curved joins remain future module work.
+- Low rocks now have a boulder-cluster alternative, medium ridges have a tapered end cap, and tall cliffs have tapered endpoint caps, each with a deterministic selection rule and source/runtime manifest. Corners and curved joins remain future module work.
 - Forest cells now choose among oak, pine, silver birch, field maple, and hazel thicket. The three new source/runtime pairs, deterministic size ranges, and generation provenance are in [`vegetation-manifest.json`](../assets/environment/frontier-v1/vegetation-manifest.json); resource harvesting remains on its existing oak and berry states.
 - Ground brushes now draw connected strokes with soft outer edges. More varied transitions, roads, and shorelines remain for the next map-making pass.
 - Sprites face the fixed oblique camera. They suit this prototype camera, but free camera rotation would need new views or 3D props.

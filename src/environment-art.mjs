@@ -8,7 +8,7 @@ export const TERRAIN_MATERIALS = ['meadow', 'short-grass', 'long-grass', 'forest
 const spriteNames = [
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
-  'rock-boulder-cluster', 'basalt-ridge-cap',
+  'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
 ];
 const textureLoader = new THREE.TextureLoader();
 const spriteMaterials = new Map();
@@ -432,6 +432,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
   const ridges = [];
   const ridgeCaps = [];
   const cliffs = [];
+  const cliffCaps = [];
   for (const obstacle of definition.obstacles) {
     for (let row = obstacle.row; row < obstacle.row + obstacle.height; row++) {
       for (let column = obstacle.column; column < obstacle.column + obstacle.width; column++) {
@@ -483,9 +484,15 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
                   scale: 0.82 + variation(index + 61) * 0.3,
                 });
               } else outcrops.push(point);
-            }
-            else if ((obstacle.elevation ?? 1.12) >= 1.75) cliffs.push(point);
-            else if (atBarrierEnd) {
+            } else if ((obstacle.elevation ?? 1.12) >= 1.75) {
+              if (atBarrierEnd) {
+                cliffCaps.push({
+                  ...point,
+                  scale: 0.92 + variation(index + 73) * 0.16,
+                  flip: along === 0,
+                });
+              } else cliffs.push(point);
+            } else if (atBarrierEnd) {
               ridgeCaps.push({
                 ...point,
                 scale: 0.88 + variation(index + 71) * 0.22,
@@ -508,6 +515,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     ['basalt-ridge', 3.6, 3.05, ridges],
     ['basalt-ridge-cap', 3.4, 2.25, ridgeCaps],
     ['cliff', 4.2, 4.6, cliffs],
+    ['cliff-end-cap', 4.2, 4.6, cliffCaps],
   ]) {
     const mesh = createEnvironmentSpriteInstances(name, width, height, points);
     if (mesh) addObject(mesh);

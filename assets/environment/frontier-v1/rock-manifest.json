@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "packId": "environment.frontier-stone-modules",
-  "packVersion": "1.0.0",
+  "packVersion": "1.1.0",
   "parentPack": "environment.frontier-v1",
   "provenance": {
     "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
@@ -49,6 +49,28 @@
       "sha256": "7a2520ada9eba8b41cee449f98f8f4186415d6f726646a1ed00f5cdd7a1b01bc",
       "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
       "provenance": "Pillow 12.3.0 RGBA resize and WebP quality-86 encode from basalt-ridge-cap.png; alpha retained.",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 683
+      }
+    },
+    {
+      "path": "cliff-end-cap.png",
+      "role": "source-image",
+      "sha256": "b6cc8d096ce3113dc4aade59eb01d77135aedf391e6e19d927101b354c0c1b10",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "Codex built-in ImageGen output exec-9721362a-531f-4a06-ae0d-dd07d754054f; asset brief in ROCK-PROMPTS.md.",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "cliff-end-cap.webp",
+      "role": "runtime-image",
+      "sha256": "b3901b3379e072938e850368f0f4f30e1f727cf1d64ed36fcea81e88104f928a",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "Pillow 12.3.0 RGBA resize and WebP quality-86 encode from cliff-end-cap.png; alpha retained.",
       "dimensionsPx": {
         "width": 1024,
         "height": 683
@@ -121,6 +143,39 @@
         "horizontalFlip": true
       },
       "description": "Broken tapered ridge end-cap used at the ends of medium-height stone barriers."
+    },
+    {
+      "id": "cliff-end-cap",
+      "output": "exec-9721362a-531f-4a06-ae0d-dd07d754054f",
+      "worldSize": {
+        "width": 4.2,
+        "height": 4.6
+      },
+      "dimensionsPx": {
+        "source": {
+          "width": 1536,
+          "height": 1024
+        },
+        "runtime": {
+          "width": 1024,
+          "height": 683
+        }
+      },
+      "sourceFile": "cliff-end-cap.png",
+      "runtimeFile": "cliff-end-cap.webp",
+      "kind": "environment-sprite",
+      "pivot": [
+        0.5,
+        1.0
+      ],
+      "cameraFacing": true,
+      "alphaMode": "cutout",
+      "scaleVariants": {
+        "min": 0.92,
+        "max": 1.08,
+        "horizontalFlip": true
+      },
+      "description": "Tall basalt cliff endpoint with a sheer side facing into the barrier and a tapered rubble edge facing outward."
     }
   ]
 }
