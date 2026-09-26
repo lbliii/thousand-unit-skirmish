@@ -18,6 +18,14 @@ There is no producer checkpoint handoff. Owners keep working and merge their own
 
 When a checkpoint changes materially, the owner can update its row and link the PR, build, capture, or result. This update is useful context, not a prerequisite for merging code. If a row has become stale, improve it rather than following it mechanically. Record evidence with commit or deployed build, environment, result, and link; use **implemented**, **merged**, **observed on staging**, and **demonstrated by players** precisely.
 
+## Current priority · prove the RTS core in play
+
+Build an excellent, reusable match engine and test it in real games before scaling to many factions, civilizations, or art aesthetics. A solo match against the deterministic opponent is a fast feedback path; unassisted human 1v1 matches reveal strategy, comprehension, and online failures the bot cannot. Keep both paths easy to start on staging and turn their concrete failures into the next useful slices.
+
+For now, favor reliable selection and orders, formation movement and pathfinding, combat and targeting, gathering and production, map and scenario rules, fog, victory/rematch, reconnect and checkpoint recovery, and measured behavior at intended army sizes. A new map, asset, or control should exercise one of those systems in play and make the outcome clearer. When adding content, keep its data and runtime contracts explicit so a second faction or visual treatment can reuse the same simulation; generalize from actual second examples rather than speculative breadth.
+
+The working loop is: play a fresh match; record its build, map, seed when applicable, and the decisive or confusing moment; reproduce the largest problem; ship a focused improvement; play again. Real-match observations guide priority. Scripted scenarios protect known behavior, and representative art keeps the match readable. Neither a full content catalog nor a milestone proof is a blanket merge gate for useful intermediate work in any lane.
+
 ## Milestones
 
 These are product outcomes, not main-merge gates. Art, playability, and scale work can proceed in parallel; the first external test needs a playable match, not every polish item.
@@ -60,7 +68,7 @@ These are product outcomes, not main-merge gates. Art, playability, and scale wo
 
 ## Choosing the next slice
 
-1. Prefer the first missing player observation in the milestone your lane serves. If the environment cannot support that observation today, ship a source or local pilot that makes it easier.
+1. Prefer a concrete core-system failure or uncertainty seen in a solo or human match, or the smallest change that makes such a match easy to run. If the environment cannot support that observation today, ship a source or local pilot that makes it easier.
 2. Keep dependencies narrow: agree on a manifest, schema, or API directly with the affected owner and continue independent work.
 3. If a checkpoint fails, record one reproducible failure and let the owning lane fix forward. Keep the other lanes moving.
 4. Promote production only as a separate release decision. Normal author merges to `main` may trigger staging and are expected.
