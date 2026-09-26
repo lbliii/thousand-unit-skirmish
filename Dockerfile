@@ -12,7 +12,9 @@ COPY --chown=node:node src/ ./src/
 COPY --chown=node:node maps/ ./maps/
 COPY --chown=node:node assets/environment/frontier-v1/ ./assets/environment/frontier-v1/
 COPY --chown=node:node assets/environment/frontier-interactive-v1/manifest.json ./assets/environment/frontier-interactive-v1/manifest.json
-COPY --chown=node:node assets/environment/frontier-interactive-v1/*.webp ./assets/environment/frontier-interactive-v1/
+COPY --chown=node:node assets/environment/frontier-interactive-v1/berries-depleted.webp assets/environment/frontier-interactive-v1/berries-full.webp assets/environment/frontier-interactive-v1/berries-low.webp assets/environment/frontier-interactive-v1/berries-worked.webp ./assets/environment/frontier-interactive-v1/
+COPY --chown=node:node assets/environment/frontier-interactive-v1/construction-earthwork.webp assets/environment/frontier-interactive-v1/construction-foundation.webp assets/environment/frontier-interactive-v1/oak-depleted.webp ./assets/environment/frontier-interactive-v1/
+COPY --chown=node:node assets/environment/frontier-interactive-v1/oak-full.webp assets/environment/frontier-interactive-v1/oak-low.webp assets/environment/frontier-interactive-v1/oak-worked.webp ./assets/environment/frontier-interactive-v1/
 COPY --chown=node:node assets/ui/ ./assets/ui/
 COPY deploy/entrypoint.sh ./deploy/entrypoint.sh
 RUN mkdir -p /app/custom-maps /app/room-data && chown node:node /app/custom-maps /app/room-data
