@@ -86,13 +86,27 @@ function stateFrom(message) {
   return null;
 }
 
-function participantSummary(state, participants) {
+function participantSummary(state, participants, gatherTargets, map) {
   return Object.fromEntries(Object.entries(participants).map(([label, ids]) => {
     const units = state.units.filter((row) => ids.includes(row[0]));
     return [label, {
       total: units.length,
       survivors: units.filter((row) => row[4] > 0).length,
       remainingHp: Number(units.reduce((sum, row) => sum + row[4], 0).toFixed(1)),
+      workers: units.filter((row) => row[5] === 'worker').map((row) => {
+        const targetId = gatherTargets[row[0]] || null;
+        const target = map.resourceNodes.find((node) => node.id === targetId);
+        return {
+          id: row[0],
+          hp: row[4],
+          task: row[9],
+          cargo: row[6],
+          cargoType: row[7],
+          targetNodeId: targetId,
+          distanceToTarget: target
+            ? Number(Math.hypot(target.x - row[2], target.z - row[3]).toFixed(2)) : null,
+        };
+      }),
     }];
   }));
 }
@@ -277,6 +291,12 @@ async function runCase(splitTeam) {
     const foodNodeResponse = nearestNode(map, responseTeam, 'food');
     const woodNodeResponse = nearestNode(map, responseTeam, 'wood');
     assert.ok(foodNodeSplit && woodNodeSplit && foodNodeResponse && woodNodeResponse);
+    const gatherTargets = Object.fromEntries([
+      [groups.splitGatherers[0], foodNodeSplit.id],
+      [groups.splitGatherers[1], woodNodeSplit.id],
+      ...groups.responseGatherers.slice(0, 2).map((id) => [id, foodNodeResponse.id]),
+      ...groups.responseGatherers.slice(2).map((id) => [id, woodNodeResponse.id]),
+    ]);
 
     issue(splitTeam, { type: 'gather', ids: [groups.splitGatherers[0]], nodeId: foodNodeSplit.id }, 1);
     issue(splitTeam, { type: 'gather', ids: [groups.splitGatherers[1]], nodeId: woodNodeSplit.id }, 2);
@@ -336,7 +356,9 @@ async function runCase(splitTeam) {
       } : null];
     }));
     const timeline = {};
-    for (const checkpoint of [25, 40, 60, observationSeconds]) {
+    const checkpoints = [...new Set([25, 40, 60, observationSeconds])]
+      .filter((seconds) => seconds <= observationSeconds);
+    for (const checkpoint of checkpoints) {
       const state = stateAtOrAfter(states, checkpoint);
       if (!state) continue;
       timeline[checkpoint] = {
@@ -358,7 +380,17 @@ async function runCase(splitTeam) {
             unitCounts: objective.unitCounts,
           };
         }),
-        participants: participantSummary(state, groups),
+        participants: participantSummary(state, groups, gatherTargets, map),
+        resourcesByObserver: clientsByTeam.map((client, observerTeam) => {
+          const observerState = stateAtOrAfter(client.states.filter((candidate) => (
+            candidate.mapId === map.id && Number.isFinite(candidate.matchElapsedSeconds)
+          )), checkpoint);
+          return {
+            observerTeam,
+            food: observerState?.food,
+            wood: observerState?.wood,
+          };
+        }),
       };
     }
 
@@ -387,7 +419,7 @@ async function runCase(splitTeam) {
             unitCounts: objective.unitCounts,
           };
         }),
-        participants: participantSummary(finalState, groups),
+        participants: participantSummary(finalState, groups, gatherTargets, map),
         resources: [0, 1].map((team) => ({
           team,
           food: finalState.food[team],
@@ -395,6 +427,14 @@ async function runCase(splitTeam) {
           foodDelivered: finalState.food[team] - startFood[team],
           woodDelivered: finalState.wood[team] - startWood[team],
         })),
+        resourcesByObserver: clientsByTeam.map((client, observerTeam) => {
+          const observerState = client.latestState();
+          return {
+            observerTeam,
+            food: observerState?.food,
+            wood: observerState?.wood,
+          };
+        }),
       },
       timeline,
       acceptedOrders,
