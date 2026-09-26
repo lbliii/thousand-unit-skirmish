@@ -1,19 +1,25 @@
 const RECOGNITION_CUES = Object.freeze([
   Object.freeze({ cue: 'move', expected: 'move' }),
   Object.freeze({ cue: 'attack', expected: 'attack' }),
-  Object.freeze({ cue: 'victory', expected: 'result' }),
+  Object.freeze({ cue: 'victory', expected: 'victory' }),
+  Object.freeze({ cue: 'defeat', expected: 'defeat' }),
+  Object.freeze({ cue: 'draw', expected: 'draw' }),
 ]);
 
 export const AUDIO_RECOGNITION_CATEGORIES = Object.freeze([
   Object.freeze({ id: 'move', label: 'Move order' }),
   Object.freeze({ id: 'attack', label: 'Attack order' }),
-  Object.freeze({ id: 'result', label: 'Match result' }),
+  Object.freeze({ id: 'victory', label: 'Match victory' }),
+  Object.freeze({ id: 'defeat', label: 'Match defeat' }),
+  Object.freeze({ id: 'draw', label: 'Match draw' }),
 ]);
 
 export const AUDIO_RECOGNITION_CUE_LABELS = Object.freeze({
   move: 'Move order',
   attack: 'Attack order',
-  victory: 'Match result',
+  victory: 'Match victory',
+  defeat: 'Match defeat',
+  draw: 'Match draw',
 });
 
 export function summarizeAudioRecognitionResponses(responses, { captionsEnabled = false } = {}) {
