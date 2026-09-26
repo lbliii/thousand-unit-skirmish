@@ -52,6 +52,8 @@ const scenarios = [
   ['scripts/objective-fog-visibility-scenario.mjs', 'Objective fog visibility'],
   ['scripts/unreachable-attack-scenario.mjs', 'Orders, 2k spawn clearance, and objective hold'],
   ['scripts/elimination-scenario.mjs', 'Terminal elimination and reconnect'],
+  ['scripts/queued-waypoint-scenario.mjs', 'Queued waypoint checkpoint recovery'],
+  ['scripts/live-attack-move-repair-scenario.mjs', 'Live attack-move route repair'],
   ['scripts/worker-combat-scenario.mjs', 'Worker combat across both seats'],
   ['scripts/worker-production-spawn-scenario.mjs', 'Town Center worker exits across map orientations'],
   ['scripts/infantry-seat-combat-scenario.mjs', 'Mirrored infantry combat parity', '--expect-parity'],
