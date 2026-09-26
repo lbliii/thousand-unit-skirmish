@@ -33,7 +33,8 @@ import { classifyOrderNotice } from './order-feedback.mjs';
 import { AMBIENCE_PREVIEW_DURATION_MS, createGameAudio } from './audio.mjs';
 import { CombatAudioGate, cueForNotice, cueForScenarioEvent, isLocalRejection } from './audio-policy.mjs';
 import {
-  AUDIO_RECOGNITION_CATEGORIES, AUDIO_RECOGNITION_CUE_LABELS, createAudioRecognitionRound,
+  AUDIO_RECOGNITION_CUE_LABELS, createAudioRecognitionRound,
+  summarizeAudioRecognitionResponses,
 } from './audio-recognition-check.mjs';
 import {
   canEdgeScroll,
@@ -290,6 +291,9 @@ const ui = {
   audioRecognitionEnd: document.querySelector('#audio-recognition-end'),
   audioRecognitionResults: document.querySelector('#audio-recognition-results'),
   audioRecognitionScore: document.querySelector('#audio-recognition-score'),
+  audioRecognitionReport: document.querySelector('#audio-recognition-report'),
+  audioRecognitionCopy: document.querySelector('#audio-recognition-copy'),
+  audioRecognitionCopyStatus: document.querySelector('#audio-recognition-copy-status'),
   audioAmbience: document.querySelector('#audio-ambience'),
   audioAmbiencePreview: document.querySelector('#audio-ambience-preview'),
   audioAmbienceLevel: document.querySelector('#audio-ambience-level'),
@@ -302,6 +306,7 @@ let audioRecognitionTrialPlayed = false;
 let audioRecognitionAwaitingNext = false;
 let audioRecognitionCaptionState = false;
 let audioRecognitionRound = null;
+let audioRecognitionLastReport = '';
 const audioRecognitionAnswerButtons = [...ui.audioRecognitionAnswers.querySelectorAll('[data-audio-recognition-answer]')];
 const audio = createGameAudio({
   onStatusChange: () => syncAudioControls(),
@@ -6772,22 +6777,15 @@ function renderAudioRecognitionTrial() {
 function endAudioRecognitionCheck({ showResults = false } = {}) {
   if (showResults && audioRecognitionRound) {
     const responses = audioRecognitionRound.responses;
-    const correct = responses.filter((response) => response.correct).length;
-    const breakdown = AUDIO_RECOGNITION_CATEGORIES.map(({ id, label }) => {
-      const categoryResponses = responses.filter((response) => response.expected === id);
-      const categoryCorrect = categoryResponses.filter((response) => response.correct).length;
-      const misreads = new Map();
-      for (const response of categoryResponses.filter((candidate) => !candidate.correct)) {
-        const answerLabel = AUDIO_RECOGNITION_CATEGORIES.find(({ id: answerId }) => answerId === response.answer)?.label;
-        if (answerLabel) misreads.set(answerLabel, (misreads.get(answerLabel) || 0) + 1);
-      }
-      const misreadSummary = [...misreads].map(([answerLabel, count]) => `${count} as ${answerLabel.toLowerCase()}`);
-      return `${label} ${categoryCorrect}/${categoryResponses.length}${misreadSummary.length ? ` · missed ${misreadSummary.join(', ')}` : ''}`;
-    });
-    ui.audioRecognitionScore.textContent = `${correct}/${responses.length} correct · captions ${audioRecognitionCaptionState ? 'on' : 'off'} · ${breakdown.join(' · ')}`;
+    const summary = summarizeAudioRecognitionResponses(responses, { captionsEnabled: audioRecognitionCaptionState });
+    ui.audioRecognitionScore.textContent = summary.score;
+    audioRecognitionLastReport = summary.report;
+    ui.audioRecognitionReport.textContent = summary.report;
+    ui.audioRecognitionCopyStatus.textContent = 'Copies only when you choose; nothing is sent.';
     ui.audioRecognitionResults.hidden = false;
     ui.audioRecognitionStart.textContent = 'Run again';
   } else {
+    audioRecognitionLastReport = '';
     ui.audioRecognitionResults.hidden = true;
     ui.audioRecognitionStart.textContent = 'Start check';
   }
@@ -6804,6 +6802,7 @@ function endAudioRecognitionCheck({ showResults = false } = {}) {
 ui.audioRecognitionStart.addEventListener('click', () => {
   audio.unlock();
   clearAudioCaption();
+  audioRecognitionLastReport = '';
   audioRecognitionRound = createAudioRecognitionRound();
   audioRecognitionCaptionState = audio.getSettings().captions;
   audioRecognitionActive = true;
@@ -6860,6 +6859,16 @@ ui.audioRecognitionNext.addEventListener('click', () => {
 ui.audioRecognitionEnd.addEventListener('click', () => {
   endAudioRecognitionCheck();
   ui.audioRecognitionStart.focus();
+});
+ui.audioRecognitionCopy.addEventListener('click', async () => {
+  if (!audioRecognitionLastReport) return;
+  try {
+    if (typeof navigator.clipboard?.writeText !== 'function') throw new Error('Clipboard unavailable');
+    await navigator.clipboard.writeText(audioRecognitionLastReport);
+    ui.audioRecognitionCopyStatus.textContent = 'Copied. Paste these notes into the audio playtest log.';
+  } catch {
+    ui.audioRecognitionCopyStatus.textContent = 'Clipboard unavailable. Open trial notes and copy them manually.';
+  }
 });
 ui.audioAmbience.addEventListener('change', () => { audio.setSettings({ ambience: ui.audioAmbience.checked }); syncAudioControls(); });
 ui.audioAmbiencePreview.addEventListener('click', () => {

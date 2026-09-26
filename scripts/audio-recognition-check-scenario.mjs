@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {
   AUDIO_RECOGNITION_CATEGORIES, AUDIO_RECOGNITION_CUE_LABELS, createAudioRecognitionRound,
+  summarizeAudioRecognitionResponses,
 } from '../src/audio-recognition-check.mjs';
 
 const round = createAudioRecognitionRound({ random: () => 0 });
@@ -30,4 +31,13 @@ assert.deepEqual(categoryCounts, { move: 2, attack: 2, result: 2 });
 assert.deepEqual(AUDIO_RECOGNITION_CUE_LABELS, {
   move: 'Move order', attack: 'Attack order', victory: 'Match result',
 });
+const summary = summarizeAudioRecognitionResponses(submitted, { captionsEnabled: true });
+assert.equal(summary.correct, 5);
+assert.equal(summary.total, 6);
+assert.match(summary.score, /^5\/6 correct · captions on/);
+assert.match(summary.report, /Captions: on/);
+assert.match(summary.report, /Guesses:/);
+const missed = submitted.find((response) => !response.correct);
+const labelById = new Map(AUDIO_RECOGNITION_CATEGORIES.map(({ id, label }) => [id, label]));
+assert.ok(summary.report.includes(`${missed.position}. ${labelById.get(missed.expected)} → ${labelById.get(missed.answer)} (missed)`));
 console.log('Audio recognition check scenario passed.');

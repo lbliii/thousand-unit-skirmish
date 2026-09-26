@@ -319,7 +319,7 @@
               <div class="audio-recognition-heading">
                 <div>
                   <strong>Sound recognition</strong>
-                  <small>Six shuffled samples. Turn ambience off for a quiet check. No score is saved or sent.</small>
+                  <small>Six shuffled samples. Turn ambience off for a quiet check. Copy notes only if you choose.</small>
                 </div>
                 <button id="audio-recognition-start" class="audio-preview" type="button">Start check</button>
               </div>
@@ -343,6 +343,14 @@
                 <strong>Check results</strong>
                 <p id="audio-recognition-score"></p>
                 <small>Run again with the other caption setting to compare.</small>
+                <details class="audio-recognition-report-details">
+                  <summary>View trial notes</summary>
+                  <pre id="audio-recognition-report"></pre>
+                </details>
+                <div class="audio-recognition-result-actions">
+                  <button id="audio-recognition-copy" class="audio-preview" type="button">Copy trial notes</button>
+                  <small id="audio-recognition-copy-status" role="status" aria-live="polite">Copies only when you choose; nothing is sent.</small>
+                </div>
               </div>
             </div>
             <label class="audio-check"><input id="audio-ambience" type="checkbox" checked><span>Ambience and music</span></label>

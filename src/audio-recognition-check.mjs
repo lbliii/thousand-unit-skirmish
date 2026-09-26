@@ -16,6 +16,39 @@ export const AUDIO_RECOGNITION_CUE_LABELS = Object.freeze({
   victory: 'Match result',
 });
 
+export function summarizeAudioRecognitionResponses(responses, { captionsEnabled = false } = {}) {
+  if (!Array.isArray(responses)) throw new TypeError('responses must be an array');
+  const labelById = new Map(AUDIO_RECOGNITION_CATEGORIES.map(({ id, label }) => [id, label]));
+  const correct = responses.filter((response) => response.correct).length;
+  const breakdown = AUDIO_RECOGNITION_CATEGORIES.map(({ id, label }) => {
+    const categoryResponses = responses.filter((response) => response.expected === id);
+    const categoryCorrect = categoryResponses.filter((response) => response.correct).length;
+    const misreads = new Map();
+    for (const response of categoryResponses.filter((candidate) => !candidate.correct)) {
+      const answerLabel = labelById.get(response.answer);
+      if (answerLabel) misreads.set(answerLabel, (misreads.get(answerLabel) || 0) + 1);
+    }
+    const missedAs = [...misreads].map(([answerLabel, count]) => `${count} as ${answerLabel.toLowerCase()}`);
+    return `${label} ${categoryCorrect}/${categoryResponses.length}${missedAs.length ? ` · missed ${missedAs.join(', ')}` : ''}`;
+  });
+  const score = `${correct}/${responses.length} correct · captions ${captionsEnabled ? 'on' : 'off'} · ${breakdown.join(' · ')}`;
+  const trialNotes = responses.map((response, index) => {
+    const expectedLabel = labelById.get(response.expected) || response.expected;
+    const answerLabel = labelById.get(response.answer) || response.answer;
+    return `${index + 1}. ${expectedLabel} → ${answerLabel} (${response.correct ? 'correct' : 'missed'})`;
+  });
+  const report = [
+    'Thousand Unit Skirmish audio recognition check',
+    `Captions: ${captionsEnabled ? 'on' : 'off'}`,
+    `Score: ${correct}/${responses.length}`,
+    ...breakdown,
+    '',
+    'Guesses:',
+    ...trialNotes,
+  ].join('\n');
+  return { correct, total: responses.length, score, report };
+}
+
 export function createAudioRecognitionRound({ random = Math.random, repetitions = 2 } = {}) {
   if (typeof random !== 'function') throw new TypeError('random must be a function');
   if (!Number.isInteger(repetitions) || repetitions < 1) {
