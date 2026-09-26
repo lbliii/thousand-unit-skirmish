@@ -174,7 +174,25 @@ async function connect(client) {
   return welcome.message;
 }
 
-async function runCase(splitTeam) {
+function objectiveRewardsThrough(states, seconds, map) {
+  const previousOwners = new Map();
+  const totals = [0, 1].map(() => ({ food: 0, wood: 0 }));
+  for (const state of states) {
+    if (state.matchElapsedSeconds > seconds) break;
+    for (const objective of state.objectives || []) {
+      const previousOwner = previousOwners.get(objective.id) ?? -1;
+      if (objective.owner >= 0 && objective.owner !== previousOwner) {
+        const trigger = map.triggers.find((row) => row.id === objective.id);
+        totals[objective.owner].food += trigger?.foodReward ?? 0;
+        totals[objective.owner].wood += trigger?.woodReward ?? 0;
+      }
+      previousOwners.set(objective.id, objective.owner);
+    }
+  }
+  return totals;
+}
+
+async function runCase(splitTeam, commandOrder) {
   const port = await freePort();
   const temporary = await mkdtemp(path.join(os.tmpdir(), 'rts-contested-opening-'));
   const server = spawn(process.execPath, ['server.mjs'], {
@@ -273,18 +291,17 @@ async function runCase(splitTeam) {
 
     const startFood = initial.map((state, team) => state.food[team]);
     const startWood = initial.map((state, team) => state.wood[team]);
-    const orderMessages = [];
-    const issue = (team, command, token) => {
+    const acceptedOrders = [];
+    const issue = async (team, command, token) => {
       const client = clientsByTeam[team];
       const after = client.messages.length;
       const ack = client.waitFor((message) => message.type === 'notice'
         && message.clientOrderToken === token, 12_000, after);
       client.send({ ...command, clientOrderToken: token });
-      orderMessages.push(ack.then(({ message }) => {
-        assert.ok(!message.message?.includes('REJECTED'),
-          `team ${team} order ${token} rejected: ${message.message}`);
-        return { team, token, message: message.message };
-      }));
+      const { message } = await ack;
+      assert.ok(!message.message?.includes('REJECTED'),
+        `team ${team} order ${token} rejected: ${message.message}`);
+      acceptedOrders.push({ team, token, message: message.message });
     };
     const foodNodeSplit = nearestNode(map, splitTeam, 'food');
     const woodNodeSplit = nearestNode(map, splitTeam, 'wood');
@@ -298,15 +315,23 @@ async function runCase(splitTeam) {
       ...groups.responseGatherers.slice(2).map((id) => [id, woodNodeResponse.id]),
     ]);
 
-    issue(splitTeam, { type: 'gather', ids: [groups.splitGatherers[0]], nodeId: foodNodeSplit.id }, 1);
-    issue(splitTeam, { type: 'gather', ids: [groups.splitGatherers[1]], nodeId: woodNodeSplit.id }, 2);
-    issue(splitTeam, { type: 'move', ids: groups.splitSouthWorkers, x: south.x, z: south.z }, 3);
-    issue(splitTeam, { type: 'attackMove', ids: groups.splitNorthInfantry, x: north.x, z: north.z }, 4);
-    issue(splitTeam, { type: 'attackMove', ids: groups.splitSouthInfantry, x: south.x, z: south.z }, 5);
-    issue(responseTeam, { type: 'gather', ids: groups.responseGatherers.slice(0, 2), nodeId: foodNodeResponse.id }, 1);
-    issue(responseTeam, { type: 'gather', ids: groups.responseGatherers.slice(2), nodeId: woodNodeResponse.id }, 2);
-    issue(responseTeam, { type: 'attackMove', ids: groups.responseSouthInfantry, x: south.x, z: south.z }, 3);
-    const acceptedOrders = await Promise.all(orderMessages);
+    const splitOrders = [
+      [splitTeam, { type: 'gather', ids: [groups.splitGatherers[0]], nodeId: foodNodeSplit.id }, 1],
+      [splitTeam, { type: 'gather', ids: [groups.splitGatherers[1]], nodeId: woodNodeSplit.id }, 2],
+      [splitTeam, { type: 'move', ids: groups.splitSouthWorkers, x: south.x, z: south.z }, 3],
+      [splitTeam, { type: 'attackMove', ids: groups.splitNorthInfantry, x: north.x, z: north.z }, 4],
+      [splitTeam, { type: 'attackMove', ids: groups.splitSouthInfantry, x: south.x, z: south.z }, 5],
+    ];
+    const responseOrders = [
+      [responseTeam, { type: 'gather', ids: groups.responseGatherers.slice(0, 2), nodeId: foodNodeResponse.id }, 1],
+      [responseTeam, { type: 'gather', ids: groups.responseGatherers.slice(2), nodeId: woodNodeResponse.id }, 2],
+      [responseTeam, { type: 'attackMove', ids: groups.responseSouthInfantry, x: south.x, z: south.z }, 3],
+    ];
+    assert.ok(['split-first', 'response-first'].includes(commandOrder));
+    const orderedCommands = commandOrder === 'split-first'
+      ? [...splitOrders, ...responseOrders]
+      : [...responseOrders, ...splitOrders];
+    for (const [team, command, token] of orderedCommands) await issue(team, command, token);
 
     const observed = await azure.waitFor(
       (message, state) => state?.mapId === map.id
@@ -319,6 +344,8 @@ async function runCase(splitTeam) {
     const finalState = observed.state;
     assert.ok(finalState, 'final observed game state must be present');
     assert.equal(finalState.winner, -1, 'the two-Signal probe should not resolve the match');
+    assert.ok(template.scenarioEvents.every((event) => event.afterSeconds > observationSeconds),
+      'observation must finish before any timed map reward is granted');
 
     const involvedIds = new Set([
       ...groups.splitNorthInfantry,
@@ -361,6 +388,7 @@ async function runCase(splitTeam) {
     for (const checkpoint of checkpoints) {
       const state = stateAtOrAfter(states, checkpoint);
       if (!state) continue;
+      const objectiveRewards = objectiveRewardsThrough(states, state.matchElapsedSeconds, map);
       timeline[checkpoint] = {
         atSeconds: Number(state.matchElapsedSeconds.toFixed(1)),
         resources: [0, 1].map((team) => ({
@@ -369,6 +397,10 @@ async function runCase(splitTeam) {
           wood: state.wood[team],
           foodDelivered: state.food[team] - startFood[team],
           woodDelivered: state.wood[team] - startWood[team],
+          objectiveFoodReward: objectiveRewards[team].food,
+          objectiveWoodReward: objectiveRewards[team].wood,
+          estimatedGatheredFood: state.food[team] - startFood[team] - objectiveRewards[team].food,
+          estimatedGatheredWood: state.wood[team] - startWood[team] - objectiveRewards[team].wood,
         })),
         objectives: ['capture-zone-1', 'capture-zone-2'].map((id) => {
           const objective = state.objectives.find((row) => row.id === id);
@@ -394,9 +426,11 @@ async function runCase(splitTeam) {
       };
     }
 
+    const finalObjectiveRewards = objectiveRewardsThrough(states, finalState.matchElapsedSeconds, map);
     const result = {
       splitTeam,
       responseTeam,
+      commandOrder,
       responseOrder: 'attackMove',
       observationSeconds,
       startingResources: { food: 150, wood: 250 },
@@ -426,6 +460,10 @@ async function runCase(splitTeam) {
           wood: finalState.wood[team],
           foodDelivered: finalState.food[team] - startFood[team],
           woodDelivered: finalState.wood[team] - startWood[team],
+          objectiveFoodReward: finalObjectiveRewards[team].food,
+          objectiveWoodReward: finalObjectiveRewards[team].wood,
+          estimatedGatheredFood: finalState.food[team] - startFood[team] - finalObjectiveRewards[team].food,
+          estimatedGatheredWood: finalState.wood[team] - startWood[team] - finalObjectiveRewards[team].wood,
         })),
         resourcesByObserver: clientsByTeam.map((client, observerTeam) => {
           const observerState = client.latestState();
@@ -454,7 +492,10 @@ async function runCase(splitTeam) {
 
 const results = [];
 try {
-  for (const splitTeam of [0, 1]) results.push(await runCase(splitTeam));
+  for (const [splitTeam, commandOrder] of [[0, 'split-first'], [1, 'split-first'],
+    [0, 'response-first'], [1, 'response-first']]) {
+    results.push(await runCase(splitTeam, commandOrder));
+  }
   process.stdout.write(`${JSON.stringify({
     event: 'complete',
     baselineCommit,
