@@ -22,10 +22,16 @@ export const AUDIO_RECOGNITION_CUE_LABELS = Object.freeze({
   draw: 'Match draw',
 });
 
-export function summarizeAudioRecognitionResponses(responses, { captionsEnabled = false } = {}) {
+export function summarizeAudioRecognitionResponses(responses, { captionsEnabled = false, mixSettings = null } = {}) {
   if (!Array.isArray(responses)) throw new TypeError('responses must be an array');
   const labelById = new Map(AUDIO_RECOGNITION_CATEGORIES.map(({ id, label }) => [id, label]));
   const correct = responses.filter((response) => response.correct).length;
+  const formatLevel = (value) => Number.isFinite(value) ? `${Math.round(value * 100)}%` : 'unknown';
+  const conditions = mixSettings ? [
+    `master ${formatLevel(mixSettings.volume)}`,
+    `effects ${formatLevel(mixSettings.effectsLevel)}`,
+    `ambience ${mixSettings.ambience ? `on at ${formatLevel(mixSettings.ambienceLevel)}` : 'off'}`,
+  ].join(' · ') : '';
   const breakdown = AUDIO_RECOGNITION_CATEGORIES.map(({ id, label }) => {
     const categoryResponses = responses.filter((response) => response.expected === id);
     const categoryCorrect = categoryResponses.filter((response) => response.correct).length;
@@ -46,13 +52,14 @@ export function summarizeAudioRecognitionResponses(responses, { captionsEnabled 
   const report = [
     'Thousand Unit Skirmish audio recognition check',
     `Captions: ${captionsEnabled ? 'on' : 'off'}`,
+    ...(conditions ? [`Mix: ${conditions}`] : []),
     `Score: ${correct}/${responses.length}`,
     ...breakdown,
     '',
     'Guesses:',
     ...trialNotes,
   ].join('\n');
-  return { correct, total: responses.length, score, report };
+  return { correct, total: responses.length, score, report, conditions };
 }
 
 export async function copyAudioRecognitionText(text, {

@@ -36,15 +36,23 @@ assert.deepEqual(AUDIO_RECOGNITION_CUE_LABELS, {
   move: 'Move order', attack: 'Attack order', victory: 'Match victory',
   defeat: 'Match defeat', draw: 'Match draw',
 });
-const summary = summarizeAudioRecognitionResponses(submitted, { captionsEnabled: true });
+const mixSettings = { volume: 0.5, effectsLevel: 0.8, ambience: true, ambienceLevel: 0.25 };
+const summary = summarizeAudioRecognitionResponses(submitted, { captionsEnabled: true, mixSettings });
 assert.equal(summary.correct, 9);
 assert.equal(summary.total, 10);
 assert.match(summary.score, /^9\/10 correct · captions on/);
+assert.equal(summary.conditions, 'master 50% · effects 80% · ambience on at 25%');
 assert.match(summary.report, /Captions: on/);
+assert.match(summary.report, /Mix: master 50% · effects 80% · ambience on at 25%/);
 assert.match(summary.report, /Guesses:/);
 for (const label of ['Match victory 2/2', 'Match defeat 2/2', 'Match draw 2/2']) {
   assert.ok(summary.report.includes(label), `the report separates ${label}`);
 }
+const quietSummary = summarizeAudioRecognitionResponses(submitted, {
+  mixSettings: { volume: 1, effectsLevel: 1, ambience: false, ambienceLevel: 0.25 },
+});
+assert.equal(quietSummary.conditions, 'master 100% · effects 100% · ambience off');
+assert.match(quietSummary.report, /Captions: off\nMix: master 100% · effects 100% · ambience off/);
 const missed = submitted.find((response) => !response.correct);
 const labelById = new Map(AUDIO_RECOGNITION_CATEGORIES.map(({ id, label }) => [id, label]));
 assert.ok(summary.report.includes(`${missed.position}. ${labelById.get(missed.expected)} → ${labelById.get(missed.answer)} (missed)`));

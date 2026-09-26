@@ -292,6 +292,7 @@ const ui = {
   audioRecognitionEnd: document.querySelector('#audio-recognition-end'),
   audioRecognitionResults: document.querySelector('#audio-recognition-results'),
   audioRecognitionScore: document.querySelector('#audio-recognition-score'),
+  audioRecognitionResultConditions: document.querySelector('#audio-recognition-result-conditions'),
   audioRecognitionReport: document.querySelector('#audio-recognition-report'),
   audioRecognitionCopy: document.querySelector('#audio-recognition-copy'),
   audioRecognitionCopyStatus: document.querySelector('#audio-recognition-copy-status'),
@@ -306,6 +307,7 @@ let audioRecognitionActive = false;
 let audioRecognitionTrialPlayed = false;
 let audioRecognitionAwaitingNext = false;
 let audioRecognitionCaptionState = false;
+let audioRecognitionMixSettings = null;
 let audioRecognitionRound = null;
 let audioRecognitionLastReport = '';
 const audioRecognitionAnswerButtons = [...ui.audioRecognitionAnswers.querySelectorAll('[data-audio-recognition-answer]')];
@@ -6782,8 +6784,12 @@ function renderAudioRecognitionTrial() {
 function endAudioRecognitionCheck({ showResults = false } = {}) {
   if (showResults && audioRecognitionRound) {
     const responses = audioRecognitionRound.responses;
-    const summary = summarizeAudioRecognitionResponses(responses, { captionsEnabled: audioRecognitionCaptionState });
+    const summary = summarizeAudioRecognitionResponses(responses, {
+      captionsEnabled: audioRecognitionCaptionState,
+      mixSettings: audioRecognitionMixSettings,
+    });
     ui.audioRecognitionScore.textContent = summary.score;
+    ui.audioRecognitionResultConditions.textContent = summary.conditions ? `MIX · ${summary.conditions}` : '';
     audioRecognitionLastReport = summary.report;
     ui.audioRecognitionReport.textContent = summary.report;
     ui.audioRecognitionCopyStatus.textContent = 'Copies only when you choose; nothing is sent.';
@@ -6791,6 +6797,7 @@ function endAudioRecognitionCheck({ showResults = false } = {}) {
     ui.audioRecognitionStart.textContent = 'Run again';
   } else {
     audioRecognitionLastReport = '';
+    ui.audioRecognitionResultConditions.textContent = '';
     ui.audioRecognitionResults.hidden = true;
     ui.audioRecognitionStart.textContent = 'Start check';
   }
@@ -6798,6 +6805,7 @@ function endAudioRecognitionCheck({ showResults = false } = {}) {
   audioRecognitionTrialPlayed = false;
   audioRecognitionAwaitingNext = false;
   audioRecognitionRound = null;
+  audioRecognitionMixSettings = null;
   ui.audioRecognitionRun.hidden = true;
   ui.audioRecognitionNext.hidden = true;
   clearAudioCaption();
@@ -6809,7 +6817,14 @@ ui.audioRecognitionStart.addEventListener('click', () => {
   clearAudioCaption();
   audioRecognitionLastReport = '';
   audioRecognitionRound = createAudioRecognitionRound();
-  audioRecognitionCaptionState = audio.getSettings().captions;
+  const settings = audio.getSettings();
+  audioRecognitionCaptionState = settings.captions;
+  audioRecognitionMixSettings = {
+    volume: settings.volume,
+    effectsLevel: settings.effectsLevel,
+    ambience: settings.ambience,
+    ambienceLevel: settings.ambienceLevel,
+  };
   audioRecognitionActive = true;
   ui.audioRecognitionCondition.textContent = audioRecognitionCaptionState
     ? 'CAPTIONS ON · NORMAL CAPTIONS ARE PART OF THIS CHECK'
