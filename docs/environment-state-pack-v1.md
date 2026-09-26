@@ -13,7 +13,7 @@ Select the stage from the integer stock percentage `floor(clamp(stock / starting
 | `low` | 1–33 | Sparse foliage islands | Very few fruits, opened canopy |
 | `depleted` | 0 | Harvested stump and roots | Fruitless, sparse woody shrub |
 
-The current game uses `task: "gathering"` for both resource types. When `cargoType` is unknown, keep a generic gathering cue. For known values, `wood` maps to an overhead chopping swing at oak, and `food` maps to a shorter forward pick at berry bushes. Building keeps a separate construction swing; moving or returning workers do not swing. Visible worker rows already carry `cargoType` (`food`/`wood`), so this mapping requires no gameplay-schema change. The environment pack supplies resource-node state images. The renderer pose checkpoint is merged in PR #72 (`30a386b`); play-zoom runtime review remains pending.
+The current game uses `task: "gathering"` for both resource types. When `cargoType` is unknown, keep a generic gathering cue. For known values, `wood` maps to an overhead chopping swing at oak, and `food` maps to a shorter forward pick at berry bushes. Building keeps a separate construction swing; moving or returning workers do not swing. Visible worker rows already carry `cargoType` (`food`/`wood`), so this mapping requires no gameplay-schema change. The environment pack supplies resource-node state images. The renderer pose checkpoint is merged in PR #72 (`30a386b`). The first play-zoom runtime pilot is now captured; see [the pilot evidence](qa-evidence/environment-state-pack-v1/pilot/README.md).
 
 ## Construction ground mapping
 
@@ -57,7 +57,7 @@ The source PNGs were reviewed individually. In the latest source-only palette pa
 
 The renderer already has a four-frame `renderer-environment-state-pilot` scenario on `main`. Use it first to confirm that the exact pack textures load and that live stock changes produce distinct art at ordinary and strategic zoom. It covers Meadow oak `worked` at 0.91, Meadow berries `worked` at 0.48, Cinder oak `depleted` at 0.91, and Cinder berries `low` at 0.48. Keep the active worker interaction visible where the scenario provides one.
 
-The existing host/browser capture hold applies to this runtime observation. It does not block merging the versioned pack. The pilot should record the asset and renderer revisions, fetched runtime files, and observed state transitions once a capture slot is available.
+The four-frame pilot is saved under `docs/qa-evidence/environment-state-pack-v1/pilot/`. It records the renderer revision, both clients' fetched runtime files, and observed stock transitions. The remaining 40-frame art matrix is a separate review; ordinary appearance captures do not require a numeric host-load threshold.
 
 ### Expanded in-game review matrix
 
@@ -73,8 +73,8 @@ The full art review can follow the pilot; it is not a prerequisite for merging t
 - `construction-clear` has null source/runtime files. Verify it with a runtime no-overlay assertion during the same capture run; it does not need an additional screenshot.
 - Contact sheets, composite boards, source renders, and browser mockups do not establish runtime readability. Zoom 2.3 is optional close craft review and cannot substitute for either required view.
 
-The in-game pilot and expanded review remain pending an owner-run capture. They require a working browser and GPU, but no numeric host-load clearance.
+The four-frame in-game pilot is complete. The expanded 40-frame review remains pending an owner-run capture. It requires a working browser and GPU, but no numeric host-load clearance; performance and measured GPU-residency claims remain separate.
 
 The separate `renderer-appearance-lod` scenario captures eight fog-safe unit-role views across two maps, two team viewers, and two zooms. Its review maps contain no resource nodes, so those images do not count toward this environment-state matrix.
 
-The renderer loader, stock-state mapping, and four-frame pilot are already on `main` (PR #77). The loader verifies the ten manifest-listed WebP files and uses them for resource and construction states when the manifest is available. Until this pack is present, it falls back to the legacy single oak and berry textures. This handoff supplies the missing versioned pack: ten runtime WebPs, ten source PNGs, manifest, provenance, and prompts. The user approved the source art on 2026-09-26. Runtime readability still requires in-game observation; the owning lane can run a bounded appearance capture without quiet-host approval. Measured GPU residency belongs to the separate performance milestone.
+The renderer loader, stock-state mapping, and four-frame pilot are on `main` (PR #77). The loader verifies the ten manifest-listed WebP files and uses them for resource and construction states when the manifest is available; if they are unavailable, it falls back to the legacy single oak and berry textures. The versioned pack contains ten runtime WebPs, ten source PNGs, a manifest, provenance, and prompts. The user approved the source art on 2026-09-26. The pilot verifies representative runtime loads and stock-driven state changes, while the full art review and measured GPU residency remain open for their respective milestones.

@@ -668,6 +668,35 @@ async function writeCaptureManifest(frames, renderer, runDirectory, { pilotPlan 
     assert.ok(qaEvidence?.complete === true && qaEvidence.frameCount === EXPECTED_FRAME_COUNT,
       'full-matrix capture manifest requires its 40-file QA evidence handoff');
   }
+  const environmentStateCoverage = isPilot ? {
+    mode: 'pilot-preview',
+    acceptanceStatus: 'preview-only',
+    satisfiesFinalEvidenceRequirement: false,
+    tuples: pilotPlan,
+  } : {
+    mode: 'full-matrix',
+    acceptanceStatus: 'awaiting-human-art-review',
+    resourceFamilies: RESOURCE_FAMILIES.map(({ id }) => id),
+    stockSamples: [100, 50, 20, 0],
+    constructionImages: ['earthwork', 'foundation'],
+    constructionClearImage: null,
+    constructionClearAssertedWithoutScreenshot: true,
+    qaEvidence,
+  };
+  const screenshotViewport = {
+    cssWidth: VIEWPORT_WIDTH,
+    cssHeight: VIEWPORT_HEIGHT,
+    devicePixelRatio: DEVICE_PIXEL_RATIO,
+    pngPixelWidth: PNG_PIXEL_WIDTH,
+    pngPixelHeight: PNG_PIXEL_HEIGHT,
+  };
+  await writeFile(path.join(runDirectory, 'environment-state-evidence.json'), JSON.stringify({
+    schema: 'rts.environment-state-evidence.v1',
+    scenarioId: GAME_DEV_SCENARIO_ID,
+    environmentStateCoverage,
+    screenshotViewport,
+    environmentFrameEvidence: capturedFrameEvidence,
+  }, null, 2));
   const manifest = {
     schema: 'game_dev.capture.v1',
     runId: GAME_DEV_RUN_ID,
@@ -690,6 +719,7 @@ async function writeCaptureManifest(frames, renderer, runDirectory, { pilotPlan 
         'All ten runtime images were fetched, SHA-256 checked, decoded, and dimension-matched before capture.',
         'Resource stock changed through normal gathering from startingStock 100.',
         'The pilot includes active wood and food gathering frames.',
+        'Detailed state coverage, screenshot parameters, and snapshot checks are in environment-state-evidence.json.',
         'Human review is required to assess authored art appearance.',
       ] : [
         'Environment appearance capture; no performance measurements were collected.',
@@ -698,31 +728,9 @@ async function writeCaptureManifest(frames, renderer, runDirectory, { pilotPlan 
         'Resource stock changed through normal gathering from startingStock 100.',
         'Construction clear was asserted to have no decal or instance and has no screenshot frame.',
         `All 40 full-matrix PNGs were copied to ${qaEvidence?.directory || 'the documented QA evidence directory'}.`,
+        'Detailed state coverage, screenshot parameters, and snapshot checks are in environment-state-evidence.json.',
         'Human review is required to assess authored art appearance.',
       ],
-      environmentStateCoverage: isPilot ? {
-        mode: 'pilot-preview',
-        acceptanceStatus: 'preview-only',
-        satisfiesFinalEvidenceRequirement: false,
-        tuples: pilotPlan,
-      } : {
-        mode: 'full-matrix',
-        acceptanceStatus: 'awaiting-human-art-review',
-        resourceFamilies: RESOURCE_FAMILIES.map(({ id }) => id),
-        stockSamples: [100, 50, 20, 0],
-        constructionImages: ['earthwork', 'foundation'],
-        constructionClearImage: null,
-        constructionClearAssertedWithoutScreenshot: true,
-        qaEvidence,
-      },
-      screenshotViewport: {
-        cssWidth: VIEWPORT_WIDTH,
-        cssHeight: VIEWPORT_HEIGHT,
-        devicePixelRatio: DEVICE_PIXEL_RATIO,
-        pngPixelWidth: PNG_PIXEL_WIDTH,
-        pngPixelHeight: PNG_PIXEL_HEIGHT,
-      },
-      environmentFrameEvidence: capturedFrameEvidence,
     },
   };
   await writeFile(path.join(runDirectory, 'capture.json'), JSON.stringify(manifest, null, 2));
@@ -1165,6 +1173,7 @@ async function runStaticPilotPlan() {
     assertGameDevContext('renderer-environment-state-pilot-plan');
     const runDirectory = path.resolve(GAME_DEV_RUN_DIR);
     await mkdir(runDirectory, { recursive: true });
+    await writeFile(path.join(runDirectory, 'pilot-plan-report.json'), JSON.stringify(report, null, 2));
     await writeFile(path.join(runDirectory, 'capture.json'), JSON.stringify({
       schema: 'game_dev.capture.v1',
       runId: GAME_DEV_RUN_ID,
@@ -1174,8 +1183,8 @@ async function runStaticPilotPlan() {
       frames: [],
       measurements: [],
       adapterEvidence: {
-        pilotPlan: report,
         notes: [
+          'Structured pilot plan is in pilot-plan-report.json.',
           'Plan-only output; no server, browser, WebGL context, or screenshots were started.',
           'The GPU capture command is opt-in and is not executed by this plan scenario.',
         ],
@@ -1241,6 +1250,7 @@ async function runStaticPreflight() {
     assertGameDevContext('renderer-environment-state-preflight');
     const runDirectory = path.resolve(GAME_DEV_RUN_DIR);
     await mkdir(runDirectory, { recursive: true });
+    await writeFile(path.join(runDirectory, 'preflight-report.json'), JSON.stringify(report, null, 2));
     await writeFile(path.join(runDirectory, 'capture.json'), JSON.stringify({
       schema: 'game_dev.capture.v1',
       runId: GAME_DEV_RUN_ID,
@@ -1250,8 +1260,8 @@ async function runStaticPreflight() {
       frames: [],
       measurements: [],
       adapterEvidence: {
-        preflight: report,
         notes: [
+          'Structured CPU preflight is in preflight-report.json.',
           'CPU-only static preflight; no server, browser, WebGL context, or screenshots were started.',
           'The 40-frame plan is a declaration only and is not capture evidence.',
           'The GPU capture scenario separately verifies browser fetches and fog-visible map rows before every screenshot.',
