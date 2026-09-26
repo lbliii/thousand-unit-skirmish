@@ -68,7 +68,7 @@
       <main class="workspace">
         <section id="viewport" class="viewport" aria-label="Isometric battlefield">
           <div class="viewport-wash" aria-hidden="true"></div>
-          <div class="map-label"><span class="map-label-dot"></span> <span id="map-label-title">LOADING MAP</span> <span class="map-label-sep">/</span> <span id="map-summary">WAITING FOR SERVER</span><button id="scenario-brief-toggle" class="scenario-brief-toggle" type="button" aria-label="Open the scenario win rule and capture zone details" title="See how to win and what each capture zone requires" aria-controls="scenario-brief-panel" aria-expanded="false">HOW TO WIN <span aria-hidden="true">↗</span></button></div>
+          <div class="map-label"><span class="map-label-dot"></span> <span id="map-label-title">LOADING MAP</span> <span class="map-label-sep">/</span> <span id="map-summary">WAITING FOR SERVER</span><span id="objective-urgent" hidden></span><button id="scenario-brief-toggle" class="scenario-brief-toggle" type="button" aria-label="Open the scenario win rule and capture zone details" title="See how to win and what each capture zone requires" aria-controls="scenario-brief-panel" aria-expanded="false">Objectives <span aria-hidden="true">↗</span></button></div>
           <nav class="camera-toolbar" aria-label="Camera navigation">
             <button id="camera-center-selection" type="button" title="Center the camera on your selected units or building">Center selection</button>
             <button id="camera-home-base" type="button" title="Center the camera on your Town Center">Home base</button>
@@ -88,8 +88,9 @@
               <span>CAPTURE ZONES</span>
               <ul id="scenario-brief-zone-list"></ul>
             </div>
+            <div id="objective-panel" class="objective-panel" role="region" aria-label="Live objective progress" tabindex="0" hidden></div>
+            <details class="notice-history"><summary>Recent notices</summary><ol id="notice-history"></ol></details>
           </aside>
-          <div id="objective-panel" class="objective-panel" role="region" aria-label="Scenario objectives" tabindex="0" hidden></div>
           <div id="match-result" class="match-result" role="status" aria-live="assertive" hidden>
             <div class="match-result-kicker">MATCH COMPLETE</div>
             <strong id="match-result-title" class="match-result-title"></strong>
@@ -105,7 +106,7 @@
             <div class="minimap-legend"><span><i class="blue-dot"></i>AZURE</span><span><i class="red-dot"></i>EMBER</span><span><i class="food-dot"></i>FOOD</span><span><i class="wood-dot"></i>WOOD</span><span id="minimap-elevation-legend" hidden><i class="elevation-dot"></i>HIGH GROUND</span></div>
           </section>
           <div id="selection-box" class="selection-box" aria-hidden="true"></div>
-          <div class="field-hint"><span id="field-hint-primary-key" class="hint-key">LMB</span> <span id="field-hint-action">DRAG TO SELECT</span> <span class="hint-divider">·</span> <span id="field-hint-secondary-key" class="hint-key">RMB</span> <span id="field-hint-secondary">MOVE / ATTACK</span><span id="placement-status" class="placement-status" aria-live="off" hidden></span></div>
+          <div class="field-hint"><button id="guidance-toggle" type="button" aria-expanded="true">Hide hints</button><span id="field-hint-primary-key" class="hint-key">LMB</span> <span id="field-hint-action">DRAG TO SELECT</span> <span class="hint-divider">·</span> <span id="field-hint-secondary-key" class="hint-key">RMB</span> <span id="field-hint-secondary">MOVE / ATTACK</span><span id="placement-status" class="placement-status" aria-live="off" hidden></span></div>
           <div id="field-order-feedback" class="field-order-feedback" data-state="ready" role="status" aria-live="off" hidden></div>
           <div id="toast" class="toast" role="status" aria-live="polite"></div>
           <div id="audio-caption" class="audio-caption" role="status" aria-live="off" hidden></div>

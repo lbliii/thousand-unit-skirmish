@@ -997,3 +997,24 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
   .hint-divider { margin: 0 1px; }
   .placement-status { margin-top: 3px; padding-top: 2px; font-size: 5px; line-height: 1.1; }
 }
+
+/* Compact objectives keep live deadlines outside the optional field brief. */
+.map-label { flex-wrap: wrap; font-size: 12px; letter-spacing: 0; }
+.map-label #map-label-title, .map-label .map-label-sep, .map-label-dot { display: none; }
+.map-label #map-summary { white-space: normal; overflow: visible; }
+.map-label #objective-urgent { flex: 1 0 100%; color: #ffe0a0; font-size: 12px; line-height: 1.4; }
+.map-label #objective-urgent[hidden] { display: none; }
+.scenario-brief-toggle { font-size: 12px; min-height: 36px; }
+.scenario-brief-panel .objective-panel { position: static; width: auto; max-height: none; overflow: visible; margin-top: 12px; }
+.scenario-brief-panel .objective-detail, .scenario-brief-panel .objective-status { font-size: 12px; }
+.scenario-brief-panel .objective-heading { flex-wrap: wrap; }
+.scenario-brief-panel .scenario-brief-zones { display: none; } /* Live cards retain the same capture rules. */
+.scenario-brief-panel { max-height: calc(100% - 160px); }
+.notice-history { margin-top: 14px; font-size: 12px; line-height: 1.5; }
+.notice-history summary { cursor: pointer; padding: 10px 0; }
+.notice-history ol { padding-left: 20px; }
+.notice-history li + li { margin-top: 8px; }
+.field-hint { pointer-events: auto; }
+#guidance-toggle { color: inherit; background: transparent; border: 1px solid #70816a; border-radius: 3px; padding: 6px; cursor: pointer; }
+.field-hint.guidance-dismissed > span { display: none; }
+@media (pointer: coarse) { #guidance-toggle, .scenario-brief-toggle, .scenario-brief-heading button { min-height: 44px; min-width: 44px; } }

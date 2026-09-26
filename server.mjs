@@ -6292,7 +6292,7 @@ const server = createServer(async (request, response) => {
     response.end('Forbidden');
     return;
   }
-  const publicClientAsset = ['index.html', 'style.css', 'vendor/three.module.js', 'vendor/three.core.js', 'src/main.js', 'src/pve-entry.mjs', 'src/pve-match.mjs', 'src/map-utils.mjs', 'src/elevation.mjs', 'src/town-center-spawn.mjs', 'src/map-resize.mjs', 'src/map-studio-viewport.mjs', 'src/order-feedback.mjs', 'src/resource-visual-state.mjs', 'src/building-visual-state.mjs', 'src/unit-lod-state.mjs', 'src/unit-selection.mjs', 'src/unit-visual-state.mjs', 'src/audio.mjs', 'src/audio-policy.mjs', 'src/audio-recognition-check.mjs', 'src/camera-controls.mjs', 'src/navigation-settings.mjs'].includes(relative);
+  const publicClientAsset = ['index.html', 'style.css', 'vendor/three.module.js', 'vendor/three.core.js', 'src/main.js', 'src/objective-summary.mjs', 'src/pve-entry.mjs', 'src/pve-match.mjs', 'src/map-utils.mjs', 'src/elevation.mjs', 'src/town-center-spawn.mjs', 'src/map-resize.mjs', 'src/map-studio-viewport.mjs', 'src/order-feedback.mjs', 'src/resource-visual-state.mjs', 'src/building-visual-state.mjs', 'src/unit-lod-state.mjs', 'src/unit-selection.mjs', 'src/unit-visual-state.mjs', 'src/audio.mjs', 'src/audio-policy.mjs', 'src/audio-recognition-check.mjs', 'src/camera-controls.mjs', 'src/navigation-settings.mjs'].includes(relative);
   const publicUiAsset = [
     'assets/ui/preview.html', 'assets/ui/cursors/manifest.json',
     'assets/ui/cursors/select.png', 'assets/ui/cursors/select.svg',
