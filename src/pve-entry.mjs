@@ -161,7 +161,9 @@ function mountPveEntry() {
     new MutationObserver(() => {
       if (!currentOptions) return;
       for (const button of document.querySelectorAll('.size-options button')) {
-        button.disabled = true;
+        // Reflected attribute writes enqueue mutations even if already true.
+        // Only correct changes so this observer cannot starve rendering.
+        if (!button.disabled) button.disabled = true;
         button.title = 'Play vs AI uses the map’s authored starting army.';
       }
     }).observe(armySection, { subtree: true, attributes: true, attributeFilter: ['disabled'] });
@@ -169,8 +171,8 @@ function mountPveEntry() {
   if (typeof MutationObserver === 'function') {
     new MutationObserver(() => {
       if (!currentOptions) return;
-      if (roomCreate) roomCreate.hidden = true;
-      if (roomJoin) roomJoin.hidden = true;
+      if (roomCreate && !roomCreate.hidden) roomCreate.hidden = true;
+      if (roomJoin && !roomJoin.hidden) roomJoin.hidden = true;
     }).observe(actions, { subtree: true, attributes: true, attributeFilter: ['hidden'] });
   }
 
