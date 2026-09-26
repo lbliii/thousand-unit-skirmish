@@ -8,6 +8,9 @@ opening were rerun on local `main` at
 rerun on later merged `main` at
 `c931e692f000d9567de4ff459595605190f9d020`. The contested worker-diversion
 probe ran on exact main source `a3426c1271eabb4b8d8c2097d6ae7659d9972951`.
+Main later advanced to `6a4dc00`; `server.mjs` and Forked Vale's map are
+unchanged since the tested commit. The intervening map-utils change only adds
+optional elevation helpers; existing flat-map path functions are unchanged.
 All runs used Node `v24.9.0` on macOS arm64. Scripted checks are not human
 match evidence and do not establish that the skirmish is balanced. Scope
 follows the working Game Bible and RTS Feature Coverage Inventory, maintained

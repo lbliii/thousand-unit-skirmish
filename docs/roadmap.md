@@ -1,6 +1,6 @@
 # Thousand Unit Skirmish roadmap
 
-Updated 26 September 2026 from `main` at `a3426c1`; balance evidence includes
+Updated 26 September 2026 from `main` at `6a4dc00`; balance evidence includes
 the QA recheck at `fcc7bcac`, the `4930a81` production-opening run, and the
 [larger-map pilot](map-scale-density.md). This is the team's shared **next-work
 guide**. The [game bible](game-bible.md) defines the product, and the [QA
