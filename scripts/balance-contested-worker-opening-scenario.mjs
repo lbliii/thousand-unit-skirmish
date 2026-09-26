@@ -192,6 +192,35 @@ function objectiveRewardsThrough(states, seconds, map) {
   return totals;
 }
 
+function resourceAccounting(state, team, startFood, startWood, objectiveRewards) {
+  const cargo = state.units
+    .filter((row) => row[1] === team && row[5] === 'worker')
+    .reduce((totals, row) => {
+      if (row[7] === 'food') totals.food += row[6];
+      if (row[7] === 'wood') totals.wood += row[6];
+      return totals;
+    }, { food: 0, wood: 0 });
+  const foodDelta = state.food[team] - startFood[team];
+  const woodDelta = state.wood[team] - startWood[team];
+  const bankedFoodFromGathering = foodDelta - objectiveRewards.food;
+  const bankedWoodFromGathering = woodDelta - objectiveRewards.wood;
+  return {
+    team,
+    food: state.food[team],
+    wood: state.wood[team],
+    foodDelivered: foodDelta,
+    woodDelivered: woodDelta,
+    objectiveFoodReward: objectiveRewards.food,
+    objectiveWoodReward: objectiveRewards.wood,
+    bankedFoodFromGathering,
+    bankedWoodFromGathering,
+    workerCargoFood: Number(cargo.food.toFixed(2)),
+    workerCargoWood: Number(cargo.wood.toFixed(2)),
+    estimatedHarvestedFood: Number((bankedFoodFromGathering + cargo.food).toFixed(2)),
+    estimatedHarvestedWood: Number((bankedWoodFromGathering + cargo.wood).toFixed(2)),
+  };
+}
+
 async function runCase(splitTeam, commandOrder) {
   const port = await freePort();
   const temporary = await mkdtemp(path.join(os.tmpdir(), 'rts-contested-opening-'));
@@ -391,17 +420,9 @@ async function runCase(splitTeam, commandOrder) {
       const objectiveRewards = objectiveRewardsThrough(states, state.matchElapsedSeconds, map);
       timeline[checkpoint] = {
         atSeconds: Number(state.matchElapsedSeconds.toFixed(1)),
-        resources: [0, 1].map((team) => ({
-          team,
-          food: state.food[team],
-          wood: state.wood[team],
-          foodDelivered: state.food[team] - startFood[team],
-          woodDelivered: state.wood[team] - startWood[team],
-          objectiveFoodReward: objectiveRewards[team].food,
-          objectiveWoodReward: objectiveRewards[team].wood,
-          estimatedGatheredFood: state.food[team] - startFood[team] - objectiveRewards[team].food,
-          estimatedGatheredWood: state.wood[team] - startWood[team] - objectiveRewards[team].wood,
-        })),
+        resources: [0, 1].map((team) => resourceAccounting(
+          state, team, startFood, startWood, objectiveRewards[team],
+        )),
         objectives: ['capture-zone-1', 'capture-zone-2'].map((id) => {
           const objective = state.objectives.find((row) => row.id === id);
           return {
@@ -454,17 +475,9 @@ async function runCase(splitTeam, commandOrder) {
           };
         }),
         participants: participantSummary(finalState, groups, gatherTargets, map),
-        resources: [0, 1].map((team) => ({
-          team,
-          food: finalState.food[team],
-          wood: finalState.wood[team],
-          foodDelivered: finalState.food[team] - startFood[team],
-          woodDelivered: finalState.wood[team] - startWood[team],
-          objectiveFoodReward: finalObjectiveRewards[team].food,
-          objectiveWoodReward: finalObjectiveRewards[team].wood,
-          estimatedGatheredFood: finalState.food[team] - startFood[team] - finalObjectiveRewards[team].food,
-          estimatedGatheredWood: finalState.wood[team] - startWood[team] - finalObjectiveRewards[team].wood,
-        })),
+        resources: [0, 1].map((team) => resourceAccounting(
+          finalState, team, startFood, startWood, finalObjectiveRewards[team],
+        )),
         resourcesByObserver: clientsByTeam.map((client, observerTeam) => {
           const observerState = client.latestState();
           return {
