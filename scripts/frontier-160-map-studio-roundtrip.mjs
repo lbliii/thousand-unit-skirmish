@@ -191,7 +191,16 @@ async function waitForPage(expression, description, timeoutMs = 20_000) {
     if (await cdp.evaluate(expression)) return;
     await sleep(100);
   }
-  throw new Error(`Timed out waiting for ${description}.`);
+  const pageState = await cdp.evaluate(`(() => ({
+    url: location.href,
+    readyState: document.readyState,
+    boot: document.documentElement.dataset.boot || null,
+    runtimeError: document.querySelector('#runtime-error')?.textContent || '',
+    connection: document.querySelector('#network-status')?.textContent || '',
+    playerTeam: document.querySelector('#player-team')?.textContent || '',
+    mapStudioDisabled: document.querySelector('#map-studio-open')?.disabled ?? null,
+  }))()`);
+  throw new Error(`Timed out waiting for ${description}: ${JSON.stringify(pageState)}.`);
 }
 
 async function click(selector) {

@@ -29,7 +29,8 @@ import {
 import { townCenterSpawnPosition } from './town-center-spawn.mjs';
 import { resizeWorldMarkers } from './map-resize.mjs';
 import {
-  clampMapStudioZoom, mapStudioCanvasSize, mapStudioCellAtPointer,
+  MAX_MAP_STUDIO_ZOOM, MIN_MAP_STUDIO_ZOOM, clampMapStudioZoom,
+  mapStudioCanvasSize, mapStudioCellAtPointer,
   mapStudioScrollAtPan, mapStudioScrollAtZoom,
 } from './map-studio-viewport.mjs';
 import { classifyOrderNotice } from './order-feedback.mjs';
