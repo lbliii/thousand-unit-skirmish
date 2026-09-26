@@ -9,6 +9,10 @@ import {
   capturePrerequisiteIds, findInvalidCapturePrerequisite, findInvalidScenarioEventChain,
   findUnreachableCaptureZone, findUnreachableResourceNode, scenarioEventSourceIds,
 } from './src/map-utils.mjs';
+import {
+  BASE_ELEVATION_PATH_COST, buildElevationLevelGrid, canTraverseElevation,
+  elevationPathCost, hasElevation,
+} from './src/elevation.mjs';
 import { orderUnitsForFormation } from './src/formation-assignment.mjs';
 import { townCenterSpawnPosition } from './src/town-center-spawn.mjs';
 
@@ -26,7 +30,7 @@ if (RAILWAY_DEPLOYMENT && PUBLIC_ORIGINS.size === 0) {
 // Bump schema for persisted-shape changes and rules for incompatible simulation semantics.
 const MATCH_CHECKPOINT_SCHEMA_VERSION = 9;
 // Older compatible checkpoints remain resumable after their persisted shape is migrated.
-const MATCH_RULES_VERSION = 3;
+const MATCH_RULES_VERSION = 4;
 const MATCH_CHECKPOINT_INTERVAL_TICKS = 30;
 const HEARTBEAT_INTERVAL_MS = 15_000;
 const HEARTBEAT_TIMEOUT_MS = 45_000;
@@ -146,6 +150,9 @@ function validateMapDefinition(definition, filename) {
     || definition.width > 256 || definition.height > 256) {
     throw new Error(`Map ${filename} width and height must be integers between 16 and 256.`);
   }
+  const elevationLevels = buildElevationLevelGrid(
+    definition.width, definition.height, definition.elevationPatches,
+  );
   const terrainMaterials = ['meadow', 'short-grass', 'long-grass', 'forest-floor', 'dirt', 'sand', 'scree', 'cinder'];
   if (definition.terrainBase !== undefined && !terrainMaterials.includes(definition.terrainBase)) {
     throw new Error(`Map ${filename} has an invalid base terrain material.`);
@@ -270,7 +277,7 @@ function validateMapDefinition(definition, filename) {
     throw new Error(`Map ${filename} capture zone ${invalidPrerequisite.triggerId} ${detail}.`);
   }
   const unreachableTrigger = findUnreachableCaptureZone(
-    definition.width, definition.height, obstacleCells, definition.spawnPoints, triggers,
+    definition.width, definition.height, obstacleCells, definition.spawnPoints, triggers, elevationLevels,
   );
   if (unreachableTrigger) {
     throw new Error(`Map ${filename} capture zone ${unreachableTrigger.triggerId} is unreachable from team ${unreachableTrigger.team}.`);
@@ -374,7 +381,7 @@ function validateMapDefinition(definition, filename) {
     }
   }
   const unreachableNode = findUnreachableResourceNode(
-    definition.width, definition.height, obstacleCells, definition.spawnPoints, resourceNodes,
+    definition.width, definition.height, obstacleCells, definition.spawnPoints, resourceNodes, elevationLevels,
   );
   if (unreachableNode) {
     throw new Error(`Map ${filename} resource node ${unreachableNode.nodeId} must be reachable from both team spawns.`);
@@ -496,14 +503,16 @@ function attackDamageMultiplierFor(unit) {
 }
 const MAX_TEAM_ROSTER = 1000;
 const VISION_RADIUS_CELLS = 8;
+const HIGH_GROUND_VISION_BONUS_CELLS = 1;
 const VISION_EYE_HEIGHT = 1.0;
-const VISION_CELL_OFFSETS = [];
-for (let row = -VISION_RADIUS_CELLS; row <= VISION_RADIUS_CELLS; row++) {
-  for (let column = -VISION_RADIUS_CELLS; column <= VISION_RADIUS_CELLS; column++) {
-    if (column * column + row * row <= VISION_RADIUS_CELLS * VISION_RADIUS_CELLS) {
-      VISION_CELL_OFFSETS.push([column, row]);
+function buildVisionRays(radius) {
+  const offsets = [];
+  for (let row = -radius; row <= radius; row++) {
+    for (let column = -radius; column <= radius; column++) {
+      if (column * column + row * row <= radius * radius) offsets.push([column, row]);
     }
   }
+  return offsets.map(([dx, dz]) => [dx, dz, visionRayIntermediates(dx, dz)]);
 }
 function visionRayIntermediates(dx, dz) {
   const columns = Math.abs(dx);
@@ -528,7 +537,10 @@ function visionRayIntermediates(dx, dz) {
   }
   return intermediates;
 }
-const VISION_RAYS = VISION_CELL_OFFSETS.map(([dx, dz]) => [dx, dz, visionRayIntermediates(dx, dz)]);
+const VISION_RAYS = buildVisionRays(VISION_RADIUS_CELLS);
+const HIGH_GROUND_VISION_RAYS = buildVisionRays(
+  VISION_RADIUS_CELLS + HIGH_GROUND_VISION_BONUS_CELLS,
+);
 const WORKER_SPAWN_OFFSETS = [
   [-1.1, -0.9], [1.1, -0.9], [-1.1, 0.9], [1.1, 0.9],
 ];
@@ -562,6 +574,8 @@ let MAP_HALF_X = 0;
 let MAP_HALF_Z = 0;
 let CELL_COUNT = 0;
 let spawnByTeam = [];
+let elevationLevelByCell = new Uint8Array(0);
+let mapHasElevation = false;
 let blocked = new Uint8Array(0);
 let buildingBlocked = new Uint8Array(0);
 let visionBlockers = new Uint8Array(0);
@@ -653,6 +667,8 @@ function activateMap(definition) {
   MAP_HALF_Z = MAP_HEIGHT / 2;
   CELL_COUNT = MAP_WIDTH * MAP_HEIGHT;
   spawnByTeam = [0, 1].map((team) => definition.spawnPoints.find((point) => point.team === team));
+  elevationLevelByCell = buildElevationLevelGrid(MAP_WIDTH, MAP_HEIGHT, definition.elevationPatches);
+  mapHasElevation = hasElevation(elevationLevelByCell);
   blocked = new Uint8Array(CELL_COUNT);
   buildingBlocked = new Uint8Array(CELL_COUNT);
   visionBlockers = new Uint8Array(CELL_COUNT);
@@ -938,28 +954,32 @@ function rebuildWalkableComponents() {
       const row = Math.floor(current / MAP_WIDTH);
       if (column > 0) {
         const next = current - 1;
-        if (isWalkable(next) && walkableComponents[next] < 0) {
+        if (isWalkable(next) && canTraverseElevation(elevationLevelByCell, current, next)
+          && walkableComponents[next] < 0) {
           walkableComponents[next] = componentId;
           queue[tail++] = next;
         }
       }
       if (column + 1 < MAP_WIDTH) {
         const next = current + 1;
-        if (isWalkable(next) && walkableComponents[next] < 0) {
+        if (isWalkable(next) && canTraverseElevation(elevationLevelByCell, current, next)
+          && walkableComponents[next] < 0) {
           walkableComponents[next] = componentId;
           queue[tail++] = next;
         }
       }
       if (row > 0) {
         const next = current - MAP_WIDTH;
-        if (isWalkable(next) && walkableComponents[next] < 0) {
+        if (isWalkable(next) && canTraverseElevation(elevationLevelByCell, current, next)
+          && walkableComponents[next] < 0) {
           walkableComponents[next] = componentId;
           queue[tail++] = next;
         }
       }
       if (row + 1 < MAP_HEIGHT) {
         const next = current + MAP_WIDTH;
-        if (isWalkable(next) && walkableComponents[next] < 0) {
+        if (isWalkable(next) && canTraverseElevation(elevationLevelByCell, current, next)
+          && walkableComponents[next] < 0) {
           walkableComponents[next] = componentId;
           queue[tail++] = next;
         }
@@ -1070,14 +1090,16 @@ function popPathHeap(searchId) {
 }
 
 function relaxPathNeighbor(current, next, goalColumn, goalRow, searchId) {
-  if (!isWalkable(next) || pathClosedSearch[next] === searchId) return 0;
-  const score = pathGScore[current] + 1;
+  if (!isWalkable(next) || !canTraverseElevation(elevationLevelByCell, current, next)
+    || pathClosedSearch[next] === searchId) return 0;
+  const score = pathGScore[current] + elevationPathCost(elevationLevelByCell, current, next);
   const firstVisit = pathVisited[next] !== searchId;
   if (!firstVisit && score >= pathGScore[next]) return 0;
 
   const column = next % MAP_WIDTH;
   const row = Math.floor(next / MAP_WIDTH);
-  const heuristic = Math.abs(goalColumn - column) + Math.abs(goalRow - row);
+  const heuristic = (Math.abs(goalColumn - column) + Math.abs(goalRow - row))
+    * BASE_ELEVATION_PATH_COST;
   pathVisited[next] = searchId;
   pathGScore[next] = score;
   pathFScore[next] = score + heuristic;
@@ -1102,9 +1124,10 @@ function buildDirectManhattanPath(start, goal, horizontalFirst) {
 
   const walkHorizontal = (targetColumn) => {
     while (column !== targetColumn) {
+      const previous = cellIndex(column, row);
       column += columnStep;
       const cell = cellIndex(column, row);
-      if (!isWalkable(cell)) return false;
+      if (!isWalkable(cell) || !canTraverseElevation(elevationLevelByCell, previous, cell)) return false;
       path.push(cell);
     }
     return true;
@@ -1113,7 +1136,8 @@ function buildDirectManhattanPath(start, goal, horizontalFirst) {
     while (row !== targetRow) {
       row += rowStep;
       const cell = cellIndex(column, row);
-      if (!isWalkable(cell)) return false;
+      const previous = cellIndex(column, row - rowStep);
+      if (!isWalkable(cell) || !canTraverseElevation(elevationLevelByCell, previous, cell)) return false;
       path.push(cell);
     }
     return true;
@@ -1126,8 +1150,24 @@ function buildDirectManhattanPath(start, goal, horizontalFirst) {
 }
 
 function findDirectManhattanPath(start, goal) {
-  return buildDirectManhattanPath(start, goal, true)
-    || buildDirectManhattanPath(start, goal, false);
+  if (!mapHasElevation) {
+    return buildDirectManhattanPath(start, goal, true)
+      || buildDirectManhattanPath(start, goal, false);
+  }
+  const candidates = [
+    buildDirectManhattanPath(start, goal, true),
+    buildDirectManhattanPath(start, goal, false),
+  ].filter((path) => path !== null);
+  for (const path of candidates) {
+    let previous = start;
+    let cost = 0;
+    for (const cell of path) {
+      cost += elevationPathCost(elevationLevelByCell, previous, cell);
+      previous = cell;
+    }
+    if (cost === path.length * BASE_ELEVATION_PATH_COST) return path;
+  }
+  return null;
 }
 
 function findPathAStar(start, goal, diagnostics = null) {
@@ -1140,7 +1180,8 @@ function findPathAStar(start, goal, diagnostics = null) {
   const goalRow = Math.floor(goal / MAP_WIDTH);
   const startColumn = start % MAP_WIDTH;
   const startRow = Math.floor(start / MAP_WIDTH);
-  const startHeuristic = Math.abs(goalColumn - startColumn) + Math.abs(goalRow - startRow);
+  const startHeuristic = (Math.abs(goalColumn - startColumn) + Math.abs(goalRow - startRow))
+    * BASE_ELEVATION_PATH_COST;
   pathVisited[start] = searchId;
   pathGScore[start] = 0;
   pathFScore[start] = startHeuristic;
@@ -1178,6 +1219,115 @@ function findPathAStar(start, goal, diagnostics = null) {
   return reversed;
 }
 
+function relaxAttackFlowNeighbor(current, next, searchId) {
+  if (!isWalkable(next) || !canTraverseElevation(elevationLevelByCell, next, current)
+    || pathClosedSearch[next] === searchId) return 0;
+  const score = pathGScore[current] + elevationPathCost(elevationLevelByCell, next, current);
+  const firstVisit = pathVisited[next] !== searchId;
+  if (!firstVisit && score >= pathGScore[next]) return 0;
+  pathVisited[next] = searchId;
+  pathGScore[next] = score;
+  pathFScore[next] = score;
+  pathHeuristic[next] = 0;
+  pathPrevious[next] = current;
+  if (pathHeapPositionSearch[next] === searchId) {
+    siftPathHeapUp(pathHeapPosition[next], next, searchId);
+  } else {
+    pushPathHeap(next, searchId);
+  }
+  return firstVisit ? 1 : 0;
+}
+
+function buildAttackFlowNextCells(goals) {
+  const searchId = beginPathSearch();
+  let head = 0;
+  let tail = 0;
+  if (mapHasElevation) {
+    pathHeapCount = 0;
+    for (const goal of goals) {
+      pathVisited[goal] = searchId;
+      pathGScore[goal] = 0;
+      pathFScore[goal] = 0;
+      pathHeuristic[goal] = 0;
+      pathPrevious[goal] = -1;
+      pathQueue[tail++] = goal;
+      pushPathHeap(goal, searchId);
+    }
+    while (pathHeapCount > 0) {
+      const current = popPathHeap(searchId);
+      pathClosedSearch[current] = searchId;
+      const column = current % MAP_WIDTH;
+      const row = Math.floor(current / MAP_WIDTH);
+      if (column > 0) {
+        const next = current - 1;
+        if (relaxAttackFlowNeighbor(current, next, searchId)) pathQueue[tail++] = next;
+      }
+      if (column + 1 < MAP_WIDTH) {
+        const next = current + 1;
+        if (relaxAttackFlowNeighbor(current, next, searchId)) pathQueue[tail++] = next;
+      }
+      if (row > 0) {
+        const next = current - MAP_WIDTH;
+        if (relaxAttackFlowNeighbor(current, next, searchId)) pathQueue[tail++] = next;
+      }
+      if (row + 1 < MAP_HEIGHT) {
+        const next = current + MAP_WIDTH;
+        if (relaxAttackFlowNeighbor(current, next, searchId)) pathQueue[tail++] = next;
+      }
+    }
+  } else {
+    for (const goal of goals) {
+      pathVisited[goal] = searchId;
+      pathPrevious[goal] = -1;
+      pathQueue[tail++] = goal;
+    }
+    while (head < tail) {
+      const current = pathQueue[head++];
+      const column = current % MAP_WIDTH;
+      const row = Math.floor(current / MAP_WIDTH);
+      if (column > 0) {
+        const next = current - 1;
+        if (pathVisited[next] !== searchId && isWalkable(next)) {
+          pathVisited[next] = searchId;
+          pathPrevious[next] = current;
+          pathQueue[tail++] = next;
+        }
+      }
+      if (column + 1 < MAP_WIDTH) {
+        const next = current + 1;
+        if (pathVisited[next] !== searchId && isWalkable(next)) {
+          pathVisited[next] = searchId;
+          pathPrevious[next] = current;
+          pathQueue[tail++] = next;
+        }
+      }
+      if (row > 0) {
+        const next = current - MAP_WIDTH;
+        if (pathVisited[next] !== searchId && isWalkable(next)) {
+          pathVisited[next] = searchId;
+          pathPrevious[next] = current;
+          pathQueue[tail++] = next;
+        }
+      }
+      if (row + 1 < MAP_HEIGHT) {
+        const next = current + MAP_WIDTH;
+        if (pathVisited[next] !== searchId && isWalkable(next)) {
+          pathVisited[next] = searchId;
+          pathPrevious[next] = current;
+          pathQueue[tail++] = next;
+        }
+      }
+    }
+  }
+  const nextCell = new Int32Array(CELL_COUNT);
+  nextCell.fill(-1);
+  for (let index = 0; index < tail; index++) {
+    const cell = pathQueue[index];
+    nextCell[cell] = pathPrevious[cell];
+  }
+  return nextCell;
+}
+
 function getAttackFlowField(goalCell) {
   const goal = nearestOpenCell(goalCell);
   if (!isWalkable(goal)) return null;
@@ -1188,56 +1338,7 @@ function getAttackFlowField(goalCell) {
     return cached;
   }
 
-  const searchId = beginPathSearch();
-  let head = 0;
-  let tail = 0;
-  pathVisited[goal] = searchId;
-  pathPrevious[goal] = -1;
-  pathQueue[tail++] = goal;
-  while (head < tail) {
-    const current = pathQueue[head++];
-    const x = current % MAP_WIDTH;
-    const z = Math.floor(current / MAP_WIDTH);
-    if (x > 0) {
-      const next = current - 1;
-      if (pathVisited[next] !== searchId && isWalkable(next)) {
-        pathVisited[next] = searchId;
-        pathPrevious[next] = current;
-        pathQueue[tail++] = next;
-      }
-    }
-    if (x + 1 < MAP_WIDTH) {
-      const next = current + 1;
-      if (pathVisited[next] !== searchId && isWalkable(next)) {
-        pathVisited[next] = searchId;
-        pathPrevious[next] = current;
-        pathQueue[tail++] = next;
-      }
-    }
-    if (z > 0) {
-      const next = current - MAP_WIDTH;
-      if (pathVisited[next] !== searchId && isWalkable(next)) {
-        pathVisited[next] = searchId;
-        pathPrevious[next] = current;
-        pathQueue[tail++] = next;
-      }
-    }
-    if (z + 1 < MAP_HEIGHT) {
-      const next = current + MAP_WIDTH;
-      if (pathVisited[next] !== searchId && isWalkable(next)) {
-        pathVisited[next] = searchId;
-        pathPrevious[next] = current;
-        pathQueue[tail++] = next;
-      }
-    }
-  }
-
-  const nextCell = new Int32Array(CELL_COUNT);
-  nextCell.fill(-1);
-  for (let index = 0; index < tail; index++) {
-    const cell = pathQueue[index];
-    nextCell[cell] = pathPrevious[cell];
-  }
+  const nextCell = buildAttackFlowNextCells([goal]);
   const field = { goal, goals: null, nextCell };
   if (attackFlowFields.size >= MAX_ATTACK_FLOW_FIELDS) {
     attackFlowFields.delete(attackFlowFields.keys().next().value);
@@ -1255,57 +1356,7 @@ function getAttackFlowFieldForGoals(goalCells, cacheKey) {
   }
   const goals = [...new Set(goalCells.filter((cell) => isWalkable(cell)))];
   if (goals.length === 0) return null;
-  const searchId = beginPathSearch();
-  let head = 0;
-  let tail = 0;
-  for (const goal of goals) {
-    pathVisited[goal] = searchId;
-    pathPrevious[goal] = -1;
-    pathQueue[tail++] = goal;
-  }
-  while (head < tail) {
-    const current = pathQueue[head++];
-    const x = current % MAP_WIDTH;
-    const z = Math.floor(current / MAP_WIDTH);
-    if (x > 0) {
-      const next = current - 1;
-      if (pathVisited[next] !== searchId && isWalkable(next)) {
-        pathVisited[next] = searchId;
-        pathPrevious[next] = current;
-        pathQueue[tail++] = next;
-      }
-    }
-    if (x + 1 < MAP_WIDTH) {
-      const next = current + 1;
-      if (pathVisited[next] !== searchId && isWalkable(next)) {
-        pathVisited[next] = searchId;
-        pathPrevious[next] = current;
-        pathQueue[tail++] = next;
-      }
-    }
-    if (z > 0) {
-      const next = current - MAP_WIDTH;
-      if (pathVisited[next] !== searchId && isWalkable(next)) {
-        pathVisited[next] = searchId;
-        pathPrevious[next] = current;
-        pathQueue[tail++] = next;
-      }
-    }
-    if (z + 1 < MAP_HEIGHT) {
-      const next = current + MAP_WIDTH;
-      if (pathVisited[next] !== searchId && isWalkable(next)) {
-        pathVisited[next] = searchId;
-        pathPrevious[next] = current;
-        pathQueue[tail++] = next;
-      }
-    }
-  }
-  const nextCell = new Int32Array(CELL_COUNT);
-  nextCell.fill(-1);
-  for (let index = 0; index < tail; index++) {
-    const cell = pathQueue[index];
-    nextCell[cell] = pathPrevious[cell];
-  }
+  const nextCell = buildAttackFlowNextCells(goals);
   const field = { goal: goals[0], goals: new Set(goals), nextCell };
   if (attackFlowFields.size >= MAX_ATTACK_FLOW_FIELDS) {
     attackFlowFields.delete(attackFlowFields.keys().next().value);
@@ -1551,7 +1602,8 @@ function markVisionFrom(team, x, z) {
   let coverage = visionCoverageBySourceCell[sourceCell];
   if (!coverage) {
     const cells = [];
-    for (const [dx, dz, ray] of VISION_RAYS) {
+    const rays = elevationLevelByCell[sourceCell] > 0 ? HIGH_GROUND_VISION_RAYS : VISION_RAYS;
+    for (const [dx, dz, ray] of rays) {
       const column = centerColumn + dx;
       const row = centerRow + dz;
       if (column < 0 || column >= MAP_WIDTH || row < 0 || row >= MAP_HEIGHT) continue;
@@ -2233,12 +2285,15 @@ function validCellPath(value, cellCount) {
 function validateMatchCheckpoint(snapshot) {
   assertSnapshot(snapshot && typeof snapshot === 'object' && !Array.isArray(snapshot), 'expected an object');
   assertSnapshot(snapshot.schemaVersion === MATCH_CHECKPOINT_SCHEMA_VERSION, 'unsupported schema version');
-  assertSnapshot([1, 2, MATCH_RULES_VERSION].includes(snapshot.rulesVersion),
+  assertSnapshot([1, 2, 3, MATCH_RULES_VERSION].includes(snapshot.rulesVersion),
     'unsupported game rules version');
   assertSnapshot(Number.isSafeInteger(snapshot.sequence) && snapshot.sequence >= 1, 'invalid sequence');
   assertSnapshot(Number.isFinite(snapshot.savedAt) && snapshot.savedAt > 0, 'invalid save time');
   assertSnapshot(typeof snapshot.matchId === 'string' && /^[A-Za-z0-9_-]{22}$/.test(snapshot.matchId), 'invalid match identity');
   const definition = validateMapDefinition(snapshot.mapDefinition, 'match checkpoint');
+  assertSnapshot(snapshot.rulesVersion === MATCH_RULES_VERSION
+    || !definition.elevationPatches?.some((patch) => patch.level > 0),
+  'elevated map requires current game rules');
   assertSnapshot(snapshot.mapHash === matchMapHash(definition), 'map checksum mismatch');
   assertSnapshot(typeof snapshot.state === 'object' && snapshot.state !== null, 'missing simulation state');
   const state = snapshot.state;
@@ -2714,6 +2769,10 @@ function migrateMatchCheckpoint(snapshot) {
   }
   if (snapshot?.schemaVersion === 8 && typeof snapshot.state === 'object' && snapshot.state !== null) {
     snapshot.schemaVersion = MATCH_CHECKPOINT_SCHEMA_VERSION;
+  }
+  if ([1, 2, 3].includes(snapshot?.rulesVersion)
+    && !snapshot?.mapDefinition?.elevationPatches?.some((patch) => patch.level > 0)) {
+    snapshot.rulesVersion = MATCH_RULES_VERSION;
   }
   return snapshot;
 }
@@ -5708,7 +5767,7 @@ const server = createServer(async (request, response) => {
     response.end('Forbidden');
     return;
   }
-  const publicClientAsset = ['index.html', 'style.css', 'vendor/three.module.js', 'vendor/three.core.js', 'src/main.js', 'src/map-utils.mjs', 'src/town-center-spawn.mjs', 'src/map-resize.mjs', 'src/map-studio-viewport.mjs', 'src/order-feedback.mjs', 'src/resource-visual-state.mjs', 'src/building-visual-state.mjs', 'src/unit-lod-state.mjs', 'src/unit-selection.mjs', 'src/unit-visual-state.mjs', 'src/audio.mjs', 'src/audio-policy.mjs', 'src/audio-recognition-check.mjs', 'src/camera-controls.mjs'].includes(relative);
+  const publicClientAsset = ['index.html', 'style.css', 'vendor/three.module.js', 'vendor/three.core.js', 'src/main.js', 'src/map-utils.mjs', 'src/elevation.mjs', 'src/town-center-spawn.mjs', 'src/map-resize.mjs', 'src/map-studio-viewport.mjs', 'src/order-feedback.mjs', 'src/resource-visual-state.mjs', 'src/building-visual-state.mjs', 'src/unit-lod-state.mjs', 'src/unit-selection.mjs', 'src/unit-visual-state.mjs', 'src/audio.mjs', 'src/audio-policy.mjs', 'src/audio-recognition-check.mjs', 'src/camera-controls.mjs'].includes(relative);
   const publicUiAsset = [
     'assets/ui/preview.html', 'assets/ui/cursors/manifest.json',
     'assets/ui/cursors/select.png', 'assets/ui/cursors/select.svg',

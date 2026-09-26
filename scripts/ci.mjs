@@ -44,6 +44,7 @@ const scenarios = [
   ['scripts/audio-policy-scenario.mjs', 'Audio policy'],
   ['scripts/audio-recognition-check-scenario.mjs', 'Audio recognition check'],
   ['scripts/map-utils-scenario.mjs', 'Map utilities'],
+  ['scripts/elevation-scenario.mjs', 'Elevation pathing and sight'],
   ['scripts/camera-controls-scenario.mjs', 'Camera controls'],
   ['scripts/objective-fog-visibility-scenario.mjs', 'Objective fog visibility'],
   ['scripts/unreachable-attack-scenario.mjs', 'Orders, 2k spawn clearance, and objective hold'],
