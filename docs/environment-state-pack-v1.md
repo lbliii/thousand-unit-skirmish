@@ -1,6 +1,6 @@
 # Interactive environment state pack v1
 
-Asset-only checkpoint for the existing oak and berry resource nodes, with two construction-ground samples. `assets/environment/frontier-interactive-v1/manifest.json` follows renderer asset-pack schema v1 and records each source/runtime file, pixel dimensions, world dimensions, pivot, stock range, batch key, SHA-256, and provenance. No renderer code or map/resource placement data changes are included.
+Checkpoint for the existing oak and berry resource nodes, with two construction-ground samples. `assets/environment/frontier-interactive-v1/manifest.json` follows renderer asset-pack schema v1 and records each source/runtime file, pixel dimensions, world dimensions, pivot, stock range, batch key, SHA-256, and provenance. Pack version `1.0.1` corrects construction orientation/pivot metadata only; source/runtime pixels, resource-state mapping, and map placement are unchanged. The schema and validator accept both the legacy camera-facing/bottom-center layout and the ground-oriented/center-pivot layout, require the visible stages to share one layout, and require the `clear` route to match it. No renderer code or map/resource placement data changes are included.
 
 ## Resource state mapping
 
@@ -27,15 +27,15 @@ The schema stores earthwork as `{ "min": 0, "max": 0.4 }` and foundation as `{ "
 
 ## Dimensions and anchors
 
-All sprites are RGBA cutouts. Resource sprites are camera-facing and use the shared bottom-center pivot `[0.5, 1.0]`; state variants in each family keep the same source canvas and world size. The construction decals also share their canvas, world size, and pivot.
+All images are RGBA cutouts. Resource sprites are camera-facing and use the shared bottom-center pivot `[0.5, 1.0]`; state variants in each family keep the same source canvas and world size. Construction ground images are ground-oriented square decals with center pivot `[0.5, 0.5]`; both visible construction states share their canvas and world size.
 
 | Family | Pixel canvas | World size | Pivot |
 | --- | ---: | ---: | --- |
 | Oak | 1226 × 1283 | 4.1 × 3.75 | `[0.5, 1.0]` |
 | Berries | 1536 × 1024 | 2.55 × 1.56 | `[0.5, 1.0]` |
-| Construction ground | 1254 × 1254 | 3.0 × 3.0 | `[0.5, 1.0]` |
+| Construction ground | 1254 × 1254 | 3.0 × 3.0 | `[0.5, 0.5]` |
 
-The construction `clear` row is a no-image routing state and does not create a render batch.
+The construction `clear` row is a no-image routing state, uses the same orientation flag as the visible construction stages, and does not create a render batch.
 
 ## Budgets
 
@@ -47,7 +47,7 @@ The construction `clear` row is a no-image routing state and does not create a r
 
 ## Review status
 
-An independent source-integrity audit on 2026-09-25 matched all 20 manifest file records to their on-disk SHA-256 hashes and decoded pixel dimensions. It confirmed all eight oak and berry resource rows cover the four stages, keep one world size per resource family, and use the shared bottom-center pivot `[0.5, 1.0]`. This verifies the source package record; it does not establish runtime readability, play-zoom evidence, or measured GPU residency.
+An independent source-integrity audit on 2026-09-25 matched all 20 manifest file records to their on-disk SHA-256 hashes and decoded pixel dimensions. It confirmed all eight oak and berry resource rows cover the four stages, keep one world size per resource family, and use the shared bottom-center pivot `[0.5, 1.0]`. Version `1.0.1` additionally declares the two construction images as ground-oriented center-pivot decals and the `clear` state as non-camera-facing. This verifies the source package record; it does not establish runtime readability, play-zoom evidence, or measured GPU residency.
 
 On 2026-09-25, the Art Direction owner flagged a source-preview contrast risk: Meadow's high-frequency ground mottling fills much of the view, while Workers occupy only a few pixels at normal and strategic zooms. Check ground/army contrast in the authorized play-zoom frames; this observation is not runtime signoff and does not imply a v1 art or manifest change.
 

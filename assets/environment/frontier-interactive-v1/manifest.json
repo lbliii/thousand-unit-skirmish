@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "packId": "environment.frontier-interactive",
-  "packVersion": "1.0.0",
+  "packVersion": "1.0.1",
   "packKind": "environment",
   "coordinateSystem": {
     "units": "world-unit",
@@ -476,7 +476,7 @@
       "dimensionsPx": null,
       "worldSize": null,
       "pivot": null,
-      "cameraFacing": true,
+      "cameraFacing": false,
       "alphaMode": "cutout",
       "progressRange": null,
       "batchKey": "environment.construction.clear"
@@ -497,9 +497,9 @@
       },
       "pivot": [
         0.5,
-        1.0
+        0.5
       ],
-      "cameraFacing": true,
+      "cameraFacing": false,
       "alphaMode": "cutout",
       "progressRange": {
         "min": 0,
@@ -523,9 +523,9 @@
       },
       "pivot": [
         0.5,
-        1.0
+        0.5
       ],
-      "cameraFacing": true,
+      "cameraFacing": false,
       "alphaMode": "cutout",
       "progressRange": {
         "min": 0.4,

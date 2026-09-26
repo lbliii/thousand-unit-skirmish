@@ -1,8 +1,8 @@
 # Environment state play-zoom pilot
 
-Captured 2026-09-26 with the `renderer-environment-state-pilot` scenario against game source `c9e4791`. At integration, `main` is `4c83e6a`. Since the capture revision, `src/environment-art.mjs` gained rock-obstacle rendering and `src/main.js` changed audio-recognition feedback. Main also updated static plan/preflight reporting in the capture runner. These changes do not affect the resource pack, stock-to-stage mapping, worker gather poses, or live capture path used here; the sprite-atlas contract work is unrelated to this preview.
+Captured 2026-09-26 with the `renderer-environment-state-pilot` scenario against game source `c9e4791` and environment pack `1.0.0`. Pack `1.0.1` later corrected only construction orientation/pivot metadata; all ten runtime WebP files retain the same SHA-256 hashes and decoded dimensions. Current main when this note was updated is `89c9c37`. The screenshots document the captured build and are not claims of a pixel-identical full scene on current main.
 
-The capture-only runner was updated in the accompanying change to place detailed state records in a sidecar, keeping the `game_dev.capture.v1` manifest within the current schema. No game renderer or asset content was changed for this capture.
+The capture-only runner was updated in the accompanying change to place detailed state records in a sidecar, keeping the `game_dev.capture.v1` manifest within the current schema. The capture uses the normal resource-stock path and the manifest-listed runtime textures; it does not override stock or substitute renderer-only art.
 
 The four-frame run is `run_1790444012393_a432a5abc6764808a77bf549d7947a6e`. `game-dev capture verify` reported `status: completed`, `hashesVerified: true`, `closedArtifactRosterVerified: true`, `captureContractValidated: true`, and `rasterBytesDecoded: true`. Its run-manifest SHA-256 is `378b6fc7f42af96e994e0b24284f38e3336ee83f39f48b37b986bf9b63fa6850`.
 

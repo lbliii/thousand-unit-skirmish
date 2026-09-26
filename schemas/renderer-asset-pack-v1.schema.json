@@ -342,6 +342,7 @@
       }
     },
     "constructionGround": {
+      "description": "Construction decals may use the legacy camera-facing/bottom-center layout or the ground-oriented/center-pivot layout. Visible stages in a pack must share one layout.",
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -368,11 +369,11 @@
         "worldSize": { "oneOf": [{ "$ref": "#/$defs/worldSize" }, { "type": "null" }] },
         "pivot": {
           "type": ["array", "null"],
-          "prefixItems": [{ "const": 0.5 }, { "const": 1.0 }],
+          "items": { "type": "number" },
           "minItems": 2,
           "maxItems": 2
         },
-        "cameraFacing": { "const": true },
+        "cameraFacing": { "type": "boolean" },
         "alphaMode": { "const": "cutout" },
         "progressRange": {
           "oneOf": [
@@ -381,7 +382,31 @@
           ]
         },
         "batchKey": { "type": "string", "minLength": 1 }
-      }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "cameraFacing": { "const": true },
+            "pivot": {
+              "type": ["array", "null"],
+              "prefixItems": [{ "const": 0.5 }, { "const": 1.0 }],
+              "minItems": 2,
+              "maxItems": 2
+            }
+          }
+        },
+        {
+          "properties": {
+            "cameraFacing": { "const": false },
+            "pivot": {
+              "type": ["array", "null"],
+              "prefixItems": [{ "const": 0.5 }, { "const": 0.5 }],
+              "minItems": 2,
+              "maxItems": 2
+            }
+          }
+        }
+      ]
     },
     "percentRange": {
       "type": "object",

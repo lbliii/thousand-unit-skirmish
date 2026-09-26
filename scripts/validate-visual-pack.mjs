@@ -602,6 +602,11 @@ async function validateEnvironmentPack() {
     earthwork: { file: true, range: { min: 0, max: 0.4 } },
     foundation: { file: true, range: { min: 0.4, max: 1 } },
   };
+  const constructionLayout = (asset) => {
+    if (asset.cameraFacing === true && jsonEqual(asset.pivot, [0.5, 1.0])) return 'camera-facing';
+    if (asset.cameraFacing === false && jsonEqual(asset.pivot, [0.5, 0.5])) return 'ground-oriented';
+    return null;
+  };
   const constructionKeys = new Set();
   for (const asset of constructionAssets) {
     if (constructionKeys.has(asset.stage)) report('duplicate construction stage ' + asset.stage);
@@ -626,16 +631,24 @@ async function validateEnvironmentPack() {
       if (runtimeDimensions && !sameDimensions(runtimeDimensions, asset.dimensionsPx)) {
         report(asset.id + ' declared pixel dimensions do not match its runtime image');
       }
-      if (asset.pivot[0] !== 0.5 || asset.pivot[1] !== 1) report(asset.id + ' must use the bottom-center pivot');
+      if (!constructionLayout(asset)) {
+        report(asset.id + ' must pair camera-facing sprites with a bottom-center pivot or ground-oriented decals with a center pivot');
+      }
     }
   }
   for (const stage of Object.keys(expectedConstruction)) if (!constructionKeys.has(stage)) report('missing construction state ' + stage);
   const visibleConstruction = constructionAssets.filter((asset) => asset.runtimeFile);
+  const clearConstruction = constructionAssets.find((asset) => asset.stage === 'clear');
+  if (visibleConstruction.length > 0 && clearConstruction
+    && clearConstruction.cameraFacing !== visibleConstruction[0].cameraFacing) {
+    report('clear construction state must match the camera-facing layout of visible construction states');
+  }
   if (visibleConstruction.length === 2) {
     const [first, second] = visibleConstruction;
     if (!sameDimensions(first.dimensionsPx, second.dimensionsPx)
-      || !sameWorldSize(first.worldSize, second.worldSize) || !jsonEqual(first.pivot, second.pivot)) {
-      report('earthwork and foundation must share pixel size, world size, and pivot');
+      || !sameWorldSize(first.worldSize, second.worldSize) || !jsonEqual(first.pivot, second.pivot)
+      || first.cameraFacing !== second.cameraFacing || constructionLayout(first) !== constructionLayout(second)) {
+      report('earthwork and foundation must share pixel size, world size, pivot, and orientation');
     }
   }
 

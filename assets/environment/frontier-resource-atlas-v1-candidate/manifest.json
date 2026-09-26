@@ -6,7 +6,7 @@
   "provenance": {
     "license": "Project-owned derivative of original Thousand Unit Skirmish art; no third-party source imagery.",
     "source": "Lossless color-matte layer extraction from the approved frontier-interactive-v1 oak and berries source PNGs.",
-    "authoringTool": "Pillow 10.4.0; PNG atlas packing with source-pixel-preserving layer masks.",
+    "authoringTool": "Pillow 12.3.0; PNG atlas packing with source-pixel-preserving layer masks.",
     "notes": "Original source paths and SHA-256 values: assets/environment/frontier-interactive-v1/oak-full.png=e99f1c70c28cedd8406dea44b72186f25a40ef88c1a3f72d7690298f5e584753; assets/environment/frontier-interactive-v1/oak-worked.png=17f433b67aa6a4a0784ecac1293aba4796c3f2ab7491b6bf3bcf61f49de8018f; assets/environment/frontier-interactive-v1/oak-low.png=ea255be33ebc77d62a5fb1176175565ef56745ef6568b74a75ed228022127528; assets/environment/frontier-interactive-v1/oak-depleted.png=65c38d012c7184d01761bf53144be407fa03c215e66c150e9893e5a35c0c1371; assets/environment/frontier-interactive-v1/berries-full.png=3ca2f8162316e1babcda9357cb51856fa56ce1ff7706d03ef8d95bbcb0a04787; assets/environment/frontier-interactive-v1/berries-worked.png=aa883e92ba69f16a0e43cdf23669961a9608c56dd731a330290012242f4afb18; assets/environment/frontier-interactive-v1/berries-low.png=9a0ad21aa4b29f73a5a54df779dbe2a73cfecf8ff8a4ad31b610fad2d8b54e12; assets/environment/frontier-interactive-v1/berries-depleted.png=7a601be8035a3af2ede958b170bf001a11add395c4c1431d5d84ac0751923011"
   },
   "files": [
@@ -15,7 +15,7 @@
       "path": "pages/oak-fallback.png",
       "usage": "source",
       "format": "png",
-      "sha256": "a134ccc0d1ef46e1e33845e20a08e59662f951677f68461d2cf6004d4ae15110",
+      "sha256": "9c76d2d70b3f51b00e144c8690bd78b2743fa7cdc805d4d4b4a1b9e9ef57ea8e",
       "dimensionsPx": {
         "width": 4904,
         "height": 1283
@@ -26,7 +26,7 @@
       "path": "pages/oak-foliage-back.png",
       "usage": "source",
       "format": "png",
-      "sha256": "5873cd4bc4a54077007e7b9fa851ce64c56c0f5595b5ffc05518dc0f5285f1ab",
+      "sha256": "a606b461aef3c451d01545218a44b1b1084789586b91ffd9ab0ddb8213c9cd8f",
       "dimensionsPx": {
         "width": 4904,
         "height": 1283
@@ -37,7 +37,7 @@
       "path": "pages/oak-wood-structure.png",
       "usage": "source",
       "format": "png",
-      "sha256": "ff29c7f49d570b1e3dded2c0a65c910b0f90ed30a376124d96bc5a639d93953f",
+      "sha256": "d9ad28c0b2d94e51217127f2b0fd6e2fba490ec9f54d16bd74d26bc248e1e219",
       "dimensionsPx": {
         "width": 4904,
         "height": 1283
@@ -48,7 +48,7 @@
       "path": "pages/berries-fallback.png",
       "usage": "source",
       "format": "png",
-      "sha256": "9e9f7655f8bb1cf42fc0a4d3718165ecb8d2f5a492f93cce5f7f0ca12d728297",
+      "sha256": "abab62365548c5e61e682288c7d78c3ad421d17e2e7f82b36557167037bf8021",
       "dimensionsPx": {
         "width": 6144,
         "height": 1024
@@ -59,7 +59,7 @@
       "path": "pages/berries-foliage-back.png",
       "usage": "source",
       "format": "png",
-      "sha256": "1a9477b5d396a83832c922b794275a42b3b62fc7d79da8a2cadc1ddd91560178",
+      "sha256": "cd71902e2414c153c0ad31311dbbb32e07e8024bada03dc672b88b4d12838bff",
       "dimensionsPx": {
         "width": 6144,
         "height": 1024
@@ -70,7 +70,7 @@
       "path": "pages/berries-wood-structure.png",
       "usage": "source",
       "format": "png",
-      "sha256": "30979e05ec33a591e7da1d1f5145b48363c6a71b0e301cbbf91d0eceec51ec7f",
+      "sha256": "965cc2c17b389e7acecb7b16f20c5a2f4ae45a14712e8c82ce5e33672ffcd851",
       "dimensionsPx": {
         "width": 6144,
         "height": 1024
@@ -81,7 +81,7 @@
       "path": "pages/berries-fruit-front.png",
       "usage": "source",
       "format": "png",
-      "sha256": "23d0b47ac79025df6e9159894322cd8caedc2f8917c869a87f6c666e3bdad0e3",
+      "sha256": "343a77a67c42f780e6944c4cec4e333a0349381774a4a9aba2f2a5e84854c882",
       "dimensionsPx": {
         "width": 6144,
         "height": 1024
