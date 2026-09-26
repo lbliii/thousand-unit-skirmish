@@ -320,17 +320,18 @@ async function runCase(splitTeam, commandOrder) {
 
     const startFood = initial.map((state, team) => state.food[team]);
     const startWood = initial.map((state, team) => state.wood[team]);
-    const acceptedOrders = [];
-    const issue = async (team, command, token) => {
+    const orderAcks = [];
+    const issue = (team, command, token) => {
       const client = clientsByTeam[team];
       const after = client.messages.length;
       const ack = client.waitFor((message) => message.type === 'notice'
         && message.clientOrderToken === token, 12_000, after);
       client.send({ ...command, clientOrderToken: token });
-      const { message } = await ack;
-      assert.ok(!message.message?.includes('REJECTED'),
-        `team ${team} order ${token} rejected: ${message.message}`);
-      acceptedOrders.push({ team, token, message: message.message });
+      orderAcks.push(ack.then(({ message }) => {
+        assert.ok(!message.message?.includes('REJECTED'),
+          `team ${team} order ${token} rejected: ${message.message}`);
+        return { team, token, message: message.message };
+      }));
     };
     const foodNodeSplit = nearestNode(map, splitTeam, 'food');
     const woodNodeSplit = nearestNode(map, splitTeam, 'wood');
@@ -360,7 +361,8 @@ async function runCase(splitTeam, commandOrder) {
     const orderedCommands = commandOrder === 'split-first'
       ? [...splitOrders, ...responseOrders]
       : [...responseOrders, ...splitOrders];
-    for (const [team, command, token] of orderedCommands) await issue(team, command, token);
+    for (const [team, command, token] of orderedCommands) issue(team, command, token);
+    const acceptedOrders = await Promise.all(orderAcks);
 
     const observed = await azure.waitFor(
       (message, state) => state?.mapId === map.id
