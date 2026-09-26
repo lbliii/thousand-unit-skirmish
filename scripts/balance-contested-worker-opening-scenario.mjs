@@ -372,9 +372,9 @@ async function runCase(splitTeam, commandOrder) {
     );
     const states = azure.states.filter((state) => state.mapId === map.id
       && Number.isFinite(state.matchElapsedSeconds));
-    const finalState = observed.state;
-    assert.ok(finalState, 'final observed game state must be present');
-    assert.equal(finalState.winner, -1, 'the two-Signal probe should not resolve the match');
+    const contestFinalState = observed.state;
+    assert.ok(contestFinalState, 'final observed game state must be present');
+    assert.equal(contestFinalState.winner, -1, 'the two-Signal probe should not resolve the match');
     assert.ok(template.scenarioEvents.every((event) => event.afterSeconds > observationSeconds),
       'observation must finish before any timed map reward is granted');
 
@@ -413,6 +413,80 @@ async function runCase(splitTeam, commandOrder) {
         team: objective.owner,
       } : null];
     }));
+
+    const workersAtBuildStart = [0, 1].map((team) => contestFinalState.units
+      .filter((row) => row[1] === team && row[5] === 'worker' && row[4] > 0));
+    assert.equal(workersAtBuildStart[splitTeam].length, 2,
+      'only the two unexposed split workers should remain to build');
+    assert.equal(workersAtBuildStart[responseTeam].length, 4,
+      'all four response workers should remain to build');
+    const buildAfter = clientsByTeam.map((client) => client.messages.length);
+    const firstBuildingSnapshots = clientsByTeam.map((client, team) => client.waitFor(
+      (message, state) => state?.mapId === map.id && state.buildings.some((building) => (
+        building.team === team && building.type === 'barracks'
+      )),
+      15_000,
+      buildAfter[team],
+    ));
+    const completedBuildingSnapshots = clientsByTeam.map((client, team) => client.waitFor(
+      (message, state) => state?.mapId === map.id && state.buildings.some((building) => (
+        building.team === team && building.type === 'barracks' && building.complete
+      )),
+      60_000,
+      buildAfter[team],
+    ));
+    const buildOrderAcks = clientsByTeam.map((client, team) => {
+      const token = 99;
+      const ack = client.waitFor((message) => message.type === 'notice'
+        && message.clientOrderToken === token, 12_000, buildAfter[team]);
+      client.send({
+        type: 'build',
+        buildingType: 'barracks',
+        ids: workersAtBuildStart[team].map((row) => row[0]),
+        x: team === 0 ? -21.5 : 21.5,
+        z: 0.5,
+        clientOrderToken: token,
+      });
+      return ack.then(({ message }) => {
+        assert.ok(!message.message?.includes('REJECTED'),
+          `team ${team} post-contest Barracks order rejected: ${message.message}`);
+        return { team, message: message.message };
+      });
+    });
+    const acceptedBuildOrders = await Promise.all(buildOrderAcks);
+    const firstBuildingStates = await Promise.all(firstBuildingSnapshots);
+    const completedBuildingStates = await Promise.all(completedBuildingSnapshots);
+    const barracksAfterContest = {
+      issuedAtSeconds: Number(contestFinalState.matchElapsedSeconds.toFixed(1)),
+      teams: [0, 1].map((team) => {
+        const initialState = firstBuildingStates[team].state;
+        const completionState = completedBuildingStates[team].state;
+        const initialBuilding = initialState.buildings.find((building) => (
+          building.team === team && building.type === 'barracks'
+        ));
+        const completeBuilding = completionState.buildings.find((building) => (
+          building.team === team && building.type === 'barracks'
+        ));
+        return {
+          team,
+          role: team === splitTeam ? 'split' : 'response',
+          workersAssigned: workersAtBuildStart[team].length,
+          woodAtIssue: contestFinalState.wood[team],
+          firstObservedAtSeconds: Number(initialState.matchElapsedSeconds.toFixed(1)),
+          firstObservedProgress: initialBuilding.progress,
+          completedAtSeconds: Number(completionState.matchElapsedSeconds.toFixed(1)),
+          elapsedFromContestCheckpointSeconds: Number((
+            completionState.matchElapsedSeconds - contestFinalState.matchElapsedSeconds
+          ).toFixed(1)),
+          elapsedFromFirstObservedSeconds: Number((
+            completionState.matchElapsedSeconds - initialState.matchElapsedSeconds
+          ).toFixed(1)),
+          complete: completeBuilding.complete,
+        };
+      }),
+      acceptedOrders: acceptedBuildOrders,
+    };
+
     const timeline = {};
     const checkpoints = [...new Set([25, 40, 60, observationSeconds])]
       .filter((seconds) => seconds <= observationSeconds);
@@ -449,7 +523,7 @@ async function runCase(splitTeam, commandOrder) {
       };
     }
 
-    const finalObjectiveRewards = objectiveRewardsThrough(states, finalState.matchElapsedSeconds, map);
+    const finalObjectiveRewards = objectiveRewardsThrough(states, contestFinalState.matchElapsedSeconds, map);
     const result = {
       splitTeam,
       responseTeam,
@@ -465,9 +539,9 @@ async function runCase(splitTeam, commandOrder) {
         ? Number(firstWorkerLossState.matchElapsedSeconds.toFixed(1)) : null,
       firstOwner,
       final: {
-        atSeconds: Number(finalState.matchElapsedSeconds.toFixed(1)),
+        atSeconds: Number(contestFinalState.matchElapsedSeconds.toFixed(1)),
         objectives: ['capture-zone-1', 'capture-zone-2'].map((id) => {
-          const objective = finalState.objectives.find((row) => row.id === id);
+          const objective = contestFinalState.objectives.find((row) => row.id === id);
           return {
             id,
             owner: objective.owner,
@@ -476,12 +550,14 @@ async function runCase(splitTeam, commandOrder) {
             unitCounts: objective.unitCounts,
           };
         }),
-        participants: participantSummary(finalState, groups, gatherTargets, map),
+        participants: participantSummary(contestFinalState, groups, gatherTargets, map),
         resources: [0, 1].map((team) => resourceAccounting(
-          finalState, team, startFood, startWood, finalObjectiveRewards[team],
+          contestFinalState, team, startFood, startWood, finalObjectiveRewards[team],
         )),
         resourcesByObserver: clientsByTeam.map((client, observerTeam) => {
-          const observerState = client.latestState();
+          const observerState = stateAtOrAfter(client.states.filter((state) => (
+            state.mapId === map.id && Number.isFinite(state.matchElapsedSeconds)
+          )), observationSeconds);
           return {
             observerTeam,
             food: observerState?.food,
@@ -489,6 +565,7 @@ async function runCase(splitTeam, commandOrder) {
           };
         }),
       },
+      barracksAfterContest,
       timeline,
       acceptedOrders,
     };
@@ -518,7 +595,7 @@ try {
     map: relativeMapPath,
     mapSourceSha256,
     runtime,
-    scenario: 'scripted Forked Vale worker-split versus five-infantry attack-move response; no buildings or human input',
+    scenario: 'scripted Forked Vale worker-split versus five-infantry attack-move response, followed by post-contest Barracks builds; no human input',
     results,
   })}\n`);
 } catch (error) {
