@@ -46,6 +46,16 @@ The next authoring improvements are larger brushes or region fill and a repeatab
 
 The renderer currently instances one tree sprite for every blocked forest cell. On a 160 × 160 map, 12–20% forest would mean about **3,100–5,100** tree instances, compared with 140 forest cells in the fullest compact shipped map. Woodland Expanse now has 5,240 forest cells. Renderer and Environment can use instancing, distance detail, and canopy treatment to keep the view full and readable. Each woody forest sprite should lead to the same harvest-and-clear interaction, so its silhouette matches the economic action.
 
+## Separate playable footprints and sprite bounds
+
+Use the project’s painterly 2D/2.5D direction without making image size determine playable geometry. One map tile is one world unit.
+
+- **Gameplay footprint:** `tileFootprint` records the occupied map cells. Ordinary resource nodes remain one cell; a multi-cell building or resource lists every occupied cell. Pathfinding, reachability, building placement, spawn clearance, and objective approach checks use this footprint only.
+- **Sprite bounds:** `artBoundsWorld` records the visible extent and may overhang the gameplay footprint. Asset metadata also records pixel canvas bounds and a ground pivot mapped to the entity’s map/world anchor. The current environment pack expresses these as `dimensionsPx`, `worldSize`, and normalized bottom-center `pivot` `[0.5, 1.0]`; preserve those fields until Technical Art coordinates a manifest version. Culling and selection bounds remain separate from gameplay occupancy and sprite bounds. Never infer collision, resource occupancy, or movement clearance from transparent or visible pixels.
+- **Ordering and occlusion:** for sprites facing the fixed camera, use the ground-contact anchor as the ordinary front-to-back depth point. Use `drawLayer` values `background`, `actor`, and `foreground` for explicit broad ordering; reserve a small `depthBiasWorld` for deliberate ties. Ordinary overlap remains depth-buffered from the ground anchor, while renderer `renderOrder` stays reserved for terrain and gameplay cues. Existing semantic map entities keep their current types and coordinates; use `visualAssetId` only for a decorative prop with no existing semantic type. Keep atlas coordinates in the asset pack, not map data.
+
+These field names follow the Renderer/Environment proposal; exact manifest versioning is coordinated with Technical Art before implementation. Map and scenario evidence keeps the two geometries separate: static route and spawn audits use occupied cells, while a normal-zoom fixed-camera review checks visible overhang, foreground/background ordering, and sprite readability. The current view uses a 45° azimuth and 45.44° elevation, with the key light at `(-24, 38, 20)` and warm hemisphere fill; asset previews should match that perspective and light. Visual overhang never changes route or clearance results.
+
 ## What to measure while building
 
 - Run `node scripts/map-balance-audit.mjs maps/<map-file>.json` for a static
