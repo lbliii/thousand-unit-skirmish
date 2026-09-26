@@ -10,11 +10,20 @@ const { width, height } = map;
 assert.equal(map.id, 'frontier-160');
 assert.equal(width, 160);
 assert.equal(height, 160);
+assert.ok(map.name.length > 0 && map.name.length <= 48);
+assert.ok(map.summary.length <= 120);
+assert.equal(map.startingArmySize, 1000);
+assert.equal(map.startingResources.food, 200);
+assert.equal(map.startingResources.wood, 150);
+assert.equal(map.fogOfWar, true);
+assert.equal(map.victoryMode, 'any');
+assert.equal(map.victoryHoldSeconds, 20);
 assert.equal(map.elevationPatches, undefined,
   'the large-map pilot stays flat while leaving elevation to its separate scenario slice');
 
 const cellCount = width * height;
 const blocked = new Uint8Array(cellCount);
+const obstacleMaterial = new Array(cellCount).fill(null);
 const forestCells = new Uint8Array(cellCount);
 const waterByRow = new Uint16Array(height);
 for (const obstacle of map.obstacles) {
@@ -27,6 +36,7 @@ for (const obstacle of map.obstacles) {
       const index = row * width + column;
       assert.equal(blocked[index], 0, `obstacles overlap at ${column},${row}`);
       blocked[index] = 1;
+      obstacleMaterial[index] = obstacle.material;
       if (obstacle.material === 'forest') forestCells[index] = 1;
       if (obstacle.material === 'water') waterByRow[row]++;
     }
@@ -61,11 +71,30 @@ for (const patch of map.terrainPatches) {
 for (const material of ['long-grass', 'short-grass', 'dirt', 'sand', 'scree']) {
   assert.ok(terrainMaterials.has(material), `the map should use its ${material} region material`);
 }
+for (let row = 0; row < height; row++) {
+  for (let column = 0; column < width / 2; column++) {
+    const index = row * width + column;
+    const mirroredIndex = row * width + width - column - 1;
+    assert.equal(obstacleMaterial[index], obstacleMaterial[mirroredIndex],
+      `obstacles should mirror across the team axis at ${column},${row}`);
+    assert.equal(terrain[index], terrain[mirroredIndex],
+      `ground materials should mirror across the team axis at ${column},${row}`);
+  }
+}
 
 const byId = new Map(map.resourceNodes.map(node => [node.id, node]));
 assert.equal(map.resourceNodes.length, 64);
+assert.equal(byId.size, map.resourceNodes.length, 'resource node IDs should be unique');
 assert.equal(map.resourceNodes.filter(node => node.type === 'food').length, 32);
 assert.equal(map.resourceNodes.filter(node => node.type === 'wood').length, 32);
+for (const node of map.resourceNodes) {
+  assert.match(node.id, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+  assert.ok(['food', 'wood'].includes(node.type));
+  assert.ok(Number.isFinite(node.x) && Number.isFinite(node.z) && Number.isFinite(node.stock) && node.stock > 0);
+  assert.ok(Math.abs(node.x) < width / 2 && Math.abs(node.z) < height / 2);
+  const [column, row] = cellForPoint(node);
+  assert.equal(blocked[row * width + column], 0, `${node.id} should be on open ground`);
+}
 for (const region of ['start', 'expansion', 'contested']) {
   assert.ok(map.resourceNodes.some(node => node.id.startsWith(`${region}-azure-`)),
     `the Azure ${region} resource pocket should exist`);
@@ -121,6 +150,7 @@ function distancesFrom(point) {
 
 const spawns = [...map.spawnPoints].sort((a, b) => a.team - b.team);
 assert.equal(spawns.length, 2);
+assert.deepEqual(spawns.map(spawn => spawn.team), [0, 1]);
 assert.equal(spawns[0].x, -spawns[1].x);
 assert.equal(spawns[0].z, spawns[1].z);
 const unitsPerTeam = map.startingArmySize / 2;
@@ -177,6 +207,17 @@ function distanceToZone(distances, zone) {
     }
   }
   return best;
+}
+assert.equal(map.triggers.length, 3);
+assert.equal(new Set(map.triggers.map(trigger => trigger.id)).size, map.triggers.length);
+for (const trigger of map.triggers) {
+  assert.match(trigger.id, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+  assert.equal(trigger.type, 'capture-zone');
+  assert.ok([trigger.zone.column, trigger.zone.row, trigger.zone.width, trigger.zone.height].every(Number.isInteger));
+  assert.ok(trigger.zone.column >= 0 && trigger.zone.row >= 0 && trigger.zone.width > 0 && trigger.zone.height > 0);
+  assert.ok(trigger.zone.column + trigger.zone.width <= width && trigger.zone.row + trigger.zone.height <= height);
+  assert.ok(Number.isInteger(trigger.requiredUnits) && trigger.requiredUnits >= 1);
+  assert.ok(Number.isFinite(trigger.captureSeconds) && trigger.captureSeconds >= 0.5 && trigger.captureSeconds <= 60);
 }
 const objectiveDistances = map.triggers.map(trigger => (
   spawnDistances.map(distances => distanceToZone(distances, trigger.zone))

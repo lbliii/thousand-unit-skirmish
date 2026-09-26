@@ -119,8 +119,9 @@ for (const lobe of westernWoodlandLobes) {
       for (let cellColumn = 0; cellColumn < WIDTH; cellColumn++) {
         const dx = (cellColumn - column) / lobe.radiusX;
         const dz = (row - lobe.row) / lobe.radiusZ;
-        const edge = 0.065 * Math.sin(cellColumn * 0.43 + row * 0.21)
-          + 0.045 * Math.cos(cellColumn * 0.19 - row * 0.37);
+        const symmetricColumn = Math.min(cellColumn, WIDTH - 1 - cellColumn);
+        const edge = 0.065 * Math.sin(symmetricColumn * 0.43 + row * 0.21)
+          + 0.045 * Math.cos(symmetricColumn * 0.19 - row * 0.37);
         const clearing = ((cellColumn - column) ** 2 / 16) + ((row - lobe.row) ** 2 / 9) < 1;
         if (dx * dx + dz * dz <= 1 + edge && !clearing
           && obstaclesByCell[index(cellColumn, row)] === null) {
@@ -142,7 +143,7 @@ const terrainBase = 'meadow';
 paintGroundRectangle(0, 0, WIDTH, 15, 'long-grass');
 paintGroundRectangle(0, HEIGHT - 15, WIDTH, 15, 'long-grass');
 for (const [column, row] of [[24, 80], [WIDTH - 1 - 24, 80]]) {
-  paintGroundRectangle(column - 10, row - 10, 20, 20, 'short-grass');
+  paintGroundRectangle(column - 10, row - 10, 21, 20, 'short-grass');
 }
 for (const row of [51, 77, 104]) paintGroundRectangle(0, row, WIDTH, 5, 'dirt');
 for (const [column, row] of [[13, 15], [146, 15], [13, 144], [146, 144]]) {
