@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.frontier-water-shoreline",
+  "packVersion": "1.0.0",
+  "packKind": "environment-materials",
+  "coordinateSystem": {
+    "units": "world-unit",
+    "uvUnits": "map-cell",
+    "uvOrigin": "world-x-z"
+  },
+  "provenance": {
+    "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+    "source": "OpenAI ImageGen neutral albedo-detail maps, edited from original image generations; runtime images are resized and encoded WebP files listed in this manifest.",
+    "authoringTool": "OpenAI ImageGen; Pillow 12.3.0 LANCZOS resize and WebP encoder (quality 86).",
+    "notes": "Opaque sRGB material maps are multiplied by existing renderer vertex colors. Exact prompts, ImageGen output IDs, and file hashes are recorded in PROMPTS.md and PROVENANCE.md."
+  },
+  "budgets": {
+    "materialGroups": 2,
+    "projectedDrawCalls": 2,
+    "projectedDrawCallsScaleWithCellCount": false,
+    "projectedTextureMemoryBytes": 6291456,
+    "textureMemoryMethod": "RGBA8 texture plus full mip chain per unique 768x768 runtime image; estimate only, not measured residency."
+  },
+  "files": [
+    {
+      "path": "shallows.png",
+      "role": "source-image",
+      "sha256": "cf74ecc0241a7c1960c0bb4ad878efaa053d56452cb6751ff86be218e3dc479e",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "OpenAI ImageGen output exec-f93e8ca3-6093-4171-ba05-7719142f3b1f; see PROMPTS.md.",
+      "dimensionsPx": { "width": 1254, "height": 1254 }
+    },
+    {
+      "path": "shallows.webp",
+      "role": "runtime-image",
+      "sha256": "699be7853b7f7db63743b8efa428eb6f468add1f78458952aba762be791d5587",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "LANCZOS resize to 768x768 and lossy WebP quality-86 encode of shallows.png using Pillow 12.3.0.",
+      "dimensionsPx": { "width": 768, "height": 768 }
+    },
+    {
+      "path": "water.png",
+      "role": "source-image",
+      "sha256": "bfe0a6a91aa9a09309919a7b8f72d9f8149e596ff02562ae19e6455e5c44816e",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "OpenAI ImageGen output exec-af6d9e64-7821-4b38-bd60-2e8700196d04; see PROMPTS.md.",
+      "dimensionsPx": { "width": 1254, "height": 1254 }
+    },
+    {
+      "path": "water.webp",
+      "role": "runtime-image",
+      "sha256": "7ad880af00d7f1fe5a707193e1710de7a88c34b0af488e1a7891d9c270e19ed8",
+      "license": "Original project art generated for Thousand Unit Skirmish; no third-party source imagery.",
+      "provenance": "LANCZOS resize to 768x768 and lossy WebP quality-86 encode of water.png using Pillow 12.3.0.",
+      "dimensionsPx": { "width": 768, "height": 768 }
+    }
+  ],
+  "materials": [
+    {
+      "id": "water-surface",
+      "kind": "tileable-albedo-detail",
+      "groupIndex": 0,
+      "sourceFile": "water.png",
+      "runtimeFile": "water.webp",
+      "dimensionsPx": { "width": 768, "height": 768 },
+      "colorSpace": "srgb",
+      "vertexColorModulation": true,
+      "wrap": "mirrored-repeat",
+      "uvSource": "world-x-z-map-cell-units",
+      "repeatWorldUnits": { "u": 12, "v": 12 }
+    },
+    {
+      "id": "shoreline-shallows",
+      "kind": "tileable-albedo-detail",
+      "groupIndex": 1,
+      "sourceFile": "shallows.png",
+      "runtimeFile": "shallows.webp",
+      "dimensionsPx": { "width": 768, "height": 768 },
+      "colorSpace": "srgb",
+      "vertexColorModulation": true,
+      "wrap": "mirrored-repeat",
+      "uvSource": "world-x-z-map-cell-units",
+      "repeatWorldUnits": { "u": 1, "v": 1 }
+    }
+  ],
+  "integrationStatus": {
+    "rendererContract": "two geometry groups; group 0 water surface, group 1 shoreline bands; stable UVs from world X/Z in map-cell units; preserve vertex colors and topology",
+    "runtimeReview": "pending in-game preview"
+  }
+}
