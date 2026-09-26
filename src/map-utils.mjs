@@ -1,4 +1,6 @@
-function findWalkableComponents(width, height, blockedCells) {
+import { canTraverseElevation } from './elevation.mjs';
+
+function findWalkableComponents(width, height, blockedCells, elevationLevels) {
   const cellCount = width * height;
   const components = new Int32Array(cellCount);
   components.fill(-1);
@@ -22,7 +24,9 @@ function findWalkableComponents(width, height, blockedCells) {
         row + 1 < height ? cell + width : -1,
       ];
       for (const neighbour of neighbours) {
-        if (neighbour < 0 || blockedCells[neighbour] || components[neighbour] >= 0) continue;
+        if (neighbour < 0 || blockedCells[neighbour]
+          || (elevationLevels && !canTraverseElevation(elevationLevels, cell, neighbour))
+          || components[neighbour] >= 0) continue;
         components[neighbour] = nextComponent;
         queue[tail++] = neighbour;
       }
@@ -92,10 +96,12 @@ function getTeamSpawnComponents(width, height, components, spawnPoints) {
   });
 }
 
-export function findUnreachableResourceNode(width, height, blockedCells, spawnPoints, resourceNodes) {
+export function findUnreachableResourceNode(
+  width, height, blockedCells, spawnPoints, resourceNodes, elevationLevels,
+) {
   if (!resourceNodes.length) return null;
 
-  const components = findWalkableComponents(width, height, blockedCells);
+  const components = findWalkableComponents(width, height, blockedCells, elevationLevels);
   const teamSpawnComponents = getTeamSpawnComponents(width, height, components, spawnPoints);
   for (const node of resourceNodes) {
     const column = Math.floor(node.x + width / 2);
@@ -110,10 +116,12 @@ export function findUnreachableResourceNode(width, height, blockedCells, spawnPo
   return null;
 }
 
-export function findUnreachableCaptureZone(width, height, blockedCells, spawnPoints, triggers) {
+export function findUnreachableCaptureZone(
+  width, height, blockedCells, spawnPoints, triggers, elevationLevels,
+) {
   if (!triggers.length) return null;
 
-  const components = findWalkableComponents(width, height, blockedCells);
+  const components = findWalkableComponents(width, height, blockedCells, elevationLevels);
   const teamSpawnComponents = getTeamSpawnComponents(width, height, components, spawnPoints);
   for (const trigger of triggers) {
     const { column: zoneColumn, row: zoneRow, width: zoneWidth, height: zoneHeight } = trigger.zone;
