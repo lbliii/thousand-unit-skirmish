@@ -38,6 +38,7 @@ import {
   summarizeAudioRecognitionResponses,
 } from './audio-recognition-check.mjs';
 import {
+  cameraTargetForZoomAnchor,
   canEdgeScroll,
   clampCameraTargetToGroundBounds,
   edgeScrollCameraDelta,
@@ -334,7 +335,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.setClearColor(0x859175, 1);
 viewport.prepend(renderer.domElement);
-renderer.domElement.setAttribute('aria-label', 'Online isometric battlefield. Push the mouse against any screen edge to scroll the camera, or middle-drag / Space-drag to pan. Click a friendly unit to select it; pause briefly, then click the same spot to cycle through stacked units. Double-click a friendly unit to select visible on-screen friendlies of its type, or hold Shift to add them. Drag left to right to select units enclosed by the box; drag right to left to select units the box crosses; hold Shift to add either selection. Right-click ground to move or attack-move (M), Shift plus right-click to queue a waypoint, or right-click an enemy to attack and pause briefly before clicking again to cycle stacked targets. On touch screens, select units, open Orders, choose Target battlefield, then tap a destination, enemy, or resource.');
+renderer.domElement.setAttribute('aria-label', 'Online isometric battlefield. Push the mouse against any screen edge to scroll the camera, middle-drag / Space-drag to pan, or scroll to zoom toward the pointer. Click a friendly unit to select it; pause briefly, then click the same spot to cycle through stacked units. Double-click a friendly unit to select visible on-screen friendlies of its type, or hold Shift to add them. Drag left to right to select units enclosed by the box; drag right to left to select units the box crosses; hold Shift to add either selection. Right-click ground to move or attack-move (M), Shift plus right-click to queue a waypoint, or right-click an enemy to attack and pause briefly before clicking again to cycle stacked targets. On touch screens, select units, open Orders, choose Target battlefield, then tap a destination, enemy, or resource.');
 renderer.domElement.dataset.cursorMode = 'select';
 renderer.domElement.tabIndex = 0;
 
@@ -6349,8 +6350,23 @@ document.addEventListener('pointerout', (event) => {
 renderer.domElement.addEventListener('wheel', (event) => {
   event.preventDefault();
   lastUnitPickState = null;
-  zoom = THREE.MathUtils.clamp(zoom * Math.exp(-event.deltaY * 0.001), 0.48, 2.3);
-  resize();
+  const nextZoom = THREE.MathUtils.clamp(zoom * Math.exp(-event.deltaY * 0.001), 0.48, 2.3);
+  if (nextZoom === zoom) return;
+  const anchorBeforeZoom = worldAt(event.clientX, event.clientY);
+  zoom = nextZoom;
+  camera.zoom = zoom;
+  camera.updateProjectionMatrix();
+  setCamera();
+  const anchorAfterZoom = worldAt(event.clientX, event.clientY);
+  if (anchorBeforeZoom && anchorAfterZoom) {
+    const target = cameraTargetForZoomAnchor(cameraTarget, anchorBeforeZoom, anchorAfterZoom);
+    cameraTarget.x = target.x;
+    cameraTarget.z = target.z;
+    setCamera();
+  }
+  resizeResourceCallouts();
+  updateResourceNodeCallouts(performance.now(), true);
+  drawMinimap(performance.now(), true);
 }, { passive: false });
 
 document.addEventListener('pointerdown', (event) => {

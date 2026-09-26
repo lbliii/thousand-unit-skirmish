@@ -56,3 +56,10 @@ export function clampCameraTargetToGroundBounds({ x, z, halfX, halfZ, bounds }) 
     z: clampCameraAxis(z, halfZ, bounds.top, bounds.bottom),
   };
 }
+
+export function cameraTargetForZoomAnchor(target, beforeZoom, afterZoom) {
+  return {
+    x: target.x + beforeZoom.x - afterZoom.x,
+    z: target.z + beforeZoom.z - afterZoom.z,
+  };
+}
