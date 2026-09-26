@@ -1,11 +1,13 @@
 # First 1v1 skirmish balance ledger
 
-Status: early tuning; no numeric change is justified. On 26 September 2026,
-combat parity and the Forked Vale production opening were rerun on local
-`main` at `30d5dc353c49387bacdd05ef6afb1500c9519555`; the equal-cost group
-counter was rerun on the later merged `main` at
-`c931e692f000d9567de4ff459595605190f9d020`. All runs used Node `v24.9.0` on
-macOS arm64. See the owner-run results below; scripted checks are not human
+Status: early tuning; no unit-stat or cost change is justified by this
+evidence, while the contested left-seat combat diagnostic remains open. On
+26 September 2026, combat parity and the Forked Vale production opening were
+rerun on local `main` at `30d5dc353c49387bacdd05ef6afb1500c9519555`; the
+equal-cost group counter was rerun on later merged `main` at
+`c931e692f000d9567de4ff459595605190f9d020`. The contested worker-diversion
+probe ran on exact main source `6aa39fa6c70ccb9762a34ef815f0fc490ae829d5`.
+All runs used Node `v24.9.0` on macOS arm64. Scripted checks are not human
 match evidence and do not establish that the skirmish is balanced. Scope
 follows the working Game Bible and RTS Feature Coverage Inventory, maintained
 by the product team: one complete invite-first 1v1 scenario with a small
@@ -431,22 +433,85 @@ spawn; it is far below the 100 HP tolerance used by the 8v8 seat-parity
 fixture. This confirms the direct infantry counter in this group fixture; it
 does not measure worker raids, objective capture, or human match value.
 
+## Contested worker diversion and build follow-up on main: `6aa39fa` (26 September 2026)
+
+The new exact-source harness is
+[`scripts/balance-contested-worker-opening-scenario.mjs`](../scripts/balance-contested-worker-opening-scenario.mjs).
+It ran against clean server commit
+`6aa39fa6c70ccb9762a34ef815f0fc490ae829d5` with the tracked Forked Vale map
+(SHA-256 `8e0105cbf0b6dcda04781f6798fbcff92ade2421b6247f49eeaa8b4c6ac23c4a`),
+Node `v24.9.0`, macOS arm64, a 24-unit army, 150 food / 250 wood per team, and
+fog disabled. The split sent five infantry north, three infantry and two
+workers south, and one of its remaining workers to each resource. The response
+sent five infantry on attack-move to the south and all four workers to gather.
+The four-case matrix swapped split seat and command-send order. Commands were
+sent in a burst before waiting for acknowledgements, avoiding the deliberate
+tick-scale wait between commands that a serial-ack harness would introduce.
+
+Reproduce from a clean harness checkout and a separate clean server checkout:
+
+```sh
+RTS_CONTEST_SECONDS=40 \
+RTS_BASELINE_COMMIT=6aa39fa6c70ccb9762a34ef815f0fc490ae829d5 \
+RTS_SERVER_ROOT=/private/tmp/rts-balance-server-6aa39fa \
+  node scripts/balance-contested-worker-opening-scenario.mjs
+```
+
+Two batched matrices produced the same strategic outcome. The split side
+captured North at 24.3–24.4 seconds; South remained neutral through 40 seconds.
+First damage appeared at 15.2–15.8 seconds and the first diverted worker died
+at 17.5–19.8 seconds. All three southern split infantry and both diverted
+workers died. The response kept three infantry on the right in all four cases
+(300 HP); on the left it kept two or three (130–230 HP) across the four mirrored
+cases. In one case, the left's 2 / 130 HP trailed the right's 3 / 300 HP by
+170 HP, above the existing 100 HP parity tolerance. This is an
+unequal-group attack-move scenario, and the left-side result varied between
+repetitions; it is a gameplay-parity diagnostic, not a unit-stat tuning result
+or a pass against the equal-force parity gate. The fixture does not yet record
+per-unit target acquisition, first attack, or route-arrival timing.
+
+At 40 seconds, the split side's bank had risen by 95 food / 70 wood, of which
+North's capture awarded 75 food / 50 wood. After subtracting that objective
+award and adding cargo still held by workers, its two surviving gatherers had
+harvested about 23 food and 22–23 wood. The response's four workers had
+harvested about 45.3 of each resource. Both clients reported identical bank
+values. This corrects for the capture bonus and for resources still in transit.
+
+Immediately after the 40-second contest, both teams ordered every surviving
+worker to build a Barracks at mirrored sites. The split had two workers left;
+the response had four. Both could pay the 175-wood cost. The two-worker build
+completed 11.7 seconds after the checkpoint; the four-worker build completed
+in 7.0 seconds, a 4.7-second gap including the workers' walk back from their
+resource nodes. These are scripted post-contest times, not observed human
+opening choices.
+
+The first batched matrix used harness commit
+`ded3923f8944587ee1764263ce90e5b967cd1b7c` and is retained at
+`/private/tmp/rts-contested-opening-40s-batched.jsonl` (SHA-256
+`1d5afbd642edd65fce331eadba8245f637aeed8dc8656370d07e97689cb1cd86`). The
+second, with the Barracks follow-up, used harness commit
+`7100feb3d643c86145a578ae540de51e2c08f37e` and is at
+`/private/tmp/rts-contested-opening-build-40s.jsonl` (SHA-256
+`82f4e28111665e1742d12f52b9644cc64b730dc31fbaf496f39bde7195005d5c`).
+
 ## Current tuning decision
 
-The current scripted evidence supports keeping combat damage, unit costs, and
-build and training times unchanged. The `30d5dc3` owner rerun reproduces the
-within-bound +X edge and the seat-symmetric build and reinforcement timings;
-the `c931e69` group check confirms the intended equal-cost infantry counter.
-Neither fixture establishes which opening wins contested matches. Do not use
-the small synthetic combat edge alone to change unit stats or worker costs.
+The direct equal-cost worker-counter fixture and the 8v8 combat-parity fixture
+remain their own baselines. The contested split supports a measurable worker
+loss, objective reward, harvest gap, and post-contest build delay. Its one
+above-bound HP result and left-seat variation need attack-arrival diagnostics
+before attributing the difference to combat stats or changing a number. No
+human match has established which opening wins or whether the objective reward
+compensates for the long-term worker loss.
 
 ## Next tuning decisions
 
-- The next Balance-lane proof is a contested two-seat match on a current build,
-  supporting M1 and M4. Record the build SHA, both seats' first gather, build,
+- The next Balance-lane proof is a contested two-seat human match on a current
+  build, supporting M1 and M4. Record the build SHA, both seats' first gather, build,
   first reinforcement, first contest, and win times, plus the chosen openings
-  and player explanations. Keep the synthetic within-threshold +X edge as a
-  test note; do not use it alone to change costs or combat stats.
+  and player explanations. Investigate the contested fixture's outlying
+  left-seat HP result with first-attack and arrival timing; do not adjust unit
+  stats from this uneven-group run alone.
 - When the 160 × 160 Frontier pilot is playable, compare observed two-seat
   matches from both seats. Start with the [static map audit](map-scale-density.md#what-to-measure-while-building)
   for initial stock and path geometry. Then record first meaningful contact,
