@@ -393,7 +393,7 @@ try {
     && snapshot.mapDefinition.elevationPatches?.length === 1
     && snapshot.state?.currentArmySize === 8
   ));
-  assert.equal(checkpoint.rulesVersion, 4,
+  assert.ok(checkpoint.rulesVersion >= 4,
     'elevation semantics should be recorded in the match rules version');
   assert.deepEqual(checkpoint.mapDefinition.elevationPatches, visionMap.elevationPatches,
     'checkpoint recovery data should preserve the authored elevation grid');

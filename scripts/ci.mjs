@@ -66,6 +66,7 @@ const scenarios = [
   ['scripts/unit-lod-state-scenario.mjs', 'Unit LOD matrix updates'],
   ['scripts/unit-visual-state-scenario.mjs', 'Unit visual state'],
   ['scripts/resource-visual-state-scenario.mjs', 'Resource visual state'],
+  ['scripts/harvestable-woodland-scenario.mjs', 'Harvestable woodland gameplay'],
   ['scripts/room-supervisor-scenario.mjs', 'Room supervisor integration'],
   ['scripts/railway-release-scenario.mjs', 'Railway release integration'],
 ];

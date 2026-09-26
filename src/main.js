@@ -1683,12 +1683,16 @@ function setForestTreeVisual(cell, stock) {
 
 function applyForestState(state) {
   if (!Number.isSafeInteger(state.forestEpoch)) return;
-  let changed = false;
+  let visualChanged = false;
   if (latestForestEpoch !== state.forestEpoch) {
-    for (const cell of latestForestStocks.keys()) setForestTreeVisual(cell, 1);
+    for (const [cell, stock] of latestForestStocks) {
+      if (stock <= 0) {
+        setForestTreeVisual(cell, 1);
+        visualChanged = true;
+      }
+    }
     latestForestStocks.clear();
     latestForestEpoch = state.forestEpoch;
-    changed = true;
   }
   if (Array.isArray(state.forestStocks)) {
     for (const row of state.forestStocks) {
@@ -1696,13 +1700,16 @@ function applyForestState(state) {
       const [cell, stock] = row;
       if (!Number.isInteger(cell) || cell < 0 || cell >= MAP_WIDTH * MAP_HEIGHT
         || !forestTreeSlots.has(cell) || !Number.isFinite(stock) || stock < 0) continue;
-      if (latestForestStocks.get(cell) === stock) continue;
+      const previousStock = latestForestStocks.get(cell);
+      if (previousStock === stock) continue;
       latestForestStocks.set(cell, stock);
-      setForestTreeVisual(cell, stock);
-      changed = true;
+      if ((previousStock === 0) !== (stock === 0)) {
+        setForestTreeVisual(cell, stock);
+        visualChanged = true;
+      }
     }
   }
-  if (changed) drawMinimap(performance.now(), true);
+  if (visualChanged) drawMinimap(performance.now(), true);
 }
 
 function buildMap(definition) {
