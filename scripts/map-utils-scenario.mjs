@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import {
-  capturePrerequisiteIds, findInvalidCapturePrerequisite, findInvalidScenarioEventChain,
+  buildElevationGrid, capturePrerequisiteIds, findInvalidCapturePrerequisite, findInvalidScenarioEventChain,
   scenarioEventSourceIds,
-  findUnreachableCaptureZone, findUnreachableResourceNode,
+  findUnreachableCaptureZone, findUnreachableResourceNode, validateElevationPatches,
 } from '../src/map-utils.mjs';
 
 const width = 8;
@@ -41,6 +41,39 @@ assert.equal(
   null,
   'the pass should preserve access to resources on either side',
 );
+
+assert.equal(validateElevationPatches(width, height, undefined), null,
+  'older maps without authored elevation should stay flat');
+assert.equal(validateElevationPatches(width, height, []), null,
+  'an empty elevation patch list should describe flat ground');
+assert.equal(validateElevationPatches(width, height, [
+  { column: 2, row: 2, width: 2, height: 1, level: 1 },
+  { column: 4, row: 2, width: 1, height: 1, level: 2 },
+]), null, 'in-bounds non-overlapping rectangles at levels 0–2 should be accepted');
+const elevationGrid = buildElevationGrid(width, height, [
+  { column: 2, row: 2, width: 2, height: 1, level: 1 },
+  { column: 4, row: 2, width: 1, height: 1, level: 2 },
+]);
+assert.deepEqual([...elevationGrid.slice(2 * width, 2 * width + 6)], [0, 0, 1, 1, 2, 0],
+  'rectangle patches should expand to a flat-by-default cell grid');
+assert.ok([...buildElevationGrid(width, height, undefined)].every(level => level === 0),
+  'missing elevation data should build an all-zero flat grid');
+for (const [patches, reason, label] of [
+  [[{ column: 0, row: 0, width: 1, height: 1, level: -1 }], 'level', 'negative level'],
+  [[{ column: 0, row: 0, width: 1, height: 1, level: 3 }], 'level', 'level above two'],
+  [[{ column: 0, row: 0, width: 1, height: 1, level: 1.5 }], 'level', 'fractional level'],
+  [[{ column: 7, row: 0, width: 2, height: 1, level: 1 }], 'bounds', 'patch outside map'],
+  [[
+    { column: 1, row: 1, width: 2, height: 1, level: 1 },
+    { column: 2, row: 1, width: 2, height: 1, level: 2 },
+  ], 'overlap', 'overlapping patches'],
+  [null, 'shape', 'null patch list'],
+  [Array.from({ length: 4097 }, () => ({ column: 0, row: 0, width: 1, height: 1, level: 1 })),
+    'limit', 'patch limit'],
+]) {
+  assert.equal(validateElevationPatches(width, height, patches)?.reason, reason,
+    `${label} should be rejected`);
+}
 
 const gateGraph = [
   { id: 'north-gate' },
@@ -94,4 +127,4 @@ for (const [events, reason, label] of [
   assert.equal(findInvalidScenarioEventChain(events)?.reason, reason, `${label} should be rejected`);
 }
 
-console.log('Map connectivity, capture prerequisites, and scenario-event dependency utilities passed.');
+console.log('Map connectivity, elevation patches, capture prerequisites, and scenario-event dependency utilities passed.');
