@@ -8,6 +8,7 @@ import {
   clampCameraTargetToGroundBounds,
   edgeScrollCameraDelta,
   edgeScrollDirection,
+  shouldBlockEdgeScrollForFocus,
 } from '../src/camera-controls.mjs';
 
 const zone = 40;
@@ -42,6 +43,12 @@ const allowedState = {
   hudControlFocused: false,
 };
 assert.equal(canEdgeScroll(allowedState), true);
+assert.equal(shouldBlockEdgeScrollForFocus({ editable: false, keyboardFocusedControl: false }), false,
+  'a mouse-clicked HUD button does not keep edge scrolling disabled after the pointer leaves');
+assert.equal(shouldBlockEdgeScrollForFocus({ editable: true, keyboardFocusedControl: false }), true,
+  'edge scrolling stays disabled while an editable HUD field has focus');
+assert.equal(shouldBlockEdgeScrollForFocus({ editable: false, keyboardFocusedControl: true }), true,
+  'keyboard-focused HUD controls keep edge scrolling disabled');
 for (const blockedState of [
   { pointerType: 'touch' },
   { buttons: 1 },

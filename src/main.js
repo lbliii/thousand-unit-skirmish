@@ -49,6 +49,7 @@ import {
   clampCameraTargetToGroundBounds,
   edgeScrollCameraDelta,
   edgeScrollDirection,
+  shouldBlockEdgeScrollForFocus,
 } from './camera-controls.mjs';
 import {
   chooseUnitPickCandidate,
@@ -8103,9 +8104,12 @@ function animate(now) {
       ));
     const activeElement = document.activeElement;
     const hudControlFocused = activeElement instanceof Element
-      && Boolean(activeElement.closest(
-        'button, a[href], input, select, textarea, [contenteditable="true"], [role="button"], [role="tab"], .control-dock, #minimap-canvas, .minimap-panel, .objective-panel, .scenario-brief-panel, .match-result, #art-review-panel',
-      ));
+      && shouldBlockEdgeScrollForFocus({
+        editable: activeElement.matches('input, select, textarea, [contenteditable="true"]'),
+        keyboardFocusedControl: activeElement.matches(
+          'button, a[href], [role="button"], [role="tab"], [tabindex]:not([tabindex="-1"])',
+        ) && activeElement.matches(':focus-visible'),
+      });
     const eligible = canEdgeScroll({
       pointerType: edgeScrollPointer.pointerType,
       buttons: edgeScrollPointer.buttons,

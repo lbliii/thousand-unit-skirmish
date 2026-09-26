@@ -82,6 +82,10 @@ export function canEdgeScroll({
     && !dialogOpen && !hudPanelOpen && !hudControlHovered && !hudControlFocused;
 }
 
+export function shouldBlockEdgeScrollForFocus({ editable, keyboardFocusedControl }) {
+  return Boolean(editable || keyboardFocusedControl);
+}
+
 function clampCameraAxis(target, halfMap, offset, margin) {
   const minTarget = -halfMap + offset - margin;
   const maxTarget = halfMap + offset + margin;
