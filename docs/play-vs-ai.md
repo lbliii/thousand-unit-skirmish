@@ -27,6 +27,9 @@ up to 12 military units within a 24-unit friendly population cap. New soldiers
 join its current advance. Lost Infantry and a destroyed Barracks can be replaced
 within the same reserves and retry limits. See the [production rules and evidence](pve-production-opening.md).
 
+After casualties, the opponent can use its last surviving Worker to rebuild a
+lost Barracks when resources permit, then reinforce the current objective.
+
 ## Authority and limits
 
 The bot uses the normal authoritative command path and a Team 1 observation.

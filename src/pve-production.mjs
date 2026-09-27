@@ -86,8 +86,9 @@ export function createProductionPolicy(seed) {
       }
       if (observation.tick < nextAttemptTick) return [];
       if (!barracks) {
-        // Keep one living Barracks; a loss may be replaced under the same reserves and backoff.
-        if (!home || workers.length < 2
+        // Keep one living Barracks; even the last Worker may rebuild after losses.
+        // Reserves and backoff still bound spending while gathering pauses.
+        if (!home || workers.length === 0
           || observation.resources.wood < limits.barracksWoodCost + limits.woodReserve) return [];
         const builder = workers.find((worker) => ['idle', 'gathering'].includes(worker.task) && worker.cargo === 0);
         if (!builder) return [];

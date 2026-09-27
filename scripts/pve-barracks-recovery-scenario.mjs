@@ -58,9 +58,9 @@ for (const team of [0, 1]) for (const seed of [0, 20260925, 0xffff_ffff]) {
     state.resources.wood = 200;
     state.units.friendly[2].hp = 0;
     state.units.friendly[3].hp = 0;
-    assert.deepEqual(next(4002), [], 'retain a second worker for the economy before constructing');
-    state.units.friendly[2].hp = 100;
-    assert.equal(next(4003)[0]?.type, 'build', 'restored economy can recover after another loss');
+    assert.equal(next(4002)[0]?.type, 'build', 'the last worker must restore production after army and producer losses');
+    state.units.friendly[1].hp = 0;
+    assert.deepEqual(next(5000), [], 'no construction can be issued without a living worker');
     return { replacement, retries };
   };
   assert.deepEqual(run(), run(), 'seeded recovery is deterministic');

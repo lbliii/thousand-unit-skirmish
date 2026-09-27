@@ -20,7 +20,9 @@ fallback destination; existing soldiers keep their orders.
 - Queue at most one Infantry at a time; blocked exits suppress training.
 - At most one living Barracks at a time. An unfinished building receives a
   replacement builder; after destruction, a new Barracks may be purchased using
-  the same wood reserve, spare-worker requirement, visible sites, and retry backoff.
+  the same wood reserve, empty-cargo builder requirement, visible sites, and retry backoff.
+  A sole surviving Worker may rebuild; requiring a spare Worker can leave an
+  affordable recovery permanently blocked after casualties.
 - Unconfirmed construction/training backs off over 150, 300, 600, then at most
   900 ticks (5, 10, 20, 30 seconds at 30 Hz). Repeated snapshots cannot spend again.
 - Observed construction or a nonempty queue postpones further spending. Worker
@@ -117,3 +119,53 @@ in production against limits. The applicable principle is to base recovery on
 current infrastructure, rather than whether a type ever existed. Our policy
 retains its simpler one-living-Barracks rule and existing observation-based
 backoff; no upstream code was copied or translated.
+
+
+## Sole-worker objective recovery — 2026-09-27
+
+On base `e5efc50`, a Forked Vale loss fixture left one Worker, five Infantry,
+350 food and 400 wood after earlier Barracks construction and Infantry training.
+North Signal changed to the enemy, South Signal remained friendly, and Vale
+Watch was neutral. The policy retook North and moved five Infantry to the Watch,
+but never rebuilt its destroyed Barracks: the two-Worker minimum prevented it
+from producing the eight troops required to capture the Watch.
+
+The policy now permits the last living Worker to construct. Existing resource,
+cargo, visibility, retry, roster and queue checks still apply. Production and
+gathering cannot order that Worker simultaneously, and it can resume gathering
+after construction. Zero living Workers still cannot issue a build command.
+
+`node scripts/pve-objective-recovery-runtime-scenario.mjs TEAM SEED` builds and
+trains through ordinary commands on Forked Vale, then restores the bounded loss
+fixture. It requires a completed replacement, a retaken North Signal, at least
+three new Infantry, capture of every objective, and a victory after the hold.
+Use teams `0` and `1`, each with seeds `20260925` and `4294967295`.
+The fixture models casualties, producer loss and changed ownership through a
+checkpoint; it does not claim an adversarial human match or defend against an
+active opponent. The map, fog and objective requirements remain unchanged.
+
+Pinned upstream research: 0 A.D.
+[`attackPlan.js` at `61a3b9507d974084e6badb88a0826bd89a6d5b8b`](https://github.com/0ad/0ad/blob/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/simulation/ai/petra/attackPlan.js).
+`defaultTargetFinder` first considers victory-condition targets (Wonder, Hero,
+Relic); `getNearestTarget` filters valid targets, chooses by distance and checks
+obstructions. Ownership-change events invalidate captured targets. The useful
+technique is to test continued progress toward victory targets after ownership
+changes, rather than treating an issued attack as success. Our target selection
+already reached the right objective; the demonstrated block was replenishing
+its force. No upstream code was copied.
+
+
+All four local runs passed on the fix:
+
+| Seat | Policy seed | Recovery ticks | Build attempts | Infantry trained | Total commands |
+| --- | --- | --- | --- | --- | --- |
+| Azure | 20260925 | 3963 | 1 | 6 | 15 |
+| Ember | 20260925 | 3780 | 1 | 5 | 14 |
+| Azure | 4294967295 | 4950 | 3 | 6 | 17 |
+| Ember | 4294967295 | 5520 | 1 | 5 | 14 |
+
+Each run completed one replacement Barracks, retook all objectives and won.
+Three Azure build attempts for the second seed include rejected placement;
+only one producer was accepted. Recovery took 126–184 simulation seconds.
+The existing three-seed policy checks passed for both seats, including capped
+retries, spending reserves, tactical fairness and reinforcement recovery.
