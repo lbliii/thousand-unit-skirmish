@@ -4973,6 +4973,13 @@ function assignAttackBuilding(player, command) {
   const fieldsByComponent = new Map();
   for (const unit of selectedUnits) {
     const start = nearestOpenCell(worldToCell(unit.x, unit.z));
+    // Range is sufficient to fire; terrain connectivity only matters for approach.
+    // This matches unit-target attacks and the range check in simulateTick.
+    const attackRange = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+    if (distanceToBuildingEdge(unit, target) <= attackRange) {
+      assignments.push({ unit, start, goal: start, path: [] });
+      continue;
+    }
     const componentId = walkableComponents[start];
     if (componentId < 0) continue;
     if (!fieldsByComponent.has(componentId)) {
