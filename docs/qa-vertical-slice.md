@@ -49,6 +49,10 @@ ordinary PRs use checks proportionate to their changes under
 
 ## Known findings and historical evidence
 
+[Mixed-role health readability](qa-unit-health-2026-09-27.md) records both-seat
+prepared browser captures at ordinary and strategic zoom, including the missing
+damaged-unit indicator and its fix. It does not establish human comprehension.
+
 [In-flight browser recovery](qa-inflight-recovery-2026-09-27.md) preserves local
 Ember production/research reconnect, accelerated terminal deadline, and rematch
 screenshots from a prepared fixture. Research completion was not observed.

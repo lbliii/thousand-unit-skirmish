@@ -73,6 +73,8 @@ proof. The [QA plan](qa-vertical-slice.md) defines those observations.
 - Every important action gives immediate, specific feedback; rejected actions
   explain what prevents them.
 - Armies remain readable through chokes, combat, construction, and zoom changes.
+  Visible damaged units show a health bar across sprite, mesh, and strategic-marker
+  rendering; healthy, defeated, and fog-hidden units show no bar.
 - Essential text and controls are comfortable at ordinary desktop sizes.
 - Invalid map authoring names a fix before publication.
 - Both players understand connection state, the winner, and who can rematch.
