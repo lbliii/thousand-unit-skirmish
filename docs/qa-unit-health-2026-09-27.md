@@ -73,7 +73,9 @@ fill, healthy hiding, fog hiding, defeat, movement and slot reuse. The regressio
 fails against the prior source, which lacks the indicator. All seven and the 17
 existing build/camera/rematch recovery tests pass. Rematch assertions now include
 health-batch counts. The new suite is registered in CI. Syntax, whitespace and
-documentation-link checks pass.
+documentation-link checks pass. After rebasing onto `5efffb1`, the same 24 tests
+passed again; the final client booted and the shared HTTP import audit passed all
+30 reachable modules. The preserved captures predate that unrelated audio integration.
 
 The captures show the local rendered result, not newcomer comprehension, crowded
 combat readability, color-vision accessibility, hosted behavior or performance.
