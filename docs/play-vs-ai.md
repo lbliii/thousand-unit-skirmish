@@ -33,6 +33,8 @@ for the exact observation boundary.
 
 ```sh
 node scripts/pve-decision-fairness-scenario.mjs
+node scripts/pve-tactical-retry-scenario.mjs
+node scripts/pve-tactical-stall-runtime-scenario.mjs
 node scripts/pve-opponent-scenario.mjs
 node scripts/pve-room-launch-scenario.mjs
 ```
@@ -44,3 +46,7 @@ understandable opponent.
 The policy bounds economy-only decisions so repeated gather retries cannot
 indefinitely delay an opening advance or objective retake. See the
 [decision fairness evidence](pve-decision-fairness.md) for reproduction and limits.
+
+When the army stalls short of its destination, the policy retries with bounded
+backoff. Movement, fighting, and objective occupancy suppress retries. See the
+[tactical recovery evidence](pve-tactical-recovery.md) for timing and observation limits.

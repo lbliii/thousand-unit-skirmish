@@ -41,6 +41,6 @@ army loss, and identical replay traces.
 
 This reproduces decision starvation after unconfirmed orders; it does not claim
 a specific live pathfinding rejection or a player-tested improvement in fun.
-Automatic retry backoff and recovery from a rejected tactical order remain
-separate work. Register this scenario with the standard CI runner alongside the
+The later [tactical recovery change](pve-tactical-recovery.md) adds bounded retries
+when observations show that the army has stalled short of its destination. Register this scenario with the standard CI runner alongside the
 existing opponent checks.
