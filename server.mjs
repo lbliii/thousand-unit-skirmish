@@ -4054,6 +4054,13 @@ function activeMoveRoutesRemainConnected(previousComponents) {
       continue;
     }
 
+    if (unit.gatherForestCell >= 0 && unit.gatherPhase === 'to-node'
+      && forestWoodRemaining[unit.gatherForestCell] > 0) {
+      if (!forestOpenAccessCells(unit.gatherForestCell)
+        .some((cell) => walkableComponents[cell] === walkableComponents[current])) return false;
+      continue;
+    }
+
     const hasPendingMove = Boolean(assignment);
     const hasActivePath = unit.pathIndex < unit.path.length;
     const hasAttackMoveGoal = unit.attackMove && unit.attackMoveRouteReady && unit.moveGoalCell >= 0;
@@ -4144,6 +4151,12 @@ function replanPathsBlockedBy(footprint) {
       && pathIntersectsCells(unit.attackMoveResumePath, unit.attackMoveResumePathIndex, footprintSet);
     if (!pendingPathStale && !pendingDestinationBlocked && !activeDestinationBlocked
       && !activePathBlocked && !attackMoveResumePathBlocked) continue;
+    if (unit.gatherForestCell >= 0 && unit.gatherPhase === 'to-node') {
+      // A generic nearest-open repair can finish outside harvesting range.
+      // Rebuild this order against the tree's remaining approach cells.
+      routeForestWorker(unit, 'to-node', unit.gatherForestCell);
+      continue;
+    }
     if (attackMoveResumePathBlocked) {
       unit.attackMoveResumePath = null;
       unit.attackMoveResumePathIndex = 0;

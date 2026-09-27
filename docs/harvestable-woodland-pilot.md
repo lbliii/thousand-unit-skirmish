@@ -15,6 +15,9 @@ Forest shapes should create choices about shortcuts, route width, and settlement
 - `gather` accepts `forestCell`; the worker approaches an adjacent accessible cell.
 - Changed stock is sent as `forestStocks`, with `forestEpoch` for state changes.
   Fog filtering withholds unseen changes.
+- Construction preserves a reachable harvesting side for active forest orders.
+  If it covers a planned approach, workers reroute to another side within harvest
+  range; placement that closes every reachable side is rejected.
 - Exhaustion removes the tree's hard movement/sight block and updates path state.
   Checkpoints preserve clearing; reset restores the original forest.
 - Ordinary resource nodes keep their existing 128-node limit. Thousands of trees
@@ -24,7 +27,12 @@ See `server.mjs`, `src/environment-art.mjs`, and the focused scenario:
 
 ```sh
 node scripts/harvestable-woodland-scenario.mjs
+node scripts/worker-cargo-return-scenario.mjs
+node scripts/worker-cargo-return-scenario.mjs frontier-160
 ```
+
+[Construction interruption evidence](qa-forest-route-repair-2026-09-27.md) records
+the authored-map reproduction and pinned source comparison.
 
 ## Follow-up experiments
 
