@@ -59,6 +59,7 @@ The policy bounds economy-only decisions so repeated gather retries cannot
 indefinitely delay an opening advance or objective retake. See the
 [decision fairness evidence](pve-decision-fairness.md) for reproduction and limits.
 
-When the army stalls short of its destination, the policy retries with bounded
-backoff. Movement, fighting, and objective occupancy suppress retries. See the
+When a soldier stalls short of its destination, the policy retries with bounded
+backoff. Movement, fighting, and objective occupancy suppress that soldier's
+retries while other stranded reinforcements can still recover. See the
 [tactical recovery evidence](pve-tactical-recovery.md) for timing and observation limits.

@@ -446,42 +446,50 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
   const recordOrderedSoldiers = (soldiers) => soldiers.forEach((unit) => orderedSoldiers.add(soldierKey(unit)));
 
   function watchTacticalOrder(soldiers, point, tick, retry = false) {
-    tacticalWatch = {
-      point,
-      sinceTick: tick,
-      retryTicks: retry
-        ? Math.min(tacticalWatch.retryTicks * 2, TACTICAL_MAX_RETRY_TICKS)
-        : TACTICAL_STALL_TICKS,
-      positions: new Map(soldiers.map((unit) => [
-        `${unit.id}:${unit.generation}`, { x: unit.x, z: unit.z },
-      ])),
-    };
+    if (!tacticalWatch || tacticalWatch.point.x !== point.x || tacticalWatch.point.z !== point.z) {
+      tacticalWatch = { point, units: new Map() };
+    }
+    for (const unit of soldiers) {
+      const key = soldierKey(unit);
+      const previous = tacticalWatch.units.get(key);
+      tacticalWatch.units.set(key, {
+        sinceTick: tick,
+        retryTicks: retry && previous
+          ? Math.min(previous.retryTicks * 2, TACTICAL_MAX_RETRY_TICKS)
+          : TACTICAL_STALL_TICKS,
+        x: unit.x, z: unit.z,
+      });
+    }
   }
 
-  // Infer a stalled army from own-team observations, not notice text. The
-  // internal solo driver and ordinary WebSocket adapter share this policy.
-  function tacticalOrderStalled(observation, soldiers, zone = null) {
-    if (!tacticalWatch || soldiers.length === 0) return false;
+  // Watch each issued unit independently: an arrived soldier must not hide a
+  // stranded reinforcement, and a retry must not interrupt arrived/fighting units.
+  function stalledTacticalSoldiers(observation, soldiers, zone = null) {
+    if (!tacticalWatch || soldiers.length === 0) return [];
     const tick = observation.tick;
-    const atDestination = soldiers.some((unit) => {
-      if (!zone) return Math.hypot(unit.x - tacticalWatch.point.x, unit.z - tacticalWatch.point.z) <= 2;
+    const liveKeys = new Set(soldiers.map(soldierKey));
+    for (const key of tacticalWatch.units.keys()) {
+      if (!liveKeys.has(key)) tacticalWatch.units.delete(key);
+    }
+    return soldiers.filter((unit) => {
+      const previous = tacticalWatch.units.get(soldierKey(unit));
+      if (!previous) return false;
       const column = Math.floor(unit.x + observation.map.width / 2);
       const row = Math.floor(unit.z + observation.map.height / 2);
-      return column >= zone.column && column < zone.column + zone.width
-        && row >= zone.row && row < zone.row + zone.height;
+      const atDestination = zone
+        ? column >= zone.column && column < zone.column + zone.width
+          && row >= zone.row && row < zone.row + zone.height
+        : Math.hypot(unit.x - tacticalWatch.point.x, unit.z - tacticalWatch.point.z) <= 2;
+      const progressing = Math.hypot(unit.x - previous.x, unit.z - previous.z) >= 0.5;
+      const fighting = unit.focusedCount > 0
+        || (unit.lastAttack && tick - unit.lastAttack.tick >= 0
+          && tick - unit.lastAttack.tick < TACTICAL_RECENT_COMBAT_TICKS);
+      if (atDestination || progressing || fighting || tick < previous.sinceTick) {
+        watchTacticalOrder([unit], tacticalWatch.point, tick);
+        return false;
+      }
+      return tick - previous.sinceTick >= previous.retryTicks;
     });
-    const progressing = soldiers.some((unit) => {
-      const previous = tacticalWatch.positions.get(`${unit.id}:${unit.generation}`);
-      return previous && Math.hypot(unit.x - previous.x, unit.z - previous.z) >= 0.5;
-    });
-    const fighting = soldiers.some((unit) => unit.focusedCount > 0
-      || (unit.lastAttack && tick - unit.lastAttack.tick >= 0
-        && tick - unit.lastAttack.tick < TACTICAL_RECENT_COMBAT_TICKS));
-    if (atDestination || progressing || fighting || tick < tacticalWatch.sinceTick) {
-      watchTacticalOrder(soldiers, tacticalWatch.point, tick);
-      return false;
-    }
-    return tick - tacticalWatch.sinceTick >= tacticalWatch.retryTicks;
   }
 
   function recordObjectiveOwnership(observation) {
@@ -637,12 +645,14 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
     if (target) {
       const mustReissue = target.id !== tacticalObjectiveId || lostObjectiveIds.has(target.id);
       tacticalObjectiveId = target.id;
-      const stalled = !mustReissue && tacticalOrderStalled(
+      const stalled = mustReissue ? [] : stalledTacticalSoldiers(
         observation, soldiers, objectives.find((objective) => objective.id === target.id)?.zone,
       );
-      if (mustReissue || stalled || reinforcements.length > 0) {
-        const ordered = mustReissue || stalled ? soldiers : reinforcements;
-        if (mustReissue || stalled) watchTacticalOrder(soldiers, target.point, observation.tick, stalled);
+      if (mustReissue || stalled.length > 0 || reinforcements.length > 0) {
+        const retryKeys = new Set(stalled.map(soldierKey));
+        const ordered = mustReissue ? soldiers
+          : soldiers.filter((unit) => retryKeys.has(soldierKey(unit)) || !orderedSoldiers.has(soldierKey(unit)));
+        watchTacticalOrder(ordered, target.point, observation.tick, stalled.length > 0);
         recordOrderedSoldiers(ordered);
         lostObjectiveIds.delete(target.id);
         return [...gathering, {
@@ -662,11 +672,12 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
       return gathering;
     }
     if (fallbackTacticsStarted) {
-      const stalled = tacticalOrderStalled(observation, soldiers);
-      if (!stalled && reinforcements.length === 0) return gathering;
+      const stalled = stalledTacticalSoldiers(observation, soldiers);
+      if (stalled.length === 0 && reinforcements.length === 0) return gathering;
       const point = tacticalWatch.point;
-      const ordered = stalled ? soldiers : reinforcements;
-      if (stalled) watchTacticalOrder(soldiers, point, observation.tick, true);
+      const retryKeys = new Set(stalled.map(soldierKey));
+      const ordered = soldiers.filter((unit) => retryKeys.has(soldierKey(unit)) || !orderedSoldiers.has(soldierKey(unit)));
+      watchTacticalOrder(ordered, point, observation.tick, stalled.length > 0);
       recordOrderedSoldiers(ordered);
       return [...gathering, { type: 'attackMove', ids: ordered.map((unit) => unit.id), ...point }];
     }

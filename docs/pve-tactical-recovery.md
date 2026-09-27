@@ -19,18 +19,21 @@ transient blockage clears.
 
 ## Policy
 
-Track the army's observed positions by unit ID and generation after an advance.
-When every surviving soldier remains outside the destination and none has moved
-half a cell, received incoming focus, or made a recent visible attack, retry after
-300 simulation ticks. Repeated stalls back off to 600, 1,200, then at most 1,800
-ticks between attempts (10, 20, 40, and 60 seconds at 30 Hz).
+Track each ordered soldier's observed position by unit ID and generation. A
+soldier outside the destination that has not moved half a cell, received incoming
+focus, or made a recent attack retries after 300 simulation ticks. Repeated
+stalls back off to 600, 1,200, then at most 1,800 ticks (10, 20, 40, and 60 seconds).
+Movement, combat, and arrival reset only that soldier's clock and backoff.
 
-Movement, combat, and occupancy of the objective reset the stall clock and backoff.
-An objective change still causes the usual immediate advance. Repeated snapshots
-cannot advance the retry clock. The objective-free fallback advance uses the same
-rule. A wiped-out army does not emit empty orders; a replacement army gets a new
-advance. Retries use only current friendly unit IDs and ordinary attack-move
-commands. No server protocol, DTO, or fog boundary changes are needed.
+A reinforcement receives its own watch when it is first ordered. Arrived or
+fighting soldiers neither suppress another soldier's retry nor receive that
+retry themselves. Due retries and newly observed reinforcements are combined in
+one command per decision. An objective change still advances the full army.
+Repeated snapshots cannot advance the retry clock. The objective-free fallback
+uses the same rule; dead IDs are pruned and new generations start fresh.
+
+The original whole-army implementation at `d7f9862` treated any soldier's progress
+as progress for everyone. The follow-up below replaces that behavior.
 
 ## Research decision
 
@@ -67,7 +70,29 @@ can leave its last observed tick unchanged. The runtime scenario uses independen
 worker patrols to keep ordinary snapshots flowing. It does not invent ticks or
 add a polling protocol.
 
-This is conservative whole-army recovery: one soldier moving, fighting, or holding
-the objective suppresses a retry. Recovering isolated stragglers and selecting a
-different target after repeated failures remain separate work. This evidence
-establishes deterministic recovery decisions, not a claim of player-tested fun.
+Selecting a different target after repeated failures remains separate work.
+This evidence establishes deterministic recovery decisions, not a claim of
+player-tested fun.
+
+## Reinforcement recovery follow-up — 27 September 2026
+
+Review at `8b6bcbbf338ce7a3fe20c85105aee37b56ad4c11` reproduced one soldier at a
+neutral objective suppressing retries for a newly ordered stationary reinforcement.
+There were no retries over 9,000 simulation ticks. Forked Vale objectives require
+five or eight occupants, so a single arrival does not guarantee capture.
+
+`node scripts/pve-reinforcement-recovery-scenario.mjs` fails on that base and
+passes after independent soldier watches are introduced. Across both seats,
+three seeds, and objective/fallback routes, a reinforcement first ordered at tick
+30 retries at 330, 930, 2,130, 3,930, 5,730, and 7,530. Those orders contain only the
+stranded soldier. Already-arrived and fighting soldiers keep their orders.
+The scenario also checks duplicate observations, progress resetting backoff,
+arrival stopping retries, deterministic replay, and fresh slot generations.
+
+Existing fairness, tactical retry, production, and core policy contract checks
+remain green. The existing server-backed stall scenario also passes for both
+seats (opening tick 2, accepted retry tick 513). The new reinforcement case is
+pure-policy evidence; it does not claim a new runtime obstruction or
+deployed-match observation. The pinned OpenRA research
+above remains the source for the general progress-watch/backoff technique;
+per-soldier watches are this project's independent design decision.
