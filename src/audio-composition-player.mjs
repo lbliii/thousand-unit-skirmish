@@ -10,7 +10,11 @@ export function createCompositionPlayer({ context, destination, resolveBuffer })
     generation++;
     if (restartTimer !== null) clearTimeout(restartTimer);
     restartTimer = null;
-    for (const node of active) { try { node.stop(); } catch {} try { node.disconnect(); } catch {} }
+    for (const { source, envelope, pan } of active) {
+      source.onended = null;
+      try { source.stop(); } catch {}
+      source.disconnect(); envelope.disconnect(); pan?.disconnect();
+    }
     active = [];
   }
   async function play(composition, { loop = false } = {}) {
@@ -52,10 +56,11 @@ export function createCompositionPlayer({ context, destination, resolveBuffer })
       envelope.gain.setValueAtTime(fadeIn ? 0 : peak, at);
       if (fadeIn) envelope.gain.linearRampToValueAtTime(peak, at + fadeIn);
       if (fadeOut) { envelope.gain.setValueAtTime(peak, at + duration - fadeOut); envelope.gain.linearRampToValueAtTime(0, at + duration); }
-      source.onended = () => { source.disconnect(); envelope.disconnect(); pan?.disconnect(); active = active.filter((item) => item !== source); };
+      const record = { source, envelope, pan };
+      source.onended = () => { source.disconnect(); envelope.disconnect(); pan?.disconnect(); active = active.filter((item) => item !== record); };
       source.start(at, event.offsetSeconds);
       source.stop(at + duration);
-      active.push(source);
+      active.push(record);
     }
     };
     scheduleCycle(start);

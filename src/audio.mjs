@@ -415,7 +415,8 @@ export function createGameAudio({
     compositionPlayer?.stop();
     profileMusicReady = false;
     const ticket = packGeneration;
-    if (!activeProfile?.music?.defaultCompositionId || !context || context.state === 'closed') return;
+    if (!activeProfile?.music?.defaultCompositionId || !context || context.state === 'closed'
+      || settings.musicLevel <= 0) return;
     const composition = activePack?.compositions?.find((item) => item.id === activeProfile.music.defaultCompositionId);
     if (!composition) { setPackStatus(`Composition ${activeProfile.music.defaultCompositionId} is missing; synthesized music is available.`); return; }
     if (!compositionPlayer) {
@@ -492,6 +493,7 @@ export function createGameAudio({
   function preview(cue) { return play(cue, { preview: true }); }
 
   function setSettings(next) {
+    const previousMusicLevel = settings.musicLevel;
     settings = {
       enabled: typeof next.enabled === 'boolean' ? next.enabled : settings.enabled,
       captions: typeof next.captions === 'boolean' ? next.captions : settings.captions,
@@ -506,6 +508,8 @@ export function createGameAudio({
     };
     save();
     applyLevels();
+    if (previousMusicLevel <= 0 && settings.musicLevel > 0 && activeProfile) void startProfileMusic();
+    else if (previousMusicLevel > 0 && settings.musicLevel <= 0) { compositionPlayer?.stop(); profileMusicReady = false; }
     if (hasAudibleOutput()) unlock();
     else context?.suspend().catch(() => {});
     emitStatus();
