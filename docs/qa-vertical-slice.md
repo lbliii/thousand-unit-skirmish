@@ -49,6 +49,10 @@ ordinary PRs use checks proportionate to their changes under
 
 ## Known findings and historical evidence
 
+[In-flight browser recovery](qa-inflight-recovery-2026-09-27.md) preserves local
+Ember production/research reconnect, accelerated terminal deadline, and rematch
+screenshots from a prepared fixture. Research completion was not observed.
+
 [Client-loading incident and hosted recovery](qa-client-boot-recovery-2026-09-27.md)
 records the missing formatter module, its fix, and both-seat browser/authoring
 verification on staging `469b97a`.
