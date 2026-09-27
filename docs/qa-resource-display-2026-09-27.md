@@ -46,3 +46,18 @@ A native Firefox after-check was attempted, but CUA reported that the Mac was
 locked and automatic unlock failed. No after screenshot or visual pass is claimed.
 The disposable fixture server was shut down. This is a formatting and exact
 boundary regression result, not a new human-match or balance proof.
+
+## Client boot fix-forward
+
+The subsequent headless recovery audit on `664ecb6` exposed a delivery regression:
+`/src/main.js` returned 200, but its newly imported `/src/resource-format.mjs`
+returned 404 because the public client asset allowlist omitted it. The rendered
+page showed `CLIENT ERROR · Could not load src/main.js`. The earlier VM checks did
+not cover HTTP delivery; the locked native after-check had not established boot.
+
+The allowlist now serves the helper. The existing packed Railway release scenario
+walks static imports reachable from `src/main.js`, resolves relative/absolute paths
+and the `three` import-map alias, and checks HTTP 200 plus JavaScript MIME for each
+module. This check failed on the missing helper before the fix and the full release
+scenario passed afterward. It runs in the existing CI release scenario; no new test
+registration is required. Deployment and post-fix rendered verification are separate.
