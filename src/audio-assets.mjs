@@ -97,36 +97,55 @@ function validateProfile(value, path, sourceIds, compositionIds) {
 }
 
 function validateCompositionShape(composition, path) {
+  composition.bpm ??= 96;
+  composition.beatsPerBar ??= 4;
+  composition.lengthBars ??= 8;
   number(composition.bpm, `${path}.bpm`, 20, 300);
   number(composition.beatsPerBar, `${path}.beatsPerBar`, 1, 16);
-  number(composition.lengthBars, `${path}.lengthBars`, 1, 1024);
+  number(composition.lengthBars, `${path}.lengthBars`, 1, 256);
+  if (!Number.isInteger(composition.beatsPerBar) || !Number.isInteger(composition.lengthBars)) fail(path, 'beatsPerBar and lengthBars must be integers');
+  const ids = new Set([composition.id]);
+  let clipCount = 0;
   for (const [j, track] of composition.tracks.entries()) {
     const tp = `${path}.tracks[${j}]`;
     if (!isObject(track)) fail(tp, 'must be an object');
-    id(track.id, `${tp}.id`);
+    const trackId = id(track.id, `${tp}.id`);
+    if (ids.has(trackId)) fail(tp, `duplicate ID ${trackId}`);
+    ids.add(trackId);
     text(track.name, `${tp}.name`);
+    track.gain ??= 1;
+    track.pan ??= 0;
+    track.mute ??= false;
+    track.solo ??= false;
     number(track.gain, `${tp}.gain`, 0, 4);
     number(track.pan, `${tp}.pan`, -1, 1);
     for (const field of ['mute', 'solo']) if (typeof track[field] !== 'boolean') fail(`${tp}.${field}`, 'must be a boolean');
     if (!Array.isArray(track.clips) || track.clips.length > 256) fail(`${tp}.clips`, 'must have at most 256 clips');
-    const clipIds = new Set();
+    clipCount += track.clips.length;
+    if (clipCount > 1024) fail(path, 'composition exceeds 1024 clips');
     for (const [k, clip] of track.clips.entries()) {
       const cp = `${tp}.clips[${k}]`;
       if (!isObject(clip)) fail(cp, 'must be an object');
       const clipId = id(clip.id, `${cp}.id`);
-      if (clipIds.has(clipId)) fail(`${tp}.clips`, `duplicate ID ${clipId}`);
-      clipIds.add(clipId);
+      if (ids.has(clipId)) fail(cp, `duplicate ID ${clipId}`);
+      ids.add(clipId);
+      clip.startBeat ??= 0;
+      clip.durationBeats ??= 4;
+      clip.offsetSeconds ??= 0;
+      clip.gain ??= 1;
+      clip.loop ??= false;
+      clip.fadeInSeconds ??= 0;
+      clip.fadeOutSeconds ??= 0;
       number(clip.startBeat, `${cp}.startBeat`, 0, 65536);
       number(clip.durationBeats, `${cp}.durationBeats`, 0.001, 65536);
-      number(clip.offsetSeconds, `${cp}.offsetSeconds`, 0, 3600);
+      number(clip.offsetSeconds, `${cp}.offsetSeconds`, 0, 86400);
       number(clip.gain, `${cp}.gain`, 0, 4);
       if (typeof clip.loop !== 'boolean') fail(`${cp}.loop`, 'must be a boolean');
-      number(clip.fadeInSeconds, `${cp}.fadeInSeconds`, 0, 3600);
-      number(clip.fadeOutSeconds, `${cp}.fadeOutSeconds`, 0, 3600);
+      number(clip.fadeInSeconds, `${cp}.fadeInSeconds`, 0, 86400);
+      number(clip.fadeOutSeconds, `${cp}.fadeOutSeconds`, 0, 86400);
       if (clip.startBeat + clip.durationBeats > composition.lengthBars * composition.beatsPerBar + 0.000001) fail(cp, 'clip extends past composition length');
     }
   }
-  unique(composition.tracks, `${path}.tracks`);
 }
 
 // A composer module may be supplied by the caller after it loads. The local checks

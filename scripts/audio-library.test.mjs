@@ -30,6 +30,16 @@ assert.throws(() => validateAudioPack({ ...pack, sources: [{ ...pack.sources[0],
 assert.throws(() => validateAudioPack({ ...pack, compositions: [{
   schemaVersion: 1, id: 'music', name: 'Music', bpm: Infinity, beatsPerBar: 4, lengthBars: 8, tracks: [],
 }] }), /bpm/);
+const withComposition = validateAudioPack({ ...pack, compositions: [{
+  schemaVersion: 1, id: 'music', name: 'Music', tracks: [{ id: 'track', name: 'Track', clips: [
+    { id: 'clip', sourceId: 'wood' },
+  ] }],
+}] });
+assert.equal(withComposition.compositions[0].tracks[0].clips[0].durationBeats, 4);
+assert.equal(withComposition.compositions[0].tracks[0].gain, 1);
+assert.throws(() => validateAudioPack({ ...pack, compositions: [{ ...withComposition.compositions[0],
+  tracks: [{ ...withComposition.compositions[0].tracks[0], clips: [{ id: 'track', sourceId: 'wood' }] }],
+}] }), /duplicate ID/);
 await assert.rejects(exportAudioPack(pack, {}), /no original bytes/);
 await assert.rejects(exportAudioPack(pack, { wood: new Blob([new Uint8Array(16 * 1024 * 1024 + 1)]) }), /16 MiB source limit/);
 await assert.rejects(parseAudioPackArchive(new Blob(['invalid'])), /not valid JSON/);

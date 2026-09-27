@@ -42,6 +42,7 @@ export function mountAudioLibrary(container, { store }) {
   let query = '';
   let disposed = false;
   let composer = null;
+  let composerStyle = null;
   let previewUrl = null;
   const root = element('div', { class: 'studio-app' });
   const flash = element('div', { class: 'studio-flash', role: 'status', 'aria-live': 'polite' });
@@ -221,6 +222,10 @@ export function mountAudioLibrary(container, { store }) {
     try {
       const { mountAudioComposer } = await import('./audio-composer.mjs');
       if (disposed || tab !== 'composer' || !host.isConnected) return;
+      if (!composerStyle) {
+        composerStyle = element('link', { rel: 'stylesheet', href: './src/audio-composer.css' });
+        document.head.append(composerStyle);
+      }
       composer = mountAudioComposer(host, { pack, sourceBlobs, onChange: (nextPack) => run(async () => {
         pack = await store.savePack(nextPack);
         await refreshPacks();
@@ -285,5 +290,5 @@ export function mountAudioLibrary(container, { store }) {
   }
 
   run(async () => { await refreshPacks(); render(); });
-  return { dispose() { disposed = true; composer?.dispose(); stopPreview(); container.replaceChildren(); } };
+  return { dispose() { disposed = true; composer?.dispose(); composerStyle?.remove(); stopPreview(); container.replaceChildren(); } };
 }
