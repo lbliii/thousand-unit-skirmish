@@ -59,6 +59,11 @@ Choose Box, Line, or Column before a move or attack-move order. Line and Column
 face the destination. A plain ground order replaces queued waypoints. The order
 feedback reports sending, planning, applied, rejected, or interrupted state.
 
+Attack move can engage a visible enemy already within weapon range across a
+cliff or gap. Pursuit continues while a firing position remains reachable. If
+the enemy retreats beyond all reachable firing positions, direct attacks end;
+attack move resumes its route and can acquire another enemy.
+
 ## Economy and production
 
 Workers gather finite resources, carry up to 10, return to base, and repeat.
