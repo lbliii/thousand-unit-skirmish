@@ -94,7 +94,9 @@ whole zone is visible to the viewer.
 - `victoryMode: "any"` (default): own a marked objective.
 - `victoryMode: "all"`: own every marked objective simultaneously.
 - `victoryHoldSeconds`: optional continuous hold of 0.5–3,600 seconds. Losing the
-  condition resets that team's hold. Omission keeps capture victory immediate.
+  condition resets that team's hold. Holds advance only with the match clock,
+  including a partial first evaluation interval when the second seat joins.
+  Checkpoint recovery preserves active progress. Omission keeps capture victory immediate.
 - `timedVictory: {afterSeconds, objectiveId}`: at the deadline, that objective's
   current owner wins; an unclaimed objective draws. A contest without a completed
   capture does not change its owner.
