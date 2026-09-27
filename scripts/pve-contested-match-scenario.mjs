@@ -9,6 +9,8 @@ import { fileURLToPath } from 'node:url';
 import { createDeterministicPolicy, toOpponentObservation } from '../src/pve-opponent.mjs';
 
 const mapId = 'forked-vale';
+const reverseOrder = process.argv.includes('--reverse-order');
+const swapSpawns = process.argv.includes('--swap-spawns');
 const durationSeconds = Number(process.argv[2] ?? 300);
 assert.ok(Number.isInteger(durationSeconds) && durationSeconds >= 60 && durationSeconds <= 930);
 const seeds = [Number(process.argv[3] ?? 20260925), Number(process.argv[4] ?? 4294967295)];
@@ -47,6 +49,7 @@ async function connect() {
     client.messages.push(message);
     if (message.type === 'mapRejected') logs += JSON.stringify(message);
     if (message.type === 'welcome') client.welcome = message;
+    if (message.type === 'mapChange') client.welcome.map = message.map;
     if (['state', 'welcome', 'mapChange'].includes(message.type)) {
       client.state = message.type === 'state' ? message : message.state;
     }
@@ -63,6 +66,14 @@ try {
   }
   await connect();
   await connect();
+  if (swapSpawns) {
+    const swappedMap = structuredClone(clients[0].welcome.map);
+    swappedMap.id = 'forked-vale-swapped-seats';
+    swappedMap.name = 'FORKED VALE SWAPPED SEATS';
+    swappedMap.spawnPoints = swappedMap.spawnPoints.map((spawn) => ({ ...spawn, team: 1 - spawn.team }));
+    clients[0].socket.send(JSON.stringify({ type: 'publishMap', map: swappedMap }));
+    await until(() => clients.every((client) => client.state.mapId === swappedMap.id), 'swapped spawn ownership');
+  }
   const runs = clients.map((client, team) => ({
     client, team, seed: seeds[team], policy: createDeterministicPolicy(seeds[team]),
     shadow: createDeterministicPolicy(seeds[team]), lastTick: -Infinity,
@@ -70,13 +81,14 @@ try {
     firstCombatTick: null, lastCombatTick: null, firstTrainingTick: null,
     firstBuildingTick: null, lastObservation: null,
   }));
+  const decisionOrder = reverseOrder ? [...runs].reverse() : runs;
   const startedAt = Date.now();
   let nextSampleAt = 0;
   const ownership = [];
   let previousOwners = '';
   while (Date.now() - startedAt < durationSeconds * 1000 && clients.every((client) => client.state.winner === -1)) {
     assert.equal(child.exitCode, null, `server must remain running: ${logs}`);
-    for (const run of runs) {
+    for (const run of decisionOrder) {
       const state = run.client.state;
       if (state.tick - run.lastTick < 30) continue;
       run.lastTick = state.tick;
@@ -135,7 +147,7 @@ try {
     assert.ok(run.firstCombatTick !== null && run.losses.size > 0, 'both active armies fight and suffer losses');
   }
   console.log(JSON.stringify({ result: winner === -1 ? 'bounded-unresolved' : 'finished', winner,
-    map: mapId, seeds, elapsedSeconds: Math.round((Date.now() - startedAt) / 1000), ownership,
+    map: clients[0].state.mapId, seeds, decisionOrder: decisionOrder.map((run) => run.team), swapSpawns, elapsedSeconds: Math.round((Date.now() - startedAt) / 1000), ownership,
     seats: runs.map((run) => ({ team: run.team, firstCombatTick: run.firstCombatTick,
       lastCombatTick: run.lastCombatTick, firstBuildingTick: run.firstBuildingTick,
       firstTrainingTick: run.firstTrainingTick, observedSoldiers: run.seenSoldiers.size,

@@ -129,3 +129,8 @@ observations but does not identify a causal seat advantage. There is one run per
 seed order on this build, ordinary WebSocket scheduling and no statistical
 sample of openings. The 144-second historical result is not a timing control
 for the newer combat implementation. No policy or balance change was made.
+
+
+The [seat, spawn and command-order audit](qa-pve-seat-fairness-2026-09-27.md)
+then holds both policy seeds equal and independently reverses harness send order
+and spawn ownership. It narrows the interpretation of these repeated Azure wins.
