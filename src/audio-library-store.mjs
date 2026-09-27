@@ -155,7 +155,7 @@ export function createAudioLibraryStore({ indexedDB = globalThis.indexedDB, IDBK
         const old = new Map(existing.map((entry) => [entry.sourceId, entry.blob]));
         let total = 0;
         for (const source of pack.sources) {
-          const blob = sourceBlobs[source.id] || old.get(source.id);
+          const blob = Object.hasOwn(sourceBlobs, source.id) ? sourceBlobs[source.id] : old.get(source.id);
           if (!(blob instanceof Blob) || !blob.size) throw new Error(`Source ${source.id} has no original bytes; import its audio before saving`);
           if (blob.size > MAX_SOURCE_BYTES) throw new Error(`Source ${source.id} exceeds the 16 MiB source limit`);
           total += blob.size;
