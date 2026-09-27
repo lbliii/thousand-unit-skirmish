@@ -8,6 +8,9 @@ Choose **Play vs AI** for a solo match, or create a **New room** and share the
 invite link for 1v1. Azure is the host and controls map changes and rematches.
 Ember is the second player. Further connections watch as spectators.
 
+When you take a player seat, the camera starts at your Town Center. Use **Fit
+map** for an overview. Reconnecting to the same seat keeps your current view.
+
 The default PvP scenario is [Forked Vale](forked-vale-scenario.md). Each team
 starts with four workers, eight infantry, 150 food, and 250 wood. Own both
 Signals to unlock Vale Watch, then hold all three objectives for 20 seconds.

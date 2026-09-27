@@ -376,7 +376,8 @@ const camera = new THREE.OrthographicCamera(-32, 32, 32, -32, 0.1, 300);
 const cameraTarget = new THREE.Vector3(0, 0, 0);
 const cameraOffset = new THREE.Vector3(0.78, 1.12, 0.78).normalize();
 const baseFrustum = 43;
-let zoom = 0.91;
+const defaultCameraZoom = 0.91;
+let zoom = defaultCameraZoom;
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
@@ -8413,6 +8414,7 @@ function connectSocket() {
         return;
       }
       const mapChanged = !mapDefinition || JSON.stringify(message.map) !== JSON.stringify(mapDefinition);
+      const joinedSeat = [0, 1].includes(message.player.team) && message.player.team !== localTeam;
       let matchInstanceChanged = false;
       let matchIdentityChanged = false;
       if (typeof message.serverInstanceId === 'string') {
@@ -8449,6 +8451,12 @@ function connectSocket() {
       }
       if (mapChanged || message.state.armySize !== currentArmySize) setArmySize(message.state.armySize);
       applyState(message.state, true);
+      if (joinedSeat) {
+        mapFitActive = false;
+        zoom = Math.max(cameraMinZoom, defaultCameraZoom);
+        resize();
+        centerCameraOnHomeBase();
+      }
       updateRoomUI(message.state.connected);
       if (ui.mapStudio.open) {
         ui.studioPublish.disabled = false;
