@@ -48,6 +48,7 @@ Run from the repository root:
 | Building attacks across disconnected terrain | `node scripts/ranged-building-attack-scenario.mjs` |
 | In-range building attacks during construction repair | `node scripts/ranged-building-attack-scenario.mjs --edge-range-repair` |
 | Archer firing positions across gaps | `node scripts/archer-firing-approach-scenario.mjs` |
+| Cliff pursuit and attack-move alternatives | `node scripts/cliff-pursuit-scenario.mjs --direct` and without `--direct` |
 | Construction on disconnected terrain / route protection | `node scripts/construction-connectivity-scenario.mjs` |
 | Mirrored construction | `node scripts/opening-production-scenario.mjs --expect-builder-parity` |
 | Producer destruction, replacement builders, and population caps | `node scripts/production-lifecycle-scenario.mjs` |
@@ -70,6 +71,7 @@ Run from the repository root:
 | PvE production budgets | `node scripts/pve-production-scenario.mjs` |
 | PvE destroyed producer replacement | `node scripts/pve-barracks-recovery-scenario.mjs` |
 | PvE objective retake after losses | `node scripts/pve-objective-recovery-runtime-scenario.mjs TEAM SEED` (teams `0`, `1`; CI seed `20260925`, additional audited seed `4294967295`) |
+| Contested seeded PvE match | `node scripts/pve-contested-match-scenario.mjs 300 20260925 4294967295` |
 | PvE live construction / reinforcements on both maps | `node scripts/pve-production-runtime-scenario.mjs forked-vale` and `woodland-expanse` |
 | Compact HUD | `node --test scripts/hud-layout.test.mjs scripts/selection-context.test.mjs scripts/objective-summary.test.mjs` |
 | Audio policy | `node scripts/audio-policy-scenario.mjs` |
