@@ -122,7 +122,7 @@ try {
   child.stderr.on('data', (s) => { output += s; });
   const deadline = Date.now() + timeoutMs;
   while (true) {
-    if (child.exitCode !== null || Date.now() > deadline) throw new Error(output);
+    if (child.exitCode !== null || child.signalCode !== null || Date.now() > deadline) throw new Error(output);
     try { if ((await fetch(`http://127.0.0.1:${port}/health`)).ok) break; } catch {}
     await sleep(25);
   }
@@ -189,10 +189,10 @@ try {
 } finally {
   for (const proxy of relays) await proxy.close();
   for (const client of clients) client.socket.close();
-  if (child && child.exitCode === null) {
+  if (child && child.exitCode === null && child.signalCode === null) {
     const done = once(child, 'exit'); child.kill('SIGINT');
     await Promise.race([done, sleep(3000)]);
-    if (child.exitCode === null) { child.kill('SIGKILL'); await done; }
+    if (child.exitCode === null && child.signalCode === null) { child.kill('SIGKILL'); await done; }
   }
   await rm(temporary, { recursive: true, force: true });
 }
