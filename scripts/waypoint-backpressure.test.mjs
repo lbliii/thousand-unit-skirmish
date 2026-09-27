@@ -118,3 +118,16 @@ test('queue metadata is retained only for its owning seat', () => {
   wire.drain();
   assert.deepEqual(wire.frames[0].rows, [[7, 2]]);
 });
+
+
+test('same queue signature on a new map is delivered again', () => {
+  const wire = transport();
+  wire.queues([[7, 1]]);
+  vm.runInContext('broadcastMapChange()', wire.context);
+  wire.queues([[7, 1]]);
+  wire.state(20);
+  wire.drain();
+  assert.deepEqual(wire.frames.map((frame) => frame.type),
+    ['mapChange', 'state', 'waypointQueueCounts']);
+  assert.deepEqual(wire.frames.at(-1).rows, [[7, 1]]);
+});

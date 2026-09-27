@@ -92,6 +92,8 @@ const scenarios = [
   ['scripts/construction-connectivity-scenario.mjs', 'Construction preserves existing terrain connections'],
   ['scripts/elimination-scenario.mjs', 'Terminal elimination and reconnect'],
   ['scripts/queued-waypoint-scenario.mjs', 'Queued waypoint checkpoint recovery'],
+  ['scripts/hold-clock-recovery-scenario.mjs', 'Checkpoint hold clock recovery (Azure)'],
+  ['scripts/hold-clock-recovery-scenario.mjs', 'Checkpoint hold clock recovery (Ember)', '1'],
   ['scripts/live-attack-move-repair-scenario.mjs', 'Live attack-move route repair'],
   ['scripts/worker-combat-scenario.mjs', 'Worker combat across both seats'],
   ['scripts/worker-production-spawn-scenario.mjs', 'Town Center worker exits across map orientations'],

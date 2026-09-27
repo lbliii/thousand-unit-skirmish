@@ -3178,6 +3178,8 @@ function broadcastWaypointQueueCounts() {
 
 function broadcastMapChange() {
   if (shuttingDown) return;
+  lastWaypointQueueCountsByTeam[0] = [];
+  lastWaypointQueueCountsByTeam[1] = [];
   const maps = mapCatalogPayload();
   for (const peer of peers) {
     // mapChange includes the authoritative snapshot for the new map. A

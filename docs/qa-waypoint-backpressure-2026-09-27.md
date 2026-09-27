@@ -19,14 +19,16 @@ reproduction, not a newly observed human match failure.
 Each peer now retains at most one pending full snapshot and one pending owner
 waypoint-count message. On drain, the newest snapshot precedes the newest counts.
 That ordering also handles army-size/rematch snapshots that recreate the client
-roster. Map changes and disconnects clear both pending messages. The existing
+roster. Map changes and disconnects clear both pending messages. Map changes also reset
+the queue-count deduplication cache so the same count in a new match is sent again. The existing
 outbound byte limit still applies when the two frames are written, and metadata
 is still sent only to its owning seat.
 
-Six focused regressions cover interleaved snapshots, queue clearing, a drain
+Seven focused regressions cover interleaved snapshots, queue clearing, a drain
 that immediately re-enters backpressure, map-change invalidation, memory bounds,
 and owner-only delivery. The existing live queued-waypoint recovery and slow
-reader map-change scenarios are also run for this change.
+reader map-change scenarios also passed for this change. Both-seat checkpoint hold-clock recovery
+checks passed after integrating main, and are now registered in CI.
 
 ## Open-source reference
 
