@@ -40,6 +40,7 @@ Run from the repository root:
 | Complete Forked Vale scenario, each winner | `node scripts/forked-vale-scenario.mjs 0` and `node scripts/forked-vale-scenario.mjs 1` |
 | Mirrored combat | `node scripts/infantry-seat-combat-scenario.mjs --expect-parity` |
 | Building attacks across disconnected terrain | `node scripts/ranged-building-attack-scenario.mjs` |
+| In-range building attacks during construction repair | `node scripts/ranged-building-attack-scenario.mjs --edge-range-repair` |
 | Archer firing positions across gaps | `node scripts/archer-firing-approach-scenario.mjs` |
 | Construction on disconnected terrain / route protection | `node scripts/construction-connectivity-scenario.mjs` |
 | Mirrored construction | `node scripts/opening-production-scenario.mjs --expect-builder-parity` |
@@ -54,6 +55,7 @@ Run from the repository root:
 | Invite expiry during joins and worker startup | `node scripts/room-expiry-scenario.mjs` |
 | PvE policy / launch lifecycle | `node scripts/pve-opponent-scenario.mjs` / `node scripts/pve-room-launch-scenario.mjs` |
 | PvE tactics during gather retries | `node scripts/pve-decision-fairness-scenario.mjs` |
+| PvE stranded reinforcement recovery | `node scripts/pve-reinforcement-recovery-scenario.mjs` |
 | PvE stalled-army retry policy / server reproduction | `node scripts/pve-tactical-retry-scenario.mjs` / `node scripts/pve-tactical-stall-runtime-scenario.mjs` |
 | PvE production budgets | `node scripts/pve-production-scenario.mjs` |
 | PvE live construction / reinforcements on both maps | `node scripts/pve-production-runtime-scenario.mjs forked-vale` and `woodland-expanse` |
