@@ -16,8 +16,8 @@ both Archer orders, damages both buildings, and keeps each Archer on its side
 with no walking path. Distant Infantry orders remain rejected.
 
 The restored fixture deliberately isolates combat: current building placement
-rejects construction on already disconnected maps. That separate restriction
-remains. This is automated local evidence, not a deployed or human-play result.
+rejects construction on already disconnected maps. That separate restriction is addressed in the later
+[construction connectivity evidence](qa-construction-connectivity-2026-09-27.md). This is automated local evidence, not a deployed or human-play result.
 
 ## Decision and source research
 
