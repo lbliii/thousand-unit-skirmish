@@ -1,0 +1,49 @@
+{
+  "status": "passed",
+  "origin": "https://game-staging-21f9.up.railway.app",
+  "azure": {
+    "boot": "ready",
+    "team": "AZURE",
+    "network": "ROOM LIVE",
+    "players": "2 / 2 PLAYERS",
+    "map": "QA Browser qa-browser-mujw0hkj",
+    "error": null,
+    "canvas": true
+  },
+  "ember": {
+    "boot": "ready",
+    "team": "EMBER",
+    "network": "ROOM LIVE",
+    "players": "2 / 2 PLAYERS",
+    "map": "QA Browser qa-browser-mujw0hkj",
+    "error": null,
+    "canvas": true
+  },
+  "mapStudioHostOpen": true,
+  "mapStudioGuestDisabled": true,
+  "authoredMap": {
+    "id": "qa-browser-mujw0hkj",
+    "name": "QA Browser qa-browser-mujw0hkj",
+    "downloadedBytes": 1868
+  },
+  "validationFeedback": {
+    "invalidId": "Map ID must use lowercase letters, numbers, and hyphens.",
+    "unreachableResource": "Resource node azure-berries must be reachable from both team spawns."
+  },
+  "diagnostics": [
+    {
+      "label": "azure",
+      "diagnostics": [
+        "WS HTTP 101",
+        "WS HTTP 101"
+      ]
+    },
+    {
+      "label": "ember",
+      "diagnostics": [
+        "WS HTTP 101",
+        "WS HTTP 101"
+      ]
+    }
+  ]
+}

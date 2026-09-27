@@ -62,6 +62,10 @@ passing existing local limits; hosted capacity and browser timing remain separat
 seats recovering accepted and undelivered orders through 40 ms one-way TCP
 delays and forced resets. Packet loss and hosted congestion remain unmeasured.
 
+[Hosted browser and Map Studio evidence](qa-staging-browser-2026-09-27.md) records
+both-seat publishing/reload and captured host-editor/Ember-opening appearance at
+`bcd5fec`. Full construction, zoom, and human comprehension checks remain.
+
 [Integrated core staging evidence](qa-integrated-core-2026-09-27.md) records
 authenticated assets, both-seat reconnect, map persistence, elimination, and
 rematch on deployed source `8b6bcbb`. Human match and supported-scale proof

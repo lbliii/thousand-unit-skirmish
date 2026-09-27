@@ -29,7 +29,8 @@ art, map, and infrastructure slices can progress alongside these outcomes.
    sprites the default and adds Town Center collision. Check both teams through
    construction/damage, exits and nearby placement, fog, ordinary/strategic zoom,
    and narrow HUD layouts. Packaged assets are present; current deployed
-   appearance still needs a named-build observation.
+   appearance now has a [host editor and Ember opening observation](qa-staging-browser-2026-09-27.md)
+   at `bcd5fec`; construction/damage, zoom, and narrow-layout checks remain.
 3. **Test decisions on representative maps.** Use Forked Vale for opening and
    objective play, then Frontier Reach/Highland Grove for routes, forest access,
    and elevation. Record the decision a player made and the alternative they saw
