@@ -7,7 +7,7 @@ ENV NODE_ENV=production \
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --no-audit --no-fund && apk add --no-cache su-exec
-COPY --chown=node:node server.mjs room-supervisor.mjs origin-policy.mjs simulation-scheduler.mjs index.html environment-review.html style.css ./
+COPY --chown=node:node server.mjs room-supervisor.mjs origin-policy.mjs simulation-scheduler.mjs index.html audio-studio.html environment-review.html style.css ./
 COPY --chown=node:node src/ ./src/
 COPY --chown=node:node maps/ ./maps/
 COPY --chown=node:node assets/environment/frontier-v1/ ./assets/environment/frontier-v1/

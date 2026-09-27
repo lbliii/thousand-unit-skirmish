@@ -1,7 +1,8 @@
-// All sounds are synthesized here with Web Audio. No sampled or licensed media is used.
+import { createProfileDecisionGate, resolveEventBinding } from './audio-event-profile.mjs';
+// Web Audio synthesis remains the fallback when an authored local pack is unavailable.
 const STORAGE_KEY = 'tus-audio-v1';
 const DEFAULT_SETTINGS = Object.freeze({
-  enabled: true, captions: false, volume: 0.5, effectsLevel: 1, ambience: true, ambienceLevel: 1,
+  enabled: true, captions: false, volume: 0.5, effectsLevel: 1, voiceLevel: 1, musicLevel: 1, ambience: true, ambienceLevel: 1,
 });
 const COOLDOWN_MS = Object.freeze({
   select: 90, move: 90, attack: 120, gather: 140, rally: 550, build: 170,
@@ -36,6 +37,10 @@ export function readAudioSettings(storage = browserStorage()) {
       volume: Number.isFinite(saved.volume) ? Math.max(0, Math.min(1, saved.volume)) : DEFAULT_SETTINGS.volume,
       effectsLevel: Number.isFinite(saved.effectsLevel)
         ? Math.max(0, Math.min(2, saved.effectsLevel)) : DEFAULT_SETTINGS.effectsLevel,
+      voiceLevel: Number.isFinite(saved.voiceLevel) ? Math.max(0, Math.min(2, saved.voiceLevel)) : DEFAULT_SETTINGS.voiceLevel,
+      musicLevel: Number.isFinite(saved.musicLevel) ? Math.max(0, Math.min(2, saved.musicLevel))
+        : saved.ambience === false ? 0
+          : Number.isFinite(saved.ambienceLevel) ? Math.max(0, Math.min(2, saved.ambienceLevel)) : DEFAULT_SETTINGS.musicLevel,
       ambience: typeof saved.ambience === 'boolean' ? saved.ambience : DEFAULT_SETTINGS.ambience,
       ambienceLevel: Number.isFinite(saved.ambienceLevel)
         ? Math.max(0, Math.min(2, saved.ambienceLevel)) : DEFAULT_SETTINGS.ambienceLevel,
@@ -44,7 +49,7 @@ export function readAudioSettings(storage = browserStorage()) {
 }
 
 export function createGameAudio({
-  storage = browserStorage(), doc = globalThis.document, onStatusChange, onCue, onCueDecision,
+  storage = browserStorage(), doc = globalThis.document, onStatusChange, onCue, onCueDecision, onProfileCaption, onPackStatus,
 } = {}) {
   let settings = readAudioSettings(storage);
   let context = null;
@@ -52,6 +57,21 @@ export function createGameAudio({
   let effects = null;
   let atmosphere = null;
   let atmospherePreview = null;
+  let voice = null;
+  let music = null;
+  let compositionPlayer = null;
+  let activePack = null;
+  let activeProfile = null;
+  let activeSourceBlobs = null;
+  let packGeneration = 0;
+  let packStatus = 'No audio pack assigned';
+  let profileMusicReady = false;
+  const activeSamples = new Set();
+  const MAX_ACTIVE_SAMPLES = 8;
+  const profileGate = createProfileDecisionGate();
+  const decoded = new Map();
+  let decodedBytes = 0;
+  const MAX_DECODED_BYTES = 24 * 1024 * 1024;
   let ambienceSource = null;
   let impactNoise = null;
   let musicTimer = null;
@@ -67,13 +87,15 @@ export function createGameAudio({
 
   function hasAudibleOutput() {
     return settings.enabled && settings.volume > 0
-      && (settings.effectsLevel > 0 || (settings.ambience && settings.ambienceLevel > 0));
+      && (settings.effectsLevel > 0 || settings.voiceLevel > 0 || settings.musicLevel > 0
+        || (settings.ambience && settings.ambienceLevel > 0));
   }
 
   function status() {
     if (!(globalThis.AudioContext || globalThis.webkitAudioContext)) return 'unavailable';
     if (!settings.enabled || settings.volume <= 0) return 'muted';
-    if (settings.effectsLevel <= 0 && (!settings.ambience || settings.ambienceLevel <= 0)) return 'silent';
+    if (settings.effectsLevel <= 0 && settings.voiceLevel <= 0 && settings.musicLevel <= 0
+      && (!settings.ambience || settings.ambienceLevel <= 0)) return 'silent';
     return context?.state || 'waiting';
   }
 
@@ -88,11 +110,13 @@ export function createGameAudio({
     const at = context.currentTime;
     master.gain.setTargetAtTime(settings.enabled ? settings.volume * 0.78 : 0, at, 0.045);
     effects.gain.setTargetAtTime(0.52 * settings.effectsLevel, at, 0.045);
+    voice.gain.setTargetAtTime(0.68 * settings.voiceLevel, at, 0.045);
     const ducked = performance.now() < duckUntil;
+    music.gain.setTargetAtTime((ducked ? 0.18 : 0.55) * settings.musicLevel, at, 0.15);
     const ambienceEnabled = settings.enabled && settings.ambience;
     atmosphere.gain.setTargetAtTime(ambienceEnabled
       ? (ducked ? 0.045 : 0.18) * settings.ambienceLevel : 0, at, ducked ? 0.04 : 0.25);
-    atmospherePreview.gain.setTargetAtTime(ambienceEnabled ? 0.18 * settings.ambienceLevel : 0, at, 0.045);
+    atmospherePreview.gain.setTargetAtTime(settings.enabled ? 0.18 * settings.musicLevel : 0, at, 0.045);
   }
 
   function makeContext() {
@@ -105,15 +129,20 @@ export function createGameAudio({
       effects = context.createGain();
       atmosphere = context.createGain();
       atmospherePreview = context.createGain();
+      voice = context.createGain();
+      music = context.createGain();
       effects.gain.value = 0.52;
       atmosphere.gain.value = 0;
       atmospherePreview.gain.value = 0;
       effects.connect(master);
+      voice.connect(master);
+      music.connect(master);
       atmosphere.connect(master);
       atmospherePreview.connect(master);
       master.connect(context.destination);
       applyLevels();
       createAmbience();
+      if (activeProfile) void startProfileMusic();
       musicTimer = globalThis.setInterval(scheduleMusic, 34000);
       emitStatus();
       return true;
@@ -244,22 +273,22 @@ export function createGameAudio({
     }
   }
 
-  function playMusicPhrase(notes, destination) {
+  function playMusicPhrase(notes, destination, gain = 0.06) {
     const start = context.currentTime + MUSIC_SCHEDULE_AHEAD_SECONDS;
     for (let i = 0; i < notes.length; i++) {
-      tone(notes[i], start + i * MUSIC_NOTE_SPACING_SECONDS, MUSIC_NOTE_DURATION_SECONDS, { wave: 'sine', gain: 0.06, destination });
+      tone(notes[i], start + i * MUSIC_NOTE_SPACING_SECONDS, MUSIC_NOTE_DURATION_SECONDS, { wave: 'sine', gain, destination });
     }
   }
 
   function scheduleMusic() {
-    if (!context || context.state !== 'running' || !settings.enabled || settings.volume <= 0 || !settings.ambience || settings.ambienceLevel <= 0
-      || doc?.hidden || performance.now() - lastAlertAt < 10000) return;
-    playMusicPhrase(AMBIENCE_CHORDS[phraseNumber++ % AMBIENCE_CHORDS.length], atmosphere);
+    if (!context || context.state !== 'running' || !settings.enabled || settings.volume <= 0 || settings.musicLevel <= 0
+      || doc?.hidden || profileMusicReady || performance.now() - lastAlertAt < 10000) return;
+    playMusicPhrase(AMBIENCE_CHORDS[phraseNumber++ % AMBIENCE_CHORDS.length], music, 0.02);
   }
 
   function previewAmbience() {
-    if (!context || context.state === 'closed' || !settings.enabled || settings.volume <= 0 || !settings.ambience
-      || settings.ambienceLevel <= 0 || doc?.hidden) return false;
+    if (!context || context.state === 'closed' || !settings.enabled || settings.volume <= 0
+      || settings.musicLevel <= 0 || doc?.hidden) return false;
     const scheduledBefore = scheduledVoiceSerial;
     playMusicPhrase(AMBIENCE_CHORDS[phraseNumber % AMBIENCE_CHORDS.length], atmospherePreview);
     return scheduledVoiceSerial > scheduledBefore;
@@ -356,6 +385,110 @@ export function createGameAudio({
     return scheduled;
   }
 
+
+  function setPackStatus(message) { packStatus = message; onPackStatus?.(message); }
+
+  async function decodeSource(sourceId) {
+    if (decoded.has(sourceId)) {
+      const buffer = decoded.get(sourceId);
+      decoded.delete(sourceId); decoded.set(sourceId, buffer);
+      return buffer;
+    }
+    const ticket = packGeneration;
+    const blob = activeSourceBlobs?.[sourceId];
+    if (!(blob instanceof Blob)) throw new Error(`Missing audio source ${sourceId}`);
+    if (blob.size > 16 * 1024 * 1024) throw new Error(`Audio source ${sourceId} exceeds the decode limit`);
+    const buffer = await context.decodeAudioData(await blob.arrayBuffer());
+    if (ticket !== packGeneration) throw new Error('Audio pack changed during decoding');
+    const bytes = buffer.length * buffer.numberOfChannels * 4;
+    if (bytes > MAX_DECODED_BYTES) throw new Error(`Decoded source ${sourceId} exceeds memory limit`);
+    while (decodedBytes + bytes > MAX_DECODED_BYTES && decoded.size) {
+      const [oldId, oldBuffer] = decoded.entries().next().value;
+      decodedBytes -= oldBuffer.length * oldBuffer.numberOfChannels * 4;
+      decoded.delete(oldId);
+    }
+    decoded.set(sourceId, buffer); decodedBytes += bytes;
+    return buffer;
+  }
+
+  async function startProfileMusic() {
+    compositionPlayer?.stop();
+    profileMusicReady = false;
+    const ticket = packGeneration;
+    if (!activeProfile?.music?.defaultCompositionId || !context || context.state === 'closed') return;
+    const composition = activePack?.compositions?.find((item) => item.id === activeProfile.music.defaultCompositionId);
+    if (!composition) { setPackStatus(`Composition ${activeProfile.music.defaultCompositionId} is missing; synthesized music is available.`); return; }
+    if (!compositionPlayer) {
+      const { createCompositionPlayer } = await import('./audio-composition-player.mjs');
+      if (ticket !== packGeneration) return;
+      compositionPlayer = createCompositionPlayer({ context, destination: music, resolveBuffer: decodeSource });
+    }
+    try { profileMusicReady = await compositionPlayer.play(composition, { loop: true }) === true && ticket === packGeneration; }
+    catch (error) { setPackStatus(`Music could not play: ${error.message}. Synthesized feedback remains available.`); }
+  }
+
+  async function setMapAudio(reference, libraryStore) {
+    const ticket = ++packGeneration;
+    compositionPlayer?.stop();
+    profileMusicReady = false;
+    for (const source of activeSamples) { try { source.stop(); } catch {} }
+    activeSamples.clear();
+    profileGate.reset();
+    decoded.clear(); decodedBytes = 0;
+    activePack = null; activeProfile = null; activeSourceBlobs = null;
+    if (!reference) { setPackStatus('No audio pack assigned'); return; }
+    setPackStatus(`Loading audio pack ${reference.packId}…`);
+    try {
+      const loaded = await libraryStore.loadPack(reference.packId);
+      if (ticket !== packGeneration) return;
+      if (!loaded) { setPackStatus(`Audio pack ${reference.packId} is missing. Install it in Audio Studio; other players need their own copy.`); return; }
+      const profile = loaded.pack.profiles.find((item) => item.id === reference.profileId);
+      if (!profile) { setPackStatus(`Audio profile ${reference.profileId} is missing from ${reference.packId}.`); return; }
+      activePack = loaded.pack; activeProfile = profile; activeSourceBlobs = loaded.sourceBlobs;
+      setPackStatus(`Audio pack ${loaded.pack.name} ready. Other players need their own installed copy.`);
+      if (context) await startProfileMusic();
+    } catch (error) {
+      if (ticket === packGeneration) setPackStatus(`Audio pack unavailable: ${error.message}. Synthesized feedback remains available.`);
+    }
+  }
+
+  function playEvent(event) {
+    const cue = event?.cue;
+    if (!(cue in COOLDOWN_MS)) return false;
+    if (!resolveEventBinding(activeProfile, event)) return play(cue);
+    const choice = profileGate.choose(activeProfile, event);
+    if (!choice) return false;
+    if (!doc?.hidden && (!settings.enabled || settings.captions)) onCueDecision?.(cue);
+    if (!settings.enabled || settings.volume <= 0 || doc?.hidden) return false;
+    if (!context || context.state !== 'running') return play(cue);
+    const { binding, variant } = choice;
+    const destination = binding.bus === 'voice' ? voice : binding.bus === 'ambience' ? atmosphere : effects;
+    const enabled = binding.bus === 'voice' ? settings.voiceLevel > 0
+      : binding.bus === 'ambience' ? settings.ambience && settings.ambienceLevel > 0 : settings.effectsLevel > 0;
+    if (!enabled) return false;
+    const ticket = packGeneration;
+    void decodeSource(variant.sourceId).then((buffer) => {
+      if (ticket !== packGeneration || context.state !== 'running') return;
+      const start = Math.max(0, variant.trimStartSeconds || 0);
+      const end = Math.min(buffer.duration, variant.trimEndSeconds ?? buffer.duration);
+      if (end <= start) throw new Error('Invalid cue trim');
+      if (activeSamples.size >= MAX_ACTIVE_SAMPLES) {
+        if (!['battle-alert', 'selected-alert', 'base-alert', 'base-lost', 'victory', 'defeat'].includes(cue)) return;
+        try { activeSamples.values().next().value.stop(); } catch {}
+      }
+      const node = context.createBufferSource();
+      const gain = context.createGain();
+      node.buffer = buffer; gain.gain.value = variant.gain ?? 1;
+      node.connect(gain); gain.connect(destination);
+      node.onended = () => { activeSamples.delete(node); node.disconnect(); gain.disconnect(); };
+      activeSamples.add(node);
+      node.start(context.currentTime, start, end - start);
+      if (variant.caption) onProfileCaption?.(variant.caption);
+      onCue?.(cue);
+    }).catch((error) => { if (ticket === packGeneration) { setPackStatus(`Cue ${variant.sourceId} could not decode: ${error.message}. Synthesized feedback remains available.`); play(cue); } });
+    return true;
+  }
+
   function preview(cue) { return play(cue, { preview: true }); }
 
   function setSettings(next) {
@@ -363,6 +496,8 @@ export function createGameAudio({
       enabled: typeof next.enabled === 'boolean' ? next.enabled : settings.enabled,
       captions: typeof next.captions === 'boolean' ? next.captions : settings.captions,
       volume: Number.isFinite(next.volume) ? Math.max(0, Math.min(1, next.volume)) : settings.volume,
+      voiceLevel: Number.isFinite(next.voiceLevel) ? Math.max(0, Math.min(2, next.voiceLevel)) : settings.voiceLevel,
+      musicLevel: Number.isFinite(next.musicLevel) ? Math.max(0, Math.min(2, next.musicLevel)) : settings.musicLevel,
       effectsLevel: Number.isFinite(next.effectsLevel)
         ? Math.max(0, Math.min(2, next.effectsLevel)) : settings.effectsLevel,
       ambience: typeof next.ambience === 'boolean' ? next.ambience : settings.ambience,
@@ -385,12 +520,15 @@ export function createGameAudio({
   doc?.addEventListener?.('visibilitychange', onVisibilityChange);
 
   return {
-    play, preview, previewAmbience, unlock, setSettings,
+    play, playEvent, setMapAudio, getPackStatus: () => packStatus, preview, previewAmbience, unlock, setSettings,
     getSettings: () => ({ ...settings }), getStatus: status,
     dispose() {
       doc?.removeEventListener?.('visibilitychange', onVisibilityChange);
       if (musicTimer !== null) globalThis.clearInterval(musicTimer);
       if (duckTimer !== null) globalThis.clearTimeout(duckTimer);
+      compositionPlayer?.dispose();
+      for (const source of activeSamples) { try { source.stop(); } catch {} }
+      activeSamples.clear();
       ambienceSource?.stop();
       context?.close().catch(() => {});
     },

@@ -1,3 +1,4 @@
+import { validateMapAudioReference } from './src/audio-event-profile.mjs';
 import { createServer } from 'node:http';
 import { createHash, randomBytes } from 'node:crypto';
 import { mkdir, open, readFile, readdir, rename, stat, unlink, writeFile } from 'node:fs/promises';
@@ -127,6 +128,7 @@ function validateMapDefinition(definition, filename) {
   if (!definition || typeof definition !== 'object' || Array.isArray(definition)) {
     throw new Error(`Map ${filename} must contain a JSON object.`);
   }
+  validateMapAudioReference(definition.audio);
   definition.victoryMode ??= 'any';
   if (!['any', 'all'].includes(definition.victoryMode)) {
     throw new Error(`Map ${filename} victoryMode must be "any" or "all".`);
@@ -6440,7 +6442,11 @@ const server = createServer(async (request, response) => {
     'src/map-studio-viewport.mjs', 'src/order-feedback.mjs', 'src/resource-visual-state.mjs',
     'src/building-visual-state.mjs', 'src/unit-lod-state.mjs', 'src/unit-selection.mjs',
     'src/selection-context.mjs', 'src/unit-visual-state.mjs', 'src/unit-sprite-runtime.mjs',
-    'src/audio.mjs', 'src/audio-policy.mjs', 'src/audio-recognition-check.mjs', 'src/camera-controls.mjs',
+    'src/audio.mjs', 'src/audio-policy.mjs', 'src/audio-event-profile.mjs',
+    'src/audio-composition-player.mjs', 'src/audio-assets.mjs', 'src/audio-library-store.mjs',
+    'src/audio-library-ui.mjs', 'src/audio-studio.mjs', 'src/audio-studio.css',
+    'src/audio-composition.mjs', 'src/audio-composer.mjs', 'src/audio-composer.css',
+    'audio-studio.html', 'src/audio-recognition-check.mjs', 'src/camera-controls.mjs',
     'src/navigation-settings.mjs', 'src/objective-summary.mjs', 'src/hud-layout.mjs',
     'src/captured-building-art.mjs', 'src/water-surface-geometry.mjs',
   ].includes(relative);

@@ -112,6 +112,7 @@ const customMapDirectory = path.join(tempRoot, 'custom-maps');
   height: 32,
   terrainSeed: 27,
   fogOfWar: true,
+  audio: { packId: 'sample-pack', profileId: 'battle-default' },
   victoryMode: 'all',
   spawnPoints: [{ team: 0, x: -11, z: 0 }, { team: 1, x: 11, z: 0 }],
   obstacles: [{ column: 15, row: 13, width: 2, height: 6, elevation: 1.2, material: 'stone' }],
@@ -259,11 +260,13 @@ try {
   assert.equal(published.map.triggers[0].id, 'saved-control-zone');
   assert.equal(published.map.scenarioEvents[0].id, 'saved-supply-drop');
   assert.equal(published.map.fogOfWar, true);
+  assert.deepEqual(published.map.audio, map.audio);
   const savedFile = path.join(customMapDirectory, `${map.id}.json`);
   const savedDefinition = JSON.parse(await readFile(savedFile, 'utf8'));
   assert.equal(savedDefinition.triggers[0].id, 'saved-control-zone');
   assert.deepEqual(savedDefinition.scenarioEvents, map.scenarioEvents);
   assert.equal(savedDefinition.victoryMode, 'all');
+  assert.deepEqual(savedDefinition.audio, map.audio);
 
   await closeClient(client);
   client = null;
@@ -287,6 +290,7 @@ try {
   assert.equal(restored.map.resourceNodes[0].id, 'saved-wood');
   assert.equal(restored.map.fogOfWar, true);
   assert.equal(restored.map.victoryMode, 'all');
+  assert.deepEqual(restored.map.audio, map.audio);
 
   const libraryFiles = await readdir(customMapDirectory);
   assert.deepEqual(libraryFiles, [`${map.id}.json`]);

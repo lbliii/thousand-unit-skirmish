@@ -293,6 +293,7 @@
             <div class="size-note">Evenly split between two teams</div>
             <div class="map-picker"><label for="map-select">BATTLEFIELD</label><select id="map-select" aria-label="Battlefield map"><option>Loading maps…</option></select></div>
             <button id="map-studio-open" class="map-studio-open" type="button" disabled>MAP STUDIO <span>↗</span></button>
+            <a class="map-studio-open" href="./audio-studio.html" target="_blank" rel="noopener">AUDIO STUDIO <span>↗</span></a>
             <a class="map-studio-open building-map-open" href="./building-map.html" target="_blank" rel="noopener">BUILDING VARIANT ATLAS <span>↗</span></a>
             <a class="map-studio-open" href="./environment-review.html" target="_blank" rel="noopener">TERRAIN ART PILOT <span>↗</span></a>
           </section>
@@ -408,9 +409,12 @@
                 </div>
               </div>
             </div>
-            <label class="audio-check"><input id="audio-ambience" type="checkbox" checked><span>Ambience and music</span></label>
+            <label class="audio-range" for="audio-voice-level"><span>Voice level</span><input id="audio-voice-level" type="range" min="0" max="200" value="100"><output id="audio-voice-level-value" for="audio-voice-level">100%</output></label>
+            <label class="audio-range" for="audio-music-level"><span>Music level</span><input id="audio-music-level" type="range" min="0" max="200" value="100"><output id="audio-music-level-value" for="audio-music-level">100%</output></label>
+            <small id="audio-pack-status" class="audio-status" role="status">NO AUDIO PACK ASSIGNED</small>
+            <label class="audio-check"><input id="audio-ambience" type="checkbox" checked><span>Ambient wind</span></label>
             <div class="audio-preview-controls audio-ambience-preview-controls">
-              <label for="audio-ambience-preview">Music layer</label>
+              <label for="audio-ambience-preview">Synth music</label>
               <button id="audio-ambience-preview" class="audio-preview" type="button">Preview phrase</button>
             </div>
             <label class="audio-range" for="audio-ambience-level"><span>Ambience level</span><input id="audio-ambience-level" type="range" min="0" max="200" value="100"><output id="audio-ambience-level-value" for="audio-ambience-level">100%</output></label>
@@ -472,6 +476,9 @@
                 <label>MAP NAME<input id="studio-name" maxlength="48" value="New Battlefield"></label>
                 <label>MAP ID<input id="studio-id" maxlength="48" value="new-battlefield"></label>
                 <label class="studio-wide-field">SCENARIO BRIEF<input id="studio-summary" maxlength="120" value="Choose a route, build your force, and claim the field."></label>
+                <label>AUDIO PACK<select id="studio-audio-pack"><option value="">Synthesized default</option></select></label>
+                <label>AUDIO PROFILE<select id="studio-audio-profile"><option value="">Choose pack first</option></select></label>
+                <small class="studio-wide-field">Map exports reference a separate audio pack. Every player must install that pack locally in Audio Studio.</small>
                 <label>WIDTH<input id="studio-width" type="number" min="16" max="256" step="1" value="64"></label>
                 <label>HEIGHT<input id="studio-height" type="number" min="16" max="256" step="1" value="64"></label>
               </div>

@@ -48,10 +48,10 @@ assert.equal(gate.observe({ friendlyDamage: 1 }, 30050), 'battle-alert');
 
 const saved = { getItem: () => JSON.stringify({ enabled: false, volume: 4, ambience: false }) };
 assert.deepEqual(readAudioSettings(saved), {
-  enabled: false, captions: false, volume: 1, effectsLevel: 1, ambience: false, ambienceLevel: 1,
+  enabled: false, captions: false, volume: 1, effectsLevel: 1, voiceLevel: 1, musicLevel: 0, ambience: false, ambienceLevel: 1,
 });
 assert.deepEqual(readAudioSettings({ getItem: () => '{' }), {
-  enabled: true, captions: false, volume: 0.5, effectsLevel: 1, ambience: true, ambienceLevel: 1,
+  enabled: true, captions: false, volume: 0.5, effectsLevel: 1, voiceLevel: 1, musicLevel: 1, ambience: true, ambienceLevel: 1,
 });
 assert.equal(readAudioSettings({ getItem: () => JSON.stringify({ captions: true }) }).captions, true,
   'saved critical sound captions stay enabled independently of audio output');
@@ -180,7 +180,7 @@ try {
   assert.equal(audio.getStatus(), 'running');
   assert.equal(createdContext.resumeCalls, 1);
   assert.deepEqual(readAudioSettings(storage), {
-    enabled: true, captions: false, volume: 0.3, effectsLevel: 1, ambience: false, ambienceLevel: 1,
+    enabled: true, captions: false, volume: 0.3, effectsLevel: 1, voiceLevel: 1, musicLevel: 1, ambience: false, ambienceLevel: 1,
   });
   assert.equal(createdContext.gains[0].gain.lastTarget, 0.3 * 0.78);
   assert.equal(createdContext.gains[1].gain.lastTarget, 0.52);
@@ -192,7 +192,7 @@ try {
   assert.equal(createdContext.gains[0].gain.lastTarget, 0.3 * 0.78, 'ambience level leaves overall volume unchanged');
   assert.equal(createdContext.gains[1].gain.value, 0.52, 'effects level leaves the initial effects bus headroom unchanged');
   assert.deepEqual(readAudioSettings(storage), {
-    enabled: true, captions: false, volume: 0.3, effectsLevel: 1.5, ambience: true, ambienceLevel: 0.4,
+    enabled: true, captions: false, volume: 0.3, effectsLevel: 1.5, voiceLevel: 1, musicLevel: 1, ambience: true, ambienceLevel: 0.4,
   });
   assert.equal(audio.play('base-lost'), true);
   assert.equal(createdContext.gains[2].gain.lastTarget, 0.045 * 0.4, 'tactical alert ducks the selected ambience level');
