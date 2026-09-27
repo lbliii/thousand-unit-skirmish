@@ -1,0 +1,37 @@
+{
+  "adapterId": "thousand-unit-skirmish",
+  "adapterManifestPath": "/private/tmp/rts-opening-camera-20260927/.game-dev/adapter.json",
+  "adapterManifestSha256": "9dda7a0a5ff2606d09b9748a8b5b48b5d8e710aed9771aa113d853586cffd4fa",
+  "adapterVersion": "0.24.0",
+  "arguments": [
+    "10"
+  ],
+  "capabilities": [
+    "cpu",
+    "project-write",
+    "gpu",
+    "performance"
+  ],
+  "evidenceCeiling": "This plan proves only resolved local configuration. It executes nothing and proves no build, GPU, pixel, performance, signing, or human-review result.",
+  "executable": "/private/tmp/rts-opening-camera-20260927/scripts/browser-performance-scenario.mjs",
+  "output": {
+    "format": "game-dev-capture-v1",
+    "path": "/tmp/rts-browser-desktop-final-20260927/.game-dev/runs/run_1790517373949_06f45c74f03c4d2297a870ead3de269c/capture.json"
+  },
+  "parameters": {
+    "durationSeconds": 10
+  },
+  "projectRoot": "/private/tmp/rts-opening-camera-20260927",
+  "requiredAuthorizations": [
+    "confirm",
+    "gpu",
+    "performance"
+  ],
+  "runId": "run_1790517373949_06f45c74f03c4d2297a870ead3de269c",
+  "runPath": "/tmp/rts-browser-desktop-final-20260927/.game-dev/runs/run_1790517373949_06f45c74f03c4d2297a870ead3de269c",
+  "scenarioId": "browser-render-2000",
+  "schema": "game_dev.scenario_plan.v1",
+  "timeoutSeconds": 180,
+  "title": "2,000-unit browser performance sample with screenshot context",
+  "workingDirectory": "/private/tmp/rts-opening-camera-20260927"
+}

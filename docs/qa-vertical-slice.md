@@ -49,6 +49,11 @@ ordinary PRs use checks proportionate to their changes under
 
 ## Known findings and historical evidence
 
+[Browser scale diagnostic](qa-browser-scale-2026-09-27.md) retains an 88 ms
+long-task failure at `26eea9b` and the fixed-viewport attribution follow-up.
+[Native opening-control checks](qa-opening-controls-2026-09-27.md) cover local
+Azure gathering, placement, cancellation, and production in ordinary/narrow Firefox.
+
 [Local checkpointed combat sample](qa-checkpoint-scale-2026-09-27.md) preserves
 a verified bundle for three 2,000-unit attack-move windows. The adapter reports
 passing existing local limits; hosted capacity and browser timing remain separate.

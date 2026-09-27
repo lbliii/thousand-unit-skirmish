@@ -1,0 +1,2 @@
+AssertionError [ERR_ASSERTION]: long-task count exceeded 0 budget (observed 1 tasks over 50 ms)
+    at main (file:///private/tmp/rts-opening-camera-20260927/scripts/browser-performance-scenario.mjs:734:12)

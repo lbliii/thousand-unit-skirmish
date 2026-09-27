@@ -390,7 +390,7 @@ try {
         assert.equal(priorHealth.separationWork?.enabled, true,
           'start the server with RTS_SEPARATION_DIAGNOSTICS=1 for neighbor-work measurements');
       }
-      const previousMoveOrderId = priorHealth.movePlanning?.at(-1)?.orderId ?? 0;
+      const previousMoveOrderId = Math.max(0, ...(priorHealth.movePlanning ?? []).map((sample) => sample.orderId));
       const scenarioStartedAt = Date.now();
       const orderStartedAt = performance.now();
       if (mode === 'move') {

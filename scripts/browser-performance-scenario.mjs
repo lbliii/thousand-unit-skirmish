@@ -290,19 +290,30 @@ function installBrowserInstrumentationExpression() {
     const nativeRequestAnimationFrame = window.requestAnimationFrame.bind(window);
     const frames = [];
     const longTasks = [];
+    const preWindowLongTasks = [];
+    const longAnimationFrames = [];
     const maximumSamples = 120000;
     let previousAnimateTimestamp = null;
     let measuring = false;
     let longTaskObserverAvailable = false;
+    let longAnimationFrameObserverAvailable = false;
+    let measurementStartedAt = null;
     const record = (array, value) => {
       array.push(value);
       if (array.length > maximumSamples) array.splice(0, array.length - maximumSamples);
     };
     window.__rtsBrowserPerf = {
-      begin() { frames.length = 0; longTasks.length = 0; previousAnimateTimestamp = null; measuring = true; },
+      begin() {
+        frames.length = 0; longTasks.length = 0; preWindowLongTasks.length = 0; longAnimationFrames.length = 0;
+        previousAnimateTimestamp = null; measurementStartedAt = performance.now(); measuring = true;
+      },
       end() { measuring = false; },
       frames,
       longTasks,
+      preWindowLongTasks,
+      longAnimationFrames,
+      get measurementStartedAt() { return measurementStartedAt; },
+      get longAnimationFrameObserverAvailable() { return longAnimationFrameObserverAvailable; },
       get longTaskObserverAvailable() { return longTaskObserverAvailable; },
       get renderer() {
         const canvas = document.querySelector('#viewport canvas');
@@ -345,11 +356,36 @@ function installBrowserInstrumentationExpression() {
       new PerformanceObserver((list) => {
         if (!measuring) return;
         for (const entry of list.getEntries()) {
-          record(longTasks, { durationMs: entry.duration, startTime: entry.startTime });
+          const destination = entry.startTime + entry.duration <= measurementStartedAt ? preWindowLongTasks : longTasks;
+          record(destination, { durationMs: entry.duration, startTime: entry.startTime });
         }
       }).observe({ type: 'longtask', buffered: true });
       longTaskObserverAvailable = true;
     } catch {}
+    if (PerformanceObserver.supportedEntryTypes?.includes('long-animation-frame')) {
+      try {
+        new PerformanceObserver((list) => {
+          if (!measuring) return;
+          for (const entry of list.getEntries()) {
+            record(longAnimationFrames, {
+              startTimeMs: entry.startTime, durationMs: entry.duration,
+              measurementPhase: entry.startTime + entry.duration <= measurementStartedAt ? 'before-window'
+                : entry.startTime < measurementStartedAt ? 'overlaps-window' : 'within-window',
+              blockingDurationMs: entry.blockingDuration, renderStartMs: entry.renderStart,
+              styleAndLayoutStartMs: entry.styleAndLayoutStart,
+              scripts: Array.from(entry.scripts || [], (script) => ({
+                durationMs: script.duration, executionStartMs: script.executionStart,
+                forcedStyleAndLayoutDurationMs: script.forcedStyleAndLayoutDuration,
+                invoker: script.invoker, invokerType: script.invokerType,
+                sourceURL: script.sourceURL, sourceFunctionName: script.sourceFunctionName,
+                sourceCharPosition: script.sourceCharPosition,
+              })),
+            });
+          }
+        }).observe({ type: 'long-animation-frame', buffered: true });
+        longAnimationFrameObserverAvailable = true;
+      } catch {}
+    }
   })()`;
 }
 
@@ -535,6 +571,9 @@ async function main() {
     await cdp.call('Runtime.enable');
     await cdp.call('Page.enable');
     await cdp.call('Network.enable');
+    await cdp.call('Emulation.setDeviceMetricsOverride', {
+      width: 1280, height: 720, deviceScaleFactor: 1, mobile: false,
+    });
     cdp.on('Network.webSocketFrameReceived', (event) => {
       if (event.response?.opcode !== 1 || typeof event.response.payloadData !== 'string') return;
       const payloadData = event.response.payloadData;
@@ -566,6 +605,13 @@ async function main() {
 
     await cdp.evaluate('window.__rtsBrowserPerf.begin()');
     const rendererInfo = await cdp.evaluate('window.__rtsBrowserPerf.renderer');
+    const viewportInfo = await cdp.evaluate(`(() => {
+      const canvas = document.querySelector('#viewport canvas');
+      return { width: innerWidth, height: innerHeight, devicePixelRatio,
+        canvasWidth: canvas?.width ?? null, canvasHeight: canvas?.height ?? null };
+    })()`);
+    assert.equal(viewportInfo.width, 1280, 'desktop measurement viewport width');
+    assert.equal(viewportInfo.height, 720, 'desktop measurement viewport height');
     const heapPolling = pollHeapUntilScenarioEnds(cdp, harness);
     const scenarioExit = await Promise.race([
       harness.exit,
@@ -578,6 +624,10 @@ async function main() {
       const frames = window.__rtsBrowserPerf?.frames || [];
       const tasks = window.__rtsBrowserPerf?.longTasks || [];
       return {
+        measurementStartedAtMs: window.__rtsBrowserPerf?.measurementStartedAt,
+        longAnimationFrameObserverAvailable: window.__rtsBrowserPerf?.longAnimationFrameObserverAvailable === true,
+        longAnimationFrames: window.__rtsBrowserPerf?.longAnimationFrames || [],
+        preWindowLongTasks: window.__rtsBrowserPerf?.preWindowLongTasks || [],
         longTaskObserverAvailable: window.__rtsBrowserPerf?.longTaskObserverAvailable === true,
         frameSamples: frames.map((sample) => ({
           timestampMs: sample.timestampMs,
@@ -624,6 +674,7 @@ async function main() {
         product: browserVersion.product || 'Chrome/Chromium',
         headless: true,
         pageUrl: gameUrl,
+        viewport: viewportInfo,
         visiblePageUnits: browserCapture.visiblePageUnits,
         pageStateSamples: browserCapture.stateSnapshotSamples,
         stateFramesObserved: browserCapture.stateFramesObserved,
@@ -654,6 +705,12 @@ async function main() {
           maxMs: browserMetrics.longTaskDurationsMs.length
             ? Number(browserMetrics.longTaskDurationsMs.reduce((peak, value) => Math.max(peak, value), -Infinity).toFixed(3)) : null,
           samples: browserMetrics.longTaskSamples,
+        },
+        frameAttribution: {
+          available: browserMetrics.longAnimationFrameObserverAvailable,
+          measurementStartedAtMs: browserMetrics.measurementStartedAtMs,
+          deferredPreWindowLongTasks: browserMetrics.preWindowLongTasks,
+          samples: browserMetrics.longAnimationFrames,
         },
       },
       v8Heap: {

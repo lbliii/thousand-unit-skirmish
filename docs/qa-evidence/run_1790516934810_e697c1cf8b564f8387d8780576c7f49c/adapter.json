@@ -1,0 +1,284 @@
+{
+  "manifest": {
+    "id": "thousand-unit-skirmish",
+    "name": "Thousand Unit Skirmish",
+    "scenarios": [
+      {
+        "capabilities": [
+          "cpu",
+          "project-write",
+          "performance"
+        ],
+        "command": {
+          "arguments": [
+            "{param.map}",
+            "{param.repeats}"
+          ],
+          "executable": "scripts/pathfinding-scenario.mjs",
+          "workingDirectory": "."
+        },
+        "id": "pathfinding-256",
+        "outputs": {
+          "format": "game-dev-capture-v1",
+          "path": "capture.json"
+        },
+        "parameters": {
+          "map": {
+            "default": "open",
+            "required": false,
+            "type": "enum",
+            "values": [
+              "open",
+              "choke"
+            ]
+          },
+          "repeats": {
+            "default": 2,
+            "description": "Number of 10-second movement and tick samples, from 1 to 5",
+            "maximum": 5,
+            "minimum": 1,
+            "required": false,
+            "type": "integer"
+          }
+        },
+        "timeoutSeconds": 90,
+        "title": "2,000-unit 256×256 pathfinding diagnostic"
+      },
+      {
+        "capabilities": [
+          "cpu",
+          "project-write",
+          "performance"
+        ],
+        "command": {
+          "arguments": [
+            "choke",
+            "1",
+            "60",
+            "choke-flow"
+          ],
+          "executable": "scripts/pathfinding-scenario.mjs",
+          "workingDirectory": "."
+        },
+        "id": "choke-flow-2000",
+        "outputs": {
+          "format": "game-dev-capture-v1",
+          "path": "capture.json"
+        },
+        "parameters": {},
+        "timeoutSeconds": 120,
+        "title": "2,000-unit sustained Stone Pass flow"
+      },
+      {
+        "capabilities": [
+          "cpu",
+          "project-write",
+          "performance"
+        ],
+        "command": {
+          "arguments": [
+            "12",
+            "move",
+            "3"
+          ],
+          "executable": "scripts/checkpoint-performance-scenario.mjs",
+          "workingDirectory": "."
+        },
+        "id": "checkpoint-move-2000",
+        "outputs": {
+          "format": "game-dev-capture-v1",
+          "path": "capture.json"
+        },
+        "parameters": {},
+        "timeoutSeconds": 120,
+        "title": "2,000-unit movement with checkpointing"
+      },
+      {
+        "capabilities": [
+          "cpu",
+          "project-write",
+          "performance"
+        ],
+        "command": {
+          "arguments": [
+            "12",
+            "attack-move",
+            "3"
+          ],
+          "executable": "scripts/checkpoint-performance-scenario.mjs",
+          "workingDirectory": "."
+        },
+        "id": "checkpoint-attack-move-2000",
+        "outputs": {
+          "format": "game-dev-capture-v1",
+          "path": "capture.json"
+        },
+        "parameters": {},
+        "timeoutSeconds": 120,
+        "title": "2,000-unit attack-move with checkpointing"
+      },
+      {
+        "capabilities": [
+          "cpu",
+          "project-write",
+          "gpu"
+        ],
+        "command": {
+          "arguments": [],
+          "executable": "scripts/renderer-appearance-lod-scenario.mjs",
+          "workingDirectory": "."
+        },
+        "id": "renderer-appearance-lod",
+        "outputs": {
+          "format": "game-dev-capture-v1",
+          "path": "capture.json"
+        },
+        "parameters": {},
+        "timeoutSeconds": 180,
+        "title": "Fog-safe mixed-role LOD appearance matrix"
+      },
+      {
+        "capabilities": [
+          "cpu",
+          "project-write",
+          "gpu"
+        ],
+        "command": {
+          "arguments": [
+            "worker-v2"
+          ],
+          "executable": "scripts/renderer-appearance-lod-scenario.mjs",
+          "workingDirectory": "."
+        },
+        "id": "renderer-worker-sprite-v2",
+        "outputs": {
+          "format": "game-dev-capture-v1",
+          "path": "capture.json"
+        },
+        "parameters": {},
+        "timeoutSeconds": 180,
+        "title": "Worker v2 appearance at play and strategic zoom"
+      },
+      {
+        "capabilities": [
+          "cpu",
+          "project-write",
+          "gpu",
+          "performance"
+        ],
+        "command": {
+          "arguments": [
+            "{param.durationSeconds}"
+          ],
+          "executable": "scripts/browser-performance-scenario.mjs",
+          "workingDirectory": "."
+        },
+        "id": "browser-render-2000",
+        "outputs": {
+          "format": "game-dev-capture-v1",
+          "path": "capture.json"
+        },
+        "parameters": {
+          "durationSeconds": {
+            "default": 10,
+            "description": "Seconds per movement wave; three waves are measured",
+            "maximum": 40,
+            "minimum": 10,
+            "required": false,
+            "type": "integer"
+          }
+        },
+        "timeoutSeconds": 180,
+        "title": "2,000-unit browser performance sample with screenshot context"
+      },
+      {
+        "capabilities": [
+          "cpu",
+          "project-write"
+        ],
+        "command": {
+          "arguments": [
+            "--preflight"
+          ],
+          "executable": "scripts/renderer-environment-state-scenario.mjs",
+          "workingDirectory": "."
+        },
+        "id": "renderer-environment-state-preflight",
+        "outputs": {
+          "format": "game-dev-capture-v1",
+          "path": "capture.json"
+        },
+        "parameters": {},
+        "timeoutSeconds": 60,
+        "title": "CPU preflight for environment resource and construction states"
+      },
+      {
+        "capabilities": [
+          "cpu",
+          "project-write"
+        ],
+        "command": {
+          "arguments": [
+            "--pilot-plan"
+          ],
+          "executable": "scripts/renderer-environment-state-scenario.mjs",
+          "workingDirectory": "."
+        },
+        "id": "renderer-environment-state-pilot-plan",
+        "outputs": {
+          "format": "game-dev-capture-v1",
+          "path": "capture.json"
+        },
+        "parameters": {},
+        "timeoutSeconds": 60,
+        "title": "Plan four fog-safe environment pilot frames without capture"
+      },
+      {
+        "capabilities": [
+          "cpu",
+          "project-write",
+          "gpu"
+        ],
+        "command": {
+          "arguments": [
+            "--pilot"
+          ],
+          "executable": "scripts/renderer-environment-state-scenario.mjs",
+          "workingDirectory": "."
+        },
+        "id": "renderer-environment-state-pilot",
+        "outputs": {
+          "format": "game-dev-capture-v1",
+          "path": "capture.json"
+        },
+        "parameters": {},
+        "timeoutSeconds": 600,
+        "title": "Four-frame fog-safe environment appearance pilot"
+      },
+      {
+        "capabilities": [
+          "cpu",
+          "project-write",
+          "gpu"
+        ],
+        "command": {
+          "arguments": [],
+          "executable": "scripts/renderer-environment-state-scenario.mjs",
+          "workingDirectory": "."
+        },
+        "id": "renderer-environment-state",
+        "outputs": {
+          "format": "game-dev-capture-v1",
+          "path": "capture.json"
+        },
+        "parameters": {},
+        "timeoutSeconds": 600,
+        "title": "Fog-safe resource and construction state appearance matrix"
+      }
+    ],
+    "schema": "game_dev.adapter.v1",
+    "version": "0.24.0"
+  },
+  "manifestPath": "/private/tmp/rts-opening-camera-20260927/.game-dev/adapter.json",
+  "manifestSha256": "9dda7a0a5ff2606d09b9748a8b5b48b5d8e710aed9771aa113d853586cffd4fa"
+}

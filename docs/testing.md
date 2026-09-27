@@ -127,7 +127,13 @@ node scripts/browser-performance-scenario.mjs 10
 ```
 
 The browser profile runs three movement waves; `40` uses 40 seconds per wave for
-a sustained sample. Defaults are frame-interval p95 ≤33.333 ms, animate-callback
+a sustained sample. It uses an explicit 1280×720 CSS-pixel viewport at DPR 1 and
+records actual viewport/canvas dimensions. Optional long-animation-frame
+attribution identifies script/render phases and marks deferred startup entries;
+tasks ending before the measurement starts are retained separately. Tasks
+overlapping the measured window count against the long-task budget, regardless
+of optional frame-attribution support.
+Defaults are frame-interval p95 ≤33.333 ms, animate-callback
 p95 ≤8 ms, and zero long tasks over 50 ms. Headless frame timing does not measure
 windowed presentation latency or GPU completion.
 

@@ -1,0 +1,87 @@
+{
+  "adapterId": "thousand-unit-skirmish",
+  "adapterManifestSha256": "9dda7a0a5ff2606d09b9748a8b5b48b5d8e710aed9771aa113d853586cffd4fa",
+  "adapterVersion": "0.24.0",
+  "artifacts": [
+    {
+      "bytes": 7710,
+      "kind": "adapter",
+      "path": "adapter.json",
+      "sha256": "3e837501abda8bbd9393e72a39f14f85bee5e0428619b7f4550000e9f7630e91"
+    },
+    {
+      "bytes": 1654,
+      "kind": "other",
+      "path": "capture.json",
+      "sha256": "662049bfd319f1465e506264643c0cfb5a42bba0358e44715febf8dd5e93aa36"
+    },
+    {
+      "bytes": 1245733,
+      "kind": "other",
+      "path": "color.png",
+      "sha256": "826b54cc9c1a2a4f38754ece5c5ea9f5142086f7d0e4adfb2525fb4acbc4fe3d"
+    },
+    {
+      "bytes": 1466,
+      "kind": "plan",
+      "path": "plan.json",
+      "sha256": "730753b243b6537e2ec10746f1f9fe642de5360a0983450e841dd62eb21f90fc"
+    },
+    {
+      "bytes": 3,
+      "kind": "request",
+      "path": "request.json",
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+    },
+    {
+      "bytes": 206,
+      "kind": "stderr",
+      "path": "stderr.log",
+      "sha256": "714026081269911a8374933d446dee33695aab4131f82e5cda30ade3c1a97c6e"
+    },
+    {
+      "bytes": 22026,
+      "kind": "stdout",
+      "path": "stdout.log",
+      "sha256": "b66bef5367dca28ec9d62770aa7e5b05041f9c22872ccec1ccd8e7cdc1c2aec1"
+    }
+  ],
+  "completedAt": "2026-09-27T13:56:50.499Z",
+  "durationMs": 36523,
+  "evidence": {
+    "adapterReportedGpuCompletionIdentity": false,
+    "adapterReportedGpuExecution": false,
+    "adapterReportedHardwarePerformance": false,
+    "artifactRosterClosedAndHashed": true,
+    "captureContractValidated": false,
+    "commandExecuted": true,
+    "evidenceCeiling": "The harness proves process status, schema validation, decoded raster bytes, and a closed SHA-256 artifact roster. GPU completion and hardware timing remain source-adapter claims unless separately joined to native evidence; no human visual review is inferred.",
+    "hardwareGpuExecutionProvenByHarnessAlone": false,
+    "hardwarePerformanceEvidenceAdmitted": false,
+    "hardwarePerformanceMeasuredByHarnessAlone": false,
+    "humanVisualReviewPerformed": false,
+    "processExitedSuccessfully": false,
+    "rasterBytesDecoded": false
+  },
+  "failure": {
+    "code": "PROCESS_FAILED",
+    "message": "scenario process exited 1"
+  },
+  "process": {
+    "arguments": [
+      "10"
+    ],
+    "executable": "/private/tmp/rts-opening-camera-20260927/scripts/browser-performance-scenario.mjs",
+    "exitCode": 1,
+    "signal": null,
+    "stderrTruncated": false,
+    "stdoutTruncated": false,
+    "workingDirectory": "/private/tmp/rts-opening-camera-20260927"
+  },
+  "projectRoot": "/private/tmp/rts-opening-camera-20260927",
+  "runId": "run_1790517373949_06f45c74f03c4d2297a870ead3de269c",
+  "scenarioId": "browser-render-2000",
+  "schema": "game_dev.run.v1",
+  "startedAt": "2026-09-27T13:56:13.976Z",
+  "status": "failed"
+}

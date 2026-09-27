@@ -1,0 +1,54 @@
+{
+  "schema": "game_dev.capture.v1",
+  "runId": "run_1790517373949_06f45c74f03c4d2297a870ead3de269c",
+  "adapterId": "thousand-unit-skirmish",
+  "scenarioId": "browser-render-2000",
+  "sourceFormat": "game-dev-capture-v1",
+  "frames": [
+    {
+      "index": 0,
+      "label": "performance-context-moving-2000-unit-match",
+      "attachments": [
+        {
+          "kind": "color",
+          "path": "color.png",
+          "encoding": "png"
+        }
+      ]
+    }
+  ],
+  "measurements": [
+    {
+      "metric": "render.animation_frame_interval",
+      "value": 16.8,
+      "unit": "ms",
+      "aggregation": "p95"
+    },
+    {
+      "metric": "render.animate_callback_cpu",
+      "value": 2,
+      "unit": "ms",
+      "aggregation": "p95"
+    },
+    {
+      "metric": "render.long_task_count",
+      "value": 1,
+      "unit": "count",
+      "aggregation": "max"
+    }
+  ],
+  "adapterEvidence": {
+    "windowless": true,
+    "graphicsApi": "WebGL2",
+    "hardwarePerformanceReported": false,
+    "gpuExecutionReported": false,
+    "gpuCompletionIdentityReported": false,
+    "pixelVisualInspectionPerformed": false,
+    "notes": [
+      "Headless Chrome describes this browser/runtime setup; it is not a measurement of a windowed player session.",
+      "WebGL reported the metal backend (ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)); headless timing still does not measure ordinary display presentation.",
+      "Animation callback duration is main-thread CPU time and does not measure GPU completion or display presentation latency.",
+      "V8 heap is JavaScript heap usage, not total browser-process or GPU memory."
+    ]
+  }
+}
