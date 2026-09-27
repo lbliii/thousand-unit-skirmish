@@ -49,6 +49,10 @@ ordinary PRs use checks proportionate to their changes under
 
 ## Known findings and historical evidence
 
+[Delayed connection evidence](qa-impaired-connection-2026-09-27.md) covers both
+seats recovering accepted and undelivered orders through 40 ms one-way TCP
+delays and forced resets. Packet loss and hosted congestion remain unmeasured.
+
 [Integrated core staging evidence](qa-integrated-core-2026-09-27.md) records
 authenticated assets, both-seat reconnect, map persistence, elimination, and
 rematch on deployed source `8b6bcbb`. Human match and supported-scale proof

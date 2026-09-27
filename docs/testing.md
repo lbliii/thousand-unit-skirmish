@@ -52,6 +52,7 @@ Run from the repository root:
 | Map persistence / timed events | `node scripts/map-persistence-scenario.mjs` / `node scripts/timed-event-scenario.mjs` |
 | Deadline victory | `node scripts/timed-victory-scenario.mjs` |
 | Seats and reconnects | `node scripts/resume-session-scenario.mjs` |
+| Delayed transport and interrupted orders, both seats | `node scripts/impaired-connection-scenario.mjs` |
 | Client rematch roster and stale sockets | `node --test scripts/client-rematch-recovery.test.mjs` |
 | Rooms and worker restart | `node scripts/room-supervisor-scenario.mjs` |
 | Invite expiry during joins and worker startup | `node scripts/room-expiry-scenario.mjs` |
