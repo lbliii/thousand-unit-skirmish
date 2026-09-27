@@ -317,9 +317,9 @@ export function createGameAudio({
     duckTimer = globalThis.setTimeout(() => { duckTimer = null; applyLevels(); }, 2450);
   }
 
-  function play(cue, { preview = false } = {}) {
+  function play(cue, { preview = false, suppressDecision = false } = {}) {
     if (!(cue in COOLDOWN_MS)) return false;
-    if (!doc?.hidden && (!preview || settings.captions)) {
+    if (!suppressDecision && !doc?.hidden && (!preview || settings.captions)) {
       try { onCueDecision?.(cue); } catch {}
     }
     if (!settings.enabled || settings.volume <= 0 || settings.effectsLevel <= 0 || doc?.hidden) return false;
@@ -476,7 +476,7 @@ export function createGameAudio({
     if (!choice) return false;
     if (!doc?.hidden && (!settings.enabled || settings.captions)) onCueDecision?.(cue);
     if (!settings.enabled || settings.volume <= 0 || doc?.hidden) return false;
-    if (!context || context.state !== 'running') return play(cue);
+    if (!context || context.state !== 'running') return false;
     const { binding, variant } = choice;
     const destination = binding.bus === 'voice' ? voice : binding.bus === 'ambience' ? atmosphere : effects;
     const enabled = binding.bus === 'voice' ? settings.voiceLevel > 0
@@ -512,7 +512,7 @@ export function createGameAudio({
       if (variant.caption) onProfileCaption?.(variant.caption);
       if (isUrgentCue(cue)) duckForAlert();
       onCue?.(cue);
-    }).catch((error) => { if (ticket === packGeneration) { setPackStatus(`Cue ${variant.sourceId} could not decode: ${error.message}. Synthesized feedback remains available.`); play(cue); } });
+    }).catch((error) => { if (ticket === packGeneration) { setPackStatus(`Cue ${variant.sourceId} could not decode: ${error.message}. Synthesized feedback remains available.`); play(cue, { suppressDecision: true }); } });
     return true;
   }
 
