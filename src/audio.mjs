@@ -431,8 +431,12 @@ export function createGameAudio({
       if (ticket !== packGeneration) return;
       compositionPlayer = createCompositionPlayer({ context, destination: music, resolveBuffer: decodeSource });
     }
-    try { profileMusicReady = await compositionPlayer.play(composition, { loop: true }) === true && ticket === packGeneration; }
-    catch (error) { setPackStatus(`Music could not play: ${error.message}. Synthesized feedback remains available.`); }
+    try {
+      const started = await compositionPlayer.play(composition, { loop: true });
+      if (ticket === packGeneration) profileMusicReady = started === true;
+    } catch (error) {
+      if (ticket === packGeneration) setPackStatus(`Music could not play: ${error.message}. Synthesized feedback remains available.`);
+    }
   }
 
   async function setMapAudio(reference, libraryStore) {

@@ -5231,7 +5231,16 @@ async function refreshStudioAudioPacks(reference) {
     }
     select.value = reference?.packId || '';
     await refreshStudioAudioProfiles(reference?.profileId);
-  } catch (error) { ui.studioMessage.textContent = `Audio library unavailable: ${error.message}`; }
+  } catch (error) {
+    if (reference) {
+      if (![...select.options].some((option) => option.value === reference.packId)) {
+        select.add(new Option(`Missing pack: ${reference.packId}`, reference.packId));
+      }
+      select.value = reference.packId;
+      ui.studioAudioProfile.replaceChildren(new Option(`Missing profile: ${reference.profileId}`, reference.profileId));
+    }
+    ui.studioMessage.textContent = `Audio library unavailable: ${error.message}`;
+  }
 }
 async function refreshStudioAudioProfiles(selectedId = '') {
   const select = ui.studioAudioProfile;
@@ -5245,7 +5254,13 @@ async function refreshStudioAudioProfiles(selectedId = '') {
       select.add(new Option(`Missing profile: ${selectedId}`, selectedId));
     }
     select.value = selectedId || select.options[1]?.value || '';
-  } catch (error) { ui.studioMessage.textContent = `Audio profiles unavailable: ${error.message}`; }
+  } catch (error) {
+    if (selectedId) {
+      select.add(new Option(`Missing profile: ${selectedId}`, selectedId));
+      select.value = selectedId;
+    }
+    ui.studioMessage.textContent = `Audio profiles unavailable: ${error.message}`;
+  }
 }
 ui.studioAudioPack.addEventListener('change', () => { void refreshStudioAudioProfiles(); scheduleMapStudioDraftSave(); });
 ui.studioAudioProfile.addEventListener('change', scheduleMapStudioDraftSave);
