@@ -18,6 +18,15 @@ The room URL carries both seeds. Include them, the map, build, and observed
 behavior in a feedback report. Rematch keeps the room, map, and seeds and resets
 the policy. New Map creates a new room and seeds.
 
+## Opponent opening
+
+The opponent gathers food and wood, contests objectives, and attempts one
+Barracks after the first ten seconds of observed simulation time. It keeps
+25 wood and 50 food in reserve, queues one Infantry at a time, and reinforces
+up to 12 military units within a 24-unit friendly population cap. New soldiers
+join its current advance. Lost Infantry can be replaced; a destroyed Barracks
+is not rebuilt by this bounded opening. See the [production rules and evidence](pve-production-opening.md).
+
 ## Authority and limits
 
 The bot uses the normal authoritative command path and a Team 1 observation.
@@ -32,6 +41,9 @@ for the exact observation boundary.
 ## Verify
 
 ```sh
+node scripts/pve-production-scenario.mjs
+node scripts/pve-production-runtime-scenario.mjs forked-vale
+node scripts/pve-production-runtime-scenario.mjs woodland-expanse
 node scripts/pve-decision-fairness-scenario.mjs
 node scripts/pve-tactical-retry-scenario.mjs
 node scripts/pve-tactical-stall-runtime-scenario.mjs
