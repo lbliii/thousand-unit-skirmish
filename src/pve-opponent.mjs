@@ -4,6 +4,8 @@
  * every command. See docs/gameplay-command-observation-contract.md for DTO v1.
  */
 
+import { createProductionPolicy } from './pve-production.mjs';
+
 export const OPPONENT_OBSERVATION_SCHEMA_VERSION = 1;
 export const DEFAULT_OPPONENT_SEED = 20260925;
 export const DEFAULT_OPPONENT_DECISION_INTERVAL_MS = 1_000;
@@ -431,6 +433,7 @@ function nearestObjective(objectives, team, soldiers, map, lostObjectiveIds) {
 export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
   if (!Number.isSafeInteger(seed)) throw new TypeError('Opponent seed must be a safe integer.');
   const normalizedSeed = seed >>> 0;
+  const productionPolicy = createProductionPolicy(normalizedSeed);
   const gatherAssignments = new Map();
   const objectiveOwners = new Map();
   const lostObjectiveIds = new Set();
@@ -438,6 +441,9 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
   let fallbackTacticsStarted = false;
   let previousDecisionGatherOnly = false;
   let tacticalWatch = null;
+  const orderedSoldiers = new Set();
+  const soldierKey = (unit) => `${unit.id}:${unit.generation}`;
+  const recordOrderedSoldiers = (soldiers) => soldiers.forEach((unit) => orderedSoldiers.add(soldierKey(unit)));
 
   function watchTacticalOrder(soldiers, point, tick, retry = false) {
     tacticalWatch = {
@@ -604,72 +610,91 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
       }));
   }
 
+  function nextOrders(observation) {
+    if (observation?.schemaVersion !== OPPONENT_OBSERVATION_SCHEMA_VERSION
+      || !validTeam(observation.team)) throw new TypeError('Policy requires opponent observation schema v1.');
+
+    recordObjectiveOwnership(observation);
+    const gathering = nextGatherCommands(observation);
+    // Keep the opening economy first, but do not let rejected gather orders
+    // consume every decision (the retry window is shorter than a normal turn).
+    if (gathering.length > 0 && !previousDecisionGatherOnly) {
+      previousDecisionGatherOnly = true;
+      return gathering;
+    }
+    previousDecisionGatherOnly = false;
+
+    const soldiers = observation.units.friendly
+      .filter((unit) => unit.kind !== 'worker' && unit.hp > 0)
+      .sort((left, right) => left.id - right.id);
+    const liveSoldiers = new Set(soldiers.map(soldierKey));
+    for (const key of orderedSoldiers) if (!liveSoldiers.has(key)) orderedSoldiers.delete(key);
+    const reinforcements = soldiers.filter((unit) => !orderedSoldiers.has(soldierKey(unit)));
+    const objectives = Array.isArray(observation.objectives) ? observation.objectives : [];
+    const target = nearestObjective(
+      objectives, observation.team, soldiers, observation.map, lostObjectiveIds,
+    );
+    if (target) {
+      const mustReissue = target.id !== tacticalObjectiveId || lostObjectiveIds.has(target.id);
+      tacticalObjectiveId = target.id;
+      const stalled = !mustReissue && tacticalOrderStalled(
+        observation, soldiers, objectives.find((objective) => objective.id === target.id)?.zone,
+      );
+      if (mustReissue || stalled || reinforcements.length > 0) {
+        const ordered = mustReissue || stalled ? soldiers : reinforcements;
+        if (mustReissue || stalled) watchTacticalOrder(soldiers, target.point, observation.tick, stalled);
+        recordOrderedSoldiers(ordered);
+        lostObjectiveIds.delete(target.id);
+        return [...gathering, {
+          type: 'attackMove',
+          ids: ordered.map((unit) => unit.id),
+          x: target.point.x,
+          z: target.point.z,
+        }];
+      }
+      return gathering;
+    }
+
+    tacticalObjectiveId = null;
+    if (objectives.length > 0 || soldiers.length === 0) {
+      tacticalWatch = null;
+      if (soldiers.length === 0) fallbackTacticsStarted = false;
+      return gathering;
+    }
+    if (fallbackTacticsStarted) {
+      const stalled = tacticalOrderStalled(observation, soldiers);
+      if (!stalled && reinforcements.length === 0) return gathering;
+      const point = tacticalWatch.point;
+      const ordered = stalled ? soldiers : reinforcements;
+      if (stalled) watchTacticalOrder(soldiers, point, observation.tick, true);
+      recordOrderedSoldiers(ordered);
+      return [...gathering, { type: 'attackMove', ids: ordered.map((unit) => unit.id), ...point }];
+    }
+
+    const visibleTarget = observation.units.visibleEnemies
+      .filter((unit) => unit.hp > 0)
+      .sort((left, right) => left.id - right.id)[0];
+    fallbackTacticsStarted = true;
+    recordOrderedSoldiers(soldiers);
+    watchTacticalOrder(soldiers, { x: visibleTarget?.x ?? 0, z: visibleTarget?.z ?? 0 }, observation.tick);
+    return [...gathering, {
+      type: 'attackMove',
+      ids: soldiers.map((unit) => unit.id),
+      x: visibleTarget?.x ?? 0,
+      z: visibleTarget?.z ?? 0,
+    }];
+
+  }
+
   return {
     next(observation) {
-      if (observation?.schemaVersion !== OPPONENT_OBSERVATION_SCHEMA_VERSION
-        || !validTeam(observation.team)) throw new TypeError('Policy requires opponent observation schema v1.');
-
-      recordObjectiveOwnership(observation);
-      const gathering = nextGatherCommands(observation);
-      // Keep the opening economy first, but do not let rejected gather orders
-      // consume every decision (the retry window is shorter than a normal turn).
-      if (gathering.length > 0 && !previousDecisionGatherOnly) {
-        previousDecisionGatherOnly = true;
-        return gathering;
-      }
-      previousDecisionGatherOnly = false;
-
-      const soldiers = observation.units.friendly
-        .filter((unit) => unit.kind !== 'worker' && unit.hp > 0)
-        .sort((left, right) => left.id - right.id);
-      const objectives = Array.isArray(observation.objectives) ? observation.objectives : [];
-      const target = nearestObjective(
-        objectives, observation.team, soldiers, observation.map, lostObjectiveIds,
-      );
-      if (target) {
-        const mustReissue = target.id !== tacticalObjectiveId || lostObjectiveIds.has(target.id);
-        tacticalObjectiveId = target.id;
-        const stalled = !mustReissue && tacticalOrderStalled(
-          observation, soldiers, objectives.find((objective) => objective.id === target.id)?.zone,
-        );
-        if (mustReissue || stalled) {
-          watchTacticalOrder(soldiers, target.point, observation.tick, stalled);
-          lostObjectiveIds.delete(target.id);
-          return [...gathering, {
-            type: 'attackMove',
-            ids: soldiers.map((unit) => unit.id),
-            x: target.point.x,
-            z: target.point.z,
-          }];
-        }
-        return gathering;
-      }
-
-      tacticalObjectiveId = null;
-      if (objectives.length > 0 || soldiers.length === 0) {
-        tacticalWatch = null;
-        if (soldiers.length === 0) fallbackTacticsStarted = false;
-        return gathering;
-      }
-      if (fallbackTacticsStarted) {
-        if (!tacticalOrderStalled(observation, soldiers)) return gathering;
-        const point = tacticalWatch.point;
-        watchTacticalOrder(soldiers, point, observation.tick, true);
-        return [...gathering, { type: 'attackMove', ids: soldiers.map((unit) => unit.id), ...point }];
-      }
-
-      const visibleTarget = observation.units.visibleEnemies
-        .filter((unit) => unit.hp > 0)
-        .sort((left, right) => left.id - right.id)[0];
-      fallbackTacticsStarted = true;
-      watchTacticalOrder(soldiers, { x: visibleTarget?.x ?? 0, z: visibleTarget?.z ?? 0 }, observation.tick);
-      return [...gathering, {
-        type: 'attackMove',
-        ids: soldiers.map((unit) => unit.id),
-        x: visibleTarget?.x ?? 0,
-        z: visibleTarget?.z ?? 0,
-      }];
-
+      const orders = nextOrders(observation);
+      const production = productionPolicy.next(observation);
+      const builders = new Set(production.filter((command) => command.type === 'build').flatMap((command) => command.ids));
+      const compatibleOrders = orders.map((command) => command.type === 'gather'
+        ? { ...command, ids: command.ids.filter((id) => !builders.has(id)) } : command)
+        .filter((command) => !Array.isArray(command.ids) || command.ids.length > 0);
+      return [...compatibleOrders, ...production];
     },
   };
 }

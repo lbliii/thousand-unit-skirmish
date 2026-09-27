@@ -8,6 +8,9 @@ Choose **Play vs AI** for a solo match, or create a **New room** and share the
 invite link for 1v1. Azure is the host and controls map changes and rematches.
 Ember is the second player. Further connections watch as spectators.
 
+When you take a player seat, the camera starts at your Town Center. Use **Fit
+map** for an overview. Reconnecting to the same seat keeps your current view.
+
 The default PvP scenario is [Forked Vale](forked-vale-scenario.md). Each team
 starts with four workers, eight infantry, 150 food, and 250 wood. Own both
 Signals to unlock Vale Watch, then hold all three objectives for 20 seconds.
@@ -101,3 +104,7 @@ match until Azure starts another match or changes maps.
 A lost connection retries automatically. Return through the same tab/session to
 reclaim your seat within the configured grace window. See [local setup](getting-started.md)
 if you join as a spectator or cannot connect.
+
+If the connection drops while a building request is waiting for confirmation,
+the placement preview closes. After reconnecting, check whether the building
+appeared before placing another: the server may already have accepted the request.
