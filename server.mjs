@@ -6448,6 +6448,7 @@ const server = createServer(async (request, response) => {
     'src/audio-composition.mjs', 'src/audio-composer.mjs', 'src/audio-composer.css',
     'audio-studio.html', 'src/audio-recognition-check.mjs', 'src/camera-controls.mjs',
     'src/navigation-settings.mjs', 'src/objective-summary.mjs', 'src/hud-layout.mjs',
+    'src/resource-format.mjs',
     'src/captured-building-art.mjs', 'src/water-surface-geometry.mjs',
   ].includes(relative);
   const publicUiAsset = [
