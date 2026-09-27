@@ -157,19 +157,24 @@ let guidanceDismissed = false;
 try { guidanceDismissed = localStorage.getItem('rts-guidance-dismissed') === 'true'; } catch {}
 const objectivePanel = document.querySelector('#objective-panel');
 const roomPageUrl = new URL(window.location.href);
+const castPreview = roomPageUrl.searchParams.get('castPreview') === '1';
 const workerSpritePreview = roomPageUrl.searchParams.get('workerSpritePreview') === '1';
 const unitSpritePreview = roomPageUrl.searchParams.get('unitSpritePreview') === '1';
 const meshyInfantrySpritePreview = roomPageUrl.searchParams.get('meshyInfantrySpritePreview') === '1';
-const unitSpritePreviewRoles = meshyInfantrySpritePreview
+const unitSpritePreviewRoles = castPreview
+  ? ['human', 'orc', 'elf', 'troll']
+  : meshyInfantrySpritePreview
   ? ['infantry']
   : unitSpritePreview
   ? ['worker', 'infantry', 'archer']
   : ['worker'];
-const unitSpritePreviewVersions = meshyInfantrySpritePreview
+const unitSpritePreviewVersions = castPreview
+  ? { human: 'v1', orc: 'v1', elf: 'v1', troll: 'v1' }
+  : meshyInfantrySpritePreview
   ? { infantry: 'v2' }
   : workerSpritePreview && !unitSpritePreview ? { worker: 'v2' }
     : !unitSpritePreview ? { worker: 'v3' } : {};
-const unitSpritePreviewRoleSet = new Set(unitSpritePreviewRoles);
+const unitSpritePreviewRoleSet = new Set(castPreview ? ['worker', 'infantry', 'archer'] : unitSpritePreviewRoles);
 const ROOM_ID = roomPageUrl.searchParams.get('room');
 const HAS_ROOM_PARAMETER = roomPageUrl.searchParams.has('room');
 const ROOM_ID_PATTERN = /^[A-Za-z0-9_-]{32}$/;
@@ -454,6 +459,7 @@ const unitSpriteRuntime = createUnitSpriteRuntime({
   THREE, scene, capacity: MAX_PER_TEAM, teamHex: TEAM_HEX, cameraQuaternion: camera.quaternion,
   roles: unitSpritePreviewRoles,
   roleSpriteVersions: unitSpritePreviewVersions,
+  castPreview,
 });
 unitSpriteRuntime.ready.then((loaded) => {
   if (!loaded) return;
@@ -3034,8 +3040,9 @@ function updateUnitTransform(unit, now = performance.now()) {
   updateUnitHealthVisual(unit);
   const spawnProgress = unit.spawnStartedAt > 0
     ? THREE.MathUtils.clamp((now - unit.spawnStartedAt) / SPAWN_POSE_MS, 0, 1) : 1;
+  const spriteRole = castPreview ? unitSpriteRuntime.roleForUnit(unit) : unit.kind;
   const spriteDefeatMs = unitSpritePreviewActive && unitSpritePreviewRoleSet.has(unit.kind)
-    ? unitSpriteRuntime.durationMs(unit.kind, 'defeat') : 0;
+    ? unitSpriteRuntime.durationMs(spriteRole, 'defeat') : 0;
   const defeatElapsed = now - unit.defeatStartedAt;
   const defeatProgress = unit.defeatStartedAt > 0
     ? spriteDefeatMs > 0
@@ -8893,8 +8900,9 @@ function animate(now) {
     const activeSpawn = unit.spawnStartedAt > 0;
     const activeDefeat = unit.defeatStartedAt > 0;
     const hasSprite = unitSpritePreviewActive && unitSpritePreviewRoleSet.has(unit.kind);
-    const attackLifetime = hasSprite ? unitSpriteRuntime.durationMs(unit.kind, 'attack') || ATTACK_POSE_MS : ATTACK_POSE_MS;
-    const defeatLifetime = hasSprite ? (unitSpriteRuntime.durationMs(unit.kind, 'defeat') || DEFEAT_POSE_MS) + 150 : DEFEAT_POSE_MS;
+    const spriteRole = castPreview ? unitSpriteRuntime.roleForUnit(unit) : unit.kind;
+    const attackLifetime = hasSprite ? unitSpriteRuntime.durationMs(spriteRole, 'attack') || ATTACK_POSE_MS : ATTACK_POSE_MS;
+    const defeatLifetime = hasSprite ? (unitSpriteRuntime.durationMs(spriteRole, 'defeat') || DEFEAT_POSE_MS) + 150 : DEFEAT_POSE_MS;
     if (activeAttack && now - unit.attackStartedAt >= attackLifetime) unit.attackStartedAt = 0;
     if (activeHit && now - unit.hitStartedAt >= HIT_POSE_MS) unit.hitStartedAt = 0;
     if (activeSpawn && now - unit.spawnStartedAt >= SPAWN_POSE_MS) unit.spawnStartedAt = 0;

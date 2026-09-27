@@ -1,4 +1,5 @@
 const UNIT_ROLES = Object.freeze(['worker', 'infantry', 'archer']);
+const CAST_ROLES = Object.freeze(['human', 'orc', 'elf', 'troll']);
 const DIRECTIONS = Object.freeze([
   'north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west',
 ]);
@@ -10,6 +11,10 @@ function spriteDirectory(role, version) {
     worker: ['v1', 'v2', 'v3'],
     infantry: ['v1', 'v2'],
     archer: ['v1'],
+    human: ['v1'],
+    orc: ['v1'],
+    elf: ['v1'],
+    troll: ['v1'],
   };
   if (!supportedVersions[role]?.includes(version)) {
     throw new Error(`Unsupported ${role} sprite version: ${version}`);
@@ -159,6 +164,7 @@ function loadRolePack(THREE, loader, role, version) {
 
 export function createUnitSpriteRuntime({
   THREE, scene, capacity, teamHex, cameraQuaternion, roles = UNIT_ROLES, roleSpriteVersions = {},
+  castPreview = false,
 }) {
   const loader = new THREE.TextureLoader();
   const pendingCounts = [0, 0];
@@ -194,9 +200,13 @@ export function createUnitSpriteRuntime({
     return pack.durationByState.get(state) || 0;
   }
 
+  function roleForUnit(unit) {
+    return castPreview ? CAST_ROLES[unit.slot % CAST_ROLES.length] : unit.kind;
+  }
+
   function update(unit, now, visibleScale) {
     if (!ready) return;
-    const role = unit.kind;
+    const role = roleForUnit(unit);
     const selectedPack = rolePacks.get(role);
     const teamBatches = batchesByTeam[unit.team];
     if (!selectedPack || !teamBatches) return;
@@ -300,6 +310,7 @@ export function createUnitSpriteRuntime({
     setVisible,
     markTeamDirty,
     durationMs,
+    roleForUnit,
     update,
   };
 }

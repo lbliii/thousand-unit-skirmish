@@ -31,6 +31,10 @@ COPY --chown=node:node assets/units/worker-sprite-v3/sprite-atlas-pack-v1.json a
 COPY --chown=node:node assets/units/infantry-sprite-v1/sprite-atlas-pack-v1.json assets/units/infantry-sprite-v1/infantry-atlas-runtime.png assets/units/infantry-sprite-v1/team-accent-mask.png ./assets/units/infantry-sprite-v1/
 COPY --chown=node:node assets/units/infantry-sprite-v2/sprite-atlas-pack-v1.json assets/units/infantry-sprite-v2/infantry-atlas-runtime.png assets/units/infantry-sprite-v2/team-accent-mask.png ./assets/units/infantry-sprite-v2/
 COPY --chown=node:node assets/units/archer-sprite-v1/sprite-atlas-pack-v1.json assets/units/archer-sprite-v1/archer-atlas-runtime.png assets/units/archer-sprite-v1/team-accent-mask.png ./assets/units/archer-sprite-v1/
+COPY --chown=node:node assets/units/cast-human-sprite-v1/sprite-atlas-pack-v1.json assets/units/cast-human-sprite-v1/cast-atlas-runtime.png assets/units/cast-human-sprite-v1/team-accent-mask.png ./assets/units/cast-human-sprite-v1/
+COPY --chown=node:node assets/units/cast-elf-sprite-v1/sprite-atlas-pack-v1.json assets/units/cast-elf-sprite-v1/cast-atlas-runtime.png assets/units/cast-elf-sprite-v1/team-accent-mask.png ./assets/units/cast-elf-sprite-v1/
+COPY --chown=node:node assets/units/cast-troll-sprite-v1/sprite-atlas-pack-v1.json assets/units/cast-troll-sprite-v1/cast-atlas-runtime.png assets/units/cast-troll-sprite-v1/team-accent-mask.png ./assets/units/cast-troll-sprite-v1/
+COPY --chown=node:node assets/units/cast-orc-sprite-v1/sprite-atlas-pack-v1.json assets/units/cast-orc-sprite-v1/cast-atlas-runtime.png assets/units/cast-orc-sprite-v1/team-accent-mask.png ./assets/units/cast-orc-sprite-v1/
 COPY deploy/entrypoint.sh ./deploy/entrypoint.sh
 RUN mkdir -p /app/custom-maps /app/room-data && chown node:node /app/custom-maps /app/room-data
 

@@ -29,6 +29,9 @@ Current runtime defaults:
   Infantry and Archers retain procedural geometry unless a sprite preview is
   selected. All supported unit sprite manifests, runtime atlases, and team masks
   are included in the Docker image; source atlases are excluded.
+- The human/orc/elf/troll cast packs are review candidates only. They load only
+  with `?castPreview=1`, are assigned by visible unit slot for comparison, and
+  do not change the default roster or establish faction gameplay.
 - Town Centers use the eight-view captured lifecycle pack, with procedural
   fallback. Gameplay supplies only their Complete landmark state.
 - Barracks and Archery Ranges load their direct WebP sprites by default through

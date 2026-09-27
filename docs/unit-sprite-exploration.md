@@ -52,6 +52,22 @@ The earlier Blender-authored GLB sample remains historical. The current study tr
 - **Repeatable pack check:** `node scripts/validate-unit-sprite-atlas.mjs assets/units/<role>-sprite-v1/manifest.json`; run the same validator against `assets/units/worker-sprite-v2/manifest.json` for the Worker v2 experiment.
 - **Merge checkpoint (26 September 2026):** [PR #172](https://github.com/lbliii/thousand-unit-skirmish/pull/172) merged the directional sprite exploration, Meshy Worker default, local capture tool, and manifests/provenance. Worker-scale readability and 2,000-unit performance remain separate evidence gaps. Follow-up local-staging and rights-evidence safeguards are recorded in the pipeline note.
 
+## Cast readability candidate — 27 September 2026
+
+The opt-in `?castPreview=1` path compares four derived cast packs: human, orc,
+elf, and troll. Each pack contains 264 frames across eight directions with
+idle, walk, attack/work, and defeat clips, a source atlas, a runtime atlas, and
+a team-accent mask. The preview assigns the four roles by visible unit slot so
+the silhouettes can be compared in one ordinary match without changing the
+authoritative Worker/Infantry/Archer roster.
+
+This is a source/runtime candidate, not a default art or faction integration.
+The cast study records pose drift and edge-residue limits, including known troll
+edge residue; review foot registration, identity stability, ordinary/strategic
+zoom readability, and rights before promoting any pack. The canonical pack
+contract validates metadata, image dimensions, hashes, frame bounds, clips, and
+team masks; visual approval remains separate.
+
 
 ## Native motion capture and playback
 

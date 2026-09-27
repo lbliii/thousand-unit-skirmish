@@ -193,9 +193,10 @@ try {
       assert.ok((await response.arrayBuffer()).byteLength > 100, asset);
     }
   }
-  for (const [role, version] of [
+  for (const [role, version, atlasName = role] of [
     ['worker', 'v1'], ['worker', 'v2'], ['worker', 'v3'],
     ['infantry', 'v1'], ['infantry', 'v2'], ['archer', 'v1'],
+    ['human', 'v1', 'cast'], ['elf', 'v1', 'cast'], ['troll', 'v1', 'cast'], ['orc', 'v1', 'cast'],
   ]) {
     const directory = `assets/units/${role}-sprite-${version}`;
     const manifestResponse = await fetch(`${base}/${directory}/sprite-atlas-pack-v1.json`, {
@@ -203,7 +204,7 @@ try {
     });
     assert.equal(manifestResponse.status, 200, directory);
     const manifest = await manifestResponse.json();
-    for (const name of [`${role}-atlas-runtime.png`, 'team-accent-mask.png']) {
+    for (const name of [`${atlasName}-atlas-runtime.png`, 'team-accent-mask.png']) {
       const entry = manifest.files.find(file => file.path === name);
       assert.ok(entry, `${directory}/${name} must be declared`);
       const response = await fetch(`${base}/${directory}/${name}`, { headers: { authorization } });
@@ -213,7 +214,7 @@ try {
       assert.equal(createHash('sha256').update(bytes).digest('hex'), entry.sha256,
         `${directory}/${name} must match its manifest`);
     }
-    assert.equal((await fetch(`${base}/${directory}/${role}-atlas-source.png`, {
+    assert.equal((await fetch(`${base}/${directory}/${atlasName}-atlas-source.png`, {
       headers: { authorization },
     })).status, 404, 'source atlases must remain private');
   }
