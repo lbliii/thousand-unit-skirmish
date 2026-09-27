@@ -8573,6 +8573,9 @@ function connectSocket() {
     if (pageLeaving) return;
     const retryImmediately = retryWhenSeatFree;
     retryWhenSeatFree = false;
+    // A lost rejection or snapshot must not leave placement waiting forever.
+    // Only release the local input mode; the server may have accepted the build.
+    if (buildPlacementPending) cancelBuildPlacement(false);
     if (currentOrderToken !== null && ['pending', 'planning'].includes(ui.orderStatus?.dataset.state)) {
       setOrderStatus('CONNECTION LOST · ORDER STATUS UNKNOWN', 'failed');
     }

@@ -73,6 +73,9 @@ records a paired-seat regression and pinned 0 A.D. source research.
 [Construction connectivity evidence](qa-construction-connectivity-2026-09-27.md)
 records island placement, route preservation, and Town Center occupancy checks.
 
+[Archer approach evidence](qa-archer-firing-approach-2026-09-27.md) records
+firing positions across water, navigation repair, and authority/visibility checks.
+
 ## Repeatable run sheet
 
 1. Identify the build, device, browser, server, map, roster, and network profile.
