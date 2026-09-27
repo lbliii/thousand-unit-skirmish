@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Audio composer browser check</title><link rel="stylesheet" href="../src/audio-composer.css"><style>body{background:#10191d;color:white;max-width:1100px;margin:2rem auto;font:14px system-ui}button{margin:.3rem;padding:.3rem}</style><h1>Audio composer browser check</h1><button id="reopen">Reopen saved pack</button><button id="check">Render saved WAV and check duration</button><p id="result" role="status"></p><div id="composer"></div><script type="module">
+import {mountAudioComposer,renderCompositionWav} from '../src/audio-composer.mjs';
+function sineWav(hz) {
+  const sampleRate=22050, frames=Math.floor(sampleRate/4), out=new ArrayBuffer(44+frames*2), view=new DataView(out);let at=0;
+  const text=s=>{for(const c of s)view.setUint8(at++,c.charCodeAt(0))};
+  text('RIFF');view.setUint32(at,out.byteLength-8,true);at+=4;text('WAVEfmt ');view.setUint32(at,16,true);at+=4;view.setUint16(at,1,true);at+=2;view.setUint16(at,1,true);at+=2;view.setUint32(at,sampleRate,true);at+=4;view.setUint32(at,sampleRate*2,true);at+=4;view.setUint16(at,2,true);at+=2;view.setUint16(at,16,true);at+=2;text('data');view.setUint32(at,frames*2,true);at+=4;
+  for(let i=0;i<frames;i++,at+=2)view.setInt16(at,Math.round(Math.sin(2*Math.PI*hz*i/sampleRate)*10000),true);
+  return new Blob([out],{type:'audio/wav'});
+}
+const sourceBlobs={a:sineWav(440),b:sineWav(660)};
+let pack={schemaVersion:1,id:'browser-fixture',name:'Browser fixture',sources:[{id:'a',name:'A 440 Hz',fileName:'a.wav',mimeType:'audio/wav',tags:[],provenance:{}},{id:'b',name:'B 660 Hz',fileName:'b.wav',mimeType:'audio/wav',tags:[],provenance:{}}],profiles:[],compositions:[]};
+let editor;
+function open(){editor?.dispose();editor=mountAudioComposer(document.getElementById('composer'),{pack,sourceBlobs,onChange:next=>{pack=structuredClone(next);document.getElementById('result').textContent=`Saved ${pack.compositions.length} composition(s)`}})}
+document.getElementById('reopen').onclick=open;
+document.getElementById('check').onclick=async()=>{try{const blob=await renderCompositionWav(pack.compositions[0],sourceBlobs);const head=new DataView(await blob.arrayBuffer());const seconds=head.getUint32(40,true)/(head.getUint32(24,true)*head.getUint16(22,true)*2);document.getElementById('result').textContent=`Rendered WAV ${seconds.toFixed(2)} s, ${blob.size} bytes`; }catch(error){document.getElementById('result').textContent=error.message}};
+open();
+</script></html>

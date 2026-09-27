@@ -1,0 +1,22 @@
+.audio-composer { color: #e8e4d8; background: #1c242a; border: 1px solid #53646c; border-radius: 10px; padding: 1rem; font: 14px/1.4 system-ui, sans-serif; }
+.audio-composer * { box-sizing: border-box; }
+.audio-composer h2, .audio-composer h3 { margin: 0 0 .5rem; }
+.audio-composer__bar, .audio-composer__settings, .audio-composer__actions, .audio-composer__track-head, .audio-composer__clip-form { display: flex; flex-wrap: wrap; align-items: end; gap: .5rem; margin: .6rem 0; }
+.audio-composer label { display: flex; flex-direction: column; gap: .2rem; font-size: .82rem; color: #d0dcd9; }
+.audio-composer input, .audio-composer select, .audio-composer button { font: inherit; color: #f2f3ed; background: #304047; border: 1px solid #6f8789; border-radius: 5px; padding: .35rem .5rem; }
+.audio-composer input[type=number] { width: 5.6rem; }
+.audio-composer input[type=checkbox] { accent-color: #76c8b8; }
+.audio-composer button { cursor: pointer; }
+.audio-composer button:hover, .audio-composer button:focus-visible { background: #47616a; }
+.audio-composer button:disabled { opacity: .5; cursor: default; }
+.audio-composer__note { color: #abc6c4; margin: .35rem 0 .8rem; }
+.audio-composer__status { min-height: 1.4rem; color: #91dfc6; }
+.audio-composer__status[data-error=true] { color: #ffb0a6; }
+.audio-composer__track { border-top: 1px solid #52636b; padding: .5rem 0; }
+.audio-composer__track-head input[type=text] { min-width: 10rem; }
+.audio-composer__timeline { position: relative; min-height: 48px; border: 1px solid #637477; border-radius: 5px; overflow: hidden; background: repeating-linear-gradient(90deg, #26343b 0, #26343b calc(12.5% - 1px), #43535b calc(12.5% - 1px), #43535b 12.5%); }
+.audio-composer__clip { position: absolute; top: 5px; height: 36px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: left; background: #397f81 !important; border-color: #93d2c8 !important; padding: .3rem !important; }
+.audio-composer__clip[aria-pressed=true] { outline: 2px solid #f6dc8c; outline-offset: -3px; }
+.audio-composer__clip-form { border: 1px solid #73878a; border-radius: 6px; padding: .6rem; }
+.audio-composer__empty { color: #adc0be; }
+@media (max-width: 680px) { .audio-composer__clip-form label { width: 42%; } .audio-composer__clip-form input, .audio-composer__clip-form select { max-width: 100%; } }
