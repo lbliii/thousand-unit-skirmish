@@ -37,4 +37,25 @@ assert.equal(await result, false);
 assert.equal(starts.length, before, 'stale async loads never schedule sound');
 stalePlayer.dispose();
 player.dispose();
+
+const priorSetTimeout = globalThis.setTimeout;
+const priorClearTimeout = globalThis.clearTimeout;
+const timers = [];
+globalThis.setTimeout = (callback, ms) => { timers.push({ callback, ms }); return timers.length; };
+globalThis.clearTimeout = () => {};
+try {
+  const loopPlayer = createCompositionPlayer({ context, destination: audioNode(), resolveBuffer: async () => buffer });
+  const beforeLoop = starts.length;
+  await loopPlayer.play(composition, { loop: true });
+  assert.equal(starts.length, beforeLoop + 2);
+  assert.equal(timers.length, 1);
+  timers[0].callback();
+  assert.deepEqual(starts.slice(-2), [{ time: 14.08, offset: 0 }, { time: 15.08, offset: 0.25 }],
+    'the next loop starts on the exact shared-clock boundary');
+  loopPlayer.stop();
+} finally {
+  globalThis.setTimeout = priorSetTimeout;
+  globalThis.clearTimeout = priorClearTimeout;
+}
+
 console.log('composition player shared clock and cancellation passed');
