@@ -3842,10 +3842,12 @@ function appendUnitFromState(row, animateSpawn = false) {
 
 function applyState(state, initial = false) {
   if (!state || (mapDefinition && state.mapId && state.mapId !== mapDefinition.id)) return;
-  const audioReset = initial || (state.armySize && state.armySize !== currentArmySize)
-    || (matchWinner >= 0 && state.winner === -1)
+  const matchRestarted = (matchWinner >= 0 && state.winner === -1)
     || (Number.isFinite(state.matchElapsedSeconds) && state.matchElapsedSeconds + 1 < latestMatchElapsedSeconds);
-  if (state.armySize && state.armySize !== currentArmySize) setArmySize(state.armySize);
+  const audioReset = initial || (state.armySize && state.armySize !== currentArmySize) || matchRestarted;
+  // A same-size rematch drops trained units too. Rebuild render slots and local
+  // selection before applying its authoritative roster, including on reconnect.
+  if (state.armySize && (state.armySize !== currentArmySize || matchRestarted)) setArmySize(state.armySize);
   let changed = false;
   let controlGroupsChanged = false;
   let friendlyDamage = 0;

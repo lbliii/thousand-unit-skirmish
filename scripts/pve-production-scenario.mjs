@@ -56,7 +56,7 @@ for (const team of [0, 1]) for (const seed of [0, 20260925, 0xffff_ffff]) {
   state.buildings.friendly[0].queue = 1;
   assert.deepEqual(next(policy, state, 801), [], 'one observed queued Infantry is enough');
   state.buildings.friendly = [];
-  assert.deepEqual(next(policy, state, 2000), [], 'destruction cannot create a repeated Barracks spending loop');
+  assert.equal(next(policy, state, 2000)[0]?.type, 'build', 'replace a destroyed Barracks within the existing budget');
 
   const rejected = createProductionPolicy(seed);
   const idle = fixture(team);
