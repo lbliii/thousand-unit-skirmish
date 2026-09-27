@@ -49,6 +49,11 @@ ordinary PRs use checks proportionate to their changes under
 
 ## Known findings and historical evidence
 
+[Waypoint transport recovery](qa-waypoint-backpressure-2026-09-27.md) records
+separate coalescing for owner queue metadata so a slow reader retains current
+counts after snapshot and roster changes.
+
+
 [Browser scale diagnostic](qa-browser-scale-2026-09-27.md) retains an 88 ms
 long-task failure at `26eea9b` and the fixed-viewport attribution follow-up.
 [Native opening-control checks](qa-opening-controls-2026-09-27.md) cover local

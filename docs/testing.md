@@ -55,6 +55,7 @@ Run from the repository root:
 | Forest clearing | `node scripts/harvestable-woodland-scenario.mjs` |
 | Forest route repair / exact deposits | `node scripts/worker-cargo-return-scenario.mjs` and `node scripts/worker-cargo-return-scenario.mjs frontier-160` |
 | Queued routes and checkpoint recovery | `node scripts/queued-waypoint-scenario.mjs` |
+| Queue HUD metadata under backpressure | `node --test scripts/waypoint-backpressure.test.mjs` |
 | Route repair after construction | `node scripts/live-attack-move-repair-scenario.mjs` |
 | Research and rewards | `node scripts/research-scenario.mjs` |
 | Map persistence / timed events | `node scripts/map-persistence-scenario.mjs` / `node scripts/timed-event-scenario.mjs` |

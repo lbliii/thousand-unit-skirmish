@@ -3167,7 +3167,9 @@ function broadcastWaypointQueueCounts() {
     ))) continue;
     lastWaypointQueueCountsByTeam[team] = rows;
     const frame = prepareJsonFrame({ type: 'waypointQueueCounts', rows });
-    for (const peer of peers) if (peer.team === team) peer.sendPreparedState(frame);
+    // No-fog snapshots omit these owner-only counts. Coalesce them separately
+    // and deliver them after the state that may recreate the client's roster.
+    for (const peer of peers) if (peer.team === team) peer.sendPreparedWaypointCounts(frame);
   }
 }
 
@@ -3178,6 +3180,7 @@ function broadcastMapChange() {
     // mapChange includes the authoritative snapshot for the new map. A
     // backpressured peer must not receive an older coalesced state afterward.
     peer.pendingState = null;
+    peer.pendingWaypointCounts = null;
     peer.sendJson({ type: 'mapChange', map: mapDefinition, maps, state: roomPayload(peer.team) });
   }
 }
@@ -5983,6 +5986,7 @@ function releasePeer(peer, graceful = false) {
   if (peer.closed) return;
   peer.closed = true;
   peer.pendingState = null;
+  peer.pendingWaypointCounts = null;
   peers.delete(peer);
   if (peer.resumeWaitSession) {
     peer.resumeWaitSession.waitingPeers?.delete(peer);
@@ -6079,6 +6083,7 @@ function createPeer(socket, resumeToken, compressionEnabled = false) {
     closed: false,
     backpressured: false,
     pendingState: null,
+    pendingWaypointCounts: null,
     coalescedStateSnapshots: 0,
     peakQueuedBytes: 0,
     inboundWindowStartedAt: now,
@@ -6107,6 +6112,14 @@ function createPeer(socket, resumeToken, compressionEnabled = false) {
       if (peer.backpressured) {
         if (peer.pendingState) peer.coalescedStateSnapshots++;
         peer.pendingState = frame;
+        return false;
+      }
+      return sendPreparedPeerFrame(peer, frame);
+    },
+    sendPreparedWaypointCounts(frame) {
+      if (peer.closed) return false;
+      if (peer.backpressured) {
+        peer.pendingWaypointCounts = frame;
         return false;
       }
       return sendPreparedPeerFrame(peer, frame);
@@ -6235,8 +6248,14 @@ function createPeer(socket, resumeToken, compressionEnabled = false) {
     if (peer.closed) return;
     peer.backpressured = false;
     const latestState = peer.pendingState;
+    const latestWaypointCounts = peer.pendingWaypointCounts;
     peer.pendingState = null;
+    peer.pendingWaypointCounts = null;
     if (latestState) peer.sendPreparedState(latestState);
+    // The state may reset the client's roster. Its owner counts must follow it,
+    // even if writing that state re-enters backpressure. The byte limit still
+    // applies to this single metadata frame.
+    if (latestWaypointCounts) sendPreparedPeerFrame(peer, latestWaypointCounts);
   });
 
   let session = resumable && !resumable.peer && resumable.expiresAt > now ? resumable : null;
