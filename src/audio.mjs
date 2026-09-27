@@ -508,10 +508,15 @@ export function createGameAudio({
       node.onended = () => { activeSamples.delete(node); activeVoiceSamples.delete(node); node.disconnect(); gain.disconnect(); };
       activeSamples.add(node);
       if (binding.bus === 'voice') activeVoiceSamples.add(node);
-      node.start(context.currentTime, start, end - start);
-      if (variant.caption) onProfileCaption?.(variant.caption);
+      try { node.start(context.currentTime, start, end - start); }
+      catch (error) {
+        activeSamples.delete(node); activeVoiceSamples.delete(node);
+        node.disconnect(); gain.disconnect();
+        throw error;
+      }
+      if (variant.caption) { try { onProfileCaption?.(variant.caption); } catch {} }
       if (isUrgentCue(cue)) duckForAlert();
-      onCue?.(cue);
+      try { onCue?.(cue); } catch {}
     }).catch((error) => { if (ticket === packGeneration) { setPackStatus(`Cue ${variant.sourceId} could not decode: ${error.message}. Synthesized feedback remains available.`); play(cue, { suppressDecision: true }); } });
     return true;
   }

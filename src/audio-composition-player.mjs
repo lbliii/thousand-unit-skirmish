@@ -22,6 +22,7 @@ export function createCompositionPlayer({ context, destination, resolveBuffer })
     if (disposed) throw new Error('Composition player is disposed.');
     const ticket = generation;
     const compiled = compileComposition(composition);
+    if (!compiled.events.length) throw new Error('Composition has no audible clips.');
     const buffers = new Map();
     let decodedBytes = 0;
     for (const id of new Set(compiled.events.map((event) => event.sourceId))) {

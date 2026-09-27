@@ -26,6 +26,8 @@ assert.deepEqual(starts, [{ time: 10.08, offset: 0 }, { time: 11.08, offset: 0.2
   'clips share one audio clock');
 assert.deepEqual(stops, [11.08, 12.08]);
 player.stop();
+await assert.rejects(player.play({ ...composition, tracks: composition.tracks.map((track) => ({ ...track, clips: [] })) }),
+  /no audible clips/);
 let completeLoad;
 const pending = new Promise((resolve) => { completeLoad = resolve; });
 const stalePlayer = createCompositionPlayer({ context, destination: audioNode(), resolveBuffer: () => pending });
