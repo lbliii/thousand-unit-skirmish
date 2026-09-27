@@ -99,6 +99,7 @@ const scenarios = [
   ['scripts/water-surface-scenario.mjs', 'Batched water surface and shore geometry'],
   ['scripts/harvestable-woodland-scenario.mjs', 'Harvestable woodland gameplay'],
   ['scripts/room-supervisor-scenario.mjs', 'Room supervisor integration'],
+  ['scripts/room-expiry-scenario.mjs', 'Invite expiry and pending reconnect protection'],
   ['scripts/pve-room-launch-scenario.mjs', 'PvE room launch and rematch integration'],
   ['scripts/railway-release-scenario.mjs', 'Railway release integration'],
 ];

@@ -51,6 +51,7 @@ Run from the repository root:
 | Deadline victory | `node scripts/timed-victory-scenario.mjs` |
 | Seats and reconnects | `node scripts/resume-session-scenario.mjs` |
 | Rooms and worker restart | `node scripts/room-supervisor-scenario.mjs` |
+| Invite expiry during joins and worker startup | `node scripts/room-expiry-scenario.mjs` |
 | PvE policy / launch lifecycle | `node scripts/pve-opponent-scenario.mjs` / `node scripts/pve-room-launch-scenario.mjs` |
 | PvE tactics during gather retries | `node scripts/pve-decision-fairness-scenario.mjs` |
 | PvE stalled-army retry policy / server reproduction | `node scripts/pve-tactical-retry-scenario.mjs` / `node scripts/pve-tactical-stall-runtime-scenario.mjs` |
