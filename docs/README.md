@@ -43,6 +43,8 @@ the build they name.
 | Choose a map | [Catalog](maps.md), [Forked Vale](forked-vale-scenario.md), [Three Crowns](three-crowns-layout.md) |
 | Change the compact objective HUD | [Objective behavior and validation](battlefield-objectives-validation.md) |
 | Change cues or captions | [Audio design](audio-design.md) |
+| Produce reusable effects and music | [Audio kit plan](audio-kit-plan.md) |
+| Build Audio Studio and sampled playback | [Audio Studio implementation](audio-studio-implementation-plan.md) |
 
 ## Product and experiments
 

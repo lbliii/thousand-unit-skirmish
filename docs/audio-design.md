@@ -8,6 +8,10 @@ Audio should confirm commands and distinguish urgent events without becoming
 constant noise during a large battle. All current sounds are synthesized with
 Web Audio in `src/audio.mjs`; no sampled audio pack is required.
 
+The [reusable audio kit plan](audio-kit-plan.md) proposes the next palette,
+ElevenLabs source workflow, cue recipes and modular music. Its prompts are saved
+as drafts; sampled audio and adaptive music are not yet integrated.
+
 ## Runtime responsibilities
 
 | Module | Responsibility |

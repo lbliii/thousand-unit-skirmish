@@ -62,7 +62,7 @@ builds; they do not certify today's deployment.
 | Balance | Observe contested openings without changing established baselines prematurely. | [Opening and combat evidence](first-skirmish-balance.md), timings, losses, stocks, player explanations. |
 | Maps | Test Frontier Reach and Highland Grove routes, resources, elevation, and forest access in a match. | Layout/round-trip checks and actual route choices. |
 | Interface | Make selection, production, objectives, and rematches discoverable in the compact HUD. | Viewport, interaction capture, novice observation. |
-| Audio | Check recognition of move, attack, victory, defeat, and draw cues. | Ten-trial results with mix/caption settings. |
+| Audio | Build reusable source storage, contextual sampled cues, map audio profiles and a clip composer; then check cue recognition. | [Audio Studio plan](audio-studio-implementation-plan.md), import/save/reload/play proof, and ten-trial results with mix/caption settings. |
 | Renderer | Integrate useful asset states while preserving fog, batching, and camera readability. | Exact pack/revision, representative runtime frame, focused checks. |
 | Art | Finish small independent unit, building, environment, vegetation, or material samples. | Source/runtime status, manifests, provenance, known limits. See [art lanes](art-production-lanes.md). |
 | Unit characters | Review the default Worker/peasant sprite in a live match, then develop distinct Infantry and Archer sources through the fixed-camera pose-capture workflow. | See [unit sprite exploration](unit-sprite-exploration.md) and [Meshy-to-sprite pipeline](unit-character-meshy-pipeline.md); record runtime visibility, rights/provenance, and player readability separately. |
