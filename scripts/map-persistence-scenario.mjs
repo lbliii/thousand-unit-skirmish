@@ -295,7 +295,7 @@ try {
   const libraryFiles = await readdir(customMapDirectory);
   assert.deepEqual(libraryFiles, [`${map.id}.json`]);
   console.log(JSON.stringify({
-    passed: ['shipped map IDs reserved', 'map resize preserves marker cells on growth, reports cropped markers on shrink, and passes server validation', 'session-only maps stay temporary', 'atomic custom map save', 'custom map catalog restored after server restart', 'capture triggers, timed events, and map settings restored'],
+    passed: ['shipped map IDs reserved', 'map resize preserves marker cells on growth, reports cropped markers on shrink, and passes server validation', 'session-only maps stay temporary', 'atomic custom map save', 'custom map catalog restored after server restart', 'capture triggers, timed events, map audio references, and map settings restored'],
     mapId: map.id,
     savedCustomMaps: libraryFiles.length,
     restoredTriggers: restored.map.triggers.length,

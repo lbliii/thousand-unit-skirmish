@@ -298,7 +298,10 @@ export function createGameAudio({
   function unlock() {
     if (!hasAudibleOutput() || doc?.hidden) return;
     if (!context && !makeContext()) return;
-    if (context.state === 'suspended') context.resume().then(emitStatus).catch(() => {});
+    if (context.state === 'suspended') context.resume().then(() => {
+      if (activeProfile && !profileMusicReady) void startProfileMusic();
+      emitStatus();
+    }).catch(() => {});
   }
 
 
@@ -424,7 +427,7 @@ export function createGameAudio({
     profileMusicReady = false;
     const ticket = packGeneration;
     if (!activeProfile?.music?.defaultCompositionId || !context || context.state === 'closed'
-      || settings.musicLevel <= 0) return;
+      || doc?.hidden || settings.musicLevel <= 0) return;
     const composition = activePack?.compositions?.find((item) => item.id === activeProfile.music.defaultCompositionId);
     if (!composition) { setPackStatus(`Composition ${activeProfile.music.defaultCompositionId} is missing; synthesized music is available.`); return; }
     if (!compositionPlayer) {
@@ -541,8 +544,15 @@ export function createGameAudio({
 
   function onVisibilityChange() {
     if (!context) return;
-    if (doc?.hidden) context.suspend().then(emitStatus).catch(() => {});
-    else if (hasAudibleOutput()) context.resume().then(emitStatus).catch(() => {});
+    if (doc?.hidden) {
+      compositionPlayer?.stop(); profileMusicReady = false;
+      context.suspend().then(emitStatus).catch(() => {});
+    } else if (hasAudibleOutput()) {
+      context.resume().then(() => {
+        if (activeProfile) void startProfileMusic();
+        emitStatus();
+      }).catch(() => {});
+    }
   }
   doc?.addEventListener?.('visibilitychange', onVisibilityChange);
 
