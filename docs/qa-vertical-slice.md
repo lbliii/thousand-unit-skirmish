@@ -49,6 +49,11 @@ ordinary PRs use checks proportionate to their changes under
 
 ## Known findings and historical evidence
 
+[Integrated core staging evidence](qa-integrated-core-2026-09-27.md) records
+authenticated assets, both-seat reconnect, map persistence, elimination, and
+rematch on deployed source `8b6bcbb`. Human match and supported-scale proof
+remain outstanding.
+
 | ID | Finding | Recorded disposition |
 | --- | --- | --- |
 | QA-001 | Guest was told to reset despite lacking permission. | Fixed and observed on an earlier two-browser build; retain result/rematch regression. |

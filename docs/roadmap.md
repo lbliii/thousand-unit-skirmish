@@ -22,6 +22,9 @@ art, map, and infrastructure slices can progress alongside these outcomes.
 1. **Complete and understand a match.** Run the Forked Vale loop in seeded solo
    play and human 1v1. Record the first order, production, objective, result, or
    recovery failure that prevents completion or requires coaching; fix and replay it.
+   [Automated staging checks](qa-integrated-core-2026-09-27.md) now cover both-seat
+   reconnect, elimination, and rematch at `8b6bcbb`; an unassisted human match
+   remains the next product proof.
 2. **Verify the integrated battlefield.** Main `eef9aa4` makes Barracks/Range
    sprites the default and adds Town Center collision. Check both teams through
    construction/damage, exits and nearby placement, fog, ordinary/strategic zoom,
