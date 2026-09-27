@@ -44,6 +44,7 @@ Run from the repository root:
 | Archer firing positions across gaps | `node scripts/archer-firing-approach-scenario.mjs` |
 | Construction on disconnected terrain / route protection | `node scripts/construction-connectivity-scenario.mjs` |
 | Mirrored construction | `node scripts/opening-production-scenario.mjs --expect-builder-parity` |
+| Producer destruction, replacement builders, and population caps | `node scripts/production-lifecycle-scenario.mjs` |
 | Forest clearing | `node scripts/harvestable-woodland-scenario.mjs` |
 | Queued routes and checkpoint recovery | `node scripts/queued-waypoint-scenario.mjs` |
 | Route repair after construction | `node scripts/live-attack-move-repair-scenario.mjs` |
@@ -51,6 +52,7 @@ Run from the repository root:
 | Map persistence / timed events | `node scripts/map-persistence-scenario.mjs` / `node scripts/timed-event-scenario.mjs` |
 | Deadline victory | `node scripts/timed-victory-scenario.mjs` |
 | Seats and reconnects | `node scripts/resume-session-scenario.mjs` |
+| Client rematch roster and stale sockets | `node --test scripts/client-rematch-recovery.test.mjs` |
 | Rooms and worker restart | `node scripts/room-supervisor-scenario.mjs` |
 | Invite expiry during joins and worker startup | `node scripts/room-expiry-scenario.mjs` |
 | PvE policy / launch lifecycle | `node scripts/pve-opponent-scenario.mjs` / `node scripts/pve-room-launch-scenario.mjs` |
@@ -58,6 +60,7 @@ Run from the repository root:
 | PvE stranded reinforcement recovery | `node scripts/pve-reinforcement-recovery-scenario.mjs` |
 | PvE stalled-army retry policy / server reproduction | `node scripts/pve-tactical-retry-scenario.mjs` / `node scripts/pve-tactical-stall-runtime-scenario.mjs` |
 | PvE production budgets | `node scripts/pve-production-scenario.mjs` |
+| PvE destroyed producer replacement | `node scripts/pve-barracks-recovery-scenario.mjs` |
 | PvE live construction / reinforcements on both maps | `node scripts/pve-production-runtime-scenario.mjs forked-vale` and `woodland-expanse` |
 | Compact HUD | `node --test scripts/hud-layout.test.mjs scripts/selection-context.test.mjs scripts/objective-summary.test.mjs` |
 | Audio policy | `node scripts/audio-policy-scenario.mjs` |
