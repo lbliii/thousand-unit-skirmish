@@ -47,6 +47,10 @@ requires it.
 Larger maps test travel, resource regions, forest clearing, and elevation.
 Match length and economy pacing must come from observed play.
 
+Resource stocks and worker cargo display whole units rounded down; costs and
+positive shortfalls round up. Affordability uses exact authoritative values, so
+a display never rounds insufficient stock up to the purchase price.
+
 ## Implemented scope
 
 - Azure and Ember seats, invite rooms, spectators, reconnects, and checkpoints.
