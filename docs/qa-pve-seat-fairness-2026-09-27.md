@@ -83,3 +83,8 @@ The spawn swap also changes which team's placement orientation applies at each
 side. A stronger causal combat study would hold exact per-unit geometry and
 command application ticks constant while permuting team/ID ownership. Preserve
 unit stats, prices and rewards until such evidence identifies a concrete defect.
+
+
+The [fixed-position follow-up](qa-pve-fixed-position-2026-09-27.md) independently
+permutes team and ID ownership and isolates a shared flow-budget contribution
+to lower-ID combat advantage. Production remediation is owned separately.
