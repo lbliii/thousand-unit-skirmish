@@ -4120,12 +4120,16 @@ function replanPathsBlockedBy(footprint) {
     }
     if (unit.attackBuildingTargetId >= 0) {
       const target = buildingsById.get(unit.attackBuildingTargetId);
-      const approach = target
-        ? findBuildingAttackApproachCell(unit, buildingAttackApproachCells(target, unit.kind)) : null;
       unit.path = [];
       unit.pathIndex = 0;
       unit.lastAttackCell = -1;
       unit.repathTimer = 0;
+      // A unit can be in firing range even when its cell center is outside it.
+      // Preserve that shot before looking for walkable approach-cell centers.
+      const range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+      if (target && distanceToBuildingEdge(unit, target) <= range) continue;
+      const approach = target
+        ? findBuildingAttackApproachCell(unit, buildingAttackApproachCells(target, unit.kind)) : null;
       if (approach) unit.moveGoalCell = approach.goal;
       else clearAttackTarget(unit);
       continue;

@@ -36,8 +36,10 @@ see [construction evidence](qa-construction-connectivity-2026-09-27.md).
 
 Archer building attacks use reachable cells within weapon range as approach
 goals; Infantry use the building perimeter. Shared flow fields distinguish unit
-kind and connected region, and construction repair reuses those approach rules.
-See [Archer approach evidence](qa-archer-firing-approach-2026-09-27.md).
+kind and connected region. Construction repair preserves attacks already within
+actual unit-to-building range before searching approach-cell centers.
+See [Archer approach evidence](qa-archer-firing-approach-2026-09-27.md) and
+[range-boundary repair evidence](qa-building-range-repair-2026-09-27.md).
 
 ## Code map
 

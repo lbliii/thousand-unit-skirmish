@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const SERVER_PATH = path.join(ROOT, 'server.mjs');
 const TIMEOUT_MS = 40_000;
+const EDGE_RANGE_REPAIR = process.argv.includes('--edge-range-repair');
 
 async function freePort() {
   const server = createServer();
@@ -138,7 +139,19 @@ try {
   child.kill('SIGINT');
   await stopped;
   const fixture = JSON.parse(await readFile(checkpointPath, 'utf8'));
-  fixture.mapDefinition.obstacles = [{ id: 'wall', column: 31, row: 0, width: 2, height: 64 }];
+  fixture.mapDefinition.obstacles = [{ id: 'wall', column: EDGE_RANGE_REPAIR ? 30 : 31,
+    row: 0, width: EDGE_RANGE_REPAIR ? 4 : 2, height: 64 }];
+  if (EDGE_RANGE_REPAIR) {
+    // Actual range is ~4.451, while the current cell center is ~4.528 away.
+    // The friendly Range occupies the neighboring cells that could otherwise fire.
+    for (const [team, archer] of archers.entries()) {
+      const unit = fixture.state.units[archer[0]];
+      unit.x = team === 0 ? -2.45 : 2.45;
+      unit.z = 8.9;
+      unit.path = [];
+      unit.pathIndex = 0;
+    }
+  }
   fixture.mapHash = createHash('sha256').update(JSON.stringify(fixture.mapDefinition)).digest('base64url');
   fixture.state.seatSessions = [];
   await writeFile(checkpointPath, JSON.stringify(fixture));
@@ -185,7 +198,7 @@ try {
     assert.equal(Math.sign(firing.state.units[archer[0]].x), team === 0 ? -1 : 1);
   }
   // Existing ranged combat across islands must not make unrelated construction invalid.
-  for (const attackType of ['attackBuilding', 'attack']) {
+  for (const attackType of EDGE_RANGE_REPAIR ? ['attackBuilding'] : ['attackBuilding', 'attack']) {
     for (const [team, client] of clients.entries()) {
       if (attackType === 'attack') {
         send(client, { type: 'attack', ids: [archers[team][0]], unitGenerations: [archers[team][8]],
@@ -202,9 +215,30 @@ try {
       const placed = await client.wait((m) => m.type === 'notice' && m.clientOrderToken === clientOrderToken
         && (m.message.startsWith('BARRACKS PLACED') || m.message.startsWith('BUILD REJECTED')));
       assert.match(placed.message, /^BARRACKS PLACED/, `${attackType} across islands must not block local building`);
+      if (EDGE_RANGE_REPAIR) {
+        const afterBuild = await checkpointWith(checkpointPath, (snapshot) => snapshot.state.buildings.length >= 3 + team);
+        for (const [firingTeam, archer] of archers.entries()) {
+          const unit = afterBuild.state.units[archer[0]];
+          const enemy = ranges[1 - firingTeam];
+          const distance = (point) => Math.hypot(Math.max(0, Math.abs(point.x - enemy.x) - 1.5),
+            Math.max(0, Math.abs(point.z - enemy.z) - 1.5));
+          assert.ok(distance(unit) > 4.4 && distance(unit) < 4.5, 'unit remains just inside weapon range');
+          assert.ok(distance({ x: Math.floor(unit.x) + 0.5, z: Math.floor(unit.z) + 0.5 }) > 4.5,
+            'its cell center remains outside weapon range');
+          assert.equal(unit.attackBuildingTargetId, enemy.id,
+            'unrelated construction must preserve both accepted in-range building attacks');
+          assert.equal(unit.path.length, 0, 'in-range archers must not be sent walking');
+        }
+        await checkpointWith(checkpointPath, (snapshot) => archers.every((archer) => (
+          snapshot.state.units[archer[0]].lastAttackTick > afterBuild.state.tickNumber
+        )));
+      }
+
     }
   }
-  console.log('Ranged building attack passed: both seats fire across disconnected terrain; unreachable infantry rejected.');
+  console.log(EDGE_RANGE_REPAIR
+    ? 'Building range-edge repair passed: both seats keep firing after each unrelated placement with their cell centers outside weapon range.'
+    : 'Ranged building attack passed: both seats fire across disconnected terrain; unreachable infantry rejected.');
 } catch (error) {
   error.message += `\nServer logs:\n${logs}`;
   throw error;

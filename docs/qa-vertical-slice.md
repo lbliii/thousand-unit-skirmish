@@ -76,6 +76,9 @@ records island placement, route preservation, and Town Center occupancy checks.
 [Archer approach evidence](qa-archer-firing-approach-2026-09-27.md) records
 firing positions across water, navigation repair, and authority/visibility checks.
 
+[Building range-boundary repair evidence](qa-building-range-repair-2026-09-27.md)
+records both seats retaining valid attacks through unrelated construction.
+
 ## Repeatable run sheet
 
 1. Identify the build, device, browser, server, map, roster, and network profile.
