@@ -39,7 +39,7 @@ objective can help capture it, but leaves fewer gathering and exposes them to co
 | Cancel an interaction or clear selection | Escape; close the active panel/targeting mode first. |
 
 Groups retain living friendly units and are cleared when the map, army size, or
-assigned team changes.
+assigned team changes, or a rematch starts.
 
 ## Issue orders
 
