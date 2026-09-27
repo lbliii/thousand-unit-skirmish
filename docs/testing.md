@@ -40,6 +40,7 @@ Run from the repository root:
 | Complete Forked Vale scenario, each winner | `node scripts/forked-vale-scenario.mjs 0` and `node scripts/forked-vale-scenario.mjs 1` |
 | Mirrored combat | `node scripts/infantry-seat-combat-scenario.mjs --expect-parity` |
 | Building attacks across disconnected terrain | `node scripts/ranged-building-attack-scenario.mjs` |
+| Construction on disconnected terrain / route protection | `node scripts/construction-connectivity-scenario.mjs` |
 | Mirrored construction | `node scripts/opening-production-scenario.mjs --expect-builder-parity` |
 | Forest clearing | `node scripts/harvestable-woodland-scenario.mjs` |
 | Queued routes and checkpoint recovery | `node scripts/queued-waypoint-scenario.mjs` |
@@ -51,6 +52,7 @@ Run from the repository root:
 | Rooms and worker restart | `node scripts/room-supervisor-scenario.mjs` |
 | PvE policy / launch lifecycle | `node scripts/pve-opponent-scenario.mjs` / `node scripts/pve-room-launch-scenario.mjs` |
 | PvE tactics during gather retries | `node scripts/pve-decision-fairness-scenario.mjs` |
+| PvE stalled-army retry policy / server reproduction | `node scripts/pve-tactical-retry-scenario.mjs` / `node scripts/pve-tactical-stall-runtime-scenario.mjs` |
 | Compact HUD | `node --test scripts/hud-layout.test.mjs scripts/selection-context.test.mjs scripts/objective-summary.test.mjs` |
 | Audio policy | `node scripts/audio-policy-scenario.mjs` |
 
