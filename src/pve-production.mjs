@@ -61,7 +61,6 @@ export function createProductionPolicy(seed) {
   let nextAttemptTick = 0;
   let retryTicks = limits.retryTicks;
   let siteAttempt = 0;
-  let barracksEstablished = false;
   const postpone = (tick) => {
     nextAttemptTick = tick + retryTicks;
     retryTicks = Math.min(retryTicks * 2, limits.maxRetryTicks);
@@ -79,7 +78,6 @@ export function createProductionPolicy(seed) {
       const barracks = observation.buildings.friendly
         .filter((building) => building.type === 'barracks' && building.hp > 0)
         .sort((a, b) => a.id - b.id)[0];
-      if (barracks) barracksEstablished = true;
       if (observation.tick - firstTick < limits.openingDelayTicks) return [];
       if (barracks?.queue > 0 || workers.some((worker) => worker.task === 'building')) {
         retryTicks = limits.retryTicks;
@@ -88,8 +86,8 @@ export function createProductionPolicy(seed) {
       }
       if (observation.tick < nextAttemptTick) return [];
       if (!barracks) {
-        // One accepted Barracks per match; destruction cannot trigger a spending loop.
-        if (barracksEstablished || !home || workers.length < 2
+        // Keep one living Barracks; a loss may be replaced under the same reserves and backoff.
+        if (!home || workers.length < 2
           || observation.resources.wood < limits.barracksWoodCost + limits.woodReserve) return [];
         const builder = workers.find((worker) => ['idle', 'gathering'].includes(worker.task) && worker.cargo === 0);
         if (!builder) return [];
