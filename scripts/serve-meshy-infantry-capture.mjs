@@ -193,7 +193,7 @@ function buildManifest(payload, atlasBytes, maskBytes, hashes, role = 'infantry'
       license: 'Pending rights verification before promotion from local staging into tracked game assets. See README.md.',
       source: 'One-image Meshy Infantry pilot, baked locally from the textured model and generated action GLBs',
       authoringTool: 'Three.js 0.180.0 browser capture tool',
-      notes: `${workerNote} The capture tool fits a shared camera envelope across every sampled pose and facing, and strips Hips root translation so simulation movement stays authoritative. Output is staged locally with rights pending; pivots and team mask still need visual review.`,
+      notes: `${workerNote} The capture tool fits a shared camera envelope across every sampled pose and facing, and strips horizontal Hips travel while preserving vertical motion so simulation movement stays authoritative. Output is staged locally with rights pending; pivots and team mask still need visual review.`,
     },
     files: [
       { id: sourceFileId, path: sourceFileName, usage: 'source', format: 'png', sha256: sha256(atlasBytes), dimensionsPx: { width, height } },

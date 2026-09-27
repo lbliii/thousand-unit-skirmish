@@ -2977,8 +2977,13 @@ function updateUnitFocusVisual(unit) {
 function updateUnitTransform(unit, now = performance.now()) {
   const spawnProgress = unit.spawnStartedAt > 0
     ? THREE.MathUtils.clamp((now - unit.spawnStartedAt) / SPAWN_POSE_MS, 0, 1) : 1;
+  const spriteDefeatMs = unitSpritePreviewActive && unitSpritePreviewRoleSet.has(unit.kind)
+    ? unitSpriteRuntime.durationMs(unit.kind, 'defeat') : 0;
+  const defeatElapsed = now - unit.defeatStartedAt;
   const defeatProgress = unit.defeatStartedAt > 0
-    ? THREE.MathUtils.clamp((now - unit.defeatStartedAt) / DEFEAT_POSE_MS, 0, 1) : 0;
+    ? spriteDefeatMs > 0
+      ? THREE.MathUtils.clamp((defeatElapsed - spriteDefeatMs) / 150, 0, 1)
+      : THREE.MathUtils.clamp(defeatElapsed / DEFEAT_POSE_MS, 0, 1) : 0;
   const visibleScale = unit.visible === false ? 0 : unit.hp > 0
     ? unit.scale * (0.28 + spawnProgress * 0.72)
     : unit.defeatStartedAt > 0 ? unit.scale * (1 - defeatProgress) : 0;
@@ -8698,14 +8703,17 @@ function animate(now) {
     const activeHit = unit.hitStartedAt > 0;
     const activeSpawn = unit.spawnStartedAt > 0;
     const activeDefeat = unit.defeatStartedAt > 0;
-    if (activeAttack && now - unit.attackStartedAt >= ATTACK_POSE_MS) unit.attackStartedAt = 0;
+    const hasSprite = unitSpritePreviewActive && unitSpritePreviewRoleSet.has(unit.kind);
+    const attackLifetime = hasSprite ? unitSpriteRuntime.durationMs(unit.kind, 'attack') || ATTACK_POSE_MS : ATTACK_POSE_MS;
+    const defeatLifetime = hasSprite ? (unitSpriteRuntime.durationMs(unit.kind, 'defeat') || DEFEAT_POSE_MS) + 150 : DEFEAT_POSE_MS;
+    if (activeAttack && now - unit.attackStartedAt >= attackLifetime) unit.attackStartedAt = 0;
     if (activeHit && now - unit.hitStartedAt >= HIT_POSE_MS) unit.hitStartedAt = 0;
     if (activeSpawn && now - unit.spawnStartedAt >= SPAWN_POSE_MS) unit.spawnStartedAt = 0;
-    if (activeDefeat && now - unit.defeatStartedAt >= DEFEAT_POSE_MS) unit.defeatStartedAt = 0;
+    if (activeDefeat && now - unit.defeatStartedAt >= defeatLifetime) unit.defeatStartedAt = 0;
     const idle = idlePoseDue && unit.hp > 0 && !walking && !working;
     const transformChanged = walking || wasWalking || turning || activeSpawn || activeDefeat;
     const fullDetailAnimationDue = working || activeAttack || activeHit || idle;
-    if (shouldUpdateUnitTransformForFrame(unitLowDetailActive,
+    if (shouldUpdateUnitTransformForFrame(unitLowDetailActive && !hasSprite,
       transformChanged, fullDetailAnimationDue)) {
       updateUnitTransform(unit, now);
       artAnimated = true;

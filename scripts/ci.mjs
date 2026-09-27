@@ -37,6 +37,7 @@ const syntaxFiles = [
 for (const file of syntaxFiles) run(['--check', file], `Syntax: ${file}`);
 
 run(['scripts/check-docs.mjs'], 'Documentation links');
+run(['--test', 'scripts/unit-sprite-clock.test.mjs'], 'Sprite animation clock');
 run(['--test', 'scripts/building-sprites.test.mjs'], 'Default building sprites');
 
 run(['--test', 'scripts/battlefield-cursor.test.mjs'], 'Battlefield cursor states');

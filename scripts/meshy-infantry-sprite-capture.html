@@ -55,17 +55,17 @@
     import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
     const CELL = 128;
-    const COLUMNS = 16;
+    const COLUMNS = 32;
     const DIRECTIONS = [
       ['north', 0], ['north-east', 45], ['east', 90], ['south-east', 135],
       ['south', 180], ['south-west', -135], ['west', -90], ['north-west', -45],
     ];
     const FRAME_COUNTS = { idle: 1, walk: 8, attack: 16, defeat: 8 };
     const STATE_DURATIONS_MS = { idle: 1000, walk: 1067, attack: 900, defeat: 430 };
-    const FRAME_COUNT = DIRECTIONS.length * Object.values(FRAME_COUNTS).reduce((sum, count) => sum + count, 0);
+    let FRAME_COUNT = DIRECTIONS.length * Object.values(FRAME_COUNTS).reduce((sum, count) => sum + count, 0);
     const ATLAS_WIDTH = COLUMNS * CELL;
-    const ROWS = Math.ceil(FRAME_COUNT / COLUMNS);
-    const ATLAS_HEIGHT = ROWS * CELL;
+    let ROWS = Math.ceil(FRAME_COUNT / COLUMNS);
+    let ATLAS_HEIGHT = ROWS * CELL;
     const INITIAL_PROBE_WORLD_UNITS = 2.6;
     const TARGET_MODEL_HEIGHT = 1.05;
     const GAME_CAMERA_OFFSET = new THREE.Vector3(0.78, 1.12, 0.78).normalize();
@@ -149,6 +149,11 @@
 
     function frameDuration(state, index, count) {
       const total = STATE_DURATIONS_MS[state];
+      // Non-looping frames are sampled through the endpoint, which holds after playback.
+      if (state === 'attack' || state === 'defeat') {
+        const sampleMs = i => Math.min(total - 1, Math.round(total * i / (count - 1)));
+        return index === count - 1 ? 1 : sampleMs(index + 1) - sampleMs(index);
+      }
       const base = Math.floor(total / count);
       const remainder = total - base * count;
       return base + (index < remainder ? 1 : 0);
@@ -189,7 +194,11 @@
             const sampleFraction = stateId === 'walk' ? frame / count : frame / (count - 1);
             const clipTimeSeconds = stateId === 'idle' ? 0 : Math.min(context.duration - 0.001, context.duration * sampleFraction);
             context.mixer.setTime(clipTimeSeconds);
-            if (context.hips && context.rootMotionRest) context.hips.position.copy(context.rootMotionRest);
+            // Remove travel across the map, but preserve crouches, bounce, and falling.
+            if (context.hips && context.rootMotionRest) {
+              context.hips.position.x = context.rootMotionRest.x;
+              context.hips.position.z = context.rootMotionRest.z;
+            }
             scene.updateMatrixWorld(true);
             renderer.setRenderTarget(null);
             renderer.clear(true, true, true);
@@ -276,6 +285,19 @@
           loadContext('attack', 'infantry-attack.glb', 'Attack', origin, scale),
           loadContext('defeat', 'infantry-defeat.glb', 'Defeat', origin, scale),
         ]);
+        // Preserve provider timing. Gameplay acceleration must be a deliberate runtime choice.
+        for (const state of ['walk', 'attack', 'defeat']) {
+          STATE_DURATIONS_MS[state] = Math.round(contexts[state].duration * 1000);
+          FRAME_COUNTS[state] = Math.ceil(contexts[state].duration * 16) + (state === 'walk' ? 0 : 1);
+        }
+        FRAME_COUNT = DIRECTIONS.length * Object.values(FRAME_COUNTS).reduce((sum, count) => sum + count, 0);
+        ROWS = Math.ceil(FRAME_COUNT / COLUMNS);
+        ATLAS_HEIGHT = ROWS * CELL;
+        if (ATLAS_WIDTH > renderer.capabilities.maxTextureSize || ATLAS_HEIGHT > renderer.capabilities.maxTextureSize) {
+          throw new Error('Animation atlas exceeds this GPU texture limit; split the clip set into pages.');
+        }
+        atlasCanvas.width = ATLAS_WIDTH;
+        atlasCanvas.height = ATLAS_HEIGHT;
         const contextsByState = { idle: contexts.walk, walk: contexts.walk, attack: contexts.attack, defeat: contexts.defeat };
         setStatus('Finding a shared frame size for the full set of poses…');
         let probeWorldUnits = INITIAL_PROBE_WORLD_UNITS;

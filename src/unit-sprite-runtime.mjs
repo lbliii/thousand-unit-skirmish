@@ -68,7 +68,7 @@ function clipFrame(clip, elapsedMs) {
   return clip.sequence.at(-1).frameId;
 }
 
-function activeState(unit, now) {
+function activeState(unit, now, attackDurationMs = 900) {
   if (unit.hp <= 0 && unit.defeatStartedAt > 0) return 'defeat';
   if (unit.walking) return 'walk';
   if (unit.kind === 'worker') {
@@ -76,18 +76,21 @@ function activeState(unit, now) {
     if (unit.task === 'gathering') return 'gather';
     return 'idle';
   }
-  return unit.attackStartedAt > 0 && now - unit.attackStartedAt < 900 ? 'attack' : 'idle';
+  return unit.attackStartedAt > 0 && now - unit.attackStartedAt < attackDurationMs ? 'attack' : 'idle';
 }
 
-function animationTime(unit, state, clip, now) {
-  if (!clip?.sequence?.length) return 0;
-  if (state === 'walk' || state === 'gather' || state === 'build') {
-    const cycleMs = clip.sequence.reduce((sum, item) => sum + item.durationMs, 0);
-    return ((unit.motionPhase || 0) / (Math.PI * 2)) * cycleMs;
+export function spriteAnimationTime(unit, state, now) {
+  if (unit.spriteClockState !== state || !Number.isFinite(unit.spriteClockStartedAt)) {
+    unit.spriteClockState = state;
+    unit.spriteClockStartedAt = now;
   }
-  if (state === 'attack') return now - unit.attackStartedAt;
-  if (state === 'defeat') return now - unit.defeatStartedAt;
-  return now + unit.id * 37;
+  if (state === 'attack') return Math.max(0, now - unit.attackStartedAt);
+  if (state === 'defeat') return Math.max(0, now - unit.defeatStartedAt);
+  return Math.max(0, now - unit.spriteClockStartedAt);
+}
+
+export function spriteClipDuration(clip) {
+  return clip?.sequence?.reduce((sum, frame) => sum + Math.max(1, frame.durationMs || 1), 0) || 0;
 }
 
 function createSpriteMaterial(THREE, map, mask, teamColor) {
@@ -143,10 +146,12 @@ function loadRolePack(THREE, loader, role, version) {
     ]);
     const frameById = new Map(asset.frames.map((frame) => [frame.id, frame]));
     const clipByKey = new Map(asset.clips.map((clip) => [`${clip.stateId}|${clip.directionId}`, clip]));
+    const durationByState = new Map();
+    for (const clip of asset.clips) durationByState.set(clip.stateId, Math.max(durationByState.get(clip.stateId) || 0, spriteClipDuration(clip)));
     const layerId = asset.layers?.find((layer) => layer.drawLayer === 'actor')?.id || 'actor';
     const maxAlphaHeight = Math.max(1, ...asset.frames.map((frame) => frame.alphaBoundsPx?.height || frame.canvasPx.height));
     return {
-      role, version, asset, page, map, mask, frameById, clipByKey, layerId,
+      role, version, asset, page, map, mask, frameById, clipByKey, layerId, durationByState,
       worldPerPixel: asset.heightWorld / maxAlphaHeight,
     };
   });
@@ -183,17 +188,23 @@ export function createUnitSpriteRuntime({
     }
   }
 
+  function durationMs(role, state) {
+    const pack = rolePacks.get(role);
+    if (!pack) return 0;
+    return pack.durationByState.get(state) || 0;
+  }
+
   function update(unit, now, visibleScale) {
     if (!ready) return;
     const role = unit.kind;
     const selectedPack = rolePacks.get(role);
     const teamBatches = batchesByTeam[unit.team];
     if (!selectedPack || !teamBatches) return;
-    const state = activeState(unit, now);
+    const state = activeState(unit, now, durationMs(role, 'attack') || 900);
     const direction = normalizedDirection(unit.angle || 0);
     const clip = selectedPack.clipByKey.get(`${state}|${direction}`)
       || selectedPack.clipByKey.get(`idle|${direction}`);
-    const frameId = clipFrame(clip, animationTime(unit, state, clip, now));
+    const frameId = clipFrame(clip, spriteAnimationTime(unit, state, now));
     const frame = selectedPack.frameById.get(frameId);
     const crop = frame && frameRectFor(frame, selectedPack.page.id, selectedPack.layerId);
     const rect = crop?.rectPx;
@@ -288,6 +299,7 @@ export function createUnitSpriteRuntime({
     setCount,
     setVisible,
     markTeamDirty,
+    durationMs,
     update,
   };
 }
