@@ -4426,7 +4426,7 @@ function captureMapStudioDraft() {
     resourceNodes: JSON.parse(JSON.stringify(editorResourceNodes)),
     triggers: JSON.parse(JSON.stringify(editorTriggers)),
     scenarioEvents: JSON.parse(JSON.stringify(editorScenarioEvents)),
-    audio: selectedStudioAudio(),
+    audio: selectedStudioAudio({ allowIncomplete: true }),
   });
   return {
     version: MAP_STUDIO_DRAFT_VERSION,
@@ -5213,10 +5213,14 @@ async function loadMapAudio(reference) {
     if (request === mapAudioRequest) ui.audioPackStatus.textContent = `Audio library unavailable: ${error.message}. Synthesized feedback remains available.`;
   }
 }
-function selectedStudioAudio() {
+function selectedStudioAudio({ allowIncomplete = false } = {}) {
   const packId = ui.studioAudioPack.value;
   const profileId = ui.studioAudioProfile.value;
   if (!packId) return undefined;
+  if (!profileId) {
+    if (allowIncomplete) return undefined;
+    throw new Error('Choose an audio profile for this map.');
+  }
   return validateMapAudioReference({ packId, profileId });
 }
 let studioAudioPackRequest = 0;
