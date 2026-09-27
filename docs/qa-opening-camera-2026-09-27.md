@@ -26,3 +26,19 @@ Checked the change against `d7f9862` in the local in-app browser:
 Existing camera controls and navigation-settings checks, client syntax,
 documentation links, and whitespace checks passed. This is local browser
 orientation/recovery evidence, not a novice comprehension or production claim.
+
+## Review follow-up: waiting to reclaim a seat
+
+Independent review at `8b6bcbb` found an intermediate reconnect state missing
+from the direct restart check: the old connection can still hold the seat, so
+the new connection temporarily receives `team: null, resumePending: true`.
+When the old connection closes, the resumed player's welcome incorrectly looked
+like a new seat and reset the camera.
+
+Camera ownership now survives this temporary spectator state. Actual command
+ownership still follows the server's current team assignment. A new seat or a
+seat gained after an ordinary spectator state still centers normally.
+
+The actual socket-handler regression fails for both seats before the fix and
+passes afterward. It covers direct and pending-seat reclaim, changed seats,
+ordinary spectators, genuine new ownership, and ignored stale socket messages.

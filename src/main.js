@@ -481,6 +481,8 @@ let woodTreeMeshes = new Map();
 let lastResourceCalloutUpdateAt = -Infinity;
 let berrySpriteMeshes = new Map();
 let localTeam = null;
+// Keep camera ownership while a reconnect temporarily waits as a spectator.
+let cameraSeatTeam = null;
 let isHost = false;
 let currentArmySize = 1000;
 let latestRosterSize = 1000;
@@ -8414,7 +8416,10 @@ function connectSocket() {
         return;
       }
       const mapChanged = !mapDefinition || JSON.stringify(message.map) !== JSON.stringify(mapDefinition);
-      const joinedSeat = [0, 1].includes(message.player.team) && message.player.team !== localTeam;
+      const hasPlayerSeat = [0, 1].includes(message.player.team);
+      const joinedSeat = hasPlayerSeat && message.player.team !== cameraSeatTeam;
+      if (hasPlayerSeat) cameraSeatTeam = message.player.team;
+      else if (message.player.resumePending !== true) cameraSeatTeam = null;
       let matchInstanceChanged = false;
       let matchIdentityChanged = false;
       if (typeof message.serverInstanceId === 'string') {
