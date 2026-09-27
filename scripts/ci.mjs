@@ -90,6 +90,7 @@ const scenarios = [
   ['scripts/archer-firing-approach-scenario.mjs', 'Archers approach firing positions across gaps'],
   ['scripts/cliff-pursuit-scenario.mjs', 'Direct pursuit after unreachable retreats', '--direct'],
   ['scripts/cliff-pursuit-scenario.mjs', 'Attack-move alternatives across elevation'],
+  ['scripts/simultaneous-lethal-combat-scenario.mjs', 'Simultaneous lethal combat fairness'],
   ['scripts/construction-connectivity-scenario.mjs', 'Construction preserves existing terrain connections'],
   ['scripts/elimination-scenario.mjs', 'Terminal elimination and reconnect'],
   ['scripts/queued-waypoint-scenario.mjs', 'Queued waypoint checkpoint recovery'],
