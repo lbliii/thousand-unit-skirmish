@@ -88,3 +88,8 @@ unit stats, prices and rewards until such evidence identifies a concrete defect.
 The [fixed-position follow-up](qa-pve-fixed-position-2026-09-27.md) independently
 permutes team and ID ownership and isolates a shared flow-budget contribution
 to lower-ID combat advantage. Production remediation is owned separately.
+
+
+[openage scheduling research](openage-path-scheduling-research.md) adds pinned
+request-identity, cache-validity and simulation-time observations for the deferred
+acquisition fix; it does not change the scheduler.
