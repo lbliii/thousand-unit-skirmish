@@ -79,6 +79,9 @@ firing positions across water, navigation repair, and authority/visibility check
 [Building range-boundary repair evidence](qa-building-range-repair-2026-09-27.md)
 records both seats retaining valid attacks through unrelated construction.
 
+[Production lifecycle evidence](qa-production-lifecycle-2026-09-27.md) records
+producer/builder death and population reservation release at both seats’ caps.
+
 ## Repeatable run sheet
 
 1. Identify the build, device, browser, server, map, roster, and network profile.
