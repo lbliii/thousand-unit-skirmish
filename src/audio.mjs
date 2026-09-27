@@ -67,6 +67,7 @@ export function createGameAudio({
   let packStatus = 'No audio pack assigned';
   let profileMusicReady = false;
   const activeSamples = new Set();
+  const activeVoiceSamples = new Set();
   const MAX_ACTIVE_SAMPLES = 8;
   const profileGate = createProfileDecisionGate();
   const decoded = new Map();
@@ -444,7 +445,7 @@ export function createGameAudio({
     compositionPlayer?.stop();
     profileMusicReady = false;
     for (const source of activeSamples) { try { source.stop(); } catch {} }
-    activeSamples.clear();
+    activeSamples.clear(); activeVoiceSamples.clear();
     profileGate.reset();
     decoded.clear(); decodedBytes = 0;
     activePack = null; activeProfile = null; activeSourceBlobs = null;
@@ -484,18 +485,26 @@ export function createGameAudio({
       const start = Math.max(0, variant.trimStartSeconds || 0);
       const end = Math.min(buffer.duration, variant.trimEndSeconds ?? buffer.duration);
       if (end <= start) throw new Error('Invalid cue trim');
+      if (isUrgentCue(cue) && binding.bus === 'voice') {
+        for (const speaking of activeVoiceSamples) {
+          activeSamples.delete(speaking);
+          try { speaking.stop(); } catch {}
+        }
+        activeVoiceSamples.clear();
+      }
       if (activeSamples.size >= MAX_ACTIVE_SAMPLES) {
         if (!['battle-alert', 'selected-alert', 'base-alert', 'base-lost', 'victory', 'defeat'].includes(cue)) return;
         const interrupted = activeSamples.values().next().value;
-        activeSamples.delete(interrupted);
+        activeSamples.delete(interrupted); activeVoiceSamples.delete(interrupted);
         try { interrupted.stop(); } catch {}
       }
       const node = context.createBufferSource();
       const gain = context.createGain();
       node.buffer = buffer; gain.gain.value = variant.gain ?? 1;
       node.connect(gain); gain.connect(destination);
-      node.onended = () => { activeSamples.delete(node); node.disconnect(); gain.disconnect(); };
+      node.onended = () => { activeSamples.delete(node); activeVoiceSamples.delete(node); node.disconnect(); gain.disconnect(); };
       activeSamples.add(node);
+      if (binding.bus === 'voice') activeVoiceSamples.add(node);
       node.start(context.currentTime, start, end - start);
       if (variant.caption) onProfileCaption?.(variant.caption);
       if (isUrgentCue(cue)) duckForAlert();
@@ -546,7 +555,7 @@ export function createGameAudio({
       if (duckTimer !== null) globalThis.clearTimeout(duckTimer);
       compositionPlayer?.dispose();
       for (const source of activeSamples) { try { source.stop(); } catch {} }
-      activeSamples.clear();
+      activeSamples.clear(); activeVoiceSamples.clear();
       ambienceSource?.stop();
       context?.close().catch(() => {});
     },

@@ -5219,12 +5219,16 @@ function selectedStudioAudio() {
   if (!packId) return undefined;
   return validateMapAudioReference({ packId, profileId });
 }
+let studioAudioPackRequest = 0;
+let studioAudioProfileRequest = 0;
 async function refreshStudioAudioPacks(reference) {
+  const request = ++studioAudioPackRequest;
   const select = ui.studioAudioPack;
   select.replaceChildren(new Option('Synthesized default', ''));
   try {
     const library = await getAudioLibraryStore();
     const packs = await library.listPacks();
+    if (request !== studioAudioPackRequest) return;
     for (const pack of packs) select.add(new Option(pack.name || pack.id, pack.id));
     if (reference && !packs.some((pack) => pack.id === reference.packId)) {
       select.add(new Option(`Missing pack: ${reference.packId}`, reference.packId));
@@ -5232,6 +5236,7 @@ async function refreshStudioAudioPacks(reference) {
     select.value = reference?.packId || '';
     await refreshStudioAudioProfiles(reference?.profileId);
   } catch (error) {
+    if (request !== studioAudioPackRequest) return;
     if (reference) {
       if (![...select.options].some((option) => option.value === reference.packId)) {
         select.add(new Option(`Missing pack: ${reference.packId}`, reference.packId));
@@ -5243,18 +5248,21 @@ async function refreshStudioAudioPacks(reference) {
   }
 }
 async function refreshStudioAudioProfiles(selectedId = '') {
+  const request = ++studioAudioProfileRequest;
   const select = ui.studioAudioProfile;
   select.replaceChildren(new Option('Choose profile', ''));
   const packId = ui.studioAudioPack.value;
   if (!packId) return;
   try {
     const loaded = await (await getAudioLibraryStore()).loadPack(packId);
+    if (request !== studioAudioProfileRequest || packId !== ui.studioAudioPack.value) return;
     for (const profile of loaded?.pack?.profiles || []) select.add(new Option(profile.name || profile.id, profile.id));
     if (selectedId && ![...(loaded?.pack?.profiles || [])].some((profile) => profile.id === selectedId)) {
       select.add(new Option(`Missing profile: ${selectedId}`, selectedId));
     }
     select.value = selectedId || select.options[1]?.value || '';
   } catch (error) {
+    if (request !== studioAudioProfileRequest || packId !== ui.studioAudioPack.value) return;
     if (selectedId) {
       select.add(new Option(`Missing profile: ${selectedId}`, selectedId));
       select.value = selectedId;
@@ -6303,7 +6311,7 @@ function sendTrackedOrder(command, label, count, unitName = 'UNITS') {
       : command.type === 'gather' ? 'gather'
         : command.type === 'attack' || command.type === 'attackBuilding' || command.type === 'attackMove'
           ? 'attack' : 'move', kind: units[command.ids?.[0]]?.kind,
-      resource: command.type === 'gather' ? (command.forestCell ? 'wood'
+      resource: command.type === 'gather' ? (command.forestCell !== undefined ? 'wood'
         : mapDefinition?.resourceNodes?.find((node) => node.id === command.nodeId)?.type) : undefined });
     return token;
   }
