@@ -92,6 +92,7 @@ function makeRoom(id, values = {}) {
     mapId: roomMetadata?.mapId ?? null,
     lastIndexWriteAt: 0,
     activeConnections: 0,
+    pendingConnections: 0,
     worker: null,
     starting: null,
   };
@@ -168,6 +169,11 @@ async function loadRooms() {
     console.warn(`Recovered ${rooms.size} saved rooms above the current limit of ${MAX_ROOMS}; new room creation is disabled until capacity is available.`);
   }
   await persistRoomIndex();
+}
+
+function roomExpired(room, now = Date.now()) {
+  return room.activeConnections === 0 && room.pendingConnections === 0
+    && now - room.lastActiveAt >= ROOM_IDLE_TTL_MS;
 }
 
 function touchRoom(room) {
@@ -543,7 +549,7 @@ async function handleRequest(request, response) {
     const id = roomMatch[1];
     const room = ROOM_ID_PATTERN.test(id) ? rooms.get(id) : null;
     if (!room) { sendJson(response, 404, { error: 'Room not found.' }); return; }
-    if (room.activeConnections === 0 && Date.now() - room.lastActiveAt >= ROOM_IDLE_TTL_MS) {
+    if (roomExpired(room)) {
       await deleteRoom(room);
       sendJson(response, 404, { error: 'Room expired.' });
       return;
@@ -584,6 +590,16 @@ async function handleUpgrade(request, socket, head) {
   if (!ROOM_ID_PATTERN.test(roomId)) { rejectUpgrade(socket, 400, 'Bad Request'); return; }
   const room = rooms.get(roomId);
   if (!room) { rejectUpgrade(socket, 404, 'Not Found'); return; }
+  if (roomExpired(room)) {
+    try { await deleteRoom(room); }
+    catch (error) { console.error(`Could not expire room ${roomId.slice(0, 8)}:`, error); }
+    rejectUpgrade(socket, 404, 'Not Found');
+    return;
+  }
+  // Reserve the room before asynchronous startup: expiry must not remove its
+  // checkpoint/maps while an admitted reconnect is waiting for a worker.
+  room.pendingConnections++;
+  touchRoom(room);
   try {
     const worker = await ensureRoomWorker(room);
     if (socket.destroyed || stopping) return;
@@ -591,11 +607,14 @@ async function handleUpgrade(request, socket, head) {
   } catch (error) {
     console.error(`Could not start room ${roomId.slice(0, 8)}:`, error);
     rejectUpgrade(socket, 503, 'Service Unavailable');
+  } finally {
+    room.pendingConnections--;
+    touchRoom(room);
   }
 }
 
 async function deleteRoom(room) {
-  if (rooms.get(room.id) !== room || room.activeConnections > 0) return;
+  if (rooms.get(room.id) !== room || room.activeConnections > 0 || room.pendingConnections > 0) return;
   rooms.delete(room.id);
   await stopWorker(room.worker);
   room.worker = null;
@@ -646,7 +665,7 @@ indexTimer.unref();
 const roomSweepTimer = setInterval(() => {
   const now = Date.now();
   for (const room of rooms.values()) {
-    if (room.activeConnections === 0 && now - room.lastActiveAt >= ROOM_IDLE_TTL_MS) {
+    if (roomExpired(room, now)) {
       void deleteRoom(room).catch((error) => console.error(`Could not expire room ${room.id.slice(0, 8)}:`, error));
     }
   }

@@ -110,7 +110,10 @@ can start lazily.
 Invite IDs and custom maps persist with room data. The supervisor can rebuild a
 missing/invalid room index from valid directories; lowering the cap does not
 delete saved rooms. By default an invite room idle for six hours is removed
-with its checkpoint and maps.
+with its checkpoint and maps. HTTP lookup and direct WebSocket joins enforce
+the same idle deadline. A join admitted before that deadline reserves its room
+through worker startup, so expiry cannot delete its checkpoint or maps while
+recovery is in progress. See the [idle-expiry regression](qa-room-expiry-2026-09-27.md).
 
 - Railway: back up the volume containing both `room-data` and `custom-maps`.
 - Compose: back up both `room_data` and `custom_maps`; Caddy's volumes retain
