@@ -32,6 +32,7 @@ for the exact observation boundary.
 ## Verify
 
 ```sh
+node scripts/pve-decision-fairness-scenario.mjs
 node scripts/pve-opponent-scenario.mjs
 node scripts/pve-room-launch-scenario.mjs
 ```
@@ -39,3 +40,7 @@ node scripts/pve-room-launch-scenario.mjs
 Follow these with a solo match: observe the opening, objective contest, retake
 response, result, and rematch. A deterministic trace does not establish a fun or
 understandable opponent.
+
+The policy bounds economy-only decisions so repeated gather retries cannot
+indefinitely delay an opening advance or objective retake. See the
+[decision fairness evidence](pve-decision-fairness.md) for reproduction and limits.

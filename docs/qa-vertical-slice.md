@@ -67,6 +67,9 @@ browser evidence. The [balance summary](first-skirmish-balance.md) and
 [performance baseline](performance-reliability-baseline-2026-09-25.md) retain
 measured limits. None is a live service-status page.
 
+[In-range building attack evidence](qa-ranged-building-attack-2026-09-27.md)
+records a paired-seat regression and pinned 0 A.D. source research.
+
 ## Repeatable run sheet
 
 1. Identify the build, device, browser, server, map, roster, and network profile.
