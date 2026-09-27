@@ -28,6 +28,12 @@ visibility, and match results. The browser owns selection, camera, HUD, audio,
 and visual interpolation. A renderer fallback cannot change gameplay occupancy
 or reveal hidden state.
 
+Building placement compares connectivity before and after its proposed footprint.
+It preserves existing connections among bases, units, resources, and building
+access, including Town Centers, without requiring separate authored islands to
+connect. Footprint occupancy and active move-route checks apply independently;
+see [construction evidence](qa-construction-connectivity-2026-09-27.md).
+
 ## Code map
 
 | Files | Responsibility |

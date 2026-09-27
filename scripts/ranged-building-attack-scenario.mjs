@@ -101,7 +101,7 @@ try {
   const map = {
     id: 'ranged-building-wall', name: 'Ranged Building Wall', width: 64, height: 64,
     terrainSeed: 19, fogOfWar: false, startingArmySize: 20,
-    startingResources: { food: 500, wood: 500 },
+    startingResources: { food: 500, wood: 1000 },
     spawnPoints: [{ team: 0, x: -14, z: 0 }, { team: 1, x: 14, z: 0 }],
     obstacles: [],
     resourceNodes: [], triggers: [], scenarioEvents: [],
@@ -132,7 +132,7 @@ try {
     return Math.abs(u.x - (team === 0 ? -1.5 : 1.5)) < 0.1 && Math.abs(u.z - 10.5) < 0.1;
   }));
   // Restore an authored disconnected battlefield with the real constructed roster.
-  // Placement currently forbids building on disconnected maps, independently of combat.
+  // Keep the combat fixture independent of the placement rules under test.
   for (const client of clients) client.socket.close();
   const stopped = once(child, 'exit');
   child.kill('SIGINT');
@@ -183,6 +183,26 @@ try {
   for (const [team, archer] of archers.entries()) {
     assert.equal(firing.state.units[archer[0]].path.length, 0, 'archer should fire without walking');
     assert.equal(Math.sign(firing.state.units[archer[0]].x), team === 0 ? -1 : 1);
+  }
+  // Existing ranged combat across islands must not make unrelated construction invalid.
+  for (const attackType of ['attackBuilding', 'attack']) {
+    for (const [team, client] of clients.entries()) {
+      if (attackType === 'attack') {
+        send(client, { type: 'attack', ids: [archers[team][0]], unitGenerations: [archers[team][8]],
+          targetId: archers[1 - team][0], targetGeneration: archers[1 - team][8], clientOrderToken: 6 });
+        assert.equal((await client.wait((m) => m.type === 'notice' && m.clientOrderToken === 6)).message,
+          'ATTACK ORDER · 1 UNITS');
+      }
+      const workers = client.latest.units.filter((u) => u[1] === team && u[5] === 'worker');
+      const clientOrderToken = attackType === 'attackBuilding' ? 5 : 7;
+      send(client, { type: 'build', buildingType: 'barracks', ids: workers.map((u) => u[0]),
+        unitGenerations: workers.map((u) => u[8]),
+        x: (team === 0 ? -1 : 1) * (attackType === 'attackBuilding' ? 10.5 : 16.5),
+        z: 12.5, clientOrderToken });
+      const placed = await client.wait((m) => m.type === 'notice' && m.clientOrderToken === clientOrderToken
+        && (m.message.startsWith('BARRACKS PLACED') || m.message.startsWith('BUILD REJECTED')));
+      assert.match(placed.message, /^BARRACKS PLACED/, `${attackType} across islands must not block local building`);
+    }
   }
   console.log('Ranged building attack passed: both seats fire across disconnected terrain; unreachable infantry rejected.');
 } catch (error) {

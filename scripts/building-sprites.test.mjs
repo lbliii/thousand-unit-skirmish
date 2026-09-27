@@ -1,8 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import vm from 'node:vm';
 import * as THREE from 'three';
 import { attachBuildingSprite, buildingSpriteUrl } from '../src/building-sprites.mjs';
+import { barracksModelVisualState } from '../src/building-visual-state.mjs';
 
 test('available team and lifecycle frames resolve to real files', () => {
   for (const type of ['barracks', 'archery-range']) for (const team of [0, 1]) {
@@ -50,4 +52,36 @@ test('sprite loading preserves fog, indicators, fallback and latest state', asyn
   controller.dispose();
   requests[3].resolve(true); await Promise.resolve();
   assert.equal(sprite.visible, false, 'disposed visuals must ignore late loads');
+});
+
+test('live Barracks updates advance the sprite through construction and damage for both teams', async () => {
+  const source = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
+  const updateSource = source.slice(source.indexOf('function updateBarracksVisual('),
+    source.indexOf('\nfunction reconcileBuildings('));
+  const context = vm.createContext({ THREE, barracksModelVisualState,
+    updateBuildingProductionCue() {}, updateBuildingHealthIndicator() {},
+  });
+  vm.runInContext(updateSource, context);
+  for (const team of [0, 1]) {
+    const group = new THREE.Group();
+    const frame = new THREE.Group();
+    const ridge = new THREE.Group();
+    group.add(frame, ridge);
+    const first = { type: 'barracks', team, progress: 0, x: 4, z: 8 };
+    const load = (url) => ({ ready: Promise.resolve(true), texture: { url } });
+    const authoredSprite = attachBuildingSprite(group, [frame, ridge], first, undefined, load);
+    const visual = { group, frame, ridge, walls: [], roofPanels: [], finishPieces: [], authoredSprite };
+    const sprite = group.children.find(child => child.isSprite);
+    for (const state of [
+      { progress: 0.1 }, { progress: 0.5 }, { progress: 1, complete: true },
+      { progress: 1, complete: true, hp: 900, maxHp: 1800 },
+      { progress: 1, complete: true, hp: 300, maxHp: 1800 },
+    ]) {
+      const building = { ...first, ...state };
+      context.updateBarracksVisual(visual, building);
+      await Promise.resolve();
+      assert.equal(sprite.material.map.url, buildingSpriteUrl(building));
+      assert.equal(sprite.visible, true);
+    }
+  }
 });

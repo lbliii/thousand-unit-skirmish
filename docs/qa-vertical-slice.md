@@ -70,6 +70,9 @@ measured limits. None is a live service-status page.
 [In-range building attack evidence](qa-ranged-building-attack-2026-09-27.md)
 records a paired-seat regression and pinned 0 A.D. source research.
 
+[Construction connectivity evidence](qa-construction-connectivity-2026-09-27.md)
+records island placement, route preservation, and Town Center occupancy checks.
+
 ## Repeatable run sheet
 
 1. Identify the build, device, browser, server, map, roster, and network profile.

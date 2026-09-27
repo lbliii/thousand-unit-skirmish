@@ -3999,7 +3999,7 @@ function routesShareWalkableComponent(startCell, goalCell) {
   return walkableComponents[start] >= 0 && walkableComponents[start] === walkableComponents[goal];
 }
 
-function activeMoveRoutesRemainConnected() {
+function activeMoveRoutesRemainConnected(previousComponents) {
   const pending = pendingMoveAssignmentsByUnit();
   for (const unit of units) {
     if (unit.hp <= 0) continue;
@@ -4010,16 +4010,20 @@ function activeMoveRoutesRemainConnected() {
     const assignment = pending.get(unit.id);
     if (unit.attackTargetId >= 0) {
       const target = units[unit.attackTargetId];
-      if (target && target.hp > 0
-        && !routesShareWalkableComponent(current, worldToCell(target.x, target.z))) return false;
+      const targetCell = target ? worldToCell(target.x, target.z) : -1;
+      if (target && target.hp > 0 && previousComponents[current] >= 0
+        && previousComponents[current] === previousComponents[targetCell]
+        && !routesShareWalkableComponent(current, targetCell)) return false;
       if (unit.attackMove && unit.moveGoalCell >= 0
         && !routesShareWalkableComponent(current, unit.moveGoalCell)) return false;
       continue;
     }
     if (unit.attackBuildingTargetId >= 0) {
       const target = buildingsById.get(unit.attackBuildingTargetId);
-      if (!target || !buildingAccessCells(target.footprint)
-        .some((cell) => walkableComponents[cell] === walkableComponents[current])) return false;
+      const range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+      if (target && distanceToBuildingEdge(unit, target) > range
+        && !buildingAccessCells(target.footprint)
+          .some((cell) => walkableComponents[cell] === walkableComponents[current])) return false;
       continue;
     }
 
@@ -4167,22 +4171,45 @@ function isResourceCell(cell) {
   return false;
 }
 
-function canPlaceBuildingWithoutDisconnectingEntities() {
-  const baseComponents = spawnByTeam.map((spawn) => walkableComponents[worldToCell(spawn.x, spawn.z)]);
-  if (baseComponents[0] < 0 || baseComponents[0] !== baseComponents[1]) return false;
-  for (const node of mapDefinition.resourceNodes) {
-    const component = walkableComponents[worldToCell(node.x, node.z)];
-    if (component !== baseComponents[0]) return false;
-  }
+// Record the routes that exist before a proposed footprint blocks any cells.
+// A map may already have separate islands (including ones created by Town Centers).
+function captureBuildingConnectivity() {
+  const groups = new Map();
+  const addAccess = (cells) => {
+    const byComponent = new Map();
+    for (const cell of cells) {
+      const component = walkableComponents[cell];
+      if (component < 0) continue;
+      if (!byComponent.has(component)) byComponent.set(component, []);
+      byComponent.get(component).push(cell);
+    }
+    for (const [component, access] of byComponent) {
+      if (!groups.has(component)) groups.set(component, []);
+      groups.get(component).push(access);
+    }
+  };
+  for (const spawn of spawnByTeam) addAccess([nearestOpenCell(worldToCell(spawn.x, spawn.z))]);
+  for (const node of mapDefinition.resourceNodes) addAccess([worldToCell(node.x, node.z)]);
   for (const unit of units) {
-    if (unit.hp <= 0) continue;
-    const component = walkableComponents[nearestOpenCell(worldToCell(unit.x, unit.z))];
-    if (component !== baseComponents[unit.team]) return false;
+    if (unit.hp > 0) addAccess([nearestOpenCell(worldToCell(unit.x, unit.z))]);
   }
-  for (const building of buildings) {
-    const component = baseComponents[building.team];
-    if (!buildingAccessCells(building.footprint)
-      .some((cell) => walkableComponents[cell] === component)) return false;
+  for (const building of buildings) addAccess(buildingAccessCells(building.footprint));
+  for (const team of [0, 1]) {
+    addAccess(buildingAccessCells(townCenterFootprintCells(spawnByTeam, team, MAP_WIDTH, MAP_HEIGHT)));
+  }
+  return groups;
+}
+
+function canPlaceBuildingWithoutDisconnectingEntities(previousGroups) {
+  for (const accesses of previousGroups.values()) {
+    let sharedComponents = null;
+    for (const cells of accesses) {
+      const components = new Set(cells.map((cell) => walkableComponents[cell])
+        .filter((component) => component >= 0));
+      sharedComponents = sharedComponents === null ? components
+        : new Set([...sharedComponents].filter((component) => components.has(component)));
+      if (sharedComponents.size === 0) return false;
+    }
   }
   return true;
 }
@@ -4322,15 +4349,17 @@ function buildBuilding(player, command) {
     footprint, hp: BUILDING_MAX_HIT_POINTS, progress: 0, complete: false, queue: 0, trainingRemaining: 0,
     productionBlocked: false, rallyCell: -1,
   };
+  const previousConnectivity = captureBuildingConnectivity();
+  const previousComponents = walkableComponents.slice();
   for (const cell of footprint) buildingBlocked[cell] = 1;
   rebuildWalkableComponents();
   const accessCells = buildingAccessCells(footprint);
   const teamComponent = walkableComponents[nearestOpenCell(
     worldToCell(spawnByTeam[player.team].x, spawnByTeam[player.team].z),
   )];
-  if (!canPlaceBuildingWithoutDisconnectingEntities() || accessCells.length === 0
+  if (!canPlaceBuildingWithoutDisconnectingEntities(previousConnectivity) || accessCells.length === 0
     || !accessCells.some((cell) => walkableComponents[cell] === teamComponent)
-    || !activeMoveRoutesRemainConnected()) {
+    || !activeMoveRoutesRemainConnected(previousComponents)) {
     for (const cell of footprint) buildingBlocked[cell] = 0;
     rebuildWalkableComponents();
     rejectBuild(player, 'WOULD BLOCK A ROUTE', command);
