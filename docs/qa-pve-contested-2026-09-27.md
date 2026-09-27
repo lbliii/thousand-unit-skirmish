@@ -68,8 +68,64 @@ separate evidence; this diagnostic introduces neither.
 
 ## Limits
 
-This is one deterministic-policy pairing on a local server. It does not establish
+These are bounded deterministic-policy pairings on a local server. They do not establish
 seat parity, human win rates, hosted latency, strategic variety or player fun.
 A full timed finish can be observed with a 930-second bound, beyond the map's
 15-minute deadline. Preserve costs, rewards and unit statistics until paired
 human observations support a specific tuning change.
+
+
+## Reversed seeds and same-build control
+
+The follow-up uses base `bcd5fec` and reverses the policy seeds. Since the server's
+unit-pursuit behavior changed in #202 after the original measurement, the
+original pairing is also rerun on this build rather than attributing all changes
+to the seed swap.
+
+```sh
+node scripts/pve-contested-match-scenario.mjs 300 4294967295 20260925
+node scripts/pve-contested-match-scenario.mjs 300 20260925 4294967295
+```
+
+Source inspection confirms that the policy seed selects gathering ties and
+rotates candidate construction sites. The objective selector uses ownership,
+prerequisites, distance and stable IDs; it does not randomly select objectives.
+Reversing these seeds therefore tests economy/placement variation in the same
+objective policy. The map seed, geometry, starting armies and combat rules stay
+fixed within the paired rerun.
+
+The pinned 0 A.D. source above separates attack-size variation, readiness and
+target selection. That distinction is useful here: a seed-dependent economy
+choice does not itself demonstrate a broken target or a stalled army. No new
+random tactical behavior or balance adjustment is introduced.
+
+
+The reversed pairing finished with an agreed Azure victory in **213 seconds**.
+Azure captured South at tick 3318, North at 4332 and Watch at 5790, then held
+all three for 20 seconds. Azure/Ember each completed one Barracks; observed new
+Infantry totals were 10/8, military losses 8/11, and command totals 26/22.
+First completed Barracks were observed at ticks 1140/1173 and first training
+commands at 1260/1293. Both sides retained active production and valid objective
+orders; all seeded replay, budget, combat and result assertions passed.
+
+
+The same-build control finished with an agreed Azure victory in **245 seconds**.
+Azure captured South/North/Watch at ticks 3477/4383/5583. Ember retook South at
+6111, interrupting the hold; Azure retook it at 6741 and completed a new hold.
+Azure/Ember observed new Infantry totals were 11/10, military losses 9/16, and
+command totals 29/30. First completed Barracks were observed at 1230/1173 and
+first training commands at 1350/1293. Both sides continued producing and
+retargeting through the interrupted victory attempt; all diagnostic checks passed.
+
+| Same-build pairing | Azure seed | Ember seed | Result | Wall seconds |
+| --- | --- | --- | --- | --- |
+| Reversed | 4294967295 | 20260925 | Azure capture/hold victory | 213 |
+| Control | 20260925 | 4294967295 | Azure victory after South loss/retake | 245 |
+
+Neither seed assignment caused a stopped army, failed production loop or an
+invalid objective target in these traces. Azure won both same-build runs and
+the earlier historical run; that repeated outcome deserves future seat/parity
+observations but does not identify a causal seat advantage. There is one run per
+seed order on this build, ordinary WebSocket scheduling and no statistical
+sample of openings. The 144-second historical result is not a timing control
+for the newer combat implementation. No policy or balance change was made.
