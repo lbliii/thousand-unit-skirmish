@@ -95,6 +95,9 @@ records both seats retaining valid attacks through unrelated construction.
 [Production lifecycle evidence](qa-production-lifecycle-2026-09-27.md) records
 producer/builder death and population reservation release at both seats’ caps.
 
+[Contested solo-policy evidence](qa-pve-contested-2026-09-27.md) records two active
+policies on unmodified Forked Vale with combat, losses and production.
+
 ## Repeatable run sheet
 
 1. Identify the build, device, browser, server, map, roster, and network profile.
