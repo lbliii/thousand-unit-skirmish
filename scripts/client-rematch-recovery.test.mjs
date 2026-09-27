@@ -46,7 +46,7 @@ function fixture(team) {
     lastFriendlyUnitClick:null,lastUnitPickState:null, currentOrderToken:null, orderStatusTimeout:null,reconnectDelayMs:500,
     ui:{total:element('total'),orderStatus:element('orders'),mapStudio:{open:false},
       playerTeam:element('player-team'),mapSelect:element('map-select'),mapStudioOpen:element('studio-open')},
-    audio:{play:noop},combatAudioGate:{reset:noop,observe:noop},
+    audio:{play:noop,playEvent:noop},combatAudioGate:{reset:noop,observe:noop},
     setUnitInstanceCount:(side,count) => {counts[side] = count;},
     setUnitTint:noop,updateUnitTransform:noop,updateUnitCargoCueColor:noop,
     markUnitInstanceMatricesDirty:noop,flushUnitCargoPackColor:noop,
@@ -55,7 +55,7 @@ function fixture(team) {
     updateFogFromState:noop,applyForestState:noop,updateObjectives:noop,updateVictoryHoldCard:noop,
     updateScenarioEventCards(_events,elapsed){context.latestMatchElapsedSeconds = elapsed;},
     updateEconomyUI:noop,updateEnvironmentStateCaptureSnapshot:noop,revalidateControlGroups:noop,
-    setConnection:noop,setMapCatalog:noop,updateRoomUI:noop,showToast:noop,scheduleReconnect:noop,
+    setConnection:noop,setMapCatalog:noop,loadMapAudio:noop,updateRoomUI:noop,showToast:noop,scheduleReconnect:noop,
     zoom:1.7,defaultCameraZoom:0.91,cameraMinZoom:0.1,mapFitActive:false,resize:noop,centerCameraOnHomeBase:noop,
   });
   vm.runInContext([

@@ -31,7 +31,7 @@ function fixture() {
     mapDefinition: map, currentArmySize: 24, waitingForResume: false,
     TEAM_NAMES: ['Azure', 'Ember'], reconnectDelayMs: 500,
     zoom: 0.5, defaultCameraZoom: 0.91, cameraMinZoom: 0.1, mapFitActive: true,
-    setConnection() {}, buildMap() {}, setMapCatalog() {}, setArmySize() {},
+    setConnection() {}, buildMap() {}, setMapCatalog() {}, setArmySize() {}, loadMapAudio() {},
     applyState() {}, updateRoomUI() {}, showToast() {}, resize() {},
     setPlayer(player) { context.localTeam = Number.isInteger(player.team) ? player.team : null; },
     centerCameraOnHomeBase() { centers.push(context.localTeam); },
