@@ -1390,8 +1390,8 @@ function reconcileBuildings(buildings = [], initial = false) {
     buildingVisuals.delete(id);
   }
   latestBuildings = rows;
-  if (!initial && finishedFriendlyConstruction) audio.play('building-complete');
-  if (!initial && finishedFriendlyProduction) audio.play('complete');
+  if (!initial && finishedFriendlyConstruction) audio.playEvent({ cue: 'building-complete' });
+  if (!initial && finishedFriendlyProduction) audio.playEvent({ cue: 'complete' });
   const selectedBuilding = rows.find((building) => building.id === selectedBuildingId
     && building.team === localTeam) || null;
   if (priorSelectedBuildingId !== selectedBuildingId
@@ -3685,7 +3685,7 @@ function updateMatchResult(winner, triggerId = null, reason = null) {
   const isDraw = winner === 2 && ['capture-hold', 'elimination', 'timed-control'].includes(reason);
   matchWinner = Number.isInteger(winner) && ([0, 1].includes(winner) || isDraw) ? winner : -1;
   if (previousWinner < 0 && matchWinner >= 0) {
-    audio.play(matchWinner === 2 ? 'draw' : matchWinner === localTeam ? 'victory' : 'defeat');
+    audio.playEvent({ cue: matchWinner === 2 ? 'draw' : matchWinner === localTeam ? 'victory' : 'defeat' });
   }
   matchWinnerReason = matchWinner >= 0 ? reason : null;
   if (matchWinner >= 0 && buildPlacementActive) cancelBuildPlacement(false);
@@ -4003,7 +4003,7 @@ function applyState(state, initial = false) {
   if (audioReset) combatAudioGate.reset();
   else {
     const cue = combatAudioGate.observe({ friendlyDamage, selectedDamage, buildingDamage }, performance.now());
-    if (cue) audio.play(cue);
+    if (cue) audio.playEvent({ cue });
   }
   if (Number.isInteger(state.winner)) {
     updateMatchResult(state.winner, state.winnerTriggerId, state.winnerReason);
@@ -4070,7 +4070,7 @@ function updateEconomyUI(state = {}, initial = false) {
   if (Array.isArray(state.wood)) latestWood = [Number(state.wood[0]) || 0, Number(state.wood[1]) || 0];
   if (Array.isArray(state.workerProduction)) {
     if (!initial && localTeam !== null && Number.isFinite(latestWorkerProduction[localTeam]?.queue)
-      && Number(state.workerProduction[localTeam]?.queue) < latestWorkerProduction[localTeam].queue) audio.play('complete');
+      && Number(state.workerProduction[localTeam]?.queue) < latestWorkerProduction[localTeam].queue) audio.playEvent({ cue: 'complete' });
     latestWorkerProduction = [state.workerProduction[0] || null, state.workerProduction[1] || null];
   }
   if (Array.isArray(state.teamResearch)) {
@@ -6199,7 +6199,7 @@ function showToast(message, duration = 1300) {
     item.textContent = notice.text + (notice.count > 1 ? ` ×${notice.count}` : '');
     return item;
   }));
-  if (isLocalRejection(message)) audio.play('reject');
+  if (isLocalRejection(message)) audio.playEvent({ cue: 'reject' });
   const fieldFeedback = document.querySelector('#field-order-feedback');
   if (fieldFeedback && !fieldFeedback.hidden && fieldFeedback.textContent === message) return;
   toast.textContent = message;
@@ -6299,7 +6299,7 @@ function sendTrackedOrder(command, label, count, unitName = 'UNITS') {
 function sendCommand(command) {
   if (!socket || socket.readyState !== WebSocket.OPEN) {
     showToast('SERVER CONNECTION IS OFFLINE');
-    audio.play('reject');
+    audio.playEvent({ cue: 'reject' });
     return false;
   }
   const payload = { ...command };
@@ -6314,7 +6314,7 @@ function sendCommand(command) {
     const message = 'Map JSON is too large to send safely. Keep the published map under 900 KB.';
     if (command.type === 'publishMap') ui.studioMessage.textContent = message;
     showToast('COMMAND TOO LARGE TO SEND');
-    audio.play('reject');
+    audio.playEvent({ cue: 'reject' });
     return false;
   }
   socket.send(serialized);
@@ -8596,13 +8596,13 @@ function connectSocket() {
     }
     if (message.type === 'room') { updateRoomUI(message.connected); return; }
     if (message.type === 'trigger') {
-      audio.play(localTeam !== null && message.team !== localTeam ? 'objective-lost' : 'objective');
+      audio.playEvent({ cue: localTeam !== null && message.team !== localTeam ? 'objective-lost' : 'objective' });
       showToast(message.message, 2400);
       return;
     }
     if (message.type === 'scenarioEvent') {
       const cue = cueForScenarioEvent(message, { localTeam });
-      if (cue) audio.play(cue);
+      if (cue) audio.playEvent({ cue });
       showToast(message.message, 3600);
       return;
     }
@@ -8635,7 +8635,7 @@ function connectSocket() {
       if (feedback.applyOrderStatus) applyOrderNotice(noticeToken, notice);
       if (feedback.showToast) {
         const cue = cueForNotice(notice, { localTeam, tokenized: noticeToken !== null });
-        if (cue) audio.play(cue);
+        if (cue) audio.playEvent({ cue });
       }
       if (notice.startsWith('BUILD REJECTED ·')) {
         if (feedback.clearPendingBuild) {

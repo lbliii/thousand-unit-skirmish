@@ -54,7 +54,8 @@ export function createProfileDecisionGate({ now = () => performance.now() } = {}
       const variants = binding.variants;
       const previous = lastVariant.get(key);
       const eligible = variants.length > 1 ? variants.filter((variant) => variant.sourceId !== previous) : variants;
-      const variant = eligible[Math.floor(Math.random() * eligible.length)];
+      const choices = eligible.length ? eligible : variants;
+      const variant = choices[Math.floor(Math.random() * choices.length)];
       lastAt.set(key, at);
       lastVariant.set(key, variant.sourceId);
       if (binding.bus === 'voice') {

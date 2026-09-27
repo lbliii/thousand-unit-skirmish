@@ -12,6 +12,7 @@ const profile = { bindings: {
   'unit.worker.gather.food': { bus: 'voice', variants: [{ sourceId: 'food' }] },
   'building.barracks.select': { bus: 'voice', variants: [{ sourceId: 'barracks' }] },
   'cue.select': { bus: 'effects', variants: [{ sourceId: 'generic' }] },
+  'cue.base-alert': { bus: 'voice', variants: [{ sourceId: 'danger' }] },
 } };
 assert.equal(resolveEventBinding(profile, { cue: 'select', kind: 'worker' }).key, 'unit.worker.select');
 assert.equal(resolveEventBinding(profile, { cue: 'gather', kind: 'worker', resource: 'wood' }).binding.variants[0].sourceId, 'wood');
@@ -25,6 +26,8 @@ now += 1300;
 const second = gate.choose(profile, { cue: 'select', kind: 'worker' });
 assert.notEqual(first.variant.sourceId, second.variant.sourceId);
 assert.equal(gate.choose(profile, { cue: 'select', kind: 'worker' }), null);
+assert.equal(gate.choose(profile, { cue: 'base-alert' }).variant.sourceId, 'danger',
+  'urgent alert can interrupt the speech cooldown');
 assert.deepEqual(validateMapAudioReference({ packId: 'battle-pack', profileId: 'worker-v1' }), { packId: 'battle-pack', profileId: 'worker-v1' });
 assert.equal(validateMapAudioReference(undefined), null);
 assert.throws(() => validateMapAudioReference({ packId: 'abc', profileId: '../invalid' }), /stable IDs/);

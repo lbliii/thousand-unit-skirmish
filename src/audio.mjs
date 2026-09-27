@@ -300,6 +300,19 @@ export function createGameAudio({
     if (context.state === 'suspended') context.resume().then(emitStatus).catch(() => {});
   }
 
+
+  function isUrgentCue(cue) {
+    return cue.includes('alert') || ['victory', 'defeat', 'draw', 'objective', 'objective-lost', 'base-lost'].includes(cue);
+  }
+
+  function duckForAlert(now = performance.now()) {
+    lastAlertAt = now;
+    duckUntil = now + 2400;
+    applyLevels();
+    if (duckTimer !== null) globalThis.clearTimeout(duckTimer);
+    duckTimer = globalThis.setTimeout(() => { duckTimer = null; applyLevels(); }, 2450);
+  }
+
   function play(cue, { preview = false } = {}) {
     if (!(cue in COOLDOWN_MS)) return false;
     if (!doc?.hidden && (!preview || settings.captions)) {
@@ -371,13 +384,7 @@ export function createGameAudio({
     const scheduled = scheduledVoiceSerial > scheduledBefore;
     if (scheduled) {
       if (!preview) lastCueAt.set(cue, now);
-      if (!preview && (cue.includes('alert') || ['victory', 'defeat', 'draw', 'objective', 'objective-lost', 'base-lost'].includes(cue))) {
-        lastAlertAt = now;
-        duckUntil = now + 2400;
-        applyLevels();
-        if (duckTimer !== null) globalThis.clearTimeout(duckTimer);
-        duckTimer = globalThis.setTimeout(() => { duckTimer = null; applyLevels(); }, 2450);
-      }
+      if (!preview && isUrgentCue(cue)) duckForAlert(now);
       if (!preview) {
         try { onCue?.(cue); } catch {}
       }
@@ -475,7 +482,9 @@ export function createGameAudio({
       if (end <= start) throw new Error('Invalid cue trim');
       if (activeSamples.size >= MAX_ACTIVE_SAMPLES) {
         if (!['battle-alert', 'selected-alert', 'base-alert', 'base-lost', 'victory', 'defeat'].includes(cue)) return;
-        try { activeSamples.values().next().value.stop(); } catch {}
+        const interrupted = activeSamples.values().next().value;
+        activeSamples.delete(interrupted);
+        try { interrupted.stop(); } catch {}
       }
       const node = context.createBufferSource();
       const gain = context.createGain();
@@ -485,6 +494,7 @@ export function createGameAudio({
       activeSamples.add(node);
       node.start(context.currentTime, start, end - start);
       if (variant.caption) onProfileCaption?.(variant.caption);
+      if (isUrgentCue(cue)) duckForAlert();
       onCue?.(cue);
     }).catch((error) => { if (ticket === packGeneration) { setPackStatus(`Cue ${variant.sourceId} could not decode: ${error.message}. Synthesized feedback remains available.`); play(cue); } });
     return true;
