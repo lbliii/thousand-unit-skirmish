@@ -1,3 +1,4 @@
+import { formatResourceStock, formatResourceRequirement } from './resource-format.mjs';
 import { battlefieldCursor } from './battlefield-cursor.mjs';
 import { visibleHudRects, hudSafeRect, normalizeHudPreferences } from './hud-layout.mjs';
 import { objectiveSummary, rememberNotice } from './objective-summary.mjs';
@@ -1459,15 +1460,15 @@ function updateBuildingResearchControls(selectedBuilding) {
       ui.buildingResearchReadout.textContent = `${rules.label} · COMPLETE BUILDING TO RESEARCH`;
     } else {
       const short = [];
-      if (food < rules.foodCost) short.push(`${rules.foodCost - food} FOOD`);
-      if (wood < rules.woodCost) short.push(`${rules.woodCost - wood} WOOD`);
-      ui.buildingResearchReadout.textContent = `${rules.label} · +20% ATTACK · ${rules.foodCost} FOOD / ${rules.woodCost} WOOD · ${rules.durationSeconds}S${short.length ? ` · NEED ${short.join(' + ')}` : ''}`;
+      if (food < rules.foodCost) short.push(`${formatResourceRequirement(rules.foodCost - food)} FOOD`);
+      if (wood < rules.woodCost) short.push(`${formatResourceRequirement(rules.woodCost - wood)} WOOD`);
+      ui.buildingResearchReadout.textContent = `${rules.label} · +20% ATTACK · ${formatResourceRequirement(rules.foodCost)} FOOD / ${formatResourceRequirement(rules.woodCost)} WOOD · ${rules.durationSeconds}S${short.length ? ` · NEED ${short.join(' + ')}` : ''}`;
     }
   }
   if (ui.researchAttackUpgrade) {
     ui.researchAttackUpgrade.disabled = !canStart;
     ui.researchAttackUpgrade.setAttribute('aria-label', rules
-      ? `Research ${rules.label.toLowerCase()} for ${rules.foodCost} food and ${rules.woodCost} wood; completes in ${rules.durationSeconds} seconds`
+      ? `Research ${rules.label.toLowerCase()} for ${formatResourceRequirement(rules.foodCost)} food and ${formatResourceRequirement(rules.woodCost)} wood; completes in ${rules.durationSeconds} seconds`
       : 'Select a friendly Barracks or Archery Range to research an attack upgrade');
   }
 }
@@ -3259,7 +3260,7 @@ function updateContextualCommands() {
   document.querySelector('#assign-selected-group').disabled = !context.total;
   bar.querySelector('[data-context-summary]').textContent = building
     ? `${buildingLabel(building.type)} · ${ui.selectedBuildingHealth.textContent} · ${ui.selectedBuildingProduction.textContent}`
-    : context.total ? `${context.total} selected${context.kind === 'military' || context.kind === 'mixed' ? ` · ${ui.formationSelect.value} formation` : ''} · ${Object.entries(context.counts).filter(([, n]) => n).map(([role, n]) => `${n} ${role}`).join(' · ')}${context.counts.worker ? ` · Cargo ${Math.floor(context.cargo.food)} food / ${Math.floor(context.cargo.wood)} wood` : ''}` : '';
+    : context.total ? `${context.total} selected${context.kind === 'military' || context.kind === 'mixed' ? ` · ${ui.formationSelect.value} formation` : ''} · ${Object.entries(context.counts).filter(([, n]) => n).map(([role, n]) => `${n} ${role}`).join(' · ')}${context.counts.worker ? ` · Cargo ${formatResourceStock(context.cargo.food)} food / ${formatResourceStock(context.cargo.wood)} wood` : ''}` : '';
   for (const button of bar.querySelectorAll('[data-context-proxy]')) {
     const source = document.getElementById(button.dataset.contextProxy);
     const action = button.dataset.contextProxy;
@@ -4072,8 +4073,8 @@ function updateEconomyUI(state = {}, initial = false) {
       }
     }
   }
-  if (ui.foodStock) ui.foodStock.textContent = localTeam === null ? '—' : latestFood[localTeam].toLocaleString();
-  if (ui.woodStock) ui.woodStock.textContent = localTeam === null ? '—' : latestWood[localTeam].toLocaleString();
+  if (ui.foodStock) ui.foodStock.textContent = localTeam === null ? '—' : formatResourceStock(latestFood[localTeam]);
+  if (ui.woodStock) ui.woodStock.textContent = localTeam === null ? '—' : formatResourceStock(latestWood[localTeam]);
   const ownedUnits = localTeam === null ? [] : teamUnits[localTeam].filter((unit) => unit.hp > 0);
   const teamRosterCount = ownedUnits.length;
   const queuedByTeam = localTeam === null ? 0 : latestBuildings
@@ -4113,11 +4114,11 @@ function updateEconomyUI(state = {}, initial = false) {
   }
   if (ui.workerLoad) ui.workerLoad.textContent = localTeam === null
     ? 'WORKER CARGO · —'
-    : `WORKER CARGO · ${Math.floor(carriedFood)} FOOD · ${Math.floor(carriedWood)} WOOD`;
+    : `WORKER CARGO · ${formatResourceStock(carriedFood)} FOOD · ${formatResourceStock(carriedWood)} WOOD`;
   if (ui.trainInfantry) {
     ui.trainInfantry.disabled = localTeam === null || matchWinner >= 0 || !trainableBarracks
       || infantryQueueLength >= BARRACKS_QUEUE_LIMIT || food < INFANTRY_FOOD_COST || unitCapReached;
-    ui.trainInfantry.setAttribute('aria-label', `Queue infantry for ${INFANTRY_FOOD_COST} food${
+    ui.trainInfantry.setAttribute('aria-label', `Queue infantry for ${formatResourceRequirement(INFANTRY_FOOD_COST)} food${
       trainableBarracks ? `, queue ${infantryQueueLength} of ${BARRACKS_QUEUE_LIMIT}` : ', requires a completed Barracks with an open queue slot'
     }${unitCapReached ? ', unit cap reached' : ''}`);
   }
@@ -4126,7 +4127,7 @@ function updateEconomyUI(state = {}, initial = false) {
       || ownedWorkers.length === 0 || buildPlacementPending;
     ui.buildBarracks.classList.toggle('active', buildPlacementActive && buildPlacementType === 'barracks');
     ui.buildBarracks.setAttribute('aria-pressed', String(buildPlacementActive && buildPlacementType === 'barracks'));
-    ui.buildBarracks.setAttribute('aria-label', `Build Barracks for ${BARRACKS_WOOD_COST} wood${
+    ui.buildBarracks.setAttribute('aria-label', `Build Barracks for ${formatResourceRequirement(BARRACKS_WOOD_COST)} wood${
       ownedWorkers.length === 0 ? ', no living workers' : ''
     }`);
   }
@@ -4136,7 +4137,7 @@ function updateEconomyUI(state = {}, initial = false) {
       || selectedWorkerCount === 0 || buildPlacementPending;
     ui.buildRange.classList.toggle('active', buildPlacementActive && buildPlacementType === 'archery-range');
     ui.buildRange.setAttribute('aria-pressed', String(buildPlacementActive && buildPlacementType === 'archery-range'));
-    ui.buildRange.setAttribute('aria-label', `Build archery range for ${ARCHERY_RANGE_WOOD_COST} wood${
+    ui.buildRange.setAttribute('aria-label', `Build archery range for ${formatResourceRequirement(ARCHERY_RANGE_WOOD_COST)} wood${
       selectedWorkerCount === 0 ? ', no living workers' : ''
     }`);
   }
@@ -4145,7 +4146,7 @@ function updateEconomyUI(state = {}, initial = false) {
   if (ui.trainWorker) {
     ui.trainWorker.disabled = localTeam === null || matchWinner >= 0
       || food < WORKER_FOOD_COST || workerQueue >= WORKER_QUEUE_LIMIT || unitCapReached;
-    ui.trainWorker.setAttribute('aria-label', 'Queue worker for ' + WORKER_FOOD_COST + ' food'
+    ui.trainWorker.setAttribute('aria-label', 'Queue worker for ' + formatResourceRequirement(WORKER_FOOD_COST) + ' food'
       + (workerQueue > 0 ? ', queue ' + workerQueue + ' of ' + WORKER_QUEUE_LIMIT : '')
       + (unitCapReached ? ', unit cap reached' : ''));
   }
@@ -4153,7 +4154,7 @@ function updateEconomyUI(state = {}, initial = false) {
     ui.trainArcher.disabled = localTeam === null || matchWinner >= 0 || !trainableRange
       || queueLength >= ARCHERY_RANGE_QUEUE_LIMIT || food < ARCHER_FOOD_COST || wood < ARCHER_WOOD_COST
       || unitCapReached;
-    ui.trainArcher.setAttribute('aria-label', `Queue archer for ${ARCHER_FOOD_COST} food and ${ARCHER_WOOD_COST} wood${
+    ui.trainArcher.setAttribute('aria-label', `Queue archer for ${formatResourceRequirement(ARCHER_FOOD_COST)} food and ${formatResourceRequirement(ARCHER_WOOD_COST)} wood${
       trainableRange ? `, queue ${queueLength} of ${ARCHERY_RANGE_QUEUE_LIMIT}` : ', requires a completed archery range'
     }`);
   }
@@ -4193,7 +4194,7 @@ function updateEconomyUI(state = {}, initial = false) {
   }
   if (ui.barracksStatus) {
     if (ownBarracks.length === 0) {
-      ui.barracksStatus.textContent = `No Barracks built · ${BARRACKS_WOOD_COST} wood · ${INFANTRY_FOOD_COST} food / infantry · ${INFANTRY_TRAIN_SECONDS}s`;
+      ui.barracksStatus.textContent = `No Barracks built · ${formatResourceRequirement(BARRACKS_WOOD_COST)} wood · ${formatResourceRequirement(INFANTRY_FOOD_COST)} food / infantry · ${INFANTRY_TRAIN_SECONDS}s`;
     } else {
       const details = [];
       if (barracksConstruction) {
@@ -4223,7 +4224,7 @@ function updateEconomyUI(state = {}, initial = false) {
       ui.workerProductionStatus.textContent = 'TOWN CENTER · QUEUE ' + workerQueue + '/' + WORKER_QUEUE_LIMIT
         + ' · TRAINING ' + progress + '% · ' + remaining + 'S';
     } else ui.workerProductionStatus.textContent = 'TOWN CENTER · READY · '
-      + WORKER_FOOD_COST + ' FOOD · ' + WORKER_TRAIN_SECONDS + 'S';
+      + formatResourceRequirement(WORKER_FOOD_COST) + ' FOOD · ' + WORKER_TRAIN_SECONDS + 'S';
   }
   if (ui.foodStatus) {
     if (localTeam === null) ui.foodStatus.textContent = 'Join a team to gather and train.';
@@ -4244,7 +4245,7 @@ function updateEconomyUI(state = {}, initial = false) {
     const reason = localTeam === null ? 'Join a team' : matchWinner >= 0 ? 'Match finished'
       : !producer ? 'Complete a production building with spawn space'
       : queue >= limit ? 'Queue full' : unitCapReached ? 'Unit cap reached'
-      : food < costFood || wood < costWood ? `Need ${Math.max(0, costFood - food)} food / ${Math.max(0, costWood - wood)} wood` : '';
+      : food < costFood || wood < costWood ? `Need ${formatResourceRequirement(Math.max(0, costFood - food))} food / ${formatResourceRequirement(Math.max(0, costWood - wood))} wood` : '';
     button.dataset.disabledReason = reason;
     let note = button.querySelector('.action-disabled-reason');
     if (!note) { note = document.createElement('small'); note.className = 'action-disabled-reason'; button.append(note); }
@@ -6608,7 +6609,7 @@ function buildPlacementAt(clientX, clientY) {
   const startRow = centerRow - Math.floor(footprint / 2);
   let blockedReason = '';
   if (column < 1 || column >= MAP_WIDTH - 1 || row < 1 || row >= MAP_HEIGHT - 1) blockedReason = 'TOO CLOSE TO MAP EDGE';
-  else if (localTeam === null || latestWood[localTeam] < woodCost) blockedReason = `NEED ${woodCost} WOOD`;
+  else if (localTeam === null || latestWood[localTeam] < woodCost) blockedReason = `NEED ${formatResourceRequirement(woodCost)} WOOD`;
   else if (!selectedIds().some((id) => units[id]?.kind === 'worker')) blockedReason = 'SELECT WORKERS';
   if (mapDefinition) {
     for (const obstacle of mapDefinition.obstacles || []) {
@@ -6775,7 +6776,7 @@ function beginBuildPlacement(type) {
   const workers = teamUnits[localTeam].filter((unit) => unit.kind === 'worker' && unit.hp > 0);
   if (workers.length === 0) { showToast(`NO LIVING WORKERS TO CONSTRUCT ${label}`); return; }
   if (latestWood[localTeam] < woodCost) {
-    showToast(`${label} NEEDS ${woodCost} WOOD`);
+    showToast(`${label} NEEDS ${formatResourceRequirement(woodCost)} WOOD`);
     return;
   }
   selected.clear();
@@ -6825,7 +6826,7 @@ function submitBuildPlacement(clientX, clientY) {
 function queueWorker() {
   if (localTeam === null || matchWinner >= 0) return;
   if (latestFood[localTeam] < WORKER_FOOD_COST) {
-    showToast('WORKER NEEDS ' + WORKER_FOOD_COST + ' FOOD');
+    showToast('WORKER NEEDS ' + formatResourceRequirement(WORKER_FOOD_COST) + ' FOOD');
     return;
   }
   const production = latestWorkerProduction[localTeam];
@@ -6844,7 +6845,7 @@ function queueInfantry() {
     return;
   }
   if (latestFood[localTeam] < INFANTRY_FOOD_COST) {
-    showToast(`INFANTRY NEEDS ${INFANTRY_FOOD_COST} FOOD`);
+    showToast(`INFANTRY NEEDS ${formatResourceRequirement(INFANTRY_FOOD_COST)} FOOD`);
     return;
   }
   if (getBuildingQueueLength(building) >= BARRACKS_QUEUE_LIMIT) {
@@ -6862,7 +6863,7 @@ function queueArcher() {
     return;
   }
   if (latestFood[localTeam] < ARCHER_FOOD_COST || latestWood[localTeam] < ARCHER_WOOD_COST) {
-    showToast(`ARCHER NEEDS ${ARCHER_FOOD_COST} FOOD + ${ARCHER_WOOD_COST} WOOD`);
+    showToast(`ARCHER NEEDS ${formatResourceRequirement(ARCHER_FOOD_COST)} FOOD + ${formatResourceRequirement(ARCHER_WOOD_COST)} WOOD`);
     return;
   }
   sendCommand({ type: 'trainArcher', buildingId: building.id });
@@ -6882,7 +6883,7 @@ function startSelectedAttackResearch() {
     return;
   }
   if (latestFood[localTeam] < rules.foodCost || latestWood[localTeam] < rules.woodCost) {
-    showToast(`RESEARCH NEEDS ${rules.foodCost} FOOD + ${rules.woodCost} WOOD`);
+    showToast(`RESEARCH NEEDS ${formatResourceRequirement(rules.foodCost)} FOOD + ${formatResourceRequirement(rules.woodCost)} WOOD`);
     return;
   }
   if (sendCommand({ type: 'researchUpgrade', buildingId: building.id, upgrade: rules.type })) {

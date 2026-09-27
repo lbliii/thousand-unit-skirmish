@@ -2049,8 +2049,11 @@ function evaluateScenarioTriggers(deltaSeconds) {
         dirty = true;
       } else if (scenarioClockStarted) {
         const previousProgress = victoryHoldState.progressSeconds[team];
+        // The second seat can start the clock partway through this evaluation
+        // interval, including after recovering a pre-start hold from disk.
+        const elapsedHoldSeconds = Math.min(deltaSeconds, matchElapsedSeconds);
         victoryHoldState.progressSeconds[team] = Math.min(victoryHoldSeconds,
-          previousProgress + deltaSeconds);
+          previousProgress + elapsedHoldSeconds);
         if (victoryHoldState.progressSeconds[team] !== previousProgress) dirty = true;
         if (victoryHoldState.progressSeconds[team] >= victoryHoldSeconds) completedTeams.push(team);
       }
