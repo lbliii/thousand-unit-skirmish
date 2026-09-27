@@ -21,6 +21,10 @@ packaging runs in job 1. Local `npm test` still runs the complete suite in order
 accepts the same shard option for coverage inspection.
 
 Use checks proportionate to a change, then run required repository checks.
+For client import/module changes, include
+`node scripts/client-asset-allowlist-scenario.mjs`; the packed release scenario
+also traverses the served static import graph. See the
+[client-loading incident](qa-client-boot-recovery-2026-09-27.md).
 Use disposable rooms and directories: many scenarios publish maps, reset armies,
 restart workers, or deliberately disconnect clients.
 
