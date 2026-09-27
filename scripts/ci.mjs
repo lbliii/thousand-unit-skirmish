@@ -59,6 +59,7 @@ run(['--test', 'scripts/browser-performance-instrumentation.test.mjs'], 'Browser
 run(['--test', 'scripts/performance-order-window.test.mjs'], 'Performance planning wave boundaries');
 run(['--test', 'scripts/waypoint-backpressure.test.mjs'], 'Waypoint metadata under backpressure');
 run(['--test', 'scripts/worker-shutdown.test.mjs'], 'Signal-aware room worker shutdown');
+run(['--test', 'scripts/check-client-imports.test.mjs'], 'Served client import graph');
 
 run(['--test', 'scripts/battlefield-cursor.test.mjs'], 'Battlefield cursor states');
 run(['--test', 'scripts/room-launch-options.test.mjs'], 'Room launch contract');

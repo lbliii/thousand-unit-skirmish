@@ -134,6 +134,11 @@ actual service before claiming backups, restore, or rollback are working now.
 
 Use `scripts/qa-staging-smoke.mjs` and `scripts/qa-staging-browser.mjs` with injected
 service variables for two-seat checks; see the [QA plan](qa-vertical-slice.md).
+`npm run release:smoke -- --environment staging --project PROJECT_ID` also
+checks every static module reachable from the served client entry point, using
+the same audit as the packed-release scenario. It rejects missing modules,
+HTML responses, empty modules, and imports outside the game origin. Dynamic
+assets and actual browser evaluation still need the browser check.
 Authoring/reset tests must use a disposable QA room.
 
 Each active room adds a Node process and simulation workload. A configured room

@@ -1,3 +1,4 @@
+import { checkClientImports } from './check-client-imports.mjs';
 import { spawnSync } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
 import tls from 'node:tls';
@@ -89,6 +90,7 @@ try {
     '/', '/health', '/vendor/three.module.js', '/vendor/three.core.js', '/src/audio.mjs',
     '/src/environment-art.mjs', '/assets/environment/frontier-v1/meadow.webp',
   ]) checks.push(await check(path, 200, true));
+  checks.push(...await checkClientImports(base, { authorization }));
   checks.push(await checkWebSocket(false, 401));
   checks.push(await checkWebSocket(true, 101));
   console.log(JSON.stringify({ environment, domain, checks }));

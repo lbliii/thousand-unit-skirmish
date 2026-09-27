@@ -23,7 +23,9 @@ accepts the same shard option for coverage inspection.
 Use checks proportionate to a change, then run required repository checks.
 For client import/module changes, include
 `node scripts/client-asset-allowlist-scenario.mjs`; the packed release scenario
-also traverses the served static import graph. See the
+also traverses the served static import graph. The hosted Railway smoke uses
+the same `scripts/check-client-imports.mjs` audit; focused fixtures cover missing
+transitive dependencies, cycles, incorrect MIME, and origin boundaries. See the
 [client-loading incident](qa-client-boot-recovery-2026-09-27.md).
 Use disposable rooms and directories: many scenarios publish maps, reset armies,
 restart workers, or deliberately disconnect clients.

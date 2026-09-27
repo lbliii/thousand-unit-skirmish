@@ -1,3 +1,4 @@
+import { checkClientImports } from './check-client-imports.mjs';
 import assert from 'node:assert/strict';
 import { createHash, randomBytes } from 'node:crypto';
 import { spawn, spawnSync } from 'node:child_process';
@@ -169,26 +170,7 @@ try {
         `${entry.path} must match its manifest hash`);
     }
   }
-  // Every static browser import must survive the release pack and public allowlist.
-  const pendingClientModules = ['/src/main.js'];
-  const visitedClientModules = new Set();
-  while (pendingClientModules.length) {
-    const modulePath = pendingClientModules.pop();
-    if (visitedClientModules.has(modulePath)) continue;
-    visitedClientModules.add(modulePath);
-    const response = await fetch(`${base}${modulePath}`, { headers: { authorization } });
-    assert.equal(response.status, 200, `browser import ${modulePath} must be served`);
-    assert.match(response.headers.get('content-type'), /javascript/, modulePath);
-    const moduleSource = await response.text();
-    const imports = moduleSource.matchAll(/(?:import|export)\s+(?:[^;'"`]*?\s+from\s*)?['"]([^'"]+)['"]/g);
-    for (const [, specifier] of imports) {
-      const dependency = specifier === 'three' ? '/vendor/three.module.js'
-        : specifier.startsWith('.') ? new URL(specifier, `${base}${modulePath}`).pathname
-          : specifier.startsWith('/') ? specifier : null;
-      assert.ok(dependency, `unmapped browser import ${specifier} in ${modulePath}`);
-      pendingClientModules.push(dependency);
-    }
-  }
+  await checkClientImports(base, { authorization });
   const resourceStateModule = await fetch(`${base}/src/resource-visual-state.mjs`, { headers: { authorization } });
   assert.equal(resourceStateModule.status, 200);
   assert.match(await resourceStateModule.text(), /resourceVisualStage/);
