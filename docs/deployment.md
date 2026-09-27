@@ -104,6 +104,10 @@ A valid checkpoint restores match identity, units, production, objectives,
 events, and resumable seats. Connected seats at a crash receive a fresh reclaim
 window at restart; already-disconnected seats retain their original expiry.
 Invalid or incompatible checkpoints are rejected and replaced by a fresh match.
+A failed periodic write leaves the previous checkpoint intact. Health reports
+checkpoint failures and save age; later periodic writes resume after storage
+becomes writable. The [storage-failure regression](qa-checkpoint-storage-2026-09-27.md)
+checks both-seat play and restart after a temporary permission failure.
 A worker is restarted on the next relevant request/health check; invite workers
 can start lazily.
 

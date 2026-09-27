@@ -137,6 +137,7 @@ const scenarios = [
   ['scripts/worker-cargo-return-scenario.mjs', 'Highland Grove forest route repair and deposits'],
   ['scripts/worker-cargo-return-scenario.mjs', 'Frontier Reach forest route repair and deposits', 'frontier-160'],
   ['scripts/room-supervisor-scenario.mjs', 'Room supervisor integration'],
+  ['scripts/checkpoint-storage-recovery-scenario.mjs', 'Checkpoint storage failure and recovery'],
   ['scripts/room-expiry-scenario.mjs', 'Invite expiry and pending reconnect protection'],
   ['scripts/impaired-connection-scenario.mjs', 'Delayed two-seat transport and interrupted-order recovery'],
   ['scripts/pve-room-launch-scenario.mjs', 'PvE room launch and rematch integration'],
