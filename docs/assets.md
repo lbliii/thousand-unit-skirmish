@@ -35,6 +35,8 @@ Current runtime defaults:
   `src/building-sprites.mjs`, with procedural loading/error fallback. Construction
   uses 20%/90% transitions; completed health uses 66%/33% transitions. Their
   separate construction-atlas packs remain candidates.
+  Both building types refresh their sprite on authoritative state updates;
+  see the [Barracks lifecycle regression](qa-barracks-lifecycle-2026-09-27.md).
 - Town Center footprints block movement and building placement. Captured image
   bounds do not define collision; `src/town-center-spawn.mjs` owns the footprint.
 - The 40 px Meshy cursor PNGs are integrated. Older 32 px SVGs remain source history.

@@ -1325,6 +1325,7 @@ function updateBarracksVisual(visual, building) {
   }
   visual.ridge.visible = state.roofVisible;
   for (const piece of visual.finishPieces) piece.visible = state.finishedDetailsVisible;
+  visual.authoredSprite.update(building);
   updateBuildingProductionCue(visual, building);
   updateBuildingHealthIndicator(visual, building);
 }
