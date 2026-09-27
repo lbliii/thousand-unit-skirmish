@@ -624,11 +624,16 @@ async function deleteRoom(room) {
 
 async function stopWorker(worker) {
   const child = worker?.child;
-  if (!child || child.exitCode !== null) return;
+  if (!child || child.exitCode !== null || child.signalCode !== null) return;
   const exited = once(child, 'exit').catch(() => {});
   child.kill('SIGTERM');
-  await Promise.race([exited, new Promise((resolve) => setTimeout(resolve, WORKER_STOP_TIMEOUT_MS))]);
-  if (child.exitCode === null) {
+  let timeout;
+  try {
+    await Promise.race([exited, new Promise((resolve) => {
+      timeout = setTimeout(resolve, WORKER_STOP_TIMEOUT_MS);
+    })]);
+  } finally { clearTimeout(timeout); }
+  if (child.exitCode === null && child.signalCode === null) {
     const killed = once(child, 'exit').catch(() => {});
     child.kill('SIGKILL');
     await killed;

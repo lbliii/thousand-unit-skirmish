@@ -107,6 +107,10 @@ Invalid or incompatible checkpoints are rejected and replaced by a fresh match.
 A worker is restarted on the next relevant request/health check; invite workers
 can start lazily.
 
+Shutdown gives workers seven seconds to stop gracefully before forcing an exit.
+A worker already terminated by a signal is complete; the supervisor does not
+wait for another exit event. See the [signal shutdown regression](qa-worker-shutdown-2026-09-27.md).
+
 Invite IDs and custom maps persist with room data. The supervisor can rebuild a
 missing/invalid room index from valid directories; lowering the cap does not
 delete saved rooms. By default an invite room idle for six hours is removed

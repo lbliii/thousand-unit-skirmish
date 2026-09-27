@@ -64,6 +64,7 @@ Run from the repository root:
 | Delayed transport and interrupted orders, both seats | `node scripts/impaired-connection-scenario.mjs` |
 | Client rematch roster and stale sockets | `node --test scripts/client-rematch-recovery.test.mjs` |
 | Rooms and worker restart | `node scripts/room-supervisor-scenario.mjs` |
+| Worker signal exits and forced shutdown | `node --test scripts/worker-shutdown.test.mjs` |
 | Invite expiry during joins and worker startup | `node scripts/room-expiry-scenario.mjs` |
 | PvE policy / launch lifecycle | `node scripts/pve-opponent-scenario.mjs` / `node scripts/pve-room-launch-scenario.mjs` |
 | PvE tactics during gather retries | `node scripts/pve-decision-fairness-scenario.mjs` |
