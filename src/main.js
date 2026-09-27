@@ -2796,6 +2796,19 @@ const attackFocusMesh = makeInstances(
 );
 attackFocusMesh.renderOrder = 2.25;
 let attackFocusDirty = false;
+const unitHealthBackground = makeInstances(
+  new THREE.PlaneGeometry(1.22, 0.2),
+  new THREE.MeshBasicMaterial({ color: 0x142018, depthTest: false, depthWrite: false }),
+  MAX_UNITS,
+);
+const unitHealthFill = makeInstances(
+  new THREE.PlaneGeometry(1.1, 0.1),
+  new THREE.MeshBasicMaterial({ color: 0xffffff, depthTest: false, depthWrite: false }),
+  MAX_UNITS,
+);
+unitHealthBackground.renderOrder = 5;
+unitHealthFill.renderOrder = 6;
+
 let nextAttackFocusSlot = 0;
 
 const moveMarker = new THREE.Mesh(
@@ -2989,7 +3002,36 @@ function updateUnitFocusVisual(unit) {
   attackFocusDirty = true;
 }
 
+function updateUnitHealthVisual(unit) {
+  const ratio = Math.max(0, Math.min(1, unit.hp / 100));
+  const visible = unit.visible !== false && ratio > 0 && ratio < 1;
+  const scale = visible ? unit.scale : 0;
+  if (unit.healthVisualScale === scale && (!visible
+    || (unit.healthVisualRatio === ratio && unit.healthVisualX === unit.renderX
+      && unit.healthVisualZ === unit.renderZ))) return;
+  unit.healthVisualScale = scale;
+  unit.healthVisualRatio = ratio;
+  unit.healthVisualX = unit.renderX;
+  unit.healthVisualZ = unit.renderZ;
+  dummy.position.set(unit.renderX, 1.55, unit.renderZ);
+  dummy.quaternion.copy(camera.quaternion);
+  dummy.scale.set(scale, scale, scale);
+  dummy.updateMatrix();
+  unitHealthBackground.setMatrixAt(unit.focusSlot, dummy.matrix);
+  // Move the fill along camera-right so its left edge stays fixed as HP drops.
+  dummy.translateX(-1.1 * scale * (1 - ratio) / 2);
+  dummy.scale.set(scale * ratio, scale, scale);
+  dummy.updateMatrix();
+  unitHealthFill.setMatrixAt(unit.focusSlot, dummy.matrix);
+  color.setHex(ratio > 0.55 ? 0x9bd77d : ratio > 0.25 ? 0xe3c46f : 0xe27461);
+  unitHealthFill.setColorAt(unit.focusSlot, color);
+  unitHealthBackground.instanceMatrix.needsUpdate = true;
+  unitHealthFill.instanceMatrix.needsUpdate = true;
+  unitHealthFill.instanceColor.needsUpdate = true;
+}
+
 function updateUnitTransform(unit, now = performance.now()) {
+  updateUnitHealthVisual(unit);
   const spawnProgress = unit.spawnStartedAt > 0
     ? THREE.MathUtils.clamp((now - unit.spawnStartedAt) / SPAWN_POSE_MS, 0, 1) : 1;
   const spriteDefeatMs = unitSpritePreviewActive && unitSpritePreviewRoleSet.has(unit.kind)
@@ -3140,6 +3182,7 @@ function setArmySize(count, showMessage = false) {
   arrowMesh.count = 0;
   arrowImpactMesh.count = 0;
   attackFocusMesh.count = 0;
+  unitHealthBackground.count = unitHealthFill.count = 0;
   attackFocusDirty = false;
   nextAttackFocusSlot = 0;
   currentArmySize = Math.min(MAX_UNITS, count);
@@ -3182,6 +3225,7 @@ function setArmySize(count, showMessage = false) {
     flushUnitCargoPackColor(team);
   }
   attackFocusMesh.count = nextAttackFocusSlot;
+  unitHealthBackground.count = unitHealthFill.count = nextAttackFocusSlot;
   if (attackFocusDirty) {
     attackFocusMesh.instanceMatrix.needsUpdate = true;
     attackFocusDirty = false;
@@ -3845,6 +3889,7 @@ function appendUnitFromState(row, animateSpawn = false) {
   teamUnits[team].push(unit);
   setUnitInstanceCount(team, slot + 1);
   attackFocusMesh.count = nextAttackFocusSlot;
+  unitHealthBackground.count = unitHealthFill.count = nextAttackFocusSlot;
   setUnitTint(unit);
   updateUnitTransform(unit);
   updateUnitCargoCueColor(unit);

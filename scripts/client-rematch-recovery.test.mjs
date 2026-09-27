@@ -42,6 +42,7 @@ function fixture(team) {
     buildPlacementActive:false, buildPlacementPending:false, attackMoveMode:false, tapOrderArmed:false,
     units:[],teamUnits:[[],[]],selected:new Set(),controlGroups:[new Set()], MAX_UNITS:2000,MAX_PER_TEAM:1000,WORKERS_PER_TEAM:4,
     WORKER_TASK_STATES:new Set(['idle']),nextAttackFocusSlot:0,attackFocusDirty:false,selectionDirty:false,
+    unitHealthBackground:{count:0},unitHealthFill:{count:0},
     attackFocusMesh:{count:0,instanceMatrix:{}}, arrowTraces:[],arrowImpacts:[],arrowMesh:{count:0},arrowImpactMesh:{count:0},
     lastFriendlyUnitClick:null,lastUnitPickState:null, currentOrderToken:null, orderStatusTimeout:null,reconnectDelayMs:500,
     ui:{total:element('total'),orderStatus:element('orders'),mapStudio:{open:false},
@@ -87,6 +88,8 @@ for (const team of [0,1]) for (const reconnect of [false,true]) {
     assert.equal(f.context.matchResult.hidden,true);
     assert.equal(f.context.units[24],undefined,'prior-match trained unit must leave the client roster');
     assert.equal(f.context.teamUnits[team].length,12,'unit render slots must shrink to the opening roster');
+    assert.equal(f.context.unitHealthBackground.count,24,'health render slots reset with the roster');
+    assert.equal(f.context.unitHealthFill.count,24);
     assert.equal(f.counts[team],12);
     assert.equal(f.context.selected.has(24),false);
     assert.equal(f.context.controlGroups[0].has(24),false);

@@ -71,6 +71,7 @@ run(['--test', 'scripts/resource-format.test.mjs'], 'Resource display and afford
 run(['--test', 'scripts/client-build-recovery.test.mjs'], 'Build placement connection recovery');
 run(['--test', 'scripts/client-rematch-recovery.test.mjs'], 'Client roster and ownership after rematch');
 run(['--test', 'scripts/client-camera-recovery.test.mjs'], 'Camera ownership through seat recovery');
+run(['--test', 'scripts/unit-health-visual.test.mjs'], 'Visible damaged-unit health indicators');
 run(['--test', 'scripts/navigation-settings.test.mjs'], 'Camera navigation settings and controls');
 
 const scenarios = [
