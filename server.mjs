@@ -4981,19 +4981,11 @@ function assignAttack(player, command) {
     return;
   }
   const targetCell = worldToCell(target.x, target.z);
-  const flowField = getAttackFlowField(targetCell);
-  if (!flowField) {
-    sendOrderNotice(player, command, 'ATTACK REJECTED · TARGET UNREACHABLE');
-    return;
-  }
   const assignments = [];
   for (const unit of selectedUnits) {
-    const startCell = nearestOpenCell(worldToCell(unit.x, unit.z));
-    const distance = Math.hypot(target.x - unit.x, target.z - unit.z);
-    const attackRange = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
-    const path = pathFromAttackFlow(startCell, flowField);
-    if (path.length === 0 && startCell !== flowField.goal && distance > attackRange) continue;
-    assignments.push({ unit, path });
+    const approach = getUnitAttackPath(unit, target);
+    if (!approach?.reachable) continue;
+    assignments.push({ unit, path: approach.path });
   }
   if (assignments.length === 0) {
     sendOrderNotice(player, command, 'ATTACK REJECTED · TARGET UNREACHABLE');
@@ -5390,10 +5382,11 @@ function findAttackMoveTarget(unit) {
         && !cellVisibleToTeam(unit.team, worldToCell(target.x, target.z))) continue;
 
       const targetCell = nearestOpenCell(worldToCell(target.x, target.z));
-      if (walkableComponents[targetCell] === componentId) {
-        const dx = target.x - unit.x;
-        const dz = target.z - unit.z;
-        const distanceSquared = dx * dx + dz * dz;
+      const dx = target.x - unit.x;
+      const dz = target.z - unit.z;
+      const distanceSquared = dx * dx + dz * dz;
+      const attackRange = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+      if (walkableComponents[targetCell] === componentId || distanceSquared <= attackRange * attackRange) {
         if (distanceSquared <= bestDistanceSquared
           && (!bestTarget || distanceSquared < bestDistanceSquared || target.id < bestTarget.id)) {
           bestDistanceSquared = distanceSquared;
@@ -5405,18 +5398,48 @@ function findAttackMoveTarget(unit) {
   return bestTarget;
 }
 
-function getAttackMovePath(unit, target, flowBudget) {
+function getUnitAttackPath(unit, target, flowBudget = null) {
   const targetCell = nearestOpenCell(worldToCell(target.x, target.z));
-  if (!attackFlowFields.has(targetCell)) {
+  const start = nearestOpenCell(worldToCell(unit.x, unit.z));
+  const range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+  if (Math.hypot(target.x - unit.x, target.z - unit.z) <= range) {
+    return { targetCell, path: [], reachable: true };
+  }
+  const component = walkableComponents[start];
+  let key = targetCell;
+  let goals = null;
+  if (component !== walkableComponents[targetCell]) {
+    // The enemy's cell can be unreachable while a firing position is reachable.
+    // This bounded local scan runs only for pursuit across disconnected regions.
+    goals = [];
+    const radius = Math.ceil(range);
+    const column = targetCell % MAP_WIDTH;
+    const row = Math.floor(targetCell / MAP_WIDTH);
+    for (let dz = -radius; dz <= radius; dz++) {
+      for (let dx = -radius; dx <= radius; dx++) {
+        const x = column + dx;
+        const z = row + dz;
+        if (x < 0 || x >= MAP_WIDTH || z < 0 || z >= MAP_HEIGHT) continue;
+        const cell = cellIndex(x, z);
+        if (component < 0 || walkableComponents[cell] !== component) continue;
+        const point = cellToWorld(cell);
+        if (Math.hypot(point.x - target.x, point.z - target.z) <= range) goals.push(cell);
+      }
+    }
+    if (!goals.length) return { targetCell, path: [], reachable: false };
+    key = `unit-range:${target.id}:${target.x}:${target.z}:${component}:${range}`;
+  }
+  if (flowBudget && !attackFlowFields.has(key)) {
     if (flowBudget.built >= ATTACK_MOVE_MAX_FLOW_BUILDS_PER_TICK) return null;
     flowBudget.built++;
   }
-  const flowField = getAttackFlowField(targetCell);
-  if (!flowField) return null;
-  return {
-    targetCell,
-    path: pathFromAttackFlow(worldToCell(unit.x, unit.z), flowField),
-  };
+  const field = goals ? getAttackFlowFieldForGoals(goals, key) : getAttackFlowField(targetCell);
+  const path = field ? pathFromAttackFlow(start, field) : [];
+  const atGoal = Boolean(field) && (start === field.goal || field.goals?.has(start));
+  // Being in a goal cell does not guarantee the unit's continuous position is
+  // within range. Finish moving to that cell's center before attempting a shot.
+  if (atGoal && path.length === 0) path.push(start);
+  return { targetCell, path, reachable: Boolean(field) && path.length > 0 };
 }
 
 function getMoveVector(unit, remainingStep = WALK_SPEED * STEP_SECONDS) {
@@ -5659,19 +5682,17 @@ function simulateTick() {
         }
         if (unit.repathTimer <= 0
           && (targetCell !== unit.lastAttackCell || unit.pathIndex >= unit.path.length)) {
-          let nextPath;
-          if (unit.attackMove) {
-            const movePath = getAttackMovePath(unit, target, attackMoveFlowBudget);
-            if (!movePath) {
-              unit.repathTimer = STEP_SECONDS;
-              continue;
-            }
-            nextPath = movePath.path;
-          } else {
-            const flowField = getAttackFlowField(targetCell);
-            nextPath = flowField ? pathFromAttackFlow(worldToCell(unit.x, unit.z), flowField) : [];
+          const approach = getUnitAttackPath(unit, target, unit.attackMove ? attackMoveFlowBudget : null);
+          if (!approach) {
+            unit.repathTimer = STEP_SECONDS;
+            continue;
           }
-          unit.path = nextPath;
+          if (!approach.reachable) {
+            clearAttackTarget(unit);
+            dirty = true;
+            continue;
+          }
+          unit.path = approach.path;
           unit.pathIndex = 0;
           unit.lastAttackCell = targetCell;
           unit.repathTimer = 0.6;
@@ -5733,8 +5754,8 @@ function simulateTick() {
       unit.attackMoveScanTick = tickNumber + ATTACK_MOVE_SCAN_INTERVAL_TICKS;
       const target = findAttackMoveTarget(unit);
       if (target) {
-        const movePath = getAttackMovePath(unit, target, attackMoveFlowBudget);
-        if (movePath) {
+        const movePath = getUnitAttackPath(unit, target, attackMoveFlowBudget);
+        if (movePath?.reachable) {
           unit.attackMoveResumePath = unit.path;
           unit.attackMoveResumePathIndex = unit.pathIndex;
           unit.attackMoveAnchorX = unit.x;
