@@ -1453,10 +1453,37 @@ function getAttackFlowFieldForGoals(goalCells, cacheKey) {
   return field;
 }
 
-function getBuildingAttackFlowField(building, componentId, accessCells = buildingAccessCells(building.footprint)) {
-  const goals = accessCells.filter((cell) => walkableComponents[cell] === componentId);
-  return goals.length > 0
-    ? getAttackFlowFieldForGoals(goals, `building:${building.id}:${componentId}`) : null;
+function buildingAttackApproachCells(building, kind) {
+  if (kind !== 'archer') return buildingAccessCells(building.footprint);
+  // Check only the fixed weapon-range box around the footprint (13 x 13 cells).
+  // A firing position can belong to another island than the building perimeter.
+  const center = worldToCell(building.x, building.z);
+  const column = center % MAP_WIDTH;
+  const row = Math.floor(center / MAP_WIDTH);
+  const radius = Math.ceil(ARCHER_ATTACK_RANGE + 1.5);
+  const goals = [];
+  for (let z = Math.max(0, row - radius); z <= Math.min(MAP_HEIGHT - 1, row + radius); z++) {
+    for (let x = Math.max(0, column - radius); x <= Math.min(MAP_WIDTH - 1, column + radius); x++) {
+      const cell = cellIndex(x, z);
+      if (isWalkable(cell) && distanceToBuildingEdge(cellToWorld(cell), building) <= ARCHER_ATTACK_RANGE) {
+        goals.push(cell);
+      }
+    }
+  }
+  return goals;
+}
+
+function getBuildingAttackFlowField(building, componentId, kind) {
+  const cacheKey = `building:${building.id}:${componentId}:${kind}`;
+  const cached = attackFlowFields.get(cacheKey);
+  if (cached) {
+    attackFlowFields.delete(cacheKey);
+    attackFlowFields.set(cacheKey, cached);
+    return cached;
+  }
+  const goals = buildingAttackApproachCells(building, kind)
+    .filter((cell) => walkableComponents[cell] === componentId);
+  return goals.length > 0 ? getAttackFlowFieldForGoals(goals, cacheKey) : null;
 }
 
 function pathFromAttackFlow(startCell, field) {
@@ -4022,7 +4049,7 @@ function activeMoveRoutesRemainConnected(previousComponents) {
       const target = buildingsById.get(unit.attackBuildingTargetId);
       const range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
       if (target && distanceToBuildingEdge(unit, target) > range
-        && !buildingAccessCells(target.footprint)
+        && !buildingAttackApproachCells(target, unit.kind)
           .some((cell) => walkableComponents[cell] === walkableComponents[current])) return false;
       continue;
     }
@@ -4094,7 +4121,7 @@ function replanPathsBlockedBy(footprint) {
     if (unit.attackBuildingTargetId >= 0) {
       const target = buildingsById.get(unit.attackBuildingTargetId);
       const approach = target
-        ? findBuildingAttackApproachCell(unit, buildingAccessCells(target.footprint)) : null;
+        ? findBuildingAttackApproachCell(unit, buildingAttackApproachCells(target, unit.kind)) : null;
       unit.path = [];
       unit.pathIndex = 0;
       unit.lastAttackCell = -1;
@@ -4997,9 +5024,8 @@ function assignAttackBuilding(player, command) {
     return;
   }
 
-  const accessCells = buildingAccessCells(target.footprint);
   const assignments = [];
-  const fieldsByComponent = new Map();
+  const fieldsByComponentAndKind = new Map();
   for (const unit of selectedUnits) {
     const start = nearestOpenCell(worldToCell(unit.x, unit.z));
     // Range is sufficient to fire; terrain connectivity only matters for approach.
@@ -5011,11 +5037,12 @@ function assignAttackBuilding(player, command) {
     }
     const componentId = walkableComponents[start];
     if (componentId < 0) continue;
-    if (!fieldsByComponent.has(componentId)) {
-      const field = getBuildingAttackFlowField(target, componentId, accessCells);
-      fieldsByComponent.set(componentId, field);
+    const fieldKey = `${componentId}:${unit.kind}`;
+    if (!fieldsByComponentAndKind.has(fieldKey)) {
+      const field = getBuildingAttackFlowField(target, componentId, unit.kind);
+      fieldsByComponentAndKind.set(fieldKey, field);
     }
-    const field = fieldsByComponent.get(componentId);
+    const field = fieldsByComponentAndKind.get(fieldKey);
     if (!field) continue;
     const path = pathFromAttackFlow(start, field);
     if (path.length === 0 && !field.goals.has(start)) continue;
@@ -5666,7 +5693,7 @@ function simulateTick() {
         && (targetCell !== unit.lastAttackCell || unit.pathIndex >= unit.path.length)) {
         const start = nearestOpenCell(worldToCell(unit.x, unit.z));
         const componentId = walkableComponents[start];
-        const field = componentId >= 0 ? getBuildingAttackFlowField(target, componentId) : null;
+        const field = componentId >= 0 ? getBuildingAttackFlowField(target, componentId, unit.kind) : null;
         if (!field) {
           unit.repathTimer = STEP_SECONDS;
           continue;
