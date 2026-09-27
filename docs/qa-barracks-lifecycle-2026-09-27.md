@@ -28,3 +28,11 @@ failed at the first foundation-to-frame transition before the fix, and passes
 after it. The existing loader/fog tests and production cue scenario also pass.
 
 This corrects a runtime state handoff; no new artwork or balance change is involved.
+
+## Browser replay
+
+Replayed at code `15faa0c` in the in-app browser, Forked Vale, Azure,
+1280 × 720: Home base, zoom in, Idle workers → Build → Barracks → clear site.
+After the completion message, the building visibly had its complete timber walls,
+roof, and blue team trim. The prior foundation-only appearance was gone. Damage
+states and Ember are covered by the regression, not this browser observation.
