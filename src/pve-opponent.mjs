@@ -432,6 +432,7 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
   const lostObjectiveIds = new Set();
   let tacticalObjectiveId = null;
   let fallbackTacticsStarted = false;
+  let previousDecisionGatherOnly = false;
 
   function recordObjectiveOwnership(observation) {
     const objectives = Array.isArray(observation.objectives) ? observation.objectives : [];
@@ -566,7 +567,13 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
 
       recordObjectiveOwnership(observation);
       const gathering = nextGatherCommands(observation);
-      if (gathering.length > 0) return gathering;
+      // Keep the opening economy first, but do not let rejected gather orders
+      // consume every decision (the retry window is shorter than a normal turn).
+      if (gathering.length > 0 && !previousDecisionGatherOnly) {
+        previousDecisionGatherOnly = true;
+        return gathering;
+      }
+      previousDecisionGatherOnly = false;
 
       const soldiers = observation.units.friendly
         .filter((unit) => unit.kind !== 'worker' && unit.hp > 0)
@@ -580,24 +587,24 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
         tacticalObjectiveId = target.id;
         if (mustReissue) {
           lostObjectiveIds.delete(target.id);
-          return [{
+          return [...gathering, {
             type: 'attackMove',
             ids: soldiers.map((unit) => unit.id),
             x: target.point.x,
             z: target.point.z,
           }];
         }
-        return [];
+        return gathering;
       }
 
       tacticalObjectiveId = null;
-      if (objectives.length > 0 || fallbackTacticsStarted || soldiers.length === 0) return [];
+      if (objectives.length > 0 || fallbackTacticsStarted || soldiers.length === 0) return gathering;
 
       const visibleTarget = observation.units.visibleEnemies
         .filter((unit) => unit.hp > 0)
         .sort((left, right) => left.id - right.id)[0];
       fallbackTacticsStarted = true;
-      return [{
+      return [...gathering, {
         type: 'attackMove',
         ids: soldiers.map((unit) => unit.id),
         x: visibleTarget?.x ?? 0,
