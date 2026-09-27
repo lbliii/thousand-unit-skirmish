@@ -58,6 +58,11 @@ a useful diagnostic, not an asserted rule.
 - `node scripts/live-attack-move-repair-scenario.mjs`: construction-driven live
   route repair passes.
 
+The older `attack-move-cursor-scenario.mjs` could not reach its combat check:
+it expects a published map to retain the prior 2,000-unit roster, but current
+map publication applies the map starting roster and returns 1,000. Its setup
+assertion fails before attack-move commands; it is not counted as a pass here.
+
 The fixture supports `RTS_FAIRNESS_SEED` and `RTS_FAIRNESS_MIRROR_Z=1` for the
 controls above. Grant history and flow caches are transient across restart;
 this note makes no claim of exact combat replay through a checkpoint.
