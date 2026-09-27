@@ -12,6 +12,8 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SERVER_PATH = process.env.RTS_FAIRNESS_SERVER_PATH || path.join(ROOT, 'server.mjs');
 const TIMEOUT_MS = 70_000;
+const POLICY_SEED = Number(process.env.RTS_FAIRNESS_SEED || 20260925);
+const MIRROR_Z = process.env.RTS_FAIRNESS_MIRROR_Z === '1';
 
 async function freePort() {
   const server = createServer();
@@ -113,7 +115,7 @@ try {
     if (unit.kind === 'infantry') {
       const index = slot - 4;
       unit.x = (left ? -1 : 1) * (3.5 + Math.floor(index / 4));
-      unit.z = 13.5 + index % 4;
+      unit.z = MIRROR_Z ? 16.5 - index % 4 : 13.5 + index % 4;
       positions.push({ id: unit.id, team: unit.team, x: unit.x, z: unit.z });
     } else {
       unit.x = (left ? -1 : 1) * (24.5 + slot % 2);
@@ -123,8 +125,8 @@ try {
   }
   await writeFile(checkpointPath, JSON.stringify(fixture));
   await start();
-  const policies = [createDeterministicPolicy(20260925), createDeterministicPolicy(20260925)];
-  const shadows = [createDeterministicPolicy(20260925), createDeterministicPolicy(20260925)];
+  const policies = [createDeterministicPolicy(POLICY_SEED), createDeterministicPolicy(POLICY_SEED)];
+  const shadows = [createDeterministicPolicy(POLICY_SEED), createDeterministicPolicy(POLICY_SEED)];
   const commands = [[], []];
   let nextTick = fixture.state.tickNumber;
   const deadline = Date.now() + 30_000;

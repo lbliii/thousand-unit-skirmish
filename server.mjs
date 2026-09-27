@@ -803,6 +803,7 @@ activateMap(mapDefinition);
 
 const units = [];
 const pendingUnitDamage = new Float64Array(MAX_UNITS);
+const attackFlowLastGrant = new WeakMap();
 const pendingBuildingDamage = new Map();
 const unitGenerationCounters = new Uint32Array(MAX_UNITS);
 unitGenerationCounters.fill(randomBytes(4).readUInt32LE(0));
@@ -5452,6 +5453,37 @@ function getUnitAttackPath(unit, target, flowBudget = null) {
   return { targetCell, path, reachable: Boolean(field) && path.length > 0 };
 }
 
+function prepareAttackMovePaths() {
+  const budget = { built: 0 };
+  const plans = new Map();
+  // Least recently served requests go first. Physical position breaks initial
+  // ties so relabelling an army cannot buy it earlier pathfinding service.
+  const requesters = units.filter(unit => unit.hp > 0 && unit.attackMove);
+  requesters.sort((a, b) => (attackFlowLastGrant.get(a) ?? -1) - (attackFlowLastGrant.get(b) ?? -1)
+    || a.x - b.x || a.z - b.z || a.kind.localeCompare(b.kind));
+  for (const unit of requesters) {
+    let target = null;
+    if (unit.attackTargetId >= 0) {
+      if (unit.repathTimer > STEP_SECONDS) continue;
+      target = units[unit.attackTargetId];
+      if (!target || target.hp <= 0 || target.team === unit.team
+        || (mapDefinition.fogOfWar && !cellVisibleToTeam(unit.team, worldToCell(target.x, target.z)))
+        || Math.hypot(target.x - unit.attackMoveAnchorX, target.z - unit.attackMoveAnchorZ) > ATTACK_MOVE_LEASH_RADIUS
+        || Math.hypot(target.x - unit.x, target.z - unit.z) <= (unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE)
+        || (worldToCell(target.x, target.z) === unit.lastAttackCell && unit.pathIndex < unit.path.length)) continue;
+    } else if (unit.attackMoveRouteReady && !unit.movePlanningPending
+      && unit.attackBuildingTargetId < 0 && tickNumber >= unit.attackMoveScanTick) {
+      target = findAttackMoveTarget(unit);
+    }
+    if (!target) continue;
+    const previousBuilt = budget.built;
+    const approach = getUnitAttackPath(unit, target, budget);
+    if (budget.built > previousBuilt) attackFlowLastGrant.set(unit, tickNumber);
+    plans.set(unit.id, { target, approach });
+  }
+  return plans;
+}
+
 function getMoveVector(unit, remainingStep = WALK_SPEED * STEP_SECONDS) {
   if (unit.pathIndex >= unit.path.length || remainingStep <= 0) return null;
   const trackSeparationWork = SEPARATION_DIAGNOSTICS_ENABLED;
@@ -5644,7 +5676,7 @@ function simulateTick() {
   if (!scenarioClockStarted && connectedCount() >= 2) scenarioClockStarted = true;
   if (scenarioClockStarted) matchElapsedSeconds += STEP_SECONDS;
   rebuildSpatialBuckets();
-  const attackMoveFlowBudget = { built: 0 };
+  const attackMovePlans = prepareAttackMovePaths();
   // Resolve attacks together so a lethal hit cannot cancel a same-tick counterattack.
   pendingUnitDamage.fill(0, 0, units.length);
   pendingBuildingDamage.clear();
@@ -5692,7 +5724,7 @@ function simulateTick() {
         }
         if (unit.repathTimer <= 0
           && (targetCell !== unit.lastAttackCell || unit.pathIndex >= unit.path.length)) {
-          const approach = getUnitAttackPath(unit, target, unit.attackMove ? attackMoveFlowBudget : null);
+          const approach = unit.attackMove ? attackMovePlans.get(unit.id)?.approach : getUnitAttackPath(unit, target);
           if (!approach) {
             unit.repathTimer = STEP_SECONDS;
             continue;
@@ -5762,9 +5794,10 @@ function simulateTick() {
       && unit.attackTargetId < 0 && unit.attackBuildingTargetId < 0
       && tickNumber >= unit.attackMoveScanTick) {
       unit.attackMoveScanTick = tickNumber + ATTACK_MOVE_SCAN_INTERVAL_TICKS;
-      const target = findAttackMoveTarget(unit);
+      const plan = attackMovePlans.get(unit.id);
+      const target = plan?.target;
       if (target) {
-        const movePath = getUnitAttackPath(unit, target, attackMoveFlowBudget);
+        const movePath = plan.approach;
         if (movePath?.reachable) {
           unit.attackMoveResumePath = unit.path;
           unit.attackMoveResumePathIndex = unit.pathIndex;

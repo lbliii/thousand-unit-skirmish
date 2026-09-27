@@ -66,6 +66,13 @@ a display never rounds insufficient stock up to the purchase price.
 Implementation is distinct from balance, readability, and external-playtest
 proof. The [QA plan](qa-vertical-slice.md) defines those observations.
 
+Attack-move pathfinding keeps its one-new-flow-field-per-tick budget. Requests
+are scheduled separately from damage updates, with the oldest previous grant
+first and physical position breaking initial ties. Seat labels and roster IDs
+do not determine planning priority. This bounded service rule does not promise
+mirrored armies will always draw; spatial tie-breaking can still matter. See
+[the scheduling regression and limits](qa-attack-flow-scheduling-2026-09-27.md).
+
 ## Quality floor
 
 - A first glance identifies the team, objective, route, and selection. The QA
