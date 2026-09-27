@@ -101,3 +101,7 @@ match until Azure starts another match or changes maps.
 A lost connection retries automatically. Return through the same tab/session to
 reclaim your seat within the configured grace window. See [local setup](getting-started.md)
 if you join as a spectator or cannot connect.
+
+If the connection drops while a building request is waiting for confirmation,
+the placement preview closes. After reconnecting, check whether the building
+appeared before placing another: the server may already have accepted the request.
