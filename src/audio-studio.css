@@ -1,0 +1,52 @@
+:root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: #101913; color: #e5eddf; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input, select { font: inherit; }
+button { cursor: pointer; background: #273b2e; color: #edf5e9; border: 1px solid #49614b; border-radius: 7px; padding: .48rem .7rem; }
+button:hover, button:focus-visible { border-color: #b9d990; background: #344b36; }
+button.primary { background: #91b363; color: #11210d; border-color: #91b363; font-weight: 700; }
+button.quiet { background: transparent; }
+button.danger { color: #f0ada0; border-color: #805047; }
+input, select { width: 100%; min-width: 0; background: #17271c; color: #ecf4e8; border: 1px solid #4c6450; border-radius: 6px; padding: .48rem .55rem; }
+input:focus, select:focus { outline: 2px solid #9bc470; outline-offset: 1px; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { font-family: Georgia, serif; font-size: clamp(2.1rem, 5vw, 3.1rem); margin: .3rem 0; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1rem; margin: 1.8rem 0 .7rem; }
+p { color: #afc0ab; line-height: 1.5; }
+.eyebrow { letter-spacing: .16em; font-size: .68rem; font-weight: 800; color: #bdd795; }
+.studio-header { display: flex; justify-content: space-between; align-items: center; gap: 2rem; padding: 2rem clamp(1rem, 4vw, 3rem); border-bottom: 1px solid #344638; background: linear-gradient(120deg, #19291d, #101913); }
+.studio-header p { margin-bottom: 0; }
+.game-link { color: #c6e2a2; white-space: nowrap; }
+.studio-layout { display: grid; grid-template-columns: minmax(215px, 265px) minmax(0, 1fr); min-height: 68vh; }
+.studio-sidebar { padding: 1.5rem; border-right: 1px solid #344638; display: flex; flex-direction: column; align-items: stretch; gap: .65rem; }
+.studio-sidebar h2 { margin: 0; }
+.studio-sidebar .pack-choice { text-align: left; overflow-wrap: anywhere; }
+.studio-sidebar .selected, .studio-tabs .selected { background: #405b36; border-color: #a4c67a; }
+.small-note { font-size: .8rem; margin-top: 1rem; }
+.studio-main { min-width: 0; padding: 1.5rem clamp(1rem, 3vw, 2.5rem); }
+.pack-heading { display: flex; align-items: end; flex-wrap: wrap; gap: .7rem; margin-bottom: 1.2rem; }
+.pack-heading .field { min-width: 250px; flex: 1; }
+.studio-tabs { display: flex; gap: .5rem; border-bottom: 1px solid #3a513d; padding-bottom: .65rem; margin-bottom: 1.2rem; }
+.studio-panel { max-width: 1200px; }
+.section-heading, .card-heading { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
+.section-heading { margin-bottom: 1rem; }
+.section-heading p { max-width: 650px; }
+.field { display: flex; flex-direction: column; gap: .28rem; color: #b9cab4; font-size: .82rem; margin-bottom: .7rem; }
+.field input, .field select { font-size: .92rem; }
+.source-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: 1rem; margin-top: 1rem; }
+.source-card, .binding-card { background: #1c2b20; border: 1px solid #3d5840; border-radius: 9px; padding: 1rem; }
+.source-card small { display: block; color: #adbea9; margin: .5rem 0 1rem; overflow-wrap: anywhere; }
+.preview-box audio { width: 100%; margin: 0 0 .8rem; }
+.binding-card { margin: 1rem 0; }
+.inline-controls { display: flex; gap: .5rem; flex-wrap: wrap; }
+.inline-controls input, .inline-controls select { max-width: 280px; }
+.field-row, .variant-row { display: flex; gap: .7rem; flex-wrap: wrap; align-items: end; margin: .8rem 0; }
+.field-row .field, .variant-row .field { flex: 1 1 120px; }
+.variant-row { border-top: 1px solid #3b5140; padding-top: .8rem; }
+.variant-row .field:first-child { flex-basis: 190px; }
+.empty-state { padding: 2rem; border: 1px dashed #62765d; border-radius: 8px; color: #c2d2bc; }
+.studio-flash { position: sticky; bottom: 0; min-height: 2.2rem; padding: .55rem 1.5rem; background: #213b27; color: #d4efc2; }
+.studio-flash:empty { display: none; }
+.studio-flash.error { background: #552c29; color: #ffe0d8; }
+@media (max-width: 760px) { .studio-layout { grid-template-columns: 1fr; } .studio-sidebar { border-right: 0; border-bottom: 1px solid #344638; } .studio-header { align-items: start; } }
