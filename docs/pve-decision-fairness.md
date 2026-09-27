@@ -42,5 +42,6 @@ army loss, and identical replay traces.
 This reproduces decision starvation after unconfirmed orders; it does not claim
 a specific live pathfinding rejection or a player-tested improvement in fun.
 The later [tactical recovery change](pve-tactical-recovery.md) adds bounded retries
-when observations show that the army has stalled short of its destination. Register this scenario with the standard CI runner alongside the
+when observations show that the army has stalled short of its destination.
+This scenario runs in the standard CI suite alongside the
 existing opponent checks.
