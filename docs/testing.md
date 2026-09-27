@@ -14,6 +14,12 @@ syntax and runs focused logic, gameplay, map, PvE, visibility, recovery, asset
 contract, room, and release scenarios. CI uses Node 24. Browser/GPU appearance
 captures and sustained performance runs are separate.
 
+GitHub runs three independent jobs with `npm test -- --shard=1/3` (and `2/3`,
+`3/3`). Each registered check runs exactly once across those jobs; release
+packaging runs in job 1. Local `npm test` still runs the complete suite in order.
+`node scripts/ci.mjs --list` prints the registry without starting fixtures, and
+accepts the same shard option for coverage inspection.
+
 Use checks proportionate to a change, then run required repository checks.
 Use disposable rooms and directories: many scenarios publish maps, reset armies,
 restart workers, or deliberately disconnect clients.
@@ -46,6 +52,7 @@ Run from the repository root:
 | Mirrored construction | `node scripts/opening-production-scenario.mjs --expect-builder-parity` |
 | Producer destruction, replacement builders, and population caps | `node scripts/production-lifecycle-scenario.mjs` |
 | Forest clearing | `node scripts/harvestable-woodland-scenario.mjs` |
+| Forest route repair / exact deposits | `node scripts/worker-cargo-return-scenario.mjs` and `node scripts/worker-cargo-return-scenario.mjs frontier-160` |
 | Queued routes and checkpoint recovery | `node scripts/queued-waypoint-scenario.mjs` |
 | Route repair after construction | `node scripts/live-attack-move-repair-scenario.mjs` |
 | Research and rewards | `node scripts/research-scenario.mjs` |
@@ -62,6 +69,7 @@ Run from the repository root:
 | PvE stalled-army retry policy / server reproduction | `node scripts/pve-tactical-retry-scenario.mjs` / `node scripts/pve-tactical-stall-runtime-scenario.mjs` |
 | PvE production budgets | `node scripts/pve-production-scenario.mjs` |
 | PvE destroyed producer replacement | `node scripts/pve-barracks-recovery-scenario.mjs` |
+| PvE objective retake after losses | `node scripts/pve-objective-recovery-runtime-scenario.mjs TEAM SEED` (teams `0`, `1`; CI seed `20260925`, additional audited seed `4294967295`) |
 | PvE live construction / reinforcements on both maps | `node scripts/pve-production-runtime-scenario.mjs forked-vale` and `woodland-expanse` |
 | Compact HUD | `node --test scripts/hud-layout.test.mjs scripts/selection-context.test.mjs scripts/objective-summary.test.mjs` |
 | Audio policy | `node scripts/audio-policy-scenario.mjs` |

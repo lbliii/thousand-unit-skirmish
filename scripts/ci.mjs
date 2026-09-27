@@ -4,6 +4,17 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const options = process.argv.slice(2);
+const shardOption = options.find((arg) => arg.startsWith('--shard='));
+const shard = shardOption?.match(/^--shard=(\d+)\/(\d+)$/);
+if (options.some((arg) => arg !== '--list' && arg !== shardOption)
+  || (shardOption && (!shard || Number(shard[1]) < 1 || Number(shard[1]) > Number(shard[2])
+    || Number(shard[2]) > 16))) {
+  throw new Error('Usage: node scripts/ci.mjs [--shard=INDEX/COUNT] [--list] (1 <= INDEX <= COUNT <= 16)');
+}
+const shardIndex = shard ? Number(shard[1]) - 1 : 0;
+const shardCount = shard ? Number(shard[2]) : 1;
+const checks = [];
 
 function filesUnder(directory, extensions) {
   return readdirSync(path.join(root, directory), { withFileTypes: true })
@@ -15,6 +26,10 @@ function filesUnder(directory, extensions) {
 }
 
 function run(args, label) {
+  checks.push({ args, label });
+}
+
+function execute({ args, label }) {
   process.stdout.write(`\n== ${label} ==\n`);
   const result = spawnSync(process.execPath, args, {
     cwd: root,
@@ -39,6 +54,7 @@ for (const file of syntaxFiles) run(['--check', file], `Syntax: ${file}`);
 run(['scripts/check-docs.mjs'], 'Documentation links');
 run(['--test', 'scripts/unit-sprite-clock.test.mjs'], 'Sprite animation clock');
 run(['--test', 'scripts/building-sprites.test.mjs'], 'Default building sprites');
+run(['--test', 'scripts/ci-sharding.test.mjs'], 'CI shard coverage');
 
 run(['--test', 'scripts/battlefield-cursor.test.mjs'], 'Battlefield cursor states');
 run(['--test', 'scripts/room-launch-options.test.mjs'], 'Room launch contract');
@@ -91,6 +107,8 @@ const scenarios = [
   ['scripts/pve-tactical-stall-runtime-scenario.mjs', 'PvE stalled-army recovery through the server'],
   ['scripts/pve-production-scenario.mjs', 'PvE production budgets and retry limits'],
   ['scripts/pve-barracks-recovery-scenario.mjs', 'PvE replacement after producer destruction'],
+  ['scripts/pve-objective-recovery-runtime-scenario.mjs', 'PvE objective recovery (Azure)', '0', '20260925'],
+  ['scripts/pve-objective-recovery-runtime-scenario.mjs', 'PvE objective recovery (Ember)', '1', '20260925'],
   ['scripts/pve-production-runtime-scenario.mjs', 'PvE production on Forked Vale', 'forked-vale'],
   ['scripts/pve-production-runtime-scenario.mjs', 'PvE production on Woodland Expanse', 'woodland-expanse'],
   ['scripts/visual-pack-path-safety-scenario.mjs', 'Visual pack path safety'],
@@ -104,6 +122,8 @@ const scenarios = [
   ['scripts/resource-visual-state-scenario.mjs', 'Resource visual state'],
   ['scripts/water-surface-scenario.mjs', 'Batched water surface and shore geometry'],
   ['scripts/harvestable-woodland-scenario.mjs', 'Harvestable woodland gameplay'],
+  ['scripts/worker-cargo-return-scenario.mjs', 'Highland Grove forest route repair and deposits'],
+  ['scripts/worker-cargo-return-scenario.mjs', 'Frontier Reach forest route repair and deposits', 'frontier-160'],
   ['scripts/room-supervisor-scenario.mjs', 'Room supervisor integration'],
   ['scripts/room-expiry-scenario.mjs', 'Invite expiry and pending reconnect protection'],
   ['scripts/impaired-connection-scenario.mjs', 'Delayed two-seat transport and interrupted-order recovery'],
@@ -113,4 +133,9 @@ const scenarios = [
 
 for (const [file, label, ...args] of scenarios) run([file, ...args], label);
 
-process.stdout.write('\nCI checks passed.\n');
+const selected = checks.filter((_, index) => index % shardCount === shardIndex);
+if (options.includes('--list')) process.stdout.write(`${JSON.stringify(selected)}\n`);
+else {
+  for (const check of selected) execute(check);
+  process.stdout.write(`\nCI checks passed${shard ? ` (shard ${shardIndex + 1}/${shardCount})` : ''}.\n`);
+}

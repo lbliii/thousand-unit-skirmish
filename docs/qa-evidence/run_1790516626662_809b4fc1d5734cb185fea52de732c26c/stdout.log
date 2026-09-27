@@ -1,0 +1,148 @@
+{
+  "workload": "2,000 units in two connected teams (attack-move, box formation)",
+  "repeats": 3,
+  "samples": [
+    {
+      "run": 1,
+      "unitsMovedAfterFirstSnapshot": 2000,
+      "damagedUnits": 317,
+      "checkpoint": {
+        "sequence": 12,
+        "intervalMs": 1000.0000000000001,
+        "serializedBytes": 1885705,
+        "captureMsOnTickBoundary": 1.18,
+        "serializeMsDeferred": 8.699,
+        "atomicWriteMs": 19.747,
+        "failures": 0
+      },
+      "tickTiming": {
+        "sampleCount": 300,
+        "windowSeconds": 10,
+        "budgetMs": 33.333,
+        "p50Ms": 5.393,
+        "p95Ms": 12.701,
+        "maxMs": 14.789,
+        "startLagP95Ms": 1.251,
+        "startLagMaxMs": 2.499,
+        "scheduler": {
+          "policy": "drop-elapsed-slots",
+          "skippedTickSlotsTotal": 0,
+          "lastOverloadSkippedSlots": 0,
+          "lastOverloadTick": null
+        },
+        "slowestTick": {
+          "tickNumber": 240,
+          "durationMs": 14.789,
+          "cpuMs": 12.326,
+          "simulationMs": 9.108,
+          "visionMs": 0.085,
+          "broadcastMs": 4.433,
+          "checkpointMs": 1.163
+        }
+      }
+    },
+    {
+      "run": 2,
+      "unitsMovedAfterFirstSnapshot": 2000,
+      "damagedUnits": 316,
+      "checkpoint": {
+        "sequence": 24,
+        "intervalMs": 1000.0000000000001,
+        "serializedBytes": 1885286,
+        "captureMsOnTickBoundary": 0.708,
+        "serializeMsDeferred": 7.983,
+        "atomicWriteMs": 18.373,
+        "failures": 0
+      },
+      "tickTiming": {
+        "sampleCount": 300,
+        "windowSeconds": 10,
+        "budgetMs": 33.333,
+        "p50Ms": 4.641,
+        "p95Ms": 11.353,
+        "maxMs": 14.004,
+        "startLagP95Ms": 1.225,
+        "startLagMaxMs": 2.475,
+        "scheduler": {
+          "policy": "drop-elapsed-slots",
+          "skippedTickSlotsTotal": 0,
+          "lastOverloadSkippedSlots": 0,
+          "lastOverloadTick": null
+        },
+        "slowestTick": {
+          "tickNumber": 660,
+          "durationMs": 14.004,
+          "cpuMs": 12.409,
+          "simulationMs": 8.295,
+          "visionMs": 0.049,
+          "broadcastMs": 4.381,
+          "checkpointMs": 1.279
+        }
+      }
+    },
+    {
+      "run": 3,
+      "unitsMovedAfterFirstSnapshot": 2000,
+      "damagedUnits": 374,
+      "checkpoint": {
+        "sequence": 36,
+        "intervalMs": 1000.0000000000001,
+        "serializedBytes": 1892743,
+        "captureMsOnTickBoundary": 0.847,
+        "serializeMsDeferred": 9.438,
+        "atomicWriteMs": 18.688,
+        "failures": 0
+      },
+      "tickTiming": {
+        "sampleCount": 300,
+        "windowSeconds": 10,
+        "budgetMs": 33.333,
+        "p50Ms": 4.457,
+        "p95Ms": 11.696,
+        "maxMs": 14.128,
+        "startLagP95Ms": 1.022,
+        "startLagMaxMs": 5.591,
+        "scheduler": {
+          "policy": "drop-elapsed-slots",
+          "skippedTickSlotsTotal": 0,
+          "lastOverloadSkippedSlots": 0,
+          "lastOverloadTick": null
+        },
+        "slowestTick": {
+          "tickNumber": 942,
+          "durationMs": 14.128,
+          "cpuMs": 11.508,
+          "simulationMs": 9.468,
+          "visionMs": 0.072,
+          "broadcastMs": 4.589,
+          "checkpointMs": 0.001
+        }
+      }
+    }
+  ],
+  "tickTimingWithSnapshotsEnabled": {
+    "sampleCount": 300,
+    "windowSeconds": 10,
+    "budgetMs": 33.333,
+    "p50Ms": 4.457,
+    "p95Ms": 11.696,
+    "maxMs": 14.128,
+    "startLagP95Ms": 1.022,
+    "startLagMaxMs": 5.591,
+    "scheduler": {
+      "policy": "drop-elapsed-slots",
+      "skippedTickSlotsTotal": 0,
+      "lastOverloadSkippedSlots": 0,
+      "lastOverloadTick": null
+    },
+    "slowestTick": {
+      "tickNumber": 942,
+      "durationMs": 14.128,
+      "cpuMs": 11.508,
+      "simulationMs": 9.468,
+      "visionMs": 0.072,
+      "broadcastMs": 4.589,
+      "checkpointMs": 0.001
+    }
+  }
+}

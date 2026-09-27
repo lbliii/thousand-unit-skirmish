@@ -14,9 +14,13 @@ concurrency:
 
 jobs:
   verify:
-    name: Verify Node 24 project
+    name: Verify Node 24 project (${{ matrix.shard }}/3)
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
     steps:
       - name: Check out source
         uses: actions/checkout@v7
@@ -31,7 +35,8 @@ jobs:
         run: npm ci
 
       - name: Run project checks and scenarios
-        run: npm test
+        run: npm test -- --shard=${{ matrix.shard }}/3
 
       - name: Pack Railway release
+        if: matrix.shard == 1
         run: npm run release:pack

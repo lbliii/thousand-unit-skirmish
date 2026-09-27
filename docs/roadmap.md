@@ -38,6 +38,9 @@ art, map, and infrastructure slices can progress alongside these outcomes.
    player-facing budgets, then measure both seats at increasing loads through
    2,000 total units. Keep simulation, rendering, bandwidth, and order delay as
    separate measurements.
+   The [September 27 local combat sample](qa-checkpoint-scale-2026-09-27.md)
+   passes its existing simulation/checkpoint limits; it does not establish the
+   intended hosting or browser budget.
 
 The current implementation provides these test surfaces. It does not by itself
 prove M1–M4 complete. Use the [asset guide](assets.md) for loader status and

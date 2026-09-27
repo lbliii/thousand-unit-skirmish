@@ -1,0 +1,178 @@
+{
+  "schema": "game_dev.capture.v1",
+  "runId": "run_1790516626662_809b4fc1d5734cb185fea52de732c26c",
+  "adapterId": "thousand-unit-skirmish",
+  "scenarioId": "checkpoint-attack-move-2000",
+  "sourceFormat": "game-dev-capture-v1",
+  "frames": [],
+  "measurements": [
+    {
+      "metric": "simulation.tick_p95_ms",
+      "value": 12.701,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "simulation.tick_max_ms",
+      "value": 14.789,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "simulation.tick_start_lag_max_ms",
+      "value": 2.499,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "combat.damaged_units",
+      "value": 317,
+      "unit": "units",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "checkpoint.capture_ms",
+      "value": 1.18,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "checkpoint.serialize_ms",
+      "value": 8.699,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "checkpoint.atomic_write_ms",
+      "value": 19.747,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "checkpoint.serialized_bytes",
+      "value": 1885705,
+      "unit": "bytes",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "simulation.tick_p95_ms",
+      "value": 11.353,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "simulation.tick_max_ms",
+      "value": 14.004,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "simulation.tick_start_lag_max_ms",
+      "value": 2.475,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "combat.damaged_units",
+      "value": 316,
+      "unit": "units",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "checkpoint.capture_ms",
+      "value": 0.708,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "checkpoint.serialize_ms",
+      "value": 7.983,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "checkpoint.atomic_write_ms",
+      "value": 18.373,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "checkpoint.serialized_bytes",
+      "value": 1885286,
+      "unit": "bytes",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "simulation.tick_p95_ms",
+      "value": 11.696,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "simulation.tick_max_ms",
+      "value": 14.128,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "simulation.tick_start_lag_max_ms",
+      "value": 5.591,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "combat.damaged_units",
+      "value": 374,
+      "unit": "units",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "checkpoint.capture_ms",
+      "value": 0.847,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "checkpoint.serialize_ms",
+      "value": 9.438,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "checkpoint.atomic_write_ms",
+      "value": 18.688,
+      "unit": "ms",
+      "aggregation": "sample"
+    },
+    {
+      "metric": "checkpoint.serialized_bytes",
+      "value": 1892743,
+      "unit": "bytes",
+      "aggregation": "sample"
+    }
+  ],
+  "adapterEvidence": {
+    "hardware": {
+      "platform": "darwin",
+      "architecture": "arm64",
+      "nodeVersion": "v24.9.0"
+    },
+    "build": {
+      "revision": "checkpoint-enabled-box-attack-move",
+      "map": "open-field-no-fog-close-spawns",
+      "width": 64,
+      "height": 64,
+      "units": 2000,
+      "unitsPerTeam": 1000,
+      "repeats": 3,
+      "durationSeconds": 12
+    },
+    "notes": [
+      "CPU-only local diagnostic on the current machine; not a target-hardware guarantee.",
+      "Checkpointing is enabled with a one-second interval during every measured action window.",
+      "Two localhost clients issue simultaneous 1,000-unit box-formation attack-move orders over WebSockets.",
+      "Each tick metric is measured over a full 300-tick window after the orders.",
+      "Fog and map triggers are disabled for this diagnostic so the armies can engage on an unobstructed field."
+    ]
+  }
+}

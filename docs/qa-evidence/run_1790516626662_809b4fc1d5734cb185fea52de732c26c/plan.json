@@ -1,0 +1,35 @@
+{
+  "adapterId": "thousand-unit-skirmish",
+  "adapterManifestPath": "/private/tmp/rts-opening-camera-20260927/.game-dev/adapter.json",
+  "adapterManifestSha256": "9dda7a0a5ff2606d09b9748a8b5b48b5d8e710aed9771aa113d853586cffd4fa",
+  "adapterVersion": "0.24.0",
+  "arguments": [
+    "12",
+    "attack-move",
+    "3"
+  ],
+  "capabilities": [
+    "cpu",
+    "project-write",
+    "performance"
+  ],
+  "evidenceCeiling": "This plan proves only resolved local configuration. It executes nothing and proves no build, GPU, pixel, performance, signing, or human-review result.",
+  "executable": "/private/tmp/rts-opening-camera-20260927/scripts/checkpoint-performance-scenario.mjs",
+  "output": {
+    "format": "game-dev-capture-v1",
+    "path": "/tmp/rts-performance-20260927/.game-dev/runs/run_1790516626662_809b4fc1d5734cb185fea52de732c26c/capture.json"
+  },
+  "parameters": {},
+  "projectRoot": "/private/tmp/rts-opening-camera-20260927",
+  "requiredAuthorizations": [
+    "confirm",
+    "performance"
+  ],
+  "runId": "run_1790516626662_809b4fc1d5734cb185fea52de732c26c",
+  "runPath": "/tmp/rts-performance-20260927/.game-dev/runs/run_1790516626662_809b4fc1d5734cb185fea52de732c26c",
+  "scenarioId": "checkpoint-attack-move-2000",
+  "schema": "game_dev.scenario_plan.v1",
+  "timeoutSeconds": 120,
+  "title": "2,000-unit attack-move with checkpointing",
+  "workingDirectory": "/private/tmp/rts-opening-camera-20260927"
+}

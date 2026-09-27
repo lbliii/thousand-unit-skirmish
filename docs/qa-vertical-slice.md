@@ -49,6 +49,10 @@ ordinary PRs use checks proportionate to their changes under
 
 ## Known findings and historical evidence
 
+[Local checkpointed combat sample](qa-checkpoint-scale-2026-09-27.md) preserves
+a verified bundle for three 2,000-unit attack-move windows. The adapter reports
+passing existing local limits; hosted capacity and browser timing remain separate.
+
 [Delayed connection evidence](qa-impaired-connection-2026-09-27.md) covers both
 seats recovering accepted and undelivered orders through 40 ms one-way TCP
 delays and forced resets. Packet loss and hosted congestion remain unmeasured.

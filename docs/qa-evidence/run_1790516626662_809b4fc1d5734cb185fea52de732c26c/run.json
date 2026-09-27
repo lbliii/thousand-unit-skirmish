@@ -1,0 +1,80 @@
+{
+  "adapterId": "thousand-unit-skirmish",
+  "adapterManifestSha256": "9dda7a0a5ff2606d09b9748a8b5b48b5d8e710aed9771aa113d853586cffd4fa",
+  "adapterVersion": "0.24.0",
+  "artifacts": [
+    {
+      "bytes": 7710,
+      "kind": "adapter",
+      "path": "adapter.json",
+      "sha256": "3e837501abda8bbd9393e72a39f14f85bee5e0428619b7f4550000e9f7630e91"
+    },
+    {
+      "bytes": 4319,
+      "kind": "capture_manifest",
+      "path": "capture.json",
+      "sha256": "25bd46313b8f0fb751791b82ce11a415d9fc0bcb82819ee953d436a1fff08831"
+    },
+    {
+      "bytes": 1414,
+      "kind": "plan",
+      "path": "plan.json",
+      "sha256": "71a3cb06a936b0e6888fb5b53b162d2bb1ae8d745989d4398d7fe921d22cd998"
+    },
+    {
+      "bytes": 3,
+      "kind": "request",
+      "path": "request.json",
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+    },
+    {
+      "bytes": 0,
+      "kind": "stderr",
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 3911,
+      "kind": "stdout",
+      "path": "stdout.log",
+      "sha256": "36420397d4be77174844aaa04b763e314bad0826b7ef1da3803d14d74d246b35"
+    }
+  ],
+  "captureManifest": "capture.json",
+  "completedAt": "2026-09-27T13:44:23.331Z",
+  "durationMs": 36646,
+  "evidence": {
+    "adapterReportedGpuCompletionIdentity": false,
+    "adapterReportedGpuExecution": false,
+    "adapterReportedHardwarePerformance": false,
+    "artifactRosterClosedAndHashed": true,
+    "captureContractValidated": true,
+    "commandExecuted": true,
+    "evidenceCeiling": "The harness proves process status, schema validation, decoded raster bytes, and a closed SHA-256 artifact roster. GPU completion and hardware timing remain source-adapter claims unless separately joined to native evidence; no human visual review is inferred.",
+    "hardwareGpuExecutionProvenByHarnessAlone": false,
+    "hardwarePerformanceEvidenceAdmitted": false,
+    "hardwarePerformanceMeasuredByHarnessAlone": false,
+    "humanVisualReviewPerformed": false,
+    "processExitedSuccessfully": true,
+    "rasterBytesDecoded": false
+  },
+  "process": {
+    "arguments": [
+      "12",
+      "attack-move",
+      "3"
+    ],
+    "executable": "/private/tmp/rts-opening-camera-20260927/scripts/checkpoint-performance-scenario.mjs",
+    "exitCode": 0,
+    "signal": null,
+    "stderrTruncated": false,
+    "stdoutTruncated": false,
+    "workingDirectory": "/private/tmp/rts-opening-camera-20260927"
+  },
+  "projectRoot": "/private/tmp/rts-opening-camera-20260927",
+  "runId": "run_1790516626662_809b4fc1d5734cb185fea52de732c26c",
+  "scenarioId": "checkpoint-attack-move-2000",
+  "schema": "game_dev.run.v1",
+  "startedAt": "2026-09-27T13:43:46.685Z",
+  "status": "completed"
+}
