@@ -15,3 +15,8 @@ Build: main 26eea9b, isolated local server port 4387; Forked Vale, Azure seat, 1
 No hidden or overlapping control blocked these openings. At 800 px, temporary top-center feedback overlaps the objective strip visually, but its specific rejection remains readable and construction controls remain usable. No runtime change warranted by this bounded check.
 
 Limits: one local Azure seat; no remote latency, opposing player, touch/mobile, or other browser engine proof. Firefox's initial 320 px responsive preset is not the desktop test. Rendered screenshots and accessibility observations are in the task's CUA tool results; no standalone image files were saved. Closed only the test tab and shut down the disposable server cleanly with SIGINT.
+
+The [subsequent Ember check](qa-ember-opening-2026-09-27.md) covers the opposite
+seat at `bcd5fec`, including objective guidance and a checkpoint-seeded draw
+result at ordinary and 800 × 700 widths. Each record retains its own build and
+fixture limits.
