@@ -218,6 +218,8 @@ export function createUnitSpriteRuntime({
     const state = activeState(unit, now, durationMs(role, 'attack') || 900);
     const direction = normalizedDirection(unit.angle || 0);
     const clip = selectedPack.clipByKey.get(`${state}|${direction}`)
+      || (state === 'build' && CAST_ROLES.includes(role)
+        ? selectedPack.clipByKey.get(`gather|${direction}`) : null)
       || selectedPack.clipByKey.get(`idle|${direction}`);
     const frameId = clipFrame(clip, spriteAnimationTime(unit, state, now));
     const frame = selectedPack.frameById.get(frameId);
