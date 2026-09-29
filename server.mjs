@@ -6530,11 +6530,12 @@ const server = createServer(async (request, response) => {
   const publicUnitSpriteAsset = [
     ['worker', 'v1'], ['worker', 'v2'], ['worker', 'v3'],
     ['infantry', 'v1'], ['infantry', 'v2'], ['archer', 'v1'],
-  ].some(([role, version]) => {
-    const directory = `assets/units/${role}-sprite-${version}`;
+    ...['human', 'orc', 'elf', 'troll'].map(role => [role, 'v1', 'cast']),
+  ].some(([role, version, prefix]) => {
+    const directory = `assets/units/${prefix ? `${prefix}-` : ''}${role}-sprite-${version}`;
     return [
       `${directory}/sprite-atlas-pack-v1.json`,
-      `${directory}/${role}-atlas-runtime.png`,
+      `${directory}/${prefix || role}-atlas-runtime.png`,
       `${directory}/team-accent-mask.png`,
     ].includes(relative);
   });

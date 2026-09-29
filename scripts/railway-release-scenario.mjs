@@ -198,7 +198,7 @@ try {
     ['infantry', 'v1'], ['infantry', 'v2'], ['archer', 'v1'],
     ['human', 'v1', 'cast'], ['elf', 'v1', 'cast'], ['troll', 'v1', 'cast'], ['orc', 'v1', 'cast'],
   ]) {
-    const directory = `assets/units/${role}-sprite-${version}`;
+    const directory = `assets/units/${atlasName === "cast" ? "cast-" : ""}${role}-sprite-${version}`;
     const manifestResponse = await fetch(`${base}/${directory}/sprite-atlas-pack-v1.json`, {
       headers: { authorization },
     });

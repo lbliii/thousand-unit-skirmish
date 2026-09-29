@@ -157,7 +157,9 @@ let guidanceDismissed = false;
 try { guidanceDismissed = localStorage.getItem('rts-guidance-dismissed') === 'true'; } catch {}
 const objectivePanel = document.querySelector('#objective-panel');
 const roomPageUrl = new URL(window.location.href);
-const castPreview = roomPageUrl.searchParams.get('castPreview') === '1';
+const castPreview = roomPageUrl.searchParams.get('castPreview') !== '0'
+  && !['workerSpritePreview', 'unitSpritePreview', 'meshyInfantrySpritePreview']
+    .some((key) => roomPageUrl.searchParams.get(key) === '1');
 const workerSpritePreview = roomPageUrl.searchParams.get('workerSpritePreview') === '1';
 const unitSpritePreview = roomPageUrl.searchParams.get('unitSpritePreview') === '1';
 const meshyInfantrySpritePreview = roomPageUrl.searchParams.get('meshyInfantrySpritePreview') === '1';
@@ -174,7 +176,7 @@ const unitSpritePreviewVersions = castPreview
   ? { infantry: 'v2' }
   : workerSpritePreview && !unitSpritePreview ? { worker: 'v2' }
     : !unitSpritePreview ? { worker: 'v3' } : {};
-const unitSpritePreviewRoleSet = new Set(castPreview ? ['worker', 'infantry', 'archer'] : unitSpritePreviewRoles);
+const unitSpritePreviewRoleSet = new Set(castPreview ? ['worker'] : unitSpritePreviewRoles);
 const ROOM_ID = roomPageUrl.searchParams.get('room');
 const HAS_ROOM_PARAMETER = roomPageUrl.searchParams.has('room');
 const ROOM_ID_PATTERN = /^[A-Za-z0-9_-]{32}$/;

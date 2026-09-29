@@ -6,7 +6,7 @@ const DIRECTIONS = Object.freeze([
 const SPRITE_ROOT = '/assets/units';
 const SPRITE_GROUND_LIFT = 0.018;
 
-function spriteDirectory(role, version) {
+export function spriteDirectory(role, version) {
   const supportedVersions = {
     worker: ['v1', 'v2', 'v3'],
     infantry: ['v1', 'v2'],
@@ -19,7 +19,7 @@ function spriteDirectory(role, version) {
   if (!supportedVersions[role]?.includes(version)) {
     throw new Error(`Unsupported ${role} sprite version: ${version}`);
   }
-  return `${role}-sprite-${version}`;
+  return `${CAST_ROLES.includes(role) ? "cast-" : ""}${role}-sprite-${version}`;
 }
 
 function atlasPath(role, version) {
@@ -162,6 +162,10 @@ function loadRolePack(THREE, loader, role, version) {
   });
 }
 
+export function castRoleForUnit(unit) {
+  return unit.kind === 'worker' ? CAST_ROLES[unit.slot % CAST_ROLES.length] : unit.kind;
+}
+
 export function createUnitSpriteRuntime({
   THREE, scene, capacity, teamHex, cameraQuaternion, roles = UNIT_ROLES, roleSpriteVersions = {},
   castPreview = false,
@@ -201,7 +205,7 @@ export function createUnitSpriteRuntime({
   }
 
   function roleForUnit(unit) {
-    return castPreview ? CAST_ROLES[unit.slot % CAST_ROLES.length] : unit.kind;
+    return castPreview ? castRoleForUnit(unit) : unit.kind;
   }
 
   function update(unit, now, visibleScale) {
