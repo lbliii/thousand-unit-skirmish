@@ -4,24 +4,29 @@
 
 ## Current priority
 
-Prove a dependable RTS core in solo and human 1v1 matches. Prefer concrete
-problems in orders, movement, combat, economy, scenario rules, visibility,
-results, recovery, and large-match behavior. Maps and art should help expose and
-explain those systems.
+Build a reusable gameplay foundation and one complete faction. The
+[gameplay foundation plan](gameplay-foundation-plan.md) defines the implementation
+sequence and acceptance criteria. Existing solo/two-seat checks are the regression
+floor; expansion of gameplay functionality is the next development outcome.
+Art proceeds separately against stable presentation interfaces.
 
-The working loop is: play, record the build/map and decisive or confusing moment,
-reproduce the largest problem, ship a focused improvement, and play again.
-Scripted scenarios protect known rules; human matches establish whether those
-rules create understandable choices.
+## Foundation milestones
 
-The [core match tranche](core-playtest-tranche.md) gives the next session record,
-replay sequence, and proposed scale measurement profile. Art production proceeds
-separately; this tranche owns match reliability, player understanding, and scale evidence.
+| Milestone | Observable outcome |
+| --- | --- |
+| F1 — Extensible roster | Shared validated definitions drive existing rules; a Spearman and House exercise the complete runtime pipeline. |
+| F2 — Base development | Population, drop-offs, expansion, defenses and lifecycle rules create dependable economic choices. |
+| F3 — Composition and progression | Mounted/scouting and siege roles, counters and a small technology tree work for players and AI. |
+| F4 — Presentation and variants | Two visual variants preserve identical simulation; a bounded gameplay variant and mixed-roster scale measurements prove the extension boundaries. |
 
-## Next priorities
+Start with registry parity and a second Barracks production option. Define the
+presentation binding in that slice; ship each addition through HUD, server,
+persistence, AI and staging without waiting for final graphics.
 
-Choose the first unresolved item that the current evidence supports. Independent
-art, map, and infrastructure slices can progress alongside these outcomes.
+## Match evidence and continuing checks
+
+Use these observations to evaluate foundation additions. They are continuing
+product proofs, not a substitute for implementing the foundation milestones.
 
 1. **Complete and understand a match.** Run the Forked Vale loop in seeded solo
    play and human 1v1. Record the first order, production, objective, result, or

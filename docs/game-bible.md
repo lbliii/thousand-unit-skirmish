@@ -9,9 +9,12 @@ readable terrain and objectives, and author their own scenarios. Solo play
 against a deterministic opponent makes the same core easy to practice and test.
 Desktop mouse and keyboard are the baseline.
 
-The current priority is a reusable, dependable RTS core demonstrated in complete
-matches. A broader faction roster, campaign, ranked service, and persistent
-progression come after that proof.
+The current development priority is a reusable gameplay foundation with one
+complete faction: extensible unit/building definitions, base development, combat
+roles, bounded technology progression, and interchangeable presentation. The
+[foundation plan](gameplay-foundation-plan.md) defines the next tranche. Existing
+match reliability remains the quality floor. Multiple finished civilizations,
+campaign, ranked service and persistent progression remain later work.
 
 ## What the first slice must prove
 

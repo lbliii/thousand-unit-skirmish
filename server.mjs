@@ -1,3 +1,4 @@
+import { UNIT_DEFINITIONS, BUILDING_DEFINITIONS, TECHNOLOGY_DEFINITIONS } from './src/gameplay-definitions.mjs';
 import { validateMapAudioReference } from './src/audio-event-profile.mjs';
 import { createServer } from 'node:http';
 import { createHash, randomBytes } from 'node:crypto';
@@ -64,16 +65,12 @@ const MAX_OBJECTIVE_FOOD_REWARD = 10000;
 const MAX_MAP_SCENARIO_EVENTS = 32;
 const MAX_SCENARIO_EVENT_REPEATS = 20;
 const MIN_SCENARIO_EVENT_REPEAT_SECONDS = 5;
-const RESEARCH_RULES = Object.freeze({
-  'infantry-attack': Object.freeze({
-    label: 'INFANTRY FORGING', buildingType: 'barracks', upgradeKey: 'infantryAttack',
-    foodCost: 100, woodCost: 75, durationSeconds: 25,
-  }),
-  'archer-attack': Object.freeze({
-    label: 'ARCHER FLETCHING', buildingType: 'archery-range', upgradeKey: 'archerAttack',
-    foodCost: 125, woodCost: 125, durationSeconds: 25,
-  }),
-});
+const RESEARCH_RULES = Object.freeze(Object.fromEntries(
+  Object.entries(TECHNOLOGY_DEFINITIONS).map(([id, rule]) => [id, Object.freeze({
+    label: rule.label, buildingType: rule.building, upgradeKey: rule.upgradeKey,
+    foodCost: rule.cost.food, woodCost: rule.cost.wood, durationSeconds: rule.durationSeconds,
+  })]),
+));
 const SHARED_MOVE_PATHS = process.env.RTS_SHARED_MOVE_PATHS !== '0';
 const SERVER_INSTANCE_ID = randomBytes(16).toString('base64url');
 const pveLaunchOptions = readPveLaunchOptions();
@@ -494,20 +491,20 @@ const FOREST_WOOD_PER_CELL = 6;
 const WORKER_CARRY_CAPACITY = 10;
 const WORKER_INTERACTION_RANGE = 1.5;
 const BUILDER_INTERACTION_RANGE = 1.4;
-const INFANTRY_FOOD_COST = 50;
-const INFANTRY_TRAIN_SECONDS = 12;
-const WORKER_FOOD_COST = 50;
-const WORKER_TRAIN_SECONDS = 25;
-const ARCHERY_RANGE_WOOD_COST = 150;
-const BARRACKS_WOOD_COST = 175;
-const ARCHER_FOOD_COST = 25;
-const ARCHER_WOOD_COST = 45;
-const ARCHER_TRAIN_SECONDS = 7;
-const ARCHERY_RANGE_BUILD_SECONDS = 20;
-const BARRACKS_BUILD_SECONDS = 20;
+const INFANTRY_FOOD_COST = UNIT_DEFINITIONS.infantry.cost.food;
+const INFANTRY_TRAIN_SECONDS = UNIT_DEFINITIONS.infantry.trainSeconds;
+const WORKER_FOOD_COST = UNIT_DEFINITIONS.worker.cost.food;
+const WORKER_TRAIN_SECONDS = UNIT_DEFINITIONS.worker.trainSeconds;
+const ARCHERY_RANGE_WOOD_COST = BUILDING_DEFINITIONS['archery-range'].cost.wood;
+const BARRACKS_WOOD_COST = BUILDING_DEFINITIONS.barracks.cost.wood;
+const ARCHER_FOOD_COST = UNIT_DEFINITIONS.archer.cost.food;
+const ARCHER_WOOD_COST = UNIT_DEFINITIONS.archer.cost.wood;
+const ARCHER_TRAIN_SECONDS = UNIT_DEFINITIONS.archer.trainSeconds;
+const ARCHERY_RANGE_BUILD_SECONDS = BUILDING_DEFINITIONS['archery-range'].buildSeconds;
+const BARRACKS_BUILD_SECONDS = BUILDING_DEFINITIONS.barracks.buildSeconds;
 const MAX_BUILDING_QUEUE = 5;
 const TOWN_CENTER_SPAWN_SEARCH_RADIUS = 12;
-const ARCHERY_RANGE_FOOTPRINT = 3;
+const ARCHERY_RANGE_FOOTPRINT = BUILDING_DEFINITIONS['archery-range'].footprint;
 const BUILDING_RULES = Object.freeze({
   'archery-range': Object.freeze({
     label: 'ARCHERY RANGE', woodCost: ARCHERY_RANGE_WOOD_COST,
@@ -6472,7 +6469,7 @@ const server = createServer(async (request, response) => {
     'index.html', 'style.css', 'vendor/three.module.js', 'vendor/three.core.js', 'src/main.js',
     'src/building-sprites.mjs', 'src/battlefield-cursor.mjs', 'src/pve-entry.mjs', 'src/pve-match.mjs',
     'src/map-utils.mjs', 'src/elevation.mjs', 'src/town-center-spawn.mjs', 'src/map-resize.mjs',
-    'src/map-studio-viewport.mjs', 'src/order-feedback.mjs', 'src/resource-visual-state.mjs', 'src/resource-format.mjs',
+    'src/map-studio-viewport.mjs', 'src/order-feedback.mjs', 'src/resource-visual-state.mjs', 'src/resource-format.mjs', 'src/gameplay-definitions.mjs',
     'src/building-visual-state.mjs', 'src/unit-lod-state.mjs', 'src/unit-selection.mjs',
     'src/selection-context.mjs', 'src/unit-visual-state.mjs', 'src/unit-sprite-runtime.mjs',
     'src/audio.mjs', 'src/audio-policy.mjs', 'src/audio-event-profile.mjs',
@@ -6481,7 +6478,7 @@ const server = createServer(async (request, response) => {
     'src/audio-composition.mjs', 'src/audio-composer.mjs', 'src/audio-composer.css',
     'audio-studio.html', 'src/audio-recognition-check.mjs', 'src/camera-controls.mjs',
     'src/navigation-settings.mjs', 'src/objective-summary.mjs', 'src/hud-layout.mjs',
-    'src/resource-format.mjs',
+    'src/resource-format.mjs', 'src/gameplay-definitions.mjs',
     'src/captured-building-art.mjs', 'src/water-surface-geometry.mjs',
   ].includes(relative);
   const publicUiAsset = [

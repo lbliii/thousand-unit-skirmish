@@ -1,9 +1,10 @@
+import { UNIT_DEFINITIONS, BUILDING_DEFINITIONS } from './gameplay-definitions.mjs';
 /** Bounded production using only the existing team-visible opponent DTO. */
 export const PVE_PRODUCTION_LIMITS = Object.freeze({
   openingDelayTicks: 300,
-  barracksWoodCost: 175,
+  barracksWoodCost: BUILDING_DEFINITIONS.barracks.cost.wood,
   woodReserve: 25,
-  infantryFoodCost: 50,
+  infantryFoodCost: UNIT_DEFINITIONS.infantry.cost.food,
   foodReserve: 50,
   military: 12,
   roster: 24,
