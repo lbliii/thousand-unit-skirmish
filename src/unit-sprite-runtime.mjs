@@ -98,7 +98,7 @@ export function spriteClipDuration(clip) {
   return clip?.sequence?.reduce((sum, frame) => sum + Math.max(1, frame.durationMs || 1), 0) || 0;
 }
 
-function createSpriteMaterial(THREE, map, mask, teamColor) {
+function createSpriteMaterial(THREE, map, mask, teamColor, tintStrength = 1) {
   const material = new THREE.MeshBasicMaterial({
     color: 0xffffff,
     map,
@@ -112,6 +112,7 @@ function createSpriteMaterial(THREE, map, mask, teamColor) {
   material.onBeforeCompile = (shader) => {
     shader.uniforms.unitTeamMask = { value: mask };
     shader.uniforms.unitTeamTint = { value: teamColor };
+    shader.uniforms.unitTeamTintStrength = { value: tintStrength };
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', '#include <common>\nattribute vec4 instanceAtlasRect;')
       .replace('#include <uv_vertex>', `#include <uv_vertex>
@@ -120,13 +121,13 @@ function createSpriteMaterial(THREE, map, mask, teamColor) {
                 mix(instanceAtlasRect.y, instanceAtlasRect.w, uv.y));
 #endif`);
     shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\nuniform sampler2D unitTeamMask;\nuniform vec3 unitTeamTint;')
+      .replace('#include <common>', '#include <common>\nuniform sampler2D unitTeamMask;\nuniform vec3 unitTeamTint;\nuniform float unitTeamTintStrength;')
       .replace('#include <map_fragment>', `#include <map_fragment>
 float unitAccent = texture2D(unitTeamMask, vMapUv).r;
 float unitLuma = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
 float unitTintLuma = max(dot(unitTeamTint, vec3(0.2126, 0.7152, 0.0722)), 0.001);
 vec3 unitTintedColor = min(unitTeamTint * (unitLuma / unitTintLuma), vec3(1.0));
-diffuseColor.rgb = mix(diffuseColor.rgb, unitTintedColor, unitAccent);`);
+diffuseColor.rgb = mix(diffuseColor.rgb, unitTintedColor, unitAccent * unitTeamTintStrength);`);
   };
   material.customProgramCacheKey = () => 'unit-sprite-atlas-mask-v1';
   return material;
@@ -274,7 +275,7 @@ export function createUnitSpriteRuntime({
           const geometry = new THREE.PlaneGeometry(1, 1);
           const rectAttribute = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 4), 4);
           geometry.setAttribute('instanceAtlasRect', rectAttribute);
-          const material = createSpriteMaterial(THREE, pack.map, pack.mask, teamColors[team]);
+          const material = createSpriteMaterial(THREE, pack.map, pack.mask, teamColors[team], CAST_ROLES.includes(pack.role) ? 0.2 : 1);
           const mesh = new THREE.InstancedMesh(geometry, material, capacity);
           mesh.count = pendingCounts[team];
           mesh.visible = false;
