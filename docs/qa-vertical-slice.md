@@ -49,6 +49,10 @@ ordinary PRs use checks proportionate to their changes under
 
 ## Known findings and historical evidence
 
+[Native browser match observation](qa-live-browser-2026-09-29.md) records the
+owner-operated solo control loop and two-seat Forked Vale checks on staging
+`28415d9`. It does not establish novice-player comprehension.
+
 [Hosted scale collector verification](qa-hosted-scale-profile-2026-09-29.md)
 records repeated 250/2,000-unit windows with tagged per-seat order intervals.
 This verifies measurement tooling, not supported-scale performance.
