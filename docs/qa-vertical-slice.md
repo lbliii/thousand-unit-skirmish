@@ -49,6 +49,18 @@ ordinary PRs use checks proportionate to their changes under
 
 ## Known findings and historical evidence
 
+[Native browser match observation](qa-live-browser-2026-09-29.md) records the
+owner-operated solo control loop and two-seat Forked Vale checks on staging
+`28415d9`. It does not establish novice-player comprehension.
+
+[Hosted scale collector verification](qa-hosted-scale-profile-2026-09-29.md)
+records repeated 250/2,000-unit windows with tagged per-seat order intervals.
+This verifies measurement tooling, not supported-scale performance.
+
+[Core tranche readiness, 29 September](qa-core-tranche-2026-09-29.md) records
+current-main hosted seat recovery, elimination/rematch, browser authoring/reload,
+and opening captures at `12646d6`. Human play and supported-scale proof remain open.
+
 [Mixed-role health readability](qa-unit-health-2026-09-27.md) records both-seat
 prepared browser captures at ordinary and strategic zoom, including the missing
 damaged-unit indicator and its fix. It does not establish human comprehension.

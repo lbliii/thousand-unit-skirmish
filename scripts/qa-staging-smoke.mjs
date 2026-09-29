@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { request as httpsRequest } from 'node:https';
+import { createOrderProbe, parseScaleProfile } from './hosted-scale-profile.mjs';
 
+const scaleProfile = parseScaleProfile(process.argv.slice(2));
 const baseUrl = new URL(process.argv[2] || '');
 assert.equal(baseUrl.protocol, 'https:', 'pass the staging HTTPS origin');
 assert.ok(process.env.RTS_ACCESS_PASSWORD, 'RTS_ACCESS_PASSWORD must be supplied through the staging environment');
@@ -48,7 +50,8 @@ async function connect(roomId, resumeToken = null) {
   url.searchParams.set('room', roomId);
   const protocols = ['rts-v1'];
   if (resumeToken) protocols.push(`rts-resume.${resumeToken}`);
-  const client = { socket: null, messages: [], waiters: [], failure: null, stateFrames: [] };
+  const client = { socket: null, messages: [], waiters: [], failure: null, stateFrames: [],
+    latestState: null, orderProbe: null, armyResetVersion: 0 };
   function failWaiters(error) {
     client.failure = error;
     for (const waiter of client.waiters.splice(0)) {
@@ -59,11 +62,21 @@ async function connect(roomId, resumeToken = null) {
   function acceptMessage(payload) {
     let message;
     try { message = JSON.parse(payload.toString('utf8')); } catch { return; }
+    const at = performance.now();
+    if (message.type === 'notice' && message.message?.startsWith('BATTLEFIELD RESET ·')) {
+      client.armyResetVersion++;
+    }
+    client.orderProbe?.observe(message, at);
+    if (['state', 'welcome', 'mapChange'].includes(message.type)) {
+      client.latestState = message.type === 'state' ? message : message.state;
+    }
     if (message.type === 'state') client.stateFrames.push({
-      at: Date.now(), bytes: payload.length, tick: message.tick,
+      at, bytes: payload.length, tick: message.tick,
       armySize: message.armySize, connected: message.connected,
     });
     client.messages.push(message);
+    // Retain recent protocol history, not every full roster in a sustained run.
+    if (client.messages.length > 128) client.messages.shift();
     for (let index = client.waiters.length - 1; index >= 0; index--) {
       const waiter = client.waiters[index];
       if (!waiter.predicate(message)) continue;
@@ -268,37 +281,54 @@ try {
 
   let stressResult = null;
   if (stress) {
-    stage = 'running the 2,000-unit staging stress window';
+    stage = 'running the hosted scale profile';
     const stressMapChanges = [resumed, ember].map((client) => client.waitNext((message) => (
       message.type === 'mapChange' && message.map.id === 'dense-clash'
     )));
     resumed.send({ type: 'selectMap', mapId: 'dense-clash' });
     await Promise.all(stressMapChanges);
-    const fullArmyStates = [resumed, ember].map((client) => client.waitNext((message) => (
-      message.type === 'state' && message.armySize === 2000 && message.connected === 2
-    )));
-    resumed.send({ type: 'selectArmySize', count: 2000 });
-    await Promise.all(fullArmyStates);
-    const startedAt = Date.now();
-    resumed.send({ type: 'move', ids: Array.from({ length: 1000 }, (_, index) => index),
-      x: 18, z: 0, formation: 'box' });
-    ember.send({ type: 'move', ids: Array.from({ length: 1000 }, (_, index) => index + 1000),
-      x: -18, z: 0, formation: 'box' });
-    await new Promise((resolve) => setTimeout(resolve, 10_000));
-    const elapsedSeconds = (Date.now() - startedAt) / 1000;
-    stressResult = [resumed, ember].map((client, team) => {
-      const samples = client.stateFrames.filter((frame) => frame.at >= startedAt && frame.armySize === 2000);
-      const gaps = samples.slice(1).map((frame, index) => frame.at - samples[index].at);
-      assert.ok(samples.length >= 50, `team ${team} received fewer than 5 snapshots per second`);
-      assert.ok(samples.every((frame) => frame.connected === 2), `team ${team} lost a player seat`);
-      return {
-        team: team === 0 ? 'Azure' : 'Ember', snapshots: samples.length,
-        snapshotsPerSecond: Number((samples.length / elapsedSeconds).toFixed(2)),
-        payloadP95Bytes: percentile(samples.map((frame) => frame.bytes), 0.95),
-        intervalP95Ms: percentile(gaps, 0.95),
-        intervalMaxMs: Math.max(...gaps),
-      };
-    });
+    stressResult = [];
+    for (const count of scaleProfile.counts) for (let wave = 0; wave < scaleProfile.waves; wave++) {
+      stage = `hosted scale: ${count} units, wave ${wave + 1}`;
+      const peers = [resumed, ember];
+      const fullArmyStates = peers.map(client => {
+        const version = client.armyResetVersion;
+        return client.waitNext(message => client.armyResetVersion > version
+          && message.type === 'state' && message.armySize === count && message.connected === 2);
+      });
+      resumed.send({ type: 'selectArmySize', count });
+      await Promise.all(fullArmyStates);
+      for (const client of peers) client.stateFrames.length = 0;
+      const startedAt = performance.now();
+      peers.forEach((client, team) => {
+        const ids = Array.from({ length: count / 2 }, (_, index) => index + team * count / 2);
+        const token = 10000 + stressResult.length * 2 + team;
+        client.orderProbe = createOrderProbe({ token, ids, units: client.latestState.units,
+          startedAt: performance.now() });
+        client.send({ type: 'move', ids, x: team === 0 ? 18 : -18, z: 0,
+          formation: 'box', clientOrderToken: token });
+      });
+      await new Promise(resolve => setTimeout(resolve, scaleProfile.seconds * 1000));
+      const endedAt = performance.now();
+      const elapsedSeconds = (endedAt - startedAt) / 1000;
+      const clients = peers.map((client, team) => {
+        const samples = client.stateFrames.filter(frame => frame.at >= startedAt
+          && frame.at <= endedAt && frame.armySize === count);
+        const gaps = samples.slice(1).map((frame, index) => frame.at - samples[index].at);
+        assert.ok(samples.length / elapsedSeconds >= 5, `team ${team} received fewer than 5 snapshots per second`);
+        assert.ok(samples.every((frame) => frame.connected === 2), `team ${team} lost a player seat`);
+        return {
+          team: team === 0 ? 'Azure' : 'Ember', snapshots: samples.length,
+          snapshotsPerSecond: Number((samples.length / elapsedSeconds).toFixed(2)),
+          payloadP95Bytes: percentile(samples.map((frame) => frame.bytes), 0.95),
+          intervalP95Ms: percentile(gaps, 0.95),
+          intervalMaxMs: Math.max(...gaps),
+          order: client.orderProbe.report(),
+        };
+      });
+      stressResult.push({ totalUnits: count, wave: wave + 1, durationSeconds: elapsedSeconds, clients });
+      for (const client of peers) client.orderProbe = null;
+    }
   }
 
   console.log(JSON.stringify({
@@ -308,8 +338,8 @@ try {
       'both 1v1 seats', 'both-seat reconnect', 'authored map save/reload',
       'two-seat elimination victory', 'synchronized rematch reset'],
     mapId: map.id, armySize: 250,
-    ...(stressResult ? { stress: { map: 'dense-clash', totalUnits: 2000, durationSeconds: 10,
-      clients: stressResult } } : {}),
+    ...(stressResult ? { stress: { map: 'dense-clash', profile: scaleProfile,
+      windows: stressResult, timing: 'client monotonic clock; no browser/GPU or wire-egress measurement' } } : {}),
   }, null, 2));
 } catch (error) {
   throw new Error(`${stage}: ${error.message}`, { cause: error });

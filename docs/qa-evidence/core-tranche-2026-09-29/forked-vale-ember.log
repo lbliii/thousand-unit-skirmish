@@ -1,0 +1,38 @@
+{"stage":"finite node depleted, cargo deposited, and a repeat gather order was rejected","elapsedSeconds":11.8}
+{"stage":"both teams gathered food and wood from mirrored base nodes","elapsedSeconds":28.8}
+{"stage":"Team 1 kept interrupted food cargo, deposited it once, and resumed on wood","elapsedSeconds":39.6}
+{"stage":"both teams completed a barracks and sent its trained infantry to the objective front","elapsedSeconds":62.7}
+{"stage":"Team 1 owns capture-zone-2; Team 0 owns capture-zone-1; keep remains neutral","elapsedSeconds":85.8}
+{"stage":"keep stayed locked for 16 snapshots with Team 1 units inside","elapsedSeconds":96.3}
+{"stage":"Team 1 retook capture-zone-1; both prerequisite owners match","elapsedSeconds":110.2}
+{"stage":"Team 1 completed the 20-second all-zone victory hold","elapsedSeconds":147.8}
+{"stage":"both seats reset to neutral objectives and the authored opening army","elapsedSeconds":147.8}
+{
+  "map": "forked-vale-finite-probe",
+  "roster": 24,
+  "testedWinner": 1,
+  "oppositeFlanks": [
+    1,
+    0
+  ],
+  "lockedKeepSnapshots": 16,
+  "finalOwners": [
+    1,
+    1,
+    1
+  ],
+  "winner": 1,
+  "winnerTriggerId": "capture-zone-3",
+  "winnerReason": "capture-hold",
+  "rematchReset": "both seats restored",
+  "workerTaskSwitch": {
+    "team": 1,
+    "workerId": 12,
+    "interruptedCargo": 0.1,
+    "foodDeposit": 0.09999999999999432,
+    "nextResourceNode": "wood-62-25",
+    "newCargoType": "wood",
+    "passed": true
+  },
+  "stressResult": null
+}

@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "status": "draft-not-generated",
+  "direction": "Timber & Thread",
+  "flowUrl": "https://elevenlabs.io/app/flows/0AXaIqI9tTLOyV3GGgDr",
+  "flowId": "0AXaIqI9tTLOyV3GGgDr",
+  "estimate": {
+    "credits": 8120,
+    "takesPerNode": 4,
+    "generated": false,
+    "asOf": "2026-09-26 America/New_York"
+  },
+  "nodes": [
+    {
+      "id": "music_hearth",
+      "nodeId": "9QEJaIlUbOLC2BDNYr1b",
+      "modelId": "eleven_music_v2",
+      "parameters": {
+        "duration_seconds": 40,
+        "lyrics_type": "instrumental",
+        "instrumental": true
+      },
+      "prompt": "Instrumental acoustic chamber folk, warm and quietly adventurous, steady 96 BPM in 4/4 and D Dorian, an eight-bar repeating phrase over a D/A pedal. Muted gut-string plucks, soft bowed viol drone, sparse breathy wooden flute and restrained wooden knocks; a short-short-long D-A-E motif with space between phrases. Intimate dry recording, gentle dynamics, open ending, no vocals, choir, modern drum kit, epic brass or cinematic risers."
+    },
+    {
+      "id": "music_muster",
+      "nodeId": "VxeSscOipa0kYPxXmyO3",
+      "modelId": "eleven_music_v2",
+      "parameters": {
+        "duration_seconds": 40,
+        "lyrics_type": "instrumental",
+        "instrumental": true
+      },
+      "prompt": "Instrumental acoustic chamber folk, purposeful and tense with steady 96 BPM in 4/4 and D Dorian, an eight-bar repeating phrase over a D/A pedal. Low frame drum and woody percussion mark a 3+3+2 eighth-note pattern, with short bowed-viol pulses and sparse muted gut-string answers; leave the upper midrange spacious. Close dry recording, controlled dynamics and open ending, no vocals, choir, modern drum kit, epic brass or cinematic risers."
+    },
+    {
+      "id": "wood_token",
+      "nodeId": "6SlEdeO92KPgKfLQOHGj",
+      "modelId": "eleven_text_to_sound_v2",
+      "parameters": {
+        "duration_seconds": 1,
+        "prompt_influence": 0.65,
+        "loop": false
+      },
+      "prompt": "One small hardwood token placed firmly on a worn timber board. Warm rounded wooden knock, crisp immediate contact, short natural dry decay, intimate close recording, isolated on silence, no music, voices, room echo or other actions."
+    },
+    {
+      "id": "iron_latch",
+      "nodeId": "CnwjNP7vzVJ4s1aEIOxG",
+      "modelId": "eleven_text_to_sound_v2",
+      "parameters": {
+        "duration_seconds": 1,
+        "prompt_influence": 0.65,
+        "loop": false
+      },
+      "prompt": "One small weathered iron buckle snapped closed. A compact dull metallic click with a warm short body and very little ringing, immediate onset, close dry isolated recording on silence, no music, voices, room echo or other actions."
+    },
+    {
+      "id": "shield_impact",
+      "nodeId": "aPw4NniZlyiblZEcZhuj",
+      "modelId": "eleven_text_to_sound_v2",
+      "parameters": {
+        "duration_seconds": 1.5,
+        "prompt_influence": 0.65,
+        "loop": false
+      },
+      "prompt": "One spear shaft striking a thick wooden shield. Solid woody thock with a restrained low body and brief dry splinter texture, immediate onset, close isolated recording on silence, no metallic clang, voices, music, battle crowd or reverberation."
+    },
+    {
+      "id": "bow_release",
+      "nodeId": "kEJjPqsCesaBdLLrQysM",
+      "modelId": "eleven_text_to_sound_v2",
+      "parameters": {
+        "duration_seconds": 1.5,
+        "prompt_influence": 0.65,
+        "loop": false
+      },
+      "prompt": "One small wooden bow releasing its taut natural-fiber string. Crisp short string snap and brief woody resonance, immediate onset, close dry isolated recording on silence, no arrow impact, voices, music or reverberation."
+    },
+    {
+      "id": "leather_shift",
+      "nodeId": "4dWGjbM9H6gs1rMUlf4B",
+      "modelId": "eleven_text_to_sound_v2",
+      "parameters": {
+        "duration_seconds": 2,
+        "prompt_influence": 0.65,
+        "loop": false
+      },
+      "prompt": "One brief movement of a worn leather belt and heavy linen sleeve. Soft textured creak and cloth brushing, close dry isolated recording with a quiet natural ending, no footsteps, metal, speech, music or reverberation."
+    },
+    {
+      "id": "wind_canopy",
+      "nodeId": "8hy05h7zb6QhK2Ge69lM",
+      "modelId": "eleven_text_to_sound_v2",
+      "parameters": {
+        "duration_seconds": 12,
+        "prompt_influence": 0.65,
+        "loop": true
+      },
+      "prompt": "Soft steady breeze through broadleaf tree crowns, gentle low rustling and abundant quiet space, seamless restrained natural ambience loop. No distinct gusts, birds, insects, voices, footsteps, music or dramatic events."
+    },
+    {
+      "id": "music_veil",
+      "nodeId": "kUqgYCZrGKMakD1viF2I",
+      "modelId": "eleven_music_v2",
+      "parameters": {
+        "duration_seconds": 40,
+        "lyrics_type": "instrumental",
+        "instrumental": true
+      },
+      "prompt": "Instrumental chamber fantasy music, mysterious and tender, steady 96 BPM in 4/4, D Dorian over a D/A pedal with an eight-bar phrase. Sparse bowed-glass harmonics, low bowed viol, breathy wooden flute and a few muted gut-string plucks trade a short-short-long D-A-E motif, with luminous high notes over dark warm sustained tones. Spacious but restrained natural reverb, gentle dynamics, open ending, no vocals, choir, drums, brass, cinematic risers or sound effects."
+    },
+    {
+      "id": "glass_harmonic",
+      "nodeId": "dmyTtxCb0oICn2iljLVB",
+      "modelId": "eleven_text_to_sound_v2",
+      "parameters": {
+        "duration_seconds": 4,
+        "prompt_influence": 0.65,
+        "loop": false
+      },
+      "prompt": "One softly bowed glass tone, an airy luminous harmonic blooming gently from silence and fading into silence, a pure delicate resonant body with a faint breathy edge. Isolated dry source recording, no melody, chords, music, sparkling cascade, voices, distortion or reverberation."
+    }
+  ]
+}
