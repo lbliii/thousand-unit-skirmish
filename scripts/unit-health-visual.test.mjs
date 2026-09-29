@@ -1,3 +1,4 @@
+import { UNIT_DEFINITIONS } from '../src/gameplay-definitions.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -23,7 +24,7 @@ function fixture() {
     updateMatrix() { this.matrix = { x: this.position.x, y: this.position.y,
       z: this.position.z, scaleX: this.scale.x, scaleY: this.scale.y }; },
   };
-  const context = vm.createContext({ dummy, camera: { quaternion: {} },
+  const context = vm.createContext({ UNIT_DEFINITIONS, dummy, camera: { quaternion: {} },
     color: { setHex(hex) { this.hex = hex; } },
     unitHealthBackground: mesh(0), unitHealthFill: mesh(1),
   });
@@ -34,23 +35,24 @@ for (const team of [0, 1]) {
   for (const kind of ['worker', 'infantry', 'archer']) {
     test(`${team} ${kind}: health follows damage, fog, defeat and reused slots`, () => {
       const f = fixture();
-      const unit = { team, kind, hp: 100, visible: true, scale: 1,
+      const maxHp = UNIT_DEFINITIONS[kind].combat.maxHp;
+      const unit = { team, kind, hp: maxHp, visible: true, scale: 1,
         renderX: 10, renderZ: 12, focusSlot: 4 };
       f.update(unit);
       assert.equal(f.matrices[0].get(4).scaleX, 0, 'healthy units hide bars');
-      unit.hp = 35; f.update(unit);
+      unit.hp = maxHp * .35; f.update(unit);
       assert.equal(f.matrices[1].get(4).scaleX, .35);
       assert.equal(f.colors.get(4), 0xe3c46f);
       const leftEdge = f.matrices[1].get(4).x - 1.1 * .35 / 2;
       assert.equal(leftEdge, 10 - 1.1 / 2);
       unit.visible = false; f.update(unit);
       assert.equal(f.matrices[0].get(4).scaleX, 0, 'hidden enemies expose no health');
-      unit.visible = true; unit.hp = 20; unit.renderX = 15; f.update(unit);
+      unit.visible = true; unit.hp = maxHp * .2; unit.renderX = 15; f.update(unit);
       assert.equal(f.colors.get(4), 0xe27461);
       assert.equal(f.matrices[0].get(4).x, 15);
       unit.hp = 0; f.update(unit);
       assert.equal(f.matrices[1].get(4).scaleX, 0, 'defeated units hide bars');
-      f.update({ ...unit, hp: 100 });
+      f.update({ ...unit, hp: maxHp });
       assert.equal(f.matrices[0].get(4).scaleX, 0, 'healthy replacement keeps slot hidden');
     });
   }

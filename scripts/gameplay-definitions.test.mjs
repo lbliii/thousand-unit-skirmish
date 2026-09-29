@@ -19,6 +19,7 @@ test('invalid content cannot silently create free production or unknown products
   for (const [mutate, reason] of [
     [d => { d.units.worker.cost.food = -1; }, /Invalid food cost/],
     [d => { d.units.worker.trainSeconds = 0; }, /Invalid trainSeconds/],
+    [d => { d.units.archer.combat.range = NaN; }, /Invalid combat range/],
     [d => { d.buildings.barracks.products.push('unknown-unit'); }, /Unknown product/],
     [d => { d.technologies['infantry-attack'].building = 'unknown-building'; }, /Unknown research building/],
     [d => { d.buildings.barracks.footprint = 2.5; }, /Invalid footprint/],

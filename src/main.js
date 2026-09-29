@@ -2937,7 +2937,7 @@ function flushUnitCargoPackColor(team) {
 
 function setUnitTint(unit, markBuffersDirty = true) {
   if (!shouldUpdateUnitFullDetailTint(unitLowDetailActive)) return false;
-  const health = Math.max(0, unit.hp) / 100;
+  const health = Math.max(0, unit.hp) / UNIT_DEFINITIONS[unit.kind].combat.maxHp;
   const strength = unit.hp > 0 ? 0.7 + health * 0.3 : unit.defeatStartedAt > 0 ? 0.58 : 0;
   const flashing = unit.damageFlashUntil > performance.now();
   color.setHex(TEAM_HEX[unit.team]);
@@ -3000,7 +3000,7 @@ function updateUnitFocusVisual(unit) {
 }
 
 function updateUnitHealthVisual(unit) {
-  const ratio = Math.max(0, Math.min(1, unit.hp / 100));
+  const ratio = Math.max(0, Math.min(1, unit.hp / UNIT_DEFINITIONS[unit.kind].combat.maxHp));
   const visible = unit.visible !== false && ratio > 0 && ratio < 1;
   const scale = visible ? unit.scale : 0;
   if (unit.healthVisualScale === scale && (!visible

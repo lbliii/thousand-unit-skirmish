@@ -1,3 +1,4 @@
+import { UNIT_DEFINITIONS } from '../src/gameplay-definitions.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -65,7 +66,7 @@ test('authoritative path helper keeps the one-build cap and allows cache hits', 
   const fields = new Map();
   let builds = 0;
   const context = vm.createContext({
-    ATTACK_MOVE_MAX_FLOW_BUILDS_PER_TICK: 1, ATTACK_RANGE: 1, ARCHER_ATTACK_RANGE: 5,
+    UNIT_DEFINITIONS, ATTACK_MOVE_MAX_FLOW_BUILDS_PER_TICK: 1, ATTACK_RANGE: 1, ARCHER_ATTACK_RANGE: 5,
     nearestOpenCell: cell => cell, worldToCell: x => x,
     walkableComponents: Array(100).fill(0), attackFlowFields: fields,
     getAttackFlowField(goal) {

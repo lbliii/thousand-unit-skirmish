@@ -14,6 +14,11 @@ export function validateGameplayDefinitions(definitions) {
         : category === 'buildings' ? ['buildSeconds', 'footprint', 'maxHp'] : ['durationSeconds']) {
         if (!Number.isFinite(entry[key]) || entry[key] <= 0) throw new Error(`Invalid ${key}: ${id}`);
       }
+      if (category === 'units') {
+        for (const key of ['maxHp', 'moveSpeed', 'range', 'damage', 'period', 'structureDamage']) {
+          if (!Number.isFinite(entry.combat?.[key]) || entry.combat[key] <= 0) throw new Error(`Invalid combat ${key}: ${id}`);
+        }
+      }
       if (category === 'buildings') {
         if (!Number.isInteger(entry.footprint)) throw new Error(`Invalid footprint: ${id}`);
         for (const product of entry.products || []) {
@@ -35,9 +40,9 @@ function freezeTree(value) {
 export const GAMEPLAY_DEFINITIONS = freezeTree(validateGameplayDefinitions({
   version: 1,
   units: {
-    worker: { id: 'worker', label: 'Worker', cost: { food: 50, wood: 0 }, trainSeconds: 25, population: 1, presentation: 'unit.worker' },
-    infantry: { id: 'infantry', label: 'Infantry', cost: { food: 50, wood: 0 }, trainSeconds: 12, population: 1, presentation: 'unit.infantry' },
-    archer: { id: 'archer', label: 'Archer', cost: { food: 25, wood: 45 }, trainSeconds: 7, population: 1, presentation: 'unit.archer' },
+    worker: { id: 'worker', label: 'Worker', cost: { food: 50, wood: 0 }, trainSeconds: 25, population: 1, combat: { maxHp: 100, moveSpeed: 2.6, range: 1.28, damage: 4, period: 0.85, structureDamage: 1 }, presentation: 'unit.worker' },
+    infantry: { id: 'infantry', label: 'Infantry', cost: { food: 50, wood: 0 }, trainSeconds: 12, population: 1, combat: { maxHp: 100, moveSpeed: 2.6, range: 1.28, damage: 10, period: 0.85, structureDamage: 1.5 }, presentation: 'unit.infantry' },
+    archer: { id: 'archer', label: 'Archer', cost: { food: 25, wood: 45 }, trainSeconds: 7, population: 1, combat: { maxHp: 70, moveSpeed: 2.6, range: 4.5, damage: 7, period: 1, structureDamage: 0.8 }, presentation: 'unit.archer' },
   },
   buildings: {
     barracks: { id: 'barracks', label: 'Barracks', cost: { food: 0, wood: 175 }, buildSeconds: 20, footprint: 3, maxHp: 1800, products: ['infantry'], presentation: 'building.barracks' },

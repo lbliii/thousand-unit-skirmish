@@ -44,10 +44,10 @@ See [Archer approach evidence](qa-archer-firing-approach-2026-09-27.md) and
 ## Shared gameplay definitions
 
 `src/gameplay-definitions.mjs` owns validated production costs/times, current
-building footprints, research costs/times and stable presentation IDs. Server,
+building footprints, combat stats, research costs/times and stable presentation IDs. Server,
 HUD and deterministic production policy consume this data. Existing command,
 roster and checkpoint formats remain unchanged in the initial extraction.
-Combat stats, generic multi-product queues, faction resolution and presentation
+Generic multi-product queues, faction resolution and presentation
 profile loading remain follow-up slices in the [foundation plan](gameplay-foundation-plan.md).
 A presentation ID is a binding identifier; it does not yet load an animation.
 

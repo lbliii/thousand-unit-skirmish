@@ -60,7 +60,6 @@ const MAX_MAP_OBSTACLES = 4096;
 const MAX_RESOURCE_NODES = 128;
 const MAX_BUILDINGS = 128;
 const BUILDING_MAX_HIT_POINTS = 1800;
-const BUILDING_ATTACK_DAMAGE = { infantry: 1.5, archer: 0.8 };
 const MAX_OBJECTIVE_FOOD_REWARD = 10000;
 const MAX_MAP_SCENARIO_EVENTS = 32;
 const MAX_SCENARIO_EVENT_REPEATS = 20;
@@ -470,16 +469,10 @@ const STATE_EVERY_TICKS = 3;
 const TICK_SAMPLE_WINDOW = TICK_RATE * 10;
 const TICK_DIAGNOSTICS_ENABLED = process.env.RTS_TICK_DIAGNOSTICS === '1';
 const SEPARATION_DIAGNOSTICS_ENABLED = process.env.RTS_SEPARATION_DIAGNOSTICS === '1';
-const WALK_SPEED = 2.6;
+const WALK_SPEED = Math.max(...Object.values(UNIT_DEFINITIONS).map(rule => rule.combat.moveSpeed));
 const MOVE_START_BROADCAST_DISTANCE = WALK_SPEED * STEP_SECONDS * 0.5;
 const SPATIAL_BUCKET_SIZE = 1.2;
-const ATTACK_RANGE = 1.28;
-const ATTACK_DAMAGE = 10;
-const WORKER_ATTACK_DAMAGE = 4;
-const ATTACK_PERIOD = 0.85;
-const ARCHER_ATTACK_RANGE = 4.5;
-const ARCHER_ATTACK_DAMAGE = 7;
-const ARCHER_ATTACK_PERIOD = 1;
+const ARCHER_ATTACK_RANGE = UNIT_DEFINITIONS.archer.combat.range;
 const ATTACK_MOVE_ACQUIRE_RADIUS = 4.8;
 const ATTACK_MOVE_LEASH_RADIUS = 8;
 const ATTACK_MOVE_SCAN_INTERVAL_TICKS = 6;
@@ -1508,7 +1501,7 @@ function nextUnitGeneration(id) {
 
 function makeUnit(id, team, x, z, kind, teamSlot) {
   return {
-    id, generation: nextUnitGeneration(id), team, x, z, hp: kind === 'archer' ? 70 : 100, path: [], pathIndex: 0,
+    id, generation: nextUnitGeneration(id), team, x, z, hp: UNIT_DEFINITIONS[kind].combat.maxHp, path: [], pathIndex: 0,
     attackTargetId: -1, attackBuildingTargetId: -1,
     // Mirror the opening attack cadence by roster slot, not the global unit ID.
     attackCooldown: ((teamSlot * 37) % 30) / 30,
@@ -4055,7 +4048,7 @@ function activeMoveRoutesRemainConnected(previousComponents) {
     }
     if (unit.attackBuildingTargetId >= 0) {
       const target = buildingsById.get(unit.attackBuildingTargetId);
-      const range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+      const range = UNIT_DEFINITIONS[unit.kind].combat.range;
       if (target && distanceToBuildingEdge(unit, target) > range
         && !buildingAttackApproachCells(target, unit.kind)
           .some((cell) => walkableComponents[cell] === walkableComponents[current])) return false;
@@ -4141,7 +4134,7 @@ function replanPathsBlockedBy(footprint) {
       unit.repathTimer = 0;
       // A unit can be in firing range even when its cell center is outside it.
       // Preserve that shot before looking for walkable approach-cell centers.
-      const range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+      const range = UNIT_DEFINITIONS[unit.kind].combat.range;
       if (target && distanceToBuildingEdge(unit, target) <= range) continue;
       const approach = target
         ? findBuildingAttackApproachCell(unit, buildingAttackApproachCells(target, unit.kind)) : null;
@@ -5047,7 +5040,7 @@ function assignAttackBuilding(player, command) {
     const start = nearestOpenCell(worldToCell(unit.x, unit.z));
     // Range is sufficient to fire; terrain connectivity only matters for approach.
     // This matches unit-target attacks and the range check in simulateTick.
-    const attackRange = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+    const attackRange = UNIT_DEFINITIONS[unit.kind].combat.range;
     if (distanceToBuildingEdge(unit, target) <= attackRange) {
       assignments.push({ unit, start, goal: start, path: [] });
       continue;
@@ -5393,7 +5386,7 @@ function findAttackMoveTarget(unit) {
       const dx = target.x - unit.x;
       const dz = target.z - unit.z;
       const distanceSquared = dx * dx + dz * dz;
-      const attackRange = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+      const attackRange = UNIT_DEFINITIONS[unit.kind].combat.range;
       if (walkableComponents[targetCell] === componentId || distanceSquared <= attackRange * attackRange) {
         if (distanceSquared <= bestDistanceSquared
           && (!bestTarget || distanceSquared < bestDistanceSquared || target.id < bestTarget.id)) {
@@ -5409,7 +5402,7 @@ function findAttackMoveTarget(unit) {
 function getUnitAttackPath(unit, target, flowBudget = null) {
   const targetCell = nearestOpenCell(worldToCell(target.x, target.z));
   const start = nearestOpenCell(worldToCell(unit.x, unit.z));
-  const range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+  const range = UNIT_DEFINITIONS[unit.kind].combat.range;
   if (Math.hypot(target.x - unit.x, target.z - unit.z) <= range) {
     return { targetCell, path: [], reachable: true };
   }
@@ -5466,7 +5459,7 @@ function prepareAttackMovePaths() {
       if (!target || target.hp <= 0 || target.team === unit.team
         || (mapDefinition.fogOfWar && !cellVisibleToTeam(unit.team, worldToCell(target.x, target.z)))
         || Math.hypot(target.x - unit.attackMoveAnchorX, target.z - unit.attackMoveAnchorZ) > ATTACK_MOVE_LEASH_RADIUS
-        || Math.hypot(target.x - unit.x, target.z - unit.z) <= (unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE)
+        || Math.hypot(target.x - unit.x, target.z - unit.z) <= (UNIT_DEFINITIONS[unit.kind].combat.range)
         || (worldToCell(target.x, target.z) === unit.lastAttackCell && unit.pathIndex < unit.path.length)) continue;
     } else if (unit.attackMoveRouteReady && !unit.movePlanningPending
       && unit.attackBuildingTargetId < 0 && tickNumber >= unit.attackMoveScanTick) {
@@ -5481,7 +5474,7 @@ function prepareAttackMovePaths() {
   return plans;
 }
 
-function getMoveVector(unit, remainingStep = WALK_SPEED * STEP_SECONDS) {
+function getMoveVector(unit, remainingStep = UNIT_DEFINITIONS[unit.kind].combat.moveSpeed * STEP_SECONDS) {
   if (unit.pathIndex >= unit.path.length || remainingStep <= 0) return null;
   const trackSeparationWork = SEPARATION_DIAGNOSTICS_ENABLED;
   let unitCandidateVisits = 0;
@@ -5564,10 +5557,10 @@ function spreadInteractingUnits() {
     let range = 0;
     if (unit.attackTargetId >= 0) {
       target = units[unit.attackTargetId];
-      range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+      range = UNIT_DEFINITIONS[unit.kind].combat.range;
     } else if (unit.attackBuildingTargetId >= 0) {
       building = buildingsById.get(unit.attackBuildingTargetId);
-      range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+      range = UNIT_DEFINITIONS[unit.kind].combat.range;
     } else if (unit.gatherPhase === 'gathering' && unit.gatherForestCell >= 0) {
       target = cellToWorld(unit.gatherForestCell);
       range = WORKER_INTERACTION_RANGE;
@@ -5636,7 +5629,7 @@ function spreadInteractingUnits() {
     }
     const strength = Math.hypot(forceX, forceZ);
     if (strength < 0.01) continue;
-    const step = Math.min(WALK_SPEED * STEP_SECONDS, strength * 0.08);
+    const step = Math.min(UNIT_DEFINITIONS[unit.kind].combat.moveSpeed * STEP_SECONDS, strength * 0.08);
     let x = unit.x + forceX / strength * step;
     let z = unit.z + forceZ / strength * step;
     if (target) {
@@ -5698,11 +5691,10 @@ function simulateTick() {
         const dx = target.x - unit.x;
         const dz = target.z - unit.z;
         const distance = Math.hypot(dx, dz);
-        const attackRange = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
-        const attackDamage = (unit.kind === 'archer' ? ARCHER_ATTACK_DAMAGE
-          : unit.kind === 'worker' ? WORKER_ATTACK_DAMAGE : ATTACK_DAMAGE)
+        const attackRange = UNIT_DEFINITIONS[unit.kind].combat.range;
+        const attackDamage = UNIT_DEFINITIONS[unit.kind].combat.damage
           * attackDamageMultiplierFor(unit);
-        const attackPeriod = unit.kind === 'archer' ? ARCHER_ATTACK_PERIOD : ATTACK_PERIOD;
+        const attackPeriod = UNIT_DEFINITIONS[unit.kind].combat.period;
         unit.attackCooldown -= STEP_SECONDS;
         unit.repathTimer -= STEP_SECONDS;
         const targetCell = worldToCell(target.x, target.z);
@@ -5747,7 +5739,7 @@ function simulateTick() {
         continue;
       }
       const distance = distanceToBuildingEdge(unit, target);
-      const attackRange = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+      const attackRange = UNIT_DEFINITIONS[unit.kind].combat.range;
       unit.attackCooldown -= STEP_SECONDS;
       unit.repathTimer -= STEP_SECONDS;
       const targetCell = worldToCell(target.x, target.z);
@@ -5757,8 +5749,8 @@ function simulateTick() {
         if (unit.attackCooldown <= 0) {
           pendingBuildingDamage.set(target,
             (pendingBuildingDamage.get(target) || 0)
-              + (BUILDING_ATTACK_DAMAGE[unit.kind] || 1) * attackDamageMultiplierFor(unit));
-          unit.attackCooldown = unit.kind === 'archer' ? ARCHER_ATTACK_PERIOD : ATTACK_PERIOD;
+              + UNIT_DEFINITIONS[unit.kind].combat.structureDamage * attackDamageMultiplierFor(unit));
+          unit.attackCooldown = UNIT_DEFINITIONS[unit.kind].combat.period;
           unit.lastAttackTick = tickNumber;
           unit.lastAttackX = target.x;
           unit.lastAttackZ = target.z;
@@ -5842,13 +5834,13 @@ function simulateTick() {
     // Close that last gap directly so the attacker does not wait in place.
     if (unit.pathIndex >= unit.path.length && unit.attackTargetId >= 0) {
       const target = units[unit.attackTargetId];
-      const range = unit.kind === 'archer' ? ARCHER_ATTACK_RANGE : ATTACK_RANGE;
+      const range = UNIT_DEFINITIONS[unit.kind].combat.range;
       if (target?.hp > 0 && worldToCell(unit.x, unit.z) === worldToCell(target.x, target.z)) {
         const dx = target.x - unit.x;
         const dz = target.z - unit.z;
         const distance = Math.hypot(dx, dz);
         if (distance > range && distance > 0) {
-          const step = Math.min(WALK_SPEED * STEP_SECONDS, distance - range + 0.02);
+          const step = Math.min(UNIT_DEFINITIONS[unit.kind].combat.moveSpeed * STEP_SECONDS, distance - range + 0.02);
           const x = unit.x + dx / distance * step;
           const z = unit.z + dz / distance * step;
           if (isWalkable(worldToCell(x, z))) {
@@ -5861,7 +5853,7 @@ function simulateTick() {
       }
     }
     if (unit.pathIndex >= unit.path.length) continue;
-    let remainingStep = WALK_SPEED * STEP_SECONDS;
+    let remainingStep = UNIT_DEFINITIONS[unit.kind].combat.moveSpeed * STEP_SECONDS;
     while (remainingStep > 0 && unit.pathIndex < unit.path.length) {
       const move = getMoveVector(unit, remainingStep);
       if (!move) break;
