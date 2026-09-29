@@ -47,7 +47,13 @@ See [Archer approach evidence](qa-archer-firing-approach-2026-09-27.md) and
 building footprints, combat stats, research costs/times and stable presentation IDs. Server,
 HUD and deterministic production policy consume this data. Existing command,
 roster and checkpoint formats remain unchanged in the initial extraction.
-Generic multi-product queues, faction resolution and presentation
+Building production uses a FIFO list of unit IDs with registry costs and head-unit
+training duration. The numeric queue count remains available to existing clients
+and AI. Checkpoint schema 11 migrates schema-10 single-product queues; private
+queue contents are visible only to their owner and spectators. HUD training uses
+`trainUnit`; legacy training commands remain accepted.
+
+Faction resolution and presentation
 profile loading remain follow-up slices in the [foundation plan](gameplay-foundation-plan.md).
 A presentation ID is a binding identifier; it does not yet load an animation.
 

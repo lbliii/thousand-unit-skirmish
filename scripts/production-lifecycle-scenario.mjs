@@ -119,7 +119,7 @@ try {
   await clients[0].wait((m) => m.type === 'state' && m.buildings.length === 2 && m.buildings.every((b) => b.complete));
   const buildings = [0, 1].map((team) => clients[0].latest.buildings.find((b) => b.team === team));
   for (const [team, client] of clients.entries()) {
-    send(client, { type: 'train', buildingId: buildings[team].id });
+    send(client, { type: 'trainUnit', kind: 'infantry', buildingId: buildings[team].id });
     send(client, { type: 'train', buildingId: buildings[team].id });
     send(client, { type: 'researchUpgrade', buildingId: buildings[team].id, upgrade: 'infantry-attack' });
   }
@@ -128,7 +128,10 @@ try {
   const base = JSON.parse(await readFile(checkpointPath, 'utf8'));
   const createFixture = () => { const f = structuredClone(base); f.state.seatSessions = []; return f; };
   const doomed = createFixture();
+  // A deployed schema-10 save has counts but no product IDs. Recover its queues before combat.
+  doomed.schemaVersion = 10;
   for (const b of doomed.state.buildings) {
+    delete b.productionQueue;
     b.hp = 1; b.trainingRemaining = 1 / 60;
     doomed.state.teamResearch[b.team].remaining = 1 / 60;
     const attacker = doomed.state.units.find((u) => u.team === 1 - b.team && u.kind === 'infantry');
@@ -139,6 +142,7 @@ try {
   await start();
   const destroyed = await checkpointWith(checkpointPath, (s) => s.mapDefinition.id === map.id
     && s.state.tickNumber >= doomed.state.tickNumber + 30 && s.state.buildings.length === 0);
+  assert.equal(destroyed.schemaVersion, 11, 'legacy production checkpoint migrates');
   assert.equal(destroyed.state.units.length, doomed.state.units.length, 'destruction before completion produces no ghost units');
   assert.deepEqual(destroyed.state.teamFood, doomed.state.teamFood, 'lost queues are not charged or refunded again');
   assert.deepEqual(destroyed.state.teamWood, doomed.state.teamWood);
@@ -153,7 +157,7 @@ try {
 
   const abandoned = createFixture();
   for (const b of abandoned.state.buildings) {
-    Object.assign(b, { complete: false, progress: 0.999, queue: 0, trainingRemaining: 0, productionBlocked: false });
+    Object.assign(b, { complete: false, progress: 0.999, queue: 0, productionQueue: [], trainingRemaining: 0, productionBlocked: false });
     abandoned.state.teamResearch[b.team] = null;
     const workers = abandoned.state.units.filter((u) => u.team === b.team && u.kind === 'worker');
     for (const worker of workers) worker.buildingTargetId = null;

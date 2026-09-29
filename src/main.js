@@ -7009,7 +7009,7 @@ function queueInfantry() {
     showToast('BARRACKS QUEUE FULL');
     return;
   }
-  sendCommand({ type: 'train', buildingId: building.id });
+  sendCommand({ type: 'trainUnit', kind: 'infantry', buildingId: building.id });
 }
 
 function queueArcher() {
@@ -7023,7 +7023,7 @@ function queueArcher() {
     showToast(`ARCHER NEEDS ${formatResourceRequirement(ARCHER_FOOD_COST)} FOOD + ${formatResourceRequirement(ARCHER_WOOD_COST)} WOOD`);
     return;
   }
-  sendCommand({ type: 'trainArcher', buildingId: building.id });
+  sendCommand({ type: 'trainUnit', kind: 'archer', buildingId: building.id });
 }
 
 function startSelectedAttackResearch() {

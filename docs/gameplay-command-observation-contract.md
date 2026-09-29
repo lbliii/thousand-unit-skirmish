@@ -24,6 +24,7 @@ is for reconnect only and must not enter policy input or logs.
 | `gather` | `ids` and either `nodeId` or `forestCell`; optional `unitGenerations`. |
 | `build` | New: `ids`, `buildingType` (`barracks`, `archery-range`), `x`, `z`. Resume: `ids`, `buildingId`. Optional `unitGenerations`. |
 | `train`, `trainArcher` | `buildingId`. |
+| `trainUnit` | `buildingId`, `kind` from the building definition’s products. Costs and training time are authoritative. |
 | `trainWorker` | No extra arguments. |
 | `researchUpgrade` | `buildingId`, `upgrade` (`infantry-attack`, `archer-attack`). |
 | `setRallyPoint` | `buildingId`, `x`, `z`; or `clear: true`. |
