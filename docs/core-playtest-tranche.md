@@ -69,3 +69,29 @@ Run one timed workload at a time under recorded host conditions. A passing
 synthetic spectator run is diagnostic evidence, not the two-player support claim.
 The historical browser spike remains an investigation target if it recurs; profile
 the measured slow task before choosing an optimization.
+
+With staging service credentials injected into the environment, the hosted
+protocol runner can execute the movement ladder in a new disposable room:
+
+```sh
+node scripts/qa-staging-smoke.mjs https://game-staging-21f9.up.railway.app --stress --stress-counts=250,500,1000,2000 --stress-seconds=40 --stress-waves=3
+```
+
+Counts are restricted to the four supported army sizes; durations to 10–40
+seconds and waves to 1–3. `--stress` alone retains one 10-second 2,000-unit window.
+Each wave resets its roster before issuing one tagged move order per seat.
+The report contains `stress.profile` and `stress.windows`, with each window's
+observed duration, per-seat snapshots/gaps/payloads, and order intervals.
+Timing uses the client's monotonic clock. Acknowledgment is the first matching
+token notice; applied feedback is the matching move-order notice; movement is
+the first living selected unit displaced at least 0.05 world units from its
+pre-send position, with its generation unchanged. These intervals include
+transport, server scheduling, and client observation costs; acknowledgment is
+not an RTT measurement. Three orders per seat do not establish a robust p95.
+Missing observations remain `null`, rather than a zero or a performance pass.
+Runner success asserts only the existing snapshot liveness/seat-continuity floor.
+
+This command does not measure windowed rendering, compressed wire egress, server
+CPU/checkpoints, attack-move combat, or recovery under sustained load. Collect
+those separately before claiming the supported-scale outcome. Retain source
+revision, deployment identity before/after, conditions, and raw output.

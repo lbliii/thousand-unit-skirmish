@@ -131,6 +131,10 @@ write map files. They are authoring tools, not read-only validation commands.
 Run one timed profile at a time. Record commit, hardware, browser, map, roster,
 workload duration, host load, and every budget override.
 
+The [core tranche profile](core-playtest-tranche.md#scale-measurement-profile--proposed)
+documents the bounded hosted movement ladder and per-seat tagged-order intervals.
+Its success status asserts protocol liveness, not the broader scale budgets.
+
 ```sh
 node scripts/checkpoint-performance-scenario.mjs 12
 node scripts/checkpoint-performance-scenario.mjs 12 idle

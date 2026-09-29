@@ -52,6 +52,7 @@ const syntaxFiles = [
 for (const file of syntaxFiles) run(['--check', file], `Syntax: ${file}`);
 
 run(['scripts/check-docs.mjs'], 'Documentation links');
+run(['--test', 'scripts/hosted-scale-profile.test.mjs'], 'Hosted scale measurement integrity');
 run(['--test', 'scripts/unit-sprite-clock.test.mjs'], 'Sprite animation clock');
 run(['--test', 'scripts/building-sprites.test.mjs'], 'Default building sprites');
 run(['--test', 'scripts/ci-sharding.test.mjs'], 'CI shard coverage');
