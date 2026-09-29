@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "packId": "cast-troll-sprite",
-  "packVersion": "0.1.0",
+  "packVersion": "0.2.0",
   "maturity": "runtime-candidate",
   "provenance": {
     "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
     "source": "readability-study cast-full painted sprite sheets",
     "authoringTool": "OpenAI ImageGen; PNG atlas and mask packaging",
-    "notes": "Opt-in review candidate only. Shared motion scaffolding and species identity require visual review before production use; troll edge residue is known."
+    "notes": "Pixel-audited review pack; original sources retained. Edge-cut source poses held at nearest complete pose in the same clip. See clipping-review.json. Shared baseline preserves motion; visual registration remains exploratory."
   },
   "files": [
     {
@@ -26,7 +26,7 @@
       "path": "cast-atlas-runtime.png",
       "usage": "runtime",
       "format": "png",
-      "sha256": "a91006015912dd48cb2f20340501337af1f38d56dedf77a6a0ee581ad7bc80ca",
+      "sha256": "a9fca5f8895e229ab60edb72d82a46deaf3203170f67c2dafc6900f826f79cec",
       "dimensionsPx": {
         "width": 2048,
         "height": 3328
@@ -37,7 +37,7 @@
       "path": "team-accent-mask.png",
       "usage": "team-mask",
       "format": "png",
-      "sha256": "fdc2566798a719327f15f5f284c8fa0dbdd6fab72e7298afb93b15b45550e43c",
+      "sha256": "78558e33af9e2683d771713af189709ddc1b53a0a1847df05709ab1db38b51b1",
       "dimensionsPx": {
         "width": 2048,
         "height": 3328
@@ -86,7 +86,7 @@
           0.55
         ]
       },
-      "heightWorld": 1.35,
+      "heightWorld": 1.289732142857143,
       "sortAnchorWorld": [
         0,
         0,
@@ -127,18 +127,18 @@
         {
           "id": "idle-north-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 41,
+            "y": 21,
+            "width": 53,
+            "height": 79
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -170,18 +170,18 @@
         {
           "id": "idle-north-east-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 34,
+            "y": 25,
+            "width": 63,
+            "height": 77
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -213,18 +213,18 @@
         {
           "id": "idle-east-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 41,
+            "y": 24,
+            "width": 45,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -256,18 +256,18 @@
         {
           "id": "idle-south-east-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 49,
+            "y": 21,
+            "width": 40,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -299,18 +299,18 @@
         {
           "id": "idle-south-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 41,
+            "y": 15,
+            "width": 55,
+            "height": 89
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -342,18 +342,18 @@
         {
           "id": "idle-south-west-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 30,
+            "y": 15,
+            "width": 67,
+            "height": 92
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -385,18 +385,18 @@
         {
           "id": "idle-west-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 18,
+            "width": 53,
+            "height": 86
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -428,18 +428,18 @@
         {
           "id": "idle-north-west-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 44,
+            "y": 24,
+            "width": 38,
+            "height": 81
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -471,18 +471,18 @@
         {
           "id": "walk-north-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 41,
+            "y": 34,
+            "width": 53,
+            "height": 80
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -514,18 +514,18 @@
         {
           "id": "walk-north-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 38,
+            "y": 31,
+            "width": 64,
+            "height": 86
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -557,18 +557,18 @@
         {
           "id": "walk-north-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 40,
+            "y": 34,
+            "width": 68,
+            "height": 83
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -600,18 +600,18 @@
         {
           "id": "walk-north-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 42,
+            "y": 34,
+            "width": 65,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -643,18 +643,18 @@
         {
           "id": "walk-north-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 48,
+            "y": 34,
+            "width": 51,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -686,18 +686,18 @@
         {
           "id": "walk-north-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 43,
+            "y": 32,
+            "width": 57,
+            "height": 78
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -729,18 +729,18 @@
         {
           "id": "walk-north-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 37,
+            "y": 34,
+            "width": 58,
+            "height": 80
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -772,18 +772,18 @@
         {
           "id": "walk-north-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 36,
+            "y": 34,
+            "width": 56,
+            "height": 81
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -815,18 +815,18 @@
         {
           "id": "walk-north-east-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 37,
+            "y": 32,
+            "width": 60,
+            "height": 72
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -858,18 +858,18 @@
         {
           "id": "walk-north-east-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 32,
+            "width": 57,
+            "height": 74
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -901,18 +901,18 @@
         {
           "id": "walk-north-east-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 41,
+            "y": 34,
+            "width": 53,
+            "height": 76
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -944,18 +944,18 @@
         {
           "id": "walk-north-east-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 37,
+            "y": 35,
+            "width": 60,
+            "height": 73
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -987,18 +987,18 @@
         {
           "id": "walk-north-east-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 41,
+            "y": 32,
+            "width": 62,
+            "height": 70
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1030,18 +1030,18 @@
         {
           "id": "walk-north-east-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 47,
+            "y": 33,
+            "width": 51,
+            "height": 78
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1073,18 +1073,18 @@
         {
           "id": "walk-north-east-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 48,
+            "y": 35,
+            "width": 55,
+            "height": 76
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1116,18 +1116,18 @@
         {
           "id": "walk-north-east-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 48,
+            "y": 36,
+            "width": 52,
+            "height": 73
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1159,18 +1159,18 @@
         {
           "id": "walk-east-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 42,
+            "y": 30,
+            "width": 39,
+            "height": 80
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1202,18 +1202,18 @@
         {
           "id": "walk-east-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 40,
+            "y": 29,
+            "width": 57,
+            "height": 73
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1245,18 +1245,18 @@
         {
           "id": "walk-east-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 36,
+            "y": 29,
+            "width": 67,
+            "height": 76
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1288,18 +1288,18 @@
         {
           "id": "walk-east-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 31,
+            "y": 30,
+            "width": 71,
+            "height": 74
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1331,18 +1331,18 @@
         {
           "id": "walk-east-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 40,
+            "y": 30,
+            "width": 55,
+            "height": 74
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1374,18 +1374,18 @@
         {
           "id": "walk-east-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 35,
+            "y": 30,
+            "width": 63,
+            "height": 85
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1417,18 +1417,18 @@
         {
           "id": "walk-east-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 35,
+            "y": 32,
+            "width": 67,
+            "height": 84
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1460,18 +1460,18 @@
         {
           "id": "walk-east-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 33,
+            "y": 32,
+            "width": 64,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1503,18 +1503,18 @@
         {
           "id": "walk-south-east-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 52,
+            "y": 31,
+            "width": 39,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1546,18 +1546,18 @@
         {
           "id": "walk-south-east-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 40,
+            "y": 31,
+            "width": 57,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1589,18 +1589,18 @@
         {
           "id": "walk-south-east-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 37,
+            "y": 30,
+            "width": 73,
+            "height": 83
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1632,18 +1632,18 @@
         {
           "id": "walk-south-east-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 34,
+            "y": 31,
+            "width": 64,
+            "height": 80
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1675,18 +1675,18 @@
         {
           "id": "walk-south-east-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 45,
+            "y": 29,
+            "width": 45,
+            "height": 83
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1718,18 +1718,18 @@
         {
           "id": "walk-south-east-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 48,
+            "y": 30,
+            "width": 62,
+            "height": 83
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1761,18 +1761,18 @@
         {
           "id": "walk-south-east-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 40,
+            "y": 29,
+            "width": 75,
+            "height": 83
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1804,18 +1804,18 @@
         {
           "id": "walk-south-east-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 40,
+            "y": 30,
+            "width": 63,
+            "height": 83
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1847,18 +1847,18 @@
         {
           "id": "walk-south-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 41,
+            "y": 28,
+            "width": 57,
+            "height": 85
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1890,18 +1890,18 @@
         {
           "id": "walk-south-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 42,
+            "y": 27,
+            "width": 66,
+            "height": 88
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1933,18 +1933,18 @@
         {
           "id": "walk-south-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 40,
+            "y": 28,
+            "width": 77,
+            "height": 91
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -1976,18 +1976,18 @@
         {
           "id": "walk-south-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 40,
+            "y": 28,
+            "width": 77,
+            "height": 91
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2019,18 +2019,18 @@
         {
           "id": "walk-south-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 58,
+            "y": 28,
+            "width": 48,
+            "height": 84
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2062,18 +2062,18 @@
         {
           "id": "walk-south-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 57,
+            "y": 29,
+            "width": 60,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2105,18 +2105,18 @@
         {
           "id": "walk-south-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 57,
+            "y": 29,
+            "width": 60,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2148,18 +2148,18 @@
         {
           "id": "walk-south-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 57,
+            "y": 29,
+            "width": 60,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2191,18 +2191,18 @@
         {
           "id": "walk-south-west-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 28,
+            "y": 26,
+            "width": 66,
+            "height": 85
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2234,18 +2234,18 @@
         {
           "id": "walk-south-west-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 44,
+            "y": 27,
+            "width": 60,
+            "height": 88
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2277,18 +2277,18 @@
         {
           "id": "walk-south-west-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 53,
+            "y": 29,
+            "width": 60,
+            "height": 89
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2320,18 +2320,18 @@
         {
           "id": "walk-south-west-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 56,
+            "y": 31,
+            "width": 60,
+            "height": 87
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2363,18 +2363,18 @@
         {
           "id": "walk-south-west-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 52,
+            "y": 26,
+            "width": 66,
+            "height": 84
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2406,18 +2406,18 @@
         {
           "id": "walk-south-west-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 57,
+            "y": 27,
+            "width": 57,
+            "height": 89
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2449,18 +2449,18 @@
         {
           "id": "walk-south-west-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 47,
+            "y": 29,
+            "width": 56,
+            "height": 90
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2492,18 +2492,18 @@
         {
           "id": "walk-south-west-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 50,
+            "y": 28,
+            "width": 60,
+            "height": 88
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2535,18 +2535,18 @@
         {
           "id": "walk-west-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 42,
+            "y": 27,
+            "width": 50,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2578,18 +2578,18 @@
         {
           "id": "walk-west-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 29,
+            "y": 27,
+            "width": 62,
+            "height": 77
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2621,18 +2621,18 @@
         {
           "id": "walk-west-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 29,
+            "y": 28,
+            "width": 71,
+            "height": 77
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2664,18 +2664,18 @@
         {
           "id": "walk-west-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 29,
+            "width": 74,
+            "height": 77
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2707,18 +2707,18 @@
         {
           "id": "walk-west-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 27,
+            "width": 68,
+            "height": 80
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2750,18 +2750,18 @@
         {
           "id": "walk-west-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 34,
+            "y": 26,
+            "width": 72,
+            "height": 80
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2793,18 +2793,18 @@
         {
           "id": "walk-west-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 35,
+            "y": 29,
+            "width": 70,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2836,18 +2836,18 @@
         {
           "id": "walk-west-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 29,
+            "width": 68,
+            "height": 85
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2879,18 +2879,18 @@
         {
           "id": "walk-north-west-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 42,
+            "y": 27,
+            "width": 35,
+            "height": 80
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2922,18 +2922,18 @@
         {
           "id": "walk-north-west-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 37,
+            "y": 26,
+            "width": 53,
+            "height": 79
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -2965,18 +2965,18 @@
         {
           "id": "walk-north-west-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 35,
+            "y": 31,
+            "width": 63,
+            "height": 73
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3008,18 +3008,18 @@
         {
           "id": "walk-north-west-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 33,
+            "width": 57,
+            "height": 71
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3051,18 +3051,18 @@
         {
           "id": "walk-north-west-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 44,
+            "y": 29,
+            "width": 39,
+            "height": 74
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3094,18 +3094,18 @@
         {
           "id": "walk-north-west-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 38,
+            "y": 27,
+            "width": 52,
+            "height": 80
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3137,18 +3137,18 @@
         {
           "id": "walk-north-west-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 30,
+            "width": 67,
+            "height": 75
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3180,18 +3180,18 @@
         {
           "id": "walk-north-west-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 29,
+            "width": 55,
+            "height": 72
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3223,18 +3223,18 @@
         {
           "id": "attack-north-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 21,
+            "y": 43,
+            "width": 83,
+            "height": 70
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3266,18 +3266,18 @@
         {
           "id": "attack-north-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 21,
+            "y": 40,
+            "width": 82,
+            "height": 73
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3309,18 +3309,18 @@
         {
           "id": "attack-north-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 23,
+            "y": 35,
+            "width": 76,
+            "height": 79
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3352,18 +3352,18 @@
         {
           "id": "attack-north-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 29,
+            "y": 37,
+            "width": 74,
+            "height": 77
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3395,18 +3395,18 @@
         {
           "id": "attack-north-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 33,
+            "width": 65,
+            "height": 81
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3438,18 +3438,18 @@
         {
           "id": "attack-north-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 31,
+            "y": 34,
+            "width": 83,
+            "height": 80
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3481,18 +3481,18 @@
         {
           "id": "attack-north-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 33,
+            "y": 62,
+            "width": 77,
+            "height": 57
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3524,18 +3524,18 @@
         {
           "id": "attack-north-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 60,
+            "width": 74,
+            "height": 59
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3567,18 +3567,18 @@
         {
           "id": "attack-north-8",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 59,
+            "width": 82,
+            "height": 58
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3610,18 +3610,18 @@
         {
           "id": "attack-north-9",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 31,
+            "y": 59,
+            "width": 84,
+            "height": 57
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3653,18 +3653,18 @@
         {
           "id": "attack-north-10",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 23,
+            "y": 53,
+            "width": 85,
+            "height": 62
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3696,18 +3696,18 @@
         {
           "id": "attack-north-11",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 24,
+            "y": 43,
+            "width": 78,
+            "height": 72
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3739,18 +3739,18 @@
         {
           "id": "attack-north-12",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 26,
+            "y": 39,
+            "width": 80,
+            "height": 72
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3782,18 +3782,18 @@
         {
           "id": "attack-north-13",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 27,
+            "y": 40,
+            "width": 79,
+            "height": 71
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3825,18 +3825,18 @@
         {
           "id": "attack-north-14",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 27,
+            "y": 40,
+            "width": 79,
+            "height": 71
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3868,18 +3868,18 @@
         {
           "id": "attack-north-15",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 25,
+            "y": 40,
+            "width": 81,
+            "height": 71
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3911,18 +3911,18 @@
         {
           "id": "attack-north-east-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 43,
+            "width": 67,
+            "height": 73
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3954,18 +3954,18 @@
         {
           "id": "attack-north-east-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 40,
+            "width": 66,
+            "height": 77
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -3997,18 +3997,18 @@
         {
           "id": "attack-north-east-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 36,
+            "y": 32,
+            "width": 60,
+            "height": 86
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4040,18 +4040,18 @@
         {
           "id": "attack-north-east-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 41,
+            "y": 33,
+            "width": 57,
+            "height": 85
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4083,18 +4083,18 @@
         {
           "id": "attack-north-east-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 25,
+            "width": 61,
+            "height": 92
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4126,18 +4126,18 @@
         {
           "id": "attack-north-east-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 33,
+            "y": 39,
+            "width": 51,
+            "height": 79
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4169,18 +4169,18 @@
         {
           "id": "attack-north-east-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 33,
+            "y": 39,
+            "width": 51,
+            "height": 79
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4212,18 +4212,18 @@
         {
           "id": "attack-north-east-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 43,
+            "y": 57,
+            "width": 60,
+            "height": 62
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4255,18 +4255,18 @@
         {
           "id": "attack-north-east-8",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 43,
+            "y": 59,
+            "width": 58,
+            "height": 60
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4298,18 +4298,18 @@
         {
           "id": "attack-north-east-9",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 42,
+            "y": 59,
+            "width": 58,
+            "height": 59
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4341,18 +4341,18 @@
         {
           "id": "attack-north-east-10",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 42,
+            "y": 59,
+            "width": 58,
+            "height": 59
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4384,18 +4384,18 @@
         {
           "id": "attack-north-east-11",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 36,
+            "y": 41,
+            "width": 66,
+            "height": 77
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4427,18 +4427,18 @@
         {
           "id": "attack-north-east-12",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 36,
+            "y": 41,
+            "width": 66,
+            "height": 77
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4470,18 +4470,18 @@
         {
           "id": "attack-north-east-13",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 35,
+            "y": 42,
+            "width": 71,
+            "height": 77
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4513,18 +4513,18 @@
         {
           "id": "attack-north-east-14",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 33,
+            "y": 42,
+            "width": 72,
+            "height": 75
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4556,18 +4556,18 @@
         {
           "id": "attack-north-east-15",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 44,
+            "width": 72,
+            "height": 74
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4599,18 +4599,18 @@
         {
           "id": "attack-east-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4642,18 +4642,18 @@
         {
           "id": "attack-east-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4685,18 +4685,18 @@
         {
           "id": "attack-east-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4728,18 +4728,18 @@
         {
           "id": "attack-east-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4771,18 +4771,18 @@
         {
           "id": "attack-east-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4814,18 +4814,18 @@
         {
           "id": "attack-east-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4857,18 +4857,18 @@
         {
           "id": "attack-east-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4900,18 +4900,18 @@
         {
           "id": "attack-east-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4943,18 +4943,18 @@
         {
           "id": "attack-east-8",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -4986,18 +4986,18 @@
         {
           "id": "attack-east-9",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5029,18 +5029,18 @@
         {
           "id": "attack-east-10",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5072,18 +5072,18 @@
         {
           "id": "attack-east-11",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5115,18 +5115,18 @@
         {
           "id": "attack-east-12",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5158,18 +5158,18 @@
         {
           "id": "attack-east-13",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5201,18 +5201,18 @@
         {
           "id": "attack-east-14",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5244,18 +5244,18 @@
         {
           "id": "attack-east-15",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 15,
+            "width": 55,
+            "height": 100
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5287,18 +5287,18 @@
         {
           "id": "attack-south-east-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 28,
+            "y": 15,
+            "width": 72,
+            "height": 101
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5330,18 +5330,18 @@
         {
           "id": "attack-south-east-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 28,
+            "y": 15,
+            "width": 72,
+            "height": 101
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5373,18 +5373,18 @@
         {
           "id": "attack-south-east-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 28,
+            "y": 15,
+            "width": 72,
+            "height": 101
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5416,18 +5416,18 @@
         {
           "id": "attack-south-east-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 28,
+            "y": 15,
+            "width": 72,
+            "height": 101
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5459,18 +5459,18 @@
         {
           "id": "attack-south-east-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 28,
+            "y": 15,
+            "width": 72,
+            "height": 101
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5502,18 +5502,18 @@
         {
           "id": "attack-south-east-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 28,
+            "y": 15,
+            "width": 72,
+            "height": 101
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5545,18 +5545,18 @@
         {
           "id": "attack-south-east-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 22,
+            "y": 47,
+            "width": 88,
+            "height": 71
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5588,18 +5588,18 @@
         {
           "id": "attack-south-east-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 21,
+            "y": 46,
+            "width": 84,
+            "height": 71
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5631,18 +5631,18 @@
         {
           "id": "attack-south-east-8",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 21,
+            "y": 46,
+            "width": 84,
+            "height": 71
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5674,18 +5674,18 @@
         {
           "id": "attack-south-east-9",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 21,
+            "y": 46,
+            "width": 84,
+            "height": 71
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5717,18 +5717,18 @@
         {
           "id": "attack-south-east-10",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 21,
+            "y": 46,
+            "width": 84,
+            "height": 71
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5760,18 +5760,18 @@
         {
           "id": "attack-south-east-11",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 48,
+            "y": 37,
+            "width": 60,
+            "height": 83
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5803,18 +5803,18 @@
         {
           "id": "attack-south-east-12",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 48,
+            "y": 37,
+            "width": 60,
+            "height": 83
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5846,18 +5846,18 @@
         {
           "id": "attack-south-east-13",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 48,
+            "y": 37,
+            "width": 60,
+            "height": 83
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5889,18 +5889,18 @@
         {
           "id": "attack-south-east-14",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 48,
+            "y": 37,
+            "width": 60,
+            "height": 83
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5932,18 +5932,18 @@
         {
           "id": "attack-south-east-15",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 50,
+            "y": 35,
+            "width": 58,
+            "height": 85
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -5975,18 +5975,18 @@
         {
           "id": "attack-south-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 31,
+            "y": 40,
+            "width": 83,
+            "height": 74
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6018,18 +6018,18 @@
         {
           "id": "attack-south-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 36,
+            "y": 43,
+            "width": 81,
+            "height": 71
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6061,18 +6061,18 @@
         {
           "id": "attack-south-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 34,
+            "y": 32,
+            "width": 82,
+            "height": 81
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6104,18 +6104,18 @@
         {
           "id": "attack-south-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 34,
+            "y": 32,
+            "width": 82,
+            "height": 81
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6147,18 +6147,18 @@
         {
           "id": "attack-south-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 42,
+            "y": 14,
+            "width": 68,
+            "height": 104
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6190,18 +6190,18 @@
         {
           "id": "attack-south-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 45,
+            "y": 13,
+            "width": 75,
+            "height": 104
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6233,18 +6233,18 @@
         {
           "id": "attack-south-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 30,
+            "y": 37,
+            "width": 81,
+            "height": 79
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6276,18 +6276,18 @@
         {
           "id": "attack-south-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 30,
+            "y": 35,
+            "width": 78,
+            "height": 81
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6319,18 +6319,18 @@
         {
           "id": "attack-south-8",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 20,
+            "y": 42,
+            "width": 81,
+            "height": 72
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6362,18 +6362,18 @@
         {
           "id": "attack-south-9",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 22,
+            "y": 42,
+            "width": 81,
+            "height": 72
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6405,18 +6405,18 @@
         {
           "id": "attack-south-10",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 26,
+            "y": 42,
+            "width": 85,
+            "height": 70
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6448,18 +6448,18 @@
         {
           "id": "attack-south-11",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 26,
+            "y": 42,
+            "width": 85,
+            "height": 70
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6491,18 +6491,18 @@
         {
           "id": "attack-south-12",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 26,
+            "y": 42,
+            "width": 85,
+            "height": 70
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6534,18 +6534,18 @@
         {
           "id": "attack-south-13",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 26,
+            "y": 42,
+            "width": 85,
+            "height": 70
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6577,18 +6577,18 @@
         {
           "id": "attack-south-14",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 26,
+            "y": 42,
+            "width": 85,
+            "height": 70
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6620,18 +6620,18 @@
         {
           "id": "attack-south-15",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 26,
+            "y": 42,
+            "width": 85,
+            "height": 70
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6663,18 +6663,18 @@
         {
           "id": "attack-south-west-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 35,
+            "y": 33,
+            "width": 64,
+            "height": 80
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6706,18 +6706,18 @@
         {
           "id": "attack-south-west-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 40,
+            "y": 37,
+            "width": 64,
+            "height": 76
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6749,18 +6749,18 @@
         {
           "id": "attack-south-west-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 41,
+            "y": 28,
+            "width": 63,
+            "height": 87
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6792,18 +6792,18 @@
         {
           "id": "attack-south-west-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 51,
+            "y": 13,
+            "width": 56,
+            "height": 103
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6835,18 +6835,18 @@
         {
           "id": "attack-south-west-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 58,
+            "y": 15,
+            "width": 51,
+            "height": 102
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6878,18 +6878,18 @@
         {
           "id": "attack-south-west-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 58,
+            "y": 15,
+            "width": 51,
+            "height": 102
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6921,18 +6921,18 @@
         {
           "id": "attack-south-west-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 48,
+            "y": 31,
+            "width": 58,
+            "height": 88
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -6964,18 +6964,18 @@
         {
           "id": "attack-south-west-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 45,
+            "y": 32,
+            "width": 55,
+            "height": 87
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7007,18 +7007,18 @@
         {
           "id": "attack-south-west-8",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 29,
+            "y": 29,
+            "width": 55,
+            "height": 87
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7050,18 +7050,18 @@
         {
           "id": "attack-south-west-9",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 30,
+            "y": 28,
+            "width": 57,
+            "height": 89
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7093,18 +7093,18 @@
         {
           "id": "attack-south-west-10",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 38,
+            "y": 30,
+            "width": 62,
+            "height": 85
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7136,18 +7136,18 @@
         {
           "id": "attack-south-west-11",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 44,
+            "y": 35,
+            "width": 58,
+            "height": 75
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7179,18 +7179,18 @@
         {
           "id": "attack-south-west-12",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 44,
+            "y": 37,
+            "width": 73,
+            "height": 72
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7222,18 +7222,18 @@
         {
           "id": "attack-south-west-13",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 48,
+            "y": 35,
+            "width": 68,
+            "height": 72
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7265,18 +7265,18 @@
         {
           "id": "attack-south-west-14",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 45,
+            "y": 31,
+            "width": 68,
+            "height": 77
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7308,18 +7308,18 @@
         {
           "id": "attack-south-west-15",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 42,
+            "y": 33,
+            "width": 68,
+            "height": 75
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7351,18 +7351,18 @@
         {
           "id": "attack-west-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 34,
+            "y": 34,
+            "width": 55,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7394,18 +7394,18 @@
         {
           "id": "attack-west-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 30,
+            "y": 37,
+            "width": 59,
+            "height": 79
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7437,18 +7437,18 @@
         {
           "id": "attack-west-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 29,
+            "y": 31,
+            "width": 56,
+            "height": 84
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7480,18 +7480,18 @@
         {
           "id": "attack-west-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 15,
+            "width": 55,
+            "height": 102
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7523,18 +7523,18 @@
         {
           "id": "attack-west-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 30,
+            "y": 13,
+            "width": 62,
+            "height": 104
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7566,18 +7566,18 @@
         {
           "id": "attack-west-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 31,
+            "y": 13,
+            "width": 63,
+            "height": 107
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7609,18 +7609,18 @@
         {
           "id": "attack-west-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 31,
+            "y": 13,
+            "width": 63,
+            "height": 107
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7652,18 +7652,18 @@
         {
           "id": "attack-west-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 36,
+            "y": 36,
+            "width": 58,
+            "height": 84
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7695,18 +7695,18 @@
         {
           "id": "attack-west-8",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 33,
+            "y": 34,
+            "width": 62,
+            "height": 85
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7738,18 +7738,18 @@
         {
           "id": "attack-west-9",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 29,
+            "y": 35,
+            "width": 61,
+            "height": 84
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7781,18 +7781,18 @@
         {
           "id": "attack-west-10",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 30,
+            "y": 33,
+            "width": 54,
+            "height": 83
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7824,18 +7824,18 @@
         {
           "id": "attack-west-11",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 36,
+            "y": 35,
+            "width": 52,
+            "height": 79
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7867,18 +7867,18 @@
         {
           "id": "attack-west-12",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 42,
+            "y": 36,
+            "width": 50,
+            "height": 79
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7910,18 +7910,18 @@
         {
           "id": "attack-west-13",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 37,
+            "y": 33,
+            "width": 53,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7953,18 +7953,18 @@
         {
           "id": "attack-west-14",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 37,
+            "y": 34,
+            "width": 52,
+            "height": 82
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -7996,18 +7996,18 @@
         {
           "id": "attack-west-15",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 40,
+            "y": 33,
+            "width": 52,
+            "height": 84
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8039,18 +8039,18 @@
         {
           "id": "attack-north-west-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 29,
+            "y": 38,
+            "width": 60,
+            "height": 69
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8082,18 +8082,18 @@
         {
           "id": "attack-north-west-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 27,
+            "y": 39,
+            "width": 62,
+            "height": 69
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8125,18 +8125,18 @@
         {
           "id": "attack-north-west-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 28,
+            "y": 34,
+            "width": 63,
+            "height": 72
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8168,18 +8168,18 @@
         {
           "id": "attack-north-west-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 20,
+            "width": 61,
+            "height": 85
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8211,18 +8211,18 @@
         {
           "id": "attack-north-west-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 38,
+            "y": 26,
+            "width": 60,
+            "height": 79
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8254,18 +8254,18 @@
         {
           "id": "attack-north-west-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 27,
+            "width": 63,
+            "height": 79
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8297,18 +8297,18 @@
         {
           "id": "attack-north-west-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 29,
+            "y": 52,
+            "width": 78,
+            "height": 60
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8340,18 +8340,18 @@
         {
           "id": "attack-north-west-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 33,
+            "y": 49,
+            "width": 70,
+            "height": 62
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8383,18 +8383,18 @@
         {
           "id": "attack-north-west-8",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 30,
+            "y": 48,
+            "width": 69,
+            "height": 59
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8426,18 +8426,18 @@
         {
           "id": "attack-north-west-9",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 25,
+            "y": 49,
+            "width": 77,
+            "height": 58
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8469,18 +8469,18 @@
         {
           "id": "attack-north-west-10",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 26,
+            "y": 39,
+            "width": 69,
+            "height": 68
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8512,18 +8512,18 @@
         {
           "id": "attack-north-west-11",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 18,
+            "y": 39,
+            "width": 72,
+            "height": 69
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8555,18 +8555,18 @@
         {
           "id": "attack-north-west-12",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 28,
+            "y": 37,
+            "width": 61,
+            "height": 73
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8598,18 +8598,18 @@
         {
           "id": "attack-north-west-13",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 31,
+            "y": 36,
+            "width": 55,
+            "height": 74
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8641,18 +8641,18 @@
         {
           "id": "attack-north-west-14",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 29,
+            "y": 36,
+            "width": 57,
+            "height": 74
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8684,18 +8684,18 @@
         {
           "id": "attack-north-west-15",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 31,
+            "y": 36,
+            "width": 55,
+            "height": 74
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8727,18 +8727,18 @@
         {
           "id": "defeat-north-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 47,
+            "y": 31,
+            "width": 42,
+            "height": 79
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8770,18 +8770,18 @@
         {
           "id": "defeat-north-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 35,
+            "width": 53,
+            "height": 71
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8813,18 +8813,18 @@
         {
           "id": "defeat-north-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 42,
+            "y": 47,
+            "width": 52,
+            "height": 59
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8856,18 +8856,18 @@
         {
           "id": "defeat-north-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 37,
+            "y": 44,
+            "width": 57,
+            "height": 56
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8899,18 +8899,18 @@
         {
           "id": "defeat-north-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 25,
+            "y": 57,
+            "width": 78,
+            "height": 42
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8942,18 +8942,18 @@
         {
           "id": "defeat-north-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 25,
+            "y": 56,
+            "width": 78,
+            "height": 47
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -8985,18 +8985,18 @@
         {
           "id": "defeat-north-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 22,
+            "y": 56,
+            "width": 83,
+            "height": 48
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9028,18 +9028,18 @@
         {
           "id": "defeat-north-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 100
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 22,
+            "y": 57,
+            "width": 82,
+            "height": 47
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9071,18 +9071,18 @@
         {
           "id": "defeat-north-east-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 34,
+            "y": 35,
+            "width": 60,
+            "height": 81
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9114,18 +9114,18 @@
         {
           "id": "defeat-north-east-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 30,
+            "y": 39,
+            "width": 56,
+            "height": 67
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9157,18 +9157,18 @@
         {
           "id": "defeat-north-east-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 30,
+            "y": 39,
+            "width": 56,
+            "height": 67
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9200,18 +9200,18 @@
         {
           "id": "defeat-north-east-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 37,
+            "y": 54,
+            "width": 49,
+            "height": 54
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9243,18 +9243,18 @@
         {
           "id": "defeat-north-east-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 33,
+            "y": 44,
+            "width": 61,
+            "height": 67
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9286,18 +9286,18 @@
         {
           "id": "defeat-north-east-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 33,
+            "y": 44,
+            "width": 61,
+            "height": 67
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9329,18 +9329,18 @@
         {
           "id": "defeat-north-east-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 33,
+            "y": 44,
+            "width": 61,
+            "height": 67
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9372,18 +9372,18 @@
         {
           "id": "defeat-north-east-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 102
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 33,
+            "y": 44,
+            "width": 61,
+            "height": 67
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9415,18 +9415,18 @@
         {
           "id": "defeat-east-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 31,
+            "y": 26,
+            "width": 66,
+            "height": 77
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9458,18 +9458,18 @@
         {
           "id": "defeat-east-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 40,
+            "y": 33,
+            "width": 58,
+            "height": 64
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9501,18 +9501,18 @@
         {
           "id": "defeat-east-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 42,
+            "width": 54,
+            "height": 61
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9544,18 +9544,18 @@
         {
           "id": "defeat-east-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 42,
+            "width": 54,
+            "height": 61
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9587,18 +9587,18 @@
         {
           "id": "defeat-east-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 42,
+            "width": 54,
+            "height": 61
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9630,18 +9630,18 @@
         {
           "id": "defeat-east-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 42,
+            "width": 54,
+            "height": 61
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9673,18 +9673,18 @@
         {
           "id": "defeat-east-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 42,
+            "width": 54,
+            "height": 61
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9716,18 +9716,18 @@
         {
           "id": "defeat-east-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 106
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 39,
+            "y": 42,
+            "width": 54,
+            "height": 61
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9759,18 +9759,18 @@
         {
           "id": "defeat-south-east-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 42,
+            "y": 28,
+            "width": 53,
+            "height": 81
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9802,18 +9802,18 @@
         {
           "id": "defeat-south-east-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 41,
+            "y": 32,
+            "width": 55,
+            "height": 77
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9845,18 +9845,18 @@
         {
           "id": "defeat-south-east-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 29,
+            "y": 41,
+            "width": 66,
+            "height": 70
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9888,18 +9888,18 @@
         {
           "id": "defeat-south-east-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 26,
+            "y": 44,
+            "width": 78,
+            "height": 65
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9931,18 +9931,18 @@
         {
           "id": "defeat-south-east-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 20,
+            "y": 62,
+            "width": 91,
+            "height": 48
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -9974,18 +9974,18 @@
         {
           "id": "defeat-south-east-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 22,
+            "y": 59,
+            "width": 94,
+            "height": 54
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10017,18 +10017,18 @@
         {
           "id": "defeat-south-east-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 26,
+            "y": 60,
+            "width": 90,
+            "height": 54
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10060,18 +10060,18 @@
         {
           "id": "defeat-south-east-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 103
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 23,
+            "y": 61,
+            "width": 89,
+            "height": 53
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10103,18 +10103,18 @@
         {
           "id": "defeat-south-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 48,
+            "y": 26,
+            "width": 43,
+            "height": 88
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10146,18 +10146,18 @@
         {
           "id": "defeat-south-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 46,
+            "y": 32,
+            "width": 50,
+            "height": 83
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10189,18 +10189,18 @@
         {
           "id": "defeat-south-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 38,
+            "y": 44,
+            "width": 55,
+            "height": 69
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10232,18 +10232,18 @@
         {
           "id": "defeat-south-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 36,
+            "y": 52,
+            "width": 63,
+            "height": 63
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10275,18 +10275,18 @@
         {
           "id": "defeat-south-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 31,
+            "y": 58,
+            "width": 83,
+            "height": 56
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10318,18 +10318,18 @@
         {
           "id": "defeat-south-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 30,
+            "y": 67,
+            "width": 86,
+            "height": 47
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10361,18 +10361,18 @@
         {
           "id": "defeat-south-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 33,
+            "y": 66,
+            "width": 84,
+            "height": 47
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10404,18 +10404,18 @@
         {
           "id": "defeat-south-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 23,
+            "y": 66,
+            "width": 89,
+            "height": 48
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10447,18 +10447,18 @@
         {
           "id": "defeat-south-west-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 36,
+            "y": 19,
+            "width": 57,
+            "height": 86
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10490,18 +10490,18 @@
         {
           "id": "defeat-south-west-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 44,
+            "y": 16,
+            "width": 55,
+            "height": 89
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10533,18 +10533,18 @@
         {
           "id": "defeat-south-west-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 50,
+            "y": 29,
+            "width": 50,
+            "height": 83
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10576,18 +10576,18 @@
         {
           "id": "defeat-south-west-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 52,
+            "y": 28,
+            "width": 47,
+            "height": 86
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10619,18 +10619,18 @@
         {
           "id": "defeat-south-west-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 48,
+            "y": 35,
+            "width": 61,
+            "height": 80
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10662,18 +10662,18 @@
         {
           "id": "defeat-south-west-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 45,
+            "y": 49,
+            "width": 64,
+            "height": 60
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10705,18 +10705,18 @@
         {
           "id": "defeat-south-west-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 44,
+            "y": 48,
+            "width": 65,
+            "height": 64
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10748,18 +10748,18 @@
         {
           "id": "defeat-south-west-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 107
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 40,
+            "y": 43,
+            "width": 68,
+            "height": 65
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10791,18 +10791,18 @@
         {
           "id": "defeat-west-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 28,
+            "y": 26,
+            "width": 74,
+            "height": 85
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10834,18 +10834,18 @@
         {
           "id": "defeat-west-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 16,
+            "width": 61,
+            "height": 85
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10877,18 +10877,18 @@
         {
           "id": "defeat-west-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 34,
+            "y": 39,
+            "width": 61,
+            "height": 73
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10920,18 +10920,18 @@
         {
           "id": "defeat-west-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 34,
+            "y": 33,
+            "width": 62,
+            "height": 81
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -10963,18 +10963,18 @@
         {
           "id": "defeat-west-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 37,
+            "y": 37,
+            "width": 68,
+            "height": 79
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -11006,18 +11006,18 @@
         {
           "id": "defeat-west-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 50,
+            "width": 74,
+            "height": 63
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -11049,18 +11049,18 @@
         {
           "id": "defeat-west-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 32,
+            "y": 50,
+            "width": 76,
+            "height": 66
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -11092,18 +11092,18 @@
         {
           "id": "defeat-west-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 104
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 38,
+            "y": 48,
+            "width": 62,
+            "height": 69
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -11135,18 +11135,18 @@
         {
           "id": "defeat-north-west-0",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 34,
+            "y": 25,
+            "width": 55,
+            "height": 73
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -11178,18 +11178,18 @@
         {
           "id": "defeat-north-west-1",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 34,
+            "y": 20,
+            "width": 51,
+            "height": 84
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -11221,18 +11221,18 @@
         {
           "id": "defeat-north-west-2",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 34,
+            "y": 36,
+            "width": 56,
+            "height": 64
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -11264,18 +11264,18 @@
         {
           "id": "defeat-north-west-3",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 31,
+            "y": 36,
+            "width": 73,
+            "height": 62
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -11307,18 +11307,18 @@
         {
           "id": "defeat-north-west-4",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 29,
+            "y": 49,
+            "width": 84,
+            "height": 46
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -11350,18 +11350,18 @@
         {
           "id": "defeat-north-west-5",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 27,
+            "y": 58,
+            "width": 80,
+            "height": 35
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -11393,18 +11393,18 @@
         {
           "id": "defeat-north-west-6",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 27,
+            "y": 60,
+            "width": 79,
+            "height": 40
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",
@@ -11436,18 +11436,18 @@
         {
           "id": "defeat-north-west-7",
           "groundPivotPx": {
-            "x": 63.19761194029855,
-            "y": 88.26138589027723
+            "x": 64,
+            "y": 105
           },
           "canvasPx": {
             "width": 128,
             "height": 128
           },
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 128
+            "x": 26,
+            "y": 59,
+            "width": 75,
+            "height": 44
           },
           "fallbackRectPx": {
             "pageId": "cast-troll-color",

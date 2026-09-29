@@ -10,3 +10,5 @@ The pack is a runtime candidate for visual review only. Shared motion scaffolds,
 foot registration, identity consistency, and small-scale readability still need
 human review before production use. See `PROVENANCE.md` for the source and
 rights boundary.
+
+The v0.2 review runtime corrects the copied ground pivot using each heading’s standing foot baseline and adds pixel-checked margins. Source-cut poses temporarily hold a complete pose in the same directional clip; `clipping-review.json` lists each hold. Sources remain unchanged. These holds reduce animation fluidity, especially Troll work, and require replacement before final art acceptance.

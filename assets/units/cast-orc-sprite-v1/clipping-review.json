@@ -1,0 +1,33 @@
+{
+  "asset": "orc",
+  "alphaThreshold": 8,
+  "paddingPx": 8,
+  "sourceEdgeFrames": [
+    "attack-east-11",
+    "attack-east-12",
+    "attack-east-13",
+    "attack-south-east-0",
+    "attack-south-east-2",
+    "defeat-east-3"
+  ],
+  "reviewPoseSubstitutions": {
+    "attack-east-11": "attack-east-10",
+    "attack-east-12": "attack-east-10",
+    "attack-east-13": "attack-east-14",
+    "attack-south-east-0": "attack-south-east-1",
+    "attack-south-east-2": "attack-south-east-1",
+    "defeat-east-3": "defeat-east-2"
+  },
+  "sourceSha256": "5a25393b23f1de583189cddfbe3f68ea8d73cbbe45f04043f4957269fc24c06c",
+  "groundBaselineByDirectionPx": {
+    "north": 98,
+    "north-east": 100,
+    "east": 105,
+    "south-east": 102,
+    "south": 97,
+    "south-west": 101,
+    "west": 94,
+    "north-west": 95
+  },
+  "runtimeEdgeFrames": []
+}

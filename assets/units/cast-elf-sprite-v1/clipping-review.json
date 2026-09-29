@@ -1,0 +1,25 @@
+{
+  "asset": "elf",
+  "alphaThreshold": 8,
+  "paddingPx": 8,
+  "sourceEdgeFrames": [
+    "attack-north-east-10",
+    "attack-north-east-11"
+  ],
+  "reviewPoseSubstitutions": {
+    "attack-north-east-10": "attack-north-east-9",
+    "attack-north-east-11": "attack-north-east-12"
+  },
+  "sourceSha256": "5a8644a64b18ef3a974abea4eb2e266feecf9b6c1b71a867b7ce7489ed900d1a",
+  "groundBaselineByDirectionPx": {
+    "north": 101,
+    "north-east": 105,
+    "east": 97,
+    "south-east": 105,
+    "south": 95,
+    "south-west": 97,
+    "west": 98,
+    "north-west": 95
+  },
+  "runtimeEdgeFrames": []
+}

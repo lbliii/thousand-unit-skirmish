@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import path from 'node:path';
+import { readFile } from 'node:fs/promises';
+import { decodeRgba8, assertFrameUnclipped } from './sprite-pixel-bounds.mjs';
 import { fileURLToPath } from 'node:url';
 import { castRoleForUnit, spriteDirectory } from '../src/unit-sprite-runtime.mjs';
 import { validateSpriteAtlas } from './sprite-atlas-contract.mjs';
@@ -19,6 +21,9 @@ for (const role of roles) {
   assert.equal(asset.frames.length, 264, `${role} should contain the full cast frame set`);
   assert.equal(asset.clips.length, 32, `${role} should contain eight directions for four states`);
   assert.equal(asset.layers[0].drawLayer, 'actor');
+  const image = decodeRgba8(await readFile(path.join(packRoot, 'cast-atlas-runtime.png')));
+  for (const frame of asset.frames) assertFrameUnclipped(image, frame, 4, !frame.id.startsWith('idle-'));
+  for (const clip of asset.clips) assert.equal(new Set(clip.sequence.map(item => asset.frames.find(frame => frame.id === item.frameId).groundPivotPx.y)).size, 1, 'clip ground baseline must preserve motion');
   assert.ok(asset.clips.every((clip) => ['idle', 'walk', 'gather', 'defeat'].includes(clip.stateId)));
 }
 

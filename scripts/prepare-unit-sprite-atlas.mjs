@@ -2,7 +2,8 @@
 import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import { basename, dirname, resolve } from 'node:path';
-import { deflateSync, inflateSync } from 'node:zlib';
+import { deflateSync } from 'node:zlib';
+import { decodeRgba8 } from './sprite-pixel-bounds.mjs';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const DEFAULT_MANIFESTS = [
@@ -29,70 +30,6 @@ function sha256(bytes) {
   return createHash('sha256').update(bytes).digest('hex');
 }
 
-function pngChunks(bytes) {
-  if (!bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))) {
-    throw new Error('source atlas is not a PNG');
-  }
-  let offset = 8;
-  const idat = [];
-  let header = null;
-  while (offset < bytes.length) {
-    const length = bytes.readUInt32BE(offset);
-    offset += 4;
-    const type = bytes.toString('ascii', offset, offset + 4);
-    offset += 4;
-    const data = bytes.subarray(offset, offset + length);
-    offset += length + 4;
-    if (type === 'IHDR') header = data;
-    if (type === 'IDAT') idat.push(data);
-    if (type === 'IEND') break;
-  }
-  if (!header || !idat.length) throw new Error('source atlas is missing PNG image data');
-  return { header, compressed: Buffer.concat(idat) };
-}
-
-function paethPredictor(a, b, c) {
-  const p = a + b - c;
-  const pa = Math.abs(p - a);
-  const pb = Math.abs(p - b);
-  const pc = Math.abs(p - c);
-  return pa <= pb && pa <= pc ? a : pb <= pc ? b : c;
-}
-
-function decodeRgba8(bytes) {
-  const { header, compressed } = pngChunks(bytes);
-  const width = header.readUInt32BE(0);
-  const height = header.readUInt32BE(4);
-  const bitDepth = header[8];
-  const colorType = header[9];
-  const interlace = header[12];
-  if (bitDepth !== 8 || colorType !== 6 || interlace !== 0) {
-    throw new Error('source atlas must be a non-interlaced 8-bit RGBA PNG');
-  }
-  const stride = width * 4;
-  const raw = inflateSync(compressed);
-  const pixels = new Uint8Array(height * stride);
-  let input = 0;
-  for (let y = 0; y < height; y++) {
-    const filter = raw[input++];
-    const rowStart = y * stride;
-    const previousStart = rowStart - stride;
-    for (let x = 0; x < stride; x++) {
-      const encoded = raw[input++];
-      const left = x >= 4 ? pixels[rowStart + x - 4] : 0;
-      const above = y > 0 ? pixels[previousStart + x] : 0;
-      const upperLeft = y > 0 && x >= 4 ? pixels[previousStart + x - 4] : 0;
-      let predictor = 0;
-      if (filter === 1) predictor = left;
-      else if (filter === 2) predictor = above;
-      else if (filter === 3) predictor = Math.floor((left + above) / 2);
-      else if (filter === 4) predictor = paethPredictor(left, above, upperLeft);
-      else if (filter !== 0) throw new Error(`unsupported PNG filter ${filter}`);
-      pixels[rowStart + x] = (encoded + predictor) & 255;
-    }
-  }
-  return { width, height, pixels };
-}
 
 const crcTable = (() => {
   const table = new Uint32Array(256);

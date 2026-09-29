@@ -338,8 +338,10 @@
         setCameraFrame(finalFrameWorldUnits);
         setStatus(`Fitted full motion envelope to ${finalFrameWorldUnits.toFixed(2)} world units; rendering final atlas…`);
         const finalResult = await renderAllFrames(contextsByState);
-        if (finalResult.frameRecords.some((record) => !record.alphaBoundsPx)) {
-          throw new Error('The fitted final pass still has an empty pose frame');
+        if (finalResult.frameRecords.some(({ alphaBoundsPx: alpha }) => !alpha
+          || alpha.x < 4 || alpha.y < 4
+          || alpha.x + alpha.width > CELL - 4 || alpha.y + alpha.height > CELL - 4)) {
+          throw new Error('Final capture has an empty or edge-cut pose; enlarge the shared motion envelope before exporting');
         }
         records.splice(0, records.length, ...finalResult.frameRecords);
         setStatus('Measuring frame bounds and the blue team accent…');

@@ -163,6 +163,13 @@ function loadRolePack(THREE, loader, role, version) {
   });
 }
 
+// Shift toward the camera without moving the sprite on screen. A camera-facing
+// quad can dip through terrain when an animated foot extends below its root.
+export function spriteGroundDepthBias(alphaBounds, pivot, scale, cameraUpY, towardCameraY) {
+  const belowRoot = Math.max(0, alphaBounds.y + alphaBounds.height - pivot.y);
+  return towardCameraY > 0.001 ? belowRoot * scale * Math.max(0, cameraUpY) / towardCameraY : 0;
+}
+
 export function castRoleForUnit(unit) {
   return unit.kind === 'worker' ? CAST_ROLES[unit.slot % CAST_ROLES.length] : unit.kind;
 }
@@ -177,6 +184,8 @@ export function createUnitSpriteRuntime({
   const rolePacks = new Map();
   const dummy = new THREE.Object3D();
   const localCenter = new THREE.Vector3();
+  const cameraUp = new THREE.Vector3();
+  const towardCamera = new THREE.Vector3();
   let visible = false;
   let ready = false;
 
@@ -258,6 +267,13 @@ export function createUnitSpriteRuntime({
       0,
     ).applyQuaternion(cameraQuaternion);
     dummy.position.set(unit.renderX, SPRITE_GROUND_LIFT, unit.renderZ).add(localCenter);
+    cameraUp.set(0, 1, 0).applyQuaternion(cameraQuaternion);
+    towardCamera.set(0, 0, 1).applyQuaternion(cameraQuaternion);
+    if (frame.alphaBoundsPx) {
+      dummy.position.addScaledVector(towardCamera, spriteGroundDepthBias(
+        frame.alphaBoundsPx, frame.groundPivotPx, scale, cameraUp.y, towardCamera.y,
+      ));
+    }
     dummy.quaternion.copy(cameraQuaternion);
     dummy.scale.set(rect.width * scale, rect.height * scale, 1);
     dummy.updateMatrix();
