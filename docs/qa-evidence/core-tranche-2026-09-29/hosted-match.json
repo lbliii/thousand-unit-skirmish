@@ -1,0 +1,14 @@
+{
+  "deployment": {
+    "id": "0243414a-9dee-4fca-bbcd-48ddabb06116",
+    "status": "SUCCESS",
+    "source": "12646d66ffe46e26c082d34b5ebdad447ba64515"
+  },
+  "after": {
+    "id": "0243414a-9dee-4fca-bbcd-48ddabb06116",
+    "source": "12646d66ffe46e26c082d34b5ebdad447ba64515"
+  },
+  "exitCode": 0,
+  "stdout": "{\n  \"status\": \"passed\",\n  \"origin\": \"https://game-staging-21f9.up.railway.app\",\n  \"checks\": [\n    \"public readiness\",\n    \"authenticated browser assets\",\n    \"invite-room creation\",\n    \"both 1v1 seats\",\n    \"both-seat reconnect\",\n    \"authored map save/reload\",\n    \"two-seat elimination victory\",\n    \"synchronized rematch reset\"\n  ],\n  \"mapId\": \"qa-staging-mun4qnyq\",\n  \"armySize\": 250\n}\n",
+  "stderr": ""
+}

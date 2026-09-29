@@ -49,6 +49,10 @@ ordinary PRs use checks proportionate to their changes under
 
 ## Known findings and historical evidence
 
+[Core tranche readiness, 29 September](qa-core-tranche-2026-09-29.md) records
+current-main hosted seat recovery, elimination/rematch, browser authoring/reload,
+and opening captures at `12646d6`. Human play and supported-scale proof remain open.
+
 [Mixed-role health readability](qa-unit-health-2026-09-27.md) records both-seat
 prepared browser captures at ordinary and strategic zoom, including the missing
 damaged-unit indicator and its fix. It does not establish human comprehension.

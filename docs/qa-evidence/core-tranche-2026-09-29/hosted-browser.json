@@ -1,0 +1,13 @@
+{
+  "deployment": {
+    "id": "0243414a-9dee-4fca-bbcd-48ddabb06116",
+    "source": "12646d66ffe46e26c082d34b5ebdad447ba64515"
+  },
+  "after": {
+    "id": "0243414a-9dee-4fca-bbcd-48ddabb06116",
+    "source": "12646d66ffe46e26c082d34b5ebdad447ba64515"
+  },
+  "exitCode": 0,
+  "stdout": "{\n  \"status\": \"passed\",\n  \"origin\": \"https://game-staging-21f9.up.railway.app\",\n  \"azure\": {\n    \"boot\": \"ready\",\n    \"team\": \"AZURE\",\n    \"network\": \"ROOM LIVE\",\n    \"players\": \"2 / 2 PLAYERS\",\n    \"map\": \"QA Browser qa-browser-mun4tc6u\",\n    \"error\": null,\n    \"canvas\": true\n  },\n  \"ember\": {\n    \"boot\": \"ready\",\n    \"team\": \"EMBER\",\n    \"network\": \"ROOM LIVE\",\n    \"players\": \"2 / 2 PLAYERS\",\n    \"map\": \"QA Browser qa-browser-mun4tc6u\",\n    \"error\": null,\n    \"canvas\": true\n  },\n  \"mapStudioHostOpen\": true,\n  \"mapStudioGuestDisabled\": true,\n  \"authoredMap\": {\n    \"id\": \"qa-browser-mun4tc6u\",\n    \"name\": \"QA Browser qa-browser-mun4tc6u\",\n    \"downloadedBytes\": 1868\n  },\n  \"validationFeedback\": {\n    \"invalidId\": \"Map ID must use lowercase letters, numbers, and hyphens.\",\n    \"unreachableResource\": \"Resource node azure-berries must be reachable from both team spawns.\"\n  },\n  \"diagnostics\": [\n    {\n      \"label\": \"azure\",\n      \"diagnostics\": [\n        \"WS HTTP 101\",\n        \"WS HTTP 101\"\n      ]\n    },\n    {\n      \"label\": \"ember\",\n      \"diagnostics\": [\n        \"WS HTTP 101\",\n        \"WS HTTP 101\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

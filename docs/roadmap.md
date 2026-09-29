@@ -14,6 +14,10 @@ reproduce the largest problem, ship a focused improvement, and play again.
 Scripted scenarios protect known rules; human matches establish whether those
 rules create understandable choices.
 
+The [core match tranche](core-playtest-tranche.md) gives the next session record,
+replay sequence, and proposed scale measurement profile. Art production proceeds
+separately; this tranche owns match reliability, player understanding, and scale evidence.
+
 ## Next priorities
 
 Choose the first unresolved item that the current evidence supports. Independent

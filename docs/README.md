@@ -50,6 +50,7 @@ the build they name.
 
 - [Game bible](game-bible.md): product promise, design principles, quality floor, scope.
 - [Roadmap](roadmap.md): next outcomes and milestone evidence.
+- [Core match tranche](core-playtest-tranche.md): next human session, observation record, and proposed scale profile.
 - [Balance](first-skirmish-balance.md): current no-tune baseline and next observations.
 - [QA and external playtests](qa-vertical-slice.md): acceptance and repeatable protocol.
 - [Map scale](map-scale-density.md), [living land](living-land-experiment.md), and
