@@ -49,6 +49,10 @@ ordinary PRs use checks proportionate to their changes under
 
 ## Known findings and historical evidence
 
+[Hosted scale collector verification](qa-hosted-scale-profile-2026-09-29.md)
+records repeated 250/2,000-unit windows with tagged per-seat order intervals.
+This verifies measurement tooling, not supported-scale performance.
+
 [Core tranche readiness, 29 September](qa-core-tranche-2026-09-29.md) records
 current-main hosted seat recovery, elimination/rematch, browser authoring/reload,
 and opening captures at `12646d6`. Human play and supported-scale proof remain open.
