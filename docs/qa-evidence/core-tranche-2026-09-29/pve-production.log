@@ -1,0 +1,2 @@
+{"map":"forked-vale","team":0,"seed":20260925,"buildingIds":[1],"trainedAndOrdered":[25],"production":[{"tick":510,"command":{"type":"build","ids":[3],"unitGenerations":[2782771826],"buildingType":"barracks","x":-20.5,"z":-5.5}},{"tick":1350,"command":{"type":"train","buildingId":1}}]}
+{"map":"forked-vale","team":1,"seed":4294967295,"buildingIds":[2],"trainedAndOrdered":[24],"production":[{"tick":513,"command":{"type":"build","ids":[12],"unitGenerations":[2782771826],"buildingType":"barracks","x":19.5,"z":0.5}},{"tick":1293,"command":{"type":"train","buildingId":2}}]}
