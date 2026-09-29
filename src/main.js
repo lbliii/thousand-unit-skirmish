@@ -1,3 +1,4 @@
+import { unitPresentation } from './gameplay-presentation.mjs';
 import { UNIT_DEFINITIONS, BUILDING_DEFINITIONS, TECHNOLOGY_DEFINITIONS } from './gameplay-definitions.mjs';
 import { formatResourceStock, formatResourceRequirement } from './resource-format.mjs';
 import { validateMapAudioReference } from './audio-event-profile.mjs';
@@ -415,8 +416,7 @@ const groundHit = new THREE.Vector3();
 const screenPoint = new THREE.Vector3();
 const dummy = new THREE.Object3D();
 const color = new THREE.Color();
-const workerBodyTint = new THREE.Color(0xe1bc63);
-const archerBodyTint = new THREE.Color(0xc3c995);
+const unitPresentationTint = new THREE.Color();
 const unitDamageFlashTint = new THREE.Color(0xffedc9);
 const unitCargoPackColors = {
   none: new THREE.Color(0x9c754c),
@@ -2949,12 +2949,14 @@ function setUnitTint(unit, markBuffersDirty = true) {
   const strength = unit.hp > 0 ? 0.7 + health * 0.3 : unit.defeatStartedAt > 0 ? 0.58 : 0;
   const flashing = unit.damageFlashUntil > performance.now();
   color.setHex(TEAM_HEX[unit.team]);
-  if (unit.kind === 'worker') color.lerp(workerBodyTint, 0.42);
-  else if (unit.kind === 'archer') color.lerp(archerBodyTint, 0.27);
+  const presentation = unitPresentation(unit.kind);
+  if (presentation.bodyTintWeight > 0) {
+    color.lerp(unitPresentationTint.setHex(presentation.bodyTint), presentation.bodyTintWeight);
+  }
   if (flashing) color.lerp(unitDamageFlashTint, 0.78);
   color.multiplyScalar(unit.tintVariation * strength);
   bodyMeshes[unit.team].setColorAt(unit.slot, color);
-  color.setHex(unit.kind === 'worker' ? 0xd7be8f : unit.kind === 'archer' ? 0x839477 : 0xabb2ad);
+  color.setHex(presentation.headTint);
   if (flashing) color.lerp(unitDamageFlashTint, 0.82);
   color.multiplyScalar((0.91 + ((unit.id * 7) % 10) / 100) * strength);
   headMeshes[unit.team].setColorAt(unit.slot, color);
@@ -2966,7 +2968,7 @@ function setUnitTint(unit, markBuffersDirty = true) {
 }
 
 function updateUnitLodTransform(unit, visibleScale) {
-  const role = unit.kind === 'worker' ? 'worker' : unit.kind === 'archer' ? 'archer' : 'infantry';
+  const role = unitPresentation(unit.kind).role;
   const roleUpdateMask = unitLodRoleMatrixUpdateMask(unit.lodRole, role);
   facing.setFromAxisAngle(worldUp, unit.angle);
   for (const roleName of UNIT_LOD_ROLES) {
@@ -3050,8 +3052,9 @@ function updateUnitTransform(unit, now = performance.now()) {
   const visibleScale = unit.visible === false ? 0 : unit.hp > 0
     ? unit.scale * (0.28 + spawnProgress * 0.72)
     : unit.defeatStartedAt > 0 ? unit.scale * (1 - defeatProgress) : 0;
-  const isWorker = unit.kind === 'worker';
-  const isArcher = unit.kind === 'archer';
+  const presentationRole = unitPresentation(unit.kind).role;
+  const isWorker = presentationRole === 'worker';
+  const isArcher = presentationRole === 'archer';
   if (unitSpritePreviewActive && unitSpritePreviewRoleSet.has(unit.kind)) {
     updateUnitLodTransform(unit, unitSpriteMarkersActive ? visibleScale : 0);
     dummy.position.set(unit.renderX, 0, unit.renderZ);

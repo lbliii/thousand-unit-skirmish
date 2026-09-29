@@ -71,6 +71,7 @@ run(['--test', 'scripts/objective-summary.test.mjs'], 'Compact objectives and no
 run(['--test', 'scripts/selection-context.test.mjs'], 'Contextual selection');
 run(['--test', 'scripts/production-queue.test.mjs'], 'Mixed production queue authority');
 run(['--test', 'scripts/resource-format.test.mjs'], 'Resource display and affordability');
+run(['--test', 'scripts/gameplay-presentation.test.mjs'], 'Gameplay presentation bindings');
 run(['--test', 'scripts/gameplay-definitions.test.mjs'], 'Gameplay definition validation');
 run(['--test', 'scripts/client-build-recovery.test.mjs'], 'Build placement connection recovery');
 run(['--test', 'scripts/client-rematch-recovery.test.mjs'], 'Client roster and ownership after rematch');

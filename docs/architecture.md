@@ -53,8 +53,10 @@ and AI. Checkpoint schema 11 migrates schema-10 single-product queues; private
 queue contents are visible only to their owner and spectators. HUD training uses
 `trainUnit`; legacy training commands remain accepted.
 
-Faction resolution and presentation
-profile loading remain follow-up slices in the [foundation plan](gameplay-foundation-plan.md).
+`src/gameplay-presentation.mjs` binds unit presentation IDs to the current
+procedural renderer’s detail and strategic-zoom roles and colors. Profiles are
+immutable and validated; a gameplay kind can reuse a supported appearance.
+Faction resolution and asset-backed profile loading remain follow-up slices in the [foundation plan](gameplay-foundation-plan.md).
 A presentation ID is a binding identifier; it does not yet load an animation.
 
 ## Code map

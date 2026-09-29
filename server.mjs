@@ -6508,7 +6508,7 @@ const server = createServer(async (request, response) => {
     'index.html', 'style.css', 'vendor/three.module.js', 'vendor/three.core.js', 'src/main.js',
     'src/building-sprites.mjs', 'src/battlefield-cursor.mjs', 'src/pve-entry.mjs', 'src/pve-match.mjs',
     'src/map-utils.mjs', 'src/elevation.mjs', 'src/town-center-spawn.mjs', 'src/map-resize.mjs',
-    'src/map-studio-viewport.mjs', 'src/order-feedback.mjs', 'src/resource-visual-state.mjs', 'src/resource-format.mjs', 'src/gameplay-definitions.mjs',
+    'src/map-studio-viewport.mjs', 'src/order-feedback.mjs', 'src/resource-visual-state.mjs', 'src/resource-format.mjs', 'src/gameplay-definitions.mjs', 'src/gameplay-presentation.mjs',
     'src/building-visual-state.mjs', 'src/unit-lod-state.mjs', 'src/unit-selection.mjs',
     'src/selection-context.mjs', 'src/unit-visual-state.mjs', 'src/unit-sprite-runtime.mjs',
     'src/audio.mjs', 'src/audio-policy.mjs', 'src/audio-event-profile.mjs',
@@ -6517,7 +6517,7 @@ const server = createServer(async (request, response) => {
     'src/audio-composition.mjs', 'src/audio-composer.mjs', 'src/audio-composer.css',
     'audio-studio.html', 'src/audio-recognition-check.mjs', 'src/camera-controls.mjs',
     'src/navigation-settings.mjs', 'src/objective-summary.mjs', 'src/hud-layout.mjs',
-    'src/resource-format.mjs', 'src/gameplay-definitions.mjs',
+    'src/resource-format.mjs', 'src/gameplay-definitions.mjs', 'src/gameplay-presentation.mjs',
     'src/captured-building-art.mjs', 'src/water-surface-geometry.mjs',
   ].includes(relative);
   const publicUiAsset = [
