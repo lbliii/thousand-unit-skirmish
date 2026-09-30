@@ -175,3 +175,13 @@ Separate logic, protocol, browser appearance, local performance, deployed
 behavior, and human comprehension. A pass in one category does not establish
 another. Keep raw measurements with their build; put current instructions here
 and dated evidence in the [archive](archive/README.md).
+
+Scenario authoring regressions: `node --test scripts/scenario-authoring.test.mjs`
+checks bounded history/gestures and completion registry semantics;
+`node scripts/completion-event-scenario.mjs` checks both-seat activation, initial
+completed state, technology grants, pending restart, exact rewards, rematch,
+and host-only diagnostics. `node scripts/progression-scenario.mjs` also observes
+completion conditions during paid construction and research.
+`node scripts/map-studio-draft-scenario.mjs` runs isolated headless Chrome for
+region gestures, name/delete, undo/redo, typed conditions, local recovery and
+JSON export/import. These are scripted checks, not unassisted human evidence.

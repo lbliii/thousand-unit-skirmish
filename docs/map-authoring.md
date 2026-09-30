@@ -114,13 +114,16 @@ unique lowercase hyphenated names; display names are 1–48 characters. Zones us
 integer grid `column`, `row`, `width`, and `height`, fit the map, and may overlap.
 They do not block movement or establish capture ownership.
 
-Map Studio's **Named regions (JSON)** field edits these rectangles and previews
-valid regions with purple outlines. Invalid in-progress text survives local draft
-recovery; validation blocks publishing/export until it is corrected. Region
-painting and drag handles are future authoring work. Shrinking a map requires
-reviewing region bounds before validation.
+Map Studio provides **Draw Region**, **Select / Move**, and **Resize** tools. Drag
+on the grid to create or move a rectangle; resize from its lower-right extent.
+The region selector and typed name/bounds fields support exact edits and deletion.
+Purple outlines show regions; the selected outline is heavier. Overlapping regions
+select the most recently drawn. **Undo Scenario Edit / Redo** retain 64 region/event
+edits; opening or resizing a map starts fresh history. Advanced JSON remains available.
+Invalid drafts remain local; validation blocks publishing/export and cannot replace
+the last valid published map. Shrinking clips regions within the new grid.
 
-Select **Region reached** on a scenario event, enter its region ID, entering
+Select **Region reached** on a scenario event, choose a named region, entering
 team (`"0"`, `"1"`, or `"either"`), optional unit kind, and minimum living units
 (1–1,000). This creates a bounded declarative trigger:
 
@@ -181,3 +184,22 @@ Use [testing](testing.md) for layout, capture/event, persistence, and browser
 round-trip commands. Test both seat assignments and the intended roster size.
 Static equal distances are useful evidence, but playtests establish whether the
 routes and economy create meaningful choices.
+
+## Completion conditions and host diagnostics
+
+Choose **Construction complete** or **Research complete**, then a registered
+building/technology and team in the typed event form. JSON uses
+`{type: "construction-complete", buildingType: "barracks", team: "0"}` or
+`{type: "research-complete", technologyId: "infantry-attack", team: "1"}`.
+Team may be `"either"`. The first qualifying completed state arms the existing
+delay once, including completed initial state (the home Town Center qualifies).
+Azure wins simultaneous either-team ties. Destroying the building or losing state
+later does not cancel an armed event. Recipients remain Azure, Ember or both,
+independently of the completing team. Repeats, rewards and ordinary event chains
+remain supported. Activation and deliveries survive checkpoints; rematch rearms.
+
+**Live host event diagnostics** in Map Studio shows at most 32 current event rows:
+waiting, armed, delivered (repeating), or completed; activation reason/team/time,
+delivery count and recipients. Only Azure, the room host, receives this diagnostic
+payload, including on maps without fog. It derives from persisted event state, so
+recovery needs no growing trace log. It is a current-state trace, not a match replay.

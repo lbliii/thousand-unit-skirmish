@@ -1,4 +1,4 @@
-import { validateScenarioRegions, validRegionEntryTrigger, regionEntryTeam } from './src/scenario-regions.mjs';
+import { validateScenarioRegions, validRegionEntryTrigger, regionEntryTeam, validCompletionTrigger, completionTeam } from './src/scenario-regions.mjs';
 import { TERRAIN_MATERIALS } from './src/terrain-materials.mjs';
 import { researchAction, researchOptions, emptyTechnologyCompletions } from './src/research-actions.mjs';
 import { combatDamage, canCombatTarget, hasGameplayCapability } from './src/combat-rules.mjs';
@@ -356,7 +356,13 @@ function validateMapDefinition(definition, filename) {
           && eventTrigger.eventIds.length <= MAX_MAP_SCENARIO_EVENTS - 1
           && eventTrigger.eventIds.every((id) => typeof id === 'string'
             && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)));
-    const validEventTrigger = eventTrigger === undefined || validCaptureTrigger || validEventChain || validRegionEntryTrigger(eventTrigger, regions);
+    if (['construction-complete', 'research-complete'].includes(eventTrigger?.type) && !validCompletionTrigger(eventTrigger)) {
+      throw new Error(`Event ${event.id}: trigger.${eventTrigger.type === 'construction-complete' ? 'buildingType' : 'technologyId'} must be a registered ID and trigger.team must be 0, 1 or either.`);
+    }
+    if (eventTrigger?.type === 'region-entry' && !regions.some(region => region.id === eventTrigger.regionId)) {
+      throw new Error(`Event ${event.id}: invalid timed supply event trigger.regionId; choose an existing named region.`);
+    }
+    const validEventTrigger = eventTrigger === undefined || validCaptureTrigger || validEventChain || validRegionEntryTrigger(eventTrigger, regions) || validCompletionTrigger(eventTrigger);
     if (typeof event?.id !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(event.id)
       || scenarioEventIds.has(event.id) || event.type !== 'timed-supply'
       || typeof event.name !== 'string' || !event.name.trim() || event.name.length > 48
@@ -720,7 +726,7 @@ function resetScenarioEventClock() {
   matchElapsedSeconds = 0;
   scenarioClockStarted = false;
   scenarioEventStates = new Map((mapDefinition?.scenarioEvents || []).map((event) => [
-    event.id, ['capture', 'region-entry'].includes(event.trigger?.type)
+    event.id, ['capture', 'region-entry', 'construction-complete', 'research-complete'].includes(event.trigger?.type)
       ? {
         id: event.id, fired: false, activatedAtSeconds: null, triggeredByTeam: -1,
         ...(event.repeatCount === undefined ? {} : { fireCount: 0, nextFireAtSeconds: null }),
@@ -2176,12 +2182,21 @@ function evaluateScenarioTriggers(deltaSeconds) {
   if (matchWinner < 0 && scenarioClockStarted) {
     for (const event of mapDefinition.scenarioEvents) {
       const state = scenarioEventStates.get(event.id);
-      const activationTriggered = ['capture', 'event', 'region-entry'].includes(event.trigger?.type);
+      const activationTriggered = ['capture', 'event', 'region-entry', 'construction-complete', 'research-complete'].includes(event.trigger?.type);
       if (state && event.trigger?.type === 'region-entry' && state.activatedAtSeconds === null) {
         const enteringTeam = regionEntryTeam(event.trigger, mapDefinition.regions, units, MAP_WIDTH, MAP_HEIGHT);
         if (enteringTeam >= 0) {
           state.activatedAtSeconds = matchElapsedSeconds;
           state.triggeredByTeam = enteringTeam;
+          if (event.repeatCount !== undefined) state.nextFireAtSeconds = matchElapsedSeconds + event.afterSeconds;
+          dirty = true;
+        }
+      }
+      if (state && validCompletionTrigger(event.trigger) && state.activatedAtSeconds === null) {
+        const team = completionTeam(event.trigger, allMatchBuildings(), teamUpgrades);
+        if (team >= 0) {
+          state.activatedAtSeconds = matchElapsedSeconds;
+          state.triggeredByTeam = team;
           if (event.repeatCount !== undefined) state.nextFireAtSeconds = matchElapsedSeconds + event.afterSeconds;
           dirty = true;
         }
@@ -2327,6 +2342,18 @@ function activatePveOpponent() {
   resetPvePolicy();
 }
 
+function scenarioDiagnosticTrace() {
+  return mapDefinition.scenarioEvents.map(event => {
+    const state = scenarioEventStates.get(event.id);
+    const deliveries = state?.fireCount ?? (state?.fired ? 1 : 0);
+    const armed = event.trigger ? state?.activatedAtSeconds !== null : scenarioClockStarted;
+    return {id: event.id, name: event.name,
+      status: state?.fired ? 'completed' : deliveries > 0 ? 'delivered' : armed ? 'armed' : 'waiting',
+      deliveries, reason: event.trigger ? {...event.trigger} : {type: 'clock'},
+      activatedAtSeconds: state?.activatedAtSeconds ?? null, activatedByTeam: state?.triggeredByTeam ?? -1,
+      recipients: event.team === 'both' ? [0, 1] : event.team === 'capturing' ? [state?.triggeredByTeam ?? -1] : [Number(event.team)]};
+  });
+}
 function roomPayload(viewTeam = null, includeWaypointCounts = true) {
   const actualAlive = aliveCounts();
   const productionContexts = [0, 1].map((team) => productionContextForTeam(team, actualAlive));
@@ -2344,6 +2371,7 @@ function roomPayload(viewTeam = null, includeWaypointCounts = true) {
   const resourceNodes = mapDefinition.resourceNodes.filter((node) => !fogView
     || cellVisibleToTeam(viewTeam, worldToCell(node.x, node.z)));
   return {
+    ...(viewTeam === 0 ? {scenarioTrace: scenarioDiagnosticTrace()} : {}),
     type: 'state', rulesetRevision: GAMEPLAY_RULESET_REVISION, factionId: DEFAULT_FACTION_ID, unitWireIds: UNIT_WIRE_IDS, tick: tickNumber, armySize: currentArmySize,
     matchElapsedSeconds: Number(matchElapsedSeconds.toFixed(1)), scenarioClockStarted,
     victoryHold: (mapDefinition.victoryHoldSeconds ?? 0) > 0 ? {
@@ -2356,7 +2384,7 @@ function roomPayload(viewTeam = null, includeWaypointCounts = true) {
       const repeatState = event?.repeatCount === undefined ? {} : {
         fireCount: state.fireCount, nextFireAtSeconds: state.nextFireAtSeconds,
       };
-      return ['capture', 'event', 'region-entry'].includes(event?.trigger?.type)
+      return ['capture', 'event', 'region-entry', 'construction-complete', 'research-complete'].includes(event?.trigger?.type)
         ? {
           id: state.id, fired: state.fired,
           ...repeatState,
@@ -2740,7 +2768,7 @@ function validateMatchCheckpoint(snapshot) {
     assertSnapshot(eventDefinition && !eventIds.has(event.id)
       && typeof event.fired === 'boolean', 'invalid scenario event state');
     if (eventDefinition.repeatCount !== undefined) {
-      const awaitingActivation = ['capture', 'event', 'region-entry'].includes(eventDefinition.trigger?.type)
+      const awaitingActivation = ['capture', 'event', 'region-entry', 'construction-complete', 'research-complete'].includes(eventDefinition.trigger?.type)
         && event.activatedAtSeconds === null;
       assertSnapshot(Number.isInteger(event.fireCount)
         && event.fireCount >= 0 && event.fireCount <= eventDefinition.repeatCount + 1
@@ -2754,17 +2782,17 @@ function validateMatchCheckpoint(snapshot) {
       assertSnapshot(event.fireCount === undefined && event.nextFireAtSeconds === undefined,
         'unexpected repeating scenario event state');
     }
-    if (['capture', 'event', 'region-entry'].includes(eventDefinition.trigger?.type)) {
+    if (['capture', 'event', 'region-entry', 'construction-complete', 'research-complete'].includes(eventDefinition.trigger?.type)) {
       assertSnapshot((event.activatedAtSeconds === null
         || (finite(event.activatedAtSeconds) && event.activatedAtSeconds >= 0
           && event.activatedAtSeconds <= state.matchElapsedSeconds))
         && integerIn(event.triggeredByTeam, -1, 1)
         && (event.activatedAtSeconds === null
           ? event.triggeredByTeam === -1
-          : ['capture', 'region-entry'].includes(eventDefinition.trigger.type)
+          : ['capture', 'region-entry', 'construction-complete', 'research-complete'].includes(eventDefinition.trigger.type)
             ? event.triggeredByTeam >= 0 : integerIn(event.triggeredByTeam, -1, 1))
         && (!event.fired || event.activatedAtSeconds !== null), 'invalid triggered scenario event state');
-      if (eventDefinition.trigger.type === 'region-entry' && event.activatedAtSeconds !== null) {
+      if ((eventDefinition.trigger.type === 'region-entry' || validCompletionTrigger(eventDefinition.trigger)) && event.activatedAtSeconds !== null) {
         assertSnapshot(eventDefinition.trigger.team === 'either'
           || event.triggeredByTeam === Number(eventDefinition.trigger.team),
         'invalid region event entering team');
@@ -3291,7 +3319,7 @@ function broadcastState() {
       const key = `${team}:${peer.compressionEnabled}`;
       let frame = framesByView.get(key);
       if (!frame) {
-        if (!payloadsByTeam.has(team)) payloadsByTeam.set(team, privateProductionView(publicPayload, team));
+        if (!payloadsByTeam.has(team)) payloadsByTeam.set(team, {...privateProductionView(publicPayload, team), ...(team === 0 ? {scenarioTrace: scenarioDiagnosticTrace()} : {})});
         frame = prepareJsonFrame(payloadsByTeam.get(team), peer.compressionEnabled);
         framesByView.set(key, frame);
       }
@@ -6919,7 +6947,7 @@ const server = createServer(async (request, response) => {
     'environment-review.html', 'src/environment-review.mjs', 'src/environment-pilot.mjs',
     'index.html', 'style.css', 'vendor/three.module.js', 'vendor/three.core.js', 'src/main.js',
     'src/building-sprites.mjs', 'src/battlefield-cursor.mjs', 'src/pve-entry.mjs', 'src/pve-match.mjs',
-    'src/scenario-regions.mjs', 'src/map-utils.mjs', 'src/elevation.mjs', 'src/town-center-spawn.mjs', 'src/map-resize.mjs',
+    'src/scenario-regions.mjs', 'src/scenario-authoring.mjs', 'src/map-utils.mjs', 'src/elevation.mjs', 'src/town-center-spawn.mjs', 'src/map-resize.mjs',
     'src/map-studio-viewport.mjs', 'src/order-feedback.mjs', 'src/resource-visual-state.mjs', 'src/resource-format.mjs', 'src/gameplay-definitions.mjs', 'src/gameplay-presentation.mjs', 'src/population.mjs', 'src/production-actions.mjs', 'src/research-actions.mjs',
     'src/building-visual-state.mjs', 'src/unit-lod-state.mjs', 'src/unit-selection.mjs',
     'src/selection-context.mjs', 'src/unit-visual-state.mjs', 'src/unit-sprite-runtime.mjs',

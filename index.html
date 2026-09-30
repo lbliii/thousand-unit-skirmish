@@ -651,10 +651,27 @@
                 </div>
               </div>
               <div class="studio-fields objective-fields scenario-event-fields">
+                <details id="studio-scenario-diagnostics" hidden><summary>Live host event diagnostics</summary><pre id="studio-scenario-trace"></pre></details>
                 <div class="studio-trigger-heading"><span>SCENARIO EVENTS <b id="studio-event-count">0 / 32</b></span></div>
                 <small>Events pay once by default. Add up to 20 repeat deliveries on a match clock, capture, or completed-event trigger. Chains can branch and join; a joined delay starts when the last selected source finishes its final delivery. A final win cancels pending deliveries; match reset rearms them.</small>
-                <label>NAMED REGIONS (JSON)<textarea id="studio-regions" rows="5" aria-label="Named rectangular regions">[]</textarea></label>
-                <small>Up to 32 named grid rectangles: [{"id":"pass","name":"Pass","zone":{"column":10,"row":10,"width":4,"height":4}}]. Regions may overlap. Validate before playing.</small>
+                <div class="studio-trigger-heading"><span>NAMED REGIONS</span></div>
+                <div class="studio-trigger-actions">
+                  <button type="button" data-map-tool="region-draw">DRAW REGION</button>
+                  <button type="button" data-map-tool="region-move">SELECT / MOVE</button>
+                  <button type="button" data-map-tool="region-resize">RESIZE</button>
+                </div>
+                <small>Draw by dragging. Select / Move drags a rectangle; Resize drags its lower-right corner. Overlaps select the most recently drawn region.</small>
+                <label>REGION<select id="studio-region-list"><option value="">Select a named region</option></select></label>
+                <label>REGION NAME<input id="studio-region-name" maxlength="48" disabled></label>
+                <div class="studio-fields two-up">
+                  <label>COLUMN<input id="studio-region-column" type="number" min="0" disabled></label>
+                  <label>ROW<input id="studio-region-row" type="number" min="0" disabled></label>
+                  <label>WIDTH<input id="studio-region-width" type="number" min="1" disabled></label>
+                  <label>HEIGHT<input id="studio-region-height" type="number" min="1" disabled></label>
+                </div>
+                <div class="studio-trigger-actions"><button id="studio-region-delete" type="button" disabled>DELETE REGION</button><button id="studio-scenario-undo" type="button" disabled>UNDO SCENARIO EDIT</button><button id="studio-scenario-redo" type="button" disabled>REDO</button></div>
+                <small>Undo covers regions and events only, up to 64 edits. Opening a map or resizing starts a new history.</small>
+                <details><summary>Advanced region JSON</summary><textarea id="studio-regions" rows="5" aria-label="Named rectangular regions">[]</textarea></details>
                 <div id="studio-event-list" class="studio-trigger-list" role="group" aria-label="Scenario events"></div>
                 <div class="studio-trigger-actions">
                   <button id="studio-add-event" type="button">+ ADD SCENARIO EVENT</button>
@@ -663,11 +680,17 @@
                 <label>EVENT NAME<input id="studio-event-name" maxlength="48" value="Supply drop"></label>
                 <div class="studio-fields two-up">
                   <label>TRIGGER
-                    <select id="studio-event-trigger"><option value="clock">Match clock</option><option value="capture">Capture zone</option><option value="event">Event completed</option><option value="region-entry">Region reached</option></select>
+                    <select id="studio-event-trigger"><option value="clock">Match clock</option><option value="capture">Capture zone</option><option value="event">Event completed</option><option value="region-entry">Region reached</option><option value="construction-complete">Construction complete</option><option value="research-complete">Research complete</option></select>
                   </label>
+                  <fieldset id="studio-event-completion-control" hidden>
+                    <legend>COMPLETION CONDITION</legend>
+                    <label>TEAM<select id="studio-event-completion-team"><option value="either">Either team</option><option value="0">Azure</option><option value="1">Ember</option></select></label>
+                    <label>REGISTERED ID<select id="studio-event-completion-id"></select></label>
+                    <small>Initial completed state qualifies at match start. First qualifying completion arms once; Azure wins simultaneous either-team ties. Reward recipients remain independent.</small>
+                  </fieldset>
                   <fieldset id="studio-event-region-control" hidden>
                     <legend>REGION CONDITIONS</legend>
-                    <label>REGION ID<input id="studio-event-region" placeholder="pass"></label>
+                    <label>REGION<select id="studio-event-region"><option value="">Choose a region</option></select></label>
                     <label>ENTERING TEAM<select id="studio-event-region-team"><option value="either">Either team</option><option value="0">Azure</option><option value="1">Ember</option></select></label>
                     <label>UNIT KIND<select id="studio-event-region-kind"><option value="">Any living unit</option></select></label>
                     <label>MINIMUM UNITS<input id="studio-event-region-minimum" type="number" min="1" max="1000" value="1"></label>

@@ -39,7 +39,7 @@ of implemented functionality or comprehensive reference parity.
 | Workstream | First useful outcome | Primary edit boundary |
 | --- | --- | --- |
 | Army commands | Stop/Hold with predictable interruption, no Hold pursuit, HUD/hotkeys and persisted both-seat behavior. | Authoritative orders/movement/combat idle semantics; command input/HUD and command tests. |
-| Scenario authoring | Named regions and bounded region-entry condition/action events, Map Studio editing, validated import/export and checkpoint-safe execution. | Map/schema validation, scenario event simulation, editor and authoring tests. |
+| Scenario authoring | Graphical named regions with bounded undo/redo, region-entry and registered construction/research completion conditions, host diagnostics, validated import/export and checkpoint-safe execution. | Map/schema validation, scenario event simulation, editor and authoring tests. |
 | Unit audio engineering | Supported lifecycle event catalog, ready/death/repair routing, food/wood context, bounded playback and recovery-safe deduplication. | Audio policies/runtime/library UI and narrow client audio emission sites. |
 
 Keep edits to shared server/client files localized to these responsibilities;
