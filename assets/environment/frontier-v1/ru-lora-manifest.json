@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "packId": "environment.vaelora-ru-lora",
-  "packVersion": "1.0.0",
+  "packVersion": "1.1.0",
   "reference": "docs/art-direction/vaelora-v1/ru-lora-ecology.png",
   "referenceSha256": "de2facecd913436558baf31977e8aab4b5ab627649c6d2150ed49589010c8acc",
   "prompts": "RU-LORA-PROMPTS.json",
@@ -26,6 +26,26 @@
         "height": 1002
       },
       "bytes": 296840
+    },
+    {
+      "path": "ru-lora-stone-fern.png",
+      "role": "source-image",
+      "sha256": "a18cc78f279cd25c476bc97b6f999b218b8dc0a43e0b63d091bc165e33adf155",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 2440462
+    },
+    {
+      "path": "ru-lora-stone-fern.webp",
+      "role": "runtime-image",
+      "sha256": "7325d4858343f59ae7e2b069f67e5b9b38d2de70d451b9ca380ebb705960fe3b",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 673
+      },
+      "bytes": 216674
     }
   ],
   "assets": [
@@ -43,6 +63,33 @@
       "worldSize": {
         "width": 3.3,
         "height": 3.2
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "kind": "stone-obstacle-sprite",
+      "directions": [
+        "fixed-oblique"
+      ],
+      "states": [
+        "intact"
+      ]
+    },
+    {
+      "id": "ru-lora-stone-fern",
+      "sourceOutputId": "exec-eed3e3cc-d8b6-41d6-b175-19f2ca7bbbff",
+      "sourceFile": "ru-lora-stone-fern.png",
+      "runtimeFile": "ru-lora-stone-fern.webp",
+      "cropBoxPx": [
+        56,
+        34,
+        1493,
+        978
+      ],
+      "worldSize": {
+        "width": 2.511,
+        "height": 1.65
       },
       "pivot": [
         0.5,

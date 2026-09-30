@@ -452,3 +452,11 @@ The [approved ecology key](art-direction/vaelora-v1/ru-lora-ecology.png) now has
 One fixed oblique view and intact state are supplied. Mirroring provides silhouette variation, not another perspective. The 45° azimuth / 45.4359° elevation prompt guides the painting; it is not a measured source projection. The runtime uses the shared upright camera-facing basis. No destruction or harvesting animation is claimed for this nonharvestable prop.
 
 [Owner-run appearance evidence](qa-evidence/vaelora-ru-lora-2026-09-30/README.md) covers ordinary/strategic renderer views, lazy loading, regional binding and preserved forest slots. Broader fauna, dense interior composition, mineral harvesting, staging and performance proofs remain unfinished.
+
+## Ru’Lora stone fern companion · 30 September 2026
+
+[Stone fern source](../assets/environment/frontier-v1/ru-lora-stone-fern.png) extends the [Ru’Lora manifest](../assets/environment/frontier-v1/ru-lora-manifest.json) to v1.1.0. Its low spreading fan uses the approved charcoal/violet/ivory palette and small opal traces. Generated PNG is unchanged; exact prompt and source ID are recorded with the Fiendwood sample. Runtime alpha is preserved through crop and WebP encoding.
+
+On salt-crust maps, 65% of the existing low boulder-cluster placements deterministically select the fern, while remaining clusters retain boulders and existing outcrops retain Fiendwood. No new positions or collision cells are added. Other terrain bases, tall stone barriers, resource nodes and `meshy-resource-review` keep existing bindings. The renderer uses 2.511 × 1.65 world units, matching the cropped sprite aspect ratio; one intact fixed-oblique scenery view only.
+
+[Mixed scenery evidence](qa-evidence/vaelora-ru-lora-ferns-2026-09-30/README.md) shows the lower silhouette beside Fiendwood, plus lazy loading and eleven-base binding checks. This adds composition variety; it does not finish a dense petrified jungle, its fauna or extraction rules.

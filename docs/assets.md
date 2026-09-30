@@ -21,7 +21,7 @@
 
 Current runtime defaults:
 
-- Ru’Lora salt-crust maps use the [petrified Fiendwood sample](environment-pack-v1.md#rulora-petrified-fiendwood--30-september-2026) for low stone outcrop scenery. It preserves stone collision and is not a wood or mineral resource.
+- Ru’Lora salt-crust maps use the [petrified Fiendwood sample](environment-pack-v1.md#rulora-petrified-fiendwood--30-september-2026) and [stone fern companion](environment-pack-v1.md#rulora-stone-fern-companion--30-september-2026) for low stone scenery. They preserve stone collision and are not wood or mineral resources.
 
 - Oak, pine, and full berry resource sprites use the captured Meshy pack by
   default. `?meshyResources=0` restores the older art for comparison. Worked,

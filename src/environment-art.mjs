@@ -17,7 +17,7 @@ const spriteNames = [
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'bellweather-field-maple-worked', 'bellweather-field-maple-low', 'bellweather-field-maple-depleted',
-  'veyrholds-highpine', 'veyrholds-ironlichen-outcrop', 'ru-lora-fiendwood',
+  'veyrholds-highpine', 'veyrholds-ironlichen-outcrop', 'ru-lora-fiendwood', 'ru-lora-stone-fern',
   'underbough-copperleaf', 'underbough-bramble',
   'sereward-palm', 'sereward-acacia', 'sereward-scrub',
   'sereward-palm-worked', 'sereward-palm-low', 'sereward-palm-depleted',
@@ -566,6 +566,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
   const hazelThickets = [];
   const outcrops = [];
   const boulderClusters = [];
+  const stoneFerns = [];
   const ridges = [];
   const ridgeCaps = [];
   const cliffs = [];
@@ -670,7 +671,8 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
             };
             if ((obstacle.elevation ?? 1.12) < 1) {
               if (variation(index + 59) < 0.5) {
-                boulderClusters.push({
+                const cluster = ruLora && variation(index + 83) < 0.65 ? stoneFerns : boulderClusters;
+                cluster.push({
                   ...point,
                   scale: 0.82 + variation(index + 61) * 0.3,
                 });
@@ -702,6 +704,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     [mapleName, sereward ? 3.5 : 3.05, sereward ? 2.85 : 3.25, maples],
     [thicketName, ellionar ? 2.8 : sereward ? 2.6 : 3.1, ellionar ? 1.8 : sereward ? 1.7 : 2.07, hazelThickets],
     [ruLora ? 'ru-lora-fiendwood' : veyrholds ? 'veyrholds-ironlichen-outcrop' : 'rock-outcrop', ruLora ? 3.3 : 3.5, ruLora ? 3.2 : 2.2, outcrops],
+    ['ru-lora-stone-fern', 2.511, 1.65, stoneFerns],
     ['rock-boulder-cluster', 2.7, 1.8, boulderClusters],
     ['basalt-ridge', 3.6, 3.05, ridges],
     ['basalt-ridge-cap', 3.4, 2.25, ridgeCaps],

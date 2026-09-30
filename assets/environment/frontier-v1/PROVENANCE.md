@@ -218,3 +218,7 @@ existing view; it does not imply a turntable or newly generated perspectives.
 ## Ru’Lora Fiendwood · 30 September 2026
 
 Built-in ImageGen generated this original stone scenery sprite from the project-owned Ru’Lora ecology key. [Exact prompt](RU-LORA-PROMPTS.json) and [manifest](ru-lora-manifest.json) record source output ID, hashes, dimensions and runtime crop. No third-party inputs, repainting or alpha repair. Original PNG is unchanged; RGBA WebP uses Pillow LANCZOS max1024, quality86 method6 and exact alpha. One intact fixed-oblique view only.
+
+## Ru’Lora stone fern · 30 September 2026
+
+Built-in ImageGen generated the stone fern from the project-owned ecology key, with no third-party inputs. The unchanged PNG and alpha-preserving WebP are recorded in [manifest v1.1.0](ru-lora-manifest.json) and [exact prompts](RU-LORA-PROMPTS.json). Runtime uses alpha>=21 bounding crop and LANCZOS max1024, WebP quality86 method6 exact alpha. Inspection over a colored background confirmed that the dark haze visible in the generated preview is transparent RGB, not an opaque backdrop. No pixel repainting or alpha repair.

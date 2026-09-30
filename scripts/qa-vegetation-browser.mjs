@@ -72,7 +72,7 @@ if(!['bellweather','veyrholds','underbough','sereward','ellionar','pale-meridian
 const lifecycle=process.env.RTS_VEGETATION_LIFECYCLE==='1';
 if(lifecycle&&!['bellweather','sereward','pale-meridian','siltmouths','vesperra','sombral-mere'].includes(region))throw new Error('No lifecycle pack for region');
 const atlasCapture=process.env.RTS_VEGETATION_ATLAS==='1';
-const out=atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
+const out=atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-ferns-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
@@ -198,7 +198,7 @@ try {
  if(!proof[7].files.includes('siltmouths-lifecycle-atlas.webp')||proof[7].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Siltmouths forest mix mismatch');
  if(!proof[8].files.includes('vesperra-lifecycle-atlas.webp')||proof[8].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Vesperra forest mix mismatch');
  if(!proof[9].files.includes('sombral-mere-lifecycle-atlas.webp')||proof[9].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Sombral Mere forest mix mismatch');
- if(!proof[10].files.includes('ru-lora-fiendwood.webp')||proof.slice(0,10).some(r=>r.files.includes('ru-lora-fiendwood.webp')))throw new Error('Ru Lora stone scenery binding mismatch');
+ if(!['ru-lora-fiendwood.webp','ru-lora-stone-fern.webp','rock-boulder-cluster.webp'].every(f=>proof[10].files.includes(f))||proof.slice(0,10).some(r=>r.files.some(f=>f.startsWith('ru-lora-'))))throw new Error('Ru Lora stone scenery binding mismatch');
  const reference=JSON.stringify(proof[0].cells.slice().sort((a,b)=>a-b));
  if(proof.some(r=>JSON.stringify(r.cells.slice().sort((a,b)=>a-b))!==reference))throw new Error('Regional forest cells differ');
  const covers=await cdp.evaluate(`(async()=>{
