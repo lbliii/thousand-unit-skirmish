@@ -1,5 +1,23 @@
 # Frontier environment art
 
+## Vesperra mistbark · 30 September 2026
+
+The [mistbark source sample](../assets/environment/frontier-v1/vesperra-lifecycle-manifest.json)
+uses Vesperra's pale bark, petrol-green canopy and restrained violet hanging
+growth. The [exact prompts](../assets/environment/frontier-v1/VESPERRA-LIFECYCLE-PROMPTS.json)
+record built-in ImageGen authoring against the approved ecology key and the
+existing maple's painted finish. Jungle-loam base maps now use this family,
+with four stock stages in one registered atlas and individual-texture fallback.
+The [focused local evidence](qa-evidence/vaelora-vesperra-atlas-2026-09-30/README.md)
+covers camera alignment, live harvesting/reset, fallback and packaging.
+The pale trunk needs a darker, natural wood cut to keep partial harvest readable.
+
+`python3 scripts/package-environment-lifecycle-frame.py MANIFEST STAGE PNG`
+packages later states against the manifest's intact-frame canvas and crop. It
+rejects different canvas dimensions, copies the generated master unchanged,
+encodes RGBA WebP and checks alpha preservation. It does not repair differences
+inside a generated frame; root registration and perspective still need review.
+
 ## Siltmouths tidal tree · 30 September 2026
 
 The [tidal-tree sample](../assets/environment/frontier-v1/siltmouths-lifecycle-manifest.json)

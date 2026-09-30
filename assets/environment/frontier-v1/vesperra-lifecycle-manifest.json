@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-vesperra-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "vesperra-mistbark.png",
+  "prompts": "VESPERRA-LIFECYCLE-PROMPTS.json",
+  "provenance": "Original built-in ImageGen against approved Vesperra ecology and project maple finish. Unmodified PNG; shared crop from full state, LANCZOS max1024 RGBA WebP quality86 method6. Generated alpha preserved. No measured perspective calibration.",
+  "files": [
+    {
+      "path": "vesperra-mistbark.png",
+      "role": "source-image",
+      "sha256": "bd845695a2d33ab176da2876f5ae9a4c24bb2003d0032101b04fb3b3fa042a6b",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 2171768
+    },
+    {
+      "path": "vesperra-mistbark.webp",
+      "role": "runtime-image",
+      "sha256": "ecdb921b8b0c7eede6017e7b3e375c3c38d58c96a2e399e910cffc28a11a4a47",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 987
+      },
+      "bytes": 365664
+    },
+    {
+      "path": "vesperra-mistbark-worked.png",
+      "role": "source-image",
+      "sha256": "b90457ac2adbfa31395f289dcc42023a27f16f5aba8c00fc73978c2aafbada61",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 2047619
+    },
+    {
+      "path": "vesperra-mistbark-worked.webp",
+      "role": "runtime-image",
+      "sha256": "95bd317b63c1c7de0fedfab9ae8537d9688fcad61db6c67bae4a8feda13e4a3a",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 987
+      },
+      "bytes": 273000
+    },
+    {
+      "path": "vesperra-mistbark-low.png",
+      "role": "source-image",
+      "sha256": "071c8818d19c6a2931568b69c3cf677521ea9b3810e25a251838b8f7e7b63863",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 1964982
+    },
+    {
+      "path": "vesperra-mistbark-low.webp",
+      "role": "runtime-image",
+      "sha256": "be785991c2c03ce0f812a49d07150428e684ee224c54b44f33ffda92714e34a2",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 987
+      },
+      "bytes": 249820
+    },
+    {
+      "path": "vesperra-mistbark-depleted.png",
+      "role": "source-image",
+      "sha256": "59c2c5183f8c944cf5c177d581faabb579db2d9b13fa7a145e495d929786795a",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 352824
+    },
+    {
+      "path": "vesperra-mistbark-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "161f1515b2c30dd52fca79583ef2e0437406618d201b03d1ece31ccf03e11094",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 987
+      },
+      "bytes": 46758
+    }
+  ],
+  "assets": [
+    {
+      "id": "vesperra-mistbark",
+      "stage": "full",
+      "sourceOutputId": "exec-bfecdb2c-4cc7-440e-a559-56f566ee7907",
+      "sourceFile": "vesperra-mistbark.png",
+      "runtimeFile": "vesperra-mistbark.webp",
+      "cropBoxPx": [
+        35,
+        42,
+        1241,
+        1205
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 3.4
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "vesperra-mistbark-worked",
+      "stage": "worked",
+      "sourceOutputId": "exec-5e162d28-8087-4e55-8879-55e23ae762ca",
+      "sourceFile": "vesperra-mistbark-worked.png",
+      "runtimeFile": "vesperra-mistbark-worked.webp",
+      "cropBoxPx": [
+        35,
+        42,
+        1241,
+        1205
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 3.4
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "vesperra-mistbark-low",
+      "stage": "low",
+      "sourceOutputId": "exec-b92975f5-9b6b-49a6-b7b2-ad07ef8b3d04",
+      "sourceFile": "vesperra-mistbark-low.png",
+      "runtimeFile": "vesperra-mistbark-low.webp",
+      "cropBoxPx": [
+        35,
+        42,
+        1241,
+        1205
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 3.4
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "vesperra-mistbark-depleted",
+      "stage": "depleted",
+      "sourceOutputId": "exec-19ec8317-716f-40bc-bd0b-ee204c54fb43",
+      "sourceFile": "vesperra-mistbark-depleted.png",
+      "runtimeFile": "vesperra-mistbark-depleted.webp",
+      "cropBoxPx": [
+        35,
+        42,
+        1241,
+        1205
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 3.4
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    }
+  ]
+}

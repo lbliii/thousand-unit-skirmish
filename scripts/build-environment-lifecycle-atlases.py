@@ -2,7 +2,7 @@ from PIL import Image
 from pathlib import Path
 import json,hashlib
 root=Path('assets/environment/frontier-v1')
-for region,family in [('bellweather','bellweather-field-maple'),('sereward','sereward-palm'),('pale-meridian','pale-meridian-conifer'),('siltmouths','siltmouths-tidal-tree')]:
+for region,family in [('bellweather','bellweather-field-maple'),('sereward','sereward-palm'),('pale-meridian','pale-meridian-conifer'),('siltmouths','siltmouths-tidal-tree'),('vesperra','vesperra-mistbark')]:
  old=json.loads((root/(region+'-lifecycle-manifest.json')).read_text()); assets=old['assets'];w,h=Image.open(root/assets[0]['runtimeFile']).size
  g=64;pw=(w+2*g)*2;ph=(h+2*g)*2;page=Image.new('RGBA',(pw,ph));frames=[];clips=[]
  for i,a in enumerate(assets):
