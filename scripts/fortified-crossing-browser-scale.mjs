@@ -31,6 +31,12 @@ for(const size of sizes){
     const scaled=structuredClone(map);scaled.id=`fortified-browser-scale-${size}`;scaled.startingArmySize=size-4;
     await pages[0].cdp.evaluate(`window.__fortifiedProbe.socket.send(JSON.stringify({type:'publishMap',map:${JSON.stringify(scaled)}}))`);
     await Promise.all(pages.map(p=>p.wait(`window.__fortifiedProbe.state?.mapId===${JSON.stringify(scaled.id)}`,'scaled map')));
+    stage='clear construction site with ordinary army movement';
+    await Promise.all(pages.map(async(page,team)=>{
+      const s=await state(team),army=s.units.filter(u=>u[1]===team&&u[4]>0&&u[5]==='infantry');
+      await send(team,{type:'move',ids:army.map(u=>u[0]),unitGenerations:army.map(u=>u[8]),x:team?12.5:-12.5,z:10.5},/MOVE ORDER/);
+      await page.wait(`!window.__fortifiedProbe.state.units.some(u=>u[1]===${team}&&u[4]>0&&u[5]!=='worker'&&Math.abs(u[2]-${team?18.5:-18.5})<3&&Math.abs(u[3]+3.5)<3)`,'vacated Barracks site',120000);
+    }));
     stage='economy, execution audio and completion warmup';
     await Promise.all(pages.map(async(page,team)=>{
       const s=await state(team),workers=s.units.filter(u=>u[1]===team&&u[5]==='worker');
