@@ -37,7 +37,8 @@ const library = { async loadPack() { return { pack, sourceBlobs: blobs }; } };
 const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
 globalThis.AudioContext = FakeContext;
 try {
-  const audio = createGameAudio({ doc, onProfileCaption: (value) => captions.push(value),
+  let workClock = 10000;
+  const audio = createGameAudio({ doc, workNow: () => workClock, onProfileCaption: (value) => captions.push(value),
     onCue: (value) => cues.push(value), onPackStatus: (value) => statuses.push(value) });
   audio.unlock();
   await audio.setMapAudio({ packId: 'fixture', profileId: 'field' }, library);
@@ -73,6 +74,11 @@ try {
   audio.updateWork([]);
   assert.equal(stopped, workStops + 3, 'task changes stop all aggregate samples');
   assert.equal(audio.getInspector().activeWork, 0);
+  const beforeRapidWork = scheduled.length;
+  for (let i = 0; i < 100; i++) { audio.updateWork(work); audio.updateWork([]); }
+  await tick();
+  assert.equal(scheduled.length, beforeRapidWork, 'rapid task changes cannot bypass the aggregate rate limit');
+  workClock += 2000;
   audio.updateWork(work); audio.stopWork(); await tick();
   assert.equal(audio.getInspector().activeWork, 0, 'pending decoding cannot resurrect work after reset/disconnect');
   audio.setSettings({ effectsLevel: 0 });

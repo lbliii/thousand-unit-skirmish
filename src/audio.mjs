@@ -50,7 +50,7 @@ export function readAudioSettings(storage = browserStorage()) {
 }
 
 export function createGameAudio({
-  storage = browserStorage(), doc = globalThis.document, onStatusChange, onCue, onCueDecision, onProfileCaption, onPackStatus,
+  storage = browserStorage(), doc = globalThis.document, onStatusChange, onCue, onCueDecision, onProfileCaption, onPackStatus, workNow = () => performance.now(),
 } = {}) {
   let settings = readAudioSettings(storage);
   let context = null;
@@ -76,7 +76,7 @@ export function createGameAudio({
     if (decisions.length > 24) decisions.shift();
   };
   function stopWork() {
-    workGeneration++; workSignature = ''; lastWorkAt = -Infinity;
+    workGeneration++; workSignature = '';
     for (const source of activeWorkSamples) { try { source.stop(); } catch {} }
     activeWorkSamples.clear();
   }
@@ -84,7 +84,7 @@ export function createGameAudio({
     const signature = events.map((event) => event.resource).sort().join(',');
     if (signature !== workSignature) { stopWork(); workSignature = signature; }
     if (!signature || doc?.hidden || !settings.enabled || settings.volume <= 0 || settings.effectsLevel <= 0) { stopWork(); return; }
-    const now = performance.now();
+    const now = workNow();
     if (now - lastWorkAt < 1500) return;
     lastWorkAt = now;
     for (const event of events.slice(0, 3)) playEvent(event);
