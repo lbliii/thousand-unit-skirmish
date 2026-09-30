@@ -72,6 +72,10 @@ variant and scale proofs. The evidence and its limits are recorded in
 [QA](qa-vertical-slice.md).
 
 
+## First-civilization building art
+
+The [Frontier style kit](frontier-civilization-art-style.md) defines eight coherent Complete building concepts for the [architecture wiki](lore/frontier-architecture.md). Next: calibrate House/Town Center beside Workers, derive registered directions and lifecycle states, and integrate useful building packs progressively. Use the [atlas production plan](building-atlas-production-plan.md) for role coverage and scale targets. Source concepts do not claim runtime replacement.
+
 ## Match evidence and continuing checks
 
 Use these observations to evaluate foundation additions. They are continuing

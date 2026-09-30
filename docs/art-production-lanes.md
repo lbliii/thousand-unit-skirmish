@@ -9,7 +9,7 @@
 | Environment | Ground materials, water, shorelines, regional terrain, landmarks. |
 | Vegetation and props | Trees, shrubs, rocks, resources, and depletion variants. |
 | Unit characters | Worker/Infantry/Archer silhouettes, equipment, team cues, action samples. |
-| Building architecture | Town Center/Barracks/Range identity, construction, damage, and ownership cues. |
+| Building architecture | Eight-building roster identity, scale, construction, damage, and ownership cues; see the [building atlas plan](building-atlas-production-plan.md) and [first-civilization style](frontier-civilization-art-style.md). |
 | Technical art | Materials/atlases, UV/export conventions, manifests, validation, repeatable previews. |
 | Art direction | Shared palette, finish, silhouette, and gameplay readability feedback. |
 | Maps | Placement, routes, density, regional composition, and playable scenarios. |

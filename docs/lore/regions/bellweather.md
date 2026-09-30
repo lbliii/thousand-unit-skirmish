@@ -24,6 +24,8 @@ Farm households, mills and market yards make ordinary seasonal work visible. Wor
 
 [Pellit](../settlements.md#pellit) is a proposed market town whose flour deliveries connect it commercially to [Ellionar](ellionar.md) and [Sereward](sereward.md). Its [First Loaf customs](../settlements.md#pellit) and shared reserves make harvest a social as well as economic event.
 
+The [Frontier settlement architecture kit](../frontier-architecture.md) develops a complete eight-building visual family from this regional vocabulary. It is working art direction for the first playable roster, not an exclusive regional culture or a canon placement of the game maps.
+
 ## Open questions
 
 The number of towns, tenure systems and precise relation to neighboring woodland remain open. Bellweather is not automatically the location of Forked Vale.

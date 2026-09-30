@@ -22,6 +22,7 @@ Each regional entry includes its selected map and flora/fauna key. These are con
 | Allegiance | [Factions and institutions](institutions.md) |
 | Time | [History](history.md), [Three Measures dispute](three-measures.md) |
 | Supernatural world | [Magic and materials](magic.md), [Colossumbra](colossumbra.md), [Lumastrazil](lumastrazil.md) |
+| Architecture | [Frontier settlement building kit](frontier-architecture.md) |
 | Local places | [Pellit](settlements.md#pellit), [Istrava](settlements.md#istrava), [Tassel’s Ennd](settlements.md#tassels-ennd) |
 | Editorial reference | [Sources and open decisions](sources.md) |
 
