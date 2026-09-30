@@ -244,7 +244,7 @@ export function mountAudioLibrary(container, { store }) {
     const header = element('header', { class: 'studio-header' }, [
       element('div', {}, [element('span', { class: 'eyebrow', text: 'THOUSAND UNIT SKIRMISH · AUTHORING' }), element('h1', { text: 'Audio Studio' }),
         element('p', { text: 'Build portable sound packs for unit responses, buildings and map music.' })]),
-      element('a', { href: './', class: 'game-link', text: '← Game' }),
+      element('div', { class: 'studio-links' }, [element('a', { href: './audio-zones.html', class: 'game-link', text: 'Zone palettes' }), element('a', { href: './', class: 'game-link', text: '← Game' })]),
     ]);
     const sidebar = element('aside', { class: 'studio-sidebar' });
     sidebar.append(element('h2', { text: 'Packs' }));

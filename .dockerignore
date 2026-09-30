@@ -116,3 +116,11 @@
 !assets/units/cast-orc-sprite-v1/sprite-atlas-pack-v1.json
 !assets/units/cast-orc-sprite-v1/cast-atlas-runtime.png
 !assets/units/cast-orc-sprite-v1/team-accent-mask.png
+
+!audio-zones.html
+!assets/audio/
+!assets/audio/vaelora-zones-v1/
+!assets/audio/vaelora-zones-v1/**
+!assets/audio/vaelora-pilot-v1/
+!assets/audio/vaelora-pilot-v1/sources/
+!assets/audio/vaelora-pilot-v1/sources/**

@@ -1,0 +1,74 @@
+{
+  "downloaded_on": "2026-09-30",
+  "provider": "ElevenLabs",
+  "source_flow": "https://elevenlabs.io/app/flows/fvHx5prtAQnXfCiRKcZz",
+  "status": "original candidates; not auditioned or integrated",
+  "files": [
+    {
+      "family": "Ellionar everyday",
+      "file": "sources/tus_ellionar_everyday_01_v001.mp3",
+      "original_download_filename": "Music (1).mp3",
+      "bytes": 498417,
+      "sha256": "b47911f5e5dfc910cc3250acd3413899fb30112e98a33458f655fdad45271cbe",
+      "requested_settings": "Music v2, lyrics off, 20 seconds",
+      "prompt": "Instrumental luminous ceremonial chamber music, cultivated, assured and gently flowing, 96 BPM in 4/4, D Dorian with spacious eight-bar phrases. Plucked lyre and low harp trade measured answers with paired reed pipes, sparse copper bowls and soft frame drum, warm acoustic room and restrained dynamics. Quiet even energy, no vocals, fanfares, modern drums or dramatic climax, open sustained ending."
+    },
+    {
+      "family": "Ru’Lora interior",
+      "file": "sources/tus_ru-lora_interior_01_v001.mp3",
+      "original_download_filename": "Music (2).mp3",
+      "bytes": 498417,
+      "sha256": "9dca752a71f690541839b27fbf63a34d3c75453f38ebc9614fa1c735d38d3110",
+      "requested_settings": "Music v2, lyrics off, 20 seconds",
+      "prompt": "Instrumental sparse dark acoustic chamber texture, immense, absent and forbidding, half-time feeling over a quiet D/A pedal at 96 BPM. Low contrabass harmonics and bowed stone-like resonances, rare dry ceramic friction and one cold glass tone, long silences and controlled natural decay, almost no melody or percussion. Minimal restrained energy, no voices, choir, screams, cinematic impacts or heavy sub-bass, fade into silence."
+    },
+    {
+      "family": "Horn note",
+      "file": "sources/tus_ui_horn-note_01_v001.mp3",
+      "original_download_filename": "Sound Effects (3).mp3",
+      "bytes": 49898,
+      "sha256": "b35cb77145843cbef7f84e5e0784037ddc039b17bc7805190a025b9b6052079e",
+      "requested_settings": "Eleven SFX, loop off, 2 seconds, 30% influence",
+      "prompt": "One short restrained natural horn note in a middle-low register, clear rounded breath attack and brief steady body, dry close isolated recording on silence with no melody or accompaniment."
+    },
+    {
+      "family": "Horn note",
+      "file": "sources/tus_ui_horn-note_02_v001.mp3",
+      "original_download_filename": "Sound Effects (4).mp3",
+      "bytes": 49898,
+      "sha256": "c9889177b8b661c9a4e8dfe8d19bcca7b0286348a6727054c1f692232ecda1e1",
+      "requested_settings": "Eleven SFX, loop off, 2 seconds, 30% influence",
+      "prompt": "One short restrained natural horn note in a middle-low register, clear rounded breath attack and brief steady body, dry close isolated recording on silence with no melody or accompaniment."
+    },
+    {
+      "family": "Iron latch",
+      "file": "sources/tus_ui_iron-latch_01_v001.mp3",
+      "original_download_filename": "Sound Effects (1).mp3",
+      "bytes": 49898,
+      "sha256": "d8e7900806d1816fadebadca2aed10a73f8c7bd77f0f06ac64694a047ba46e06",
+      "requested_settings": "Eleven SFX, loop off, 2 seconds, 30% influence",
+      "prompt": "One worn iron buckle snapping closed, compact dull metallic click with very little ringing, immediate onset, close dry isolated recording on silence."
+    },
+    {
+      "family": "Muted pluck",
+      "file": "sources/tus_ui_muted-pluck_01_v001.mp3",
+      "original_download_filename": "Sound Effects (2).mp3",
+      "bytes": 49898,
+      "sha256": "73fd38366f83cef4801cca9412e8a5b302c5848ea4d3889d378e16aae9ba32a6",
+      "requested_settings": "Eleven SFX, loop off, 2 seconds, 30% influence",
+      "prompt": "One softly plucked gut lute string in a middle register, clear warm attack and short muted natural decay, dry isolated recording on silence with no accompaniment."
+    },
+    {
+      "family": "Wood token",
+      "file": "sources/tus_ui_wood-token_01_v001.mp3",
+      "original_download_filename": "Sound Effects.mp3",
+      "bytes": 49898,
+      "sha256": "645b3c00adfc0af3e3f1e7821dbc0bf7cc4bcaed5aa43caa1db4071f43c26b48",
+      "requested_settings": "Eleven SFX, loop off, 2 seconds, 30% influence",
+      "prompt": "One small hardwood token tapped on a timber board, warm rounded knock with crisp immediate contact and short dry decay, close isolated recording on silence."
+    }
+  ],
+  "missing": [
+    "Bellweather everyday: previously complete, absent from current flow and music history; no replacement generated"
+  ]
+}

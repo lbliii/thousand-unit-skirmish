@@ -606,6 +606,7 @@ const MIME_TYPES = {
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
   '.webp': 'image/webp',
+  '.mp3': 'audio/mpeg',
 };
 
 const configuredMatchMapId = pveLaunchOptions?.mapId ?? defaultMapId;
@@ -6926,7 +6927,7 @@ const server = createServer(async (request, response) => {
     'src/audio-composition-player.mjs', 'src/audio-assets.mjs', 'src/audio-library-store.mjs',
     'src/audio-library-ui.mjs', 'src/audio-studio.mjs', 'src/audio-studio.css',
     'src/audio-composition.mjs', 'src/audio-composer.mjs', 'src/audio-composer.css',
-    'audio-studio.html', 'src/audio-recognition-check.mjs', 'src/camera-controls.mjs',
+    'audio-studio.html', 'audio-zones.html', 'src/audio-zones.mjs', 'src/audio-zones.css', 'src/audio-recognition-check.mjs', 'src/camera-controls.mjs',
     'src/navigation-settings.mjs', 'src/objective-summary.mjs', 'src/hud-layout.mjs',
     'src/resource-format.mjs', 'src/gameplay-definitions.mjs', 'src/gameplay-presentation.mjs', 'src/population.mjs', 'src/production-actions.mjs', 'src/research-actions.mjs',
     'src/captured-building-art.mjs', 'src/water-surface-geometry.mjs', 'src/terrain-blend.mjs', 'src/terrain-texture-sampling.mjs', 'src/terrain-atmosphere.mjs', 'src/terrain-materials.mjs',
@@ -7000,7 +7001,10 @@ const server = createServer(async (request, response) => {
   const publicBuildingLifecycleManifest = relative === `${buildingPackRoot}/lifecycle-grid.json`;
   const publicBuildingLifecycleRuntimeAsset = path.dirname(relative) === `${buildingPackRoot}/runtime`
     && /^(?:town-center-(?:foundation|frame|complete|damaged|critical)-view-\d{2}\.webp|team-mask-(?:foundation|frame|complete|damaged|critical)-view-\d{2}\.png)$/.test(path.basename(relative));
-  if (!publicClientAsset && !publicEnvironmentModule && !publicEnvironmentAsset && !publicEnvironmentAtlasMetadata && !publicUiAsset
+  const publicZoneAudioAsset = relative === 'assets/audio/vaelora-zones-v1/catalog.json'
+    || /^assets\/audio\/vaelora-zones-v1\/sources\/tus_(?:bellweather|underbough|sereward|ellionar|veyrholds|pale-meridian|siltmouths|vesperra|sombral-mere|ru-lora-fringe|ru-lora-interior)_(?:music|terrain|contrast|signature)_0[12]_v001\.mp3$/.test(relative)
+    || /^assets\/audio\/vaelora-pilot-v1\/sources\/tus_ui_(?:wood-token|iron-latch|muted-pluck|horn-note)_01_v001\.mp3$/.test(relative);
+  if (!publicZoneAudioAsset && !publicClientAsset && !publicEnvironmentModule && !publicEnvironmentAsset && !publicEnvironmentAtlasMetadata && !publicUiAsset
     && !publicMeshyResourceAsset && !publicInteractiveEnvironmentAsset && !publicEnvironmentPilotAsset && !publicBuildingSpriteAsset && !publicMapAsset
     && !publicUnitSpriteAsset && !publicBuildingLifecycleManifest && !publicBuildingLifecycleRuntimeAsset) {
     response.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' });

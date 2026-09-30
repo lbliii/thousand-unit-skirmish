@@ -50,3 +50,5 @@ p { color: #afc0ab; line-height: 1.5; }
 .studio-flash:empty { display: none; }
 .studio-flash.error { background: #552c29; color: #ffe0d8; }
 @media (max-width: 760px) { .studio-layout { grid-template-columns: 1fr; } .studio-sidebar { border-right: 0; border-bottom: 1px solid #344638; } .studio-header { align-items: start; } }
+
+.studio-links { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }

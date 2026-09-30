@@ -44,8 +44,11 @@ the build they name.
 | Choose a map | [Catalog](maps.md), [Forked Vale](forked-vale-scenario.md), [Three Crowns](three-crowns-layout.md) |
 | Change the compact objective HUD | [Objective behavior and validation](battlefield-objectives-validation.md) |
 | Change cues or captions | [Audio design](audio-design.md) |
+| Design each command, notice, alert and result sound | [UI sound direction](ui-audio-direction.md) |
 | Produce reusable effects and music | [Audio kit plan](audio-kit-plan.md) |
+| Plan Vaelora regional music, ambience and generation requests | [Zone audio plan](vaelora-zone-audio-plan.md) |
 | Build Audio Studio and sampled playback | [Audio Studio implementation](audio-studio-implementation-plan.md) |
+| Audition every Vaelora zone | [All-zone source pack](../assets/audio/vaelora-zones-v1/README.md), [milestone evidence](qa-zone-audio-2026-09-30.md) |
 
 ## Product and experiments
 

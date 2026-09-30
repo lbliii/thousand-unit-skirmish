@@ -2,6 +2,10 @@
 
 [Audio runtime](audio-design.md) · [Game bible](game-bible.md)
 
+The [Vaelora zone audio plan](vaelora-zone-audio-plan.md) extends this shared kit
+with ten regional palettes and request templates based on the selected September
+29 paintings. It is a creative proposal; the dated pilot below remains unchanged.
+
 ## Recommendation
 
 Build a tactile fantasy sound: dry timber, worn leather and muted iron beneath

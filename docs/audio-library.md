@@ -13,3 +13,7 @@ Limits are 128 sources, 16 MiB per source, 64 MiB of audio per pack, and 90 MiB 
 The library uses the shared `validateComposition` contract by default for storage and backups, then checks source and profile references. Composer save failures remain visible in the editor and preserve its unsaved state. Audio Studio and its modules are included in the server allowlist and release image.
 
 Run `node scripts/audio-library.test.mjs` for validation and portable byte round-trip checks. Browser acceptance should create/import a WAV, assign `unit.worker.gather.wood`, reload the page, export the pack, clear it, and import the backup to confirm original bytes and metadata survive.
+
+## Vaelora regional source collection
+
+Audio Studio links to `audio-zones.html`, the [all-zone palette audition](../assets/audio/vaelora-zones-v1/README.md). It compares ten zones (eleven palettes with Ru’Lora fringe/interior), with independent source levels, repeat controls, current synthesized command cues, and local review notes. **Save sources to Audio Studio** installs the 44 original candidates and their provenance as `vaelora-zone-sources-v1`; an existing pack is preserved. Event bindings and compositions start empty. Use Audio Studio to edit/arrange accepted sources and export a portable backup. [Technical acceptance](qa-zone-audio-2026-09-30.md) covers source playback and byte-preserving export, not creative acceptance.

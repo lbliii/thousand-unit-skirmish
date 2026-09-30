@@ -105,6 +105,7 @@ const scenarios = [
   ['scripts/origin-policy-scenario.mjs', 'Origin policy'],
   ['scripts/origin-proxy-scenario.mjs', 'Origin policy through room proxy'],
   ['scripts/audio-library.test.mjs', 'Audio library and portable originals'],
+  ['scripts/validate-zone-audio.mjs', 'All-zone audio source coverage and integrity'],
   ['scripts/audio-composer-scenario.mjs', 'Audio composer and WAV scheduling'],
   ['scripts/audio-runtime-scenario.mjs', 'Audio profile routing and settings migration'],
   ['scripts/audio-runtime-playback-scenario.mjs', 'Sampled audio playback and fallback'],
