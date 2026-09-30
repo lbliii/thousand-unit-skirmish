@@ -1,5 +1,5 @@
 // Decorative roots occupy existing blocked water, never a new land obstacle.
-export function shoreReedPositions(definition) {
+export function shorePlantPositions(definition) {
   const { width, height } = definition;
   const water = new Uint8Array(width * height);
   for (const obstacle of definition.obstacles || []) {
@@ -42,3 +42,6 @@ export function shoreReedPositions(definition) {
   }
   return positions;
 }
+
+// Compatibility for the original reed-placement scenario.
+export const shoreReedPositions = shorePlantPositions;

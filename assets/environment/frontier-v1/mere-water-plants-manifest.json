@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-mere-water-plants",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/sombral-mere-ecology.png",
+  "referenceSha256": "3f268da6b8fe3d90f290661f0af6d5a742e2c4f5b40fe03d039ffdf76c5dcc5f",
+  "prompts": "MERE-MIRELILY-PROMPTS.json",
+  "files": [
+    {
+      "path": "sombral-mere-mirelily.png",
+      "role": "source-image",
+      "sha256": "c4ffebd628787041d0d01478ad539691e94b8a679d063d924937d44c0c4cbecd",
+      "bytes": 1775055,
+      "dimensionsPx": {
+        "width": 1310,
+        "height": 1200
+      }
+    },
+    {
+      "path": "sombral-mere-mirelily.webp",
+      "role": "runtime-image",
+      "sha256": "6b88b0f3d1a04d8dead3946f115d2167b4525756dd95a50f3663bc9c33632999",
+      "bytes": 228122,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 987
+      }
+    }
+  ],
+  "cropPx": [
+    133,
+    62,
+    1242,
+    1131
+  ],
+  "asset": {
+    "id": "sombral-mere-mirelily",
+    "kind": "decorative-water-decal",
+    "worldWidth": 0.75,
+    "worldDepth": 0.7229,
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "waterSurfaceLift": 0.008,
+    "projection": "Overhead-painted source on horizontal XZ plane; runtime camera supplies foreshortening."
+  },
+  "provenance": "Built-in ImageGen. Selected PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact generated alpha. Requested overhead source; actual runtime plane normal verified separately."
+}

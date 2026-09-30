@@ -306,3 +306,7 @@ Original built-in ImageGen against the project-owned approved Bellweather ecolog
 ## Ru’Lora god-bone fragments · 30 September 2026
 
 Built-in ImageGen against the project-owned approved Ru’Lora ecology key's interior god-bone material. [Exact prompt](RU-LORA-GOD-BONE-PROMPTS.json) and [manifest](ru-lora-god-bone-manifest.json) record selected source ID, reference hash, dimensions, crop and hashes. Selected PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background composite inspected surroundings and cavities. No local repainting or alpha repair. One approximate painted oblique view; runtime alignment measured separately.
+
+## Sombral Mere Mirelily · 30 September 2026
+
+Built-in ImageGen against the project-owned approved Mere ecology key's Mirelily specimen. [Exact overhead prompt](MERE-MIRELILY-PROMPTS.json) and [manifest](mere-water-plants-manifest.json) record selected source ID, reference hash, crop, dimensions and file hashes. PNG copied unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background composite inspected pad notches and surroundings. No repainting/alpha repair. Source overhead perspective is requested guidance; actual horizontal runtime plane and projection are verified separately.

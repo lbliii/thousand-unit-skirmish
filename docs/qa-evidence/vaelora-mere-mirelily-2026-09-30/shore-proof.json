@@ -1,0 +1,46 @@
+{
+  "mapId": "sombral-mere-shore-gardens",
+  "shorePlants": 52,
+  "shoreBatches": 1,
+  "forestCells": 256,
+  "waterDecal": true,
+  "maxPlaneNormalError": 3.330669173573358e-16,
+  "maxScreenRollDegrees": null,
+  "waterLevel": 0.032,
+  "forestHarvestLeavesShoreUnchanged": true,
+  "mapUnchanged": true,
+  "exclusions": [
+    {
+      "id": "meshy-resource-review",
+      "terrainBase": "lunar-soil",
+      "raised": false,
+      "shoreBatches": 0
+    },
+    {
+      "id": "other-region",
+      "terrainBase": "meadow",
+      "raised": false,
+      "shoreBatches": 0
+    },
+    {
+      "id": "other-region",
+      "terrainBase": "jungle-loam",
+      "raised": false,
+      "shoreBatches": 0
+    },
+    {
+      "id": "raised-shore",
+      "terrainBase": "lunar-soil",
+      "raised": true,
+      "shoreBatches": 0
+    }
+  ],
+  "reedRegression": [
+    {
+      "shorePlants": 52,
+      "waterDecal": false,
+      "upright": true,
+      "waterContact": true
+    }
+  ]
+}

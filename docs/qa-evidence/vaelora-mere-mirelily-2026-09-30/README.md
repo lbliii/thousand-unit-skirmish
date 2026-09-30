@@ -1,0 +1,12 @@
+# Sombral Mere Mirelily · 30 September 2026
+
+Local candidate based on main7c910475. Isolated room/map storage and headless Chrome on port4178; opening fixture maps/forked-vale.json.
+
+Run `RTS_QA_URL=http://127.0.0.1:4178 RTS_VEGETATION_REGION=sombral-mere RTS_VEGETATION_LIFECYCLE=1 RTS_VEGETATION_ATLAS=1 RTS_VEGETATION_UNDERSTORY=1 RTS_VEGETATION_SHORE=1 node scripts/qa-vegetation-browser.mjs`.
+
+- `node scripts/shore-vegetation-scenario.mjs` passes existing42-reed fixtures and new52-lily repeat/changed-seed checks. A conservative circle enclosing each rotated0.75×0.7229 decal fits entirely inside the existing water footprint; source map unchanged. Existing water-surface scenario passes.
+- [Plane/contact proof](shore-proof.json):one batch/52 lilies,256 forest identities retained, actual plane-normal error3.33e-16 against world-up, water contact within1e-6 at shared0.032+0.008. Forest clearing leaves lily matrices unchanged. Review/other-base/raised-root exclusions pass. The reed regression renders52 upright silver reeds on the same lake geometry after decal creation; source, water contact and screen roll pass. Screen-up roll is inapplicable to deliberately rotated flat pads, recorded null.
+- [Native-camera lake preview](shore-renderer.png) shows pearl-lavender flower centers and deep-teal pads on water. [Review copy](shore-study.json) retains Shore Gardens geometry and rules except a distinct import ID and fog disabled for appearance. [Ordinary Save & Play](shore-save-play-ordinary.png) and [strategic](shore-save-play-strategic.png) show the integrated lakes. Flowers become small colored accents at strategic distance; shipped map remains unchanged.
+- [Forest understory](understory-proof.json), [live tree harvest/reset](live-harvest-proof.json), [tree camera/UV](lifecycle-proof.json), [fourteen-family fallback](fallback-proof.json), [eleven-base loading](forest-slot-proof.json) and [opening requests](opening-requests.json) pass. Final boot ready, runtime error empty, console errors empty.
+
+Generated PNG unchanged; cropped/resized WebP alpha exact. Release source/runtime/manifest and loader bytes match; completed temporary release removed. Syntax, docs and whitespace pass. Source is requested overhead art on a horizontal plane; runtime camera supplies foreshortening. No emission/halo, resource/collision/schema change, independent flower harvesting, elevated water, new lunar lore, hosted or performance claim.

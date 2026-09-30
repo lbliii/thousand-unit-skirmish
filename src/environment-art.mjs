@@ -8,7 +8,7 @@ import { createGroundMistStudy } from './terrain-atmosphere.mjs';
 import { applyTerrainTextureSampling } from './terrain-texture-sampling.mjs';
 import { buildTerrainBlendMasks, buildForestGroundMask } from './terrain-blend.mjs';
 import { buildWaterSurfaceGeometry, WATER_LEVEL } from './water-surface-geometry.mjs';
-import { shoreReedPositions } from './shore-vegetation.mjs';
+import { shorePlantPositions } from './shore-vegetation.mjs';
 
 const meshyResourcesEnabled = new URLSearchParams(globalThis.location?.search ?? '').get('meshyResources') !== '0';
 
@@ -17,7 +17,7 @@ const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
 const GROUND_RENDER_ORDER = -20;
 export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
-  'bellweather-meadow-herbs', 'vesperra-shade-fern', 'vesperra-shade-fern-02', 'siltmouths-silver-reed', 'pale-meridian-silver-moss', 'sombral-mere-lunewort', 'underbough-rootward-fungus', 'veyrholds-ridgegrass', 'ellionar-sunbloom', 'sereward-succulent',
+  'sombral-mere-mirelily', 'bellweather-meadow-herbs', 'vesperra-shade-fern', 'vesperra-shade-fern-02', 'siltmouths-silver-reed', 'pale-meridian-silver-moss', 'sombral-mere-lunewort', 'underbough-rootward-fungus', 'veyrholds-ridgegrass', 'ellionar-sunbloom', 'sereward-succulent',
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
@@ -541,6 +541,23 @@ export function createEnvironmentSpriteInstances(name, width, height, positions)
   return mesh;
 }
 
+function createWaterPlantInstances(name, width, depth, positions) {
+  if (!positions.length) return null;
+  const mesh = new THREE.InstancedMesh(new THREE.PlaneGeometry(width, depth), spriteMaterial(name), positions.length);
+  mesh.renderOrder = 7;
+  mesh.frustumCulled = false;
+  for (const [index, point] of positions.entries()) {
+    instanceDummy.position.set(point.x, WATER_LEVEL + 0.008, point.z);
+    instanceDummy.rotation.set(-Math.PI / 2, 0, (point.cell * 2.399963229728653) % (Math.PI * 2));
+    instanceDummy.scale.set(point.flip ? -point.scale : point.scale, point.scale, point.scale);
+    instanceDummy.updateMatrix();
+    mesh.setMatrixAt(index, instanceDummy.matrix);
+  }
+  mesh.instanceMatrix.needsUpdate = true;
+  mesh.userData.waterDecal = true;
+  return mesh;
+}
+
 export function setEnvironmentSpriteInstance(mesh, index, x, z, scale, flip = false, yaw = 0) {
   instanceDummy.position.set(x, groundHeight(x,z), z);
   instanceDummy.quaternion.copy(cameraFacing);
@@ -828,14 +845,16 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       }
     }
   }
-  if (siltmouths) {
+  if (siltmouths || sombralMere) {
     // The current water renderer is flat: omit raised roots until it supports
     // elevated water surfaces. Water cells are already blocked by the map.
     const field = terrainHeightField(definition);
-    const shorePlants = shoreReedPositions(definition).filter(p => field.sample(p.x, p.z) === 0);
-    const shore = createEnvironmentSpriteInstances('siltmouths-silver-reed', 1.29076, 1.05, shorePlants);
+    const shorePlants = shorePlantPositions(definition).filter(p => field.sample(p.x, p.z) === 0);
+    const shore = siltmouths
+      ? createEnvironmentSpriteInstances('siltmouths-silver-reed', 1.29076, 1.05, shorePlants)
+      : createWaterPlantInstances('sombral-mere-mirelily', 0.75, 0.7229, shorePlants);
     if (shore) {
-      shore.position.y = WATER_LEVEL;
+      if (siltmouths) shore.position.y = WATER_LEVEL;
       shore.userData.shoreVegetation = true;
       addObject(shore);
     }

@@ -1,0 +1,7 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Create a game water-surface decal texture from the Sombral Mere Mirelily specimen in the reference. Strict orthographic TOP DOWN, straight overhead, no foreshortening, no horizon, no visible sides of leaves. Four overlapping round notched lily pads in deep matte teal with subtle violet veins, ONE open pearl-lavender flower with a pale warm center on the central pad, petals seen straight from above. An irregular naturally asymmetrical compact cluster, not a perfect radial mandala, no visible stalks, stems or roots. Broad expressive painterly RTS shapes readable when tiny, restrained strokes, avoid microdetail, no symmetry patterns. Actual transparent background, clean isolated cutout with ample margin, no water rectangle, no surrounding water, ripples, reflection, shadow cloud, glow, emission, glitter or text. Entire cluster fits within frame. The approved pearl/lavender/deep-teal palette; quiet living lake plant. This image will be placed flat on the water and projected by the RTS camera, so do NOT draw an angled isometric view.",
+  "reference": "../../../docs/art-direction/vaelora-v1/sombral-mere-ecology.png",
+  "transparentBackground": true,
+  "selectedOutput": "exec-4a7d1718-1361-493f-b0be-bec00d854c94.png"
+}

@@ -91,8 +91,10 @@ if(readabilityCapture&&region!=='veyrholds')throw new Error('Readability fixture
 const variationCapture=process.env.RTS_VEGETATION_VARIATION==='1';
 if(variationCapture&&(!understoryCapture||region!=='vesperra'))throw new Error('Fern variation capture requires Vesperra understory');
 const shoreCapture=process.env.RTS_VEGETATION_SHORE==='1';
-if(shoreCapture&&region!=='siltmouths')throw new Error('Shore capture requires Siltmouths');
-const out=shoreCapture ? 'docs/qa-evidence/vaelora-siltmouths-shore-reeds-2026-09-30' : variationCapture ? 'docs/qa-evidence/vaelora-vesperra-fern-variation-2026-09-30' : readabilityCapture ? 'docs/qa-evidence/vaelora-highpine-low-readability-2026-09-30' : seedCapture ? 'docs/qa-evidence/vaelora-understory-seeds-2026-09-30' : understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-god-bone-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
+if(shoreCapture&&!['siltmouths','sombral-mere'].includes(region))throw new Error('Shore capture requires Siltmouths or Sombral Mere');
+const shoreMapFile=region==='sombral-mere'?'maps/sombral-mere-shore-gardens.json':'maps/siltmouths-reed-crossings.json';
+const shoreBase=region==='sombral-mere'?'lunar-soil':'tidal-mud';
+const out=shoreCapture ? (region==='sombral-mere'?'docs/qa-evidence/vaelora-mere-mirelily-2026-09-30':'docs/qa-evidence/vaelora-siltmouths-shore-reeds-2026-09-30') : variationCapture ? 'docs/qa-evidence/vaelora-vesperra-fern-variation-2026-09-30' : readabilityCapture ? 'docs/qa-evidence/vaelora-highpine-low-readability-2026-09-30' : seedCapture ? 'docs/qa-evidence/vaelora-understory-seeds-2026-09-30' : understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-god-bone-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
@@ -121,7 +123,7 @@ try {
   await sleep(400);const shot=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/forked-vale-'+mode+'.png',Buffer.from(shot.data,'base64'));
  }
  if(shoreCapture||['sereward','ru-lora'].includes(region)) {
-  if(shoreCapture){const study=JSON.parse(await readFile('maps/siltmouths-reed-crossings.json','utf8'));study.id='siltmouths-shore-study';study.fogOfWar=false;await writeFile(out+'/shore-study.json',JSON.stringify(study,null,2)+'\n');}
+  if(shoreCapture){const study=JSON.parse(await readFile(shoreMapFile,'utf8'));study.id=region+'-shore-study';study.fogOfWar=false;await writeFile(out+'/shore-study.json',JSON.stringify(study,null,2)+'\n');}
   const studyFile=shoreCapture?out+'/shore-study.json':region==='ru-lora'?'docs/qa-evidence/vaelora-ru-lora-interior-2026-09-30/ru-lora-interior-study.json':'docs/qa-evidence/vaelora-sereward-2026-09-30/sereward-oasis-study.json';
   const study=JSON.parse(await readFile(studyFile,'utf8'));
   await cdp.evaluate('document.querySelector("#map-studio-open").click()');await cdp.call('DOM.enable');const doc=await cdp.call('DOM.getDocument');const input=await cdp.call('DOM.querySelector',{nodeId:doc.root.nodeId,selector:'#studio-import-file'});
@@ -142,7 +144,7 @@ try {
   }
  }
  if(shoreCapture){
-  const shipped=JSON.parse(await readFile('maps/siltmouths-reed-crossings.json','utf8'));
+  const shipped=JSON.parse(await readFile(shoreMapFile,'utf8'));
   const result=await cdp.evaluate(`(async()=>{
    const THREE=await import('/vendor/three.module.js');
    const {addObstacleEnvironmentSprites,createGroundSurfaces,setForestSpriteStock}=await import('/src/environment-art.mjs');
@@ -152,29 +154,48 @@ try {
    const map=${JSON.stringify(shipped)},original=JSON.stringify(map);setActiveTerrain(map);
    const objects=[],slots=addObstacleEnvironmentSprites(map,map.width/2,map.height/2,o=>objects.push(o));
    const shore=objects.filter(o=>o.userData.shoreVegetation);
-   if(shore.length!==1||shore[0].count!==42||slots.size!==256)throw new Error('Shipped shore/forest count mismatch');
-   const mesh=shore[0],m=new THREE.Matrix4();let maxScreenRollDegrees=0;
+   if(shore.length!==1||shore[0].count!==${region==='sombral-mere'?52:42}||slots.size!==256)throw new Error('Shipped shore/forest count mismatch');
+   const mesh=shore[0],m=new THREE.Matrix4();let maxScreenRollDegrees=0,maxPlaneNormalError=0;
    const rotation=new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().lookAt(new THREE.Vector3(...CAMERA_VIEW_DIRECTION),new THREE.Vector3(),new THREE.Vector3(0,1,0))).invert();
    const matrices=[];
    for(let i=0;i<mesh.count;i++){
     mesh.getMatrixAt(i,m);matrices.push(m.elements.slice());
-    if(Math.abs(m.elements[13]+mesh.position.y-WATER_LEVEL)>1e-6)throw new Error('Reed water contact failed');
+    if(Math.abs(m.elements[13]+mesh.position.y-WATER_LEVEL-(mesh.userData.waterDecal ? 0.008 : 0))>1e-6)throw new Error('Water plant contact failed');
+    if(mesh.userData.waterDecal){
+     const normal=new THREE.Vector3(0,0,1).transformDirection(m);maxPlaneNormalError=Math.max(maxPlaneNormalError,Math.abs(normal.y-1),Math.abs(normal.x),Math.abs(normal.z));
+     const position=new THREE.Vector3(),rotation=new THREE.Quaternion(),scale=new THREE.Vector3();m.decompose(position,rotation,scale);
+     const radius=Math.hypot(.75,.7229)*Math.abs(scale.y)/2;
+     const x=position.x+map.width/2,z=position.z+map.height/2;
+     for(const dx of [-radius,radius])for(const dz of [-radius,radius]){const column=Math.floor(x+dx),row=Math.floor(z+dz);if(!map.obstacles.some(o=>o.material==='water'&&column>=o.column&&column<o.column+o.width&&row>=o.row&&row<o.row+o.height))throw new Error('Water decal extends onto land');}
+     continue;
+    }
     const up=new THREE.Vector3(0,1,0).transformDirection(m).applyQuaternion(rotation);
     maxScreenRollDegrees=Math.max(maxScreenRollDegrees,Math.abs(Math.atan2(-up.x,up.y)*180/Math.PI));
    }
+   if(maxPlaneNormalError>1e-6)throw new Error('Water decal plane tilted');
    if(maxScreenRollDegrees>.0001)throw new Error('Shore reed screen roll');
    for(const slot of slots.values())setForestSpriteStock(slot,0);
    for(let i=0;i<mesh.count;i++){mesh.getMatrixAt(i,m);if(JSON.stringify(m.elements)!==JSON.stringify(matrices[i]))throw new Error('Forest harvest changed water reeds');}
    if(JSON.stringify(map)!==original)throw new Error('Shore decoration mutated map');
    for(const o of objects){o.geometry.dispose();o.material.dispose()}
    const exclusions=[];
-   for(const [id,terrainBase,raised] of [['meshy-resource-review','tidal-mud',false],['other-region','meadow',false],['other-region','jungle-loam',false],['raised-shore','tidal-mud',true]]){
+   for(const [id,terrainBase,raised] of [['meshy-resource-review',${JSON.stringify(shoreBase)},false],['other-region','meadow',false],['other-region','jungle-loam',false],['raised-shore',${JSON.stringify(shoreBase)},true]]){
     const d={...map,id,terrainBase,elevationPatches:raised?[{column:0,row:0,width:map.width,height:map.height,level:2}]:[]};setActiveTerrain(d);
     const objects=[];addObstacleEnvironmentSprites(d,d.width/2,d.height/2,o=>objects.push(o));
     if(objects.some(o=>o.userData.shoreVegetation))throw new Error('Shore exclusions failed');
     exclusions.push({id,terrainBase,raised,shoreBatches:0});for(const o of objects){o.geometry.dispose();o.material.dispose()}
    }
-   const d={width:24,height:24,terrainBase:'tidal-mud',terrainSeed:93007,obstacles:[{column:7,row:0,width:3,height:9,material:'water'},{column:7,row:14,width:3,height:10,material:'water'},{column:16,row:0,width:3,height:9,material:'water'},{column:16,row:14,width:3,height:10,material:'water'}]};setActiveTerrain(d);
+   const reedRegression=[];
+   if(${region==='sombral-mere'}){
+    const d={...map,terrainBase:'tidal-mud'};setActiveTerrain(d);const objects=[];addObstacleEnvironmentSprites(d,d.width/2,d.height/2,o=>objects.push(o));
+    const reeds=objects.find(o=>o.userData.shoreVegetation);
+    if(!reeds||reeds.userData.waterDecal||reeds.count!==52)throw new Error('Reed regression batch mismatch');
+    for(let i=0;i<50&&!reeds.material.map.image?.complete;i++)await new Promise(r=>setTimeout(r,100));
+    if(!reeds.material.map.image?.naturalWidth||!reeds.material.map.image.src.endsWith('/siltmouths-silver-reed.webp'))throw new Error('Reed regression sprite mismatch');
+    for(let i=0;i<reeds.count;i++){reeds.getMatrixAt(i,m);const up=new THREE.Vector3(0,1,0).transformDirection(m).applyQuaternion(rotation);if(Math.abs(Math.atan2(-up.x,up.y)*180/Math.PI)>.0001||Math.abs(m.elements[13]+reeds.position.y-WATER_LEVEL)>1e-6)throw new Error('Reed regression pose changed');}
+    reedRegression.push({shorePlants:52,waterDecal:false,upright:true,waterContact:true});for(const o of objects){o.geometry.dispose();o.material.dispose()}
+   }
+   const d={width:24,height:24,terrainBase:${JSON.stringify(shoreBase)},terrainSeed:93007,obstacles:[{column:7,row:0,width:3,height:9,material:'water'},{column:7,row:14,width:3,height:10,material:'water'},{column:16,row:0,width:3,height:9,material:'water'},{column:16,row:14,width:3,height:10,material:'water'}]};setActiveTerrain(d);
    const scene=new THREE.Scene();scene.background=new THREE.Color(0x717a6c);
    for(const o of createGroundSurfaces(d))scene.add(o);
    addObstacleEnvironmentSprites(d,12,12,o=>scene.add(o));
@@ -184,7 +205,7 @@ try {
    const camera=new THREE.OrthographicCamera(-15,15,10,-10,.1,200);camera.position.set(...CAMERA_VIEW_DIRECTION).multiplyScalar(50);camera.lookAt(0,0,0);renderer.render(scene,camera);
    const image=renderer.domElement.toDataURL('image/png');
    scene.traverse(o=>{o.geometry?.dispose();o.userData.ownedGroundTextures?.forEach(t=>t.dispose());o.material?.dispose()});renderer.dispose();renderer.forceContextLoss();setActiveTerrain(map);
-   return {mapId:map.id,shorePlants:mesh.count,shoreBatches:1,forestCells:slots.size,maxScreenRollDegrees,waterLevel:WATER_LEVEL,forestHarvestLeavesShoreUnchanged:true,mapUnchanged:true,exclusions,image};
+   return {mapId:map.id,shorePlants:mesh.count,shoreBatches:1,forestCells:slots.size,waterDecal:!!mesh.userData.waterDecal,maxPlaneNormalError,maxScreenRollDegrees:mesh.userData.waterDecal?null:maxScreenRollDegrees,waterLevel:WATER_LEVEL,forestHarvestLeavesShoreUnchanged:true,mapUnchanged:true,exclusions,reedRegression,image};
   })()`);
   await writeFile(out+'/shore-renderer.png',Buffer.from(result.image.split(',')[1],'base64'));delete result.image;
   await writeFile(out+'/shore-proof.json',JSON.stringify(result,null,2)+'\n');
