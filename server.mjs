@@ -7118,13 +7118,13 @@ const server = createServer(async (request, response) => {
     'assets/ui/icons/attack.svg', 'assets/ui/icons/gather.svg', 'assets/ui/icons/build.svg',
   ].includes(relative);
   const publicEnvironmentModule = relative === 'src/environment-art.mjs';
-  const publicEnvironmentAtlasMetadata = ['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere'].some((region) =>
+  const publicEnvironmentAtlasMetadata = ['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough'].some((region) =>
     relative === `assets/environment/frontier-v1/${region}-lifecycle-atlas.json`);
   const publicEnvironmentAsset = path.dirname(relative) === 'assets/environment/frontier-v1'
     && ['.png', '.webp'].includes(path.extname(relative))
     && ['oak', 'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
       'bellweather-field-maple', 'bellweather-hedgerow',
-      'bellweather-lifecycle-atlas', 'sereward-lifecycle-atlas', 'pale-meridian-lifecycle-atlas', 'siltmouths-lifecycle-atlas', 'vesperra-lifecycle-atlas', 'sombral-mere-lifecycle-atlas',
+      'bellweather-lifecycle-atlas', 'sereward-lifecycle-atlas', 'pale-meridian-lifecycle-atlas', 'siltmouths-lifecycle-atlas', 'vesperra-lifecycle-atlas', 'sombral-mere-lifecycle-atlas', 'underbough-lifecycle-atlas',
       'sombral-mere-merebloom', 'sombral-mere-merebloom-worked', 'sombral-mere-merebloom-low', 'sombral-mere-merebloom-depleted',
       'vesperra-mistbark', 'vesperra-mistbark-worked', 'vesperra-mistbark-low', 'vesperra-mistbark-depleted',
       'siltmouths-tidal-tree', 'siltmouths-tidal-tree-worked', 'siltmouths-tidal-tree-low', 'siltmouths-tidal-tree-depleted',
@@ -7132,6 +7132,7 @@ const server = createServer(async (request, response) => {
       'bellweather-field-maple-worked', 'bellweather-field-maple-low', 'bellweather-field-maple-depleted',
       'veyrholds-highpine', 'veyrholds-ironlichen-outcrop', 'ru-lora-fiendwood', 'ru-lora-stone-fern', 'ru-lora-broken-trunk',
       'underbough-copperleaf', 'underbough-bramble',
+      'underbough-copperleaf-worked', 'underbough-copperleaf-low', 'underbough-copperleaf-depleted',
       'sereward-palm', 'sereward-acacia', 'sereward-scrub',
       'sereward-palm-worked', 'sereward-palm-low', 'sereward-palm-depleted',
       'ellionar-cultivated-palm', 'ellionar-garden-hedge',

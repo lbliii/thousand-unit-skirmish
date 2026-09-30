@@ -226,3 +226,7 @@ Built-in ImageGen generated the stone fern from the project-owned ecology key, w
 ## Ru’Lora naturally broken trunk · 30 September 2026
 
 Built-in ImageGen edited the approved project-owned Fiendwood source into a darker crownless mineral scenery sibling. [Exact prompt](RU-LORA-PROMPTS.json) and [manifest v1.2.0](ru-lora-manifest.json) record the unchanged generated master, source ID, crop, dimensions and hashes. Runtime is LANCZOS max1024 RGBA WebP quality86 method6 exact alpha; no pixel repainting or alpha repair. One fixed-oblique intact scenery view; not a harvest state.
+
+## Underbough Copperleaf lifecycle · 30 September 2026
+
+Built-in ImageGen edited the original project-owned Copperleaf into worked, low and depleted states, retaining its exact 1312×1199 source canvas. [Manifest](underbough-lifecycle-manifest.json) and [exact prompts](UNDERBOUGH-LIFECYCLE-PROMPTS.json) record hashes, source IDs and the original shared crop. Unchanged generated masters; runtime LANCZOS max1024 WebP quality86 method6 with exact alpha. Atlas packaging copies decoded runtime frames without rescaling or repainting; one fixed-oblique view. Full source/runtime reused unchanged.

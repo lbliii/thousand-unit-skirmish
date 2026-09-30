@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-underbough-lifecycle-atlas",
+  "packVersion": "1.0.0",
+  "maturity": "runtime-candidate",
+  "provenance": {
+    "license": "project-owned",
+    "source": "underbough-lifecycle-manifest.json",
+    "authoringTool": "Pillow deterministic page packing",
+    "notes": "Exact decoded approved runtime pixels, no repaint or rescaling. Runtime WebP quality86; PNG page preserves exact decoded approved pixels. Fixed camera; state clips reserve direction IDs. 64px transparent RGB edge-extension gutter, mip cap6, half-texel inset. Original generated masters retained."
+  },
+  "files": [
+    {
+      "id": "source",
+      "path": "underbough-lifecycle-atlas.png",
+      "usage": "source",
+      "format": "png",
+      "sha256": "ae699c55b7503eb1694bdea2ddf4f71e104ff465420ab9c64df6d5fa72a55886",
+      "dimensionsPx": {
+        "width": 2304,
+        "height": 2116
+      }
+    },
+    {
+      "id": "runtime",
+      "path": "underbough-lifecycle-atlas.webp",
+      "usage": "runtime",
+      "format": "webp",
+      "sha256": "5b60a2ebcb39645a471c23e7c30d192736c613e550a0748fcbcb7b6f174fc5f1",
+      "dimensionsPx": {
+        "width": 2304,
+        "height": 2116
+      }
+    }
+  ],
+  "pages": [
+    {
+      "id": "color",
+      "sourceFileId": "source",
+      "runtimeFileId": "runtime",
+      "dimensionsPx": {
+        "width": 2304,
+        "height": 2116
+      },
+      "colorSpace": "srgb",
+      "pixelFormat": "rgba8",
+      "alphaMode": "straight",
+      "edgeRule": "bleed-rgb-under-transparent",
+      "gutterPx": 64,
+      "gutterRule": "edge-extended",
+      "wrapMode": "clamp",
+      "sampling": {
+        "generateMipmaps": true,
+        "minFilter": "linear-mipmap-linear",
+        "magFilter": "linear",
+        "uvInsetPx": 0.5,
+        "maxMipLevel": 6
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "underbough-copperleaf",
+      "kind": "environment",
+      "artBoundsWorld": {
+        "min": [
+          -1.525,
+          0,
+          0
+        ],
+        "max": [
+          1.525,
+          3.25,
+          0
+        ]
+      },
+      "heightWorld": 3.25,
+      "sortAnchorWorld": [
+        0,
+        0,
+        0
+      ],
+      "frames": [
+        {
+          "id": "full",
+          "canvasPx": {
+            "width": 1024,
+            "height": 930
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 930
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 1,
+            "y": 1,
+            "width": 1022,
+            "height": 928
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 64,
+              "y": 64,
+              "width": 1024,
+              "height": 930
+            }
+          }
+        },
+        {
+          "id": "worked",
+          "canvasPx": {
+            "width": 1024,
+            "height": 930
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 930
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 2,
+            "y": 1,
+            "width": 1020,
+            "height": 929
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 1216,
+              "y": 64,
+              "width": 1024,
+              "height": 930
+            }
+          }
+        },
+        {
+          "id": "low",
+          "canvasPx": {
+            "width": 1024,
+            "height": 930
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 930
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 1,
+            "y": 0,
+            "width": 1022,
+            "height": 930
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 64,
+              "y": 1122,
+              "width": 1024,
+              "height": 930
+            }
+          }
+        },
+        {
+          "id": "depleted",
+          "canvasPx": {
+            "width": 1024,
+            "height": 930
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 930
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 196,
+            "y": 496,
+            "width": 652,
+            "height": 434
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 1216,
+              "y": 1122,
+              "width": 1024,
+              "height": 930
+            }
+          }
+        }
+      ],
+      "clips": [
+        {
+          "stateId": "full",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "full",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "worked",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "worked",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "low",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "low",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "depleted",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "depleted",
+              "durationMs": 1000
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

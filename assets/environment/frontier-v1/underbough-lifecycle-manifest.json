@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-underbough-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "underbough-copperleaf.png",
+  "prompts": "UNDERBOUGH-LIFECYCLE-PROMPTS.json",
+  "provenance": "Built-in ImageGen edited the approved project-owned Copperleaf source. Unmodified PNG masters; shared original full-state crop, LANCZOS max1024 WebP quality86 method6 exact alpha. Camera prompt guidance is not measured perspective calibration.",
+  "files": [
+    {
+      "path": "underbough-copperleaf.png",
+      "role": "source-image",
+      "sha256": "e6203be5337f19f800d6792271e2bd8521d8c9c01093b129012fe76e7c08aa43",
+      "dimensionsPx": {
+        "width": 1312,
+        "height": 1199
+      },
+      "bytes": 2328165
+    },
+    {
+      "path": "underbough-copperleaf.webp",
+      "role": "runtime-image",
+      "sha256": "ba23936960966235deb47e385dbfad78fdf6cd3eedb718b1e446acbd2acb67e6",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 930
+      },
+      "bytes": 409702
+    },
+    {
+      "path": "underbough-copperleaf-worked.png",
+      "role": "source-image",
+      "sha256": "8f315ffc22af1160c89e8b458c88fd48a36ddb689db63377ad38a0c8a001c579",
+      "dimensionsPx": {
+        "width": 1312,
+        "height": 1199
+      },
+      "bytes": 2120751
+    },
+    {
+      "path": "underbough-copperleaf-worked.webp",
+      "role": "runtime-image",
+      "sha256": "1dae2c7596a630c97f48b818584d66b1a1a761e92c527d317d5174f238f25f96",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 930
+      },
+      "bytes": 294402
+    },
+    {
+      "path": "underbough-copperleaf-low.png",
+      "role": "source-image",
+      "sha256": "2f434e1bf7e271b5a6723cdf81ed1a71bd3c20064c4e71f2a50a8475d5788fdd",
+      "dimensionsPx": {
+        "width": 1312,
+        "height": 1199
+      },
+      "bytes": 2153814
+    },
+    {
+      "path": "underbough-copperleaf-low.webp",
+      "role": "runtime-image",
+      "sha256": "49426808008f765c378427c07ac2b225548acb5c2652fade83453241a0d01f09",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 930
+      },
+      "bytes": 298684
+    },
+    {
+      "path": "underbough-copperleaf-depleted.png",
+      "role": "source-image",
+      "sha256": "ef9a7e0497b69d1d1bcb2f548d7505882c8fdd1e5c5b1a7bd866187de54b832b",
+      "dimensionsPx": {
+        "width": 1312,
+        "height": 1199
+      },
+      "bytes": 651668
+    },
+    {
+      "path": "underbough-copperleaf-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "84ac26c7e769b0c5450bfd48a596d344aec4f25bdfa004d524f800b4d90d217c",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 930
+      },
+      "bytes": 86568
+    }
+  ],
+  "assets": [
+    {
+      "id": "underbough-copperleaf",
+      "sourceOutputId": "exec-84bd4b6c-0bcb-4570-9c2c-ef18a5d4cf03",
+      "sourceFile": "underbough-copperleaf.png",
+      "runtimeFile": "underbough-copperleaf.webp",
+      "cropBoxPx": [
+        10,
+        12,
+        1299,
+        1183
+      ],
+      "worldSize": {
+        "width": 3.05,
+        "height": 3.25
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "full",
+      "logicalCanvasPx": [
+        1312,
+        1199
+      ]
+    },
+    {
+      "id": "underbough-copperleaf-worked",
+      "sourceOutputId": "exec-a7c9de0a-0762-4b9e-8b1d-7113dbf83e51",
+      "sourceFile": "underbough-copperleaf-worked.png",
+      "runtimeFile": "underbough-copperleaf-worked.webp",
+      "cropBoxPx": [
+        10,
+        12,
+        1299,
+        1183
+      ],
+      "worldSize": {
+        "width": 3.05,
+        "height": 3.25
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "worked",
+      "logicalCanvasPx": [
+        1312,
+        1199
+      ]
+    },
+    {
+      "id": "underbough-copperleaf-low",
+      "sourceOutputId": "exec-521caef5-2f9e-427a-bf61-76a8418eeeaf",
+      "sourceFile": "underbough-copperleaf-low.png",
+      "runtimeFile": "underbough-copperleaf-low.webp",
+      "cropBoxPx": [
+        10,
+        12,
+        1299,
+        1183
+      ],
+      "worldSize": {
+        "width": 3.05,
+        "height": 3.25
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "low",
+      "logicalCanvasPx": [
+        1312,
+        1199
+      ]
+    },
+    {
+      "id": "underbough-copperleaf-depleted",
+      "sourceOutputId": "exec-fa9bdb0e-d508-4736-b5d3-0162ba8a140a",
+      "sourceFile": "underbough-copperleaf-depleted.png",
+      "runtimeFile": "underbough-copperleaf-depleted.webp",
+      "cropBoxPx": [
+        10,
+        12,
+        1299,
+        1183
+      ],
+      "worldSize": {
+        "width": 3.05,
+        "height": 3.25
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "depleted",
+      "logicalCanvasPx": [
+        1312,
+        1199
+      ]
+    }
+  ]
+}

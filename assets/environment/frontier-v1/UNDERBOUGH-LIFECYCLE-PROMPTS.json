@@ -1,0 +1,18 @@
+{
+  "tool": "built-in ImageGen",
+  "editTarget": "underbough-copperleaf.png",
+  "assets": [
+    {
+      "stage": "worked",
+      "prompt": "Use case: precise-object-edit. Edit target is approved Underbough Copperleaf RTS tree sprite. Create WORKED harvesting state. Preserve the EXACT 1312 by 1199 source canvas, identical full copper-orange/burgundy leafy crown silhouette, roots, moss, leaf placement, tree position, scale, camera angle, lighting and palette. Only change: add one small pale freshly cut axe notch on the front center trunk above root flare, plus a few tiny wood chips lying ON the existing roots. Stock is beginning to be harvested, tree stays standing with intact crown. No worker, axe, wood pile or added ground. Actual transparent background, preserve transparency. Upright, zero screen roll, orthographic game camera guidance 45 degree azimuth and 45.4359 degree elevation above ground. DO NOT zoom, reframe, recenter, crop, enlarge crown or move roots. No palette saturation increase, no missing branches. Exact same full image framing with transparent margin; the notch is the only material change."
+    },
+    {
+      "stage": "low",
+      "prompt": "Use case: precise-object-edit. Edit target is the approved Underbough Copperleaf tree. Preserve EXACT 1312 by 1199 canvas, tree position, scale, root footprint and ground contact at original coordinates, camera, lighting and copper-orange/burgundy/moss palette. Actual transparency, no ground plane, no cast shadow. Upright zero screen roll; fixed oblique orthographic camera guidance 45 degree azimuth, 45.4359 degree elevation above ground. Never zoom, reframe, recenter, enlarge or move roots. No worker, tools, labels or extra specimens. Create LOW-STOCK harvesting state: tree still upright, entire crown and branches intact in their original positions. ONLY change front center trunk above root flare: a large deep pale wood axe cut, noticeably deeper than a beginning notch, through roughly half the trunk thickness, a few chips ON existing roots. Preserve exact leafy silhouette and subdued original saturation. Do not fell tree or shrink canopy. No wood pile."
+    },
+    {
+      "stage": "depleted",
+      "prompt": "Use case: precise-object-edit. Edit target is the approved Underbough Copperleaf tree. Preserve EXACT 1312 by 1199 canvas, tree position, scale, root footprint and ground contact at original coordinates, camera, lighting and copper-orange/burgundy/moss palette. Actual transparency, no ground plane, no cast shadow. Upright zero screen roll; fixed oblique orthographic camera guidance 45 degree azimuth, 45.4359 degree elevation above ground. Never zoom, reframe, recenter, enlarge or move roots. No worker, tools, labels or extra specimens. Create DEPLETED harvesting state: remove entire standing trunk above a short matching broad cut stump at the base and REMOVE ALL branches and the entire leafy crown. Leave only the original exposed mossy root system and a short fresh pale cut stump in the exact original root contact location. Original upper canvas now empty transparent space. No floating leaves or branches. No fallen tree, wood stack, additional rocks or ground. Cut stump follows the original twisted trunk geometry and root scale, with visible pale wood rings. Keep original canvas and original roots framing exactly; DO NOT zoom the stump to fill the image."
+    }
+  ]
+}

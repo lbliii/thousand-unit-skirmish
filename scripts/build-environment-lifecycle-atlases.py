@@ -1,8 +1,13 @@
 from PIL import Image
 from pathlib import Path
-import json,hashlib
+import json,hashlib,argparse
 root=Path('assets/environment/frontier-v1')
-for region,family in [('bellweather','bellweather-field-maple'),('sereward','sereward-palm'),('pale-meridian','pale-meridian-conifer'),('siltmouths','siltmouths-tidal-tree'),('vesperra','vesperra-mistbark'),('sombral-mere','sombral-mere-merebloom')]:
+packs = [('bellweather','bellweather-field-maple'),('sereward','sereward-palm'),('pale-meridian','pale-meridian-conifer'),('siltmouths','siltmouths-tidal-tree'),('vesperra','vesperra-mistbark'),('sombral-mere','sombral-mere-merebloom'),('underbough','underbough-copperleaf')]
+parser = argparse.ArgumentParser(description='Pack approved lifecycle frames without repainting or rescaling.')
+parser.add_argument('--region', choices=[region for region, family in packs], help='Build only one regional page; omitted builds all.')
+args = parser.parse_args()
+for region,family in packs:
+ if args.region and region != args.region: continue
  old=json.loads((root/(region+'-lifecycle-manifest.json')).read_text()); assets=old['assets'];w,h=Image.open(root/assets[0]['runtimeFile']).size
  g=64;pw=(w+2*g)*2;ph=(h+2*g)*2;page=Image.new('RGBA',(pw,ph));frames=[];clips=[]
  for i,a in enumerate(assets):
