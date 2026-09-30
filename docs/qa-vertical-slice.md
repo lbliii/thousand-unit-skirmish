@@ -620,8 +620,8 @@ Evidence:
   Browser loads and saves successfully; no console errors observed. Texture update
   warnings remain. Ordinary appearance review makes no comparable performance claim.
 - Room supervisor/recovery passes locally. Prior roster PR #293 CI shard 3 failed
-  at room WebSocket connection; a failed-shard rerun was requested. Other two shards
-  passed. This failure is recorded rather than represented as a fully green run.
+  at room WebSocket connection. The failed-shard rerun passed, so all three prior
+  roster shards are now green.
 
 Limits: three logical ground levels with derived visual corners; exact RCT corner
 sculpting and in-match terraforming are absent. Keep water at level 0. Decorative
