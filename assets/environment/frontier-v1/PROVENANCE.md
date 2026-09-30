@@ -278,3 +278,7 @@ Original built-in ImageGen against the project-owned approved Sombral Mere ecolo
 ## Underbough Rootward fungus · 30 September 2026
 
 Built-in ImageGen against the project-owned approved Underbough ecology key, then refined to shorter gills and a higher cap-top view. [Exact prompts](UNDERBOUGH-UNDERSTORY-PROMPTS.json) record the unvendored draft and selected edit; [manifest](underbough-understory-manifest.json) records source ID, reference hash, dimensions, crop and file hashes. Unmodified selected PNG; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background compositing inspected surrounding transparency. No local repainting or alpha repair. One approximate painted oblique view.
+
+## Veyrholds ridgegrass · 30 September 2026
+
+Built-in ImageGen against the project-owned approved Veyrholds ecology key's Ridgegrass specimen. [Exact prompt](VEYRHOLDS-UNDERSTORY-PROMPTS.json) and [manifest](veyrholds-understory-manifest.json) record selected source ID, reference hash, dimensions, crop and file hashes. Unmodified selected PNG; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background compositing inspected leaf gaps and surroundings. No local repainting or alpha repair. One approximate painted oblique view.

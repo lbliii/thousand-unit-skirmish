@@ -16,7 +16,7 @@ const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
 const GROUND_RENDER_ORDER = -20;
 export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
-  'vesperra-shade-fern', 'siltmouths-silver-reed', 'pale-meridian-silver-moss', 'sombral-mere-lunewort', 'underbough-rootward-fungus',
+  'vesperra-shade-fern', 'siltmouths-silver-reed', 'pale-meridian-silver-moss', 'sombral-mere-lunewort', 'underbough-rootward-fungus', 'veyrholds-ridgegrass',
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
@@ -795,6 +795,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     'ice': ['pale-meridian-silver-moss', 0.83027, 0.45],
     'lunar-soil': ['sombral-mere-lunewort', 0.88203, 1.15],
     'forest-floor': ['underbough-rootward-fungus', 1.08404, 0.65],
+    'scree': ['veyrholds-ridgegrass', 1.15218, 0.8],
   }[environmentTheme(definition)];
   if (understoryAsset) {
     const seed = Math.trunc(definition.terrainSeed || 0) * 131;

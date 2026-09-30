@@ -574,3 +574,9 @@ The approved key's [Rootward fungus](../assets/environment/frontier-v1/underboug
 Regional understory selection, root jitter and scale now incorporate terrainSeed. Maps sharing a grid size no longer repeat identical companion placement. The same seed remains deterministic through reload/reset; missing or zero seed retains the original placement. Regional species, seeded 28% selection, parent forest identities, received-stock clearing and collision/resource rules stay unchanged. This adds distribution variety to existing source assets; it does not add painted perspectives.
 
 [Focused evidence](qa-evidence/vaelora-understory-seeds-2026-09-30/README.md) compares repeat and changed seeds across all six current terrain bindings and checks camera, raised ground contact, harvesting and reset.
+
+## Veyrholds ridgegrass · 30 September 2026
+
+The approved key's [ridgegrass](../assets/environment/frontier-v1/veyrholds-understory-manifest.json) adds alpine olive blades and muted straw seed heads beneath the existing scree-map forest mix. The terrain-seeded companion path selects28% of existing forest cells; grass stays through partial harvest, clears at received stock zero and restores on reset. Hidden cells retain their last received stock. No crop, food or collision rule is added.
+
+[Local evidence](qa-evidence/vaelora-veyrholds-understory-2026-09-30/README.md) covers seeded distribution, regional loading, ground contact, camera roll and clearing/reset. Generated PNG remains unchanged; cropped WebP preserves alpha. Exposed hillside grass, wind animation, seasonal variants and extra painted views remain future outcomes.

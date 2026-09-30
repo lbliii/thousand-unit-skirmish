@@ -119,3 +119,5 @@ Pale Meridian snow/ice forests include sparse silver cushion moss companions, cl
 Sombral Mere lunar-soil forests include small Lunewort flower companions that clear with their parent forest cells. See the [understory manifest](../assets/environment/frontier-v1/sombral-mere-understory-manifest.json) and [environment guide](environment-pack-v1.md) for source/runtime details and remaining scope.
 
 Underbough forest-floor maps include sparse Rootward fungus companions beneath Copperleaf/bramble, clearing with their parent forest cells. See the [manifest](../assets/environment/frontier-v1/underbough-understory-manifest.json) and [environment guide](environment-pack-v1.md) for source/runtime details and scope.
+
+Veyrholds scree-map forests include sparse ridgegrass companions clearing with their parent forest cells. See the [manifest](../assets/environment/frontier-v1/veyrholds-understory-manifest.json) and [environment guide](environment-pack-v1.md) for source/runtime details and scope.

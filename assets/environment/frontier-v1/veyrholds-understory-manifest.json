@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-veyrholds-understory",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/veyrholds-ecology.png",
+  "referenceSha256": "112c894249e14467b6905e685b715fe08d764d1c655cd88377734819f9f85dd5",
+  "prompts": "VEYRHOLDS-UNDERSTORY-PROMPTS.json",
+  "files": [
+    {
+      "path": "veyrholds-ridgegrass.png",
+      "role": "source-image",
+      "sha256": "33abc17bf8e9f55fdc8bc659ddff93843f0a18682c23b8cae616d1bde105859f",
+      "bytes": 2449920,
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "veyrholds-ridgegrass.webp",
+      "role": "runtime-image",
+      "sha256": "5c782f8081fc1d61ce7705e114dc6b2ad0adad8a167d365023cb8ee4191d44e2",
+      "bytes": 374628,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 711
+      }
+    }
+  ],
+  "cropPx": [
+    129,
+    62,
+    1470,
+    993
+  ],
+  "asset": {
+    "id": "veyrholds-ridgegrass",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 1.15218,
+    "worldHeight": 0.8,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "terrainSeedPlacement": true,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen against approved ecology key. Unmodified selected PNG; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 exact alpha. One approximate painted oblique view. No new crop/resource rule."
+}

@@ -83,7 +83,7 @@ const lifecycle=process.env.RTS_VEGETATION_LIFECYCLE==='1';
 if(lifecycle&&!['bellweather','sereward','pale-meridian','siltmouths','vesperra','sombral-mere','underbough','veyrholds','ellionar'].includes(region))throw new Error('No lifecycle pack for region');
 const atlasCapture=process.env.RTS_VEGETATION_ATLAS==='1';
 const understoryCapture=process.env.RTS_VEGETATION_UNDERSTORY==='1';
-if(understoryCapture&&!['vesperra','siltmouths','pale-meridian','sombral-mere','underbough'].includes(region))throw new Error('Understory capture requires a supported region');
+if(understoryCapture&&!['vesperra','siltmouths','pale-meridian','sombral-mere','underbough','veyrholds'].includes(region))throw new Error('Understory capture requires a supported region');
 const seedCapture=process.env.RTS_VEGETATION_SEED_STUDY==='1';
 if(seedCapture&&!understoryCapture)throw new Error('Seed study requires understory capture');
 const out=seedCapture ? 'docs/qa-evidence/vaelora-understory-seeds-2026-09-30' : understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-broken-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
@@ -203,11 +203,11 @@ try {
   const result=await cdp.evaluate(`(async()=>{
    const THREE=await import('/vendor/three.module.js');
    const {addObstacleEnvironmentSprites,setForestSpriteStock}=await import('/src/environment-art.mjs');
-   const objects=[];const slots=addObstacleEnvironmentSprites({width:24,height:24,terrainBase:${JSON.stringify(region==='underbough'?'forest-floor':region==='sombral-mere'?'lunar-soil':region==='pale-meridian'?'snow':region==='siltmouths'?'tidal-mud':'jungle-loam')},obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]},12,12,o=>objects.push(o));
+   const objects=[];const slots=addObstacleEnvironmentSprites({width:24,height:24,terrainBase:${JSON.stringify(region==='veyrholds'?'scree':region==='underbough'?'forest-floor':region==='sombral-mere'?'lunar-soil':region==='pale-meridian'?'snow':region==='siltmouths'?'tidal-mud':'jungle-loam')},obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]},12,12,o=>objects.push(o));
    const plants=[...slots.values()].filter(s=>s.understory);
    if(!plants.length||plants.length>=slots.size)throw new Error('Understory density invalid');
    const seedFixtures=[];
-   for(const terrainBase of ['jungle-loam','tidal-mud','snow','ice','lunar-soil','forest-floor']){
+   for(const terrainBase of ['jungle-loam','tidal-mud','snow','ice','lunar-soil','forest-floor','scree']){
     const signatures=[];
     for(const terrainSeed of [93007,93008,93007]){
      const objects=[];const slots=addObstacleEnvironmentSprites({width:24,height:24,terrainBase,terrainSeed,obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]},12,12,o=>objects.push(o));
@@ -244,7 +244,7 @@ try {
    const scene=new THREE.Scene();scene.background=new THREE.Color(0x727a57);
    for(const o of objects){const zero=new THREE.Matrix4().makeScale(0,0,0);for(let i=0;i<o.count;i++)o.setMatrixAt(i,zero);o.instanceMatrix.needsUpdate=true;scene.add(o)}
    for(let i=0;i<3;i++){const s=plants[i];s.x=(i-1)*3;s.z=-s.x;s.understory.x=s.x+${region==='sombral-mere'?'.48':'.3'};s.understory.z=s.z+${region==='sombral-mere'?'.48':'.3'};setForestSpriteStock(s,[3,1,0][i]);}
-   for(const o of createGroundSurfaces({width:24,height:24,terrainBase:${JSON.stringify(region==='underbough'?'forest-floor':region==='sombral-mere'?'lunar-soil':region==='pale-meridian'?'snow':region==='siltmouths'?'tidal-mud':'jungle-loam')},obstacles:[]}))scene.add(o);
+   for(const o of createGroundSurfaces({width:24,height:24,terrainBase:${JSON.stringify(region==='veyrholds'?'scree':region==='underbough'?'forest-floor':region==='sombral-mere'?'lunar-soil':region==='pale-meridian'?'snow':region==='siltmouths'?'tidal-mud':'jungle-loam')},obstacles:[]}))scene.add(o);
    for(let i=0;i<50&&scene.children.some(o=>o.material.map&&!o.material.map.image?.complete);i++)await new Promise(r=>setTimeout(r,100));
    const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true,antialias:true});renderer.setSize(1200,600);
    const camera=new THREE.OrthographicCamera(-8,8,4,-4,.1,200);camera.position.set(...CAMERA_VIEW_DIRECTION).multiplyScalar(50).add(new THREE.Vector3(0,1,0));camera.lookAt(0,1,0);
@@ -285,6 +285,7 @@ try {
  if(proof.some((r,i)=>![1,6].includes(i)&&r.files.includes('pale-meridian-silver-moss.webp')))throw new Error('Cold moss leaked into another region');
  if(!proof[7].files.includes('siltmouths-silver-reed.webp')||proof.some((r,i)=>i!==7&&r.files.includes('siltmouths-silver-reed.webp')))throw new Error('Silver reed region binding mismatch');
  if(!proof[8].files.includes('vesperra-shade-fern.webp')||proof.some((r,i)=>i!==8&&r.files.includes('vesperra-shade-fern.webp')))throw new Error('Understory region binding mismatch');
+ if(!proof[2].files.includes('veyrholds-ridgegrass.webp')||proof.some((r,i)=>i!==2&&r.files.includes('veyrholds-ridgegrass.webp')))throw new Error('Ridgegrass region binding mismatch');
  if(!proof[3].files.includes('underbough-rootward-fungus.webp')||proof.some((r,i)=>i!==3&&r.files.includes('underbough-rootward-fungus.webp')))throw new Error('Rootward fungus region binding mismatch');
  if(!proof[9].files.includes('sombral-mere-lunewort.webp')||proof.some((r,i)=>i!==9&&r.files.includes('sombral-mere-lunewort.webp')))throw new Error('Lunewort region binding mismatch');
  if(!proof[9].files.includes('sombral-mere-lifecycle-atlas.webp')||proof[9].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Sombral Mere forest mix mismatch');
