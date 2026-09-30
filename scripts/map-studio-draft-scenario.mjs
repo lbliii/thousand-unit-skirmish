@@ -208,7 +208,10 @@ async function waitForPage(expression, description, timeoutMs = 20_000) {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     checkInterrupted();
-    if (await cdp.evaluate(expression)) return;
+    try { if (await cdp.evaluate(expression)) return; }
+    catch (error) {
+      if (!/Inspected target navigated|Cannot find context|Execution context was destroyed/.test(error.message)) throw error;
+    }
     await sleep(100);
   }
   throw new Error(`Timed out waiting for ${description}.`);
