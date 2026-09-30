@@ -167,19 +167,19 @@ const workerSpritePreview = roomPageUrl.searchParams.get('workerSpritePreview') 
 const unitSpritePreview = roomPageUrl.searchParams.get('unitSpritePreview') === '1';
 const meshyInfantrySpritePreview = roomPageUrl.searchParams.get('meshyInfantrySpritePreview') === '1';
 const unitSpritePreviewRoles = castPreview
-  ? humanRosterPreview ? ['human', 'infantry', 'spearman', 'archer'] : (roomPageUrl.searchParams.get('humanVaeloraPreview') === '1' ? ['human'] : ['human', 'orc', 'elf', 'troll'])
+  ? humanRosterPreview ? ['human', 'infantry', 'spearman', 'archer', 'scout', 'rider', 'siege-engine'] : (roomPageUrl.searchParams.get('humanVaeloraPreview') === '1' ? ['human'] : ['human', 'orc', 'elf', 'troll'])
   : meshyInfantrySpritePreview
   ? ['infantry']
   : unitSpritePreview
   ? ['worker', 'infantry', 'archer']
   : ['worker'];
 const unitSpritePreviewVersions = castPreview
-  ? humanRosterPreview ? { human: 'v3', infantry: 'v3', spearman: 'v1', archer: 'v2' } : { human: roomPageUrl.searchParams.get('humanVaeloraPreview') === '1' ? (roomPageUrl.searchParams.get('humanAnimationPreview') === '1' ? 'v3' : 'v2') : 'v1', orc: 'v1', elf: 'v1', troll: 'v1' }
+  ? humanRosterPreview ? { human: 'v3', infantry: 'v3', spearman: 'v1', archer: 'v2', scout: 'v1', rider: 'v1', 'siege-engine': 'v1' } : { human: roomPageUrl.searchParams.get('humanVaeloraPreview') === '1' ? (roomPageUrl.searchParams.get('humanAnimationPreview') === '1' ? 'v3' : 'v2') : 'v1', orc: 'v1', elf: 'v1', troll: 'v1' }
   : meshyInfantrySpritePreview
   ? { infantry: 'v2' }
   : workerSpritePreview && !unitSpritePreview ? { worker: 'v2' }
     : !unitSpritePreview ? { worker: 'v3' } : {};
-const unitSpritePreviewRoleSet = new Set(castPreview ? (humanRosterPreview ? ['worker', 'infantry', 'spearman', 'archer'] : ['worker']) : unitSpritePreviewRoles);
+const unitSpritePreviewRoleSet = new Set(castPreview ? (humanRosterPreview ? ['worker', 'infantry', 'spearman', 'archer', 'scout', 'rider', 'siege-engine'] : ['worker']) : unitSpritePreviewRoles);
 const ROOM_ID = roomPageUrl.searchParams.get('room');
 const HAS_ROOM_PARAMETER = roomPageUrl.searchParams.has('room');
 const ROOM_ID_PATTERN = /^[A-Za-z0-9_-]{32}$/;
