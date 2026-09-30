@@ -110,6 +110,8 @@ The working world name is **Vaelora**. Its visual identity combines warm, expres
 
 Regions define terrain and ecology; cultures define craft and architecture; factions define allegiance. Sun, moon and star elves, desert humans and explored bull/jackal peoples are worldbuilding directions, not new implemented rosters. Author-story continuity questions and working faction names remain explicit in the checkpoint.
 
+The author's stories deeply inspire the world's voice, naming, humor and material imagination; literal reuse of their histories is optional under the user's 30 September direction. The [lore wiki](lore/README.md) is the current reference for the world, regions, cultures, institutions, history and supernatural anchors. It distinguishes selected direction, working lore, in-world belief and open questions. The earlier [foundation package](lore-foundation-m1.md) remains a dated drafting record. New lore adds no gameplay requirements.
+
 Workers need a readable tool/pack; Infantry a spear/shield; Archers a bow/quiver. Buildings need distinct rooflines and entrances. Art must work at normal and strategic zoom. The [art direction](art-direction-contract-v1.md) and [renderer contract](renderer-state-contract.md) retain shared gameplay rules. Azure and Ember remain sky-blue and rust/terracotta match identities, reinforced through shapes and labels.
 
 The player is a commander, with personality expressed through strategy. There is no fixed cast or implemented campaign canon. Announcements remain brief and specific; world flavor can use practical observation and dry humor without obscuring gameplay information.

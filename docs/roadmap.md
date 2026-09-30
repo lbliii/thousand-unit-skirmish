@@ -113,6 +113,8 @@ builds; they do not certify today's deployment.
 
 ## Work areas
 
+The [first lore wiki](lore/README.md) is delivered as a connected reference covering the ten regions, peoples, institutions, history and supernatural anchors. The user's current lore direction is to deepen and reconcile this reference; additional scenes and a scenario are optional later uses. The earlier [L1 foundation](lore-foundation-m1.md) remains a drafting record, separate from gameplay M1. Lore proposals do not alter the current gameplay priority.
+
 | Area | Useful next outcome | Record |
 | --- | --- | --- |
 | Gameplay | Fix a reproduced command, combat, economy, pathing, or recovery failure. | Build, reproduction, both-seat regression. |

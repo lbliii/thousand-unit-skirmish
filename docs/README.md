@@ -12,6 +12,9 @@ start; this index covers maintained guides, contracts, experiments, and evidence
 | What evidence supports a product claim? | [QA plan](qa-vertical-slice.md) |
 | How should the game look and read? | [Art direction](art-direction-contract-v1.md) |
 | What are Vaelora’s selected zone maps and ecology keys? | [Art checkpoint](art-direction/vaelora-v1/README.md) |
+| Where do I read and extend Vaelora's lore? | [Lore wiki](lore/README.md): world, regions, peoples, institutions, history and magic |
+| What informs Vaelora's prose, continuity and world-building plan? | [Voice bible](lore-voice-bible.md), [research](lore-research.md), [strategy and plan](lore-strategy.md) |
+| Where is the first reviewable lore foundation? | [L1 writing package](lore-foundation-m1.md): principles, history, settlements, institutions and calibration fiction |
 | Who carries an art outcome through delivery? | [Art lanes](art-production-lanes.md) |
 | How do contributors coordinate and integrate? | [AGENTS.md](../AGENTS.md) |
 | What does the implementation currently do? | Task guides and contracts, checked against source |
