@@ -374,3 +374,53 @@ from ordinary army orders, retreat, bounded stalled retries and fully explored
 fog. Room-supervisor recovery passed with owner-only research choices asserted
 separately from public building state. CI, staging and live AI defended-position
 evidence remain integration work.
+
+### 2026-09-29 — Paid AI siege acquisition and slot reservation
+
+`siege-ai-runtime-scenario.mjs` uses a 64×64 no-fog, 24-unit map with 3,000
+food/wood per seat. Ordinary build commands pay for initial Barracks/towers;
+checkpoint fixtures finish those foundations and hold ordinary armies stationary
+to isolate AI acquisition and siege targeting. The filtered production policy
+buys Tier II, constructs one Stable and Workshop, completes armor and engineering,
+builds a House, and trains a Scout, two engines and a Rider. Weapon research also
+completes. The tactical policy issues the engines' defense assault orders.
+
+Final checks passed at ticks 6,870 (Azure) and 6,780 (Ember). Both engines retained
+90 HP while the full-health opposing tower was demolished. The checkpoint food
+and wood balances exactly matched registered costs for completed technology,
+new buildings and new units. Both-seat regressions first reproduced ordinary
+recruits consuming the last counter slots during pending engineering; reserving
+two slots and planning for three-population engines fixes that failure. Fourteen
+focused population/reconnaissance/siege tests, production budgets, tactical retry,
+decision fairness, reinforcement and Barracks recovery passed. These are component
+interaction proofs; representative full AI matches and staged gameplay checks
+remain required for the complete foundation claim.
+
+Staging deployment `9317fd73-3dae-425b-a6df-65a7a0bb9d15` succeeded at commit
+`a2b57741e8c3866afad9709674b3d69dee7008d2`. The Railway smoke passed readiness,
+authentication rejection/acceptance, client import delivery including shared
+definitions/research and terrain blending, and authenticated WebSocket upgrade.
+This proves packaging and transport; staged gameplay and rendered appearance
+remain separate checks. Research PR #245, siege #246 and reconnaissance #247
+are merged after all three CI shards passed for their respective heads.
+
+### 2026-09-29 — Integrated AI match and contextual roster usability
+
+On AI counter build `8c00a6a`, the full policies contested the unmodified fogged
+Forked Vale map (24 units, 150 food / 250 wood per seat), seeds 20260925 and
+4294967295. Azure won by objective hold after 161 seconds. Both seats built a
+Barracks, trained reinforcements, fought and lost units; Ember added a Storehouse
+and Azure began a Stable. Identical shadow policies reproduced every command
+from the same observation trace. This is an integrated opening-to-victory proof;
+the match ended before mounted/siege progression and does not prove those roles
+in that particular match.
+
+A native Firefox view of a fresh staging room exposed roster-wide disabled
+training buttons in the empty-selection command bar. The contextual roster fix
+keeps that bar specific to the selected producer and retains the full catalog in
+Build & train. Local in-app browser checks at 1280×720 and 740×800 confirmed an
+uncluttered empty selection, Town Center Worker/research controls and the complete
+catalog with population readout. Flattening the nested building grid and giving
+unit catalog buttons a minimum column width removed narrow-layout text overlap.
+DOM inspection confirmed scrollable production content; eleven focused roster,
+selection and HUD tests passed. CI and deployed verification of this fix remain.

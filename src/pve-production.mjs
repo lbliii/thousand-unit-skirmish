@@ -87,8 +87,13 @@ export function createProductionPolicy(seed) {
         return [];
       }
       if (observation.tick < nextAttemptTick) return [];
+      const visibleDefense = observation.buildings.visibleEnemies.some(building => building.hp > 0
+        && BUILDING_DEFINITIONS[building.type]?.tags.includes('defense'));
+      const siegeCount = friendly.filter(unit => unit.kind === 'siege-engine').length;
+      const siegeSlots = visibleDefense ? Math.max(0, 2 - siegeCount) : 0;
       if (observation.population?.available === 0 && observation.population.capacity >= 1000) return [];
-      if (observation.population && observation.population.available <= 1 && observation.population.capacity < 1000
+      const neededPopulation = siegeSlots ? UNIT_DEFINITIONS['siege-engine'].population : 2;
+      if (observation.population && observation.population.available < neededPopulation && observation.population.capacity < 1000
         && friendly.filter((unit) => unit.kind !== 'worker').length < limits.military) {
         const house = observation.buildings.friendly.find((building) => building.type === 'house' && !building.complete);
         const builder = workers.find((worker) => ['idle', 'gathering'].includes(worker.task) && worker.cargo === 0);
@@ -199,8 +204,6 @@ export function createProductionPolicy(seed) {
           }
         }
       }
-      const visibleDefense = observation.buildings.visibleEnemies.some(building => building.hp > 0
-        && BUILDING_DEFINITIONS[building.type]?.tags.includes('defense'));
       const workshop = observation.buildings.friendly.find(building => building.type === 'workshop' && building.hp > 0);
       if (economyBuilder && home && friendly.filter(unit => unit.kind !== 'worker').length >= 6) {
         if (workshop && !workshop.complete) {
@@ -248,6 +251,8 @@ export function createProductionPolicy(seed) {
         postpone(observation.tick);
         return [{ type: 'trainUnit', kind: siege.id, buildingId: workshop.id }];
       }
+      // Keep counter slots free while prerequisites and the paid unlock complete.
+      if (militaryCount + queued >= limits.military - siegeSlots) return [];
       const visibleMounted = observation.units.visibleEnemies.filter(unit => unit.hp > 0 && UNIT_DEFINITIONS[unit.kind]?.tags.includes('mounted')).length;
       const scoutCount = friendly.filter(unit => unit.kind === 'scout').length;
       const riderCount = friendly.filter(unit => unit.kind === 'rider').length;

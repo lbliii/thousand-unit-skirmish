@@ -41,6 +41,13 @@ for (const team of [0, 1]) test(`roster production choices follow definitions an
   building.productionOptions = [{ kind: 'spearman', available: false, reason: 'REQUIRES MILITARY TIER II' }];
   context.updateRosterProductionOptions(container, building);
   assert.equal(spear.disabled, true); assert.match(spear.textContent, /REQUIRES MILITARY TIER II/);
+  context.updateRosterProductionOptions(container);
+  assert.equal(container.hidden, true, 'unselected command bar hides roster-wide training choices');
+  assert.equal(container.children.length, 0);
+  context.updateRosterProductionOptions(container, null, true);
+  assert.equal(container.hidden, false, 'the production panel retains its roster catalog');
+  assert.ok(container.children.some(button => button.dataset.product === 'spearman'));
+  assert.ok(container.children.some(button => button.dataset.product === 'siege-engine'));
 });
 
 for (const team of [0, 1]) test(`Stable exposes both mounted products and weighted population for seat ${team}`, () => {

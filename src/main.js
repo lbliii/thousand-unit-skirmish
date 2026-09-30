@@ -4287,11 +4287,11 @@ function applyWaypointQueueCounts(rows = []) {
   updateSelectionUI();
 }
 
-function updateRosterProductionOptions(container, selectedProducer = null) {
+function updateRosterProductionOptions(container, selectedProducer = null, catalog = false) {
   if (!container) return;
   const products = selectedProducer ? BUILDING_DEFINITIONS[selectedProducer.type]?.products || []
-    : [...new Set(Object.values(BUILDING_DEFINITIONS).flatMap((definition) => definition.products || []))]
-      .filter((kind) => !['worker', 'infantry', 'archer'].includes(kind));
+    : catalog ? [...new Set(Object.values(BUILDING_DEFINITIONS).flatMap((definition) => definition.products || []))]
+      .filter((kind) => !['worker', 'infantry', 'archer'].includes(kind)) : [];
   const key = products.join(',');
   if (container.dataset.products !== key) {
     container.replaceChildren();
@@ -4604,7 +4604,7 @@ function updateEconomyUI(state = {}, initial = false) {
   }
   updateBuildingLifecycleActions();
   updateRosterBuildingOptions(ui.rosterBuildingOptions);
-  updateRosterProductionOptions(ui.rosterProductionOptions);
+  updateRosterProductionOptions(ui.rosterProductionOptions, null, true);
   updateCommandUI();
 }
 

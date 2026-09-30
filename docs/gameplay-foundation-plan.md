@@ -310,3 +310,20 @@ at most 64 candidates; army orders exclude those engines. Observed movement or
 attacks preserve the order, a ten-second stall permits a retry, and loss of the
 visible target returns them to army orders. Mixed-terrain/scouting/raid matches,
 full CI and staging evidence are still required for claiming F3 completion.
+
+### AI composition during siege acquisition
+
+When a defense is visible, ordinary recruitment reserves the last two slots of
+the twelve-unit military target for engines, including while the tier or unlock
+is pending. Capacity planning uses the engine's registered three-population cost;
+two free population triggers a House instead of leaving the counter unavailable.
+The normal army and twenty-four-unit roster bounds remain in force. Losing sight
+of the defense releases the counter reservation; no hidden target state is used.
+
+The live acquisition check isolates the production policy and siege assault orders
+while ordinary troops hold their opening positions. It purchases the tier, builds
+one Workshop, researches engineering, trains two engines and demolishes the
+opposing full-health tower from both seats. This component interaction proof does
+not replace a full AI match. The separate Forked Vale reconnaissance/raid check
+demonstrates fog discovery, retreat and a timely Spearman response in both seats.
+Integration, staging and representative full-match evidence remain required.

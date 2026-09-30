@@ -43,3 +43,29 @@ for (const team of [0, 1]) test(`AI assigns siege to visible towers, retries a s
   state.buildings.visibleEnemies = [];
   assert.ok(policy.next({ ...state, tick: 630 }).some(command => command.type === 'attackMove' && command.ids.includes(20)), 'lost defense releases the engine to the army');
 });
+
+for (const team of [0, 1]) test(`AI reserves its last two army slots for observed-defense counters for seat ${team}`, () => {
+  const state = fixture(team);
+  for (let id = 10; id < 14; id++) state.units.friendly.push({ id, team, generation: 1, hp: 100,
+    kind: 'infantry', x: team ? 20 : -20, z: 0 });
+  state.buildings.friendly.push({ id: 10, team, type: 'workshop', complete: true, hp: 1600, queue: 0,
+    x: 0, z: 12, productionOptions: [{ kind: 'siege-engine', available: false }] });
+  state.research.active = { upgrade: 'siege-engineering', remaining: 15 };
+  const policy = createProductionPolicy(42);
+  policy.next(state);
+  assert.ok(policy.next({ ...state, tick: 300 }).every(command => command.type !== 'trainUnit'),
+    'ordinary recruits must not fill the two engine slots while the unlock is pending');
+  state.research.active = null;
+  state.research.siegeEngineering = true;
+  state.buildings.friendly.at(-1).productionOptions[0].available = true;
+  assert.equal(policy.next({ ...state, tick: 750 })[0].kind, 'siege-engine');
+});
+
+for (const team of [0, 1]) test(`AI expands capacity for a three-population engine for seat ${team}`, () => {
+  const state = fixture(team);
+  state.population.available = 2;
+  const policy = createProductionPolicy(42);
+  policy.next(state);
+  assert.equal(policy.next({ ...state, tick: 300 })[0].buildingType, 'house',
+    'two free population is insufficient for the visible-defense counter');
+});

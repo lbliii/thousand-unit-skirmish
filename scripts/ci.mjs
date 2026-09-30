@@ -129,6 +129,8 @@ const scenarios = [
   ['scripts/worker-production-spawn-scenario.mjs', 'Town Center worker exits across map orientations'],
   ['scripts/ruleset-checkpoint-scenario.mjs', 'Pinned ruleset checkpoint recovery'],
   ['scripts/siege-defense-scenario.mjs', 'Siege range and defended-position counter'],
+  ['scripts/siege-ai-runtime-scenario.mjs', 'Paid AI siege acquisition and assault (Azure)', '0'],
+  ['scripts/siege-ai-runtime-scenario.mjs', 'Paid AI siege acquisition and assault (Ember)', '1'],
   ['scripts/watchtower-scenario.mjs', 'Watchtower fire and simultaneous trade'],
   ['scripts/town-center-scenario.mjs', 'Town Center expansion and recovery'],
   ['scripts/base-lifecycle-scenario.mjs', 'Base cancel/refund and interrupted repair'],
