@@ -200,6 +200,8 @@ const scenarios = [
   ['scripts/terrain-blend-scenario.mjs', 'Soft terrain material masks and normalized joins'],
   ['scripts/water-surface-scenario.mjs', 'Batched water surface and shore geometry'],
   ['scripts/shore-vegetation-scenario.mjs', 'Seeded shoreline vegetation and clear crossings'],
+  ['scripts/validate-environment-plants.mjs', 'Regional plant source/runtime file contracts'],
+  ['scripts/environment-plant-pack-scenario.mjs', 'Regional plant contract rejection cases'],
   ['scripts/harvestable-woodland-scenario.mjs', 'Harvestable woodland gameplay'],
   ['scripts/worker-cargo-return-scenario.mjs', 'Highland Grove forest route repair and deposits'],
   ['scripts/worker-cargo-return-scenario.mjs', 'Frontier Reach forest route repair and deposits', 'frontier-160'],

@@ -1,0 +1,113 @@
+{
+  "checked": 12,
+  "packs": [
+    {
+      "packId": "environment.vaelora-bellweather-understory",
+      "asset": "bellweather-meadow-herbs",
+      "runtimePx": [
+        1024,
+        638
+      ],
+      "referenceHashRecorded": true
+    },
+    {
+      "packId": "environment.vaelora-ellionar-understory",
+      "asset": "ellionar-sunbloom",
+      "runtimePx": [
+        922,
+        884
+      ],
+      "referenceHashRecorded": true
+    },
+    {
+      "packId": "environment.vaelora-mere-water-plants",
+      "asset": "sombral-mere-mirelily",
+      "runtimePx": [
+        1024,
+        987
+      ],
+      "referenceHashRecorded": true
+    },
+    {
+      "packId": "environment.vaelora-pale-meridian-understory",
+      "asset": "pale-meridian-silver-moss",
+      "runtimePx": [
+        1024,
+        555
+      ],
+      "referenceHashRecorded": true
+    },
+    {
+      "packId": "environment.vaelora-ru-lora-god-bone",
+      "asset": "ru-lora-god-bone",
+      "runtimePx": [
+        1024,
+        595
+      ],
+      "referenceHashRecorded": true
+    },
+    {
+      "packId": "environment.vaelora-sereward-understory",
+      "asset": "sereward-succulent",
+      "runtimePx": [
+        1024,
+        789
+      ],
+      "referenceHashRecorded": true
+    },
+    {
+      "packId": "environment.vaelora-siltmouths-understory",
+      "asset": "siltmouths-silver-reed",
+      "runtimePx": [
+        1024,
+        833
+      ],
+      "referenceHashRecorded": true
+    },
+    {
+      "packId": "environment.vaelora-sombral-mere-understory",
+      "asset": "sombral-mere-lunewort",
+      "runtimePx": [
+        734,
+        957
+      ],
+      "referenceHashRecorded": true
+    },
+    {
+      "packId": "environment.vaelora-underbough-understory",
+      "asset": "underbough-rootward-fungus",
+      "runtimePx": [
+        1024,
+        614
+      ],
+      "referenceHashRecorded": true
+    },
+    {
+      "packId": "environment.vaelora-vesperra-fern-variation",
+      "asset": "vesperra-shade-fern-02",
+      "runtimePx": [
+        1024,
+        698
+      ],
+      "referenceHashRecorded": true
+    },
+    {
+      "packId": "environment.vaelora-vesperra-understory",
+      "asset": "vesperra-shade-fern",
+      "runtimePx": [
+        1024,
+        686
+      ],
+      "referenceHashRecorded": true
+    },
+    {
+      "packId": "environment.vaelora-veyrholds-understory",
+      "asset": "veyrholds-ridgegrass",
+      "runtimePx": [
+        1024,
+        711
+      ],
+      "referenceHashRecorded": true
+    }
+  ]
+}

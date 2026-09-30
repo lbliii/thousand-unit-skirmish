@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "packId": "environment.vaelora-vesperra-understory",
-  "packVersion": "0.1.0",
+  "packVersion": "0.1.1",
   "maturity": "source-sample",
   "reference": "../../../docs/art-direction/vaelora-v1/vesperra-ecology.png",
   "prompts": "VESPERRA-UNDERSTORY-PROMPTS.json",
@@ -45,5 +45,6 @@
     "selectionShare": 0.28,
     "parentStockClears": true
   },
-  "provenance": "Built-in ImageGen. Unmodified selected PNG, deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact generated alpha. One approximate painted oblique view, no measured source calibration."
+  "provenance": "Built-in ImageGen. Unmodified selected PNG, deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact generated alpha. One approximate painted oblique view, no measured source calibration.",
+  "referenceSha256": "8775e1dd19596889cb5a89d508d0a9424399d3a07ffc389775774a5fc41fa7aa"
 }

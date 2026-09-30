@@ -17,7 +17,8 @@
     "report:sprite-atlas-handoff": "node scripts/report-sprite-atlas-handoff.mjs",
     "release:pack": "node scripts/pack-railway-release.mjs",
     "release:smoke": "node scripts/railway-smoke.mjs",
-    "docs:check": "node scripts/check-docs.mjs"
+    "docs:check": "node scripts/check-docs.mjs",
+    "validate:environment-plants": "node scripts/validate-environment-plants.mjs"
   },
   "dependencies": {
     "three": "0.180.0"
