@@ -294,3 +294,7 @@ Built-in ImageGen against project-owned approved Ellionar ecology key's Sunbloom
 ## Sereward succulent · 30 September 2026
 
 Original built-in ImageGen against project-owned approved Sereward ecology key's succulent specimen, without its flowering stalk. [Exact prompt](SEREWARD-UNDERSTORY-PROMPTS.json) and [manifest](sereward-understory-manifest.json) record source ID, reference hash, dimensions, crop and file hashes. Selected PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background compositing inspected leaf gaps and surroundings. No local repainting or alpha repair. One approximate painted oblique view; no emission.
+
+## Vesperra fern silhouette variation · 30 September 2026
+
+Built-in ImageGen used the project-owned original shade fern as palette/finish reference to generate a fuller five-frond sibling. [Exact prompt](VESPERRA-FERN-VARIATION-PROMPTS.json) and [manifest](vesperra-fern-variation-manifest.json) record selected source ID, dimensions, crop and hashes. Selected PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact generated alpha. Solid-background composite checked transparency. No repainting or alpha repair. Painted camera projection approximate; actual runtime roll measured separately.

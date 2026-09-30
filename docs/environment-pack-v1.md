@@ -596,3 +596,9 @@ The approved ecology key's [Sunbloom](../assets/environment/frontier-v1/ellionar
 The approved key's [water-storing succulent](../assets/environment/frontier-v1/sereward-understory-manifest.json) adds broad turquoise leaves and coral tooth edges beneath palms, acacias and woody scrub on sand maps. One shared companion mesh uses terrain-seeded28% forest-cell selection. Succulents retain appearance through partial harvest, clear at received stock zero and restore on reset; hidden cells retain their last received stock. No water-harvest, food or collision rule is introduced.
 
 [Local evidence](qa-evidence/vaelora-sereward-understory-2026-09-30/README.md) covers all three parent families, seeded variation, camera/ground contact and clearing/reset. Generated source unchanged, cropped WebP alpha preserved, no emission. Open dune placement, water harvesting, seasonal variants and extra painted viewpoints remain future outcomes.
+
+## Vesperra fern silhouette variation · 30 September 2026
+
+A [second shade fern](../assets/environment/frontier-v1/vesperra-fern-variation-manifest.json) adds a fuller five-frond silhouette with one curled shoot beside the original open fan. Existing selected jungle-loam companion cells choose either silhouette with a terrain-seeded equal-share partition. Overall 28% cell selection, jitter and scale remain; the two variants use separate instanced meshes. Each follows its parent's received stock, staying through partial harvest, disappearing at zero and restoring on reset.
+
+[Local evidence](qa-evidence/vaelora-vesperra-fern-variation-2026-09-30/README.md) records both silhouettes, seeded distribution, ground contact, screen roll and clearing/reset. These are two plant shapes at one approximate painted view; registered multi-directional sources and independent fern harvesting remain future work.

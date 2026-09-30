@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-vesperra-fern-variation",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "vesperra-shade-fern.png",
+  "prompts": "VESPERRA-FERN-VARIATION-PROMPTS.json",
+  "files": [
+    {
+      "path": "vesperra-shade-fern-02.png",
+      "role": "source-image",
+      "sha256": "fbdb7bf2e3d8c700d5d91f861eceb165d5fdbedf6f6dcff7257e52ccac1cf2ec",
+      "bytes": 2157609,
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "vesperra-shade-fern-02.webp",
+      "role": "runtime-image",
+      "sha256": "c75ca24f6984275e9e7cce5510c3fe87d4e6e20efb8f857172a293090f3f943f",
+      "bytes": 171468,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 698
+      }
+    }
+  ],
+  "cropPx": [
+    115,
+    73,
+    1436,
+    974
+  ],
+  "asset": {
+    "id": "vesperra-shade-fern-02",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 1.05628,
+    "worldHeight": 0.72,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "variantSelectionShare": 0.5,
+    "terrainSeedPlacement": true,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen. Selected PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact generated alpha. Approximate painted camera view; runtime screen roll measured separately.",
+  "referenceSha256": "5bf778bbc8417f99123b9f4eb4db430e6d0c5d7f098079f0256015084a1c1b34"
+}

@@ -1,0 +1,7 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Create one alternate Vesperra shade fern game environment sprite, using the reference ONLY for painterly finish and palette. A distinct LOW, FULL, ROUNDED fern rosette: five broad overlapping petrol-green fronds spreading near the ground, restrained dusty violet undersides, one short upright curled fiddlehead, pale olive veins and small brown root crown. Big readable painterly forms, no microdetail noise. This must visibly differ in silhouette from the reference's tall sparse open fan. Orthographic RTS view: camera 45.44 degrees above the ground, azimuth 45 degrees, world vertical upright, zero screen roll. See upper surfaces naturally, no dramatic perspective, no horizon. Entire plant isolated centered with margin, root base at bottom center, no ground patch, no shadow cloud, no glow, no text. Genuine transparent alpha background. One plant only. Same quiet ancient living forest aesthetic; no demonic or cursed effects.",
+  "reference": "vesperra-shade-fern.png",
+  "transparentBackground": true,
+  "selectedOutput": "exec-69929615-f068-4730-b40c-8c444c69540b.png"
+}

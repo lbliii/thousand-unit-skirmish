@@ -16,7 +16,7 @@ const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
 const GROUND_RENDER_ORDER = -20;
 export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
-  'vesperra-shade-fern', 'siltmouths-silver-reed', 'pale-meridian-silver-moss', 'sombral-mere-lunewort', 'underbough-rootward-fungus', 'veyrholds-ridgegrass', 'ellionar-sunbloom', 'sereward-succulent',
+  'vesperra-shade-fern', 'vesperra-shade-fern-02', 'siltmouths-silver-reed', 'pale-meridian-silver-moss', 'sombral-mere-lunewort', 'underbough-rootward-fungus', 'veyrholds-ridgegrass', 'ellionar-sunbloom', 'sereward-succulent',
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
@@ -809,14 +809,22 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
         z: slot.z + (variation(slot.cell + seed + 113) - 0.5) * 0.32 + (sombralMere ? 0.18 : 0),
         scale: 0.8 + variation(slot.cell + seed + 127) * 0.25,
         flip: slot.flip, yaw: slot.yaw }));
-    const [name, width, height] = understoryAsset;
-    const mesh = createEnvironmentSpriteInstances(name, width, height, plants);
-    if (mesh) {
-      mesh.userData.forestUnderstory = true;
-      plants.forEach((plant, index) => {
-        forestTreeSlots.get(plant.cell).understory = { mesh, index, ...plant };
-      });
-      addObject(mesh);
+    const variants = understoryAsset[0] === 'vesperra-shade-fern'
+      ? [understoryAsset, ['vesperra-shade-fern-02', 1.05628, 0.72]] : [understoryAsset];
+    for (let variant = 0; variant < variants.length; variant++) {
+      const selected = variants.length === 1 ? plants : plants.filter(plant =>
+        Math.floor(variation(plant.cell + seed + 149) * variants.length) === variant);
+      if (!selected.length) continue;
+      const [name, width, height] = variants[variant];
+      const mesh = createEnvironmentSpriteInstances(name, width, height, selected);
+      if (mesh) {
+        mesh.userData.forestUnderstory = true;
+        mesh.userData.understoryAsset = name;
+        selected.forEach((plant, index) => {
+          forestTreeSlots.get(plant.cell).understory = { mesh, index, ...plant };
+        });
+        addObject(mesh);
+      }
     }
   }
   return forestTreeSlots;
