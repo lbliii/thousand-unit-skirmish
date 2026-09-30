@@ -11,6 +11,7 @@ start; this index covers maintained guides, contracts, experiments, and evidence
 | What outcome should we pursue next? | [Roadmap](roadmap.md) |
 | What evidence supports a product claim? | [QA plan](qa-vertical-slice.md) |
 | How should the game look and read? | [Art direction](art-direction-contract-v1.md) |
+| What are Vaelora’s selected zone maps and ecology keys? | [Art checkpoint](art-direction/vaelora-v1/README.md) |
 | Who carries an art outcome through delivery? | [Art lanes](art-production-lanes.md) |
 | How do contributors coordinate and integrate? | [AGENTS.md](../AGENTS.md) |
 | What does the implementation currently do? | Task guides and contracts, checked against source |

@@ -4,19 +4,13 @@
 
 ## Visual target
 
-Create an inviting frontier fantasy from moss meadow, worn earth, muted water,
-weathered stone, timber, and slate. Use painterly material variation and broad
-value shapes that survive game zoom. Simple geometry can support the silhouette;
-fine noise cannot compensate for an unreadable role or building.
+Create the painterly world of **Vaelora**: welcoming everyday craft beside ancient, sometimes dangerous power. Distinct regional palettes, plant silhouettes, terrain materials and cultural architecture establish identity at a glance. Broad value shapes must survive game zoom; fine noise cannot compensate for an unreadable role or building.
 
-Azure and Ember are match identities. Keep the world original and coherent.
-The medium can vary: environment cutouts, live unit geometry, or captured building
-views must share scale, palette, light, and readable silhouettes.
+The [selected world atlas, ten zone maps and ten ecology keys](art-direction/vaelora-v1/README.md) are the current aspirational art checkpoint. They supersede the earlier generic frontier illustration as the active visual target. They are concept references, not runtime evidence or exact scale specifications.
 
-![Generated direction study](art-direction/frontier-skirmish-direction-study-2026-09-26.png)
+Azure and Ember remain match identities. Region and culture palettes must remain recognizable under either owner's team accents. Environment cutouts, unit geometry and captured building views must share scale, lighting and readable silhouettes within each region.
 
-This generated illustration is a look-development reference. Its enlarged figures,
-approximate marks, and texture density are not runtime scale or appearance evidence.
+![Vaelora world atlas](art-direction/vaelora-v1/world-atlas.png)
 
 ## Camera, scale, and team identity
 

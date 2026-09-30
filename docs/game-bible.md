@@ -94,19 +94,13 @@ mirrored armies will always draw; spatial tie-breaking can still matter. See
 
 ## World and presentation
 
-The setting is an inviting medieval frontier: moss, worn earth, timber, slate,
-weathered stone, and muted water. Use a painterly finish with clear silhouettes
-and restrained effects. Azure is sky blue; Ember is rust/terracotta. Reinforce
-team identity with shapes and labels.
+The working world name is **Vaelora**. Its visual identity combines warm, expressive everyday life with tangible remnants of immense lost power. The [art checkpoint](art-direction/vaelora-v1/README.md) defines ten regional palettes and ecology references, from Bellweather's farms and Ellionar's stepped gardens to the Pale Meridian's observatories and Ru’Lora's petrified jungle.
 
-Workers need a readable tool/pack; Infantry a spear/shield; Archers a bow/quiver.
-Buildings need distinct rooflines and entrances. Art must work at normal and
-strategic zoom. The [art direction](art-direction-contract-v1.md) and
-[renderer contract](renderer-state-contract.md) define the shared rules.
+Regions define terrain and ecology; cultures define craft and architecture; factions define allegiance. Sun, moon and star elves, desert humans and explored bull/jackal peoples are worldbuilding directions, not new implemented rosters. Author-story continuity questions and working faction names remain explicit in the checkpoint.
 
-The player is a commander, with personality expressed through strategy. There
-is no fixed cast or campaign canon. Azure and Ember are team identities. Keep
-announcements brief and specific, with a human, adventurous tone.
+Workers need a readable tool/pack; Infantry a spear/shield; Archers a bow/quiver. Buildings need distinct rooflines and entrances. Art must work at normal and strategic zoom. The [art direction](art-direction-contract-v1.md) and [renderer contract](renderer-state-contract.md) retain shared gameplay rules. Azure and Ember remain sky-blue and rust/terracotta match identities, reinforced through shapes and labels.
+
+The player is a commander, with personality expressed through strategy. There is no fixed cast or implemented campaign canon. Announcements remain brief and specific; world flavor can use practical observation and dry humor without obscuring gameplay information.
 
 ## Scope boundaries and open decisions
 

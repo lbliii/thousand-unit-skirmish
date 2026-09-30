@@ -1,0 +1,177 @@
+{
+  "date": "2026-09-29",
+  "world_name": "Vaelora",
+  "status": "User-selected concept checkpoint; not runtime assets",
+  "generator": "OpenAI built-in image_gen; exact model not returned",
+  "provenance": "Generated in this art-direction conversation from user-approved worldbuilding and original prompts. No third-party image inputs used for these 21 images. Private author stories informed prose concepts; no story files redistributed.",
+  "assets": [
+    {
+      "file": "world-atlas.png",
+      "source_file": "exec-ae9b2206-1b56-4977-96bf-dba8a42849d2.png",
+      "sha256": "aa27398c7727de0435e50179943c5d8e247bbd1c8a44f06bb9b8db1e7332c243",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 4025568
+    },
+    {
+      "file": "bellweather-map.png",
+      "source_file": "exec-af11dffb-1af4-4ab9-bb0a-30ca5c89d003.png",
+      "sha256": "53fd821208acfe8c40fbe516469f71553b3b8feb98b61913ca58c0e6f0e9732d",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3845695
+    },
+    {
+      "file": "bellweather-ecology.png",
+      "source_file": "exec-d6a92dc9-51ca-4502-9890-ad8c89c89fa6.png",
+      "sha256": "043d3be76343e9e5c04850fe99be84333b977a7215e503152bf1ab9dc588ed40",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2881767
+    },
+    {
+      "file": "underbough-map.png",
+      "source_file": "exec-5f7a1d6b-683f-463b-80da-b5509d08357b.png",
+      "sha256": "97ec9b15a2c115d66dac86a01a6144913df5459d0295f47e2636d4faa36e5585",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3804417
+    },
+    {
+      "file": "underbough-ecology.png",
+      "source_file": "exec-c21af91e-b9ce-483f-a19d-136bf942235f.png",
+      "sha256": "8a20fa0f121641e6066e144e80fa8f699c74a1884efab21c79c81bb5776cc264",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3135048
+    },
+    {
+      "file": "sereward-map.png",
+      "source_file": "exec-a9ad4793-8825-4ee4-b02d-39b5a4fb13a9.png",
+      "sha256": "9964f34366823f93f780edba8b03f4585622a57dfa6b07a225fb5f0c4e092b33",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3752433
+    },
+    {
+      "file": "sereward-ecology.png",
+      "source_file": "exec-cdf78244-3a3a-4698-a73b-e1c90ce8a0a0.png",
+      "sha256": "9c856d041c638cf3e2602b6500c87751f4f5ff5496b31f42cadb777bb1b02143",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2834725
+    },
+    {
+      "file": "ellionar-map.png",
+      "source_file": "exec-9e5dae0d-5163-4698-8741-b1ce4f1be337.png",
+      "sha256": "2cefacaf2135379c7f379be580714ae7f98631619bf991dbf009d0d4c329ec02",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3835049
+    },
+    {
+      "file": "ellionar-ecology.png",
+      "source_file": "exec-c837836d-d10f-4167-b653-cc342f83a388.png",
+      "sha256": "b1a4c22af679f031728c0d5bb66c43f7e41a8bee2748c396f6c962dbcb7ad1d2",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2945066
+    },
+    {
+      "file": "veyrholds-map.png",
+      "source_file": "exec-e8d49bfe-a97c-463d-9b9a-57e1e721889f.png",
+      "sha256": "3c889e3ede6435c6541558eace534a4e88dc4b0b05941db614cec89faf008a02",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3855262
+    },
+    {
+      "file": "veyrholds-ecology.png",
+      "source_file": "exec-234c79fd-26dc-45b4-8851-43a1b725ebdd.png",
+      "sha256": "112c894249e14467b6905e685b715fe08d764d1c655cd88377734819f9f85dd5",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3108012
+    },
+    {
+      "file": "pale-meridian-map.png",
+      "source_file": "exec-ca4e6107-fb60-4233-95fd-8cbd5e8d7acf.png",
+      "sha256": "8e0d2bc536370936fd03191a9dcb0c6a4797596c339af36487c47c58ae83b929",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3743565
+    },
+    {
+      "file": "pale-meridian-ecology.png",
+      "source_file": "exec-7212780f-8940-418e-ad65-dd355b0ad091.png",
+      "sha256": "f6fe68d0a40f0f118f37c40582c96ae0fb7c88ffe03977c8baac0ec500bd917e",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3116664
+    },
+    {
+      "file": "siltmouths-map.png",
+      "source_file": "exec-bce75b63-61d0-456e-8fb4-3535fefc61f9.png",
+      "sha256": "06048a1468d1135fb4be89116562eff9932e5ad1ebc40d6330d218fa7b09a28a",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3602707
+    },
+    {
+      "file": "siltmouths-ecology.png",
+      "source_file": "exec-fdc13c42-db02-40e3-9060-6c5e138a1585.png",
+      "sha256": "d8d7bbf05dee83f544ca322b5bf03ac3ec83a9c090d51c6991455f8f9ae95669",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2858079
+    },
+    {
+      "file": "vesperra-map.png",
+      "source_file": "exec-78b76787-e930-426d-8f0c-dad46788f686.png",
+      "sha256": "a44a18e0d8d737130b87f4a3626fb5738b10cd07b1d31f9d7e7fba1eb07410c4",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3796661
+    },
+    {
+      "file": "vesperra-ecology.png",
+      "source_file": "exec-05d28f96-7ef4-4884-93dc-ffd6fa0fe860.png",
+      "sha256": "8775e1dd19596889cb5a89d508d0a9424399d3a07ffc389775774a5fc41fa7aa",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3020703
+    },
+    {
+      "file": "sombral-mere-map.png",
+      "source_file": "exec-04969e3c-cd4c-4c66-873e-33d74ffcfd9b.png",
+      "sha256": "f58f8e3ae368a033e4e8c1f2a05a3f0e052ed97df61bfbe22efb3c6e9d0f2d2e",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3812412
+    },
+    {
+      "file": "sombral-mere-ecology.png",
+      "source_file": "exec-1460caf8-9aa0-4464-9514-f9af6be07fe2.png",
+      "sha256": "3f268da6b8fe3d90f290661f0af6d5a742e2c4f5b40fe03d039ffdf76c5dcc5f",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2681253
+    },
+    {
+      "file": "ru-lora-map.png",
+      "source_file": "exec-7070053b-3727-470a-9687-b3f46a35b7c5.png",
+      "sha256": "cecacfd3c65020914744b62197b92aa65e87da6dbf7748c02ff636e29d0e7ce0",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3930994
+    },
+    {
+      "file": "ru-lora-ecology.png",
+      "source_file": "exec-2ae80863-e867-451c-83e6-2ab696413d8a.png",
+      "sha256": "de2facecd913436558baf31977e8aab4b5ab627649c6d2150ed49589010c8acc",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3068808
+    }
+  ]
+}
