@@ -58,8 +58,9 @@ try {
     const scout=own(c,t,'scout')[0]; leaders[t]=scout[0];
     followers[t]=own(c,t,'infantry').slice(0,2).map(u=>u[0]);
     await order(c,'follow',followers[t],{targetId:scout[0],targetGeneration:scout[8]},/FOLLOW ORDER/);
-    await order(c,'move',[scout[0]],{x:t?4.5:-4.5,z:t?2.5:-2.5},/MOVE ORDER/);
+    await order(c,'move',[scout[0]],{x:t?2.5:-2.5,z:t?2.5:-2.5},/MOVE ORDER/);
   }));
+  stage='mixed-speed Follow into named crossing';
   await Promise.all(clients.map((c,t)=>c.state(s=>Number.isFinite(eventState(s,`crossing-relief-${t}`)?.activatedAtSeconds),'three-unit crossing presence')));
   stage='follow reclaim and event delivery';
   const disconnected=clients[1]; disconnected.socket.close();
@@ -105,5 +106,5 @@ try {
   const reset=await fixture.checkpoint(s=>s.state.units.every(u=>!u.persistentOrder)&&s.state.teamFood.every(n=>n===350)&&s.state.teamWood.every(n=>n===600));
   assert.ok(reset.state.teamResearch.every(r=>r===null));
   console.log(JSON.stringify({map:map.id,winner,checks:['both-seat paid economy','construction/research rewards','mixed-speed scout follow','patrol checkpoint','armed delayed restart','seat reclaim','combined event chain','host trace privacy','real combat','capture hold victory','rematch'],limitations:['no browser authoring or audio playback assertion','no unassisted human discoverability claim']}));
-} catch(error) {throw new Error(`${stage}: ${error.message}`,{cause:error});}
+} catch(error) {console.error(JSON.stringify({stage,seats:clients?.map(c=>({tick:c.latest?.tick,clock:c.latest?.matchElapsedSeconds,research:c.latest?.teamResearch,events:c.latest?.scenarioEvents,kinds:c.latest?.units?.map(u=>u[5]),notices:c.messages.filter(m=>m.type==='notice'||m.type==='scenarioEvent').slice(-8)}))}));throw new Error(`${stage}: ${error.message}`,{cause:error});}
 finally {await fixture.dispose();}
