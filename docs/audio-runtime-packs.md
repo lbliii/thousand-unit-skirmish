@@ -39,7 +39,7 @@ wood, food and repair use distinct existing UI recordings. These bindings prove 
 runtime and are not creative acceptance of worker voices or final work sounds.
 Shipped manifests are capped at 2 MiB, sources at 16 MiB and complete transfers at
 64 MiB. Status, MIME, exact byte count, SHA-256, profile identity and safe same-origin
-paths are checked. A two-pack LRU cache stays within 64 MiB; decoded samples retain
+paths are checked, with a 30-second total fetch deadline. A two-pack LRU cache stays within 64 MiB; decoded samples retain
 the separate 24 MiB bound. Load failures keep synthesized feedback. Local ID-only
 references and portable pack export/import remain supported. Room uploads are absent.
 
@@ -57,7 +57,7 @@ identify binding/speech cooldowns, muted or locked playback, voice/sample limits
 decode failures and synthesized fallback.
 
 Checks: `node --test scripts/audio-shipped-loader.test.mjs scripts/audio-execution.test.mjs`,
-`node scripts/audio-runtime-playback-scenario.mjs`, and owner-run
+`node scripts/audio-runtime-playback-scenario.mjs`, `node scripts/audio-shipped-serving-scenario.mjs`, and owner-run
 `node scripts/audio-shipped-browser.mjs`. The browser check uses two independent
 empty browser contexts: each fetches verified content, decodes all three distinct
 work bindings and stops them without importing a pack. It proves browser playback
