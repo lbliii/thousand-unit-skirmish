@@ -12,6 +12,8 @@ Azure and Ember remain match identities. Region and culture palettes must remain
 
 ![Vaelora world atlas](art-direction/vaelora-v1/world-atlas.png)
 
+The [first-civilization architecture kit](frontier-civilization-art-style.md) develops a Bellweather-inspired Frontier building family, with [eight illustrated Complete concepts](lore/frontier-architecture.md) for wiki and production use. These are source concepts; runtime views and lifecycle integration proceed separately.
+
 ## Camera, scale, and team identity
 
 | Convention | Rule |

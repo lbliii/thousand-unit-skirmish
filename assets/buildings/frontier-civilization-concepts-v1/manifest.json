@@ -1,0 +1,187 @@
+{
+  "schema": "thousand-unit-skirmish.building-concept-set.v1",
+  "date": "2026-09-30",
+  "sourceMain": "f896d09",
+  "faction": "frontier",
+  "regionalInspiration": "bellweather",
+  "status": "source-concepts; wiki-ready; not runtime atlases",
+  "camera": "requested orthographic 45-degree azimuth / 46-degree elevation; illustrative, not certified",
+  "entries": [
+    {
+      "id": "town-center",
+      "file": "town-center.png",
+      "sha256": "180fc38469e67b414aa6d5c100b97bbd94f708f6c9d3ef904df493ac982e42f0",
+      "bytes": 2098733,
+      "pixels": [
+        1312,
+        1199
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        1312,
+        1199
+      ],
+      "transparentPixelsFraction": 0.4225,
+      "state": "complete",
+      "viewCount": 1,
+      "runtimeIntegrated": false,
+      "gameplayFootprintCells": 5,
+      "proposedVisibleBaseWidthWorldUnits": 4.4
+    },
+    {
+      "id": "house",
+      "file": "house.png",
+      "sha256": "5a6bbc19ff710dccc14a9bc1d82412357c8988afd4a2517091f353331e185cb9",
+      "bytes": 1801356,
+      "pixels": [
+        1312,
+        1199
+      ],
+      "alphaBounds": [
+        0,
+        8,
+        1268,
+        1184
+      ],
+      "transparentPixelsFraction": 0.4846,
+      "state": "complete",
+      "viewCount": 1,
+      "runtimeIntegrated": false,
+      "gameplayFootprintCells": 3,
+      "proposedVisibleBaseWidthWorldUnits": 2.3
+    },
+    {
+      "id": "storehouse",
+      "file": "storehouse.png",
+      "sha256": "976322d67489295e45f3533d20a51e02522f7d304b9c8446e79d70fcfdade8a8",
+      "bytes": 2497405,
+      "pixels": [
+        1536,
+        1024
+      ],
+      "alphaBounds": [
+        38,
+        12,
+        1504,
+        1008
+      ],
+      "transparentPixelsFraction": 0.4686,
+      "state": "complete",
+      "viewCount": 1,
+      "runtimeIntegrated": false,
+      "gameplayFootprintCells": 3,
+      "proposedVisibleBaseWidthWorldUnits": 2.8
+    },
+    {
+      "id": "stable",
+      "file": "stable.png",
+      "sha256": "e4e8434d6e2090904f6db19bdd188a793cdcd16eddc9e54aa742b8b5442c8397",
+      "bytes": 2077676,
+      "pixels": [
+        1312,
+        1199
+      ],
+      "alphaBounds": [
+        0,
+        25,
+        1312,
+        1199
+      ],
+      "transparentPixelsFraction": 0.4254,
+      "state": "complete",
+      "viewCount": 1,
+      "runtimeIntegrated": false,
+      "gameplayFootprintCells": 3,
+      "proposedVisibleBaseWidthWorldUnits": 2.8
+    },
+    {
+      "id": "workshop",
+      "file": "workshop.png",
+      "sha256": "645805cff854cdd35a487c4ac854c983179d235ed556c751a75a607bc45eb248",
+      "bytes": 1948547,
+      "pixels": [
+        1312,
+        1199
+      ],
+      "alphaBounds": [
+        18,
+        21,
+        1311,
+        1181
+      ],
+      "transparentPixelsFraction": 0.4645,
+      "state": "complete",
+      "viewCount": 1,
+      "runtimeIntegrated": false,
+      "gameplayFootprintCells": 3,
+      "proposedVisibleBaseWidthWorldUnits": 2.8
+    },
+    {
+      "id": "watchtower",
+      "file": "watchtower.png",
+      "sha256": "a3aa28ada6319be091e526dc56c5b4d526d3451077bf70f822488873b8b7d4f7",
+      "bytes": 1253683,
+      "pixels": [
+        1226,
+        1283
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        1212,
+        1265
+      ],
+      "transparentPixelsFraction": 0.6465,
+      "state": "complete",
+      "viewCount": 1,
+      "runtimeIntegrated": false,
+      "gameplayFootprintCells": 3,
+      "proposedVisibleBaseWidthWorldUnits": 1.8
+    },
+    {
+      "id": "barracks",
+      "file": "barracks.png",
+      "sha256": "2b607b401d2e20c1eb586360590ab9cd1a2bfc1c60373675e5df3ec24e5f8557",
+      "bytes": 1931831,
+      "pixels": [
+        1432,
+        1098
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        1416,
+        1098
+      ],
+      "transparentPixelsFraction": 0.4682,
+      "state": "complete",
+      "viewCount": 1,
+      "runtimeIntegrated": false,
+      "gameplayFootprintCells": 3,
+      "proposedVisibleBaseWidthWorldUnits": 2.8
+    },
+    {
+      "id": "archery-range",
+      "file": "archery-range.png",
+      "sha256": "728caf60da4e74d8c29d99b0503a0d0d08230e33f0866c202e795a74f141a910",
+      "bytes": 1793381,
+      "pixels": [
+        1312,
+        1199
+      ],
+      "alphaBounds": [
+        33,
+        21,
+        1278,
+        1199
+      ],
+      "transparentPixelsFraction": 0.4924,
+      "state": "complete",
+      "viewCount": 1,
+      "runtimeIntegrated": false,
+      "gameplayFootprintCells": 3,
+      "proposedVisibleBaseWidthWorldUnits": 2.8
+    }
+  ]
+}

@@ -74,6 +74,8 @@ from source/candidate packs. Then use the relevant contract:
 - [Art direction](art-direction-contract-v1.md) and [production lanes](art-production-lanes.md).
 - [Renderer state/GLB/environment contract](renderer-state-contract.md).
 - [Sprite-atlas format](sprite-atlas-contract-v1.md).
+- [First civilization style](frontier-civilization-art-style.md) and [illustrated architecture wiki](lore/frontier-architecture.md).
+- [Building atlas production plan](building-atlas-production-plan.md): roster, references, scale and generation order.
 - [Building model/capture pipeline](building-asset-production-pipeline.md) and
   [direct 2D workflow](building-sprite-production-workflow.md).
 - [Unit/building kit](unit-building-art.md) and [GLB finish proposal](unit-building-art-output-proposal.md).

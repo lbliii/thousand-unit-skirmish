@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
-import { UnitLifecycleAudioGate } from '../src/audio-policy.mjs';
+import { UnitLifecycleAudioGate, OrderAudioGate, workAudioEvents } from '../src/audio-policy.mjs';
 
 const source = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
 const declaration = (name, next) => source.slice(source.indexOf(`function ${name}(`), source.indexOf(`\nfunction ${next}(`));
@@ -48,7 +48,7 @@ function fixture(team) {
     lastFriendlyUnitClick:null,lastUnitPickState:null, currentOrderToken:null, orderStatusTimeout:null,reconnectDelayMs:500,
     ui:{total:element('total'),orderStatus:element('orders'),mapStudio:{open:false},
       playerTeam:element('player-team'),mapSelect:element('map-select'),mapStudioOpen:element('studio-open')},
-    audio:{play:noop,playEvent:noop},combatAudioGate:{reset:noop,observe:noop},unitLifecycleAudioGate:new UnitLifecycleAudioGate(),
+    audio:{play:noop,playEvent:noop,stopWork:noop,updateWork:noop},combatAudioGate:{reset:noop,observe:noop},unitLifecycleAudioGate:new UnitLifecycleAudioGate(),orderAudioGate:new OrderAudioGate(),workAudioEvents,cameraTarget:{x:0,z:0},
     setUnitInstanceCount:(side,count) => {counts[side] = count;},
     setUnitTint:noop,updateUnitTransform:noop,updateUnitCargoCueColor:noop,
     markUnitInstanceMatricesDirty:noop,flushUnitCargoPackColor:noop,

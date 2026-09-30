@@ -16,12 +16,15 @@ function fixture({ pending = true, state = 'pending' } = {}) {
   const toasts = [];
   let economyUpdates = 0;
   let reconnects = 0;
+  let workStops = 0;
+  let orderResets = 0;
   class WebSocket {
     constructor() { this.events = new Map(); connections.push(this); }
     addEventListener(type, listener) { this.events.set(type, listener); }
     emit(type, data) { this.events.get(type)?.(data); }
   }
   const context = vm.createContext({
+    audio: { stopWork() { workStops++; } }, orderAudioGate: { reset() { orderResets++; } },
     WebSocket, URL, location: { protocol: 'http:', host: 'localhost' },
     sessionStorage: { getItem: () => null }, window: { clearTimeout() {} },
     pageLeaving: false, localTeam: 0, HAS_ROOM_PARAMETER: false,
@@ -41,7 +44,7 @@ function fixture({ pending = true, state = 'pending' } = {}) {
     scheduleReconnect() { reconnects++; },
   });
   vm.runInContext(`${declaration('cancelBuildPlacement', 'beginBuildPlacement')}\n${socketSource}\nconnectSocket();`, context);
-  return { context, connections, toasts, economyUpdates: () => economyUpdates, reconnects: () => reconnects };
+  return { context, connections, toasts, economyUpdates: () => economyUpdates, reconnects: () => reconnects, workStops: () => workStops, orderResets: () => orderResets };
 }
 
 for (const state of ['pending', 'planning', 'applied']) {
@@ -56,6 +59,8 @@ for (const state of ['pending', 'planning', 'applied']) {
     assert.equal(f.context.currentOrderToken, null);
     assert.equal(f.economyUpdates(), 1);
     assert.equal(f.reconnects(), 1);
+    assert.equal(f.workStops(), 1, 'disconnect stops work playback');
+    assert.equal(f.orderResets(), 1, 'disconnect discards pending success audio');
     assert.deepEqual(f.toasts, [], 'do not claim the authoritative build was cancelled');
     if (state !== 'applied') assert.match(f.context.ui.orderStatus.textContent, /STATUS UNKNOWN/);
   });
