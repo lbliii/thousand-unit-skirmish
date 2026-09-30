@@ -93,3 +93,12 @@ export function buildTerrainBlendMasks(definition, materials, base) {
   }
   return masks;
 }
+
+export function buildForestGroundMask(definition, material = 'forest-floor') {
+  const terrainPatches = (definition.obstacles || [])
+    .filter(rect => rect.material === 'forest')
+    .map(rect => ({ ...rect, material }));
+  if (!terrainPatches.length) return null;
+  return buildTerrainBlendMasks({ ...definition, terrainPatches },
+    ['uncovered', material], 'uncovered')[0] || null;
+}

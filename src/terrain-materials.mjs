@@ -35,3 +35,13 @@ export const TERRAIN_COLORS = {
   'garden-loam': '#694221',
   'salt-crust': '#7b6d6e',
 };
+
+// Root cover follows the region's existing ground palette; no new map rule.
+export function forestGroundForBase(base) {
+  const regional = {
+    sand: 'dirt', scree: 'scree', 'garden-loam': 'garden-loam',
+    snow: 'snow', ice: 'snow', 'tidal-mud': 'tidal-mud',
+    'jungle-loam': 'jungle-loam', 'lunar-soil': 'lunar-soil',
+  };
+  return regional[base] || 'forest-floor';
+}

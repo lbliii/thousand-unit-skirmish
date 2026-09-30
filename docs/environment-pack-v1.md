@@ -160,6 +160,49 @@ curving dirt trail around the bank. It is a composition and ground-contact
 review, not a finished Sereward zone or balanced scenario. Local Map Studio
 import/save/play and two-scale renderer evidence are recorded beside it.
 
+## Ellionar cultivated grove and root cover · 30 September 2026
+
+Garden-loam-base maps now use approximately 80% upright cultivated palms and
+20% low woody garden hedges, derived from the
+[Ellionar ecology key](art-direction/vaelora-v1/README.md#ellionar). Olive/honey
+fronds and cream-flowered green hedges distinguish the tended grove from the
+Sereward's leaning turquoise palms. The hedge adapts the key's garden vine into
+a self-supporting woody form; it does not implement a medicinal plant or crop.
+Both families retain the ordinary cuttable forest-cell contract, without fruit.
+
+[Preview](../assets/environment/frontier-v1/ellionar-preview.png),
+[manifest](../assets/environment/frontier-v1/ellionar-manifest.json) and
+[exact prompts](../assets/environment/frontier-v1/ELLIONAR-PROMPTS.json)
+record the generated masters, reference hash and runtime encodings. **Garden
+loam** as Map Studio's base selects this grove; painted patches do not select a
+separate vegetation kit. Architecture, cascading terrace plants, food dates and
+solar grain remain later content, and ordinary resource-node art stays separate.
+
+Forest root cover now uses a single seeded soft mask through the same surface
+path as ground painting. Equivalent rectangles or row spans form one continuous
+cover field without internal geometry seams. This replaces the older narrow
+per-rectangle fringe geometry. Root-cover clone/mask textures use the existing
+map-owned teardown; the on-demand source texture remains cached.
+
+| Base palette | Root-cover ground |
+| --- | --- |
+| Sand | Dirt, for warm dry soil beneath oasis trees. |
+| Garden loam | Garden loam, for cultivated groves. |
+| Scree | Scree, for alpine rocky ground. |
+| Snow / ice | Snow, for cold woodland. |
+| Tidal mud / jungle loam / lunar soil | The matching regional ground. |
+| Remaining bases | Forest floor, retaining the existing litter palette. |
+
+This is appearance only. Forest blocks, stocks, water and saved terrain labels
+are unchanged; cleared cells retain the authored soil cover. The new full-map
+mask changes allocation/overdraw relative to local fringe geometry. Shader
+sampling skips empty mask pixels, but GPU/memory cost is unmeasured. There is
+no performance claim.
+
+[Browser and mask evidence](qa-evidence/vaelora-ellionar-2026-09-30/README.md)
+records garden captures, palette bindings, nine root-cover texture cases,
+ownership checks, soft edges and equivalent-mask decomposition.
+
 ## Review in game
 
 1. Start with `npm start` and choose **Frontier Materials** in Match Controls.

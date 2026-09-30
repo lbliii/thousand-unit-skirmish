@@ -166,3 +166,13 @@ the approved Sereward ecology key. [Prompts](SEREWARD-PROMPTS.json) and
 hash, dimensions and runtime packaging. PNG masters are unchanged generated
 outputs. Cropping/downscaling/WebP encoding preserves alpha and does not
 repaint the source. No third-party image inputs were used.
+
+## Ellionar cultivated grove — 30 September 2026
+
+The upright cultivated palm and woody garden hedge derive from the approved
+Ellionar ecology key. [Prompts](ELLIONAR-PROMPTS.json) and
+[manifest](ellionar-manifest.json) record original source output identifiers,
+reference hash, dimensions and RGBA encoding. Generated PNG masters remain
+unmodified; runtime packaging only crops/downscales/encodes. No third-party
+image inputs were used. The hedge is a production adaptation of the key's
+cascading garden vine, not a newly established canonical species.

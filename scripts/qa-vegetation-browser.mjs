@@ -68,7 +68,7 @@ class Cdp {
 const profile=await mkdtemp('/tmp/vaelora-vegetation-chrome-');
 const chrome=spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',['--headless=new','--no-first-run','--no-default-browser-check','--remote-debugging-port=0','--window-size=1280,720','--user-data-dir='+profile,'about:blank'],{stdio:'ignore'});
 const region=process.env.RTS_VEGETATION_REGION || 'bellweather';
-if(!['bellweather','veyrholds','underbough','sereward'].includes(region))throw new Error('Unknown vegetation capture region');
+if(!['bellweather','veyrholds','underbough','sereward','ellionar'].includes(region))throw new Error('Unknown vegetation capture region');
 const out=region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
 try {
@@ -80,7 +80,7 @@ try {
  if(!room.roomId)throw new Error(room.error || 'isolated review room failed');
  await cdp.call('Page.navigate',{url:BASE.origin+'/?room='+room.roomId});await sleep(5500);
  const openingRequests=await cdp.evaluate('performance.getEntriesByType("resource").filter(e=>e.name.includes("assets/environment")).map(e=>new URL(e.name).pathname)');
- if(openingRequests.some(p=>p.includes('underbough-')||p.includes('veyrholds-')||p.includes('sereward-')))throw new Error('Unused regional sprites loaded eagerly');
+ if(openingRequests.some(p=>p.includes('underbough-')||p.includes('veyrholds-')||p.includes('sereward-')||p.includes('ellionar-')))throw new Error('Unused regional sprites loaded eagerly');
  await writeFile(out+'/opening-requests.json',JSON.stringify(openingRequests,null,2)+'\n');
  for(const mode of ['ordinary','strategic']) {
   if(mode==='strategic')await cdp.evaluate('document.querySelector("#camera-fit-map").click()');
@@ -100,6 +100,7 @@ try {
    if(${JSON.stringify(region)}==='veyrholds'){d.id='veyrholds-study';d.terrainBase='scree';d.terrainPatches=[];d.obstacles.push({row:16,column:6,width:5,height:2,material:'stone',elevation:0.72})}
    if(${JSON.stringify(region)}==='underbough'){d.id='underbough-study';d.terrainBase='forest-floor';d.terrainPatches=[{column:0,row:12,width:24,height:12,material:'dirt'}]}
    if(${JSON.stringify(region)}==='sereward'){d.id='sereward-study';d.terrainBase='sand';d.terrainPatches=[]}
+   if(${JSON.stringify(region)}==='ellionar'){d.id='ellionar-study';d.terrainBase='garden-loam';d.terrainPatches=[{column:0,row:12,width:24,height:12,material:'dirt'}]}
    const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true,antialias:true});renderer.setSize(1000,750);renderer.setPixelRatio(1);
    const scene=new THREE.Scene();scene.background=new THREE.Color(0x859175);const camera=new THREE.OrthographicCamera(-${span}*4/3,${span}*4/3,${span},-${span},0.1,200);camera.position.set(30,43,30);camera.lookAt(0,0,0);
    for(const o of createGroundSurfaces(d))scene.add(o);addObstacleEnvironmentSprites(d,12,12,o=>scene.add(o));
@@ -112,7 +113,7 @@ try {
   const THREE=await import('/vendor/three.module.js');
   const {addObstacleEnvironmentSprites,createGroundSurfaces}=await import('/src/environment-art.mjs');
   const results=[];
-  for(const terrainBase of ['meadow','snow','scree','forest-floor','sand']) {
+  for(const terrainBase of ['meadow','snow','scree','forest-floor','sand','garden-loam']) {
    const d={id:'vegetation-proof',width:12,height:12,terrainBase,obstacles:[{row:3,column:3,width:6,height:6,material:'forest'},{row:10,column:1,width:10,height:1,material:'stone',elevation:0.72}]};
    const objects=[];const slots=addObstacleEnvironmentSprites(d,6,6,o=>objects.push(o));
    for(let i=0;i<50 && objects.some(o=>!o.material.map.image?.complete);i++)await new Promise(r=>setTimeout(r,100));
@@ -129,8 +130,25 @@ try {
  if(!proof[2].files.includes('veyrholds-highpine.webp')||!proof[2].files.includes('veyrholds-ironlichen-outcrop.webp')||proof.slice(0,2).some(r=>r.files.some(f=>f.startsWith('veyrholds'))))throw new Error('Veyrholds palette binding mismatch');
  if(!proof[3].files.includes('underbough-copperleaf.webp')||!proof[3].files.includes('underbough-bramble.webp')||proof[3].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f))||proof.slice(0,3).some(r=>r.files.some(f=>f.startsWith('underbough'))))throw new Error('Underbough forest mix mismatch');
  if(!['sereward-palm.webp','sereward-acacia.webp','sereward-scrub.webp'].every(f=>proof[4].files.includes(f))||proof[4].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f))||proof.slice(0,4).some(r=>r.files.some(f=>f.startsWith('sereward'))))throw new Error('Sereward forest mix mismatch');
+ if(!['ellionar-cultivated-palm.webp','ellionar-garden-hedge.webp'].every(f=>proof[5].files.includes(f))||proof[5].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f))||proof.slice(0,5).some(r=>r.files.some(f=>f.startsWith('ellionar'))))throw new Error('Ellionar garden mix mismatch');
  const reference=JSON.stringify(proof[0].cells.slice().sort((a,b)=>a-b));
  if(proof.some(r=>JSON.stringify(r.cells.slice().sort((a,b)=>a-b))!==reference))throw new Error('Regional forest cells differ');
+ const covers=await cdp.evaluate(`(async()=>{
+  const {createGroundSurfaces,TERRAIN_MATERIALS}=await import('/src/environment-art.mjs');
+  const expected={meadow:'forest-floor',sand:'dirt','garden-loam':'garden-loam',scree:'scree',snow:'snow',ice:'snow','tidal-mud':'tidal-mud','jungle-loam':'jungle-loam','lunar-soil':'lunar-soil'};
+  const result=[];
+  for(const [base,cover] of Object.entries(expected)){
+   const meshes=createGroundSurfaces({width:12,height:12,terrainBase:base,obstacles:[{column:4,row:4,width:4,height:4,material:'forest'}]});
+   const roots=meshes.find(m=>m.renderOrder===-20+TERRAIN_MATERIALS.length);
+   for(let i=0;i<50 && !roots?.material.map.image?.complete;i++)await new Promise(r=>setTimeout(r,100));
+   const file=roots?.material.map.image?.src?.split('/').pop()?.split('?')[0];
+   if(file!==cover+'.webp'||roots?.userData.ownedGroundTextures?.length!==2||!roots.material.alphaMap)throw new Error('Root-cover texture/ownership mismatch: '+base);
+   result.push({base,file,ownedTextures:2});
+   for(const m of meshes){m.geometry.dispose();m.userData.ownedGroundTextures?.forEach(t=>t.dispose());m.material.dispose()}
+  }
+  return result;
+ })()`);
+ await writeFile(out+'/forest-cover-proof.json',JSON.stringify(covers,null,2)+'\n');
  console.log(await cdp.evaluate('JSON.stringify({boot:document.documentElement.dataset.boot,map:document.querySelector("#map-label-title")?.textContent,error:document.querySelector("#runtime-error")?.textContent})'));
  console.log(JSON.stringify({forestCells:36,errors}));if(errors.length)process.exitCode=1;
 } finally {cdp?.socket.close();chrome.kill('SIGTERM')}

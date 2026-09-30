@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-ellionar",
+  "packVersion": "1.0.0",
+  "reference": "docs/art-direction/vaelora-v1/ellionar-ecology.png",
+  "referenceSha256": "b1a4c22af679f031728c0d5bb66c43f7e41a8bee2748c396f6c962dbcb7ad1d2",
+  "prompts": "ELLIONAR-PROMPTS.json",
+  "provenance": "Original built-in ImageGen art derived from project ecology key; no third-party image inputs. Unmodified PNG masters. Runtime packaging crops to alpha>=21 bounds without repainting pixels, Pillow LANCZOS max1024 RGBA WebP quality86 method6.",
+  "files": [
+    {
+      "path": "ellionar-cultivated-palm.png",
+      "role": "source-image",
+      "sha256": "0e7be2e68250ac5bda5cf7c192ac57afbba63e163e761a67ee41cd67f508836a",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1536
+      },
+      "bytes": 2460970
+    },
+    {
+      "path": "ellionar-cultivated-palm.webp",
+      "role": "runtime-image",
+      "sha256": "fe0f448e6b214ead9005d5d0a5f1a902d86a3e52e3d5e00a72a9b510962c2e1e",
+      "dimensionsPx": {
+        "width": 706,
+        "height": 1024
+      },
+      "bytes": 280852
+    },
+    {
+      "path": "ellionar-garden-hedge.png",
+      "role": "source-image",
+      "sha256": "ffc1d71042bf50615596cbaaf6062fcf340465fc5f1635d1626fe1cdc69d36e8",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 2473344
+    },
+    {
+      "path": "ellionar-garden-hedge.webp",
+      "role": "runtime-image",
+      "sha256": "035a13fd7c846d03fe47032de6f27367e8067784c9cc45ba153b860139be5c53",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 592
+      },
+      "bytes": 235936
+    }
+  ],
+  "assets": [
+    {
+      "id": "ellionar-cultivated-palm",
+      "sourceOutputId": "exec-72e10017-6737-46dd-92a1-a19b6354eaeb",
+      "sourceFile": "ellionar-cultivated-palm.png",
+      "runtimeFile": "ellionar-cultivated-palm.webp",
+      "cropBoxPx": [
+        14,
+        46,
+        1010,
+        1490
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "kind": "harvestable-forest-sprite",
+      "forestSelectionShare": 0.8
+    },
+    {
+      "id": "ellionar-garden-hedge",
+      "sourceOutputId": "exec-95dfbcdf-4d89-4ede-8621-5364120af9c8",
+      "sourceFile": "ellionar-garden-hedge.png",
+      "runtimeFile": "ellionar-garden-hedge.webp",
+      "cropBoxPx": [
+        31,
+        86,
+        1500,
+        935
+      ],
+      "worldSize": {
+        "width": 2.8,
+        "height": 1.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "kind": "harvestable-forest-sprite",
+      "forestSelectionShare": 0.2
+    }
+  ]
+}

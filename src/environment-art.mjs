@@ -1,9 +1,9 @@
-import { TERRAIN_MATERIALS } from './terrain-materials.mjs';
+import { TERRAIN_MATERIALS, forestGroundForBase } from './terrain-materials.mjs';
 import * as THREE from 'three';
 import { RESOURCE_VISUAL_STAGES } from './resource-visual-state.mjs';
 import { createGroundMistStudy } from './terrain-atmosphere.mjs';
 import { applyTerrainTextureSampling } from './terrain-texture-sampling.mjs';
-import { buildTerrainBlendMasks } from './terrain-blend.mjs';
+import { buildTerrainBlendMasks, buildForestGroundMask } from './terrain-blend.mjs';
 import { buildWaterSurfaceGeometry } from './water-surface-geometry.mjs';
 
 const meshyResourcesEnabled = new URLSearchParams(globalThis.location?.search ?? '').get('meshyResources') !== '0';
@@ -18,6 +18,7 @@ const spriteNames = [
   'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
   'underbough-copperleaf', 'underbough-bramble',
   'sereward-palm', 'sereward-acacia', 'sereward-scrub',
+  'ellionar-cultivated-palm', 'ellionar-garden-hedge',
   'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
   'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
 ];
@@ -255,46 +256,6 @@ function groundBuffer() {
   return { vertices: [], uvs: [], colors: [], indices: [] };
 }
 
-function paintedGroundGeometry(rectangles, definition, materialIndex, materialGrid, y = -0.019) {
-  const buffer = groundBuffer();
-  const halfX = definition.width / 2;
-  const halfZ = definition.height / 2;
-  const feather = 0.42;
-  for (const rect of rectangles) {
-    const x0 = rect.column - halfX;
-    const z0 = rect.row - halfZ;
-    addGroundQuad(buffer, definition, x0, z0, x0 + rect.width, z0 + rect.height, y);
-  }
-  // Feather only the outside of the material union. Adjacent rectangles of the
-  // same paint stay fully opaque, so compression cannot introduce hairline seams.
-  for (const rect of rectangles) {
-    for (let row = rect.row; row < rect.row + rect.height; row++) {
-      for (let column = rect.column; column < rect.column + rect.width; column++) {
-        const index = row * definition.width + column;
-        const left = column > 0 && materialGrid[index - 1] !== materialIndex;
-        const right = column + 1 < definition.width && materialGrid[index + 1] !== materialIndex;
-        const top = row > 0 && materialGrid[index - definition.width] !== materialIndex;
-        const bottom = row + 1 < definition.height
-          && materialGrid[index + definition.width] !== materialIndex;
-        if (!(left || right || top || bottom)) continue;
-        const x0 = column - halfX;
-        const x1 = x0 + 1;
-        const z0 = row - halfZ;
-        const z1 = z0 + 1;
-        if (left) addGroundQuad(buffer, definition, x0 - feather, z0, x0, z1, y, [0, 1, 0, 1]);
-        if (right) addGroundQuad(buffer, definition, x1, z0, x1 + feather, z1, y, [1, 0, 1, 0]);
-        if (top) addGroundQuad(buffer, definition, x0, z0 - feather, x1, z0, y, [0, 0, 1, 1]);
-        if (bottom) addGroundQuad(buffer, definition, x0, z1, x1, z1 + feather, y, [1, 1, 0, 0]);
-        if (left && top) addGroundQuad(buffer, definition, x0 - feather, z0 - feather, x0, z0, y, [0, 0, 0, 1]);
-        if (right && top) addGroundQuad(buffer, definition, x1, z0 - feather, x1 + feather, z0, y, [0, 0, 1, 0]);
-        if (left && bottom) addGroundQuad(buffer, definition, x0 - feather, z1, x0, z1 + feather, y, [0, 1, 0, 0]);
-        if (right && bottom) addGroundQuad(buffer, definition, x1, z1, x1 + feather, z1 + feather, y, [1, 0, 0, 0]);
-      }
-    }
-  }
-  return finishGroundGeometry(buffer);
-}
-
 export function createGroundSurfaces(definition) {
   const base = environmentTheme(definition);
   const stochastic = new URLSearchParams(globalThis.location?.search ?? '').get('terrainTiling') !== 'mirror';
@@ -318,10 +279,10 @@ export function createGroundSurfaces(definition) {
     water.renderOrder = 5;
     meshes.push(water);
   }
-  for (const [layer, mask] of buildTerrainBlendMasks(definition, TERRAIN_MATERIALS, base).entries()) {
+  function blendSurface(mask, y, renderOrder) {
     const buffer = groundBuffer();
     addGroundQuad(buffer, definition, -definition.width / 2, -definition.height / 2,
-      definition.width / 2, definition.height / 2, -0.019);
+      definition.width / 2, definition.height / 2, y);
     const geometry = finishGroundGeometry(buffer);
     // Ground repeats in world units; the independent blend mask spans the map.
     const uv = geometry.getAttribute('uv');
@@ -341,26 +302,16 @@ export function createGroundSurfaces(definition) {
       transparent: true, depthWrite: false,
     }));
     mesh.userData.ownedGroundTextures = [texture, alphaMap];
-    mesh.renderOrder = GROUND_RENDER_ORDER + layer;
-    meshes.push(mesh);
+    mesh.renderOrder = renderOrder;
+    return mesh;
   }
-  const forestRects = (definition.obstacles || []).filter((obstacle) => obstacle.material === 'forest');
-  if (forestRects.length) {
-    const forestGrid = new Uint8Array(definition.width * definition.height);
-    for (const rect of forestRects) {
-      for (let row = rect.row; row < rect.row + rect.height; row++) {
-        for (let column = rect.column; column < rect.column + rect.width; column++) {
-          forestGrid[row * definition.width + column] = 1;
-        }
-      }
-    }
-    const forestFloor = new THREE.Mesh(
-      paintedGroundGeometry(forestRects, definition, 1, forestGrid, -0.012),
-      groundMaterial({ map: groundTexture('forest-floor'), color: 0xd2d4bd,
-        vertexColors: true, transparent: true, depthWrite: false }),
-    );
-    forestFloor.renderOrder = GROUND_RENDER_ORDER + TERRAIN_MATERIALS.length;
-    meshes.push(forestFloor);
+  for (const [layer, mask] of buildTerrainBlendMasks(definition, TERRAIN_MATERIALS, base).entries()) {
+    meshes.push(blendSurface(mask, -0.019, GROUND_RENDER_ORDER + layer));
+  }
+  const forestMask = buildForestGroundMask(definition, forestGroundForBase(base));
+  if (forestMask) {
+    meshes.push(blendSurface(forestMask, -0.012,
+      GROUND_RENDER_ORDER + TERRAIN_MATERIALS.length));
   }
   const atmosphere = new URLSearchParams(globalThis.location?.search ?? '');
   if (atmosphere.get('terrainAtmosphere') === 'mist') {
@@ -498,10 +449,12 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     && definition.id !== 'meshy-resource-review';
   const sereward = environmentTheme(definition) === 'sand'
     && definition.id !== 'meshy-resource-review';
-  const pineName = sereward ? 'sereward-palm' : veyrholds ? 'veyrholds-highpine' : 'pine';
+  const ellionar = environmentTheme(definition) === 'garden-loam'
+    && definition.id !== 'meshy-resource-review';
+  const pineName = ellionar ? 'ellionar-cultivated-palm' : sereward ? 'sereward-palm' : veyrholds ? 'veyrholds-highpine' : 'pine';
   const mapleName = sereward ? 'sereward-acacia' : underbough ? 'underbough-copperleaf'
     : bellweather ? 'bellweather-field-maple' : 'field-maple';
-  const thicketName = sereward ? 'sereward-scrub' : underbough ? 'underbough-bramble'
+  const thicketName = ellionar ? 'ellionar-garden-hedge' : sereward ? 'sereward-scrub' : underbough ? 'underbough-bramble'
     : bellweather ? 'bellweather-hedgerow' : 'hazel-thicket';
   const pines = [];
   const oaks = [];
@@ -534,6 +487,12 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
             point.scale = 0.72 + scaleVariation * 0.32;
             point.yaw = 0;
             (treeType < 0.45 ? oaks : pines).push(point);
+            continue;
+          }
+          if (ellionar) {
+            point.scale = treeType < 0.8
+              ? 0.76 + scaleVariation * 0.2 : 0.62 + scaleVariation * 0.24;
+            (treeType < 0.8 ? pines : hazelThickets).push(point);
             continue;
           }
           if (sereward) {
@@ -614,11 +573,11 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     }
   }
   for (const [name, width, height, points] of [
-    [pineName, sereward || veyrholds ? 2.7 : 2.25, sereward ? 3.8 : 3.4, pines],
+    [pineName, ellionar || sereward || veyrholds ? 2.7 : 2.25, ellionar || sereward ? 3.8 : 3.4, pines],
     ['oak', 3.05, 2.86, oaks],
     ['silver-birch', 2.3, 3.45, birches],
     [mapleName, sereward ? 3.5 : 3.05, sereward ? 2.85 : 3.25, maples],
-    [thicketName, sereward ? 2.6 : 3.1, sereward ? 1.7 : 2.07, hazelThickets],
+    [thicketName, ellionar ? 2.8 : sereward ? 2.6 : 3.1, ellionar ? 1.8 : sereward ? 1.7 : 2.07, hazelThickets],
     [veyrholds ? 'veyrholds-ironlichen-outcrop' : 'rock-outcrop', 3.5, 2.2, outcrops],
     ['rock-boulder-cluster', 2.7, 1.8, boulderClusters],
     ['basalt-ridge', 3.6, 3.05, ridges],
