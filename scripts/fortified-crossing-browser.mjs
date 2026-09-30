@@ -15,7 +15,7 @@ try {
   await fixture.start();browser=await createFortifiedBrowser();
   const origin=`http://127.0.0.1:${fixture.port}`;
   const response=await fetch(origin+'/api/rooms',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:'{}'});assert.equal(response.status,201);
-  const room=await response.json(),url=origin+'/r/'+room.roomId+'/';
+  const room=await response.json(),url=origin+'/?room='+room.roomId;
   const host=await browser.page(url,{beforeScript:capture});
   await host.wait("document.documentElement.dataset.boot==='ready'&&!document.querySelector('#map-studio-open').disabled",'host boot');
   async function field(id,value){return host.cdp.evaluate(`(() => {const e=document.getElementById(${JSON.stringify(id)});if(!e)throw Error('Missing form field');e.value=${JSON.stringify(String(value))};e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));return e.value;})()`);}
@@ -50,7 +50,7 @@ try {
       await field('studio-event-completion-team',event.trigger.team);await field('studio-event-completion-id',event.trigger.buildingType??event.trigger.technologyId);
     }else if(event.trigger?.type==='event'){
       const ids=event.trigger.eventIds.map(id=>authoredIds.get(id));assert.ok(ids.every(Boolean));
-      await host.cdp.evaluate(`(() => {const wanted=${JSON.stringify(ids)};for(const e of document.querySelectorAll('#studio-event-sources input')){if(wanted.includes(e.value)&&!e.checked)e.click();}})()`);
+      await host.cdp.evaluate(`(() => {const wanted=${JSON.stringify(ids)};const available=[...document.querySelectorAll('#studio-event-sources input')].map(e=>e.value);for(const value of available){const e=[...document.querySelectorAll('#studio-event-sources input')].find(e=>e.value===value);if(e && wanted.includes(value)!==e.checked)e.click();}})()`);
     }
     await field('studio-event-after',event.afterSeconds);await field('studio-event-team',event.team);
     await field('studio-event-food',event.foodReward??0);await field('studio-event-wood',event.woodReward??0);
@@ -65,9 +65,12 @@ try {
   await field('studio-audio-pack',map.audio.packId);await field('studio-audio-profile',map.audio.profileId);
   await click('#studio-download');const exported=await host.wait("window.__fortifiedExport && JSON.parse(window.__fortifiedExport).audio?.version==='v1' && window.__fortifiedExport",'versioned audio export');
   const authored=JSON.parse(exported);assert.deepEqual(authored.audio,map.audio);assert.equal(authored.scenarioEvents.length,map.scenarioEvents.length);assert.deepEqual(authored.regions[0].zone,map.regions[0].zone);
+  for(const original of map.scenarioEvents){const actual=authored.scenarioEvents.find(e=>e.name===original.name);assert.ok(actual);assert.equal(actual.afterSeconds,original.afterSeconds);assert.equal(actual.team,original.team);if(original.trigger?.type==='event')assert.deepEqual(actual.trigger.eventIds?.slice().sort(),original.trigger.eventIds.map(id=>authoredIds.get(id)).sort());else if(original.trigger)assert.deepEqual(actual.trigger,{...original.trigger,...(original.trigger.regionId?{regionId}:{})});}
   await host.cdp.evaluate(`(() => {const file=new File([window.__fortifiedExport],'fortified-crossing.json',{type:'application/json'});const transfer=new DataTransfer();transfer.items.add(file);const input=document.querySelector('#studio-import-file');input.files=transfer.files;input.dispatchEvent(new Event('change',{bubbles:true}));})()`);
-  await host.wait("document.querySelector('#studio-message').textContent.toLowerCase().includes('import')",'import complete');
-  await click('#map-studio-close');await click('#map-studio-open');
+  await host.wait("document.querySelector('#studio-message').textContent.startsWith('Loaded fortified-crossing.json')",'import complete');
+  await click('#map-studio-close');
+  await host.cdp.evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
+  await click('#map-studio-open');
   if(await host.cdp.evaluate("!document.querySelector('#studio-draft-recovery').hidden"))await click('#studio-draft-restore');
   await host.wait("document.querySelector('#studio-name').value==='Fortified Crossing Browser Proof'",'reopened draft');
   stage='publish and fresh guest automatic delivery';await click('#studio-publish');
