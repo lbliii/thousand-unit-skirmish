@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-veyrholds",
+  "packVersion": "1.0.0",
+  "reference": "docs/art-direction/vaelora-v1/veyrholds-ecology.png",
+  "referenceSha256": "112c894249e14467b6905e685b715fe08d764d1c655cd88377734819f9f85dd5",
+  "prompts": "VEYRHOLDS-PROMPTS.json",
+  "provenance": "Original built-in ImageGen art derived from project ecology key; no third-party image inputs. Unmodified PNG masters. Runtime packaging crops to alpha>=21 bounds without repainting pixels, Pillow LANCZOS max1024 RGBA WebP quality86 method6.",
+  "files": [
+    {
+      "path": "veyrholds-highpine.png",
+      "role": "source-image",
+      "sha256": "44bbf58e349367bb69331901cdda5a25d73a47dc73ac925a10952c80197f382e",
+      "dimensionsPx": {
+        "width": 1159,
+        "height": 1358
+      },
+      "bytes": 1976164
+    },
+    {
+      "path": "veyrholds-highpine.webp",
+      "role": "runtime-image",
+      "sha256": "c79e2f84110ad92a989f13f3eb7b7dc39e757fa097e1c9a4843718e88b609825",
+      "dimensionsPx": {
+        "width": 861,
+        "height": 1024
+      },
+      "bytes": 380794
+    },
+    {
+      "path": "veyrholds-ironlichen-outcrop.png",
+      "role": "source-image",
+      "sha256": "8d90b62db371833285a447095d774b70ee38b00ce3f08b9805a742c8f84b8c5e",
+      "dimensionsPx": {
+        "width": 1586,
+        "height": 992
+      },
+      "bytes": 1755339
+    },
+    {
+      "path": "veyrholds-ironlichen-outcrop.webp",
+      "role": "runtime-image",
+      "sha256": "c0a091d79257be1190f11fca45adb6ac7d4f4bd3b0f57dff9ad59a466306e4c6",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 509
+      },
+      "bytes": 204720
+    }
+  ],
+  "assets": [
+    {
+      "id": "veyrholds-highpine",
+      "sourceOutputId": "exec-23c542a8-bb73-4b1f-864d-7a2a8754d3e4",
+      "sourceFile": "veyrholds-highpine.png",
+      "runtimeFile": "veyrholds-highpine.webp",
+      "cropBoxPx": [
+        72,
+        48,
+        1146,
+        1325
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.4
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "kind": "harvestable-forest-sprite"
+    },
+    {
+      "id": "veyrholds-ironlichen-outcrop",
+      "sourceOutputId": "exec-1814ffd4-45f7-48bb-b49c-100a4f7179e1",
+      "sourceFile": "veyrholds-ironlichen-outcrop.png",
+      "runtimeFile": "veyrholds-ironlichen-outcrop.webp",
+      "cropBoxPx": [
+        81,
+        160,
+        1514,
+        872
+      ],
+      "worldSize": {
+        "width": 3.5,
+        "height": 2.2
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "kind": "stone-obstacle-sprite"
+    }
+  ]
+}

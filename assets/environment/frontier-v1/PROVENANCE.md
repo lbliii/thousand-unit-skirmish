@@ -139,3 +139,12 @@ and [manifest](bellweather-vegetation-manifest.json) record the final generated
 outputs, file hashes, crop bounds and encoding. Original generated PNGs are
 retained unchanged; runtime WebPs preserve alpha. Earlier source art and its
 manifests remain historical records. No third-party imagery was used.
+
+## Veyrholds extension — 30 September 2026
+
+The wind-shaped Highpine and ironlichen outcrop derive from the original
+Vaelora Veyrholds ecology key. [Prompts](VEYRHOLDS-PROMPTS.json) and
+[manifest](veyrholds-manifest.json) record reference/source identifiers,
+checksums, dimensions and encoding. Source PNGs are unchanged generated
+outputs. Runtime cropping/downscaling/encoding preserves alpha without
+repainting. No third-party image inputs were used.

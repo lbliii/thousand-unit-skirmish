@@ -15,6 +15,7 @@ export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
+  'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
   'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
   'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
 ];
@@ -484,6 +485,8 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
   // A small warm-field palette extension; other regions retain their existing trees.
   const bellweather = ['meadow', 'short-grass', 'long-grass', 'dry-grass']
     .includes(environmentTheme(definition));
+  const veyrholds = environmentTheme(definition) === 'scree'
+    && definition.id !== 'meshy-resource-review';
   const pines = [];
   const oaks = [];
   const birches = [];
@@ -575,12 +578,12 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     }
   }
   for (const [name, width, height, points] of [
-    ['pine', 2.25, 3.4, pines],
+    [veyrholds ? 'veyrholds-highpine' : 'pine', veyrholds ? 2.7 : 2.25, 3.4, pines],
     ['oak', 3.05, 2.86, oaks],
     ['silver-birch', 2.3, 3.45, birches],
     [bellweather ? 'bellweather-field-maple' : 'field-maple', 3.05, 3.25, maples],
     [bellweather ? 'bellweather-hedgerow' : 'hazel-thicket', 3.1, 2.07, hazelThickets],
-    ['rock-outcrop', 3.5, 2.2, outcrops],
+    [veyrholds ? 'veyrholds-ironlichen-outcrop' : 'rock-outcrop', 3.5, 2.2, outcrops],
     ['rock-boulder-cluster', 2.7, 1.8, boulderClusters],
     ['basalt-ridge', 3.6, 3.05, ridges],
     ['basalt-ridge-cap', 3.4, 2.25, ridgeCaps],

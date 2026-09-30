@@ -80,6 +80,29 @@ is harvestable forest, not a decorative walk-through shrub or food resource.
 checks loading, camera scales and exact forest-slot parity. These two fixed-view
 cutouts do not provide seasonal, damaged or additional directional views.
 
+## Veyrholds pine and ironlichen · 30 September 2026
+
+Scree-base maps now use a wind-shaped Highpine in the existing pine forest
+slots and copper-lichen slate in the low rock-outcrop slots. The approved
+[Veyrholds ecology key](art-direction/vaelora-v1/README.md#the-veyrholds)
+guides their silhouette and material palette. This is a first regional pair;
+other tree families, boulder clusters, tall ridges and cliffs retain their
+existing art. Snow and ice do not select this alpine kit.
+
+[Preview](../assets/environment/frontier-v1/veyrholds-preview.png),
+[manifest](../assets/environment/frontier-v1/veyrholds-manifest.json) and
+[exact prompts](../assets/environment/frontier-v1/VEYRHOLDS-PROMPTS.json)
+record the original generated masters, reference hash and runtime packaging.
+The Highpine uses the same forest stock/clearing slots; ironlichen is a stone
+obstacle appearance, not a new mineable resource. Map collision and elevation
+remain authoritative. A scree paint patch on a meadow-base map retains meadow
+vegetation; this bounded binding is not a per-cell biome system.
+
+[Local renderer evidence](qa-evidence/vaelora-veyrholds-2026-09-30/README.md)
+records two camera scales and palette/forest-slot checks. Choose **Scree** as
+Map Studio's base ground and paint forest/low stone obstacles to use this pair.
+The Meshy resource review fixture retains its explicit comparison art.
+
 ## Review in game
 
 1. Start with `npm start` and choose **Frontier Materials** in Match Controls.
