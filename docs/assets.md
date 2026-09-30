@@ -115,3 +115,5 @@ Vesperra jungle-loam forests also carry sparse decorative shade fern companions;
 Siltmouths tidal-mud forests include sparse silver reed companions that clear with their parent forest cells. The [understory manifest](../assets/environment/frontier-v1/siltmouths-understory-manifest.json) records source/runtime files and dimensions; see the [environment guide](environment-pack-v1.md) for placement and remaining scope.
 
 Pale Meridian snow/ice forests include sparse silver cushion moss companions, clearing with their parent forest cells. See the [manifest](../assets/environment/frontier-v1/pale-meridian-understory-manifest.json) and [environment guide](environment-pack-v1.md) for sources, placement and remaining scope.
+
+Sombral Mere lunar-soil forests include small Lunewort flower companions that clear with their parent forest cells. See the [understory manifest](../assets/environment/frontier-v1/sombral-mere-understory-manifest.json) and [environment guide](environment-pack-v1.md) for source/runtime details and remaining scope.

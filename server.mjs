@@ -7132,7 +7132,7 @@ const server = createServer(async (request, response) => {
   const publicEnvironmentAsset = path.dirname(relative) === 'assets/environment/frontier-v1'
     && ['.png', '.webp'].includes(path.extname(relative))
     && ['oak', 'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
-      'bellweather-field-maple', 'bellweather-hedgerow', 'vesperra-shade-fern', 'siltmouths-silver-reed', 'pale-meridian-silver-moss',
+      'bellweather-field-maple', 'bellweather-hedgerow', 'vesperra-shade-fern', 'siltmouths-silver-reed', 'pale-meridian-silver-moss', 'sombral-mere-lunewort',
       'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
       'bellweather-lifecycle-atlas', 'bellweather-hedgerow-lifecycle-atlas', 'sereward-lifecycle-atlas', 'pale-meridian-lifecycle-atlas', 'siltmouths-lifecycle-atlas', 'vesperra-lifecycle-atlas', 'sombral-mere-lifecycle-atlas', 'underbough-lifecycle-atlas', 'underbough-bramble-lifecycle-atlas', 'veyrholds-lifecycle-atlas', 'ellionar-lifecycle-atlas', 'ellionar-hedge-lifecycle-atlas', 'sereward-scrub-lifecycle-atlas', 'sereward-acacia-lifecycle-atlas',
       'sombral-mere-merebloom', 'sombral-mere-merebloom-worked', 'sombral-mere-merebloom-low', 'sombral-mere-merebloom-depleted',

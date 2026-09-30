@@ -270,3 +270,7 @@ Built-in ImageGen against the project-owned approved Siltmouths ecology key's Si
 ## Pale Meridian silver cushion moss · 30 September 2026
 
 Built-in ImageGen against project-owned approved Pale Meridian ecology key. [Exact prompt](PALE-MERIDIAN-UNDERSTORY-PROMPTS.json) and [manifest](pale-meridian-understory-manifest.json) record source ID, reference hash, source/runtime dimensions, crop and file hashes. Unchanged generated PNG; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background compositing inspected empty surroundings. No local repainting or alpha repair. One approximate painted oblique view; runtime matrix roll is separately measured.
+
+## Sombral Mere Lunewort · 30 September 2026
+
+Original built-in ImageGen against the project-owned approved Sombral Mere ecology key's Lunewort specimen. [Exact prompt](SOMBRAL-MERE-UNDERSTORY-PROMPTS.json) and [manifest](sombral-mere-understory-manifest.json) record source ID, reference hash, dimensions, crop and file hashes. Unmodified selected PNG; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background compositing inspected leaf gaps and surrounding transparency. No local repainting or alpha repair. One approximate painted oblique view, matte petals and no emission.

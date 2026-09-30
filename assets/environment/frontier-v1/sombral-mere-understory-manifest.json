@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-sombral-mere-understory",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/sombral-mere-ecology.png",
+  "referenceSha256": "3f268da6b8fe3d90f290661f0af6d5a742e2c4f5b40fe03d039ffdf76c5dcc5f",
+  "prompts": "SOMBRAL-MERE-UNDERSTORY-PROMPTS.json",
+  "files": [
+    {
+      "path": "sombral-mere-lunewort.png",
+      "role": "source-image",
+      "sha256": "7fc881554b05c43832f0ac2c5e3346773f7e6fbe47d7f19076c6a996960190ce",
+      "bytes": 1605001,
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "sombral-mere-lunewort.webp",
+      "role": "runtime-image",
+      "sha256": "3c5f859a41d98f0a3892e6ec2e9dd10359868f9c9687843f633651ea00f98c29",
+      "bytes": 182316,
+      "dimensionsPx": {
+        "width": 734,
+        "height": 957
+      }
+    }
+  ],
+  "cropPx": [
+    403,
+    33,
+    1137,
+    990
+  ],
+  "asset": {
+    "id": "sombral-mere-lunewort",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 0.88203,
+    "worldHeight": 1.15,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "parentStockClears": true,
+    "frontOffset": 0.18
+  },
+  "provenance": "Built-in ImageGen against approved ecology key. Unmodified PNG; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 exact alpha. One approximate painted oblique view; no measured source calibration. No emission or new medicinal resource rules."
+}

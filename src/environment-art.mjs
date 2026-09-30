@@ -16,7 +16,7 @@ const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
 const GROUND_RENDER_ORDER = -20;
 export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
-  'vesperra-shade-fern', 'siltmouths-silver-reed', 'pale-meridian-silver-moss',
+  'vesperra-shade-fern', 'siltmouths-silver-reed', 'pale-meridian-silver-moss', 'sombral-mere-lunewort',
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
@@ -788,18 +788,24 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     }
     addObject(mesh);
   }
-  if (vesperra || siltmouths || paleMeridian) {
+  const understoryAsset = definition.id === 'meshy-resource-review' ? null : {
+    'jungle-loam': ['vesperra-shade-fern', 1.07475, 0.72],
+    'tidal-mud': ['siltmouths-silver-reed', 1.29076, 1.05],
+    'snow': ['pale-meridian-silver-moss', 0.83027, 0.45],
+    'ice': ['pale-meridian-silver-moss', 0.83027, 0.45],
+    'lunar-soil': ['sombral-mere-lunewort', 0.88203, 1.15],
+  }[environmentTheme(definition)];
+  if (understoryAsset) {
     // Decorative understory occupies existing forest cells only. Clearing follows
     // received cell stock, so it cannot cover a newly traversable cleared cell.
     const plants = [...forestTreeSlots.values()].filter(slot => variation(slot.cell + 107) < 0.28)
       .map(slot => ({ cell: slot.cell,
-        x: slot.x + (variation(slot.cell + 109) - 0.5) * 0.32,
-        z: slot.z + (variation(slot.cell + 113) - 0.5) * 0.32,
+        x: slot.x + (variation(slot.cell + 109) - 0.5) * 0.32 + (sombralMere ? 0.18 : 0),
+        z: slot.z + (variation(slot.cell + 113) - 0.5) * 0.32 + (sombralMere ? 0.18 : 0),
         scale: 0.8 + variation(slot.cell + 127) * 0.25,
         flip: slot.flip, yaw: slot.yaw }));
-    const mesh = createEnvironmentSpriteInstances(
-      paleMeridian ? 'pale-meridian-silver-moss' : siltmouths ? 'siltmouths-silver-reed' : 'vesperra-shade-fern',
-      paleMeridian ? 0.83027 : siltmouths ? 1.29076 : 1.07475, paleMeridian ? 0.45 : siltmouths ? 1.05 : 0.72, plants);
+    const [name, width, height] = understoryAsset;
+    const mesh = createEnvironmentSpriteInstances(name, width, height, plants);
     if (mesh) {
       mesh.userData.forestUnderstory = true;
       plants.forEach((plant, index) => {
