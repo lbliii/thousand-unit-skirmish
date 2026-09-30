@@ -1,0 +1,93 @@
+{
+  "source": "/Users/lb/.codex/worktrees/7040/thousand-unit-skirmish/docs/art-direction/boughward-roster-v1/source/worker-actions-v1.png",
+  "frames": [
+    {
+      "frame": 0,
+      "sourceBounds": [
+        39,
+        83,
+        305,
+        511
+      ],
+      "opaquePixels": 72668,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 1,
+      "sourceBounds": [
+        435,
+        106,
+        710,
+        520
+      ],
+      "opaquePixels": 69221,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 2,
+      "sourceBounds": [
+        779,
+        10,
+        1089,
+        523
+      ],
+      "opaquePixels": 77825,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 3,
+      "sourceBounds": [
+        1207,
+        201,
+        1517,
+        537
+      ],
+      "opaquePixels": 61030,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 4,
+      "sourceBounds": [
+        46,
+        528,
+        361,
+        967
+      ],
+      "opaquePixels": 78255,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 5,
+      "sourceBounds": [
+        447,
+        616,
+        759,
+        984
+      ],
+      "opaquePixels": 74255,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 6,
+      "sourceBounds": [
+        788,
+        547,
+        1197,
+        965
+      ],
+      "opaquePixels": 73711,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 7,
+      "sourceBounds": [
+        1152,
+        689,
+        1519,
+        963
+      ],
+      "opaquePixels": 56681,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    }
+  ]
+}

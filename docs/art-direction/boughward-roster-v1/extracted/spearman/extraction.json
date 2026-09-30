@@ -1,0 +1,49 @@
+{
+  "source": "/Users/lb/.codex/worktrees/7040/thousand-unit-skirmish/docs/art-direction/boughward-roster-v1/source/spearman-actions-v1.png",
+  "frames": [
+    {
+      "frame": 0,
+      "sourceBounds": [
+        54,
+        10,
+        756,
+        535
+      ],
+      "opaquePixels": 116519,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 1,
+      "sourceBounds": [
+        823,
+        18,
+        1506,
+        546
+      ],
+      "opaquePixels": 106553,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 2,
+      "sourceBounds": [
+        29,
+        523,
+        1073,
+        980
+      ],
+      "opaquePixels": 120054,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 3,
+      "sourceBounds": [
+        803,
+        711,
+        1523,
+        1003
+      ],
+      "opaquePixels": 112772,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "source": "/Users/lb/.codex/worktrees/7040/thousand-unit-skirmish/docs/art-direction/boughward-roster-v1/source/scout-actions-v1.png",
+  "frames": [
+    {
+      "frame": 0,
+      "sourceBounds": [
+        77,
+        15,
+        691,
+        535
+      ],
+      "opaquePixels": 152912,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 1,
+      "sourceBounds": [
+        783,
+        16,
+        1493,
+        534
+      ],
+      "opaquePixels": 161818,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 2,
+      "sourceBounds": [
+        45,
+        529,
+        757,
+        994
+      ],
+      "opaquePixels": 161347,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 3,
+      "sourceBounds": [
+        783,
+        574,
+        1519,
+        973
+      ],
+      "opaquePixels": 152624,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    }
+  ]
+}

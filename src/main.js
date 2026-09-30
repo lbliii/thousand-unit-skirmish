@@ -167,7 +167,7 @@ const workerSpritePreview = roomPageUrl.searchParams.get('workerSpritePreview') 
 const unitSpritePreview = roomPageUrl.searchParams.get('unitSpritePreview') === '1';
 const meshyInfantrySpritePreview = roomPageUrl.searchParams.get('meshyInfantrySpritePreview') === '1';
 const unitSpritePreviewRoles = castPreview
-  ? humanRosterPreview ? ['human', 'infantry', 'spearman', 'archer', 'scout', 'rider', 'siege-engine'] : (roomPageUrl.searchParams.get('humanVaeloraPreview') === '1' ? ['human'] : ['human', 'orc', 'elf', 'troll'])
+  ? humanRosterPreview ? ['human', 'infantry', 'spearman', 'archer', 'scout', 'rider', 'siege-engine', ...['worker', 'infantry', 'spearman', 'archer', 'scout', 'rider', 'siege-engine'].map(role => `boughward-${role}`)] : (roomPageUrl.searchParams.get('humanVaeloraPreview') === '1' ? ['human'] : ['human', 'orc', 'elf', 'troll'])
   : meshyInfantrySpritePreview
   ? ['infantry']
   : unitSpritePreview
@@ -481,6 +481,7 @@ const unitSpriteRuntime = createUnitSpriteRuntime({
   roles: unitSpritePreviewRoles,
   roleSpriteVersions: unitSpritePreviewVersions,
   approximateActionDirections: humanRosterPreview,
+  teamCivilizations: humanRosterPreview ? ['human', 'boughward'] : null,
   castPreview,
   humanAppearancePreview: humanRosterPreview || roomPageUrl.searchParams.get('humanVaeloraPreview') === '1',
 });
