@@ -25,6 +25,7 @@ async function verify(bytes, expected, crypto) {
   if (hash !== expected) throw new Error('Audio SHA-256 mismatch');
 }
 export async function loadShippedAudio(reference, { fetch = globalThis.fetch, crypto = globalThis.crypto, signal } = {}) {
+  signal = signal ? AbortSignal.any([signal, AbortSignal.timeout(30_000)]) : AbortSignal.timeout(30_000);
   const ref = validateMapAudioReference(reference);
   if (!ref?.version) throw new Error('Missing shipped audio version');
   const key = `${ref.packId}/${ref.version}/${ref.sha256}`;

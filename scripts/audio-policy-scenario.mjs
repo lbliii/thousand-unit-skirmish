@@ -13,7 +13,7 @@ assert.equal(cueForNotice('EMBER BARRACKS COMPLETE · TRAIN INFANTRY', { localTe
 assert.equal(cueForNotice('AZURE INFANTRY FORGING COMPLETE · +20% ATTACK', { localTeam: 0 }), 'research-complete');
 assert.equal(cueForNotice('EMBER ARCHER FLETCHING COMPLETE · +20% ATTACK', { localTeam: 0 }), null);
 assert.equal(cueForNotice('EMBER ARCHER FLETCHING COMPLETE · +20% ATTACK', { localTeam: 1 }), 'research-complete');
-assert.equal(cueForNotice('ARCHERY RANGE PLACED · WORKERS BUILDING', { localTeam: 0, tokenized: true }), 'build');
+assert.equal(cueForNotice('ARCHERY RANGE PLACED · WORKERS BUILDING', { localTeam: 0, tokenized: true }), null);
 assert.equal(cueForNotice('AZURE BARRACKS DESTROYED · PRODUCTION QUEUE LOST', { localTeam: 0 }), 'base-lost');
 assert.equal(cueForNotice('EMBER BARRACKS DESTROYED · PRODUCTION QUEUE LOST', { localTeam: 0 }), null);
 assert.equal(cueForNotice('RESOURCE NODE EMPTY · OAK-2', { localTeam: 0 }), 'resource-empty');

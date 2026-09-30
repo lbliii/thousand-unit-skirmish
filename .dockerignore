@@ -129,3 +129,5 @@
 !assets/environment/frontier-v1/siltmouths-lifecycle-atlas.json
 
 !assets/environment/frontier-v1/vesperra-lifecycle-atlas.json
+!assets/audio/runtime/
+!assets/audio/runtime/**

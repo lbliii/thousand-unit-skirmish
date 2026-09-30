@@ -14,7 +14,7 @@ export function cueForNotice(message, { localTeam = null, tokenized = false } = 
     || notice.startsWith(`${teamName} ARCHER FLETCHING COMPLETE ·`))) return 'research-complete';
   if (notice.includes(' COMPLETE ·') && teamName && notice.startsWith(`${teamName} `)) return 'complete';
   if (teamName && notice.startsWith(`${teamName} `) && notice.endsWith(' READY')) return 'complete';
-  if (notice.includes(' PLACED ·') && tokenized) return 'build';
+  // Tokenized build success is emitted by OrderAudioGate after BUILD ORDER, not while path planning.
   return null;
 }
 

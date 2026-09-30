@@ -1730,7 +1730,7 @@ function snapshotUnits(viewTeam = null) {
         targetVisible ? unit.lastAttackX : null,
         targetVisible ? unit.lastAttackZ : null);
     }
-    row[14] = unit.team === viewTeam ? workerAudioExecution(unit) : null;
+    row[14] = !mapDefinition.fogOfWar || unit.team === viewTeam ? workerAudioExecution(unit) : null;
     rows.push(row);
   }
   return rows;

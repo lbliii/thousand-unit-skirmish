@@ -343,7 +343,7 @@ export function createGameAudio({
   }
 
   function play(cue, { preview = false, suppressDecision = false } = {}) {
-    if (!(cue in COOLDOWN_MS)) { record(event, 'unsupported cue'); return false; }
+    if (!(cue in COOLDOWN_MS)) { record({ cue }, 'unsupported cue'); return false; }
     if (!suppressDecision && !doc?.hidden && (!preview || settings.captions)) {
       try { onCueDecision?.(cue); } catch {}
     }
@@ -447,6 +447,10 @@ export function createGameAudio({
     if (ticket !== packGeneration) throw new Error('Audio pack changed during decoding');
     const bytes = buffer.length * buffer.numberOfChannels * 4;
     if (bytes > MAX_DECODED_BYTES) throw new Error(`Decoded source ${sourceId} exceeds memory limit`);
+    if (decoded.has(sourceId)) {
+      const previous = decoded.get(sourceId);
+      decodedBytes -= previous.length * previous.numberOfChannels * 4; decoded.delete(sourceId);
+    }
     while (decodedBytes + bytes > MAX_DECODED_BYTES && decoded.size) {
       const [oldId, oldBuffer] = decoded.entries().next().value;
       decodedBytes -= oldBuffer.length * oldBuffer.numberOfChannels * 4;
@@ -497,7 +501,7 @@ export function createGameAudio({
       const profile = loaded.pack.profiles.find((item) => item.id === reference.profileId);
       if (!profile) { setPackStatus(`Audio profile ${reference.profileId} is missing from ${reference.packId}.`); return; }
       activePack = loaded.pack; activeProfile = profile; activeSourceBlobs = loaded.sourceBlobs;
-      setPackStatus(`Audio pack ${loaded.pack.name} ready. Other players need their own installed copy.`);
+      setPackStatus(`Audio pack ${loaded.pack.name} ready. ${reference.version ? 'Shipped content loads automatically for both players.' : 'Other players need their own installed copy.'}`);
       if (context) await startProfileMusic();
     } catch (error) {
       if (ticket === packGeneration) setPackStatus(`Audio pack unavailable: ${error.message}. Synthesized feedback remains available.`);
@@ -522,7 +526,7 @@ export function createGameAudio({
     const ticket = packGeneration;
     const workTicket = workGeneration;
     void decodeSource(variant.sourceId).then((buffer) => {
-      if (ticket !== packGeneration || context.state !== 'running' || (cue === 'work' && workTicket !== workGeneration)) return;
+      if (ticket !== packGeneration || context.state !== 'running' || doc?.hidden || !settings.enabled || settings.volume <= 0 || (cue === 'work' && workTicket !== workGeneration)) return;
       const start = Math.max(0, variant.trimStartSeconds || 0);
       const end = Math.min(buffer.duration, variant.trimEndSeconds ?? buffer.duration);
       if (end <= start) throw new Error('Invalid cue trim');
@@ -558,7 +562,7 @@ export function createGameAudio({
       if (variant.caption) { try { onProfileCaption?.(variant.caption); } catch {} }
       if (isUrgentCue(cue)) duckForAlert();
       try { onCue?.(cue); } catch {}
-    }).catch((error) => { if (ticket === packGeneration) { setPackStatus(`Cue ${variant.sourceId} could not decode: ${error.message}. Synthesized feedback remains available.`); play(cue, { suppressDecision: true }); } });
+    }).catch((error) => { if (ticket === packGeneration && (cue !== 'work' || workTicket === workGeneration)) { record(event, `decode failed: ${error.message}`, choice.key); setPackStatus(`Cue ${variant.sourceId} could not decode: ${error.message}. Synthesized feedback remains available.`); play(cue, { suppressDecision: true }); } });
     return true;
   }
 
@@ -605,7 +609,7 @@ export function createGameAudio({
   doc?.addEventListener?.('visibilitychange', onVisibilityChange);
 
   return {
-    play, playEvent, stopWork, updateWork, getInspector: () => ({ status: packStatus, decisions: [...decisions] }), setMapAudio, getPackStatus: () => packStatus, preview, previewAmbience, unlock, setSettings,
+    play, playEvent, stopWork, updateWork, getInspector: () => ({ status: packStatus, profileId: activeProfile?.id || null, bindings: Object.entries(activeProfile?.bindings || {}).map(([key, binding]) => ({ key, bus: binding.bus, sources: binding.variants.map(({ sourceId }) => ({ sourceId, available: activeSourceBlobs?.[sourceId] instanceof Blob })) })), activeSamples: activeSamples.size, activeVoices: activeVoiceSamples.size, activeWork: activeWorkSamples.size, decodedBytes, decisions: [...decisions] }), setMapAudio, getPackStatus: () => packStatus, preview, previewAmbience, unlock, setSettings,
     getSettings: () => ({ ...settings }), getStatus: status,
     dispose() {
       packAbort?.abort(); stopWork();
