@@ -118,3 +118,10 @@
 !assets/units/cast-orc-sprite-v1/team-accent-mask.png
 
 !assets/environment/frontier-v1/pale-meridian-lifecycle-atlas.json
+!audio-zones.html
+!assets/audio/
+!assets/audio/vaelora-zones-v1/
+!assets/audio/vaelora-zones-v1/**
+!assets/audio/vaelora-pilot-v1/
+!assets/audio/vaelora-pilot-v1/sources/
+!assets/audio/vaelora-pilot-v1/sources/**

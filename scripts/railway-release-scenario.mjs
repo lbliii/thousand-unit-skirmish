@@ -113,6 +113,23 @@ try {
   const threeCore = await fetch(`${base}/vendor/three.core.js`, { headers: { authorization } });
   assert.equal(threeCore.status, 200);
   assert.match(threeCore.headers.get('content-type'), /javascript/);
+  for (const clientFile of ['audio-zones.html', 'src/audio-zones.mjs', 'src/audio-zones.css']) {
+    assert.equal((await fetch(`${base}/${clientFile}`, { headers: { authorization } })).status, 200,
+      `zone audition release must serve ${clientFile}`);
+  }
+  const zoneCatalogResponse = await fetch(`${base}/assets/audio/vaelora-zones-v1/catalog.json`, { headers: { authorization } });
+  assert.equal(zoneCatalogResponse.status, 200);
+  const zoneCatalog = await zoneCatalogResponse.json();
+  assert.equal(zoneCatalog.sources.length, 44);
+  for (const source of zoneCatalog.sources) {
+    const response = await fetch(`${base}/assets/audio/vaelora-zones-v1/${source.file}`, { headers: { authorization } });
+    assert.equal(response.status, 200, `release must serve original ${source.id}`);
+    assert.equal(response.headers.get('content-type'), 'audio/mpeg');
+    const bytes = Buffer.from(await response.arrayBuffer());
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), source.sha256,
+      `release must preserve original ${source.id}`);
+  }
+  assert.equal((await fetch(`${base}/assets/audio/vaelora-zones-v1/README.md`, { headers: { authorization } })).status, 404);
   const environmentModule = await fetch(`${base}/src/environment-art.mjs`, { headers: { authorization } });
   assert.equal(environmentModule.status, 200);
   assert.match(environmentModule.headers.get('content-type'), /javascript/);

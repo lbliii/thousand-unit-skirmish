@@ -49,6 +49,43 @@ problem calls for it. Compare route quality, throughput, acknowledgement latency
 ticks, and memory under the same scenario. Keep the current implementation if a
 replacement does not improve the measured problem.
 
+## 2026-09-30 — Renewed parity assessment
+
+Reviewed upstream master README, simulation/architecture documentation, activity
+control flow, ability API and modpack specification through their public source
+pages. These are moving upstream references, accessed on this date, not a new
+commit-pinned build or hands-on openage gameplay test. Local comparison baseline
+is `b61e167`.
+
+The [current README](https://github.com/SFTtech/openage/blob/master/README.md)
+still declares gameplay largely nonfunctional during the simulation rebuild.
+Consequently, openage's planned Genie/AoE compatibility cannot be counted as a
+shipped feature list. Our integrated skirmish has demonstrable match systems,
+but that does not establish parity with every openage subsystem or AoE itself.
+
+Useful extension boundaries are more extensive than ours:
+
+- [Activities](https://github.com/SFTtech/openage/blob/master/doc/code/game_simulation/activity.md)
+  describe reusable branching action graphs. Our worker/combat behavior remains
+  mostly authoritative imperative code; supported stats are configurable, new
+  behaviors require implementation.
+- [Ability properties](https://github.com/SFTtech/openage/blob/master/doc/nyan/api_reference/reference_ability.md)
+  distinguish command sounds from execution sounds and bind them to abilities.
+  The API also describes containers, stances, resource exchange and flight.
+  API declarations are not evidence that these all work in a complete match.
+- [Modpacks](https://github.com/SFTtech/openage/blob/master/doc/media/openage/modpacks.md)
+  specify versions, dependencies, conflicts and content replacement. Our shipped
+  registry, map JSON and browser-local audio packs do not provide an equivalent
+  combined scenario/content package resolver.
+- [Architecture](https://github.com/SFTtech/openage/blob/master/doc/code/architecture.md)
+  explicitly separates current and goal networking/scripting architecture. Our
+  working authoritative multiplayer should be retained; openage's asynchronous
+  event design is not a reason to replace our fixed-step simulation.
+
+The next useful target is broader scenario authoring, stable presentation/audio
+contracts and player command completeness. See the refreshed
+[coverage assessment](feature-coverage-inventory.md#2026-09-30--proposed-next-milestone).
+
 ## Sources
 
 All Openage source links below are pinned to the checked commit so later upstream changes do not silently alter what this note refers to.

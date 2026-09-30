@@ -1,0 +1,441 @@
+{
+  "schemaVersion": 1,
+  "status": "partial-complete-quota-blocked",
+  "createdAt": "2026-09-30",
+  "flow": {
+    "flow_id": "VGcpRXOM51rpg5l201Ex",
+    "name": "Vaelora zone and UI audio pilot",
+    "url": "https://elevenlabs.io/app/flows/VGcpRXOM51rpg5l201Ex"
+  },
+  "estimatedFullBatchCredits": 3820,
+  "requestedTakesPerNode": 4,
+  "nodes": [
+    {
+      "id": "bellweather-everyday",
+      "nodeId": "6UhVHCJDbLkPnHCVOlSB",
+      "context": "Generate editable audition ingredients for the user's Vaelora zone and UI sound pilot.",
+      "flow_id": "VGcpRXOM51rpg5l201Ex",
+      "node_type": "music",
+      "model_id": "eleven_music_v2",
+      "prompt": "Instrumental pastoral chamber folk, warm, companionable and quietly wistful, 96 BPM in 4/4, D Dorian, spacious eight-bar phrases over a D/A pedal. Wooden flute with hummable restrained melody, muted lute answers, warm low bowed viol and very light wood percussion, intimate dry acoustic production with breathing gaps. Keep gentle even energy throughout, no vocals, epic brass, modern drum kit or crescendo, softly sustained ending.",
+      "model_parameters": {
+        "duration_seconds": 20,
+        "lyrics_type": "instrumental",
+        "instrumental": true
+      }
+    },
+    {
+      "id": "ellionar-everyday",
+      "nodeId": "aYBMkuISaYBB5VHEfypV",
+      "context": "Generate editable audition ingredients for the user's Vaelora zone and UI sound pilot.",
+      "flow_id": "VGcpRXOM51rpg5l201Ex",
+      "node_type": "music",
+      "model_id": "eleven_music_v2",
+      "prompt": "Instrumental luminous ceremonial chamber music, cultivated, assured and gently flowing, 96 BPM in 4/4, D Dorian with spacious eight-bar phrases. Plucked lyre and low harp trade measured answering phrases with paired reed pipes, sparse copper bowl resonance and soft frame drum, warm acoustic room with restrained dynamics. Keep quiet background energy throughout, no vocals, fanfares, modern drums or dramatic climax, open sustained ending.",
+      "model_parameters": {
+        "duration_seconds": 20,
+        "lyrics_type": "instrumental",
+        "instrumental": true
+      }
+    },
+    {
+      "id": "ru-lora-interior",
+      "nodeId": "k5Ync0LzNje1i8TLPUdY",
+      "context": "Generate editable audition ingredients for the user's Vaelora zone and UI sound pilot.",
+      "flow_id": "VGcpRXOM51rpg5l201Ex",
+      "node_type": "music",
+      "model_id": "eleven_music_v2",
+      "prompt": "Instrumental sparse dark acoustic chamber texture, immense, absent and forbidding, half-time feeling over a quiet D/A pedal at 96 BPM. Low contrabass harmonics and bowed stone-like resonances with rare dry ceramic friction and one cold glass tone, long silences and controlled natural decay, almost no melody or percussion. Keep minimal restrained energy throughout, no voices, choir, screams, cinematic impacts or heavy sub-bass, fade gently into silence.",
+      "model_parameters": {
+        "duration_seconds": 20,
+        "lyrics_type": "instrumental",
+        "instrumental": true
+      }
+    },
+    {
+      "id": "wood-token",
+      "nodeId": "kBOZg6dnMcwjqof8xtl7",
+      "context": "Generate isolated tactile ingredients for the user's fantasy RTS UI sound pilot.",
+      "flow_id": "VGcpRXOM51rpg5l201Ex",
+      "node_type": "sfx",
+      "model_id": "eleven_text_to_sound_v2",
+      "prompt": "One small hardwood token tapped on a timber board, warm rounded knock with crisp immediate contact and short dry decay, close isolated recording on silence.",
+      "model_parameters": {
+        "duration_seconds": 1,
+        "prompt_influence": 0.65,
+        "loop": false
+      }
+    },
+    {
+      "id": "iron-latch",
+      "nodeId": "zcCyPO9aC3nHPOkrsekO",
+      "context": "Generate isolated tactile ingredients for the user's fantasy RTS UI sound pilot.",
+      "flow_id": "VGcpRXOM51rpg5l201Ex",
+      "node_type": "sfx",
+      "model_id": "eleven_text_to_sound_v2",
+      "prompt": "One worn iron buckle snapping closed, compact dull metallic click with very little ringing, immediate onset, close dry isolated recording on silence.",
+      "model_parameters": {
+        "duration_seconds": 1,
+        "prompt_influence": 0.65,
+        "loop": false
+      }
+    },
+    {
+      "id": "muted-pluck",
+      "nodeId": "L4JJt5lFtQoyXaWxnAEb",
+      "context": "Generate isolated tactile ingredients for the user's fantasy RTS UI sound pilot.",
+      "flow_id": "VGcpRXOM51rpg5l201Ex",
+      "node_type": "sfx",
+      "model_id": "eleven_text_to_sound_v2",
+      "prompt": "One softly plucked gut lute string in a middle register, clear warm attack and short muted natural decay, dry isolated recording on silence with no accompaniment.",
+      "model_parameters": {
+        "duration_seconds": 1.5,
+        "prompt_influence": 0.65,
+        "loop": false
+      }
+    },
+    {
+      "id": "horn-call",
+      "nodeId": "ait8zoVaEMca38mnJpQY",
+      "context": "Generate isolated tactile ingredients for the user's fantasy RTS UI sound pilot.",
+      "flow_id": "VGcpRXOM51rpg5l201Ex",
+      "node_type": "sfx",
+      "model_id": "eleven_text_to_sound_v2",
+      "prompt": "One short restrained natural horn note in a middle-low register, clear rounded breath attack and brief steady body, dry close isolated recording on silence with no melody or accompaniment.",
+      "model_parameters": {
+        "duration_seconds": 2,
+        "prompt_influence": 0.65,
+        "loop": false
+      }
+    }
+  ],
+  "run": {
+    "results": [
+      {
+        "success": true,
+        "node_id": "6UhVHCJDbLkPnHCVOlSB",
+        "session_id": "0KmA3q7JCzE9zdcSlSrj"
+      },
+      {
+        "success": true,
+        "node_id": "6UhVHCJDbLkPnHCVOlSB",
+        "session_id": "cVuVBWNK7spJnOaZLMdw"
+      },
+      {
+        "success": false,
+        "node_id": "6UhVHCJDbLkPnHCVOlSB",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": false,
+        "node_id": "6UhVHCJDbLkPnHCVOlSB",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": true,
+        "node_id": "aYBMkuISaYBB5VHEfypV",
+        "session_id": "YbigzvkUnnk0vvj7K13v"
+      },
+      {
+        "success": true,
+        "node_id": "aYBMkuISaYBB5VHEfypV",
+        "session_id": "WgWhnf5GC4z6aK9fBrvu"
+      },
+      {
+        "success": false,
+        "node_id": "aYBMkuISaYBB5VHEfypV",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": false,
+        "node_id": "aYBMkuISaYBB5VHEfypV",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": true,
+        "node_id": "k5Ync0LzNje1i8TLPUdY",
+        "session_id": "GLI5B11xtiwdzmcgmZdJ"
+      },
+      {
+        "success": false,
+        "node_id": "k5Ync0LzNje1i8TLPUdY",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": false,
+        "node_id": "k5Ync0LzNje1i8TLPUdY",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": false,
+        "node_id": "k5Ync0LzNje1i8TLPUdY",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": true,
+        "node_id": "kBOZg6dnMcwjqof8xtl7",
+        "session_id": "MjuA2WbIiXKEtuny0g89"
+      },
+      {
+        "success": true,
+        "node_id": "kBOZg6dnMcwjqof8xtl7",
+        "session_id": "1GvldZMnxRWyPCAxKeM6"
+      },
+      {
+        "success": false,
+        "node_id": "kBOZg6dnMcwjqof8xtl7",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": false,
+        "node_id": "kBOZg6dnMcwjqof8xtl7",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": true,
+        "node_id": "zcCyPO9aC3nHPOkrsekO",
+        "session_id": "eFp8Nx29GXPUPUV2oapM"
+      },
+      {
+        "success": true,
+        "node_id": "zcCyPO9aC3nHPOkrsekO",
+        "session_id": "Y7ecPCS6x9WgURUutzLM"
+      },
+      {
+        "success": false,
+        "node_id": "zcCyPO9aC3nHPOkrsekO",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": false,
+        "node_id": "zcCyPO9aC3nHPOkrsekO",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": true,
+        "node_id": "L4JJt5lFtQoyXaWxnAEb",
+        "session_id": "QIOboEHnaNnfkLLYX8m6"
+      },
+      {
+        "success": false,
+        "node_id": "L4JJt5lFtQoyXaWxnAEb",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": false,
+        "node_id": "L4JJt5lFtQoyXaWxnAEb",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": false,
+        "node_id": "L4JJt5lFtQoyXaWxnAEb",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": true,
+        "node_id": "ait8zoVaEMca38mnJpQY",
+        "session_id": "O4XqsyydRcKDVmX39DI0"
+      },
+      {
+        "success": true,
+        "node_id": "ait8zoVaEMca38mnJpQY",
+        "session_id": "puwYq4i5mpTm7vL6DOFl"
+      },
+      {
+        "success": false,
+        "node_id": "ait8zoVaEMca38mnJpQY",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      },
+      {
+        "success": false,
+        "node_id": "ait8zoVaEMca38mnJpQY",
+        "error": "429: {'type': 'rate_limit_error', 'code': 'rate_limited', 'message': 'You have made too many requests. Please try again later.', 'status': 'rate_limited', 'request_id': '34a3296faed3fd4ad83bf8f9f68e531a', 'docs_url': 'https://elevenlabs.io/docs/eleven-api/resources/errors#rate-limiting-and-concurrency'}",
+        "error_code": "rate_limited"
+      }
+    ],
+    "sessionIds": [
+      "0KmA3q7JCzE9zdcSlSrj",
+      "cVuVBWNK7spJnOaZLMdw",
+      "YbigzvkUnnk0vvj7K13v",
+      "WgWhnf5GC4z6aK9fBrvu",
+      "GLI5B11xtiwdzmcgmZdJ",
+      "MjuA2WbIiXKEtuny0g89",
+      "1GvldZMnxRWyPCAxKeM6",
+      "eFp8Nx29GXPUPUV2oapM",
+      "Y7ecPCS6x9WgURUutzLM",
+      "QIOboEHnaNnfkLLYX8m6",
+      "O4XqsyydRcKDVmX39DI0",
+      "puwYq4i5mpTm7vL6DOFl"
+    ],
+    "summary": {
+      "nodes_run": 7,
+      "generations_started": 12,
+      "failed": 16,
+      "generations_by_node": {
+        "6UhVHCJDbLkPnHCVOlSB": 2,
+        "aYBMkuISaYBB5VHEfypV": 2,
+        "k5Ync0LzNje1i8TLPUdY": 1,
+        "kBOZg6dnMcwjqof8xtl7": 2,
+        "zcCyPO9aC3nHPOkrsekO": 2,
+        "L4JJt5lFtQoyXaWxnAEb": 1,
+        "ait8zoVaEMca38mnJpQY": 2
+      }
+    }
+  },
+  "note": "Only the iron-latch candidate completed. Five music starts failed for insufficient funds; six other SFX starts failed quota checks. Reported prices are provider metadata, not a verified billing settlement. No source has been auditioned or integrated. No retries were started.",
+  "generations": [
+    {
+      "id": "Fo7JllHU4tDELHRp92VB",
+      "status": "failed",
+      "modelId": "eleven_music_v2",
+      "error": "Insufficient funds",
+      "reportedPrice": {
+        "credits": 300,
+        "price_cents": 3,
+        "cost_fiat_currency": "usd"
+      }
+    },
+    {
+      "id": "7SjUbD9EPuFApzwwx6VZ",
+      "status": "failed",
+      "modelId": "eleven_music_v2",
+      "error": "Insufficient funds",
+      "reportedPrice": {
+        "credits": 300,
+        "price_cents": 3,
+        "cost_fiat_currency": "usd"
+      }
+    },
+    {
+      "id": "2drZajm43CVoGzgTzOYO",
+      "status": "failed",
+      "modelId": "eleven_music_v2",
+      "error": "Insufficient funds",
+      "reportedPrice": {
+        "credits": 300,
+        "price_cents": 3,
+        "cost_fiat_currency": "usd"
+      }
+    },
+    {
+      "id": "JOcJ2zWzjiJ8UctisObJ",
+      "status": "failed",
+      "modelId": "eleven_music_v2",
+      "error": "Insufficient funds",
+      "reportedPrice": {
+        "credits": 300,
+        "price_cents": 3,
+        "cost_fiat_currency": "usd"
+      }
+    },
+    {
+      "id": "H9x3zaq1pIKhhG6zvbv8",
+      "status": "failed",
+      "modelId": "eleven_music_v2",
+      "error": "Insufficient funds",
+      "reportedPrice": {
+        "credits": 300,
+        "price_cents": 3,
+        "cost_fiat_currency": "usd"
+      }
+    },
+    {
+      "id": "0IVixW6PMOQNhKh5fRUo",
+      "status": "failed",
+      "modelId": "eleven_text_to_sound_v2",
+      "error": "This request exceeds your quota of 10000. You have 4 credits remaining, while 10 credits are required for this request.",
+      "reportedPrice": {
+        "credits": 10,
+        "price_cents": 0.1,
+        "cost_fiat_currency": "usd"
+      }
+    },
+    {
+      "id": "vMCLBNomqWvVS87LvUDW",
+      "status": "failed",
+      "modelId": "eleven_text_to_sound_v2",
+      "error": "This request exceeds your quota of 10000. You have 4 credits remaining, while 10 credits are required for this request.",
+      "reportedPrice": {
+        "credits": 10,
+        "price_cents": 0.1,
+        "cost_fiat_currency": "usd"
+      }
+    },
+    {
+      "id": "Z0EXmObcIfXCfwmk7beM",
+      "status": "completed",
+      "modelId": "eleven_text_to_sound_v2",
+      "durationSeconds": 1,
+      "reportedPrice": {
+        "credits": 10,
+        "price_cents": 0.1,
+        "cost_fiat_currency": "usd"
+      }
+    },
+    {
+      "id": "3EeJAGxuJe571nkoKsFi",
+      "status": "failed",
+      "modelId": "eleven_text_to_sound_v2",
+      "error": "This request exceeds your quota of 10000. You have 4 credits remaining, while 10 credits are required for this request.",
+      "reportedPrice": {
+        "credits": 10,
+        "price_cents": 0.1,
+        "cost_fiat_currency": "usd"
+      }
+    },
+    {
+      "id": "WPUaUNjMXlYMnHfrNAHS",
+      "status": "failed",
+      "modelId": "eleven_text_to_sound_v2",
+      "error": "This request exceeds your quota of 10000. You have 4 credits remaining, while 15 credits are required for this request.",
+      "reportedPrice": {
+        "credits": 15.000000000000002,
+        "price_cents": 0.15000000000000002,
+        "cost_fiat_currency": "usd"
+      }
+    },
+    {
+      "id": "heky13lpbWjJlpA6DYUx",
+      "status": "failed",
+      "modelId": "eleven_text_to_sound_v2",
+      "error": "This request exceeds your quota of 10000. You have 4 credits remaining, while 20 credits are required for this request.",
+      "reportedPrice": {
+        "credits": 20,
+        "price_cents": 0.2,
+        "cost_fiat_currency": "usd"
+      }
+    },
+    {
+      "id": "RrKJZjahHQeBfA13KIaR",
+      "status": "failed",
+      "modelId": "eleven_text_to_sound_v2",
+      "error": "This request exceeds your quota of 10000. You have 4 credits remaining, while 20 credits are required for this request.",
+      "reportedPrice": {
+        "credits": 20,
+        "price_cents": 0.2,
+        "cost_fiat_currency": "usd"
+      }
+    }
+  ],
+  "summary": {
+    "completed": 1,
+    "failedAfterDispatch": 11,
+    "rateLimitedBeforeDispatch": 16,
+    "remainingCreditsReported": 4
+  }
+}

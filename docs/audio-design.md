@@ -4,6 +4,10 @@
 
 ## Direction
 
+The [UI sound direction](ui-audio-direction.md) specifies proposed materials,
+rhythms and edited durations for all 21 existing cues, with a recorded ElevenLabs
+pilot. It is an audition specification; current playback remains as described below.
+
 Audio should confirm commands and distinguish urgent events without becoming
 constant noise during a large battle. The default sounds are synthesized with
 Web Audio in `src/audio.mjs`. Optional local Audio Studio packs supply contextual

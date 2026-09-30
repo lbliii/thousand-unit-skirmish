@@ -10,7 +10,36 @@ sequence and acceptance criteria. Existing solo/two-seat checks are the regressi
 floor; expansion of gameplay functionality is the next development outcome.
 Art proceeds separately against stable presentation interfaces.
 
+Use the [RTS capability inventory](references/feature-coverage-inventory.md) as
+a loose roadmap for further maturity. AoE, openage and Warcraft identify systems
+we may match, adapt or improve; prioritize dependable player control, useful
+scenario tools and reusable content/feedback interfaces. Select concrete outcomes
+from the inventory rather than treating comprehensive parity or its proposed
+milestone sequence as a prerequisite for progress. Art direction and character
+production can develop independently of these engine capabilities.
+
 ## Foundation milestones
+
+### Parallel core workstreams — 30 September 2026
+
+The user authorized a parallel implementation wave targeting `main`. Each owner
+uses an isolated worktree, ships focused PRs and owns proportionate checks,
+staging integration and fix-forward work. Art and audio production proceed in
+their existing lanes. The workstreams below are starting outcomes, not claims
+of implemented functionality or comprehensive reference parity.
+
+| Workstream | First useful outcome | Primary edit boundary |
+| --- | --- | --- |
+| Army commands | Stop/Hold with predictable interruption, no Hold pursuit, HUD/hotkeys and persisted both-seat behavior. | Authoritative orders/movement/combat idle semantics; command input/HUD and command tests. |
+| Scenario authoring | Named regions and bounded region-entry condition/action events, Map Studio editing, validated import/export and checkpoint-safe execution. | Map/schema validation, scenario event simulation, editor and authoring tests. |
+| Unit audio engineering | Supported lifecycle event catalog, ready/death/repair routing, food/wood context, bounded playback and recovery-safe deduplication. | Audio policies/runtime/library UI and narrow client audio emission sites. |
+
+Keep edits to shared server/client files localized to these responsibilities;
+prefer focused modules over broad rewrites. Read current `main` before dependent
+work and contact only an affected owner for a concrete conflicting edit or shared
+contract. A completed scoped slice may integrate independently; do not create a
+central approval queue or wait for the whole wave. Later Patrol/Follow, broader
+triggers and shared content delivery follow useful integrated outcomes.
 
 | Milestone | Observable outcome |
 | --- | --- |
@@ -90,7 +119,7 @@ builds; they do not certify today's deployment.
 | Balance | Observe contested openings without changing established baselines prematurely. | [Opening and combat evidence](first-skirmish-balance.md), timings, losses, stocks, player explanations. |
 | Maps | Test Frontier Reach and Highland Grove routes, resources, elevation, and forest access in a match. | Layout/round-trip checks and actual route choices. |
 | Interface | Make selection, production, objectives, and rematches discoverable in the compact HUD. | Viewport, interaction capture, novice observation. |
-| Audio | Audio Studio v1 is implemented; import original material, audition an authored pack in Forked Vale, then check cue recognition. | [Audio Studio plan](audio-studio-implementation-plan.md), import/save/reload/play proof, and ten-trial results with mix/caption settings. |
+| Audio | All-zone source milestone is implemented: 44 originals across ten zones and eleven palettes, a comparison player, and Audio Studio import. Next: creative audition, loop edits, discovery/conflict arrangements and in-match cue recognition. | [All-zone evidence](qa-zone-audio-2026-09-30.md), [source pack](../assets/audio/vaelora-zones-v1/README.md), and later ten-trial results with mix/caption settings. |
 | Renderer | Integrate useful asset states while preserving fog, batching, and camera readability. | Exact pack/revision, representative runtime frame, focused checks. |
 | Art | Finish small independent unit, building, environment, vegetation, or material samples. | Source/runtime status, manifests, provenance, known limits. See [art lanes](art-production-lanes.md). |
 | Unit characters | Review the default Worker/peasant sprite in a live match, then develop distinct Infantry and Archer sources through the fixed-camera pose-capture workflow. | See [unit sprite exploration](unit-sprite-exploration.md) and [Meshy-to-sprite pipeline](unit-character-meshy-pipeline.md); record runtime visibility, rights/provenance, and player readability separately. |
