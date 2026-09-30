@@ -10,7 +10,7 @@ The [selected world atlas, ten zone maps and ten ecology keys](art-direction/vae
 
 Azure and Ember remain match identities. Region and culture palettes must remain recognizable under either owner's team accents. Environment cutouts, unit geometry and captured building views must share scale, lighting and readable silhouettes within each region.
 
-The [blueprint-derived peoples and faction sheets](art-direction/vaelora-peoples-v1/README.md) propose character anatomy, clothing, materials and architecture for the four working allegiances. They extend the world checkpoint as source concepts; ancestry is not restricted by allegiance, and their role labels add no gameplay abilities.
+The blueprint-derived peoples and faction explorations propose character anatomy, clothing, materials and architecture for the four working allegiances. They extend the world checkpoint as source concepts; ancestry is not restricted by allegiance, and their role labels add no gameplay abilities.
 
 ![Vaelora world atlas](art-direction/vaelora-v1/world-atlas.png)
 
