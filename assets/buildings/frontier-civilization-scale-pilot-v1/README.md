@@ -30,3 +30,5 @@ Run `npm ci`, then `node scripts/serve-building-scale-review.mjs` and open `http
 Use `node scripts/inspect-building-glb.mjs model.glb report.json` to inspect uncompressed GLB geometry and lower-height bands. Lower bands are measurement candidates, not automatic support-plane approval. See [dated QA evidence](../../../docs/qa-frontier-building-scale-pilot-2026-09-30.md).
 
 Run `node scripts/validate-building-scale-pilot.mjs` to verify all sixteen frame hashes, dimensions, per-view record consistency and shared registration. It checks recorded alpha margins, not decoded alpha pixels or runtime behavior.
+
+The gallery now supports Worker v1/v2/v3 atlas references beside both buildings. It uses the sprite loader’s `heightWorld / maxAlphaHeight` formula, multiplied by the building density of 128 pixels/world unit, and aligns the selected frame’s actual ground pivot. Fixed reference facing and origin-depth placement establish relative source scale; doorway fit and runtime terrain contact remain unverified.
