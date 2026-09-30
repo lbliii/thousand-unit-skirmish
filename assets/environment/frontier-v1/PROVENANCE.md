@@ -290,3 +290,7 @@ Built-in ImageGen edited the original low-stock highpine to a smaller crown and 
 ## Ellionar Sunbloom · 30 September 2026
 
 Built-in ImageGen against project-owned approved Ellionar ecology key's Sunbloom specimen, without its planter. [Exact prompt](ELLIONAR-UNDERSTORY-PROMPTS.json) and [manifest](ellionar-understory-manifest.json) record source ID, reference hash, dimensions, crop and file hashes. Selected PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background compositing inspected leaf gaps and surroundings. No local repainting or alpha repair. One approximate painted oblique view; no emission.
+
+## Sereward succulent · 30 September 2026
+
+Original built-in ImageGen against project-owned approved Sereward ecology key's succulent specimen, without its flowering stalk. [Exact prompt](SEREWARD-UNDERSTORY-PROMPTS.json) and [manifest](sereward-understory-manifest.json) record source ID, reference hash, dimensions, crop and file hashes. Selected PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background compositing inspected leaf gaps and surroundings. No local repainting or alpha repair. One approximate painted oblique view; no emission.

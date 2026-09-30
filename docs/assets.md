@@ -123,3 +123,5 @@ Underbough forest-floor maps include sparse Rootward fungus companions beneath C
 Veyrholds scree-map forests include sparse ridgegrass companions clearing with their parent forest cells. See the [manifest](../assets/environment/frontier-v1/veyrholds-understory-manifest.json) and [environment guide](environment-pack-v1.md) for source/runtime details and scope.
 
 Ellionar garden-loam maps include sparse Sunbloom companions beneath palms and hedges, clearing with parent forest cells. See the [manifest](../assets/environment/frontier-v1/ellionar-understory-manifest.json) and [environment guide](environment-pack-v1.md) for source/runtime details and scope.
+
+Sereward sand-map forests include sparse turquoise/coral succulent companions that clear with their parent forest cells. See the [manifest](../assets/environment/frontier-v1/sereward-understory-manifest.json) and [environment guide](environment-pack-v1.md) for source/runtime details and scope.

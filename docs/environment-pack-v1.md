@@ -590,3 +590,9 @@ The highpine low-stock frame now has fewer leafy tiers, a narrower crown and pal
 The approved ecology key's [Sunbloom](../assets/environment/frontier-v1/ellionar-understory-manifest.json) adds lapis-blue flowers with ivory centers and cultivated green leaves beneath palms and hedges on garden-loam maps. One shared mesh uses terrain-seeded28% forest-cell selection. Flowers remain through partial harvest, clear at received stock zero and restore on reset; hidden cells retain their last received stock. No medicinal, food or collision rules are introduced.
 
 [Local evidence](qa-evidence/vaelora-ellionar-understory-2026-09-30/README.md) covers both parent families, seeded variation, camera/ground contact and clearing/reset. Generated PNG remains unchanged, cropped WebP preserves alpha, and flowers have no emission. Planters, cultivated flower-bed placement, medicinal harvesting and additional painted viewpoints remain future outcomes.
+
+## Sereward succulent · 30 September 2026
+
+The approved key's [water-storing succulent](../assets/environment/frontier-v1/sereward-understory-manifest.json) adds broad turquoise leaves and coral tooth edges beneath palms, acacias and woody scrub on sand maps. One shared companion mesh uses terrain-seeded28% forest-cell selection. Succulents retain appearance through partial harvest, clear at received stock zero and restore on reset; hidden cells retain their last received stock. No water-harvest, food or collision rule is introduced.
+
+[Local evidence](qa-evidence/vaelora-sereward-understory-2026-09-30/README.md) covers all three parent families, seeded variation, camera/ground contact and clearing/reset. Generated source unchanged, cropped WebP alpha preserved, no emission. Open dune placement, water harvesting, seasonal variants and extra painted viewpoints remain future outcomes.
