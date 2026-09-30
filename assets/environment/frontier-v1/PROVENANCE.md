@@ -230,3 +230,7 @@ Built-in ImageGen edited the approved project-owned Fiendwood source into a dark
 ## Underbough Copperleaf lifecycle · 30 September 2026
 
 Built-in ImageGen edited the original project-owned Copperleaf into worked, low and depleted states, retaining its exact 1312×1199 source canvas. [Manifest](underbough-lifecycle-manifest.json) and [exact prompts](UNDERBOUGH-LIFECYCLE-PROMPTS.json) record hashes, source IDs and the original shared crop. Unchanged generated masters; runtime LANCZOS max1024 WebP quality86 method6 with exact alpha. Atlas packaging copies decoded runtime frames without rescaling or repainting; one fixed-oblique view. Full source/runtime reused unchanged.
+
+## Underbough woody bramble lifecycle · 30 September 2026
+
+Built-in ImageGen edited the original project-owned fruitless woody bramble into worked, low and depleted frames. Full PNG/WebP remain unchanged. All selected edits retain the exact 1536×1024 canvas and shared crop [37,125,1519,913], with LANCZOS max1024 RGBA WebP quality86 method6 and exact alpha. [Manifest](underbough-bramble-lifecycle-manifest.json) records selected output IDs, hashes and dimensions; [exact prompts](UNDERBOUGH-BRAMBLE-LIFECYCLE-PROMPTS.json) also record two discarded depletion iterations. The final depletion was lowered and registration-corrected through ImageGen, not local pixel edits. Decoded runtime pixels are copied into the atlas without rescaling. One fixed-oblique view; no berries or new food resource.

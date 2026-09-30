@@ -482,3 +482,11 @@ The [Copperleaf lifecycle preview](../assets/environment/frontier-v1/underbough-
 [Lifecycle atlas](../assets/environment/frontier-v1/underbough-lifecycle-atlas.json) uses the shared four-clip contract, 64px gutter, half-texel UV inset and mip cap six. Forest-floor maps retain their existing approximately 80% Copperleaf / 20% woody bramble selection. Only Copperleaf gains these states; bramble still uses the existing clearing path. Resource stock maps to full at ≥67%, worked at ≥34%, low above zero and matching stump at zero. This is persistent stock feedback, not worker-action animation. Forest cells, wood yield and collision are unchanged.
 
 [Owner-run evidence](qa-evidence/vaelora-underbough-atlas-2026-09-30/README.md) covers four-state renderer selection, upright runtime matrices, real worker harvesting/reset and individual-texture fallback. One fixed-oblique painted view; additional perspectives, bramble lifecycle and measured source-camera calibration remain unfinished.
+
+## Underbough woody bramble lifecycle · 30 September 2026
+
+[Woody bramble manifest](../assets/environment/frontier-v1/underbough-bramble-lifecycle-manifest.json) adds worked, low-stock and cleared root/stub frames to the approved fruitless bramble. Pale clipped ends progress from small side tips to cut-back upper growth, then a low mossy root tangle and short stems at zero stock. It remains an existing wood-bearing forest slot, not a berry food node. Copperleaf/bramble selection, wood yield, collision and clearing rules stay unchanged.
+
+The [bramble atlas](../assets/environment/frontier-v1/underbough-bramble-lifecycle-atlas.json) is a separate lazily loaded page beside Copperleaf, using the same four-state/gutter/mip contract. Both Underbough families now have their own depletion silhouettes. Full source/runtime are reused unchanged; generated masters, shared original crop and exact prompts are recorded in [provenance](../assets/environment/frontier-v1/UNDERBOUGH-BRAMBLE-LIFECYCLE-PROMPTS.json). Single fixed-oblique view; action animation and extra perspectives remain unfinished.
+
+[Local live-harvest and renderer evidence](qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30/README.md) exercises a deterministic bramble slot separately from Copperleaf, including reset and metadata-failure fallback.

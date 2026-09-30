@@ -19,6 +19,7 @@ const spriteNames = [
   'bellweather-field-maple-worked', 'bellweather-field-maple-low', 'bellweather-field-maple-depleted',
   'veyrholds-highpine', 'veyrholds-ironlichen-outcrop', 'ru-lora-fiendwood', 'ru-lora-stone-fern', 'ru-lora-broken-trunk',
   'underbough-copperleaf', 'underbough-bramble',
+  'underbough-bramble-worked', 'underbough-bramble-low', 'underbough-bramble-depleted',
   'underbough-copperleaf-worked', 'underbough-copperleaf-low', 'underbough-copperleaf-depleted',
   'sereward-palm', 'sereward-acacia', 'sereward-scrub',
   'sereward-palm-worked', 'sereward-palm-low', 'sereward-palm-depleted',
@@ -35,7 +36,7 @@ const spriteMaterials = new Map();
 const constructionTextures = new Map();
 const constructionMaterials = new Map();
 const constructionInstances = new Map();
-const forestAtlasPacks = new Map(await Promise.all(['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough'].map(async (region) => {
+const forestAtlasPacks = new Map(await Promise.all(['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough', 'underbough-bramble'].map(async (region) => {
   try {
     const response = await fetch(`${ASSET_ROOT}${region}-lifecycle-atlas.json`);
     if (!response.ok) throw new Error(`atlas metadata HTTP ${response.status}`);
@@ -718,7 +719,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       || createEnvironmentSpriteInstances(name, width, height, points);
     if (!mesh) continue;
     let stateMeshes;
-    if (!mesh.userData.forestAtlas && ['bellweather-field-maple', 'sereward-palm', 'pale-meridian-conifer', 'siltmouths-tidal-tree', 'vesperra-mistbark', 'sombral-mere-merebloom', 'underbough-copperleaf'].includes(name)) {
+    if (!mesh.userData.forestAtlas && ['bellweather-field-maple', 'sereward-palm', 'pale-meridian-conifer', 'siltmouths-tidal-tree', 'vesperra-mistbark', 'sombral-mere-merebloom', 'underbough-copperleaf', 'underbough-bramble'].includes(name)) {
       stateMeshes = { full: mesh };
       for (const stage of ['worked', 'low', 'depleted']) {
         const stateMesh = createEnvironmentSpriteInstances(`${name}-${stage}`, width, height,

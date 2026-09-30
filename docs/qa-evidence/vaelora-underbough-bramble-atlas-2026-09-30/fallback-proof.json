@@ -1,0 +1,82 @@
+[
+  {
+    "family": "bellweather-field-maple",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "sereward-palm",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "pale-meridian-conifer",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "siltmouths-tidal-tree",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "vesperra-mistbark",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "sombral-mere-merebloom",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "underbough-copperleaf",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "underbough-bramble",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  }
+]

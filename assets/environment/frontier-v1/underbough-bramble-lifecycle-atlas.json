@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-underbough-bramble-lifecycle-atlas",
+  "packVersion": "1.0.0",
+  "maturity": "runtime-candidate",
+  "provenance": {
+    "license": "project-owned",
+    "source": "underbough-bramble-lifecycle-manifest.json",
+    "authoringTool": "Pillow deterministic page packing",
+    "notes": "Exact decoded approved runtime pixels, no repaint or rescaling. Runtime WebP quality86; PNG page preserves exact decoded approved pixels. Fixed camera; state clips reserve direction IDs. 64px transparent RGB edge-extension gutter, mip cap6, half-texel inset. Original generated masters retained."
+  },
+  "files": [
+    {
+      "id": "source",
+      "path": "underbough-bramble-lifecycle-atlas.png",
+      "usage": "source",
+      "format": "png",
+      "sha256": "254062daa8f92f7e87c5cf7bd33e643d182262a679416c3f87580379f771c015",
+      "dimensionsPx": {
+        "width": 2304,
+        "height": 1344
+      }
+    },
+    {
+      "id": "runtime",
+      "path": "underbough-bramble-lifecycle-atlas.webp",
+      "usage": "runtime",
+      "format": "webp",
+      "sha256": "434daffc87deda9e8a6fade732ebb05a09003ce568f952feaeba747a0badfc4d",
+      "dimensionsPx": {
+        "width": 2304,
+        "height": 1344
+      }
+    }
+  ],
+  "pages": [
+    {
+      "id": "color",
+      "sourceFileId": "source",
+      "runtimeFileId": "runtime",
+      "dimensionsPx": {
+        "width": 2304,
+        "height": 1344
+      },
+      "colorSpace": "srgb",
+      "pixelFormat": "rgba8",
+      "alphaMode": "straight",
+      "edgeRule": "bleed-rgb-under-transparent",
+      "gutterPx": 64,
+      "gutterRule": "edge-extended",
+      "wrapMode": "clamp",
+      "sampling": {
+        "generateMipmaps": true,
+        "minFilter": "linear-mipmap-linear",
+        "magFilter": "linear",
+        "uvInsetPx": 0.5,
+        "maxMipLevel": 6
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "underbough-bramble",
+      "kind": "environment",
+      "artBoundsWorld": {
+        "min": [
+          -1.55,
+          0,
+          0
+        ],
+        "max": [
+          1.55,
+          2.07,
+          0
+        ]
+      },
+      "heightWorld": 2.07,
+      "sortAnchorWorld": [
+        0,
+        0,
+        0
+      ],
+      "frames": [
+        {
+          "id": "full",
+          "canvasPx": {
+            "width": 1024,
+            "height": 544
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 544
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 1024,
+            "height": 544
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 64,
+              "y": 64,
+              "width": 1024,
+              "height": 544
+            }
+          }
+        },
+        {
+          "id": "worked",
+          "canvasPx": {
+            "width": 1024,
+            "height": 544
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 544
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 43,
+            "y": 0,
+            "width": 981,
+            "height": 544
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 1216,
+              "y": 64,
+              "width": 1024,
+              "height": 544
+            }
+          }
+        },
+        {
+          "id": "low",
+          "canvasPx": {
+            "width": 1024,
+            "height": 544
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 544
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 45,
+            "y": 119,
+            "width": 979,
+            "height": 425
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 64,
+              "y": 736,
+              "width": 1024,
+              "height": 544
+            }
+          }
+        },
+        {
+          "id": "depleted",
+          "canvasPx": {
+            "width": 1024,
+            "height": 544
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 544
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 52,
+            "y": 324,
+            "width": 951,
+            "height": 215
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 1216,
+              "y": 736,
+              "width": 1024,
+              "height": 544
+            }
+          }
+        }
+      ],
+      "clips": [
+        {
+          "stateId": "full",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "full",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "worked",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "worked",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "low",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "low",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "depleted",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "depleted",
+              "durationMs": 1000
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

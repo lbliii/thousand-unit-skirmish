@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-underbough-bramble-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "underbough-bramble.png",
+  "prompts": "UNDERBOUGH-BRAMBLE-LIFECYCLE-PROMPTS.json",
+  "provenance": "Built-in ImageGen edits of the project-owned woody bramble. Unmodified masters, original shared crop, LANCZOS max1024 RGBA WebP quality86 method6. Alpha preserved; camera guidance is approximate.",
+  "files": [
+    {
+      "path": "underbough-bramble.png",
+      "role": "source-image",
+      "sha256": "9fb6000b2c96f6a4f38041a68984e9bd04351d69a9d2175fb5e05c677c7d8f90",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 2061290
+    },
+    {
+      "path": "underbough-bramble.webp",
+      "role": "runtime-image",
+      "sha256": "a06f899588c5b565ade4457eb11328f470d8c476dc0f503e6b1c09491f06004e",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 544
+      },
+      "bytes": 209830
+    },
+    {
+      "path": "underbough-bramble-worked.png",
+      "role": "source-image",
+      "sha256": "bb0c2de08d1e688b68b45d11dce5931558a9b7f0527a8bf6b68ef25d9fb865bd",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 2128256
+    },
+    {
+      "path": "underbough-bramble-worked.webp",
+      "role": "runtime-image",
+      "sha256": "6e85f5b01139d18c6335ec39520ced7df3ea043d320d2636dbd1df4b3b07fa31",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 544
+      },
+      "bytes": 202444
+    },
+    {
+      "path": "underbough-bramble-low.png",
+      "role": "source-image",
+      "sha256": "ad0e3600b5202768896646175693643f4fa51b0580ecb160400bd11c33bc83ec",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 1806161
+    },
+    {
+      "path": "underbough-bramble-low.webp",
+      "role": "runtime-image",
+      "sha256": "3189ab665ffdea4bf1bf863d1651e84b67c616a40d8732a7da45260b04e6bfd6",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 544
+      },
+      "bytes": 154934
+    },
+    {
+      "path": "underbough-bramble-depleted.png",
+      "role": "source-image",
+      "sha256": "dc4cab3886ebc3470083e7bcf7ef51bdc853ccca65b910191c110c874cf80eec",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 1316643
+    },
+    {
+      "path": "underbough-bramble-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "87fe9479c852cc735b76f1f8ad07fd331b151f4e3caed775cad17b54d80156ec",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 544
+      },
+      "bytes": 89764
+    }
+  ],
+  "assets": [
+    {
+      "id": "underbough-bramble",
+      "sourceOutputId": "exec-fcc3e21c-a622-4770-9d4c-219b1b0b0721",
+      "sourceFile": "underbough-bramble.png",
+      "runtimeFile": "underbough-bramble.webp",
+      "cropBoxPx": [
+        37,
+        125,
+        1519,
+        913
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 2.07
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "full",
+      "logicalCanvasPx": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "id": "underbough-bramble-worked",
+      "sourceOutputId": "exec-ee386874-4ae6-4069-aee0-fc167afd2926",
+      "sourceFile": "underbough-bramble-worked.png",
+      "runtimeFile": "underbough-bramble-worked.webp",
+      "cropBoxPx": [
+        37,
+        125,
+        1519,
+        913
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 2.07
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "worked",
+      "logicalCanvasPx": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "id": "underbough-bramble-low",
+      "sourceOutputId": "exec-be88432b-18f4-4337-a7a5-ea6581d18d80",
+      "sourceFile": "underbough-bramble-low.png",
+      "runtimeFile": "underbough-bramble-low.webp",
+      "cropBoxPx": [
+        37,
+        125,
+        1519,
+        913
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 2.07
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "low",
+      "logicalCanvasPx": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "id": "underbough-bramble-depleted",
+      "sourceOutputId": "exec-674de01c-1b68-473a-bfee-622278c982b1",
+      "sourceFile": "underbough-bramble-depleted.png",
+      "runtimeFile": "underbough-bramble-depleted.webp",
+      "cropBoxPx": [
+        37,
+        125,
+        1519,
+        913
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 2.07
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "depleted",
+      "logicalCanvasPx": [
+        1536,
+        1024
+      ]
+    }
+  ]
+}
