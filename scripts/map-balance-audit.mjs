@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import { readFile, realpath } from 'node:fs/promises';
 import path from 'node:path';
+import { buildElevationGrid } from '../src/map-utils.mjs';
+import { canTraverseElevation } from '../src/elevation.mjs';
 import { UNIT_DEFINITIONS } from '../src/gameplay-definitions.mjs';
 import { fileURLToPath } from 'node:url';
 
@@ -34,6 +36,7 @@ if (!Array.isArray(definition.obstacles) || !Array.isArray(definition.spawnPoint
 const walkSpeed = Math.max(...Object.values(UNIT_DEFINITIONS).map(rule => rule.combat.moveSpeed));
 
 const cellCount = width * height;
+const elevation = buildElevationGrid(width, height, definition.elevationPatches);
 const blocked = new Uint8Array(cellCount);
 const cellIndex = (column, row) => row * width + column;
 const toCell = ({ x, z }) => {
@@ -93,7 +96,7 @@ function searchFrom(startCell, removedEdges = new Set()) {
     if (row + 1 < height) neighbors[neighborCount++] = current + width;
     for (let index = 0; index < neighborCount; index++) {
       const next = neighbors[index];
-      if (blocked[next] || distance[next] >= 0 || removedEdges.has(edgeKey(current, next))) continue;
+      if (!canTraverseElevation(elevation, current, next) || blocked[next] || distance[next] >= 0 || removedEdges.has(edgeKey(current, next))) continue;
       distance[next] = distance[current] + 1;
       previous[next] = current;
       queue[writeIndex++] = next;
@@ -200,7 +203,7 @@ const spawnToSpawn = spawnTrees[0].distance[spawnCells[1]];
 const startingResources = definition.startingResources ?? {};
 
 console.log(`${definition.name ?? definition.id ?? path.basename(mapPath)} (${width} × ${height})`);
-console.log(`Nominal single-unit walk speed: ${walkSpeed} cells/s; excludes formation, congestion, and command delay.`);
+console.log(`Nominal single-unit walk speed: ${walkSpeed} cells/s; excludes uphill cost, formation, congestion, and command delay.`);
 console.log(`Spawn-to-spawn geometry: ${formatDistance(spawnToSpawn < 0 ? null : spawnToSpawn)} (not an observed first-contact time).`);
 console.log(`Starting resources per team: food ${startingResources.food ?? 0}, wood ${startingResources.wood ?? 0}.`);
 console.log(`Initial map stock by nearest spawn: team 0 food ${stockTotals[0].food}, wood ${stockTotals[0].wood}; team 1 food ${stockTotals[1].food}, wood ${stockTotals[1].wood}; tied food ${contestedStock.food}, wood ${contestedStock.wood}.`);

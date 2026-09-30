@@ -2,6 +2,7 @@
   "id": "sombral-mere-shore-gardens",
   "name": "Sombral Mere · Shore Gardens",
   "summary": "Still pools and lunar gardens frame a dry causeway, with room to contest either shore.",
+  "region": "sombral-mere",
   "width": 80,
   "height": 72,
   "terrainSeed": 93009,
@@ -223,7 +224,7 @@
   "audio": {
     "packId": "vaelora-sombral-mere",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "84359df3e24865d54ea3e40430e55ac49d24ff6bad73f590f3606a3ad4ae92c8"
+    "version": "v2",
+    "sha256": "e176c421248dbec54e5b467e00b93ea69cebd7e3115e5e4fa49b2c5bea242995"
   }
 }

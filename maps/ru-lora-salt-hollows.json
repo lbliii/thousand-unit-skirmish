@@ -2,6 +2,7 @@
   "id": "ru-lora-salt-hollows",
   "name": "Ru’Lora · Salt Hollows",
   "summary": "Petrified remains divide quiet salt hollows. A sparse expedition scenario without invented hazard rules.",
+  "region": "ru-lora-interior",
   "width": 80,
   "height": 72,
   "terrainSeed": 93011,
@@ -223,7 +224,7 @@
   "audio": {
     "packId": "vaelora-ru-lora-interior",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "fbfa2cee96c31a5f323f5692cb0f4b6bdcb0bd216966be6b2002bb005065f38d"
+    "version": "v2",
+    "sha256": "6ff39e6f9453ab368f6f8c57d14b90600887ae355de4cb8a1ff10d45d998c83a"
   }
 }

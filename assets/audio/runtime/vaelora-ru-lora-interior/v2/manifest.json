@@ -1,0 +1,131 @@
+{
+  "version": "v2",
+  "pack": {
+    "schemaVersion": 1,
+    "id": "vaelora-ru-lora-interior",
+    "name": "Ru’Lora — petrified interior regional soundscape",
+    "sources": [
+      {
+        "id": "ru-lora-interior-music",
+        "name": "Ru’Lora — petrified interior music candidate",
+        "fileName": "tus_ru-lora-interior_music_01_v001.mp3",
+        "mimeType": "audio/mpeg",
+        "tags": [
+          "ru-lora-interior",
+          "candidate"
+        ],
+        "provenance": {
+          "provider": "ElevenLabs",
+          "prompt": "Instrumental sparse dark acoustic chamber texture, immense, absent and forbidding, half-time feeling over a quiet D/A pedal at 96 BPM. Low contrabass harmonics and bowed stone-like resonances, rare dry ceramic friction and one cold glass tone, long silences and controlled natural decay, almost no melody or percussion. Minimal restrained energy, no voices, choir, screams, cinematic impacts or heavy sub-bass, fade into silence.",
+          "createdAt": "2026-09-30"
+        }
+      },
+      {
+        "id": "ru-lora-interior-terrain",
+        "name": "Ru’Lora — petrified interior terrain candidate",
+        "fileName": "tus_ru-lora-interior_terrain_01_v001.mp3",
+        "mimeType": "audio/mpeg",
+        "tags": [
+          "ru-lora-interior",
+          "candidate"
+        ],
+        "provenance": {
+          "provider": "ElevenLabs",
+          "prompt": "Continuous thin quiet air brushing fine dry mineral grit across petrified charcoal stone, extremely sparse steady dry texture. Only the named environmental material. No music, voices, footsteps, animals, machinery, dramatic events or sudden foreground transients. Stable level and perspective, suitable for a seamless repeating ambience bed.",
+          "createdAt": "2026-09-30"
+        }
+      }
+    ],
+    "profiles": [
+      {
+        "id": "landscape",
+        "name": "Ru’Lora — petrified interior",
+        "bindings": {},
+        "music": {
+          "defaultCompositionId": "everyday"
+        },
+        "ambience": {
+          "defaultCompositionId": "environment"
+        }
+      }
+    ],
+    "compositions": [
+      {
+        "schemaVersion": 1,
+        "id": "everyday",
+        "name": "Ru’Lora — petrified interior music",
+        "bpm": 50.420168067226896,
+        "beatsPerBar": 4,
+        "lengthBars": 4,
+        "tracks": [
+          {
+            "id": "music",
+            "name": "music",
+            "gain": 0.35,
+            "pan": 0,
+            "mute": false,
+            "solo": false,
+            "clips": [
+              {
+                "id": "take",
+                "sourceId": "ru-lora-interior-music",
+                "startBeat": 0,
+                "durationBeats": 16,
+                "offsetSeconds": 0,
+                "gain": 1,
+                "loop": false,
+                "fadeInSeconds": 2,
+                "fadeOutSeconds": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "schemaVersion": 1,
+        "id": "environment",
+        "name": "Ru’Lora — petrified interior terrain",
+        "bpm": 33.05692236747067,
+        "beatsPerBar": 4,
+        "lengthBars": 4,
+        "tracks": [
+          {
+            "id": "terrain",
+            "name": "terrain",
+            "gain": 0.6,
+            "pan": 0,
+            "mute": false,
+            "solo": false,
+            "clips": [
+              {
+                "id": "take",
+                "sourceId": "ru-lora-interior-terrain",
+                "startBeat": 0,
+                "durationBeats": 16,
+                "offsetSeconds": 0,
+                "gain": 1,
+                "loop": false,
+                "fadeInSeconds": 2,
+                "fadeOutSeconds": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "downloads": {
+    "ru-lora-interior-music": {
+      "path": "/assets/audio/vaelora-zones-v1/sources/tus_ru-lora-interior_music_01_v001.mp3",
+      "bytes": 498417,
+      "mimeType": "audio/mpeg",
+      "sha256": "9dca752a71f690541839b27fbf63a34d3c75453f38ebc9614fa1c735d38d3110"
+    },
+    "ru-lora-interior-terrain": {
+      "path": "/assets/audio/vaelora-zones-v1/sources/tus_ru-lora-interior_terrain_01_v001.mp3",
+      "bytes": 497951,
+      "mimeType": "audio/mpeg",
+      "sha256": "3f65cc9e1d5a8776d1dfe9e6e1b5dbf89d5b04ba3ce294144b859cdc709ccd26"
+    }
+  }
+}

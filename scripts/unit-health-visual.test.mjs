@@ -9,7 +9,7 @@ const source = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
 const start = source.indexOf('function updateUnitHealthVisual(');
 assert.ok(start >= 0, 'the actual client must expose damaged-unit health');
 const functionSource = source.slice(start, source.indexOf('\nfunction updateUnitTransform(', start));
-function fixture() {
+function fixture(height = 0) {
   const matrices = [new Map(), new Map()];
   const colors = new Map();
   const mesh = (index) => ({
@@ -25,7 +25,7 @@ function fixture() {
     updateMatrix() { this.matrix = { x: this.position.x, y: this.position.y,
       z: this.position.z, scaleX: this.scale.x, scaleY: this.scale.y }; },
   };
-  const context = vm.createContext({ UNIT_DEFINITIONS, unitPresentation, dummy, camera: { quaternion: {} },
+  const context = vm.createContext({ UNIT_DEFINITIONS, unitPresentation, dummy, groundHeight: () => height, camera: { quaternion: {} },
     color: { setHex(hex) { this.hex = hex; } },
     unitHealthBackground: mesh(0), unitHealthFill: mesh(1),
   });
@@ -64,4 +64,13 @@ test('all render paths update health before sprite and strategic-zoom returns', 
   assert.ok(transform.indexOf('updateUnitHealthVisual(unit)') < transform.indexOf('if (unitSpritePreviewActive'));
   assert.match(source, /unitHealthBackground\.count = unitHealthFill\.count = 0/);
   assert.match(source, /unitHealthBackground\.count = unitHealthFill\.count = nextAttackFocusSlot/);
+});
+
+
+test('raised terrain lifts both health layers once', () => {
+  const f = fixture(.8);
+  f.update({ team: 0, kind: 'infantry', hp: 30, visible: true, scale: 1,
+    renderX: 10, renderZ: 12, focusSlot: 4 });
+  assert.equal(f.matrices[0].get(4).y, 1.55 + .8);
+  assert.equal(f.matrices[1].get(4).y, 1.55 + .8);
 });

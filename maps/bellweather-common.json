@@ -2,6 +2,7 @@
   "id": "bellweather-common",
   "name": "Bellweather · Orchard Common",
   "summary": "A wide common between paired orchards; outer harvests compete with the central market route.",
+  "region": "bellweather",
   "width": 96,
   "height": 72,
   "terrainSeed": 93001,
@@ -223,7 +224,7 @@
   "audio": {
     "packId": "vaelora-bellweather",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "472fb50e915de0ab33bc5ecab9777a18486e375d32b17edc63abe54d83a066c2"
+    "version": "v2",
+    "sha256": "1281c6bb17278ba582da89017869a5388792a24c63d7665d31aad01ce5f66338"
   }
 }

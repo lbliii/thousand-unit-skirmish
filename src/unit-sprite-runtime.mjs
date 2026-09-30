@@ -1,3 +1,4 @@
+import { groundHeight } from './terrain-height.mjs';
 const UNIT_ROLES = Object.freeze(['worker', 'infantry', 'archer']);
 const CAST_ROLES = Object.freeze(['human', 'orc', 'elf', 'troll']);
 const DIRECTIONS = Object.freeze([
@@ -302,7 +303,7 @@ export function createUnitSpriteRuntime({
       (frame.groundPivotPx.y - uvOffset.y - rect.height / 2) * scale,
       0,
     ).applyQuaternion(cameraQuaternion);
-    dummy.position.set(unit.renderX, SPRITE_GROUND_LIFT, unit.renderZ).add(localCenter);
+    dummy.position.set(unit.renderX, SPRITE_GROUND_LIFT+groundHeight(unit.renderX,unit.renderZ), unit.renderZ).add(localCenter);
     cameraUp.set(0, 1, 0).applyQuaternion(cameraQuaternion);
     towardCamera.set(0, 0, 1).applyQuaternion(cameraQuaternion);
     if (frame.alphaBoundsPx) {

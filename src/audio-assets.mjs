@@ -95,7 +95,15 @@ function validateProfile(value, path, sourceIds, compositionIds) {
     music.defaultCompositionId = id(value.music.defaultCompositionId, `${path}.music.defaultCompositionId`);
     if (!compositionIds.has(music.defaultCompositionId)) fail(`${path}.music.defaultCompositionId`, `unknown composition ${music.defaultCompositionId}`);
   }
-  return { id: id(value.id, `${path}.id`), name: text(value.name, `${path}.name`), bindings, music };
+  const ambience = {};
+  if (value.ambience !== undefined) {
+    if (!isObject(value.ambience)) fail(`${path}.ambience`, 'must be an object');
+    if (value.ambience.defaultCompositionId != null) {
+      ambience.defaultCompositionId = id(value.ambience.defaultCompositionId, `${path}.ambience.defaultCompositionId`);
+      if (!compositionIds.has(ambience.defaultCompositionId)) fail(`${path}.ambience.defaultCompositionId`, 'unknown composition');
+    }
+  }
+  return { id: id(value.id, `${path}.id`), name: text(value.name, `${path}.name`), bindings, music, ...(value.ambience === undefined ? {} : { ambience }) };
 }
 
 // Use the same composition contract for storage, import, editing and playback.

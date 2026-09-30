@@ -588,3 +588,46 @@ Both maps also pass live Barracks construction, reinforcement training and
 new-unit orders for both seats. The updated production test accepts the current Spearman
 as well as Infantry reinforcement roster. Browser appearance, listening/loop-seam
 acceptance and full human both-seat match balance are not observed. See [layouts and playtest steps](maps.md).
+
+## Regional ground and soundscape slice — 30 September 2026
+
+Build: `codex/regional-map-depth` based on main `245d981`, integrated with main `f39a644`; paired flagship maps
+`bellweather-millrace` and `underbough-rootways`, 24-unit authored openings.
+Millrace gains orchard expansions and painted bank approaches. Rootways gains
+harvestable shortcut belts, two outer victory clearings with a 30-second hold,
+and an independent central food/wood objective. Both use mirrored rolling ground.
+
+Evidence:
+
+- All twelve maps pass both-seat resource/objective reachability with Town Centers
+  and elevation. Generator/compression tests pass seeds 0, 1, 93000 and uint32 max,
+  mirrored ground, protected flat pads, smoothing, slopes and cliff interpolation.
+- Both flagship production scenarios pass both seats building Barracks, training
+  Infantry/Spearmen and ordering the produced units into the field.
+- `regional-objective-scenario.mjs` exercises each seat's authored force through
+  capture routes, the full hold, authoritative victory agreement and neutral
+  rematch restoration. This is a cooperative scripted rules/route proof, not
+  contested human balance evidence. The bound accommodates slower host simulation.
+- Existing authoritative elevation scenario passes both seats: weighted movement,
+  cliff/ramp traversal, high-ground sight, fog privacy and deterministic rematch.
+- Regional ambience passes separate bus muting, hidden/visible tab transitions,
+  map switching and disposal. Library/loader/player/runtime checks and authoritative
+  serving pass; release scenario includes the new modules and v2 manifests. Existing
+  v1 references remain served unchanged.
+- Owner browser check at `127.0.0.1:4197`: Millrace draft, fog off for inspection,
+  seed 937, Generate rolling ground, Save & Play, Fit map and closer inspection.
+  [Appearance capture](qa-evidence/regional-ground-2026-09-30/millrace-generated-hills.jpg).
+  Browser loads and saves successfully; no console errors observed. Texture update
+  warnings remain. Ordinary appearance review makes no comparable performance claim.
+- Room supervisor/recovery passes locally. Prior roster PR #293 CI shard 3 failed
+  at room WebSocket connection. The failed-shard rerun passed, so all three prior
+  roster shards are now green.
+
+Limits: three logical ground levels with derived visual corners; exact RCT corner
+sculpting and in-match terraforming are absent. Keep water at level 0. Decorative
+mist remains a flat-map study. Building validation uses logical flat footprints;
+sloped edge presentation and cliff-side art need further polish. Elevation edits
+have local draft recovery but no scenario Undo. Regional loops use fades, with
+listening/seam refinement and human 1v1 observation still needed. Vesperra vegetation
+remains the Ru’Lora living-fringe substitute. This slice does not claim new factions,
+inhabitants, regional hazards, dynamic scoring or a performance capacity increase.

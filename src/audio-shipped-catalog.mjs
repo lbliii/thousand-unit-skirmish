@@ -9,67 +9,67 @@ export const SHIPPED_AUDIO_REFERENCES = Object.freeze([
   {
     "packId": "vaelora-bellweather",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "472fb50e915de0ab33bc5ecab9777a18486e375d32b17edc63abe54d83a066c2"
+    "version": "v2",
+    "sha256": "1281c6bb17278ba582da89017869a5388792a24c63d7665d31aad01ce5f66338"
   },
   {
     "packId": "vaelora-underbough",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "ae8e00f547f6eb3c0ce590f54f2c8b65fa21a612e9f44b041caa3fd70d3cba91"
+    "version": "v2",
+    "sha256": "b801b080b2265061e12bef090c4200aad071106c17878a71f0b5bc25f8d727e3"
   },
   {
     "packId": "vaelora-sereward",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "0319f757a30bb8d746f71cdc6d5eaff638f8d62e85178ba49b71c3e9e781378f"
+    "version": "v2",
+    "sha256": "9765d9de925137e1788ae1f15fe52cc3b668601b6af2b573401bfc18b1ead594"
   },
   {
     "packId": "vaelora-ellionar",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "fec8a14957d05c9a79b50af238f533722ad0be005b1495967e77748b9326935d"
+    "version": "v2",
+    "sha256": "876544e267d9ec1d2d2f4fa6d19eba9446dc9fc37545f6eb8f5a343f5bf5cff1"
   },
   {
     "packId": "vaelora-veyrholds",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "a998ffa07cd81dade5c37e47a3e785664fceda6018073c1e61ace94f0eedcda9"
+    "version": "v2",
+    "sha256": "445257277fe2615b14fc43f1493c4b7d1e156cf627434981966b46c4cd1751da"
   },
   {
     "packId": "vaelora-pale-meridian",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "3b6119598f99355a96d94a3f61590bba4f82547001cdf68a18bd9656d30774df"
+    "version": "v2",
+    "sha256": "9e3e0bd618a77962c7afed55fccc8d9307d7a0d34a5fae0f47ece645d0963fd6"
   },
   {
     "packId": "vaelora-siltmouths",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "fad484989ce03d8c22b9637ce534d104eaf34bd3a50d290de4ff4be7d3a52714"
+    "version": "v2",
+    "sha256": "1d64164f3d97048f3e68ef2b094d04359281da7ddafed86cbeee628b83ce8c44"
   },
   {
     "packId": "vaelora-vesperra",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "9c8e14728351d4dd1e18f68b684fcf804a3377a0774e67ae9c26081aec273603"
+    "version": "v2",
+    "sha256": "119370e6714bfbeba7b4f8d78ce8650fdec0d45cc3f327f1a28906ab05fb0847"
   },
   {
     "packId": "vaelora-sombral-mere",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "84359df3e24865d54ea3e40430e55ac49d24ff6bad73f590f3606a3ad4ae92c8"
+    "version": "v2",
+    "sha256": "e176c421248dbec54e5b467e00b93ea69cebd7e3115e5e4fa49b2c5bea242995"
   },
   {
     "packId": "vaelora-ru-lora-fringe",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "4c8b91778368357fa36451413d41a09fbaf151b4a063083a344f2eeaa3a50f21"
+    "version": "v2",
+    "sha256": "319634472865751322fbda859ac7320bf765662721aa81e668a08d5a957c18cb"
   },
   {
     "packId": "vaelora-ru-lora-interior",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "fbfa2cee96c31a5f323f5692cb0f4b6bdcb0bd216966be6b2002bb005065f38d"
+    "version": "v2",
+    "sha256": "6ff39e6f9453ab368f6f8c57d14b90600887ae355de4cb8a1ff10d45d998c83a"
   }
 ]);

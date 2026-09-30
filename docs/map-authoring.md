@@ -203,3 +203,31 @@ waiting, armed, delivered (repeating), or completed; activation reason/team/time
 delivery count and recipients. Only Azure, the room host, receives this diagnostic
 payload, including on maps without fog. It derives from persisted event state, so
 recovery needs no growing trace log. It is a current-state trace, not a match replay.
+
+
+## Pre-match elevation
+
+Choose Raise +1, Lower −1, Level 0/1/2 or Smooth under Ground Level, then drag on
+the grid. Smooth averages the painted cells with their cardinal neighbors from
+an immutable stroke snapshot. Save & Play renders slopes, terrain-following
+sprites, objective ground and fog. Ground clicks raycast the rendered surface.
+
+Enter an unsigned 32-bit Hill Seed and choose Generate mirrored rolling ground
+to replace the draft's heights with deterministic hills. It preserves mirrored
+flat pads around spawns, Town Centers, resource nodes, objectives and water.
+Generation uses levels 0/1 so it introduces no impassable cliffs. Save/download
+serializes the resulting elevation patches and seed; no randomness runs during
+the match. Elevation edits use local draft recovery, but the scenario Undo button
+still covers only named regions and events. Download first to retain an earlier
+height layout.
+
+Level 0 to 2 directly creates an impassable edge. Paint level 1 between them to
+create a ramp. The existing authoritative rules remain: uphill steps cost 115
+versus 100 on flat ground, high ground extends sight, and construction requires
+an equal-level footprint. Validate paths and build space after sculpting.
+
+The initial renderer derives corners from neighboring cell levels, with visible
+vertical walls at cliffs. Exact independent corner sculpting and water on raised
+terraces are unsupported; keep water at level 0. Optional decorative mist remains
+a flat-map art study. This is pre-match authoring, with no in-match terraforming.
+Regional Palette sets ground/audio defaults independently of named scenario regions.

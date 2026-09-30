@@ -1,3 +1,6 @@
+import { generateRollingGround, smoothGround } from './terrain-authoring.mjs';
+import { setActiveTerrain, groundHeight } from './terrain-height.mjs';
+import { REGIONS, validateMapRegion } from './regions.mjs';
 import { regionGestureZone, ScenarioEditHistory } from './scenario-authoring.mjs';
 import { validateScenarioRegions, validRegionEntryTrigger, validCompletionTrigger } from './scenario-regions.mjs';
 import { TERRAIN_COLORS } from './terrain-materials.mjs';
@@ -283,6 +286,7 @@ const ui = {
   studioWidth: document.querySelector('#studio-width'),
   studioHeight: document.querySelector('#studio-height'),
   studioTerrainBase: document.querySelector('#studio-terrain-base'),
+  studioRegionPalette: document.querySelector('#studio-region-palette'),
   studioGroundBrushSize: document.querySelector('#studio-ground-brush-size'),
   studioElevationBrushSize: document.querySelector('#studio-elevation-brush-size'),
   studioStartingArmySize: document.querySelector('#studio-starting-army-size'),
@@ -880,7 +884,7 @@ function createTownCenterVisual(building) {
 }
 
 function updateTownCenterVisual(visual, building) {
-  visual.group.position.set(building.x, 0, building.z);
+  visual.group.position.set(building.x, groundHeight(building.x,building.z), building.z);
   visual.captureEntry.lifecycleInput = building;
   const progress = THREE.MathUtils.clamp(Number(building.progress) || 0, 0, 1);
   visual.fallbackRoot.scale.set(building.home ? 1 : 1.45, Math.max(0.08, progress), building.home ? 1 : 1.45);
@@ -932,7 +936,7 @@ function updateBuildingRallyMarker(visual, building) {
   const row = Math.floor(building.rallyCell / MAP_WIDTH);
   visual.rallyMarker.position.set(
     column - MAP_HALF_X + 0.5 - building.x,
-    0,
+    groundHeight(column-MAP_HALF_X+.5,row-MAP_HALF_Z+.5)-groundHeight(building.x,building.z),
     row - MAP_HALF_Z + 0.5 - building.z,
   );
   visual.rallyMarker.visible = true;
@@ -1224,7 +1228,7 @@ function createHouseVisual(building) {
 
 function updateHouseVisual(visual, building) {
   const progress = THREE.MathUtils.clamp(Number(building.progress) || 0, 0, 1);
-  visual.group.position.set(building.x, 0, building.z); visual.group.visible = true;
+  visual.group.position.set(building.x, groundHeight(building.x,building.z), building.z); visual.group.visible = true;
   visual.walls.scale.y = Math.max(0.08, progress); visual.walls.position.y = 0.15 + 0.6 * progress;
   visual.roof.visible = building.complete === true;
   updateBuildingHealthIndicator(visual, building);
@@ -1315,7 +1319,7 @@ function createArcheryRangeVisual(building) {
     new THREE.Vector3(-1.5, 0.025, 1.5), new THREE.Vector3(-1.5, 0.025, -1.5),
   ];
   const outline = new THREE.LineSegments(
-    new THREE.BufferGeometry().setFromPoints(outlinePoints),
+    new THREE.BufferGeometry().setFromPoints(drapeLineSegments(outlinePoints)),
     new THREE.LineBasicMaterial({ color: teamColor, transparent: true, opacity: 0.9 }),
   );
   group.add(outline);
@@ -1334,7 +1338,7 @@ function createArcheryRangeVisual(building) {
 
 function updateArcheryRangeVisual(visual, building) {
   const progress = THREE.MathUtils.clamp(Number(building.progress) || 0, 0, 1);
-  visual.group.position.set(building.x, 0, building.z);
+  visual.group.position.set(building.x, groundHeight(building.x,building.z), building.z);
   visual.group.visible = true;
   const postHeight = 0.95 * progress;
   for (let index = 0; index < 4; index++) {
@@ -1449,7 +1453,7 @@ function createBarracksVisual(building) {
     new THREE.Vector3(-1.5, 0.025, 1.5), new THREE.Vector3(-1.5, 0.025, -1.5),
   ];
   const outline = new THREE.LineSegments(
-    new THREE.BufferGeometry().setFromPoints(outlinePoints),
+    new THREE.BufferGeometry().setFromPoints(drapeLineSegments(outlinePoints)),
     new THREE.LineBasicMaterial({ color: teamColor, transparent: true, opacity: 0.9 }),
   );
   group.add(outline);
@@ -1469,7 +1473,7 @@ function createBarracksVisual(building) {
 function updateBarracksVisual(visual, building) {
   const progress = THREE.MathUtils.clamp(Number(building.progress) || 0, 0, 1);
   const state = barracksModelVisualState(progress, building.complete);
-  visual.group.position.set(building.x, 0, building.z);
+  visual.group.position.set(building.x, groundHeight(building.x,building.z), building.z);
   visual.group.visible = true;
   visual.frame.visible = state.frameVisible;
 
@@ -1727,7 +1731,7 @@ function addResourceNodeVisual(node) {
   ring.material.color.setHex(node.stock > 0 ? ringColor : 0x77806b);
   ring.material.opacity = node.stock > 0 ? 0.78 : 0.35;
   ring.rotation.x = -Math.PI / 2;
-  ring.position.set(node.x, 0.035, node.z);
+  ring.position.set(node.x, groundHeight(node.x,node.z)+0.035, node.z);
   ring.renderOrder = 2;
   addMapObject(ring);
 
@@ -1735,7 +1739,7 @@ function addResourceNodeVisual(node) {
     map: resourceCalloutTexture(nodeType), transparent: true, depthTest: false,
     depthWrite: false, fog: false, toneMapped: false,
   }));
-  callout.position.set(node.x, 1.8, node.z);
+  callout.position.set(node.x, groundHeight(node.x,node.z)+1.8, node.z);
   callout.renderOrder = 15;
   callout.visible = false;
   addMapObject(callout);
@@ -1793,7 +1797,7 @@ function updateResourceNodeCallouts(now, force = false) {
     }
     const halfWidth = visual.callout.scale.x * pixelsPerWorldUnit * 0.5;
     const halfHeight = visual.callout.scale.y * pixelsPerWorldUnit * 0.5;
-    visual.callout.position.set(visual.x, 1.8, visual.z);
+    visual.callout.position.set(visual.x, groundHeight(visual.x,visual.z)+1.8, visual.z);
     screenPoint.set(visual.x, visual.callout.position.y, visual.z).project(camera);
     let centerX = viewportRect.left + (screenPoint.x * 0.5 + 0.5) * viewportRect.width;
     let centerY = viewportRect.top + (-screenPoint.y * 0.5 + 0.5) * viewportRect.height;
@@ -1984,9 +1988,13 @@ function buildFogOverlay(definition) {
     map: fogTexture, transparent: true, depthTest: false, depthWrite: false,
     side: THREE.DoubleSide, toneMapped: false,
   });
-  fogMesh = new THREE.Mesh(new THREE.PlaneGeometry(MAP_WIDTH, MAP_HEIGHT), material);
-  fogMesh.rotation.x = -Math.PI / 2;
-  fogMesh.position.y = 0.08;
+  const fogGeometry=terrainSurface.geometry.clone();
+  const fogPositions=fogGeometry.attributes.position, fogUv=fogGeometry.attributes.uv;
+  for(let i=0;i<fogPositions.count;i++) {
+    fogUv.setXY(i,(fogPositions.getX(i)+MAP_HALF_X)/MAP_WIDTH,(MAP_HALF_Z-fogPositions.getZ(i))/MAP_HEIGHT);
+    fogPositions.setY(i,fogPositions.getY(i)+.105);
+  }
+  fogMesh=new THREE.Mesh(fogGeometry,material);
   fogMesh.renderOrder = 12;
   fogMesh.frustumCulled = false;
   fogMesh.visible = definition.fogOfWar && localTeam !== null;
@@ -2098,7 +2106,10 @@ function applyForestState(state) {
   if (visualChanged) drawMinimap(performance.now(), true);
 }
 
+let terrainSurface = null;
 function buildMap(definition) {
+  setActiveTerrain(definition);
+  terrainSurface=null;
   fogTexture?.dispose();
   clearMapObjects();
   constructionGroundMeshes.clear();
@@ -2142,7 +2153,10 @@ function buildMap(definition) {
   base.rotation.x = -Math.PI / 2;
   base.position.y = -0.075;
   addMapObject(base);
-  for (const surface of createGroundSurfaces(definition)) addMapObject(surface);
+  for (const surface of createGroundSurfaces(definition)) {
+    if(surface.userData.terrainSurface) terrainSurface=surface;
+    addMapObject(surface);
+  }
   buildConstructionGroundBatches();
 
   forestTreeSlots = addObstacleEnvironmentSprites(definition, MAP_HALF_X, MAP_HALF_Z, addMapObject);
@@ -2176,6 +2190,18 @@ function buildMap(definition) {
     addMapObject(createEnvironmentSprite('seamstone', 2.0, 2.6, x, z));
   }
 
+  function drapeLineSegments(points) {
+    const draped = [];
+    for (let i = 0; i < points.length; i += 2) {
+      const a = points[i], b = points[i + 1];
+      const steps = Math.max(1, Math.ceil(Math.max(Math.abs(b.x-a.x), Math.abs(b.z-a.z))));
+      for (let step = 0; step < steps; step++) for (const t of [step/steps, (step+1)/steps]) {
+        const x = THREE.MathUtils.lerp(a.x,b.x,t), z = THREE.MathUtils.lerp(a.z,b.z,t);
+        draped.push(new THREE.Vector3(x, groundHeight(x,z)+a.y, z));
+      }
+    }
+    return draped;
+  }
   const edgeX = MAP_HALF_X;
   const edgeZ = MAP_HALF_Z;
   const borderPoints = [
@@ -2185,7 +2211,7 @@ function buildMap(definition) {
     new THREE.Vector3(-edgeX, 0.004, edgeZ), new THREE.Vector3(-edgeX, 0.004, -edgeZ),
   ];
   addMapObject(new THREE.LineSegments(
-    new THREE.BufferGeometry().setFromPoints(borderPoints),
+    new THREE.BufferGeometry().setFromPoints(drapeLineSegments(borderPoints)),
     new THREE.LineBasicMaterial({ color: 0xc5d59b, transparent: true, opacity: 0.64 }),
   ));
 
@@ -2197,7 +2223,7 @@ function buildMap(definition) {
     gridPoints.push(new THREE.Vector3(-edgeX, 0.003, z), new THREE.Vector3(edgeX, 0.003, z));
   }
   addMapObject(new THREE.LineSegments(
-    new THREE.BufferGeometry().setFromPoints(gridPoints),
+    new THREE.BufferGeometry().setFromPoints(drapeLineSegments(gridPoints)),
     new THREE.LineBasicMaterial({ color: 0xb4c98a, transparent: true, opacity: 0.14 }),
   ));
 
@@ -2213,7 +2239,10 @@ function buildMap(definition) {
     const fillMaterial = new THREE.MeshBasicMaterial({
       color: 0xd5ef78, side: THREE.DoubleSide, transparent: true, opacity: 0.09, depthWrite: false,
     });
-    const fill = new THREE.Mesh(new THREE.PlaneGeometry(zone.width, zone.height), fillMaterial);
+    const fill = new THREE.Mesh(new THREE.PlaneGeometry(zone.width, zone.height,zone.width,zone.height), fillMaterial);
+    const fillPositions=fill.geometry.attributes.position;
+    for(let i=0;i<fillPositions.count;i++) fillPositions.setZ(i,groundHeight((left+right)/2+fillPositions.getX(i),(top+bottom)/2-fillPositions.getY(i)));
+    fillPositions.needsUpdate=true;
     fill.rotation.x = -Math.PI / 2;
     fill.position.set((left + right) / 2, 0.012, (top + bottom) / 2);
     fill.renderOrder = 1;
@@ -2226,7 +2255,7 @@ function buildMap(definition) {
       new THREE.Vector3(left, 0.021, bottom), new THREE.Vector3(left, 0.021, top),
     ];
     const outlineMaterial = new THREE.LineBasicMaterial({ color: 0xd5ef78, transparent: true, opacity: 0.82 });
-    const outline = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(outlinePoints), outlineMaterial);
+    const outline = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(drapeLineSegments(outlinePoints)), outlineMaterial);
     outline.renderOrder = 2;
     addMapObject(outline);
 
@@ -2671,7 +2700,7 @@ function drawMinimap(now = performance.now(), force = false) {
   viewportCorners.forEach(([x, y], index) => {
     pointerNdc.set(x, y);
     raycaster.setFromCamera(pointerNdc, camera);
-    const point = raycaster.ray.intersectPlane(groundPlane, groundHit);
+    const point = terrainSurface ? raycaster.intersectObject(terrainSurface,false)[0]?.point : raycaster.ray.intersectPlane(groundPlane, groundHit);
     if (!point) { hasAllCorners = false; return; }
     const mapped = minimapPoint(point.x, point.z, rect);
     if (index === 0) context.moveTo(mapped.x, mapped.y);
@@ -3064,7 +3093,7 @@ function animateArrowEffects(now) {
     arrowDirection.set(trace.toX - trace.fromX, 0, trace.toZ - trace.fromZ).normalize();
     dummy.position.set(
       THREE.MathUtils.lerp(trace.fromX, trace.toX, progress),
-      0.46 + Math.sin(progress * Math.PI) * 0.12,
+      0.46 + THREE.MathUtils.lerp(groundHeight(trace.fromX,trace.fromZ),groundHeight(trace.toX,trace.toZ),progress) + Math.sin(progress * Math.PI) * 0.12,
       THREE.MathUtils.lerp(trace.fromZ, trace.toZ, progress),
     );
     dummy.quaternion.setFromUnitVectors(arrowAxis, arrowDirection);
@@ -3082,7 +3111,7 @@ function animateArrowEffects(now) {
     const progress = (now - impact.startedAt) / 170;
     if (progress >= 1) continue;
     arrowImpacts[impactCount] = impact;
-    dummy.position.set(impact.x, 0.045, impact.z);
+    dummy.position.set(impact.x, groundHeight(impact.x,impact.z)+0.045, impact.z);
     dummy.quaternion.copy(ringRotation);
     dummy.scale.setScalar(0.55 + progress * 1.25);
     dummy.updateMatrix();
@@ -3173,6 +3202,7 @@ function updateUnitLodTransform(unit, visibleScale) {
     dummy.position.set(unit.renderX, 0.07, unit.renderZ);
     dummy.quaternion.copy(facing);
     dummy.scale.setScalar(roleName === role ? visibleScale * 1.2 : 0);
+    dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
     dummy.updateMatrix();
     unitLodRoleMeshes[unit.team][roleName].setMatrixAt(unit.slot, dummy.matrix);
     unitLodDirtyRoleMasks[unit.team] |= UNIT_LOD_ROLE_BITS[roleName];
@@ -3181,6 +3211,7 @@ function updateUnitLodTransform(unit, visibleScale) {
   dummy.position.set(unit.renderX, 0.035, unit.renderZ);
   dummy.quaternion.identity();
   dummy.scale.setScalar(visibleScale * 1.05);
+  dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
   dummy.updateMatrix();
   unitLodTeamMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
   unitLodTeamDirty[unit.team] = true;
@@ -3196,6 +3227,7 @@ function updateUnitFocusVisual(unit) {
   dummy.position.set(unit.renderX, 0.03, unit.renderZ);
   dummy.quaternion.copy(ringRotation);
   dummy.scale.setScalar(focusScale);
+  dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
   dummy.updateMatrix();
   attackFocusMesh.setMatrixAt(unit.focusSlot, dummy.matrix);
   unit.focused = focused;
@@ -3220,6 +3252,7 @@ function updateUnitHealthVisual(unit) {
   dummy.position.set(unit.renderX, unitPresentation(unit.kind).role === 'mounted' ? 2.1 : 1.55, unit.renderZ);
   dummy.quaternion.copy(camera.quaternion);
   dummy.scale.set(scale, scale, scale);
+  dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
   dummy.updateMatrix();
   unitHealthBackground.setMatrixAt(unit.focusSlot, dummy.matrix);
   // Move the fill along camera-right so its left edge stays fixed as HP drops.
@@ -3260,6 +3293,7 @@ function updateUnitTransform(unit, now = performance.now()) {
     dummy.position.set(unit.renderX, 0, unit.renderZ);
     dummy.quaternion.identity();
     dummy.scale.set(0, 0, 0);
+    dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
     dummy.updateMatrix();
     unitArtMeshes.forEach((pair) => pair[unit.team].setMatrixAt(unit.slot, dummy.matrix));
     unitSpriteRuntime.update(unit, now, visibleScale);
@@ -3309,6 +3343,7 @@ function updateUnitTransform(unit, now = performance.now()) {
   dummy.rotateX(attackPose * (isArcher ? -0.13 : 0.18) - hitPose * 0.18 + workLean);
   dummy.rotateZ(defeatProgress * 0.9);
   dummy.scale.setScalar(bodyScale);
+  dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
   dummy.updateMatrix();
   bodyMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
 
@@ -3318,6 +3353,7 @@ function updateUnitTransform(unit, now = performance.now()) {
     unit.renderZ + sideZ * defeatProgress * 0.16);
   dummy.quaternion.identity();
   dummy.scale.setScalar(bodyScale);
+  dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
   dummy.updateMatrix();
   headMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
 
@@ -3330,6 +3366,7 @@ function updateUnitTransform(unit, now = performance.now()) {
   dummy.quaternion.copy(facing);
   dummy.rotateY(attackPose * 0.22);
   dummy.scale.setScalar(bowScale);
+  dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
   dummy.updateMatrix();
   bowMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
 
@@ -3338,6 +3375,7 @@ function updateUnitTransform(unit, now = performance.now()) {
   dummy.quaternion.copy(facing);
   dummy.rotateX(-attackPose * 0.16 + hitPose * 0.22);
   dummy.scale.setScalar(isWorker || isArcher || isSiege ? 0 : visibleScale);
+  dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
   dummy.updateMatrix();
   shieldMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
 
@@ -3346,6 +3384,7 @@ function updateUnitTransform(unit, now = performance.now()) {
   dummy.quaternion.copy(facing);
   dummy.rotateX(attackPose * 0.66);
   dummy.scale.setScalar(isWorker || isArcher || isSiege ? 0 : visibleScale);
+  dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
   dummy.updateMatrix();
   spearMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
 
@@ -3356,12 +3395,14 @@ function updateUnitTransform(unit, now = performance.now()) {
   if (workerActionPose === 'berry-gathering') dummy.rotateX(-0.12 + workCycle * 0.06);
   dummy.rotateZ(-0.2 + workSwing);
   dummy.scale.setScalar(isWorker ? visibleScale : 0);
+  dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
   dummy.updateMatrix();
   toolMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
 
   dummy.position.set(unit.renderX - forwardX * 0.19, 0.32 + Math.max(0, stride), unit.renderZ - forwardZ * 0.19);
   dummy.quaternion.copy(facing);
   dummy.scale.setScalar(isWorker ? visibleScale : 0);
+  dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
   dummy.updateMatrix();
   packMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
 
@@ -3369,6 +3410,7 @@ function updateUnitTransform(unit, now = performance.now()) {
     unit.renderZ - forwardZ * 0.18 + sideZ * 0.17);
   dummy.quaternion.copy(facing);
   dummy.scale.setScalar(isArcher ? visibleScale : 0);
+  dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
   dummy.updateMatrix();
   quiverMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
 
@@ -3376,6 +3418,7 @@ function updateUnitTransform(unit, now = performance.now()) {
   dummy.quaternion.copy(facing);
   dummy.rotateZ(defeatProgress * 0.9);
   dummy.scale.setScalar(isMounted ? visibleScale : 0);
+  dummy.position.y += groundHeight(dummy.position.x,dummy.position.z);
   dummy.updateMatrix();
   mountMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
   dummy.rotateX(-attackPose * 0.07);
@@ -3755,7 +3798,7 @@ function syncSelectionMesh() {
   for (const id of selected) {
     const unit = units[id];
     if (!unit || unit.hp <= 0) continue;
-    dummy.position.set(unit.renderX, 0.022, unit.renderZ);
+    dummy.position.set(unit.renderX, groundHeight(unit.renderX,unit.renderZ)+0.022, unit.renderZ);
     dummy.quaternion.copy(ringRotation);
     dummy.scale.setScalar(unit.scale * ringScale);
     dummy.updateMatrix();
@@ -4783,7 +4826,7 @@ const EDITOR_MATERIAL_COLORS = ['#596653', '#496448', '#416a78'];
 
 const ELEVATION_LEVEL_COLORS = [null, 'rgba(255, 211, 109, .34)', 'rgba(246, 140, 90, .46)'];
 const ELEVATION_EDITOR_TOOLS = new Set([
-  'elevation:raise', 'elevation:lower', 'elevation:0', 'elevation:1', 'elevation:2',
+  'elevation:raise', 'elevation:lower', 'elevation:smooth', 'elevation:0', 'elevation:1', 'elevation:2',
 ]);
 const MAP_STUDIO_DRAFT_VERSION = 1;
 const MAP_STUDIO_DRAFT_DEBOUNCE_MS = 160;
@@ -5725,7 +5768,7 @@ async function refreshStudioAudioPacks(reference) {
   }
   try {
     const library = await getAudioLibraryStore();
-    const packs = [...SHIPPED_AUDIO_REFERENCES.map((ref) => ({ id: ref.packId, name: 'Shipped feedback · technical test' })), ...await library.listPacks()];
+    const packs = [...SHIPPED_AUDIO_REFERENCES.map((ref) => ({ id: ref.packId, name: Object.values(REGIONS).find((region) => region.audioPackId === ref.packId)?.name || 'Shipped feedback · technical test' })), ...await library.listPacks()];
     if (request !== studioAudioPackRequest) return;
     const chosen = select.value;
     select.replaceChildren(new Option('Synthesized default', ''));
@@ -5737,7 +5780,7 @@ async function refreshStudioAudioPacks(reference) {
     await refreshStudioAudioProfiles(chosen === reference?.packId ? reference?.profileId : '');
   } catch (error) {
     if (request !== studioAudioPackRequest) return;
-    for (const ref of SHIPPED_AUDIO_REFERENCES) if (![...select.options].some((option) => option.value === ref.packId)) select.add(new Option('Shipped feedback · technical test', ref.packId));
+    for (const ref of SHIPPED_AUDIO_REFERENCES) if (![...select.options].some((option) => option.value === ref.packId)) select.add(new Option(Object.values(REGIONS).find((region) => region.audioPackId === ref.packId)?.name || 'Shipped feedback · technical test', ref.packId));
     if (reference?.version) { select.value = reference.packId; await refreshStudioAudioProfiles(reference.profileId); return; }
     if (reference && select.value === reference.packId) {
       const existing = [...select.options].find((option) => option.value === reference.packId);
@@ -5789,6 +5832,8 @@ function populateMapEditor(definition, message) {
   editorDefinition.fogOfWar ??= false;
   editorDefinition.terrainBase ??= environmentTheme(definition);
   ui.studioTerrainBase.value = editorDefinition.terrainBase;
+  ui.studioRegionPalette.value = editorDefinition.region || '';
+  document.querySelector('#studio-elevation-seed').value = editorDefinition.terrainSeed ?? 93000;
   editorGroundMaterials = new Int8Array(editorDefinition.width * editorDefinition.height);
   editorGroundMaterials.fill(-1);
   for (const patch of editorDefinition.terrainPatches || []) {
@@ -5900,6 +5945,7 @@ function validateImportedMap(value) {
     || definition.width < 16 || definition.height < 16 || definition.width > 256 || definition.height > 256) {
     throw new Error('Map width and height must be whole numbers between 16 and 256.');
   }
+  validateMapRegion(definition.region);
   const invalidElevationPatches = validateElevationPatches(
     definition.width, definition.height, definition.elevationPatches,
   );
@@ -6169,6 +6215,7 @@ function isElevationEditorTool(tool) {
 }
 
 function elevationBrushTarget(tool, currentLevel) {
+  if(tool==='elevation:smooth') return currentLevel;
   if (tool === 'elevation:raise') return Math.min(2, currentLevel + 1);
   if (tool === 'elevation:lower') return Math.max(0, currentLevel - 1);
   return Number(tool.slice('elevation:'.length));
@@ -6193,6 +6240,7 @@ function setEditorTool(tool) {
     'region-draw': 'DRAG TO DRAW A NAMED REGION',
     'region-move': 'DRAG INSIDE A REGION TO SELECT AND MOVE IT',
     'region-resize': 'DRAG THE LOWER-RIGHT EXTENT TO RESIZE A REGION',
+    'elevation:smooth': 'DRAG TO SOFTEN NEIGHBORING HEIGHT DIFFERENCES',
     'elevation:raise': 'DRAG TO RAISE GROUND ONE LEVEL · MAX 2',
     'elevation:lower': 'DRAG TO LOWER GROUND ONE LEVEL · MIN 0',
     'elevation:0': 'DRAG TO LEVEL GROUND AT 0',
@@ -6898,7 +6946,7 @@ function sendCommand(command) {
 }
 
 function projectUnit(unit, rect) {
-  screenPoint.set(unit.renderX, 0.65, unit.renderZ).project(camera);
+  screenPoint.set(unit.renderX, groundHeight(unit.renderX,unit.renderZ)+0.65, unit.renderZ).project(camera);
   return {
     x: (screenPoint.x * 0.5 + 0.5) * rect.width,
     y: (-screenPoint.y * 0.5 + 0.5) * rect.height,
@@ -6938,7 +6986,7 @@ function pickResourceNodeAt(x, y, { visibleOnly = false } = {}) {
       const row = Math.floor(node.z + MAP_HEIGHT / 2);
       if (latestFogCells?.[row * MAP_WIDTH + column] !== 2) continue;
     }
-    screenPoint.set(node.x, 0.22, node.z).project(camera);
+    screenPoint.set(node.x, groundHeight(node.x,node.z)+0.22, node.z).project(camera);
     const nodeX = (screenPoint.x * 0.5 + 0.5) * rect.width;
     const nodeY = (-screenPoint.y * 0.5 + 0.5) * rect.height;
     const dx = nodeX - x;
@@ -6960,7 +7008,7 @@ function pickForestCellAt(x, y) {
   for (const [cell, slot] of forestTreeSlots) {
     if (latestForestStocks.get(cell) === 0) continue;
     if (mapDefinition?.fogOfWar && latestFogCells?.[cell] !== 2) continue;
-    screenPoint.set(slot.x, 1.25, slot.z).project(camera);
+    screenPoint.set(slot.x, groundHeight(slot.x,slot.z)+1.25, slot.z).project(camera);
     if (screenPoint.z < -1 || screenPoint.z > 1) continue;
     const treeX = (screenPoint.x * 0.5 + 0.5) * rect.width;
     const treeY = (-screenPoint.y * 0.5 + 0.5) * rect.height;
@@ -7080,7 +7128,8 @@ function worldAt(clientX, clientY) {
   const rect = renderer.domElement.getBoundingClientRect();
   pointerNdc.set(((clientX - rect.left) / rect.width) * 2 - 1, -((clientY - rect.top) / rect.height) * 2 + 1);
   raycaster.setFromCamera(pointerNdc, camera);
-  const hit = raycaster.ray.intersectPlane(groundPlane, groundHit);
+  const surfaceHit=terrainSurface ? raycaster.intersectObject(terrainSurface,false)[0] : null;
+  const hit=surfaceHit?.point || raycaster.ray.intersectPlane(groundPlane,groundHit);
   return hit ? hit.clone() : null;
 }
 
@@ -7163,7 +7212,7 @@ function issueMove(point, queueWaypoint = false) {
   if (sendTrackedOrder({ type, ids, x: point.x, z: point.z, formation,
     ...(queueWaypoint && !patrolOrder ? { queue: true } : {}) },
   patrolOrder ? 'PATROL' : queueWaypoint ? 'QUEUE WAYPOINT' : attackMoveOrder ? 'ATTACK MOVE' : 'MOVE', ids.length)) {
-    moveMarker.position.set(point.x, 0.045, point.z);
+    moveMarker.position.set(point.x, groundHeight(point.x,point.z)+0.045, point.z);
     moveMarker.material.color.setHex(attackMoveOrder ? 0xf0b47c : 0xe5f79a);
     moveMarker.scale.setScalar(1);
     moveMarker.material.opacity = 0.95;
@@ -7358,7 +7407,7 @@ function updateBuildPlacementGhost(clientX, clientY) {
   }
   syncBattlefieldCursor();
   if (!placement) return;
-  placementGhost.position.set(placement.x, 0, placement.z);
+  placementGhost.position.set(placement.x, groundHeight(placement.x,placement.z), placement.z);
   placementGhost.scale.set(buildingFootprint(buildPlacementType) / 3, 1, buildingFootprint(buildPlacementType) / 3);
   const tint = placement.valid ? 0x9cdb8a : 0xe7836d;
   for (const material of placementGhostMaterials) material.color.setHex(tint);
@@ -8640,8 +8689,31 @@ ui.studioGroundBrushSize.addEventListener('change', () => {
   setEditorTool(editorTool);
   scheduleMapStudioDraftSave();
 });
+document.querySelector('#studio-generate-hills').addEventListener('click',()=> {
+  if(!editorDefinition) return;
+  try {
+    const seed=Number(document.querySelector('#studio-elevation-seed').value);
+    editorGroundLevels=generateRollingGround(collectEditorMap(),seed);
+    editorDefinition.terrainSeed=seed;
+    ui.studioMessage.textContent=`Generated rolling ground with seed ${seed}. Bases, resources, water and objectives retain flat pads. Validate before Save & Play.`;
+    drawEditorGrid();scheduleMapStudioDraftSave();
+  } catch(error) {ui.studioMessage.textContent=error.message;}
+});
 ui.studioElevationBrushSize.addEventListener('change', () => {
   setEditorTool(editorTool);
+  scheduleMapStudioDraftSave();
+});
+for (const region of Object.values(REGIONS)) ui.studioRegionPalette.add(new Option(region.name, region.id));
+ui.studioRegionPalette.addEventListener('change', () => {
+  const region = REGIONS[ui.studioRegionPalette.value];
+  if (region) {
+    editorDefinition.region = region.id;
+    editorDefinition.terrainBase = region.ground;
+    ui.studioTerrainBase.value = region.ground;
+    editorDefinition.audio = SHIPPED_AUDIO_REFERENCES.find((ref) => ref.packId === region.audioPackId);
+    void refreshStudioAudioPacks(editorDefinition.audio);
+  } else delete editorDefinition.region;
+  drawEditorGrid();
   scheduleMapStudioDraftSave();
 });
 ui.studioTerrainBase.addEventListener('change', () => {
@@ -8981,13 +9053,14 @@ function finishEditorPointer(event, commit) {
       }
     } else if (isElevationEditorTool(drag.tool)) {
       let changedCells = 0;
+      const smoothed=drag.tool==='elevation:smooth' ? smoothGround(editorGroundLevels,editorDefinition.width,editorDefinition.height,drag.paintCells) : null;
       for (const index of drag.paintCells) {
-        const nextLevel = elevationBrushTarget(drag.tool, editorGroundLevels[index]);
+        const nextLevel = smoothed ? smoothed[index] : elevationBrushTarget(drag.tool, editorGroundLevels[index]);
         if (nextLevel === editorGroundLevels[index]) continue;
         editorGroundLevels[index] = nextLevel;
         changedCells++;
       }
-      const action = drag.tool === 'elevation:raise' ? 'Raised'
+      const action = drag.tool==='elevation:smooth' ? 'Smoothed' : drag.tool === 'elevation:raise' ? 'Raised'
         : drag.tool === 'elevation:lower' ? 'Lowered' : `Set to level ${drag.tool.slice('elevation:'.length)} at`;
       ui.studioMessage.textContent = changedCells > 0
         ? `${action} ${changedCells} ground cell${changedCells === 1 ? '' : 's'}.`

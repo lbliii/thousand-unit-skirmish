@@ -1,3 +1,5 @@
+import { terrainHeightField, groundHeight } from './terrain-height.mjs';
+import { REGIONS } from './regions.mjs';
 import { TERRAIN_MATERIALS, forestGroundForBase } from './terrain-materials.mjs';
 import { CAMERA_VIEW_DIRECTION } from './camera-controls.mjs';
 import * as THREE from 'three';
@@ -304,16 +306,25 @@ const constructionGroundRotation = new THREE.Quaternion().setFromEuler(new THREE
 
 export function environmentTheme(definition) {
   return TERRAIN_MATERIALS.includes(definition.terrainBase)
-    ? definition.terrainBase : definition.id === 'cinder-ridge' ? 'cinder' : 'meadow';
+    ? definition.terrainBase : REGIONS[definition.region]?.ground || (definition.id === 'cinder-ridge' ? 'cinder' : 'meadow');
 }
 
-function addGroundQuad(buffer, definition, x0, z0, x1, z1, y, alpha = [1, 1, 1, 1]) {
+function addGroundQuad(buffer, definition, x0, z0, x1, z1, y, alpha = [1, 1, 1, 1], heights = null) {
+  const field=terrainHeightField(definition);
+  if (field.raised && heights===null) {
+    for(let row=0;row<definition.height;row++) for(let column=0;column<definition.width;column++) {
+      const x=column-definition.width/2,z=row-definition.height/2;
+      if(x<x0||z<z0||x+1>x1||z+1>z1) continue;
+      addGroundQuad(buffer,definition,x,z,x+1,z+1,y,alpha,field.corners(column,row));
+    }
+    return;
+  }
   const first = buffer.vertices.length / 3;
-  for (const [x, z, opacity] of [
+  for (const [i, [x, z, opacity]] of [
     [x0, z0, alpha[0]], [x1, z0, alpha[1]],
     [x0, z1, alpha[2]], [x1, z1, alpha[3]],
-  ]) {
-    buffer.vertices.push(x, y, z);
+  ].entries()) {
+    buffer.vertices.push(x, y+(heights?.[i]||0), z);
     // Every region samples the same world-space texture coordinates.
     buffer.uvs.push((x + definition.width / 2) / 12, (z + definition.height / 2) / 12);
     buffer.colors.push(1, 1, 1, opacity);
@@ -328,6 +339,14 @@ function finishGroundGeometry(buffer) {
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(buffer.colors, 4));
   geometry.setIndex(buffer.indices);
   geometry.computeVertexNormals();
+  const normals = geometry.getAttribute('normal');
+  const colors = geometry.getAttribute('color');
+  // Preserve the painted material's flat color while making slopes legible.
+  for (let i = 0; i < normals.count; i++) {
+    const shade = THREE.MathUtils.clamp(.85 + .15 * normals.getY(i)
+      + .2 * (-.6 * normals.getX(i) + .4 * normals.getZ(i)), .68, 1.15);
+    colors.setXYZ(i, shade, shade, shade);
+  }
   return geometry;
 }
 
@@ -339,7 +358,7 @@ export function createGroundSurfaces(definition) {
   const base = environmentTheme(definition);
   const stochastic = new URLSearchParams(globalThis.location?.search ?? '').get('terrainTiling') !== 'mirror';
   const groundMaterial = options => applyTerrainTextureSampling(
-    new THREE.MeshBasicMaterial(options), definition.terrainSeed || 0, stochastic);
+    new THREE.MeshBasicMaterial({ ...options, vertexColors: true }), definition.terrainSeed || 0, stochastic);
   const baseBuffer = groundBuffer();
   addGroundQuad(baseBuffer, definition,
     -definition.width / 2, -definition.height / 2,
@@ -393,12 +412,33 @@ export function createGroundSurfaces(definition) {
       GROUND_RENDER_ORDER + TERRAIN_MATERIALS.length));
   }
   const atmosphere = new URLSearchParams(globalThis.location?.search ?? '');
-  if (atmosphere.get('terrainAtmosphere') === 'mist') {
+  if (atmosphere.get('terrainAtmosphere') === 'mist' && !terrainHeightField(definition).raised) {
     const timeValue = atmosphere.get('terrainAtmosphereTime');
     const fixedTime = timeValue !== null && Number.isFinite(Number(timeValue)) ? Number(timeValue) : null;
     const mist = createGroundMistStudy(definition, fixedTime);
     if (mist) meshes.push(mist);
   }
+  const field=terrainHeightField(definition);
+  if(field.raised) {
+    const vertices=[];
+    function wall(a,b,c,d) { for(const p of [a,b,c,a,c,d]) vertices.push(...p); }
+    for(let row=0;row<definition.height;row++) for(let col=0;col<definition.width;col++) {
+      const x=col-definition.width/2,z=row-definition.height/2,h=field.corners(col,row);
+      if(col+1<definition.width) {
+        const n=field.corners(col+1,row);
+        if(Math.abs(h[1]-n[0])+Math.abs(h[3]-n[2])>.001) wall([x+1,h[1],z],[x+1,h[3],z+1],[x+1,n[2],z+1],[x+1,n[0],z]);
+      }
+      if(row+1<definition.height) {
+        const n=field.corners(col,row+1);
+        if(Math.abs(h[2]-n[0])+Math.abs(h[3]-n[1])>.001) wall([x,h[2],z+1],[x+1,h[3],z+1],[x+1,n[1],z+1],[x,n[0],z+1]);
+      }
+    }
+    if(vertices.length) {
+      const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geometry.computeVertexNormals();
+      meshes.push(new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({color:new THREE.Color(TERRAIN_COLORS[base]).multiplyScalar(.65),roughness:1,side:THREE.DoubleSide})));
+    }
+  }
+  meshes[0].userData.terrainSurface=true;
   return meshes;
 }
 
@@ -440,7 +480,7 @@ function spriteMaterial(name) {
 export function createEnvironmentSprite(name, width, height, x, z) {
   const mesh = new THREE.Mesh(spriteGeometry(width, height, name), spriteMaterial(name));
   mesh.quaternion.copy(cameraFacing);
-  mesh.position.set(x, 0, z);
+  mesh.position.set(x, groundHeight(x,z), z);
   return mesh;
 }
 
@@ -473,7 +513,7 @@ export function updateConstructionGroundInstances(mesh, positions) {
   if (!mesh || positions.length > mesh.instanceMatrix.count) return false;
   for (let index = 0; index < positions.length; index++) {
     const point = positions[index];
-    instanceDummy.position.set(point.x, 0.002, point.z);
+    instanceDummy.position.set(point.x, groundHeight(point.x,point.z)+0.002, point.z);
     instanceDummy.quaternion.copy(constructionGroundRotation);
     instanceDummy.scale.setScalar(1);
     instanceDummy.updateMatrix();
@@ -501,7 +541,7 @@ export function createEnvironmentSpriteInstances(name, width, height, positions)
 }
 
 export function setEnvironmentSpriteInstance(mesh, index, x, z, scale, flip = false, yaw = 0) {
-  instanceDummy.position.set(x, 0, z);
+  instanceDummy.position.set(x, groundHeight(x,z), z);
   instanceDummy.quaternion.copy(cameraFacing);
   if (yaw) {
     spriteYawRotation.setFromAxisAngle(spriteUpAxis, yaw);

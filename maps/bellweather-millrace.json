@@ -1,7 +1,8 @@
 {
   "id": "bellweather-millrace",
   "name": "Bellweather · Millrace",
-  "summary": "Three broad fords divide orchard banks. Secure both crossings, then the Mill Watch.",
+  "summary": "Orchard expansions flank three broad fords. Secure both outer fords, then hold the Crossing Watch.",
+  "region": "bellweather",
   "width": 80,
   "height": 72,
   "terrainSeed": 93000,
@@ -14,6 +15,34 @@
       "width": 80,
       "height": 8,
       "material": "dirt"
+    },
+    {
+      "column": 19,
+      "row": 12,
+      "width": 15,
+      "height": 14,
+      "material": "long-grass"
+    },
+    {
+      "column": 46,
+      "row": 12,
+      "width": 15,
+      "height": 14,
+      "material": "long-grass"
+    },
+    {
+      "column": 19,
+      "row": 47,
+      "width": 15,
+      "height": 12,
+      "material": "short-grass"
+    },
+    {
+      "column": 46,
+      "row": 47,
+      "width": 15,
+      "height": 12,
+      "material": "short-grass"
     }
   ],
   "spawnPoints": [
@@ -89,6 +118,34 @@
       "width": 4,
       "height": 12,
       "material": "water"
+    },
+    {
+      "column": 24,
+      "row": 8,
+      "width": 6,
+      "height": 5,
+      "material": "forest"
+    },
+    {
+      "column": 50,
+      "row": 8,
+      "width": 6,
+      "height": 5,
+      "material": "forest"
+    },
+    {
+      "column": 24,
+      "row": 59,
+      "width": 6,
+      "height": 5,
+      "material": "forest"
+    },
+    {
+      "column": 50,
+      "row": 59,
+      "width": 6,
+      "height": 5,
+      "material": "forest"
     }
   ],
   "resourceNodes": [
@@ -109,16 +166,16 @@
     {
       "id": "s0-2",
       "type": "food",
-      "x": -19.5,
-      "z": 22.5,
-      "stock": 450
+      "x": -10.5,
+      "z": -13.5,
+      "stock": 750
     },
     {
       "id": "s0-3",
       "type": "wood",
-      "x": -19.5,
-      "z": -21.5,
-      "stock": 450
+      "x": -13.5,
+      "z": 18.5,
+      "stock": 750
     },
     {
       "id": "s1-0",
@@ -137,16 +194,16 @@
     {
       "id": "s1-2",
       "type": "food",
-      "x": 19.5,
-      "z": 22.5,
-      "stock": 450
+      "x": 10.5,
+      "z": -13.5,
+      "stock": 750
     },
     {
       "id": "s1-3",
       "type": "wood",
-      "x": 19.5,
-      "z": -21.5,
-      "stock": 450
+      "x": 13.5,
+      "z": 18.5,
+      "stock": 750
     }
   ],
   "triggers": [
@@ -223,7 +280,535 @@
   "audio": {
     "packId": "vaelora-bellweather",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "472fb50e915de0ab33bc5ecab9777a18486e375d32b17edc63abe54d83a066c2"
-  }
+    "version": "v2",
+    "sha256": "1281c6bb17278ba582da89017869a5388792a24c63d7665d31aad01ce5f66338"
+  },
+  "elevationPatches": [
+    {
+      "column": 12,
+      "row": 14,
+      "width": 1,
+      "height": 14,
+      "level": 1
+    },
+    {
+      "column": 67,
+      "row": 14,
+      "width": 1,
+      "height": 14,
+      "level": 1
+    },
+    {
+      "column": 9,
+      "row": 15,
+      "width": 3,
+      "height": 13,
+      "level": 1
+    },
+    {
+      "column": 13,
+      "row": 15,
+      "width": 3,
+      "height": 11,
+      "level": 1
+    },
+    {
+      "column": 64,
+      "row": 15,
+      "width": 3,
+      "height": 11,
+      "level": 1
+    },
+    {
+      "column": 68,
+      "row": 15,
+      "width": 3,
+      "height": 13,
+      "level": 1
+    },
+    {
+      "column": 8,
+      "row": 16,
+      "width": 1,
+      "height": 11,
+      "level": 1
+    },
+    {
+      "column": 16,
+      "row": 16,
+      "width": 1,
+      "height": 10,
+      "level": 1
+    },
+    {
+      "column": 63,
+      "row": 16,
+      "width": 1,
+      "height": 10,
+      "level": 1
+    },
+    {
+      "column": 71,
+      "row": 16,
+      "width": 1,
+      "height": 11,
+      "level": 1
+    },
+    {
+      "column": 7,
+      "row": 17,
+      "width": 1,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 17,
+      "row": 17,
+      "width": 1,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 62,
+      "row": 17,
+      "width": 1,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 72,
+      "row": 17,
+      "width": 1,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 6,
+      "row": 18,
+      "width": 1,
+      "height": 7,
+      "level": 1
+    },
+    {
+      "column": 18,
+      "row": 18,
+      "width": 1,
+      "height": 7,
+      "level": 1
+    },
+    {
+      "column": 61,
+      "row": 18,
+      "width": 1,
+      "height": 7,
+      "level": 1
+    },
+    {
+      "column": 73,
+      "row": 18,
+      "width": 1,
+      "height": 7,
+      "level": 1
+    },
+    {
+      "column": 5,
+      "row": 21,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 19,
+      "row": 21,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 60,
+      "row": 21,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 74,
+      "row": 21,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 13,
+      "row": 26,
+      "width": 2,
+      "height": 2,
+      "level": 1
+    },
+    {
+      "column": 65,
+      "row": 26,
+      "width": 2,
+      "height": 2,
+      "level": 1
+    },
+    {
+      "column": 5,
+      "row": 42,
+      "width": 1,
+      "height": 21,
+      "level": 1
+    },
+    {
+      "column": 74,
+      "row": 42,
+      "width": 1,
+      "height": 21,
+      "level": 1
+    },
+    {
+      "column": 3,
+      "row": 43,
+      "width": 2,
+      "height": 19,
+      "level": 1
+    },
+    {
+      "column": 75,
+      "row": 43,
+      "width": 2,
+      "height": 19,
+      "level": 1
+    },
+    {
+      "column": 2,
+      "row": 44,
+      "width": 1,
+      "height": 17,
+      "level": 1
+    },
+    {
+      "column": 77,
+      "row": 44,
+      "width": 1,
+      "height": 17,
+      "level": 1
+    },
+    {
+      "column": 1,
+      "row": 45,
+      "width": 1,
+      "height": 15,
+      "level": 1
+    },
+    {
+      "column": 6,
+      "row": 45,
+      "width": 9,
+      "height": 17,
+      "level": 1
+    },
+    {
+      "column": 65,
+      "row": 45,
+      "width": 9,
+      "height": 17,
+      "level": 1
+    },
+    {
+      "column": 78,
+      "row": 45,
+      "width": 1,
+      "height": 15,
+      "level": 1
+    },
+    {
+      "column": 0,
+      "row": 46,
+      "width": 1,
+      "height": 13,
+      "level": 1
+    },
+    {
+      "column": 79,
+      "row": 46,
+      "width": 1,
+      "height": 13,
+      "level": 1
+    },
+    {
+      "column": 15,
+      "row": 47,
+      "width": 7,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 58,
+      "row": 47,
+      "width": 7,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 22,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 57,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 30,
+      "row": 55,
+      "width": 3,
+      "height": 11,
+      "level": 1
+    },
+    {
+      "column": 47,
+      "row": 55,
+      "width": 3,
+      "height": 11,
+      "level": 1
+    },
+    {
+      "column": 15,
+      "row": 56,
+      "width": 6,
+      "height": 2,
+      "level": 1
+    },
+    {
+      "column": 59,
+      "row": 56,
+      "width": 6,
+      "height": 2,
+      "level": 1
+    },
+    {
+      "column": 15,
+      "row": 58,
+      "width": 5,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 24,
+      "row": 58,
+      "width": 6,
+      "height": 6,
+      "level": 1
+    },
+    {
+      "column": 50,
+      "row": 58,
+      "width": 6,
+      "height": 6,
+      "level": 1
+    },
+    {
+      "column": 60,
+      "row": 58,
+      "width": 5,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 15,
+      "row": 59,
+      "width": 4,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 61,
+      "row": 59,
+      "width": 4,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 15,
+      "row": 60,
+      "width": 2,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 23,
+      "row": 60,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 33,
+      "row": 60,
+      "width": 3,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 44,
+      "row": 60,
+      "width": 3,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 56,
+      "row": 60,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 63,
+      "row": 60,
+      "width": 2,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 15,
+      "row": 61,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 33,
+      "row": 61,
+      "width": 2,
+      "height": 3,
+      "level": 1
+    },
+    {
+      "column": 45,
+      "row": 61,
+      "width": 2,
+      "height": 3,
+      "level": 1
+    },
+    {
+      "column": 64,
+      "row": 61,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 6,
+      "row": 62,
+      "width": 8,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 66,
+      "row": 62,
+      "width": 8,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 9,
+      "row": 63,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 70,
+      "row": 63,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 25,
+      "row": 64,
+      "width": 5,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 33,
+      "row": 64,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 46,
+      "row": 64,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 50,
+      "row": 64,
+      "width": 5,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 26,
+      "row": 65,
+      "width": 4,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 50,
+      "row": 65,
+      "width": 4,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 29,
+      "row": 66,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 50,
+      "row": 66,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    }
+  ],
+  "regions": [
+    {
+      "id": "north-route",
+      "name": "North Ford",
+      "zone": {
+        "column": 22,
+        "row": 12,
+        "width": 36,
+        "height": 12
+      }
+    },
+    {
+      "id": "south-route",
+      "name": "South Ford",
+      "zone": {
+        "column": 22,
+        "row": 48,
+        "width": 36,
+        "height": 12
+      }
+    }
+  ]
 }

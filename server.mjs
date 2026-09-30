@@ -1,3 +1,4 @@
+import { validateMapRegion } from './src/regions.mjs';
 import { validateScenarioRegions, validRegionEntryTrigger, regionEntryTeam, validCompletionTrigger, completionTeam } from './src/scenario-regions.mjs';
 import { TERRAIN_MATERIALS } from './src/terrain-materials.mjs';
 import { researchAction, researchOptions, emptyTechnologyCompletions } from './src/research-actions.mjs';
@@ -134,6 +135,7 @@ function validateMapDefinition(definition, filename) {
     throw new Error(`Map ${filename} must contain a JSON object.`);
   }
   validateMapAudioReference(definition.audio);
+  validateMapRegion(definition.region);
   definition.victoryMode ??= 'any';
   if (!['any', 'all'].includes(definition.victoryMode)) {
     throw new Error(`Map ${filename} victoryMode must be "any" or "all".`);
@@ -840,7 +842,7 @@ function activateMap(definition) {
 }
 
 function mapCatalogPayload() {
-  const regional = (map) => map.audio?.packId?.startsWith('vaelora-');
+  const regional = (map) => Boolean(map.region || map.audio?.packId?.startsWith('vaelora-'));
   return [...mapCatalog.values()].sort((a, b) => Number(regional(b)) - Number(regional(a)) || a.name.localeCompare(b.name)).map((map) => ({
     id: map.id, name: shippedMapIds.has(map.id) && !regional(map) ? `Lab · ${map.name}` : map.name, summary: map.summary || `${map.width} × ${map.height}`,
   }));
@@ -7093,7 +7095,7 @@ const server = createServer(async (request, response) => {
     'src/map-studio-viewport.mjs', 'src/order-feedback.mjs', 'src/resource-visual-state.mjs', 'src/resource-format.mjs', 'src/gameplay-definitions.mjs', 'src/gameplay-presentation.mjs', 'src/population.mjs', 'src/production-actions.mjs', 'src/research-actions.mjs',
     'src/building-visual-state.mjs', 'src/unit-lod-state.mjs', 'src/unit-selection.mjs',
     'src/selection-context.mjs', 'src/unit-visual-state.mjs', 'src/unit-sprite-runtime.mjs',
-    'src/audio.mjs', 'src/audio-policy.mjs', 'src/audio-event-profile.mjs',
+    'src/terrain-authoring.mjs', 'src/terrain-height.mjs', 'src/regions.mjs', 'src/audio.mjs', 'src/audio-policy.mjs', 'src/audio-event-profile.mjs',
     'src/audio-shipped-loader.mjs', 'src/audio-shipped-catalog.mjs',
     'src/audio-composition-player.mjs', 'src/audio-assets.mjs', 'src/audio-library-store.mjs',
     'src/audio-library-ui.mjs', 'src/audio-studio.mjs', 'src/audio-studio.css',
@@ -7187,7 +7189,7 @@ const server = createServer(async (request, response) => {
   const publicBuildingLifecycleRuntimeAsset = path.dirname(relative) === `${buildingPackRoot}/runtime`
     && /^(?:town-center-(?:foundation|frame|complete|damaged|critical)-view-\d{2}\.webp|team-mask-(?:foundation|frame|complete|damaged|critical)-view-\d{2}\.png)$/.test(path.basename(relative));
   const publicZoneAudioAsset = (relative === 'assets/audio/runtime/rts-feedback-test/v1/manifest.json'
-    || /^assets\/audio\/runtime\/vaelora-(?:bellweather|underbough|sereward|ellionar|veyrholds|pale-meridian|siltmouths|vesperra|sombral-mere|ru-lora-fringe|ru-lora-interior)\/v1\/manifest\.json$/.test(relative))
+    || /^assets\/audio\/runtime\/vaelora-(?:bellweather|underbough|sereward|ellionar|veyrholds|pale-meridian|siltmouths|vesperra|sombral-mere|ru-lora-fringe|ru-lora-interior)\/v[12]\/manifest\.json$/.test(relative))
     || relative === 'assets/audio/vaelora-zones-v1/catalog.json'
     || /^assets\/audio\/vaelora-zones-v1\/sources\/tus_(?:bellweather|underbough|sereward|ellionar|veyrholds|pale-meridian|siltmouths|vesperra|sombral-mere|ru-lora-fringe|ru-lora-interior)_(?:music|terrain|contrast|signature)_0[12]_v001\.mp3$/.test(relative)
     || /^assets\/audio\/vaelora-pilot-v1\/sources\/tus_ui_(?:wood-token|iron-latch|muted-pluck|horn-note)_01_v001\.mp3$/.test(relative);
