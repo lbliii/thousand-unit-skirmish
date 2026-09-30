@@ -58,6 +58,28 @@ records the first integrated visual check. Mirrored repetition remains visible i
 long grass, scree, and some large regional patches; this is a first usable ground
 pass, not a finished set of ten zone-specific terrain kits.
 
+## Bellweather vegetation · 30 September 2026
+
+Meadow, short-grass, long-grass and dry-grass base maps now use a Bellweather
+field maple and hedgerow for the existing maple/thicket forest slots. The broad
+sage and butter canopy shapes follow the approved Bellweather ecology key.
+This is a first regional pair, not a complete replacement forest: oak, pine and
+birch remain the existing assets, and other base palettes retain the earlier
+maple/hazel. A painted patch does not select a separate vegetation palette.
+
+[Preview](../assets/environment/frontier-v1/bellweather-vegetation-preview.png),
+[manifest](../assets/environment/frontier-v1/bellweather-vegetation-manifest.json)
+and [exact prompts](../assets/environment/frontier-v1/BELLWEATHER-VEGETATION-PROMPTS.json)
+record the generated PNG masters and alpha-preserving WebP encodings. Runtime
+packaging crops to visible content bounds for ground contact; no pixels were
+repainted by packaging. Forest stock, cell identity, deterministic placement,
+instanced batching and clearing retain their existing contract. This hedgerow
+is harvestable forest, not a decorative walk-through shrub or food resource.
+
+[Local browser evidence](qa-evidence/vaelora-vegetation-2026-09-30/README.md)
+checks loading, camera scales and exact forest-slot parity. These two fixed-view
+cutouts do not provide seasonal, damaged or additional directional views.
+
 ## Review in game
 
 1. Start with `npm start` and choose **Frontier Materials** in Match Controls.

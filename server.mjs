@@ -6880,6 +6880,7 @@ const server = createServer(async (request, response) => {
   const publicEnvironmentAsset = path.dirname(relative) === 'assets/environment/frontier-v1'
     && ['.png', '.webp'].includes(path.extname(relative))
     && ['oak', 'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
+      'bellweather-field-maple', 'bellweather-hedgerow',
       'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
       'berries', 'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
       ...TERRAIN_MATERIALS].includes(path.basename(relative, path.extname(relative)));

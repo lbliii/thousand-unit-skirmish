@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-bellweather-vegetation",
+  "packVersion": "1.0.0",
+  "reference": "docs/art-direction/vaelora-v1/bellweather-ecology.png",
+  "prompts": "BELLWEATHER-VEGETATION-PROMPTS.json",
+  "provenance": "Original project art generated with built-in ImageGen from project-authored ecology key; no third-party image inputs. Unmodified generated PNG masters. Runtime packaging crops to the alpha>=21 content bounds (no alpha/color repaint), then Pillow LANCZOS max1024 and RGBA WebP quality86 method6.",
+  "files": [
+    {
+      "path": "bellweather-field-maple.png",
+      "role": "source-image",
+      "sha256": "72997bdcf96f009c03033ab516abbba891adb3fb0d5645038d3f5a985a02d427",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 1508748
+    },
+    {
+      "path": "bellweather-field-maple.webp",
+      "role": "runtime-image",
+      "sha256": "7485632657f6b6fb3228cdb424fd78d315cd757dbfcc488cba169bc6349bb5a1",
+      "dimensionsPx": {
+        "width": 1012,
+        "height": 1024
+      },
+      "bytes": 248360
+    },
+    {
+      "path": "bellweather-hedgerow.png",
+      "role": "source-image",
+      "sha256": "3eb222784bd2155235b93ea110d4ba046920063a24d441626cf12b3dead65f1a",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 2490605
+    },
+    {
+      "path": "bellweather-hedgerow.webp",
+      "role": "runtime-image",
+      "sha256": "9ec6300ef170645eb47d3c3acd1dcdf2dffc58cf41b305b48b6f05dda3a6d192",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 608
+      },
+      "bytes": 237488
+    }
+  ],
+  "assets": [
+    {
+      "id": "bellweather-field-maple",
+      "sourceOutputId": "exec-90488e98-0ad2-415f-9018-e1b8dffd5408",
+      "sourceFile": "bellweather-field-maple.png",
+      "runtimeFile": "bellweather-field-maple.webp",
+      "cropBoxPx": [
+        74,
+        68,
+        1197,
+        1204
+      ],
+      "worldSize": {
+        "width": 3.05,
+        "height": 3.25
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "kind": "harvestable-forest-sprite"
+    },
+    {
+      "id": "bellweather-hedgerow",
+      "sourceOutputId": "exec-b29adef0-b067-4182-b343-5959abc25723",
+      "sourceFile": "bellweather-hedgerow.png",
+      "runtimeFile": "bellweather-hedgerow.webp",
+      "cropBoxPx": [
+        23,
+        48,
+        1511,
+        931
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 2.07
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "kind": "harvestable-forest-sprite"
+    }
+  ]
+}

@@ -14,6 +14,7 @@ const GROUND_RENDER_ORDER = -20;
 export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
+  'bellweather-field-maple', 'bellweather-hedgerow',
   'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
   'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
 ];
@@ -480,6 +481,9 @@ function variation(index) {
 
 export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObject) {
   const forestTreeSlots = new Map();
+  // A small warm-field palette extension; other regions retain their existing trees.
+  const bellweather = ['meadow', 'short-grass', 'long-grass', 'dry-grass']
+    .includes(environmentTheme(definition));
   const pines = [];
   const oaks = [];
   const birches = [];
@@ -574,8 +578,8 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     ['pine', 2.25, 3.4, pines],
     ['oak', 3.05, 2.86, oaks],
     ['silver-birch', 2.3, 3.45, birches],
-    ['field-maple', 3.05, 3.25, maples],
-    ['hazel-thicket', 3.1, 2.07, hazelThickets],
+    [bellweather ? 'bellweather-field-maple' : 'field-maple', 3.05, 3.25, maples],
+    [bellweather ? 'bellweather-hedgerow' : 'hazel-thicket', 3.1, 2.07, hazelThickets],
     ['rock-outcrop', 3.5, 2.2, outcrops],
     ['rock-boulder-cluster', 2.7, 1.8, boulderClusters],
     ['basalt-ridge', 3.6, 3.05, ridges],

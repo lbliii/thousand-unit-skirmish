@@ -130,3 +130,12 @@ reference hashes, source output identifiers, and six delivered PNG/WebP files.
 The [preview](vaelora-ground-variety-preview.png) is a source contact sheet.
 No third-party imagery was supplied. Encoding follows the existing RGB,
 1024-square LANCZOS, WebP quality-86 runtime path.
+
+## Bellweather vegetation extension — 30 September 2026
+
+The field-maple and hedgerow additions derive from the project-authored
+Bellweather ecology key. [Exact initial/refinement prompts](BELLWEATHER-VEGETATION-PROMPTS.json)
+and [manifest](bellweather-vegetation-manifest.json) record the final generated
+outputs, file hashes, crop bounds and encoding. Original generated PNGs are
+retained unchanged; runtime WebPs preserve alpha. Earlier source art and its
+manifests remain historical records. No third-party imagery was used.
