@@ -6725,7 +6725,7 @@ const server = createServer(async (request, response) => {
     'audio-studio.html', 'src/audio-recognition-check.mjs', 'src/camera-controls.mjs',
     'src/navigation-settings.mjs', 'src/objective-summary.mjs', 'src/hud-layout.mjs',
     'src/resource-format.mjs', 'src/gameplay-definitions.mjs', 'src/gameplay-presentation.mjs', 'src/population.mjs', 'src/production-actions.mjs',
-    'src/captured-building-art.mjs', 'src/water-surface-geometry.mjs',
+    'src/captured-building-art.mjs', 'src/water-surface-geometry.mjs', 'src/terrain-blend.mjs',
   ].includes(relative);
   const publicUiAsset = [
     'assets/ui/cursors/select-add.png',

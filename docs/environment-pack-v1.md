@@ -5,7 +5,9 @@
 ## Runtime approach
 
 Thirteen opaque ground textures repeat in world coordinates with mirrored tiling
-and feathered material-region edges. Transparent painterly props face the oblique
+and normalized soft material masks. Material weights blend across neighboring
+cells with gently irregular edges and rounded corners; forest cover retains
+its separate feathered overlay. Transparent painterly props face the oblique
 camera and repeat through instanced batches. Map data owns collision, sight, and
 walkable elevation; sprite height never substitutes for those rules.
 
@@ -67,6 +69,26 @@ pass, not a finished set of ten zone-specific terrain kits.
 Forest-floor rendering follows forest masks. Stone cutouts supply the visible
 ridge shape while authoritative obstacle cells supply collision. Low-colored
 water and shoreline geometry must preserve the same movement meaning.
+
+## Painting organic regions
+
+Ground painting already uses round stamps. Choose **Large · 7 cells** or
+**Landscape · 11 cells** and drag overlapping strokes to shape meadows, banks,
+and clearings; use smaller stamps for paths. Save & Play applies the blended
+surfaces. The Map Studio grid and minimap remain schematic cell views.
+
+The renderer mixes the final cell materials through two-samples-per-cell masks,
+with a roughly two-cell transition band and shared low-amplitude seeded edge
+variation. Conditional layer alpha preserves a normalized mix at three-way joins
+instead of letting texture draw order dominate. A material's compressed rectangles
+produce one continuous mask, so their internal boundaries cannot create seams.
+Only used overlay materials allocate masks; map teardown disposes their textures.
+Collision, water, elevation, and published map format retain their existing rules.
+
+[Organic brush study and visual evidence](qa-evidence/vaelora-terrain-blend-2026-09-29/README.md)
+show a winding dirt path and rounded woodland, sand, and lunar-soil patches.
+Dedicated transition art can later add particular shore debris or grass tufts;
+pairwise transition tiles are not needed for basic material mixing.
 
 ## Current limits
 

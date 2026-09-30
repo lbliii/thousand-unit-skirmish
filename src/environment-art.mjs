@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { RESOURCE_VISUAL_STAGES } from './resource-visual-state.mjs';
+import { buildTerrainBlendMasks } from './terrain-blend.mjs';
 import { buildWaterSurfaceGeometry } from './water-surface-geometry.mjs';
 
 const meshyResourcesEnabled = new URLSearchParams(globalThis.location?.search ?? '').get('meshyResources') !== '0';
@@ -303,27 +304,30 @@ export function createGroundSurfaces(definition) {
     water.renderOrder = 5;
     meshes.push(water);
   }
-  const materialGrid = new Int8Array(definition.width * definition.height);
-  materialGrid.fill(-1);
-  for (const patch of definition.terrainPatches || []) {
-    const materialIndex = TERRAIN_MATERIALS.indexOf(patch.material);
-    if (materialIndex < 0) continue;
-    for (let row = patch.row; row < patch.row + patch.height; row++) {
-      for (let column = patch.column; column < patch.column + patch.width; column++) {
-        materialGrid[row * definition.width + column] = materialIndex;
-      }
+  for (const [layer, mask] of buildTerrainBlendMasks(definition, TERRAIN_MATERIALS, base).entries()) {
+    const buffer = groundBuffer();
+    addGroundQuad(buffer, definition, -definition.width / 2, -definition.height / 2,
+      definition.width / 2, definition.height / 2, -0.019);
+    const geometry = finishGroundGeometry(buffer);
+    // Ground repeats in world units; the independent blend mask spans the map.
+    const uv = geometry.getAttribute('uv');
+    for (let vertex = 0; vertex < uv.count; vertex++) {
+      uv.setXY(vertex, uv.getX(vertex) * 12 / definition.width,
+        uv.getY(vertex) * 12 / definition.height);
     }
-  }
-  for (const [materialIndex, material] of TERRAIN_MATERIALS.entries()) {
-    const rectangles = (definition.terrainPatches || []).filter((patch) => patch.material === material);
-    if (!rectangles.length) continue;
-    const mesh = new THREE.Mesh(
-      paintedGroundGeometry(rectangles, definition, materialIndex, materialGrid),
-      new THREE.MeshBasicMaterial({ map: grounds[material], color: 0xd2d4bd,
-        vertexColors: true, transparent: true, depthWrite: false }),
-    );
-    // Transparent ground paints must draw before transparent props and units.
-    mesh.renderOrder = GROUND_RENDER_ORDER + materialIndex;
+    const texture = grounds[mask.material].clone();
+    texture.repeat.set(definition.width / 12, definition.height / 12);
+    const alphaMap = new THREE.DataTexture(mask.pixels, mask.width, mask.height, THREE.RGBAFormat);
+    alphaMap.magFilter = THREE.LinearFilter;
+    alphaMap.minFilter = THREE.LinearMipmapLinearFilter;
+    alphaMap.generateMipmaps = true;
+    alphaMap.needsUpdate = true;
+    const mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
+      map: texture, alphaMap, color: 0xd2d4bd,
+      transparent: true, depthWrite: false,
+    }));
+    mesh.userData.ownedGroundTextures = [texture, alphaMap];
+    mesh.renderOrder = GROUND_RENDER_ORDER + layer;
     meshes.push(mesh);
   }
   const forestRects = (definition.obstacles || []).filter((obstacle) => obstacle.material === 'forest');

@@ -725,6 +725,7 @@ function clearMapObjects() {
     object.traverse((child) => {
       if (child.isSprite) disposeCapturedBuildingSprite(child);
       if (!child.isSprite) child.geometry?.dispose();
+      for (const texture of child.userData.ownedGroundTextures || []) texture.dispose();
       const materials = Array.isArray(child.material) ? child.material : [child.material];
       for (const material of materials) material?.dispose();
     });
