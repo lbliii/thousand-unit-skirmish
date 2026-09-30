@@ -797,13 +797,14 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     'forest-floor': ['underbough-rootward-fungus', 1.08404, 0.65],
   }[environmentTheme(definition)];
   if (understoryAsset) {
+    const seed = Math.trunc(definition.terrainSeed || 0) * 131;
     // Decorative understory occupies existing forest cells only. Clearing follows
     // received cell stock, so it cannot cover a newly traversable cleared cell.
-    const plants = [...forestTreeSlots.values()].filter(slot => variation(slot.cell + 107) < 0.28)
+    const plants = [...forestTreeSlots.values()].filter(slot => variation(slot.cell + seed + 107) < 0.28)
       .map(slot => ({ cell: slot.cell,
-        x: slot.x + (variation(slot.cell + 109) - 0.5) * 0.32 + (sombralMere ? 0.18 : 0),
-        z: slot.z + (variation(slot.cell + 113) - 0.5) * 0.32 + (sombralMere ? 0.18 : 0),
-        scale: 0.8 + variation(slot.cell + 127) * 0.25,
+        x: slot.x + (variation(slot.cell + seed + 109) - 0.5) * 0.32 + (sombralMere ? 0.18 : 0),
+        z: slot.z + (variation(slot.cell + seed + 113) - 0.5) * 0.32 + (sombralMere ? 0.18 : 0),
+        scale: 0.8 + variation(slot.cell + seed + 127) * 0.25,
         flip: slot.flip, yaw: slot.yaw }));
     const [name, width, height] = understoryAsset;
     const mesh = createEnvironmentSpriteInstances(name, width, height, plants);

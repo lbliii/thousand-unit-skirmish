@@ -568,3 +568,9 @@ The approved key's [Lunewort](../assets/environment/frontier-v1/sombral-mere-und
 The approved key's [Rootward fungus](../assets/environment/frontier-v1/underbough-understory-manifest.json) adds low rust/burgundy shelf caps on small mossy deadwood pieces beneath Copperleaf and woody bramble. The shared companion path selects 28% of existing forest cells. Fungus remains through partial harvest, clears at received stock zero and restores on reset; hidden cells retain their last received stock. This decorative sample adds no food, wood or collision cells and no carved-stone or forest-consciousness lore.
 
 [Local evidence](qa-evidence/vaelora-underbough-understory-2026-09-30/README.md) covers placement, camera roll, ground contact and clearing/reset. Generated source remains unchanged after selection; cropped WebP preserves alpha. Standalone fungus harvesting, deadwood variants and additional painted views remain future outcomes.
+
+## Map-seeded understory variation · 30 September 2026
+
+Regional understory selection, root jitter and scale now incorporate terrainSeed. Maps sharing a grid size no longer repeat identical companion placement. The same seed remains deterministic through reload/reset; missing or zero seed retains the original placement. Regional species, seeded 28% selection, parent forest identities, received-stock clearing and collision/resource rules stay unchanged. This adds distribution variety to existing source assets; it does not add painted perspectives.
+
+[Focused evidence](qa-evidence/vaelora-understory-seeds-2026-09-30/README.md) compares repeat and changed seeds across all six current terrain bindings and checks camera, raised ground contact, harvesting and reset.

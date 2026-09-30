@@ -84,7 +84,9 @@ if(lifecycle&&!['bellweather','sereward','pale-meridian','siltmouths','vesperra'
 const atlasCapture=process.env.RTS_VEGETATION_ATLAS==='1';
 const understoryCapture=process.env.RTS_VEGETATION_UNDERSTORY==='1';
 if(understoryCapture&&!['vesperra','siltmouths','pale-meridian','sombral-mere','underbough'].includes(region))throw new Error('Understory capture requires a supported region');
-const out=understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-broken-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
+const seedCapture=process.env.RTS_VEGETATION_SEED_STUDY==='1';
+if(seedCapture&&!understoryCapture)throw new Error('Seed study requires understory capture');
+const out=seedCapture ? 'docs/qa-evidence/vaelora-understory-seeds-2026-09-30' : understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-broken-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
@@ -204,6 +206,19 @@ try {
    const objects=[];const slots=addObstacleEnvironmentSprites({width:24,height:24,terrainBase:${JSON.stringify(region==='underbough'?'forest-floor':region==='sombral-mere'?'lunar-soil':region==='pale-meridian'?'snow':region==='siltmouths'?'tidal-mud':'jungle-loam')},obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]},12,12,o=>objects.push(o));
    const plants=[...slots.values()].filter(s=>s.understory);
    if(!plants.length||plants.length>=slots.size)throw new Error('Understory density invalid');
+   const seedFixtures=[];
+   for(const terrainBase of ['jungle-loam','tidal-mud','snow','ice','lunar-soil','forest-floor']){
+    const signatures=[];
+    for(const terrainSeed of [93007,93008,93007]){
+     const objects=[];const slots=addObstacleEnvironmentSprites({width:24,height:24,terrainBase,terrainSeed,obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]},12,12,o=>objects.push(o));
+     const descriptors=[...slots.values()].filter(s=>s.understory).map(s=>{const p=s.understory;return [p.cell,p.x,p.z,p.scale]});
+     if(slots.size!==256||!descriptors.length)throw new Error('Seed fixture forest identity changed');
+     signatures.push(JSON.stringify(descriptors));
+     for(const o of objects){o.geometry.dispose();o.material.dispose()}
+    }
+    if(signatures[0]!==signatures[2]||signatures[0]===signatures[1])throw new Error('Understory seed variation failed');
+    seedFixtures.push({terrainBase,repeatSeedStable:true,differentSeedChanges:true,forestCells:256});
+   }
    const parentFamilies=[...new Set(plants.map(s=>s.family))];
    if(${region==='underbough'}&&(!parentFamilies.includes('underbough-copperleaf')||!parentFamilies.includes('underbough-bramble')))throw new Error('Fungus missing from a forest family');
    if(objects.filter(o=>o.userData.forestUnderstory).length!==1)throw new Error('Understory not batched');
@@ -235,7 +250,7 @@ try {
    const camera=new THREE.OrthographicCamera(-8,8,4,-4,.1,200);camera.position.set(...CAMERA_VIEW_DIRECTION).multiplyScalar(50).add(new THREE.Vector3(0,1,0));camera.lookAt(0,1,0);
    renderer.render(scene,camera);const image=renderer.domElement.toDataURL('image/png');
    scene.traverse(o=>{o.geometry?.dispose();o.userData.ownedGroundTextures?.forEach(t=>t.dispose());o.material?.dispose()});renderer.dispose();renderer.forceContextLoss();
-   return {forestCells:slots.size,understoryCells:checks.length,cells:checks,workedRetained:true,depletedHidden:true,resetRestored:true,batches:1,maxScreenRollDegrees,raisedGroundContact:true,parentFamilies,image};
+   return {forestCells:slots.size,understoryCells:checks.length,cells:checks,workedRetained:true,depletedHidden:true,resetRestored:true,batches:1,maxScreenRollDegrees,raisedGroundContact:true,parentFamilies,seedFixtures,image};
   })()`);
   await writeFile(out+'/understory-renderer.png',Buffer.from(result.image.split(',')[1],'base64'));delete result.image;
   await writeFile(out+'/understory-proof.json',JSON.stringify(result,null,2)+'\n');
