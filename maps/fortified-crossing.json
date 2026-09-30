@@ -240,6 +240,102 @@
         "minimumUnits": 3
       },
       "message": "{team} REACHED THE CROSSING \u00b7 +{reward} FOOD \u00b7 +{wood} WOOD"
+    },
+    {
+      "id": "construction-relief-0",
+      "name": "Azure Barracks Relief",
+      "type": "timed-supply",
+      "afterSeconds": 12,
+      "team": "0",
+      "foodReward": 35,
+      "woodReward": 50,
+      "trigger": {
+        "type": "construction-complete",
+        "buildingType": "barracks",
+        "team": "0"
+      },
+      "message": "{team} BARRACKS RELIEF \u00b7 +{reward} FOOD \u00b7 +{wood} WOOD"
+    },
+    {
+      "id": "research-relief-0",
+      "name": "Azure Infantry Attack Relief",
+      "type": "timed-supply",
+      "afterSeconds": 12,
+      "team": "0",
+      "foodReward": 40,
+      "woodReward": 0,
+      "trigger": {
+        "type": "research-complete",
+        "technologyId": "infantry-attack",
+        "team": "0"
+      },
+      "message": "{team} INFANTRY ATTACK RELIEF \u00b7 +{reward} FOOD \u00b7 +{wood} WOOD"
+    },
+    {
+      "id": "field-relief-0",
+      "name": "Azure Field Relief",
+      "type": "timed-supply",
+      "afterSeconds": 2,
+      "team": "0",
+      "foodReward": 0,
+      "unitCount": 1,
+      "unitKind": "infantry",
+      "trigger": {
+        "type": "event",
+        "eventIds": [
+          "research-relief-0",
+          "crossing-relief-0"
+        ]
+      },
+      "message": "{team} FIELD RELIEF ARRIVED \u00b7 RESEARCH AND CROSSING COMPLETE"
+    },
+    {
+      "id": "construction-relief-1",
+      "name": "Ember Barracks Relief",
+      "type": "timed-supply",
+      "afterSeconds": 12,
+      "team": "1",
+      "foodReward": 35,
+      "woodReward": 50,
+      "trigger": {
+        "type": "construction-complete",
+        "buildingType": "barracks",
+        "team": "1"
+      },
+      "message": "{team} BARRACKS RELIEF \u00b7 +{reward} FOOD \u00b7 +{wood} WOOD"
+    },
+    {
+      "id": "research-relief-1",
+      "name": "Ember Infantry Attack Relief",
+      "type": "timed-supply",
+      "afterSeconds": 12,
+      "team": "1",
+      "foodReward": 40,
+      "woodReward": 0,
+      "trigger": {
+        "type": "research-complete",
+        "technologyId": "infantry-attack",
+        "team": "1"
+      },
+      "message": "{team} INFANTRY ATTACK RELIEF \u00b7 +{reward} FOOD \u00b7 +{wood} WOOD"
+    },
+    {
+      "id": "field-relief-1",
+      "name": "Ember Field Relief",
+      "type": "timed-supply",
+      "afterSeconds": 2,
+      "team": "1",
+      "foodReward": 0,
+      "unitCount": 1,
+      "unitKind": "infantry",
+      "trigger": {
+        "type": "event",
+        "eventIds": [
+          "research-relief-1",
+          "crossing-relief-1"
+        ]
+      },
+      "message": "{team} FIELD RELIEF ARRIVED \u00b7 RESEARCH AND CROSSING COMPLETE"
     }
   ],
   "terrainBase": "meadow",
@@ -265,5 +361,11 @@
         "height": 8
       }
     }
-  ]
+  ],
+  "audio": {
+    "packId": "rts-feedback-test",
+    "profileId": "worker-actions",
+    "version": "v1",
+    "sha256": "65cd583b7463db130b42224f8a6834d69ef7ee3871aa20a0a40a9867cc0b9fae"
+  }
 }
