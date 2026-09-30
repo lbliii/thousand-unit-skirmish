@@ -1,5 +1,23 @@
 # Frontier environment art
 
+## Pale Meridian conifer · 30 September 2026
+
+The [conifer source manifest](../assets/environment/frontier-v1/pale-meridian-lifecycle-manifest.json)
+records a cold blue/silver/violet tree derived from the approved Pale Meridian
+ecology key. Generated PNG masters retain their original alpha. Runtime exports
+use a shared crop and logical canvas so harvest edits keep ground registration.
+The [exact prompts](../assets/environment/frontier-v1/PALE-MERIDIAN-LIFECYCLE-PROMPTS.json)
+record built-in ImageGen authoring and refinement.
+
+Snow and ice base maps now use this conifer for their forest cells, with
+full/worked/low/depleted clips in one instanced atlas. Missing atlas metadata
+falls back to the four individual textures. Cell addresses and wood rules remain
+unchanged. The [focused local evidence](qa-evidence/vaelora-pale-meridian-atlas-2026-09-30/README.md)
+covers renderer states, both cold terrain bindings, and fallback loading. The camera brief specifies 45° azimuth, 45.4359° elevation,
+world Y up and zero roll; generated image perspective remains a visual estimate
+until reviewed through the actual renderer. No measured perspective calibration
+or additional camera views are claimed.
+
 [Documentation index](README.md) · [Asset guide](assets.md)
 
 ## Runtime approach

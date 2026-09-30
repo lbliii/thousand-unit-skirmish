@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-pale-meridian-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "pale-meridian-conifer.png",
+  "prompts": "PALE-MERIDIAN-LIFECYCLE-PROMPTS.json",
+  "provenance": "Original built-in ImageGen conifer against approved Pale Meridian ecology. Unmodified PNG master. Shared crop, LANCZOS max1024, RGBA WebP quality86 method6. Actual generated alpha preserved; no repainting. Camera angles are prompt guidance, not measured image calibration.",
+  "files": [
+    {
+      "path": "pale-meridian-conifer.png",
+      "role": "source-image",
+      "sha256": "ff8e4d024434e11e2974067b118d1d85354587caa6546aa0d7685b601174610c",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1536
+      },
+      "bytes": 2293518
+    },
+    {
+      "path": "pale-meridian-conifer.webp",
+      "role": "runtime-image",
+      "sha256": "51b6cc6100a52e3b38b4ceffd0ea1136fec09f03045434bb8dc851b447fece1c",
+      "dimensionsPx": {
+        "width": 699,
+        "height": 1024
+      },
+      "bytes": 224794
+    },
+    {
+      "path": "pale-meridian-conifer-worked.png",
+      "role": "source-image",
+      "sha256": "af9ee9c9d3e07e4d1d7191d99bac6f892fdaca10e37fde624f77eacecc7f3786",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1536
+      },
+      "bytes": 2355380
+    },
+    {
+      "path": "pale-meridian-conifer-worked.webp",
+      "role": "runtime-image",
+      "sha256": "ab919c50d2d8048d6f2f71cd2b5a361807bd7e354c8c53d643f3cb22034958b5",
+      "dimensionsPx": {
+        "width": 699,
+        "height": 1024
+      },
+      "bytes": 232114
+    },
+    {
+      "path": "pale-meridian-conifer-low.png",
+      "role": "source-image",
+      "sha256": "e337315e31f67bcb2660ad7ca7c6eca2dacbbc01be3c8b869a12e26fbe9010ea",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1536
+      },
+      "bytes": 2397381
+    },
+    {
+      "path": "pale-meridian-conifer-low.webp",
+      "role": "runtime-image",
+      "sha256": "c85295ebcf7c0fdae030ce0f5f4155c588d428a33e29143e2789642f146fe034",
+      "dimensionsPx": {
+        "width": 699,
+        "height": 1024
+      },
+      "bytes": 235804
+    },
+    {
+      "path": "pale-meridian-conifer-depleted.png",
+      "role": "source-image",
+      "sha256": "578a6570ba1420651bb1a02c799157714d5d014514c6947370d0fbbf4c48cb92",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1536
+      },
+      "bytes": 851080
+    },
+    {
+      "path": "pale-meridian-conifer-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "67c77394f99b83cd360fe7ee7ce2da1ea560ef552020e01778b4591e9bc3b396",
+      "dimensionsPx": {
+        "width": 699,
+        "height": 1024
+      },
+      "bytes": 37660
+    }
+  ],
+  "assets": [
+    {
+      "id": "pale-meridian-conifer",
+      "stage": "full",
+      "sourceOutputId": "exec-eb16d7f6-a597-4ce9-b4e4-b545c5db8320",
+      "sourceFile": "pale-meridian-conifer.png",
+      "runtimeFile": "pale-meridian-conifer.webp",
+      "cropBoxPx": [
+        35,
+        31,
+        1002,
+        1447
+      ],
+      "logicalCanvasPx": [
+        1024,
+        1536
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "pale-meridian-conifer-worked",
+      "stage": "worked",
+      "sourceOutputId": "exec-f977d1d1-ec2a-4387-95a8-07c766d0c9c2",
+      "sourceFile": "pale-meridian-conifer-worked.png",
+      "runtimeFile": "pale-meridian-conifer-worked.webp",
+      "cropBoxPx": [
+        35,
+        31,
+        1002,
+        1447
+      ],
+      "logicalCanvasPx": [
+        1024,
+        1536
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "pale-meridian-conifer-low",
+      "stage": "low",
+      "sourceOutputId": "exec-3d9bfaf5-5115-4b04-ae5d-fe7f62ff02af",
+      "sourceFile": "pale-meridian-conifer-low.png",
+      "runtimeFile": "pale-meridian-conifer-low.webp",
+      "cropBoxPx": [
+        35,
+        31,
+        1002,
+        1447
+      ],
+      "logicalCanvasPx": [
+        1024,
+        1536
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "pale-meridian-conifer-depleted",
+      "stage": "depleted",
+      "sourceOutputId": "exec-cad60cd5-4266-4a18-8dc6-8bd92a252cfa",
+      "sourceFile": "pale-meridian-conifer-depleted.png",
+      "runtimeFile": "pale-meridian-conifer-depleted.webp",
+      "cropBoxPx": [
+        35,
+        31,
+        1002,
+        1447
+      ],
+      "logicalCanvasPx": [
+        1024,
+        1536
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    }
+  ]
+}

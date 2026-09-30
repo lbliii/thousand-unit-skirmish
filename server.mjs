@@ -6953,13 +6953,14 @@ const server = createServer(async (request, response) => {
     'assets/ui/icons/attack.svg', 'assets/ui/icons/gather.svg', 'assets/ui/icons/build.svg',
   ].includes(relative);
   const publicEnvironmentModule = relative === 'src/environment-art.mjs';
-  const publicEnvironmentAtlasMetadata = ['bellweather', 'sereward'].some((region) =>
+  const publicEnvironmentAtlasMetadata = ['bellweather', 'sereward', 'pale-meridian'].some((region) =>
     relative === `assets/environment/frontier-v1/${region}-lifecycle-atlas.json`);
   const publicEnvironmentAsset = path.dirname(relative) === 'assets/environment/frontier-v1'
     && ['.png', '.webp'].includes(path.extname(relative))
     && ['oak', 'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
       'bellweather-field-maple', 'bellweather-hedgerow',
-      'bellweather-lifecycle-atlas', 'sereward-lifecycle-atlas',
+      'bellweather-lifecycle-atlas', 'sereward-lifecycle-atlas', 'pale-meridian-lifecycle-atlas',
+      'pale-meridian-conifer', 'pale-meridian-conifer-worked', 'pale-meridian-conifer-low', 'pale-meridian-conifer-depleted',
       'bellweather-field-maple-worked', 'bellweather-field-maple-low', 'bellweather-field-maple-depleted',
       'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
       'underbough-copperleaf', 'underbough-bramble',

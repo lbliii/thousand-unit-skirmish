@@ -21,6 +21,7 @@ const spriteNames = [
   'underbough-copperleaf', 'underbough-bramble',
   'sereward-palm', 'sereward-acacia', 'sereward-scrub',
   'sereward-palm-worked', 'sereward-palm-low', 'sereward-palm-depleted',
+  'pale-meridian-conifer', 'pale-meridian-conifer-worked', 'pale-meridian-conifer-low', 'pale-meridian-conifer-depleted',
   'ellionar-cultivated-palm', 'ellionar-garden-hedge',
   'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
   'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
@@ -30,7 +31,7 @@ const spriteMaterials = new Map();
 const constructionTextures = new Map();
 const constructionMaterials = new Map();
 const constructionInstances = new Map();
-const forestAtlasPacks = new Map(await Promise.all(['bellweather', 'sereward'].map(async (region) => {
+const forestAtlasPacks = new Map(await Promise.all(['bellweather', 'sereward', 'pale-meridian'].map(async (region) => {
   try {
     const response = await fetch(`${ASSET_ROOT}${region}-lifecycle-atlas.json`);
     if (!response.ok) throw new Error(`atlas metadata HTTP ${response.status}`);
@@ -540,7 +541,9 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     && definition.id !== 'meshy-resource-review';
   const ellionar = environmentTheme(definition) === 'garden-loam'
     && definition.id !== 'meshy-resource-review';
-  const pineName = ellionar ? 'ellionar-cultivated-palm' : sereward ? 'sereward-palm' : veyrholds ? 'veyrholds-highpine' : 'pine';
+  const paleMeridian = ['snow', 'ice'].includes(environmentTheme(definition))
+    && definition.id !== 'meshy-resource-review';
+  const pineName = paleMeridian ? 'pale-meridian-conifer' : ellionar ? 'ellionar-cultivated-palm' : sereward ? 'sereward-palm' : veyrholds ? 'veyrholds-highpine' : 'pine';
   const mapleName = sereward ? 'sereward-acacia' : underbough ? 'underbough-copperleaf'
     : bellweather ? 'bellweather-field-maple' : 'field-maple';
   const thicketName = ellionar ? 'ellionar-garden-hedge' : sereward ? 'sereward-scrub' : underbough ? 'underbough-bramble'
@@ -576,6 +579,11 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
             point.scale = 0.72 + scaleVariation * 0.32;
             point.yaw = 0;
             (treeType < 0.45 ? oaks : pines).push(point);
+            continue;
+          }
+          if (paleMeridian) {
+            point.scale = 0.76 + scaleVariation * 0.2;
+            pines.push(point);
             continue;
           }
           if (ellionar) {
@@ -662,7 +670,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     }
   }
   for (const [name, width, height, points] of [
-    [pineName, ellionar || sereward || veyrholds ? 2.7 : 2.25, ellionar || sereward ? 3.8 : 3.4, pines],
+    [pineName, paleMeridian || ellionar || sereward || veyrholds ? 2.7 : 2.25, paleMeridian || ellionar || sereward ? 3.8 : 3.4, pines],
     ['oak', 3.05, 2.86, oaks],
     ['silver-birch', 2.3, 3.45, birches],
     [mapleName, sereward ? 3.5 : 3.05, sereward ? 2.85 : 3.25, maples],
@@ -678,7 +686,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       || createEnvironmentSpriteInstances(name, width, height, points);
     if (!mesh) continue;
     let stateMeshes;
-    if (!mesh.userData.forestAtlas && ['bellweather-field-maple', 'sereward-palm'].includes(name)) {
+    if (!mesh.userData.forestAtlas && ['bellweather-field-maple', 'sereward-palm', 'pale-meridian-conifer'].includes(name)) {
       stateMeshes = { full: mesh };
       for (const stage of ['worked', 'low', 'depleted']) {
         const stateMesh = createEnvironmentSpriteInstances(`${name}-${stage}`, width, height,
