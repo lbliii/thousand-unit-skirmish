@@ -1,0 +1,6 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Create one low compact blue-black stone outcrop carrying violet lichen, based on the Pale Meridian ecology key. Three broad angular slate boulders with irregular matte lavender/violet lichen shelves clustered in a few readable patches, restrained frost-silver crusts along upper edges. Do not cover all stone in snow; retain strong dark rock planes against a white snowfield. Painterly expressive RTS finish, broad shapes, no microdetail noise or branching fractal lace. Natural asymmetrical low-wide silhouette, no crystals, glow, animals, plants with stalks or magical runes. Orthographic camera45.44 degrees above ground, azimuth45 degrees, zero screen roll, visible upper planes, no dramatic perspective. Entire isolated outcrop centered with generous transparent margin, ground contact bottom center. Genuine transparent background, no ground patch, surrounding snow field, cast shadow cloud, text or labels. One compact cluster, approximately1.8:1 width to height.",
+  "selectedOutput": "exec-4105a072-47d8-461b-8680-1a3535f2a43f.png",
+  "transparentBackground": true
+}

@@ -94,7 +94,9 @@ const shoreCapture=process.env.RTS_VEGETATION_SHORE==='1';
 if(shoreCapture&&!['siltmouths','sombral-mere'].includes(region))throw new Error('Shore capture requires Siltmouths or Sombral Mere');
 const shoreMapFile=region==='sombral-mere'?'maps/sombral-mere-shore-gardens.json':'maps/siltmouths-reed-crossings.json';
 const shoreBase=region==='sombral-mere'?'lunar-soil':'tidal-mud';
-const out=shoreCapture ? (region==='sombral-mere'?'docs/qa-evidence/vaelora-mere-mirelily-2026-09-30':'docs/qa-evidence/vaelora-siltmouths-shore-reeds-2026-09-30') : variationCapture ? 'docs/qa-evidence/vaelora-vesperra-fern-variation-2026-09-30' : readabilityCapture ? 'docs/qa-evidence/vaelora-highpine-low-readability-2026-09-30' : seedCapture ? 'docs/qa-evidence/vaelora-understory-seeds-2026-09-30' : understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-god-bone-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
+const lichenCapture=process.env.RTS_VEGETATION_LICHEN==='1';
+if(lichenCapture&&region!=='pale-meridian')throw new Error('Lichen capture requires Pale Meridian');
+const out=lichenCapture ? 'docs/qa-evidence/vaelora-meridian-violet-lichen-2026-09-30' : shoreCapture ? (region==='sombral-mere'?'docs/qa-evidence/vaelora-mere-mirelily-2026-09-30':'docs/qa-evidence/vaelora-siltmouths-shore-reeds-2026-09-30') : variationCapture ? 'docs/qa-evidence/vaelora-vesperra-fern-variation-2026-09-30' : readabilityCapture ? 'docs/qa-evidence/vaelora-highpine-low-readability-2026-09-30' : seedCapture ? 'docs/qa-evidence/vaelora-understory-seeds-2026-09-30' : understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-god-bone-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
@@ -223,7 +225,7 @@ try {
    if(${JSON.stringify(region)}==='sombral-mere'){d.id='sombral-mere-study';d.terrainBase='lunar-soil';d.terrainPatches=[]}
    if(${JSON.stringify(region)}==='vesperra'){d.id='vesperra-study';d.terrainBase='jungle-loam';d.terrainPatches=[]}
    if(${JSON.stringify(region)}==='siltmouths'){d.id='siltmouths-study';d.terrainBase='tidal-mud';d.terrainPatches=[]}
-   if(${JSON.stringify(region)}==='pale-meridian'){d.id='pale-meridian-study';d.terrainBase='snow';d.terrainPatches=[]}
+   if(${JSON.stringify(region)}==='pale-meridian'){d.id='pale-meridian-study';d.terrainBase='snow';d.terrainPatches=[];if(${lichenCapture})d.obstacles.push({row:16,column:6,width:10,height:1,material:'stone',elevation:.72})}
    if(${JSON.stringify(region)}==='ellionar'){d.id='ellionar-study';d.terrainBase='garden-loam';d.terrainPatches=[{column:0,row:12,width:24,height:12,material:'dirt'}]}
    const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true,antialias:true});renderer.setSize(1000,750);renderer.setPixelRatio(1);
    const scene=new THREE.Scene();scene.background=new THREE.Color(${JSON.stringify(region)}==='ru-lora'?0x34303f:0x859175);const camera=new THREE.OrthographicCamera(-${span}*4/3,${span}*4/3,${span},-${span},0.1,200);camera.position.set(...CAMERA_VIEW_DIRECTION).multiplyScalar(50);camera.lookAt(0,0,0);
@@ -369,6 +371,8 @@ try {
  if(!proof[8].files.includes('vesperra-lifecycle-atlas.webp')||proof[8].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Vesperra forest mix mismatch');
  for(const i of [1,6])if(!proof[i].files.includes('pale-meridian-silver-moss.webp'))throw new Error('Cold moss binding missing');
  if(proof.some((r,i)=>![1,6].includes(i)&&r.files.includes('pale-meridian-silver-moss.webp')))throw new Error('Cold moss leaked into another region');
+ for(const i of [1,6])if(!proof[i].files.includes('pale-meridian-violet-lichen.webp'))throw new Error('Lichen cold binding missing');
+ if(proof.some((r,i)=>![1,6].includes(i)&&r.files.includes('pale-meridian-violet-lichen.webp')))throw new Error('Lichen leaked to another base');
  if(!proof[7].files.includes('siltmouths-silver-reed.webp')||proof.some((r,i)=>i!==7&&r.files.includes('siltmouths-silver-reed.webp')))throw new Error('Silver reed region binding mismatch');
  for(const file of ['vesperra-shade-fern.webp','vesperra-shade-fern-02.webp'])if(!proof[8].files.includes(file)||proof.some((r,i)=>i!==8&&r.files.includes(file)))throw new Error('Understory region binding mismatch: '+file);
  if(!proof[0].files.includes('bellweather-meadow-herbs.webp')||proof.some((r,i)=>i!==0&&r.files.includes('bellweather-meadow-herbs.webp')))throw new Error('Meadow herbs region binding mismatch');
@@ -379,7 +383,7 @@ try {
  if(!proof[9].files.includes('sombral-mere-lunewort.webp')||proof.some((r,i)=>i!==9&&r.files.includes('sombral-mere-lunewort.webp')))throw new Error('Lunewort region binding mismatch');
  if(!proof[9].files.includes('sombral-mere-lifecycle-atlas.webp')||proof[9].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Sombral Mere forest mix mismatch');
  if(!['ru-lora-fiendwood.webp','ru-lora-stone-fern.webp','ru-lora-broken-trunk.webp','ru-lora-god-bone.webp'].every(f=>proof[10].files.includes(f))||proof.slice(0,10).some(r=>r.files.some(f=>f.startsWith('ru-lora-'))))throw new Error('Ru Lora stone scenery binding mismatch');
- if(region==='ru-lora'){
+ if(region==='ru-lora'||lichenCapture){
   const placement=await cdp.evaluate(`(async()=>{
    const THREE=await import('/vendor/three.module.js');
    const {CAMERA_VIEW_DIRECTION}=await import('/src/camera-controls.mjs');
@@ -389,13 +393,13 @@ try {
    const up=new THREE.Vector3(0,1,0);const normal=new THREE.Vector3(...CAMERA_VIEW_DIRECTION).normalize();const screenRight=new THREE.Vector3().crossVectors(up,normal).normalize();
    const result=[];
    for(const elevation of [0.72,1.12,2])for(const id of ['ru-lora-placement-proof','meshy-resource-review']){
-    const objects=[];addObstacleEnvironmentSprites({id,width:32,height:32,terrainBase:'salt-crust',obstacles:[{column:3,row:8,width:25,height:1,material:'stone',elevation},{column:3,row:18,width:25,height:1,material:'stone',elevation}]},16,16,o=>objects.push(o));
+    const objects=[];addObstacleEnvironmentSprites({id,width:32,height:32,terrainBase:${JSON.stringify(lichenCapture?'snow':'salt-crust')},obstacles:[{column:3,row:8,width:25,height:1,material:'stone',elevation},{column:3,row:18,width:25,height:1,material:'stone',elevation}]},16,16,o=>objects.push(o));
     for(let i=0;i<50&&objects.some(o=>!o.material.map.image?.complete);i++)await new Promise(r=>setTimeout(r,100));
     if(objects.some(o=>!o.material.map.image?.naturalWidth))throw new Error('Stone placement texture failed to load');
     const files=objects.map(o=>o.material.map.image.src.split('/').pop());
-    if(id==='meshy-resource-review'&&files.some(f=>f?.startsWith('ru-lora-')))throw new Error('Regional props leaked into review map');
-    if(elevation>=1&&files.includes('ru-lora-god-bone.webp'))throw new Error('Bone replaced tall barrier');
-    if(elevation<1&&id!=='meshy-resource-review'&&!files.includes('ru-lora-god-bone.webp'))throw new Error('Bone placement fixture missing specimen');
+    if(id==='meshy-resource-review'&&files.some(f=>(f?.startsWith('ru-lora-')||f==='pale-meridian-violet-lichen.webp')))throw new Error('Regional props leaked into review map');
+    if(elevation>=1&&files.includes(${JSON.stringify(lichenCapture?'pale-meridian-violet-lichen.webp':'ru-lora-god-bone.webp')}))throw new Error('Bone replaced tall barrier');
+    if(elevation<1&&id!=='meshy-resource-review'&&!files.includes(${JSON.stringify(lichenCapture?'pale-meridian-violet-lichen.webp':'ru-lora-god-bone.webp')}))throw new Error('Bone placement fixture missing specimen');
     const positions=[];let maxRoll=0;
     for(const mesh of objects){
      const matrix=new THREE.Matrix4();for(let i=0;i<mesh.count;i++){

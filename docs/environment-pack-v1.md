@@ -636,3 +636,9 @@ Run `npm run validate:environment-plants` before packaging new understory, varia
 ## Decoded-alpha audit · 30 September 2026
 
 Run `npm run validate:environment-plant-alpha` with Python3/Pillow to compare every decoded runtime alpha pixel with the recorded selected-source crop and LANCZOS max1024 recipe. [Evidence](qa-evidence/vaelora-plant-alpha-2026-09-30/README.md) covers all12 current single-asset packs. This read-only check complements the Node contract validator; it does not repaint sources or assess RGB/perspective/placement. The command is optional production tooling, separate from Node-only CI.
+
+## Pale Meridian violet lichen outcrops · 30 September 2026
+
+The approved key's [violet lichen](../assets/environment/frontier-v1/pale-meridian-lichen-variation-manifest.json) adds lavender crusts and restrained frost to blue-black stone. Snow/ice low outcrop placements use the new 2.8818×1.5 sprite; other low boulders, tall ridges/cliffs and the generic review map retain their art. Existing stone positions/collision remain, with no mining or lichen-harvest rule.
+
+[Local evidence](qa-evidence/vaelora-meridian-violet-lichen-2026-09-30/README.md) records placement, actual camera orientation, raised contact and regional loading alongside existing forest lifecycle checks. Generated PNG unchanged; alpha-preserving WebP and exact prompt included. One approximate fixed-oblique painted view.

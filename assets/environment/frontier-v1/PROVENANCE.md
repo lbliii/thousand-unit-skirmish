@@ -310,3 +310,7 @@ Built-in ImageGen against the project-owned approved Ru’Lora ecology key's int
 ## Sombral Mere Mirelily · 30 September 2026
 
 Built-in ImageGen against the project-owned approved Mere ecology key's Mirelily specimen. [Exact overhead prompt](MERE-MIRELILY-PROMPTS.json) and [manifest](mere-water-plants-manifest.json) record selected source ID, reference hash, crop, dimensions and file hashes. PNG copied unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background composite inspected pad notches and surroundings. No repainting/alpha repair. Source overhead perspective is requested guidance; actual horizontal runtime plane and projection are verified separately.
+
+## Pale Meridian violet lichen · 30 September 2026
+
+Built-in ImageGen against the approved Pale Meridian ecology key. [Prompt](MERIDIAN-LICHEN-PROMPTS.json) and [manifest](pale-meridian-lichen-variation-manifest.json) record selected source, reference hash, crop, dimensions and hashes. PNG unchanged; deterministic LANCZOS max1024 crop/WebP quality86 method6 preserves decoded alpha exactly. Solid-background inspection confirms transparency. Painted projection approximate; runtime orientation checked separately.

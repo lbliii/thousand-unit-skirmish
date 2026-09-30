@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-meridian-lichen",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/pale-meridian-ecology.png",
+  "referenceSha256": "f6fe68d0a40f0f118f37c40582c96ae0fb7c88ffe03977c8baac0ec500bd917e",
+  "prompts": "MERIDIAN-LICHEN-PROMPTS.json",
+  "files": [
+    {
+      "path": "pale-meridian-violet-lichen.png",
+      "role": "source-image",
+      "sha256": "c6f9df1756e85c74a96372d59fc3f0be634756880c811eed6a9ed3ff39b9efed",
+      "bytes": 1739202,
+      "dimensionsPx": {
+        "width": 1681,
+        "height": 936
+      }
+    },
+    {
+      "path": "pale-meridian-violet-lichen.webp",
+      "role": "runtime-image",
+      "sha256": "a42d443bd64fcdd4e6375a211f81be68493228c7dea9b03116772717ce74ba8d",
+      "bytes": 181660,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 533
+      }
+    }
+  ],
+  "cropPx": [
+    112,
+    86,
+    1568,
+    844
+  ],
+  "asset": {
+    "id": "pale-meridian-violet-lichen",
+    "kind": "decorative-stone-scenery",
+    "worldWidth": 2.8818,
+    "worldHeight": 1.5,
+    "pivot": [
+      0.5,
+      1
+    ]
+  },
+  "provenance": "Built-in ImageGen. Unchanged selected PNG; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Approximate fixed-oblique painted view."
+}
