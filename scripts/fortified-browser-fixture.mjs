@@ -41,11 +41,12 @@ export async function createFortifiedBrowser() {
     if(!port)throw new Error(`Chrome startup timeout: ${logs}`);
     const version=await(await fetch(`http://127.0.0.1:${port}/json/version`)).json();manager=new Cdp(version.webSocketDebuggerUrl);await manager.open;
     return {version:await manager.call('Browser.getVersion'),dispose,
-      async page(url,{beforeScript=null}={}){
+      async page(url,{beforeScript=null,headers=null}={}){
         const {browserContextId}=await manager.call('Target.createBrowserContext');
         const {targetId}=await manager.call('Target.createTarget',{url:'about:blank',browserContextId});
         const tabs=await(await fetch(`http://127.0.0.1:${port}/json/list`)).json();const target=tabs.find(t=>t.id===targetId);if(!target)throw new Error('Created page missing');
         const cdp=new Cdp(target.webSocketDebuggerUrl);await cdp.open;await cdp.call('Runtime.enable');await cdp.call('Page.enable');await cdp.call('Network.enable');
+        if(headers)await cdp.call('Network.setExtraHTTPHeaders',{headers});
         await cdp.call('Emulation.setDeviceMetricsOverride',{width:1280,height:720,deviceScaleFactor:1,mobile:false});
         const errors=[];cdp.on('Runtime.exceptionThrown',event=>errors.push(event.exceptionDetails?.exception?.description??event.exceptionDetails?.text));
         if(beforeScript)await cdp.call('Page.addScriptToEvaluateOnNewDocument',{source:beforeScript});

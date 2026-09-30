@@ -4,7 +4,10 @@ import {readFile} from 'node:fs/promises';
 import {createFortifiedFixture} from './fortified-crossing-fixture.mjs';
 import {createFortifiedBrowser} from './fortified-browser-fixture.mjs';
 const map=JSON.parse(await readFile(new URL('../maps/fortified-crossing.json',import.meta.url)));
-const fixture=await createFortifiedFixture({supervisor:true});
+const remote=process.env.FORTIFIED_STAGING_ORIGIN;
+const headers=remote?{authorization:'Basic '+Buffer.from(`${process.env.RTS_ACCESS_USER||'players'}:${process.env.RTS_ACCESS_PASSWORD||''}`).toString('base64')}:{};
+if(remote){assert.equal(new URL(remote).protocol,'https:');assert.ok(process.env.RTS_ACCESS_PASSWORD,'staging credentials required');}
+const fixture=remote?null:await createFortifiedFixture({supervisor:true});
 let browser,stage='startup';
 const capture=`(() => {
   const create=URL.createObjectURL.bind(URL);URL.createObjectURL=blob=>{if(blob.type==='application/json')blob.text().then(text=>window.__fortifiedExport=text);return create(blob);};
@@ -12,11 +15,11 @@ const capture=`(() => {
   window.__fortifiedAudioStarts=0;const start=AudioBufferSourceNode.prototype.start;AudioBufferSourceNode.prototype.start=function(...args){window.__fortifiedAudioStarts++;return start.apply(this,args);};
 })();`;
 try {
-  await fixture.start();browser=await createFortifiedBrowser();
-  const origin=`http://127.0.0.1:${fixture.port}`;
-  const response=await fetch(origin+'/api/rooms',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:'{}'});assert.equal(response.status,201);
+  await fixture?.start();browser=await createFortifiedBrowser();
+  const origin=remote??`http://127.0.0.1:${fixture.port}`;
+  const response=await fetch(origin+'/api/rooms',{method:'POST',headers:{...headers,Origin:origin,'Content-Type':'application/json'},body:'{}'});assert.equal(response.status,201);
   const room=await response.json(),url=origin+'/?room='+room.roomId;
-  const host=await browser.page(url,{beforeScript:capture});
+  const host=await browser.page(url,{beforeScript:capture,headers});
   await host.wait("document.documentElement.dataset.boot==='ready'&&!document.querySelector('#map-studio-open').disabled",'host boot');
   async function field(id,value){return host.cdp.evaluate(`(() => {const e=document.getElementById(${JSON.stringify(id)});if(!e)throw Error('Missing form field');e.value=${JSON.stringify(String(value))};e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));return e.value;})()`);}
   async function click(selector){return host.cdp.evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`);}
@@ -75,7 +78,7 @@ try {
   await host.wait("document.querySelector('#studio-name').value==='Fortified Crossing Browser Proof'",'reopened draft');
   stage='publish and fresh guest automatic delivery';await click('#studio-publish');
   await host.wait("!document.querySelector('#map-studio').open",'published map');
-  const guest=await browser.page(url,{beforeScript:capture});
+  const guest=await browser.page(url,{beforeScript:capture,headers});
   await guest.wait("document.documentElement.dataset.boot==='ready'",'fresh guest boot');
   for(const [seat,page] of [['host',host],['fresh-guest',guest]]){
     await page.wait("document.querySelector('#audio-pack-status').textContent.toLowerCase().includes('ready')",`${seat} auto pack ready`);
@@ -87,4 +90,4 @@ try {
   }
   console.log(JSON.stringify({map:authored.id,events:authored.scenarioEvents.length,region:authored.regions[0],invite:true,freshGuestPack:true,browser:browser.version.product,checks:['visual draw','typed event forms','undo/redo','export/import','reopen','publish','fresh invite guest','no imported audio pack'],limitations:['scripted authoring; no unassisted human discoverability or listening claim','does not replace combined authoritative match test']}));
 }catch(error){throw new Error(`${stage}: ${error.message}`,{cause:error});}
-finally{await browser?.dispose();await fixture.dispose();}
+finally{await browser?.dispose();await fixture?.dispose();}
