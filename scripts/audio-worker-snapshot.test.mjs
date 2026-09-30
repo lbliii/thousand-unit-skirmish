@@ -29,7 +29,8 @@ test('repair reports execution only in reach with a damaged completed building a
 });
 test('fog withholds enemy work while no-fog shared roster retains execution for local filtering', () => {
   const fog=fixture(); fog.worker.gatherPhase='gathering';
-  assert.equal(fog.row(0)[14],'food'); assert.equal(fog.row(1)[14],null);
+  assert.equal(fog.row(0)[14],'food'); assert.equal(fog.row(1)[14],undefined);
+  fog.worker.gatherPhase=''; assert.equal(fog.row(0).length,11, 'idle rows retain their compact legacy shape');
   const open=fixture(false); open.worker.gatherPhase='gathering';
   assert.equal(open.row(null)[14],'food');
 });

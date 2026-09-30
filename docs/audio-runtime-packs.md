@@ -43,7 +43,7 @@ paths are checked, with a 30-second total fetch deadline. A two-pack LRU cache s
 the separate 24 MiB bound. Load failures keep synthesized feedback. Local ID-only
 references and portable pack export/import remain supported. Room uploads are absent.
 
-Unit snapshot row 14 reports actual local wood/food gathering or repair execution,
+Optional unit snapshot row 14 reports actual local wood/food gathering or repair execution,
 not travel or an issued task. Fogged enemy execution is withheld. The client selects
 living local workers within 24 world units of the camera, aggregates by resource,
 and schedules at most three short work decisions every 1.5 seconds. Task changes,

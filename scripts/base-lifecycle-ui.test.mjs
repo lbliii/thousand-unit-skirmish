@@ -14,6 +14,7 @@ for (const team of [0, 1]) test(`contextual lifecycle choices follow owned build
     latestTeamResearch: [{}, {}], latestWorkerProduction: [{ queue: 1 }, { queue: 1 }],
     teamUnits: [[{ id: 1, hp: 100, kind: 'worker' }], [{ id: 2, hp: 100, kind: 'worker' }]],
     getBuildingQueueLength: (row) => row.queue, sendCommand: (command) => commands.push(command),
+    sendTrackedOrder: (command, label, count, unitName) => { assert.equal(label, 'REPAIR'); assert.equal(count, 1); assert.equal(unitName, 'WORKERS'); commands.push(command); },
   });
   vm.runInContext(fn, context); context.updateBuildingLifecycleActions();
   assert.deepEqual(container.children.map((button) => button.dataset.action), ['cancelConstruction']); container.children[0].click();
