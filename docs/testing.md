@@ -47,6 +47,7 @@ Run from the repository root:
 | --- | --- |
 | Map logic / elevation | `node scripts/map-utils-scenario.mjs` / `node scripts/elevation-scenario.mjs` |
 | Default map geometry | `node scripts/forked-vale-layout.mjs` |
+| Fortified Crossing foundation | `node scripts/fortified-crossing-layout.mjs` and `node scripts/fortified-crossing-economy.mjs`; [evidence and scale runner](qa-custom-skirmish.md) |
 | Larger map geometry | `node scripts/frontier-160-layout.mjs` |
 | Highland Grove definition | `node scripts/generate-highland-grove.mjs --check` |
 | Complete Forked Vale scenario, each winner | `node scripts/forked-vale-scenario.mjs 0` and `node scripts/forked-vale-scenario.mjs 1` |

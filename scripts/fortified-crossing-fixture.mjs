@@ -54,7 +54,7 @@ export async function createFortifiedFixture({ mapPath = 'maps/fortified-crossin
     });
     socket.addEventListener('close', () => {
       closed = true;
-      for (const waiter of pending) finish(waiter, new Error(`Connection closed while waiting: ${waiter.description}`));
+      for (const waiter of pending) finish(waiter, new Error(`Connection closed while waiting: ${waiter.description}; worker log: ${logs}`));
     });
     function wait(predicate, description = 'message', after = 0) {
       const message = messages.slice(after).find(predicate); if (message) return Promise.resolve(message);
