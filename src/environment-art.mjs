@@ -30,6 +30,7 @@ const spriteNames = [
   'siltmouths-tidal-tree', 'siltmouths-tidal-tree-worked', 'siltmouths-tidal-tree-low', 'siltmouths-tidal-tree-depleted',
   'ellionar-cultivated-palm', 'ellionar-garden-hedge',
   'ellionar-cultivated-palm-worked', 'ellionar-cultivated-palm-low', 'ellionar-cultivated-palm-depleted',
+  'ellionar-garden-hedge-worked', 'ellionar-garden-hedge-low', 'ellionar-garden-hedge-depleted',
   'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
   'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
 ];
@@ -38,7 +39,7 @@ const spriteMaterials = new Map();
 const constructionTextures = new Map();
 const constructionMaterials = new Map();
 const constructionInstances = new Map();
-const forestAtlasPacks = new Map(await Promise.all(['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough', 'underbough-bramble', 'veyrholds', 'ellionar'].map(async (region) => {
+const forestAtlasPacks = new Map(await Promise.all(['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough', 'underbough-bramble', 'veyrholds', 'ellionar', 'ellionar-hedge'].map(async (region) => {
   try {
     const response = await fetch(`${ASSET_ROOT}${region}-lifecycle-atlas.json`);
     if (!response.ok) throw new Error(`atlas metadata HTTP ${response.status}`);
@@ -721,7 +722,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       || createEnvironmentSpriteInstances(name, width, height, points);
     if (!mesh) continue;
     let stateMeshes;
-    if (!mesh.userData.forestAtlas && ['bellweather-field-maple', 'sereward-palm', 'pale-meridian-conifer', 'siltmouths-tidal-tree', 'vesperra-mistbark', 'sombral-mere-merebloom', 'underbough-copperleaf', 'underbough-bramble', 'veyrholds-highpine', 'ellionar-cultivated-palm'].includes(name)) {
+    if (!mesh.userData.forestAtlas && ['bellweather-field-maple', 'sereward-palm', 'pale-meridian-conifer', 'siltmouths-tidal-tree', 'vesperra-mistbark', 'sombral-mere-merebloom', 'underbough-copperleaf', 'underbough-bramble', 'veyrholds-highpine', 'ellionar-cultivated-palm', 'ellionar-garden-hedge'].includes(name)) {
       stateMeshes = { full: mesh };
       for (const stage of ['worked', 'low', 'depleted']) {
         const stateMesh = createEnvironmentSpriteInstances(`${name}-${stage}`, width, height,

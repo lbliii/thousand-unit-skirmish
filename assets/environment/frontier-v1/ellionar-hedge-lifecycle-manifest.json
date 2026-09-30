@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-ellionar-hedge-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "ellionar-garden-hedge.png",
+  "prompts": "ELLIONAR-HEDGE-LIFECYCLE-PROMPTS.json",
+  "provenance": "Built-in ImageGen edits of approved project-owned hedge. Unchanged masters, shared crop and alpha-preserving LANCZOS max1024 WebP quality86 method6. Camera guidance approximate.",
+  "files": [
+    {
+      "path": "ellionar-garden-hedge.png",
+      "role": "source-image",
+      "sha256": "ffc1d71042bf50615596cbaaf6062fcf340465fc5f1635d1626fe1cdc69d36e8",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 2473344
+    },
+    {
+      "path": "ellionar-garden-hedge.webp",
+      "role": "runtime-image",
+      "sha256": "035a13fd7c846d03fe47032de6f27367e8067784c9cc45ba153b860139be5c53",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 592
+      },
+      "bytes": 235936
+    },
+    {
+      "path": "ellionar-garden-hedge-worked.png",
+      "role": "source-image",
+      "sha256": "74ddeec99f527a6888e16791aa4822f7d52e8393eb1a48b31e4adc63230d6530",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 2340116
+    },
+    {
+      "path": "ellionar-garden-hedge-worked.webp",
+      "role": "runtime-image",
+      "sha256": "0d5d996569f33e9261a9b60725f482c5651abd64d4bab850ce30e98b35b0aeea",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 592
+      },
+      "bytes": 190304
+    },
+    {
+      "path": "ellionar-garden-hedge-low.png",
+      "role": "source-image",
+      "sha256": "b448eeecfbf1a556e07e271dc2f72f0bf762fad01dccd72d51650b48c6c8bc31",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 1960048
+    },
+    {
+      "path": "ellionar-garden-hedge-low.webp",
+      "role": "runtime-image",
+      "sha256": "0337b74be225a95e58d55de8dda659d198be90aa04486884fd7f7e8020c751b3",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 592
+      },
+      "bytes": 175548
+    },
+    {
+      "path": "ellionar-garden-hedge-depleted.png",
+      "role": "source-image",
+      "sha256": "c7a77ebe2e9b8d5b3016ecd0f5a624f23ac613667a4445661c553b9b7c06f47f",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 880004
+    },
+    {
+      "path": "ellionar-garden-hedge-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "dc3689ce1dbf8bf6f5ed629d729c74ecf406611e670ceb9fea08af6e0dc925a0",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 592
+      },
+      "bytes": 35768
+    }
+  ],
+  "assets": [
+    {
+      "id": "ellionar-garden-hedge",
+      "sourceOutputId": "exec-95dfbcdf-4d89-4ede-8621-5364120af9c8",
+      "sourceFile": "ellionar-garden-hedge.png",
+      "runtimeFile": "ellionar-garden-hedge.webp",
+      "cropBoxPx": [
+        31,
+        86,
+        1500,
+        935
+      ],
+      "worldSize": {
+        "width": 2.8,
+        "height": 1.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "full",
+      "logicalCanvasPx": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "id": "ellionar-garden-hedge-worked",
+      "sourceOutputId": "exec-aae81f08-a869-4dd2-b50e-689542f48028",
+      "sourceFile": "ellionar-garden-hedge-worked.png",
+      "runtimeFile": "ellionar-garden-hedge-worked.webp",
+      "cropBoxPx": [
+        31,
+        86,
+        1500,
+        935
+      ],
+      "worldSize": {
+        "width": 2.8,
+        "height": 1.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "worked",
+      "logicalCanvasPx": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "id": "ellionar-garden-hedge-low",
+      "sourceOutputId": "exec-2a93ec5d-80b1-40cd-8993-a31920bf10d9",
+      "sourceFile": "ellionar-garden-hedge-low.png",
+      "runtimeFile": "ellionar-garden-hedge-low.webp",
+      "cropBoxPx": [
+        31,
+        86,
+        1500,
+        935
+      ],
+      "worldSize": {
+        "width": 2.8,
+        "height": 1.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "low",
+      "logicalCanvasPx": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "id": "ellionar-garden-hedge-depleted",
+      "sourceOutputId": "exec-8f68f525-e65c-4d6a-8410-899928c10bdc",
+      "sourceFile": "ellionar-garden-hedge-depleted.png",
+      "runtimeFile": "ellionar-garden-hedge-depleted.webp",
+      "cropBoxPx": [
+        31,
+        86,
+        1500,
+        935
+      ],
+      "worldSize": {
+        "width": 2.8,
+        "height": 1.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "depleted",
+      "logicalCanvasPx": [
+        1536,
+        1024
+      ]
+    }
+  ]
+}

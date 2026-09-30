@@ -506,3 +506,11 @@ The [bramble atlas](../assets/environment/frontier-v1/underbough-bramble-lifecyc
 [Atlas](../assets/environment/frontier-v1/ellionar-lifecycle-atlas.json) uses the four-state contract, 64px gutter, half-texel inset and mip cap six, with individual-frame fallback. Garden-loam maps retain their approximately 80% cultivated palm / 20% woody hedge mix. Forest identities, wood stock/yield and collision rules stay unchanged. Hedge lifecycle is still unfinished.
 
 [Local evidence](qa-evidence/vaelora-ellionar-atlas-2026-09-30/README.md) records renderer selection, upright matrices, real worker harvest/reset and metadata-failure fallback. Single fixed-oblique painted view; camera prompts guide appearance but do not establish measured source-camera calibration. Additional perspectives, worker-action animation and regional fauna remain ongoing.
+
+## Ellionar garden hedge lifecycle · 30 September 2026
+
+[Hedge lifecycle preview](../assets/environment/frontier-v1/ellionar-hedge-lifecycle-preview.png), [manifest](../assets/environment/frontier-v1/ellionar-hedge-lifecycle-manifest.json) and [exact prompts](../assets/environment/frontier-v1/ELLIONAR-HEDGE-LIFECYCLE-PROMPTS.json) add clipped-tip, cut-back and cleared woody base states to the approved ivory-flowered gold-green hedge. It remains a wood-bearing forest slot, not a food or flower resource. Full source/runtime are reused unchanged; selected masters keep the original 1536×1024 canvas and shared [31,86,1500,935] crop, yielding four 1024×592 frames.
+
+[Separate lazy atlas](../assets/environment/frontier-v1/ellionar-hedge-lifecycle-atlas.json) follows the existing four-state, 64px-gutter, half-texel inset and mip-cap-six contract. Both Ellionar forest families now have matching depletion silhouettes. Garden-loam retains its approximately 80% palm / 20% hedge selection, forest identities, yield and collision rules.
+
+[Local evidence](qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30/README.md) exercises the hedge independently with a real worker, reset, upright renderer matrices and metadata-failure fallback. One fixed-oblique painted view; approximate camera guidance. Action animation, additional perspectives, fauna and more cultivated species remain ongoing.

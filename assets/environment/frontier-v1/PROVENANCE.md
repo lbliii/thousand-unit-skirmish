@@ -242,3 +242,7 @@ Built-in ImageGen edited the project-owned approved highpine into worked, low an
 ## Ellionar cultivated palm lifecycle · 30 September 2026
 
 Built-in ImageGen edited the approved project-owned palm into worked, low and depleted frames. Full PNG/WebP are unchanged. Selected masters retain exact 1024×1536 canvas and original shared crop [14,46,1010,1490]. [Manifest](ellionar-lifecycle-manifest.json) records hashes, dimensions and selected source IDs; [exact prompts](ELLIONAR-LIFECYCLE-PROMPTS.json) record edits and the discarded overly tall stump. Final stump height was corrected through ImageGen. Runtime LANCZOS max1024 RGBA WebP quality86 method6 preserves alpha; atlas copies decoded runtime pixels without rescaling or repainting. One fixed-oblique view, approximate painted camera guidance, no third-party inputs or local alpha repair.
+
+## Ellionar garden hedge lifecycle · 30 September 2026
+
+Built-in ImageGen edited the project-owned hedge into worked/low/depleted states. [Manifest](ellionar-hedge-lifecycle-manifest.json) records selected unchanged masters, source IDs, hashes and original shared crop; [exact prompts](ELLIONAR-HEDGE-LIFECYCLE-PROMPTS.json) include the discarded tall depletion and its shorter refinement. Original full source/runtime remain unchanged. LANCZOS max1024 RGBA WebP quality86 method6 preserves generated alpha; atlas copies decoded runtime pixels without repainting or rescaling. No third-party inputs or local alpha repairs. One fixed-oblique view, approximate painted camera guidance.
