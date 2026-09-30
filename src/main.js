@@ -4562,9 +4562,19 @@ function setMapCatalog(maps, activeMapId) {
 const EDITOR_MATERIALS = ['stone', 'forest', 'water'];
 const EDITOR_MATERIAL_COLORS = ['#596653', '#496448', '#416a78'];
 const TERRAIN_COLORS = {
-  meadow: '#60734f', 'short-grass': '#6d7a45', 'long-grass': '#52643e',
-  'forest-floor': '#4b5136',
-  dirt: '#806047', sand: '#ac936d', scree: '#55564d', cinder: '#554c3d',
+  'meadow': '#849543',
+  'short-grass': '#99973b',
+  'long-grass': '#506228',
+  'forest-floor': '#5b3926',
+  'dirt': '#b28049',
+  'sand': '#e29d6a',
+  'scree': '#555552',
+  'cinder': '#5f5458',
+  'snow': '#d8e1f2',
+  'ice': '#264560',
+  'tidal-mud': '#747262',
+  'jungle-loam': '#31331a',
+  'lunar-soil': '#595c5d',
 };
 const ELEVATION_LEVEL_COLORS = [null, 'rgba(255, 211, 109, .34)', 'rgba(246, 140, 90, .46)'];
 const ELEVATION_EDITOR_TOOLS = new Set([

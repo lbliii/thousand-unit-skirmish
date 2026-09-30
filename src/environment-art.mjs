@@ -7,7 +7,7 @@ const meshyResourcesEnabled = new URLSearchParams(globalThis.location?.search ??
 const ASSET_ROOT = './assets/environment/frontier-v1/';
 const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
 const GROUND_RENDER_ORDER = -20;
-export const TERRAIN_MATERIALS = ['meadow', 'short-grass', 'long-grass', 'forest-floor', 'dirt', 'sand', 'scree', 'cinder'];
+export const TERRAIN_MATERIALS = ['meadow', 'short-grass', 'long-grass', 'forest-floor', 'dirt', 'sand', 'scree', 'cinder', 'snow', 'ice', 'tidal-mud', 'jungle-loam', 'lunar-soil'];
 const spriteNames = [
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
@@ -193,7 +193,7 @@ async function loadResourceStateAssets() {
 export const resourceStateAssetsReady = loadResourceStateAssets();
 
 const grounds = Object.fromEntries(TERRAIN_MATERIALS.map((name) => {
-  const texture = textureLoader.load(`${ASSET_ROOT}${name}.webp`);
+  const texture = textureLoader.load(`${ASSET_ROOT}${name}.webp?v=vaelora-ground-v1`);
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.wrapS = THREE.MirroredRepeatWrapping;
   texture.wrapT = THREE.MirroredRepeatWrapping;

@@ -5,6 +5,7 @@
   "width": 64,
   "height": 64,
   "terrainSeed": 941,
+  "startingArmySize": 24,
   "terrainBase": "meadow",
   "terrainPatches": [
     { "column": 0, "row": 0, "width": 22, "height": 18, "material": "cinder" },
@@ -15,7 +16,12 @@
     { "column": 48, "row": 18, "width": 16, "height": 9, "material": "sand" },
     { "column": 0, "row": 43, "width": 24, "height": 21, "material": "long-grass" },
     { "column": 24, "row": 43, "width": 16, "height": 21, "material": "forest-floor" },
-    { "column": 40, "row": 43, "width": 24, "height": 21, "material": "short-grass" }
+    { "column": 40, "row": 43, "width": 24, "height": 21, "material": "short-grass" },
+    { "column": 0, "row": 36, "width": 13, "height": 7, "material": "snow" },
+    { "column": 13, "row": 36, "width": 13, "height": 7, "material": "ice" },
+    { "column": 26, "row": 36, "width": 13, "height": 7, "material": "tidal-mud" },
+    { "column": 39, "row": 36, "width": 13, "height": 7, "material": "jungle-loam" },
+    { "column": 52, "row": 36, "width": 12, "height": 7, "material": "lunar-soil" }
   ],
   "spawnPoints": [
     { "team": 0, "x": -18, "z": 0 },

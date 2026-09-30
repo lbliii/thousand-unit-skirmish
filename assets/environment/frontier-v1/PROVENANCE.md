@@ -2,6 +2,8 @@
 
 Original environment art generated for Thousand Unit Skirmish on 25 September 2026 with Codex ImageGen. No external reference images or third-party game assets were supplied. These PNGs are source sprites and textures for evaluation in the browser prototype. The generated image identifiers and SHA-256 hashes below bind the delivered files to their source outputs.
 
+The original ground rows below are historical and were superseded on 29 September 2026; prop rows remain current.
+
 | File | Generated image | SHA-256 |
 | --- | --- | --- |
 | `oak.png` | `exec-9188de90-03cc-40cf-a684-91d8b70287e1.png` | `e99f1c70c28cedd8406dea44b72186f25a40ef88c1a3f72d7690298f5e584753` |
@@ -105,3 +107,15 @@ Three original forest cutouts extend the existing oak and pine silhouettes. Sour
 ### rock-outcrop.png
 
 > Use case: game asset. Transparent-background 2D environment sprite for an original oblique orthographic RTS. A low irregular ROCK OUTCROP cluster of three weathered dark slate stones, broad ground-hugging silhouette, roughly twice as wide as tall, tiny moss patches and ochre dry grass around its base, no tall cliff face. Strong readable shape at strategic zoom, painterly sculptural 3D appearance from a three-quarter elevated RTS camera. Actual transparent alpha background, no square ground plane or backdrop, no sky, no text, no border, no other objects, no franchise resemblance.
+
+## Vaelora ground replacement · 29 September 2026
+
+Eight legacy grounds were replaced and five regional grounds added using the
+project’s [approved Vaelora concept direction](../../../docs/art-direction/vaelora-v1/README.md).
+Generated with OpenAI built-in image_gen, with no third-party reference image input.
+[Exact prompts](VAELORA-GROUND-PROMPTS.json) and the
+[current source/runtime hash manifest](vaelora-ground-manifest.json) supersede the
+historical ground hashes above. Source PNGs are preserved; runtime WebPs use
+Pillow 12.3.0, RGB, 1024-square LANCZOS resize, quality 86. The
+[contact sheet](vaelora-ground-preview.png) assembles mirrored repeats without
+repainting source pixels. Props and their provenance are unchanged.

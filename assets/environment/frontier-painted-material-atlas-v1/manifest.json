@@ -13,7 +13,7 @@
       "path": "assets/environment/frontier-v1/meadow.png",
       "usage": "source",
       "format": "png",
-      "sha256": "9268abaa3304196ca0cd774c8ae137f2c57612d57ef8cff0f46e234432af6689",
+      "sha256": "37f90be0f5b839b7d45527d3b37b31fb3eba4e083e1f9530b0700e4480dc7e26",
       "dimensionsPx": {
         "width": 1254,
         "height": 1254
@@ -24,7 +24,7 @@
       "path": "assets/environment/frontier-v1/short-grass.png",
       "usage": "source",
       "format": "png",
-      "sha256": "e10a2bd76c8733c6037f743345c7a189686b78faa85a4affac9aaa2298955a2a",
+      "sha256": "f93872390036559bd1661b3fa055989d0938e4b63f140b12feb3c6b5c14f6c9f",
       "dimensionsPx": {
         "width": 1254,
         "height": 1254
@@ -35,7 +35,7 @@
       "path": "assets/environment/frontier-v1/long-grass.png",
       "usage": "source",
       "format": "png",
-      "sha256": "b43fa5c95c2c00d0452eaca03b406429fb941d3f71be8895bac09d17b73b8de3",
+      "sha256": "4a81e05597ac0b3528138ce0d2bca187038a887835b4020cd5951e328d3f5602",
       "dimensionsPx": {
         "width": 1254,
         "height": 1254
@@ -46,7 +46,7 @@
       "path": "assets/environment/frontier-v1/forest-floor.png",
       "usage": "source",
       "format": "png",
-      "sha256": "e091cea3db9dd870e7b1c39b67504cd8daf798d9e87d75bb2bad32d4ce187a70",
+      "sha256": "9ddf538b409e5b02691995525328843a3c21843c83627435a2fe0774a7def704",
       "dimensionsPx": {
         "width": 1254,
         "height": 1254
@@ -57,7 +57,7 @@
       "path": "assets/environment/frontier-v1/dirt.png",
       "usage": "source",
       "format": "png",
-      "sha256": "f442a560c029c431a61f5bdc358b550ecff3425ee6984053a33124c32e71b1dd",
+      "sha256": "b271fd1dec12712e4f6ca6f107b3799bacc23e807fd780ac4f03997e46b2a710",
       "dimensionsPx": {
         "width": 1254,
         "height": 1254
@@ -68,7 +68,7 @@
       "path": "assets/environment/frontier-v1/sand.png",
       "usage": "source",
       "format": "png",
-      "sha256": "e8a7e948f8ceb869b9a0fef00797f265559f1af3ddfdfa7a35c4f43805db1493",
+      "sha256": "62dfecaa56c64d76b0b4356e0a7015e985a0391c207b206f409cb4248ca4606b",
       "dimensionsPx": {
         "width": 1254,
         "height": 1254
@@ -79,7 +79,7 @@
       "path": "assets/environment/frontier-v1/scree.png",
       "usage": "source",
       "format": "png",
-      "sha256": "4b9bab49e6d03c85256c2a9d8cf2ad32ba5600c4701558425894e342d560c5b7",
+      "sha256": "4f0f1a10f4c6a01f5cf19419a069ba7ca2092e641a6e53bab06f9a5cfc81baf2",
       "dimensionsPx": {
         "width": 1254,
         "height": 1254
@@ -90,7 +90,7 @@
       "path": "assets/environment/frontier-v1/cinder.png",
       "usage": "source",
       "format": "png",
-      "sha256": "c8bfcf36f98d66d4bd07d4ae5a77fe05bd61e650854ff1ef5a926df49d7da67a",
+      "sha256": "cb925c260640b6db75afd28a8923f3cee7ddaaf7dc8be4854223128227226507",
       "dimensionsPx": {
         "width": 1254,
         "height": 1254
@@ -101,7 +101,7 @@
       "path": "assets/environment/frontier-painted-material-atlas-v1/frontier-painted-material-atlas.png",
       "usage": "source",
       "format": "png",
-      "sha256": "a561b85630c580a34cd78caaf96fb12bdf3f5bddce6cc48bcb0c32482ba7d178",
+      "sha256": "dfc9efe579db429efd8f133c774081e4681f14f5f5ea40ca89e602d4dfbd6d60",
       "dimensionsPx": {
         "width": 1920,
         "height": 1920
@@ -112,7 +112,7 @@
       "path": "assets/environment/frontier-painted-material-atlas-v1/frontier-painted-material-atlas-mip-0.webp",
       "usage": "runtime",
       "format": "webp",
-      "sha256": "ada3f253ef001ee5164267ab5a55d04175d4a99182f2caec1d1bdfb2449de433",
+      "sha256": "b68d78b0107bd8e218ad61f38052037dd75c160a13f7ef720b7f7b6e2425145a",
       "dimensionsPx": {
         "width": 1920,
         "height": 1920
@@ -123,7 +123,7 @@
       "path": "assets/environment/frontier-painted-material-atlas-v1/frontier-painted-material-atlas-mip-1.webp",
       "usage": "runtime",
       "format": "webp",
-      "sha256": "a70bc73eb88d8616a4bee1be85f68c7b6dbb56a731f78545741434fbf9f077ee",
+      "sha256": "ef8264fe4e581e46728ba9d391dac73998e30b1746a3b08bb848b722eb15ad20",
       "dimensionsPx": {
         "width": 960,
         "height": 960
@@ -134,7 +134,7 @@
       "path": "assets/environment/frontier-painted-material-atlas-v1/frontier-painted-material-atlas-mip-2.webp",
       "usage": "runtime",
       "format": "webp",
-      "sha256": "568c64c921d9564b464202d2e4f8873638a830e3714d75efaeb4ee4c71379fe2",
+      "sha256": "0225cbe7cc2678303188896b57877cd7e968f94e17f177cb28b77112530a4ecd",
       "dimensionsPx": {
         "width": 480,
         "height": 480
@@ -145,7 +145,7 @@
       "path": "assets/environment/frontier-painted-material-atlas-v1/frontier-painted-material-atlas-mip-3.webp",
       "usage": "runtime",
       "format": "webp",
-      "sha256": "c3e18cf34c00b53e9a468b409f17f109d011bb4d1d1647ad2b8b7b4f6afbe93e",
+      "sha256": "958a115a8b199f7f7f5a6bb9836afa7ad692508f0780487d4c9d3a77d81aa947",
       "dimensionsPx": {
         "width": 240,
         "height": 240
@@ -156,7 +156,7 @@
       "path": "assets/environment/frontier-painted-material-atlas-v1/frontier-painted-material-atlas-mip-4.webp",
       "usage": "runtime",
       "format": "webp",
-      "sha256": "dfa54b53e7ec4bb15472c0c1b4d85b147cbcea043a3159043977c1e28a3ae1d6",
+      "sha256": "046e2a0fa2070e0e33d5da64f6ee33f9649424d38cdae41dfcf5640f92023845",
       "dimensionsPx": {
         "width": 120,
         "height": 120
@@ -167,7 +167,7 @@
       "path": "assets/environment/frontier-painted-material-atlas-v1/frontier-painted-material-atlas-mip-5.webp",
       "usage": "runtime",
       "format": "webp",
-      "sha256": "a708b56e0983605dc3ea31ac21fd8881163ca0802aa8a7d387ed9f19326380fe",
+      "sha256": "659d731da0028faec979d3122f3ed0d81e4dd3563cce02ff36e8569392b1baac",
       "dimensionsPx": {
         "width": 60,
         "height": 60
@@ -178,7 +178,7 @@
       "path": "assets/environment/frontier-painted-material-atlas-v1/preview.png",
       "usage": "preview",
       "format": "png",
-      "sha256": "7c78218ac395ef8541cc178d5962c13075130415a53ae4ad78088c23c4f40fa7",
+      "sha256": "5f41f6dba26149145025a924d6f87461be3293f1413cb7ec66df06f16a4435ab",
       "dimensionsPx": {
         "width": 1900,
         "height": 1050

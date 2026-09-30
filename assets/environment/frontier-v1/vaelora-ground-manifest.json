@@ -1,0 +1,241 @@
+{
+  "date": "2026-09-29",
+  "generator": "OpenAI built-in image_gen",
+  "encoding": "Pillow 12.3.0 RGB, runtime 1024 square LANCZOS, WebP quality 86",
+  "files": [
+    {
+      "file": "meadow.png",
+      "sourceOutput": "exec-d346a25f-9812-457a-81cf-db263274bf8b.png",
+      "sha256": "37f90be0f5b839b7d45527d3b37b31fb3eba4e083e1f9530b0700e4480dc7e26",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "meadow.webp",
+      "sourceOutput": "exec-d346a25f-9812-457a-81cf-db263274bf8b.png",
+      "sha256": "58401cbaf6e618ca71313273e1e001a87b4ef95e2a7cebae9f2534acadbcb0ce",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "short-grass.png",
+      "sourceOutput": "exec-5e58a30b-f247-4b2b-8369-acc26b99d1fb.png",
+      "sha256": "f93872390036559bd1661b3fa055989d0938e4b63f140b12feb3c6b5c14f6c9f",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "short-grass.webp",
+      "sourceOutput": "exec-5e58a30b-f247-4b2b-8369-acc26b99d1fb.png",
+      "sha256": "1c392900f5a0a8ea10907c71384c97d61324c018d7df3e2e83325032cf00e8dd",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "long-grass.png",
+      "sourceOutput": "exec-d40dd97e-7841-43c1-a71f-7335c8048bac.png",
+      "sha256": "4a81e05597ac0b3528138ce0d2bca187038a887835b4020cd5951e328d3f5602",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "long-grass.webp",
+      "sourceOutput": "exec-d40dd97e-7841-43c1-a71f-7335c8048bac.png",
+      "sha256": "02898aa539353f5e23306d933417ba26de296b56eb1dbcd283a16fda44cbed66",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "forest-floor.png",
+      "sourceOutput": "exec-739da588-6b44-4cd4-99d8-2da829f8bb16.png",
+      "sha256": "9ddf538b409e5b02691995525328843a3c21843c83627435a2fe0774a7def704",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "forest-floor.webp",
+      "sourceOutput": "exec-739da588-6b44-4cd4-99d8-2da829f8bb16.png",
+      "sha256": "b93c375e05a89b9a00a7349a51f3af4312701f2ae68893d16b191e804ded49f6",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "dirt.png",
+      "sourceOutput": "exec-c628da12-bd69-408d-9c07-5374b517b014.png",
+      "sha256": "b271fd1dec12712e4f6ca6f107b3799bacc23e807fd780ac4f03997e46b2a710",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "dirt.webp",
+      "sourceOutput": "exec-c628da12-bd69-408d-9c07-5374b517b014.png",
+      "sha256": "9937eddac21797f5f47c07886b59a825b2d32f99975238d2a2d63f20eec22b24",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "sand.png",
+      "sourceOutput": "exec-13057c04-812b-478e-a0eb-1d84cbfb4787.png",
+      "sha256": "62dfecaa56c64d76b0b4356e0a7015e985a0391c207b206f409cb4248ca4606b",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "sand.webp",
+      "sourceOutput": "exec-13057c04-812b-478e-a0eb-1d84cbfb4787.png",
+      "sha256": "3db931a6e5ebb5314806d272cb5e5338c80d20a7609bce43875b16b51820737b",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "cinder.png",
+      "sourceOutput": "exec-0705f3c3-f27e-4903-a4d4-080dbcf5fdc0.png",
+      "sha256": "cb925c260640b6db75afd28a8923f3cee7ddaaf7dc8be4854223128227226507",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "cinder.webp",
+      "sourceOutput": "exec-0705f3c3-f27e-4903-a4d4-080dbcf5fdc0.png",
+      "sha256": "3dc1bed43746b4fa7abc5b801abc537db08a2ddfe9e9ddd749c6b850e3f26ad2",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "scree.png",
+      "sourceOutput": "exec-450ff0a3-8473-4616-b009-6d7fb2a5e775.png",
+      "sha256": "4f0f1a10f4c6a01f5cf19419a069ba7ca2092e641a6e53bab06f9a5cfc81baf2",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "scree.webp",
+      "sourceOutput": "exec-450ff0a3-8473-4616-b009-6d7fb2a5e775.png",
+      "sha256": "f3c350dd37ac9eb05516c78f6110eb7842a73b3bdcba8fa71b84ba78e88f9d4f",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "snow.png",
+      "sourceOutput": "exec-7b1ad852-8c0b-4334-a883-10aad090463d.png",
+      "sha256": "aea6301a5cf0a9acd5cd27e2fda0598f7f81dc2166730bc9ac6682545dd60ca3",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "snow.webp",
+      "sourceOutput": "exec-7b1ad852-8c0b-4334-a883-10aad090463d.png",
+      "sha256": "15e7e6efd183284a1170bfaf4b8714c85e884680877fb19643140ee553fad55f",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "ice.png",
+      "sourceOutput": "exec-d372e481-4c4e-417d-b073-b71925207516.png",
+      "sha256": "9d57325321d92c2ebbbb28ed04a3d53e5673bf399248ac4aeb381223702dc15f",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "ice.webp",
+      "sourceOutput": "exec-d372e481-4c4e-417d-b073-b71925207516.png",
+      "sha256": "4dd6b38bbfd403c642336a1b47847bda0df860d1866c1156eae4a7b100aa84dd",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "tidal-mud.png",
+      "sourceOutput": "exec-f1699a55-4a32-47be-a8ba-1605d5d07bc3.png",
+      "sha256": "bc5f89a0faa24e3a31cac62b3caf43416a81bf458da2873b6b0284e878e3e844",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "tidal-mud.webp",
+      "sourceOutput": "exec-f1699a55-4a32-47be-a8ba-1605d5d07bc3.png",
+      "sha256": "464e202d26d2defce93b9ef1ad6bf5cb7ced4accc49abc64f9a8831c75bd705c",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "jungle-loam.png",
+      "sourceOutput": "exec-6990843d-faef-4f21-9768-9a4626dd7a12.png",
+      "sha256": "f095640cec406966b92fea446d88997987d988b983a7aa95379086df59aff54b",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "jungle-loam.webp",
+      "sourceOutput": "exec-6990843d-faef-4f21-9768-9a4626dd7a12.png",
+      "sha256": "09cbc3c91c362d671e2147ca52f495f1d2dd46ade9495722c7a61eb36cc9c909",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "lunar-soil.png",
+      "sourceOutput": "exec-1e239cc0-6d97-4a69-8483-339c9061d76e.png",
+      "sha256": "6afe91379449eab29cc408b00cab8669a688666b3403d6fe33e16aa1ad3d0a02",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "lunar-soil.webp",
+      "sourceOutput": "exec-1e239cc0-6d97-4a69-8483-339c9061d76e.png",
+      "sha256": "db23e3922567b60f44c5f2fdcc59bb8512870c0c7d525d9522e68d3512ba07de",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    }
+  ]
+}

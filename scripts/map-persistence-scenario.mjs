@@ -111,6 +111,8 @@ const customMapDirectory = path.join(tempRoot, 'custom-maps');
   width: 32,
   height: 32,
   terrainSeed: 27,
+  terrainBase: 'snow',
+  terrainPatches: ['meadow', 'short-grass', 'long-grass', 'forest-floor', 'dirt', 'sand', 'scree', 'cinder', 'snow', 'ice', 'tidal-mud', 'jungle-loam', 'lunar-soil'].map((material, column) => ({ column, row: 2, width: 1, height: 1, material })),
   fogOfWar: true,
   audio: { packId: 'sample-pack', profileId: 'battle-default' },
   victoryMode: 'all',
@@ -191,6 +193,13 @@ try {
   send(client, { type: 'publishMap', map: { ...map, id: 'stone-pass' }, persist: true });
   assert.match((await reservedMapRejected).message, /already in the room/,
     'custom maps must not overwrite shipped map IDs');
+
+  const invalidGround = client.waitForMessage((message) => message.type === 'mapRejected' && /base terrain material/.test(message.message));
+  send(client, { type: 'publishMap', map: { ...map, terrainBase: 'unknown-ground' } });
+  assert.match((await invalidGround).message, /base terrain material/);
+  const invalidPatch = client.waitForMessage((message) => message.type === 'mapRejected' && /terrain paint patch/.test(message.message));
+  send(client, { type: 'publishMap', map: { ...map, terrainPatches: [{ column: 0, row: 0, width: 1, height: 1, material: 'unknown-ground' }] } });
+  assert.match((await invalidPatch).message, /terrain paint patch/);
 
   const temporaryMap = {
     ...map,
@@ -291,11 +300,13 @@ try {
   assert.equal(restored.map.fogOfWar, true);
   assert.equal(restored.map.victoryMode, 'all');
   assert.deepEqual(restored.map.audio, map.audio);
+  assert.equal(restored.map.terrainBase, map.terrainBase);
+  assert.deepEqual(restored.map.terrainPatches, map.terrainPatches);
 
   const libraryFiles = await readdir(customMapDirectory);
   assert.deepEqual(libraryFiles, [`${map.id}.json`]);
   console.log(JSON.stringify({
-    passed: ['shipped map IDs reserved', 'map resize preserves marker cells on growth, reports cropped markers on shrink, and passes server validation', 'session-only maps stay temporary', 'atomic custom map save', 'custom map catalog restored after server restart', 'capture triggers, timed events, map audio references, and map settings restored'],
+    passed: ['shipped map IDs reserved', 'map resize preserves marker cells on growth, reports cropped markers on shrink, and passes server validation', 'session-only maps stay temporary', 'thirteen ground materials persist; invalid material names rejected', 'atomic custom map save', 'custom map catalog restored after server restart', 'capture triggers, timed events, map audio references, and map settings restored'],
     mapId: map.id,
     savedCustomMaps: libraryFiles.length,
     restoredTriggers: restored.map.triggers.length,
