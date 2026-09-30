@@ -5714,6 +5714,7 @@ let studioAudioProfileRequest = 0;
 async function refreshStudioAudioPacks(reference) {
   studioOriginalAudioReference = reference || null;
   const request = ++studioAudioPackRequest;
+  ++studioAudioProfileRequest;
   const select = ui.studioAudioPack;
   select.replaceChildren(new Option('Synthesized default', ''));
   if (reference) {
@@ -5751,12 +5752,17 @@ async function refreshStudioAudioProfiles(selectedId = '') {
   const request = ++studioAudioProfileRequest;
   const select = ui.studioAudioProfile;
   select.replaceChildren(new Option('Choose profile', ''));
+  if (selectedId) {
+    select.add(new Option(`Loading profile: ${selectedId}`, selectedId));
+    select.value = selectedId;
+  }
   const packId = ui.studioAudioPack.value;
   if (!packId) return;
   try {
     const shipped = SHIPPED_AUDIO_REFERENCES.find((ref) => ref.packId === packId);
     const loaded = shipped ? await (await import('./audio-shipped-loader.mjs')).loadShippedAudio(shipped) : await (await getAudioLibraryStore()).loadPack(packId);
     if (request !== studioAudioProfileRequest || packId !== ui.studioAudioPack.value) return;
+    select.replaceChildren(new Option('Choose profile', ''));
     for (const profile of loaded?.pack?.profiles || []) select.add(new Option(profile.name || profile.id, profile.id));
     if (selectedId && ![...(loaded?.pack?.profiles || [])].some((profile) => profile.id === selectedId)) {
       select.add(new Option(`Missing profile: ${selectedId}`, selectedId));
@@ -5765,6 +5771,7 @@ async function refreshStudioAudioProfiles(selectedId = '') {
   } catch (error) {
     if (request !== studioAudioProfileRequest || packId !== ui.studioAudioPack.value) return;
     if (selectedId) {
+      select.replaceChildren(new Option('Choose profile', ''));
       select.add(new Option(`Missing profile: ${selectedId}`, selectedId));
       select.value = selectedId;
     }
