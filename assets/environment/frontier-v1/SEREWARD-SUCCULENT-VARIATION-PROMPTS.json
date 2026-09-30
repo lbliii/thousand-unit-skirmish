@@ -1,0 +1,10 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Use case: stylized-concept. Create one alternate Sereward water-storing succulent environment sprite. Reference 1 is the current sprite: preserve its painterly finish, matte turquoise/sage fleshy leaves and restrained coral-peach serrated edges. Reference 2 is the approved regional ecology key, palette guidance only. Make a visibly distinct LOW BROAD rosette: eight stout curved overlapping fleshy leaves spread outward close to the ground, short central folded leaves, two small attached side rosettes clustered at its root base. Clear large painted forms and dark teal leaf separations, not noisy microdetail. No tall flower stalk. Orthographic RTS view, camera elevation 45.44 degrees above ground and azimuth 45 degrees, world vertical upright, zero screen roll. Show upper surfaces naturally, no dramatic tilt, no horizon or perspective distortion. One connected plant clump, entire silhouette centered with margin, root contact bottom center. Genuine transparent alpha background; no ground patch, no cast shadow cloud, no glow, no text, no frame. Warm desert ecology, no magic or invented resource marks.",
+  "reference": [
+    "sereward-succulent.png",
+    "../../../docs/art-direction/vaelora-v1/sereward-ecology.png"
+  ],
+  "transparentBackground": true,
+  "selectedOutput": "exec-ef2cb1d9-bbfd-4ca5-ad76-ce50bffedffe.png"
+}

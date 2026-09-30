@@ -17,7 +17,7 @@ const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
 const GROUND_RENDER_ORDER = -20;
 export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
-  'sombral-mere-mirelily', 'bellweather-meadow-herbs', 'vesperra-shade-fern', 'vesperra-shade-fern-02', 'siltmouths-silver-reed', 'pale-meridian-violet-lichen', 'pale-meridian-silver-moss', 'sombral-mere-lunewort', 'underbough-rootward-fungus', 'veyrholds-ridgegrass', 'ellionar-sunbloom', 'sereward-succulent',
+  'sombral-mere-mirelily', 'bellweather-meadow-herbs', 'vesperra-shade-fern', 'vesperra-shade-fern-02', 'siltmouths-silver-reed', 'pale-meridian-violet-lichen', 'pale-meridian-silver-moss', 'sombral-mere-lunewort', 'underbough-rootward-fungus', 'veyrholds-ridgegrass', 'ellionar-sunbloom', 'sereward-succulent', 'sereward-succulent-02',
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
@@ -828,7 +828,9 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
         scale: 0.8 + variation(slot.cell + seed + 127) * 0.25,
         flip: slot.flip, yaw: slot.yaw }));
     const variants = understoryAsset[0] === 'vesperra-shade-fern'
-      ? [understoryAsset, ['vesperra-shade-fern-02', 1.05628, 0.72]] : [understoryAsset];
+      ? [understoryAsset, ['vesperra-shade-fern-02', 1.05628, 0.72]]
+      : understoryAsset[0] === 'sereward-succulent'
+        ? [understoryAsset, ['sereward-succulent-02', 1.05931, 0.75]] : [understoryAsset];
     for (let variant = 0; variant < variants.length; variant++) {
       const selected = variants.length === 1 ? plants : plants.filter(plant =>
         Math.floor(variation(plant.cell + seed + 149) * variants.length) === variant);

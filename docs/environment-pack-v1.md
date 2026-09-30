@@ -642,3 +642,11 @@ Run `npm run validate:environment-plant-alpha` with Python3/Pillow to compare ev
 The approved key's [violet lichen](../assets/environment/frontier-v1/pale-meridian-lichen-variation-manifest.json) adds lavender crusts and restrained frost to blue-black stone. Snow/ice low outcrop placements use the new 2.8818×1.5 sprite; other low boulders, tall ridges/cliffs and the generic review map retain their art. Existing stone positions/collision remain, with no mining or lichen-harvest rule.
 
 [Local evidence](qa-evidence/vaelora-meridian-violet-lichen-2026-09-30/README.md) records placement, actual camera orientation, raised contact and regional loading alongside existing forest lifecycle checks. Generated PNG unchanged; alpha-preserving WebP and exact prompt included. One approximate fixed-oblique painted view.
+
+## Sereward succulent variation · 30 September 2026
+
+A [second succulent silhouette](../assets/environment/frontier-v1/sereward-succulent-variation-manifest.json) adds a broad fleshy rosette with two attached side shoots. It retains the approved turquoise/sage and coral-peach palette. Sand forest companions split deterministically between the original and new sprite, retaining the existing 28% density, parent-cell roots and clearing/reset behavior. The new sprite is 1.05931×0.75 world units; no water-harvest resource rule is introduced.
+
+Selected generated PNG is unchanged; cropped max1024 WebP preserves alpha. [Exact prompt](../assets/environment/frontier-v1/SEREWARD-SUCCULENT-VARIATION-PROMPTS.json) records both source sprite and approved ecology references. One approximate painted view per silhouette; additional viewpoints remain future work.
+
+[Local variation evidence](qa-evidence/vaelora-sereward-succulent-variation-2026-09-30/README.md) records both silhouettes, unchanged companion density, seeded partitioning, partial/depleted/reset states and calibrated runtime orientation. Both single-asset validators pass fourteen packs.

@@ -314,3 +314,7 @@ Built-in ImageGen against the project-owned approved Mere ecology key's Mirelily
 ## Pale Meridian violet lichen · 30 September 2026
 
 Built-in ImageGen against the approved Pale Meridian ecology key. [Prompt](MERIDIAN-LICHEN-PROMPTS.json) and [manifest](pale-meridian-lichen-variation-manifest.json) record selected source, reference hash, crop, dimensions and hashes. PNG unchanged; deterministic LANCZOS max1024 crop/WebP quality86 method6 preserves decoded alpha exactly. Solid-background inspection confirms transparency. Painted projection approximate; runtime orientation checked separately.
+
+## Sereward succulent variation · 30 September 2026
+
+Built-in ImageGen generated `sereward-succulent-02.png` against the existing selected succulent and approved Sereward ecology key. The selected PNG is copied unchanged; recorded crop and LANCZOS max1024 WebP quality86/method6 preserve generated alpha. See `SEREWARD-SUCCULENT-VARIATION-PROMPTS.json` and `sereward-succulent-variation-manifest.json` for prompt, selected output, dimensions and hashes. Decorative companion only, no new resource rule; approximate fixed-oblique painted view.
