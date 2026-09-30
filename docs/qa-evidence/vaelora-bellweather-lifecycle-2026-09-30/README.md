@@ -1,7 +1,9 @@
 # Bellweather maple lifecycle · local evidence · 30 September 2026
 
 Source: `codex/vaelora-bellweather-lifecycle`, based on main `fa7e6bc`. Checks ran
-against the working change before its checkpoint commit. Local macOS headless
+against the working change before its checkpoint commit. Browser and docs checks
+were repeated after integrating main `700f754` at merge commit `20974c7`;
+client rematch recovery tests also passed (9). Local macOS headless
 Chrome, isolated room supervisor at 127.0.0.1:4178, 1280×720 viewport. No staging
 observation or GPU performance claim.
 
