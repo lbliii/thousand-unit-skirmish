@@ -20,6 +20,14 @@ production can develop independently of these engine capabilities.
 
 ## Foundation milestones
 
+The [authorized custom-skirmish milestone](custom-skirmish-milestone-plan.md)
+builds on the merged command/region/audio wave: Patrol/Follow, visual region and
+completion-trigger authoring, and automatic shipped audio delivery with bounded
+work feedback. Three independent owners converge on one author-to-friend custom
+match proof. The user authorized completion on 30 September 2026; all three
+existing implementation owners are resumed. Claims of implementation and
+acceptance belong to their merged artifacts and the combined proof record.
+
 ### Parallel core workstreams — 30 September 2026
 
 The user authorized a parallel implementation wave targeting `main`. Each owner
@@ -112,6 +120,8 @@ builds; they do not certify today's deployment.
 | **M4 — Useful external playtest** | Two novice pairs finish a match and explain a consequential decision, an alternative, and their main confusion. | The [external protocol](qa-vertical-slice.md#lightweight-external-playtest-protocol), followed by fixes for repeated failures. |
 
 ## Work areas
+
+The [first lore wiki](lore/README.md) is delivered as a connected reference covering the ten regions, peoples, institutions, history and supernatural anchors. The user's current lore direction is to deepen and reconcile this reference; additional scenes and a scenario are optional later uses. The earlier [L1 foundation](lore-foundation-m1.md) remains a drafting record, separate from gameplay M1. Lore proposals do not alter the current gameplay priority.
 
 | Area | Useful next outcome | Record |
 | --- | --- | --- |
