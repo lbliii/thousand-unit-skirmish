@@ -302,3 +302,7 @@ Built-in ImageGen used the project-owned original shade fern as palette/finish r
 ## Bellweather meadow herbs · 30 September 2026
 
 Original built-in ImageGen against the project-owned approved Bellweather ecology key's meadow-herb specimen. [Exact prompt](BELLWEATHER-UNDERSTORY-PROMPTS.json) and [manifest](bellweather-understory-manifest.json) record selected source ID, reference hash, dimensions, crop and file hashes. Selected PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background composite inspected leaf gaps and surroundings. No local repainting or alpha repair. One approximate painted oblique view; runtime roll measured separately.
+
+## Ru’Lora god-bone fragments · 30 September 2026
+
+Built-in ImageGen against the project-owned approved Ru’Lora ecology key's interior god-bone material. [Exact prompt](RU-LORA-GOD-BONE-PROMPTS.json) and [manifest](ru-lora-god-bone-manifest.json) record selected source ID, reference hash, dimensions, crop and hashes. Selected PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background composite inspected surroundings and cavities. No local repainting or alpha repair. One approximate painted oblique view; runtime alignment measured separately.

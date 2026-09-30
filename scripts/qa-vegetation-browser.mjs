@@ -90,7 +90,7 @@ const readabilityCapture=process.env.RTS_VEGETATION_READABILITY==='1';
 if(readabilityCapture&&region!=='veyrholds')throw new Error('Readability fixture requires Veyrholds');
 const variationCapture=process.env.RTS_VEGETATION_VARIATION==='1';
 if(variationCapture&&(!understoryCapture||region!=='vesperra'))throw new Error('Fern variation capture requires Vesperra understory');
-const out=variationCapture ? 'docs/qa-evidence/vaelora-vesperra-fern-variation-2026-09-30' : readabilityCapture ? 'docs/qa-evidence/vaelora-highpine-low-readability-2026-09-30' : seedCapture ? 'docs/qa-evidence/vaelora-understory-seeds-2026-09-30' : understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-broken-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
+const out=variationCapture ? 'docs/qa-evidence/vaelora-vesperra-fern-variation-2026-09-30' : readabilityCapture ? 'docs/qa-evidence/vaelora-highpine-low-readability-2026-09-30' : seedCapture ? 'docs/qa-evidence/vaelora-understory-seeds-2026-09-30' : understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-god-bone-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
@@ -134,7 +134,7 @@ try {
   }
   if(region==='ru-lora'){
    const requests=await cdp.evaluate('performance.getEntriesByType("resource").filter(e=>e.name.includes("assets/environment")).map(e=>new URL(e.name).pathname)');
-   if(!['ru-lora-fiendwood.webp','ru-lora-stone-fern.webp','ru-lora-broken-trunk.webp','rock-boulder-cluster.webp'].every(f=>requests.some(p=>p.endsWith('/'+f))))throw new Error('Interior study regional images missing');
+   if(!['ru-lora-fiendwood.webp','ru-lora-stone-fern.webp','ru-lora-broken-trunk.webp','ru-lora-god-bone.webp'].every(f=>requests.some(p=>p.endsWith('/'+f))))throw new Error('Interior study regional images missing');
    await writeFile(out+'/study-requests.json',JSON.stringify(requests,null,2)+'\n');
   }
  }
@@ -306,27 +306,38 @@ try {
  if(!proof[3].files.includes('underbough-rootward-fungus.webp')||proof.some((r,i)=>i!==3&&r.files.includes('underbough-rootward-fungus.webp')))throw new Error('Rootward fungus region binding mismatch');
  if(!proof[9].files.includes('sombral-mere-lunewort.webp')||proof.some((r,i)=>i!==9&&r.files.includes('sombral-mere-lunewort.webp')))throw new Error('Lunewort region binding mismatch');
  if(!proof[9].files.includes('sombral-mere-lifecycle-atlas.webp')||proof[9].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Sombral Mere forest mix mismatch');
- if(!['ru-lora-fiendwood.webp','ru-lora-stone-fern.webp','ru-lora-broken-trunk.webp','rock-boulder-cluster.webp'].every(f=>proof[10].files.includes(f))||proof.slice(0,10).some(r=>r.files.some(f=>f.startsWith('ru-lora-'))))throw new Error('Ru Lora stone scenery binding mismatch');
+ if(!['ru-lora-fiendwood.webp','ru-lora-stone-fern.webp','ru-lora-broken-trunk.webp','ru-lora-god-bone.webp'].every(f=>proof[10].files.includes(f))||proof.slice(0,10).some(r=>r.files.some(f=>f.startsWith('ru-lora-'))))throw new Error('Ru Lora stone scenery binding mismatch');
  if(region==='ru-lora'){
   const placement=await cdp.evaluate(`(async()=>{
    const THREE=await import('/vendor/three.module.js');
    const {CAMERA_VIEW_DIRECTION}=await import('/src/camera-controls.mjs');
    const {addObstacleEnvironmentSprites}=await import('/src/environment-art.mjs');
+   const {setActiveTerrain,groundHeight}=await import('/src/terrain-height.mjs');
+   setActiveTerrain({width:32,height:32,elevationPatches:[{column:0,row:0,width:32,height:32,level:2}]});
    const up=new THREE.Vector3(0,1,0);const normal=new THREE.Vector3(...CAMERA_VIEW_DIRECTION).normalize();const screenRight=new THREE.Vector3().crossVectors(up,normal).normalize();
    const result=[];
-   for(const id of ['ru-lora-placement-proof','meshy-resource-review']){
-    const objects=[];addObstacleEnvironmentSprites({id,width:32,height:32,terrainBase:'salt-crust',obstacles:[{column:3,row:8,width:25,height:1,material:'stone',elevation:0.72},{column:3,row:18,width:25,height:1,material:'stone',elevation:0.72}]},16,16,o=>objects.push(o));
+   for(const elevation of [0.72,1.12,2])for(const id of ['ru-lora-placement-proof','meshy-resource-review']){
+    const objects=[];addObstacleEnvironmentSprites({id,width:32,height:32,terrainBase:'salt-crust',obstacles:[{column:3,row:8,width:25,height:1,material:'stone',elevation},{column:3,row:18,width:25,height:1,material:'stone',elevation}]},16,16,o=>objects.push(o));
+    for(let i=0;i<50&&objects.some(o=>!o.material.map.image?.complete);i++)await new Promise(r=>setTimeout(r,100));
+    if(objects.some(o=>!o.material.map.image?.naturalWidth))throw new Error('Stone placement texture failed to load');
+    const files=objects.map(o=>o.material.map.image.src.split('/').pop());
+    if(id==='meshy-resource-review'&&files.some(f=>f?.startsWith('ru-lora-')))throw new Error('Regional props leaked into review map');
+    if(elevation>=1&&files.includes('ru-lora-god-bone.webp'))throw new Error('Bone replaced tall barrier');
+    if(elevation<1&&id!=='meshy-resource-review'&&!files.includes('ru-lora-god-bone.webp'))throw new Error('Bone placement fixture missing specimen');
     const positions=[];let maxRoll=0;
     for(const mesh of objects){
      const matrix=new THREE.Matrix4();for(let i=0;i<mesh.count;i++){
       mesh.getMatrixAt(i,matrix);positions.push([matrix.elements[12],matrix.elements[13],matrix.elements[14]]);
+      if(Math.abs(matrix.elements[13]-groundHeight(matrix.elements[12],matrix.elements[14]))>1e-6)throw new Error('Stone raised ground contact failed');
       const spriteUp=new THREE.Vector3().setFromMatrixColumn(matrix,1).normalize();maxRoll=Math.max(maxRoll,Math.abs(spriteUp.dot(screenRight)));
      }
      mesh.geometry.dispose();mesh.material.dispose();
     }
-    positions.sort((a,b)=>a[0]-b[0]||a[2]-b[2]);result.push({id,positions,maxScreenRollComponent:maxRoll});
+    positions.sort((a,b)=>a[0]-b[0]||a[2]-b[2]);result.push({id,elevation,files,positions,maxScreenRollComponent:maxRoll,raisedGroundContact:true});
    }
-   if(JSON.stringify(result[0].positions)!==JSON.stringify(result[1].positions))throw new Error('Regional stone positions changed');
+   for(let i=0;i<result.length;i+=2)if(JSON.stringify(result[i].positions)!==JSON.stringify(result[i+1].positions))throw new Error('Regional stone positions changed');
+   for(let i=2;i<result.length;i+=2)if(JSON.stringify(result[i].files)!==JSON.stringify(result[i+1].files))throw new Error('Tall regional barrier bindings changed');
+   setActiveTerrain({width:32,height:32});
    if(result.some(r=>r.maxScreenRollComponent>0.0001))throw new Error('Stone sprites have screen roll');
    return result;
   })()`);

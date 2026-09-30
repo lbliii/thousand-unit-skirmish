@@ -1,0 +1,7 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Use case: game environment sprite. Create one compact low cluster of weathered god-bone fragments from the bottom-right interior materials of the supplied Ru'Lora ecology key. Three asymmetrical eroded ivory rib-like stone/bone pieces, one broad porous curved fragment and two shorter broken struts lying/interlocking near the ground. No skull, no complete skeleton, no corpse, no blood. Heavy worn tactile ivory with charcoal/dusty violet cavities and tiny restrained cold-opal mineral flecks in one fracture. Broad painterly RTS forms and readable silhouette, large smooth worn planes and a few large pores, avoid noisy busy pitting. An ancient material remnant beside petrified vegetation, not a sacred temple ornament or living creature. Orthographic camera 45.44 degrees above ground, azimuth45 degrees, zero screen roll, natural upper surface visibility, no dramatic perspective. Full cluster isolated centered with margin, root/contact at bottom center. Genuine transparent alpha background. No ground patch, no cloud of dust, no cast shadow halo, no glow, no text or labels. One cluster only, wide low aspect ratio about1.6:1.",
+  "reference": "../../../docs/art-direction/vaelora-v1/ru-lora-ecology.png",
+  "transparentBackground": true,
+  "selectedOutput": "exec-c013946d-1e21-45b1-9cdc-cabdb55a69d6.png"
+}

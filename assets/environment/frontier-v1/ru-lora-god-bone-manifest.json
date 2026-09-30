@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-ru-lora-god-bone",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/ru-lora-ecology.png",
+  "referenceSha256": "de2facecd913436558baf31977e8aab4b5ab627649c6d2150ed49589010c8acc",
+  "prompts": "RU-LORA-GOD-BONE-PROMPTS.json",
+  "files": [
+    {
+      "path": "ru-lora-god-bone.png",
+      "role": "source-image",
+      "sha256": "3629524548e97706755e971c1a0c16c0e91c5c98bd1743623f136c9453238ac1",
+      "bytes": 1653052,
+      "dimensionsPx": {
+        "width": 1586,
+        "height": 992
+      }
+    },
+    {
+      "path": "ru-lora-god-bone.webp",
+      "role": "runtime-image",
+      "sha256": "4cfa9da2fa729e4ebd88516cf60ac0491ac8dfacb9beb98db1433f5b9b145048",
+      "bytes": 170030,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 595
+      }
+    }
+  ],
+  "cropPx": [
+    79,
+    73,
+    1536,
+    919
+  ],
+  "asset": {
+    "id": "ru-lora-god-bone",
+    "kind": "decorative-stone-scenery",
+    "worldWidth": 2.83966,
+    "worldHeight": 1.65,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "placement": "Existing remaining low boulder-cluster positions on salt-crust; no additional cells."
+  },
+  "provenance": "Built-in ImageGen. Selected PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact generated alpha. Approximate painted view; runtime screen roll measured separately."
+}
