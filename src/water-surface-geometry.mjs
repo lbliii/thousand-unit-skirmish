@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-const WATER_LEVEL = 0.032;
+export const WATER_LEVEL = 0.032;
 const SHORE_LIFT = 0.004;
 const SHORE_WIDTH = 0.22;
 

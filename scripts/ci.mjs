@@ -199,6 +199,7 @@ const scenarios = [
   ['scripts/terrain-atmosphere-scenario.mjs', 'Decorative ground mist coverage and foreground order'],
   ['scripts/terrain-blend-scenario.mjs', 'Soft terrain material masks and normalized joins'],
   ['scripts/water-surface-scenario.mjs', 'Batched water surface and shore geometry'],
+  ['scripts/shore-vegetation-scenario.mjs', 'Seeded shoreline vegetation and clear crossings'],
   ['scripts/harvestable-woodland-scenario.mjs', 'Harvestable woodland gameplay'],
   ['scripts/worker-cargo-return-scenario.mjs', 'Highland Grove forest route repair and deposits'],
   ['scripts/worker-cargo-return-scenario.mjs', 'Frontier Reach forest route repair and deposits', 'frontier-160'],

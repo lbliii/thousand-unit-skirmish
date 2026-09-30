@@ -7,7 +7,8 @@ import { RESOURCE_VISUAL_STAGES, resourceVisualStage } from './resource-visual-s
 import { createGroundMistStudy } from './terrain-atmosphere.mjs';
 import { applyTerrainTextureSampling } from './terrain-texture-sampling.mjs';
 import { buildTerrainBlendMasks, buildForestGroundMask } from './terrain-blend.mjs';
-import { buildWaterSurfaceGeometry } from './water-surface-geometry.mjs';
+import { buildWaterSurfaceGeometry, WATER_LEVEL } from './water-surface-geometry.mjs';
+import { shoreReedPositions } from './shore-vegetation.mjs';
 
 const meshyResourcesEnabled = new URLSearchParams(globalThis.location?.search ?? '').get('meshyResources') !== '0';
 
@@ -825,6 +826,18 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
         });
         addObject(mesh);
       }
+    }
+  }
+  if (siltmouths) {
+    // The current water renderer is flat: omit raised roots until it supports
+    // elevated water surfaces. Water cells are already blocked by the map.
+    const field = terrainHeightField(definition);
+    const shorePlants = shoreReedPositions(definition).filter(p => field.sample(p.x, p.z) === 0);
+    const shore = createEnvironmentSpriteInstances('siltmouths-silver-reed', 1.29076, 1.05, shorePlants);
+    if (shore) {
+      shore.position.y = WATER_LEVEL;
+      shore.userData.shoreVegetation = true;
+      addObject(shore);
     }
   }
   return forestTreeSlots;

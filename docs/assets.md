@@ -131,3 +131,5 @@ Vesperra shade ferns now mix two terrain-seeded silhouettes within the existing 
 Bellweather meadow/grass-base forests include sparse meadow-herb clumps with cream/yellow flowers and pink clover, clearing with parent forest cells. See the [manifest](../assets/environment/frontier-v1/bellweather-understory-manifest.json) and [environment guide](environment-pack-v1.md) for sources, placement and remaining scope.
 
 Ru’Lora salt-crust low stone scenery includes ivory god-bone fragments between petrified plant placements, replacing the remaining generic boulder clusters. See the [manifest](../assets/environment/frontier-v1/ru-lora-god-bone-manifest.json) and [environment guide](environment-pack-v1.md). These are scenery, not a new harvestable resource.
+
+Siltmouths silver reeds also fringe flat tidal-mud water banks using the existing sprite in one separate instanced batch. Roots occupy existing blocked water; short channel ends remain sparse beside crossings. See the [environment guide](environment-pack-v1.md) and [local proof](qa-evidence/vaelora-siltmouths-shore-reeds-2026-09-30/README.md).
