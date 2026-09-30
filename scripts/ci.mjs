@@ -52,6 +52,8 @@ const syntaxFiles = [
 for (const file of syntaxFiles) run(['--check', file], `Syntax: ${file}`);
 
 run(['--test', 'scripts/scenario-regions.test.mjs'], 'Named scenario regions');
+run(['--test', 'scripts/scenario-authoring.test.mjs'], 'Visual scenario authoring contracts');
+run(['scripts/completion-event-scenario.mjs'], 'Completion event recovery and host diagnostics');
 run(['scripts/region-event-scenario.mjs'], 'Region event recovery and rematch');
 run(['scripts/check-docs.mjs'], 'Documentation links');
 run(['--test', 'scripts/audio-shipped-loader.test.mjs', 'scripts/audio-execution.test.mjs', 'scripts/audio-worker-snapshot.test.mjs'], 'Verified shipped audio and execution gates');
@@ -64,6 +66,7 @@ run(['--test', 'scripts/ci-sharding.test.mjs'], 'CI shard coverage');
 run(['--test', 'scripts/pve-reconnaissance.test.mjs'], 'Bounded Scout reconnaissance');
 run(['--test', 'scripts/browser-performance-instrumentation.test.mjs'], 'Browser timing attribution');
 run(['--test', 'scripts/performance-order-window.test.mjs'], 'Performance planning wave boundaries');
+run(['--test', 'scripts/persistent-command.test.mjs'], 'Persistent tactical intent and bounded planning');
 run(['--test', 'scripts/stationary-command.test.mjs'], 'Stationary command tasks and controls');
 run(['--test', 'scripts/waypoint-backpressure.test.mjs'], 'Waypoint metadata under backpressure');
 run(['--test', 'scripts/worker-shutdown.test.mjs'], 'Signal-aware room worker shutdown');
@@ -128,6 +131,7 @@ const scenarios = [
   ['scripts/simultaneous-lethal-combat-scenario.mjs', 'Simultaneous lethal combat fairness'],
   ['scripts/construction-connectivity-scenario.mjs', 'Construction preserves existing terrain connections'],
   ['scripts/elimination-scenario.mjs', 'Terminal elimination and reconnect'],
+  ['scripts/persistent-command-scenario.mjs', 'Patrol and Follow authority/recovery'],
   ['scripts/stationary-command-scenario.mjs', 'Stop and hold authority/recovery'],
   ['scripts/queued-waypoint-scenario.mjs', 'Queued waypoint checkpoint recovery'],
   ['scripts/hold-clock-recovery-scenario.mjs', 'Checkpoint hold clock recovery (Azure)'],
@@ -155,6 +159,8 @@ const scenarios = [
   ['scripts/forked-vale-scenario.mjs', 'Forked Vale economy-to-victory (Team 0)', '0'],
   ['scripts/forked-vale-scenario.mjs', 'Forked Vale economy-to-victory (Team 1)', '1'],
   ['scripts/forked-vale-layout.mjs', 'Forked Vale layout'],
+  ['scripts/fortified-crossing-layout.mjs', 'Fortified Crossing layout'],
+  ['scripts/fortified-crossing-economy.mjs', 'Fortified Crossing paid economy and recovery'],
   ['scripts/frontier-160-layout.mjs', 'Frontier 160 layout'],
   ['scripts/generate-highland-grove.mjs', 'Highland Grove playable layout', '--check'],
   ['scripts/three-crowns-layout.mjs', 'Three Crowns layout'],

@@ -48,7 +48,23 @@ It does not automatically attack structures. Both commands apply to workers and
 military units, are available in the Orders/context controls, and persist through
 reconnect/checkpoint recovery. A new move, gather, build, repair, or attack order
 replaces Hold; a rematch clears it. Held workers are excluded from idle-worker
-selection. Patrol and Follow remain future command capabilities.
+selection.
+
+Patrol (`P`) targets ground and repeatedly travels between each selected unit's
+current cell and its assigned formation destination. It engages visible enemies
+using the existing attack-move leash, then resumes the interrupted route. Follow
+(`F`) targets a living friendly unit by ID and generation. Followers move towards
+a two-cell offset when farther than four cells from their leader; this deadband
+prevents continual oscillation around a stopped or slower leader. Follow does not
+seek enemies. A lost, dead, replaced or no-longer-friendly leader ends Follow in
+Stop. A disconnected route retains the order with a visible `BLOCKED` state and
+retries every two seconds; reachable Follow updates at most once per second.
+Persistent replanning admits at most 64 units each tick through the existing
+sliced planner, so a large group can catch up over several ticks. Persistent
+orders appear in selected-unit context, persist through recovery and are cleared
+by Stop/Hold, replacing move/work/attack orders, or rematch. Shift waypoints cancel
+persistent intent and retain the existing queued-route behavior. Held and
+persistently ordered workers are excluded from idle-worker selection.
 
 ## The match loop
 
@@ -111,6 +127,9 @@ The working world name is **Vaelora**. Its visual identity combines warm, expres
 Regions define terrain and ecology; cultures define craft and architecture; factions define allegiance. Sun, moon and star elves, desert humans and explored bull/jackal peoples are worldbuilding directions, not new implemented rosters. Author-story continuity questions and working faction names remain explicit in the checkpoint.
 
 The author's stories deeply inspire the world's voice, naming, humor and material imagination; literal reuse of their histories is optional under the user's 30 September direction. The [lore wiki](lore/README.md) is the current reference for the world, regions, cultures, institutions, history and supernatural anchors. It distinguishes selected direction, working lore, in-world belief and open questions. The earlier [foundation package](lore-foundation-m1.md) remains a dated drafting record. New lore adds no gameplay requirements.
+Author-confirmed lore, 30 September 2026: sun, moon and star elves hate one another. Develop their faction affiliations separately; the earlier Continuance lineup is a visual comparison, not a shared elven allegiance. Exact faction names and affiliations remain open.
+
+**Aurians** is the accepted name for the people previously labeled angels in the art explorations. Their current anatomical reference has humanoid arms and separate feathered back wings, distinct from harpies' wing-arms. The name does not establish divine origin or a faction affiliation.
 
 Workers need a readable tool/pack; Infantry a spear/shield; Archers a bow/quiver. Buildings need distinct rooflines and entrances. Art must work at normal and strategic zoom. The [art direction](art-direction-contract-v1.md) and [renderer contract](renderer-state-contract.md) retain shared gameplay rules. Azure and Ember remain sky-blue and rust/terracotta match identities, reinforced through shapes and labels.
 
@@ -243,3 +262,6 @@ can destroy it quickly, so an assault needs protection and positioning. Attacks
 remain single-target and resolve through the shared damage accumulator; there is
 no splash or friendly-fire exception. Workshop/engine geometry is placeholder
 presentation, and match-level costs/terrain/composition balance remain provisional.
+### Human graphics first pass
+
+The normal game uses the Vaelora Human Worker, Infantry, Spearman and Archer sprite roster at the approved Human size/detail. First-pass action coverage takes priority over correct animation: missing headings temporarily reuse the nearest authored action sequence. Directional fidelity, smooth loops and team sash masks remain polish work. Explicit legacy preview flags still select their respective art lanes. `humanRosterPreview=0` restores the older default cast preview.

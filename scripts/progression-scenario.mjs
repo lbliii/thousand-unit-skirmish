@@ -46,7 +46,7 @@ function connect(port) {
     return new Promise((resolve, reject) => {
       const waiter = { predicate, resolve, timer: setTimeout(() => {
         waiters.splice(waiters.indexOf(waiter), 1);
-        reject(new Error('Timed out waiting for server message'));
+        reject(new Error(`Timed out waiting for ${predicate.toString()} · scenario ${JSON.stringify(latest?.scenarioEvents)} · research ${JSON.stringify(latest?.teamResearch)}`));
       }, TIMEOUT_MS) };
       waiters.push(waiter);
     });
@@ -109,7 +109,10 @@ try {
   const map = { id: 'progression-audit', name: 'Progression Audit', width: 64, height: 64,
     fogOfWar: false, startingArmySize: 20, startingResources: { food: 1000, wood: 1000 },
     spawnPoints: [{ team: 0, x: -20, z: 0 }, { team: 1, x: 20, z: 0 }],
-    obstacles: [], resourceNodes: [], triggers: [], scenarioEvents: [] };
+    obstacles: [], resourceNodes: [], triggers: [], scenarioEvents: [0,1].flatMap(team => [
+      {id:`built-${team}`,name:`Built ${team}`,type:'timed-supply',afterSeconds:.5,team:String(team),foodReward:0,message:'{event} · {team}',trigger:{type:'construction-complete',buildingType:'barracks',team:String(team)}},
+      {id:`research-${team}`,name:`Research ${team}`,type:'timed-supply',afterSeconds:.5,team:String(team),foodReward:0,message:'{event} · {team}',trigger:{type:'research-complete',technologyId:'military-tier-2',team:String(team)}},
+    ]) };
   send(clients[0], { type: 'publishMap', map });
   await Promise.all(clients.map(client => client.wait(m => m.type === 'mapChange' && m.state.mapId === map.id)));
   for (const [team, client] of clients.entries()) {
@@ -119,6 +122,8 @@ try {
       x: team ? 14.5 : -14.5, z: index ? 8.5 : -8.5 });
   }
   await clients[0].wait(m => m.type === 'state' && m.buildings.length === 4 && m.buildings.every(b => b.complete));
+  await clients[0].wait(m => m.type === 'state' && m.scenarioEvents.filter(e=>e.id.startsWith('built-')).every(e=>e.fired));
+  assert.ok(clients[0].latest.scenarioEvents.filter(e=>e.id.startsWith('research-')).every(e=>e.activatedAtSeconds===null));
   for (const [team, client] of clients.entries()) {
     await client.wait(m => m.type === 'state' && m.buildings.filter(b => b.team === team).every(b => b.complete));
     const barracks = client.latest.buildings.find(b => b.team === team && b.type === 'barracks');
@@ -139,6 +144,8 @@ try {
   saved.state.seatSessions = []; await writeFile(checkpointPath, JSON.stringify(saved)); await start();
   for (const [team, client] of clients.entries()) assert.equal(client.latest.teamResearch[team].active.type, 'military-tier-2');
   await checkpointWith(checkpointPath, s => s.state.teamUpgrades.every(u => u.militaryTier2));
+  await clients[0].wait(m=>m.type==='state' && m.scenarioEvents.every(e=>e.fired));
+  assert.deepEqual(clients[0].latest.scenarioEvents.map(e=>e.triggeredByTeam),[0,0,1,1]);
   for (const [team, client] of clients.entries()) {
     await client.wait(m => m.type === 'state' && m.teamResearch[team].militaryTier2);
     const barracks = client.latest.buildings.find(b => b.team === team && b.type === 'barracks');

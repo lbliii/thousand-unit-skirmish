@@ -14,18 +14,31 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('manifest', type=Path)
 parser.add_argument('stage', choices=['worked', 'low', 'depleted'])
 parser.add_argument('source', type=Path)
+parser.add_argument('--allow-outside-crop-edge-difference', action='store_true',
+    help='Allow at most one pixel per canvas edge dimension, only outside the shared crop')
 args = parser.parse_args()
 manifest = json.loads(args.manifest.read_text())
 root = args.manifest.parent
 full = next(asset for asset in manifest['assets'] if asset['stage'] == 'full')
 image = Image.open(args.source).convert('RGBA')
-if image.size != tuple(full['logicalCanvasPx']):
-    raise ValueError('Generated frame canvas differs from the full source; review registration first')
+expected = tuple(full['logicalCanvasPx'])
+edge_difference = image.size != expected
+if edge_difference:
+    left, top, right, bottom = full['cropBoxPx']
+    safe_edge = (args.allow_outside_crop_edge_difference
+        and all(abs(actual - wanted) <= 1 for actual, wanted in zip(image.size, expected))
+        and 0 <= left < right <= min(image.width, expected[0])
+        and 0 <= top < bottom <= min(image.height, expected[1]))
+    if not safe_edge:
+        raise ValueError('Generated frame canvas differs from the full source; review registration first')
 asset = dict(full)
 asset.update(id=full['id'] + '-' + args.stage, stage=args.stage,
              sourceOutputId=args.source.stem,
              sourceFile=full['id'] + '-' + args.stage + '.png',
              runtimeFile=full['id'] + '-' + args.stage + '.webp')
+if edge_difference:
+    asset['sourceCanvasPx'] = list(image.size)
+    asset['registrationNote'] = 'Reviewed one-pixel canvas edge difference outside shared crop; no resize, translation or pixel repair.'
 source = root / asset['sourceFile']
 if args.source.resolve() != source.resolve():
     shutil.copy2(args.source, source)

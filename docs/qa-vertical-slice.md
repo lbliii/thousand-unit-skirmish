@@ -2,6 +2,13 @@
 
 [Documentation index](README.md) · [Testing commands](testing.md) · [Roadmap](roadmap.md)
 
+## Persistent tactical orders — 30 September 2026
+
+The tactical command lane now has engineering evidence for Patrol/Follow:
+[dated command record](qa-persistent-orders-2026-09-30.md). This establishes the
+order rules, both-seat recovery and actual UI wiring; it does not establish
+unassisted player comprehension or a new supported hardware limit.
+
 ## Evidence standard
 
 Record the source commit or deployed build, map, seats/seeds, environment,
@@ -548,3 +555,22 @@ The test now selects the newest state-bearing `state` or `mapChange` message.
 The focused scenario passes both duels: Worker loses to Infantry for both
 Azure and Ember. Game rules and protocol are unchanged. This fix-forward
 record does not claim that the full CI workflow passed.
+
+## 30 September 2026 — Visual scenario authoring and completion conditions
+
+Lane B source is the `codex/visual-scenario-authoring` change (commit recorded in
+[PR #274](https://github.com/lbliii/thousand-unit-skirmish/pull/274)). Isolated local Open Field, two WebSocket seats: region conditions and
+completion-condition runs passed pending-checkpoint restart, exact one-shot food
+rewards and rematch rearming. Completion runs included initial home Town Centers
+and technology awards. The paid progression run observed both seats' Barracks
+construction and Military Tier II research activating the corresponding events;
+existing costs, prerequisites and research recovery checks passed. Host diagnostics
+were present for Azure and absent for Ember on a no-fog map.
+
+The owner-run headless Chrome authoring run passed draw/move/resize/name/delete,
+64-edit history behavior via focused tests, undo/redo in the browser, typed
+completion forms, draft reopen and JSON export/import of a joined region /
+construction / research reward chain. The expanded invalid-draft run passed restoration of malformed local JSON and
+blocked export until correction. One Chrome/CDP navigation error during reload
+was resolved by the rerun; bounded reload polling now tolerates context replacement. This local scripted evidence does not establish staging,
+Fortified Crossing balance, an unassisted creator/friend session or human comprehension.

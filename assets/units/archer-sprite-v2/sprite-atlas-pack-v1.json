@@ -1,0 +1,1944 @@
+{
+  "schemaVersion": 1,
+  "packId": "archer-sprite",
+  "packVersion": "0.5.0",
+  "maturity": "runtime-candidate",
+  "provenance": {
+    "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+    "source": "Vaelora Human roster role and action sheets",
+    "authoringTool": "OpenAI ImageGen; PNG atlas and mask packaging",
+    "notes": "Incomplete runtime preview: authored action candidates are packed; unproduced action/direction clips hold idle. Zero team mask remains pending. See docs/art-direction/human-roster-v1/review.json and coverage.json for limitations."
+  },
+  "files": [
+    {
+      "id": "archer-atlas-source",
+      "path": "archer-atlas-source.png",
+      "usage": "source",
+      "format": "png",
+      "dimensionsPx": {
+        "width": 2048,
+        "height": 1024
+      },
+      "sha256": "d95b210fc11bdb8108be5e31ac5038616689a25148e50930064f9184a1284116"
+    },
+    {
+      "id": "archer-atlas-runtime",
+      "path": "archer-atlas-runtime.png",
+      "usage": "runtime",
+      "format": "png",
+      "dimensionsPx": {
+        "width": 2048,
+        "height": 1024
+      },
+      "sha256": "d95b210fc11bdb8108be5e31ac5038616689a25148e50930064f9184a1284116"
+    },
+    {
+      "id": "archer-team-mask",
+      "path": "team-accent-mask.png",
+      "usage": "team-mask",
+      "format": "png",
+      "dimensionsPx": {
+        "width": 2048,
+        "height": 1024
+      },
+      "sha256": "454f752f9eabe65b6365ea208069fbd2a897bd77612865865fe08ab6ee5f808e"
+    }
+  ],
+  "pages": [
+    {
+      "id": "archer-color",
+      "sourceFileId": "archer-atlas-source",
+      "runtimeFileId": "archer-atlas-runtime",
+      "maskFileId": "archer-team-mask",
+      "dimensionsPx": {
+        "width": 2048,
+        "height": 1024
+      },
+      "colorSpace": "srgb",
+      "pixelFormat": "rgba8",
+      "alphaMode": "straight",
+      "edgeRule": "zero-rgb-under-transparent",
+      "gutterPx": 0,
+      "gutterRule": "none",
+      "wrapMode": "clamp",
+      "sampling": {
+        "generateMipmaps": false,
+        "minFilter": "linear",
+        "magFilter": "linear",
+        "uvInsetPx": 0.5,
+        "maxMipLevel": 0
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "archer",
+      "kind": "unit",
+      "artBoundsWorld": {
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          1.5,
+          0.55
+        ]
+      },
+      "heightWorld": 1.3996629386112607,
+      "sortAnchorWorld": [
+        0,
+        0,
+        0
+      ],
+      "cullingBoundsWorld": {
+        "min": [
+          -0.6,
+          0,
+          -0.6
+        ],
+        "max": [
+          0.6,
+          1.6,
+          0.6
+        ]
+      },
+      "selectionBoundsWorld": {
+        "min": [
+          -0.5,
+          0,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          1.2,
+          0.5
+        ]
+      },
+      "layers": [
+        {
+          "id": "actor",
+          "drawLayer": "actor",
+          "batchKey": "unit.archer"
+        }
+      ],
+      "frames": [
+        {
+          "id": "idle-east-0",
+          "groundPivotPx": {
+            "x": 76,
+            "y": 230
+          },
+          "canvasPx": {
+            "width": 127,
+            "height": 230
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 127,
+            "height": 228
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 668,
+              "y": 285,
+              "width": 127,
+              "height": 230
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 668,
+                "y": 285,
+                "width": 127,
+                "height": 230
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "idle-south-east-0",
+          "groundPivotPx": {
+            "x": 47,
+            "y": 216
+          },
+          "canvasPx": {
+            "width": 130,
+            "height": 216
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 130,
+            "height": 215
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 1682,
+              "y": 285,
+              "width": 130,
+              "height": 216
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 1682,
+                "y": 285,
+                "width": 130,
+                "height": 216
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "idle-north-east-0",
+          "groundPivotPx": {
+            "x": 55,
+            "y": 215
+          },
+          "canvasPx": {
+            "width": 132,
+            "height": 215
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 132,
+            "height": 214
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 1820,
+              "y": 285,
+              "width": 132,
+              "height": 215
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 1820,
+                "y": 285,
+                "width": 132,
+                "height": 215
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "idle-north-0",
+          "groundPivotPx": {
+            "x": 31,
+            "y": 231
+          },
+          "canvasPx": {
+            "width": 129,
+            "height": 231
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 129,
+            "height": 231
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 389,
+              "y": 285,
+              "width": 129,
+              "height": 231
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 389,
+                "y": 285,
+                "width": 129,
+                "height": 231
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "idle-north-west-0",
+          "groundPivotPx": {
+            "x": 96,
+            "y": 230
+          },
+          "canvasPx": {
+            "width": 127,
+            "height": 230
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 127,
+            "height": 228
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 803,
+              "y": 285,
+              "width": 127,
+              "height": 230
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 803,
+                "y": 285,
+                "width": 127,
+                "height": 230
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "idle-west-0",
+          "groundPivotPx": {
+            "x": 52,
+            "y": 204
+          },
+          "canvasPx": {
+            "width": 117,
+            "height": 204
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 117,
+            "height": 203
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 174,
+              "y": 533,
+              "width": 117,
+              "height": 204
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 174,
+                "y": 533,
+                "width": 117,
+                "height": 204
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "idle-south-west-0",
+          "groundPivotPx": {
+            "x": 70,
+            "y": 231
+          },
+          "canvasPx": {
+            "width": 134,
+            "height": 231
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 134,
+            "height": 228
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 526,
+              "y": 285,
+              "width": 134,
+              "height": 231
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 526,
+                "y": 285,
+                "width": 134,
+                "height": 231
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "idle-south-0",
+          "groundPivotPx": {
+            "x": 64,
+            "y": 229
+          },
+          "canvasPx": {
+            "width": 133,
+            "height": 229
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 133,
+            "height": 227
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 938,
+              "y": 285,
+              "width": 133,
+              "height": 229
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 938,
+                "y": 285,
+                "width": 133,
+                "height": 229
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "walk-south-east-0",
+          "groundPivotPx": {
+            "x": 41,
+            "y": 223
+          },
+          "canvasPx": {
+            "width": 106,
+            "height": 223
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 106,
+            "height": 219
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 1079,
+              "y": 285,
+              "width": 106,
+              "height": 223
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 1079,
+                "y": 285,
+                "width": 106,
+                "height": 223
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "walk-south-east-1",
+          "groundPivotPx": {
+            "x": 61,
+            "y": 222
+          },
+          "canvasPx": {
+            "width": 143,
+            "height": 222
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 143,
+            "height": 216
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 1353,
+              "y": 285,
+              "width": 143,
+              "height": 222
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 1353,
+                "y": 285,
+                "width": 143,
+                "height": 222
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "walk-south-east-2",
+          "groundPivotPx": {
+            "x": 68,
+            "y": 222
+          },
+          "canvasPx": {
+            "width": 170,
+            "height": 222
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 170,
+            "height": 218
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 1504,
+              "y": 285,
+              "width": 170,
+              "height": 222
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 1504,
+                "y": 285,
+                "width": 170,
+                "height": 222
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "walk-south-east-3",
+          "groundPivotPx": {
+            "x": 56,
+            "y": 223
+          },
+          "canvasPx": {
+            "width": 152,
+            "height": 223
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 152,
+            "height": 214
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 1193,
+              "y": 285,
+              "width": 152,
+              "height": 223
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 1193,
+                "y": 285,
+                "width": 152,
+                "height": 223
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "walk-south-east-4",
+          "groundPivotPx": {
+            "x": 51,
+            "y": 240
+          },
+          "canvasPx": {
+            "width": 114,
+            "height": 240
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 114,
+            "height": 225
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 1349,
+              "y": 4,
+              "width": 114,
+              "height": 240
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 1349,
+                "y": 4,
+                "width": 114,
+                "height": 240
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "walk-south-east-5",
+          "groundPivotPx": {
+            "x": 56,
+            "y": 240
+          },
+          "canvasPx": {
+            "width": 138,
+            "height": 240
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 138,
+            "height": 213
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 1471,
+              "y": 4,
+              "width": 138,
+              "height": 240
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 1471,
+                "y": 4,
+                "width": 138,
+                "height": 240
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "walk-south-east-6",
+          "groundPivotPx": {
+            "x": 75,
+            "y": 240
+          },
+          "canvasPx": {
+            "width": 181,
+            "height": 240
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 181,
+            "height": 215
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 1617,
+              "y": 4,
+              "width": 181,
+              "height": 240
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 1617,
+                "y": 4,
+                "width": 181,
+                "height": 240
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "walk-south-east-7",
+          "groundPivotPx": {
+            "x": 57,
+            "y": 240
+          },
+          "canvasPx": {
+            "width": 142,
+            "height": 240
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 142,
+            "height": 221
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 1806,
+              "y": 4,
+              "width": 142,
+              "height": 240
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 1806,
+                "y": 4,
+                "width": 142,
+                "height": 240
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "attack-south-east-0",
+          "groundPivotPx": {
+            "x": 61,
+            "y": 242
+          },
+          "canvasPx": {
+            "width": 162,
+            "height": 242
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 162,
+            "height": 242
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 1179,
+              "y": 4,
+              "width": 162,
+              "height": 242
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 1179,
+                "y": 4,
+                "width": 162,
+                "height": 242
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "attack-south-east-1",
+          "groundPivotPx": {
+            "x": 98,
+            "y": 240
+          },
+          "canvasPx": {
+            "width": 194,
+            "height": 240
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 194,
+            "height": 239
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 4,
+              "y": 285,
+              "width": 194,
+              "height": 240
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 4,
+                "y": 285,
+                "width": 194,
+                "height": 240
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "attack-south-east-2",
+          "groundPivotPx": {
+            "x": 84,
+            "y": 245
+          },
+          "canvasPx": {
+            "width": 176,
+            "height": 245
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 176,
+            "height": 243
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 995,
+              "y": 4,
+              "width": 176,
+              "height": 245
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 995,
+                "y": 4,
+                "width": 176,
+                "height": 245
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "attack-south-east-3",
+          "groundPivotPx": {
+            "x": 88,
+            "y": 253
+          },
+          "canvasPx": {
+            "width": 202,
+            "height": 253
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 202,
+            "height": 251
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 433,
+              "y": 4,
+              "width": 202,
+              "height": 253
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 433,
+                "y": 4,
+                "width": 202,
+                "height": 253
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "attack-south-east-4",
+          "groundPivotPx": {
+            "x": 95,
+            "y": 265
+          },
+          "canvasPx": {
+            "width": 208,
+            "height": 265
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 208,
+            "height": 261
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 217,
+              "y": 4,
+              "width": 208,
+              "height": 265
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 217,
+                "y": 4,
+                "width": 208,
+                "height": 265
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "attack-south-east-5",
+          "groundPivotPx": {
+            "x": 98,
+            "y": 273
+          },
+          "canvasPx": {
+            "width": 205,
+            "height": 273
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 205,
+            "height": 267
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 4,
+              "y": 4,
+              "width": 205,
+              "height": 273
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 4,
+                "y": 4,
+                "width": 205,
+                "height": 273
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "attack-south-east-6",
+          "groundPivotPx": {
+            "x": 76,
+            "y": 248
+          },
+          "canvasPx": {
+            "width": 170,
+            "height": 248
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 170,
+            "height": 242
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 643,
+              "y": 4,
+              "width": 170,
+              "height": 248
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 643,
+                "y": 4,
+                "width": 170,
+                "height": 248
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "attack-south-east-7",
+          "groundPivotPx": {
+            "x": 70,
+            "y": 247
+          },
+          "canvasPx": {
+            "width": 166,
+            "height": 247
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 166,
+            "height": 241
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 821,
+              "y": 4,
+              "width": 166,
+              "height": 247
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 821,
+                "y": 4,
+                "width": 166,
+                "height": 247
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "defeat-south-east-0",
+          "groundPivotPx": {
+            "x": 84,
+            "y": 239
+          },
+          "canvasPx": {
+            "width": 175,
+            "height": 240
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 175,
+            "height": 240
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 206,
+              "y": 285,
+              "width": 175,
+              "height": 240
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 206,
+                "y": 285,
+                "width": 175,
+                "height": 240
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "defeat-south-east-1",
+          "groundPivotPx": {
+            "x": 67,
+            "y": 214
+          },
+          "canvasPx": {
+            "width": 162,
+            "height": 214
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 162,
+            "height": 207
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 4,
+              "y": 533,
+              "width": 162,
+              "height": 214
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 4,
+                "y": 533,
+                "width": 162,
+                "height": 214
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "defeat-south-east-2",
+          "groundPivotPx": {
+            "x": 83,
+            "y": 191
+          },
+          "canvasPx": {
+            "width": 155,
+            "height": 191
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 155,
+            "height": 176
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 465,
+              "y": 533,
+              "width": 155,
+              "height": 191
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 465,
+                "y": 533,
+                "width": 155,
+                "height": 191
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "defeat-south-east-3",
+          "groundPivotPx": {
+            "x": 64,
+            "y": 196
+          },
+          "canvasPx": {
+            "width": 158,
+            "height": 196
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 158,
+            "height": 196
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 299,
+              "y": 533,
+              "width": 158,
+              "height": 196
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 299,
+                "y": 533,
+                "width": 158,
+                "height": 196
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "defeat-south-east-4",
+          "groundPivotPx": {
+            "x": 91,
+            "y": 153
+          },
+          "canvasPx": {
+            "width": 210,
+            "height": 153
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 210,
+            "height": 153
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 628,
+              "y": 533,
+              "width": 210,
+              "height": 153
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 628,
+                "y": 533,
+                "width": 210,
+                "height": 153
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "defeat-south-east-5",
+          "groundPivotPx": {
+            "x": 105,
+            "y": 134
+          },
+          "canvasPx": {
+            "width": 204,
+            "height": 134
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 204,
+            "height": 103
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 846,
+              "y": 533,
+              "width": 204,
+              "height": 134
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 846,
+                "y": 533,
+                "width": 204,
+                "height": 134
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "defeat-south-east-6",
+          "groundPivotPx": {
+            "x": 118,
+            "y": 117
+          },
+          "canvasPx": {
+            "width": 222,
+            "height": 117
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 222,
+            "height": 96
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 1058,
+              "y": 533,
+              "width": 222,
+              "height": 117
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 1058,
+                "y": 533,
+                "width": 222,
+                "height": 117
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "defeat-south-east-7",
+          "groundPivotPx": {
+            "x": 110,
+            "y": 100
+          },
+          "canvasPx": {
+            "width": 216,
+            "height": 100
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 216,
+            "height": 86
+          },
+          "fallbackRectPx": {
+            "pageId": "archer-color",
+            "rectPx": {
+              "x": 1288,
+              "y": 533,
+              "width": 216,
+              "height": 100
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "archer-color",
+              "rectPx": {
+                "x": 1288,
+                "y": 533,
+                "width": 216,
+                "height": 100
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        }
+      ],
+      "clips": [
+        {
+          "stateId": "idle",
+          "directionId": "east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "south-east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "north-east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-north-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "north",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-north-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "north-west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-north-west-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-west-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "south-west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-west-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "south",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "south-east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "walk-south-east-0",
+              "durationMs": 100
+            },
+            {
+              "frameId": "walk-south-east-1",
+              "durationMs": 100
+            },
+            {
+              "frameId": "walk-south-east-2",
+              "durationMs": 100
+            },
+            {
+              "frameId": "walk-south-east-3",
+              "durationMs": 100
+            },
+            {
+              "frameId": "walk-south-east-4",
+              "durationMs": 100
+            },
+            {
+              "frameId": "walk-south-east-5",
+              "durationMs": 100
+            },
+            {
+              "frameId": "walk-south-east-6",
+              "durationMs": 100
+            },
+            {
+              "frameId": "walk-south-east-7",
+              "durationMs": 100
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "north-east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-north-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "north",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-north-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "north-west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-north-west-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-west-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "south-west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-west-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "south",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "south-east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "attack-south-east-0",
+              "durationMs": 140
+            },
+            {
+              "frameId": "attack-south-east-1",
+              "durationMs": 140
+            },
+            {
+              "frameId": "attack-south-east-2",
+              "durationMs": 140
+            },
+            {
+              "frameId": "attack-south-east-3",
+              "durationMs": 140
+            },
+            {
+              "frameId": "attack-south-east-4",
+              "durationMs": 140
+            },
+            {
+              "frameId": "attack-south-east-5",
+              "durationMs": 100
+            },
+            {
+              "frameId": "attack-south-east-6",
+              "durationMs": 100
+            },
+            {
+              "frameId": "attack-south-east-7",
+              "durationMs": 100
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "north-east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-north-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "north",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-north-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "north-west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-north-west-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-west-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "south-west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-west-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "south",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "east",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "idle-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "south-east",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "defeat-south-east-0",
+              "durationMs": 100
+            },
+            {
+              "frameId": "defeat-south-east-1",
+              "durationMs": 100
+            },
+            {
+              "frameId": "defeat-south-east-2",
+              "durationMs": 100
+            },
+            {
+              "frameId": "defeat-south-east-3",
+              "durationMs": 100
+            },
+            {
+              "frameId": "defeat-south-east-4",
+              "durationMs": 110
+            },
+            {
+              "frameId": "defeat-south-east-5",
+              "durationMs": 110
+            },
+            {
+              "frameId": "defeat-south-east-6",
+              "durationMs": 115
+            },
+            {
+              "frameId": "defeat-south-east-7",
+              "durationMs": 115
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "north-east",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "idle-north-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "north",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "idle-north-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "north-west",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "idle-north-west-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "west",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "idle-west-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "south-west",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "idle-south-west-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "south",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "idle-south-0",
+              "durationMs": 1000
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

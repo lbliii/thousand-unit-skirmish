@@ -39,3 +39,78 @@ test('ground depth correction preserves screen position and clears dipping feet'
     'correction must not move the sprite on screen');
   assert.equal(spriteGroundDepthBias({y:10,height:70},{y:100},0.01,up.y,toward.y),0);
 });
+
+
+test('worker combat uses attack sprites and then returns to its task', async () => {
+  const { activeState } = await import('../src/unit-sprite-runtime.mjs');
+  const worker = { kind: 'worker', hp: 100, task: 'gathering', attackStartedAt: 1000 };
+  assert.equal(activeState(worker, 1200, 850), 'attack');
+  assert.equal(activeState(worker, 1900, 850), 'gather');
+  assert.equal(activeState({ ...worker, walking: true }, 1200, 850), 'walk');
+  assert.equal(activeState({ ...worker, hp: 0, defeatStartedAt: 1100 }, 1200, 850), 'defeat');
+});
+
+
+test('worker repair has a distinct action state', async () => {
+  const { activeState } = await import('../src/unit-sprite-runtime.mjs');
+  assert.equal(activeState({kind:'worker', hp:100, task:'repairing'}, 2000), 'repair');
+  assert.equal(activeState({kind:'worker', hp:100, task:'building'}, 2000), 'build');
+});
+
+
+test('gathering chooses resource-specific clips and repair falls back to construction', async () => {
+  const { spriteActionClip } = await import('../src/unit-sprite-runtime.mjs');
+  const food = { id: 'berry-picking' }, wood = { id: 'axe-swing' };
+  const generic = { id: 'generic' }, build = { id: 'mallet' }, idle = { id: 'ready' };
+  const clips = new Map([['gather-food|south-east', food], ['gather-wood|south-east', wood],
+    ['gather|south-east', generic], ['build|south-east', build], ['idle|north', idle]]);
+  assert.equal(spriteActionClip(clips, 'gather', 'south-east', 'food', 'human'), food);
+  assert.equal(spriteActionClip(clips, 'gather', 'south-east', 'wood', 'human'), wood);
+  assert.equal(spriteActionClip(clips, 'gather', 'south-east', null, 'human'), generic);
+  assert.equal(spriteActionClip(clips, 'repair', 'south-east', null, 'human'), build);
+  const repair = { id: 'kneeling-hammer' };
+  clips.set('repair|south-east', repair);
+  assert.equal(spriteActionClip(clips, 'repair', 'south-east', null, 'human'), repair);
+  assert.equal(spriteActionClip(clips, 'gather', 'north', 'wood', 'human'), idle);
+});
+
+
+test('approximate roster reuses nearest authored action while exact lanes keep idle holds', async () => {
+  const { spriteActionClip } = await import('../src/unit-sprite-runtime.mjs');
+  const hold = { sequence: [{ frameId: 'idle-north-0' }] };
+  const front = { sequence: [{ frameId: 'walk-north-east-0' }] };
+  const rear = { sequence: [{ frameId: 'walk-south-west-0' }] };
+  const wood = { sequence: [{ frameId: 'gather-wood-south-east-0' }] };
+  const clips = new Map([['walk|north', hold], ['idle|north', hold],
+    ['walk|north-east', front], ['walk|south-west', rear], ['gather-wood|south-east', wood]]);
+  assert.equal(spriteActionClip(clips, 'walk', 'north', null, 'human'), hold);
+  assert.equal(spriteActionClip(clips, 'walk', 'north', null, 'human', true), front);
+  assert.equal(spriteActionClip(clips, 'walk', 'west', null, 'human', true), rear);
+  assert.equal(spriteActionClip(clips, 'gather', 'north', 'wood', 'human', true), wood);
+});
+
+
+test('every Human foot-unit action and heading has first-pass graphics', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { UNIT_DEFINITIONS } = await import('../src/gameplay-definitions.mjs');
+  const { spriteActionClip } = await import('../src/unit-sprite-runtime.mjs');
+  const packs = { worker: 'cast-human-sprite-v3', infantry: 'infantry-sprite-v3',
+    archer: 'archer-sprite-v2', spearman: 'spearman-sprite-v1' };
+  const geometryRoles = ['scout', 'rider', 'siege-engine'];
+  assert.deepEqual([...Object.keys(packs), ...geometryRoles].sort(), Object.keys(UNIT_DEFINITIONS).sort());
+  for (const [role, directory] of Object.entries(packs)) {
+    const pack = JSON.parse(await readFile(new URL(`../assets/units/${directory}/sprite-atlas-pack-v1.json`, import.meta.url), 'utf8'));
+    const asset = pack.assets[0];
+    const clips = new Map(asset.clips.map(c => [`${c.stateId}|${c.directionId}`, c]));
+    const states = ['idle', 'walk', 'attack', 'defeat', ...(role === 'worker' ? ['gather', 'build', 'repair'] : [])];
+    for (const direction of ['north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west']) {
+      for (const state of states) {
+        for (const resource of state === 'gather' ? ['food', 'wood'] : [null]) {
+          const clip = spriteActionClip(clips, state, direction, resource, role === 'worker' ? 'human' : role, true);
+          assert.ok(clip?.sequence?.length, `${role}/${state}/${direction}`);
+          if (state !== 'idle') assert.ok(clip.sequence.some(f => !f.frameId.startsWith('idle-')), `${role}/${state}/${direction} must have action graphics`);
+        }
+      }
+    }
+  }
+});

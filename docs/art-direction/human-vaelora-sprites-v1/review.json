@@ -1,0 +1,82 @@
+[
+  {
+    "file": "source/Chop/SE/keyposes.png",
+    "size": [
+      1774,
+      887
+    ],
+    "sha256": "0879bc8c248c52c70910ab6cdb8c19f66b8af376e8449a62e98aac9c817588c7",
+    "alphaBounds": [
+      100,
+      6,
+      1725,
+      860
+    ],
+    "nominalCellEdgeContacts": [
+      0,
+      2,
+      4,
+      5,
+      6,
+      7
+    ],
+    "wholeSheetEdgeContact": false
+  },
+  {
+    "file": "source/Defeat/SE/keyposes.png",
+    "size": [
+      1774,
+      887
+    ],
+    "sha256": "e4c3e7a5cd5dbd1e04f076cfca8e7b1f5d7d97902d0d762af43b2aca9e5e9450",
+    "alphaBounds": [
+      12,
+      34,
+      1774,
+      844
+    ],
+    "nominalCellEdgeContacts": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "wholeSheetEdgeContact": true
+  },
+  {
+    "file": "source/Idle/facings.png",
+    "size": [
+      1774,
+      887
+    ],
+    "sha256": "323071be89e1fc6e181ec4c7b946d28048043380b4faaa285f368e6efe1c54ad",
+    "alphaBounds": [
+      118,
+      17,
+      1693,
+      861
+    ],
+    "nominalCellEdgeContacts": [],
+    "wholeSheetEdgeContact": false
+  },
+  {
+    "file": "source/Walk/SE/keyposes.png",
+    "size": [
+      1774,
+      887
+    ],
+    "sha256": "ef85739cbab683322b5bc01ae2a5c0719fddc333407700e832b52067d056ba95",
+    "alphaBounds": [
+      117,
+      20,
+      1696,
+      855
+    ],
+    "nominalCellEdgeContacts": [],
+    "wholeSheetEdgeContact": false
+  }
+]

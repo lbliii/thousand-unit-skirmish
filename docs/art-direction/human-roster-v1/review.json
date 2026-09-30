@@ -1,0 +1,581 @@
+{
+  "infantry": {
+    "size": [
+      1774,
+      887
+    ],
+    "cells": [
+      {
+        "cell": 0,
+        "alphaBounds": [
+          106,
+          1,
+          436,
+          438
+        ],
+        "edgeContact": false
+      },
+      {
+        "cell": 1,
+        "alphaBounds": [
+          0,
+          10,
+          393,
+          444
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 2,
+        "alphaBounds": [
+          9,
+          8,
+          413,
+          444
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 3,
+        "alphaBounds": [
+          58,
+          13,
+          396,
+          438
+        ],
+        "edgeContact": false
+      },
+      {
+        "cell": 4,
+        "alphaBounds": [
+          57,
+          3,
+          349,
+          414
+        ],
+        "edgeContact": false
+      },
+      {
+        "cell": 5,
+        "alphaBounds": [
+          85,
+          0,
+          399,
+          416
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 6,
+        "alphaBounds": [
+          37,
+          0,
+          429,
+          414
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 7,
+        "alphaBounds": [
+          18,
+          6,
+          365,
+          417
+        ],
+        "edgeContact": false
+      }
+    ],
+    "acceptance": "appearance-only",
+    "remaining": "Exact E/SE yaw; common body scale and ground pivots; weapon clearance; action cycles and team mask."
+  },
+  "spearman": {
+    "size": [
+      1774,
+      887
+    ],
+    "cells": [
+      {
+        "cell": 0,
+        "alphaBounds": [
+          45,
+          10,
+          444,
+          444
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 1,
+        "alphaBounds": [
+          0,
+          10,
+          435,
+          444
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 2,
+        "alphaBounds": [
+          21,
+          10,
+          443,
+          444
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 3,
+        "alphaBounds": [
+          0,
+          12,
+          423,
+          444
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 4,
+        "alphaBounds": [
+          23,
+          0,
+          434,
+          411
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 5,
+        "alphaBounds": [
+          0,
+          0,
+          439,
+          423
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 6,
+        "alphaBounds": [
+          47,
+          0,
+          438,
+          414
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 7,
+        "alphaBounds": [
+          5,
+          0,
+          410,
+          412
+        ],
+        "edgeContact": true
+      }
+    ],
+    "acceptance": "appearance-only",
+    "remaining": "Exact E/SE yaw; common body scale and ground pivots; weapon clearance; action cycles and team mask."
+  },
+  "archer": {
+    "size": [
+      1774,
+      887
+    ],
+    "cells": [
+      {
+        "cell": 0,
+        "alphaBounds": [
+          146,
+          12,
+          444,
+          444
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 1,
+        "alphaBounds": [
+          0,
+          15,
+          435,
+          444
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 2,
+        "alphaBounds": [
+          9,
+          17,
+          438,
+          440
+        ],
+        "edgeContact": false
+      },
+      {
+        "cell": 3,
+        "alphaBounds": [
+          1,
+          14,
+          378,
+          444
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 4,
+        "alphaBounds": [
+          92,
+          0,
+          444,
+          423
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 5,
+        "alphaBounds": [
+          1,
+          0,
+          441,
+          415
+        ],
+        "edgeContact": true
+      },
+      {
+        "cell": 6,
+        "alphaBounds": [
+          25,
+          3,
+          413,
+          421
+        ],
+        "edgeContact": false
+      },
+      {
+        "cell": 7,
+        "alphaBounds": [
+          84,
+          0,
+          416,
+          419
+        ],
+        "edgeContact": true
+      }
+    ],
+    "acceptance": "appearance-only",
+    "remaining": "Exact E/SE yaw; common body scale and ground pivots; weapon clearance; action cycles and team mask."
+  },
+  "workerWalkSEv2": {
+    "size": [
+      1536,
+      1024
+    ],
+    "mode": "RGBA",
+    "accepted": false,
+    "reason": "Repeated leg arrangement; not a usable walk cycle. Earlier opaque-backdrop observation was incorrect: transparent RGB must be assessed through alpha."
+  },
+  "workerWalkSEv3": {
+    "accepted": false,
+    "stage": "packed motion candidate",
+    "evidence": "Explicit pose seed preserves alternate stride. Eight frames packed with no alpha bounds touching cell edges; manifest validates. In-game cycle and scale review pending.",
+    "alphaNote": "Brown RGB in transparent pixels is not an opaque backdrop. Runtime pack zeroes RGB where alpha=0 and removes alpha<9, matching renderer alphaTest."
+  },
+  "workerWalkSEv4": {
+    "stage": "unused extraction variant",
+    "reason": "Extra generation unnecessary; v3 already has transparency. Retained as source provenance."
+  },
+  "workerWalkSouthWestv1": {
+    "accepted": false,
+    "reason": "Rear gait transfers successfully, but axe missing in frames2/4/5 and changes hands in frame3. Targeted correction required."
+  },
+  "runtimeV3": {
+    "stage": "movement order appearance observed",
+    "capture": "in-game-motion-candidate.jpg",
+    "limit": "Screenshot proves atlas loaded and selected Humans moved; it does not prove complete cycle smoothness or all headings. Capture occurred near destination.",
+    "headingCorrection": "Turnaround screen labels remapped to runtime world yaw: +Z north is front-left, +X east is front-right, +X/-Z south-east is right profile, -X/-Z south-west is rear."
+  },
+  "workerWalkSouthWestv2": {
+    "stage": "packed motion candidate",
+    "accepted": false,
+    "review": "Axe stays right where visible; frame 2 tool occluded by forward arm. Eight alternating rear strides packed with full silhouette and canvas edge clearance. Root/body and in-game cycle review pending."
+  },
+  "infantryWalkSEv1": {
+    "stage": "packed candidate",
+    "accepted": false,
+    "remaining": "Game movement and body scale review; other headings missing."
+  },
+  "infantryAttackSEv1": {
+    "stage": "packed candidate",
+    "accepted": false,
+    "evidence": "Eight whole-sheet-clear connected figures extracted with complete spear; nominal-cell crop would cut thrust tips.",
+    "remaining": "In-game combat, pivot and body scale review; other headings absent."
+  },
+  "archerWalkSEv1": {
+    "stage": "packed candidate",
+    "accepted": false,
+    "evidence": "Alternating stride, bow held left and quiver retained.",
+    "remaining": "Runtime motion and body scale review; other directions absent."
+  },
+  "archerAttackSEv1": {
+    "stage": "packed candidate",
+    "accepted": false,
+    "evidence": "Distinct reach, nock, draw, release and recovery; eight connected silhouettes extracted with whole-sheet clearance. One-second sequence packed.",
+    "remaining": "Bow/arrow mechanics and release timing in game; exact side profile yaw remains approximate."
+  },
+  "spearmanWalkSEv1": {
+    "accepted": false,
+    "reason": "Bottom four figures face left instead of right. Excluded from runtime."
+  },
+  "spearmanWalkSEv2": {
+    "accepted": false,
+    "reason": "Facing corrected but spear flips upper-left in bottom row and stride phases repeat. Excluded from runtime."
+  },
+  "spearmanWalkSEv3": {
+    "accepted": false,
+    "stage": "packed diagnostic candidate",
+    "evidence": "Eight distinct alternating stride keys, consistent right-facing and upper-right spear. Complete silhouettes extracted without cell clipping.",
+    "remaining": "Extra apparent rear hand in top-row frames 2/3 must be corrected before acceptance. Body/root scale and game motion review remain."
+  },
+  "spearmanWalkSEv4": {
+    "accepted": false,
+    "stage": "rejected source correction",
+    "evidence": "Rear hands removed, but actual alpha silhouette touches right edge in frame 3. Extraction rejected it. Runtime retains v3 diagnostic candidate.",
+    "remaining": "Weapon continuity, edge clearance, root/scale and in-game motion."
+  },
+  "rosterRuntime": {
+    "stage": "Worker and Infantry appearance observed together",
+    "capture": "in-game-worker-infantry-preview.jpg",
+    "limit": "Starting army lacks Archers/Spearmen. This capture does not establish those roles or complete motion coverage."
+  },
+  "spearmanAttackSEv1": {
+    "accepted": false,
+    "stage": "packed candidate",
+    "evidence": "Eight distinct guard/lower/draw/thrust/impact/recovery poses. Connected silhouettes have whole-sheet clearance and 512px runtime canvas clearance. Shared scale and row-specific ground baseline applied. Manifest validates.",
+    "remaining": "In-game combat timing, body/root calibration and weapon length consistency; other headings absent."
+  },
+  "workerBuildSEv1": {
+    "accepted": false,
+    "stage": "packed candidate",
+    "evidence": "Eight distinct mallet raise/strike/reset frames; stable backpack and costume, two arms, no connected workbench prop. Full silhouette extraction and 512px frame clearance validated.",
+    "remaining": "Exact runtime SE yaw is approximate; body/root and construction timing need in-game review. Repair has build fallback but is not accepted as separate coverage."
+  },
+  "workerGatherWoodSEv1": {
+    "accepted": false,
+    "stage": "packed candidate",
+    "evidence": "Eight distinct axe windup/overhead/strike/followthrough/recovery poses; whole silhouette and atlas clearance validate. Dedicated gather-wood clip preserves separate food production gap.",
+    "remaining": "Exact camera yaw, loop transition, body/root scale and in-game gathering review."
+  },
+  "workerGatherFoodSEv1": {
+    "accepted": false,
+    "stage": "packed candidate",
+    "evidence": "Eight crouch/reach/pluck/pouch/reset poses, tool stowed and backpack retained. Full silhouettes and runtime canvas clearance validate.",
+    "remaining": "Handedness, exact yaw, root/scale, loop and in-game food harvesting review."
+  },
+  "workerRepairSEv1": {
+    "accepted": false,
+    "stage": "packed candidate",
+    "evidence": "Eight kneeling hammer keys distinct from standing mallet construction; source and runtime canvas clearance validate. Dedicated repair clip overrides build fallback.",
+    "remaining": "Handedness, body size while kneeling, exact yaw, ground pivot, loop and in-game repair review."
+  },
+  "workerAttackSEv1": {
+    "accepted": false,
+    "stage": "packed candidate",
+    "evidence": "Eight windup/horizontal strike/recovery poses distinct from chopping. Full silhouettes and 512px frame clearance validate, one-shot attack clip replaces idle hold.",
+    "remaining": "Exact yaw, axe continuity, body/root scale and in-game impact timing review. Atlas now 2048x5120; hardware loading review pending."
+  },
+  "expandedAtlasRuntime": {
+    "stage": "loading and active harvesting observed",
+    "capture": "in-game-wood-harvesting.jpg",
+    "evidence": "Human v3 atlas 0.10.0 at 2048x5120 renders alongside Infantry. Four Workers received a wood gather order; displayed wood rose from 250 to 450 and Workers carried wood.",
+    "limit": "Screenshot proves loaded appearance and gathering gameplay, not exact clip selection or full cycle continuity. Workers approach from multiple headings; unproduced headings still hold idle. No action direction accepted from this evidence."
+  },
+  "workerDefeatSEv1": {
+    "accepted": false,
+    "stage": "packed candidate",
+    "evidence": "Eight recoil/kneel/fall/rest poses, no upright reset. Whole connected figures extracted, pack and axe retained. Anatomical scale stays fixed as pose height falls.",
+    "remaining": "Frame-to-frame fall continuity, root/grounding, final pose, exact yaw and in-game defeat timing. Expanded atlas loading needs review."
+  },
+  "infantryDefeatSEv1": {
+    "accepted": false,
+    "stage": "packed candidate",
+    "evidence": "Eight recoil/kneel/fall/ground poses retain helmet, spear and shield. Connected silhouettes extract with full sheet clearance.",
+    "remaining": "Fall continuity and final ground pivot, body scale and in-game defeat review; other directions absent."
+  },
+  "archerDefeatSEv1": {
+    "accepted": false,
+    "stage": "packed candidate",
+    "evidence": "Eight recoil/kneel/fall/rest poses retain bow/quiver/cape. Whole silhouettes extract cleanly; final pose horizontal.",
+    "remaining": "Bow handedness across fall, ground pivot, body scale, exact yaw and in-game defeat review; other directions absent."
+  },
+  "spearmanDefeatSEv1": {
+    "accepted": false,
+    "stage": "packed candidate",
+    "evidence": "Eight recoil/kneel/fall/rest poses keep spear and cap; full connected silhouette extraction succeeds. Final pose horizontal, clip non-looping.",
+    "remaining": "Fall direction/continuity, spear length/handedness, ground root, body size and in-game defeat review; other directions absent."
+  },
+  "workerWalkNorthEastV1": {
+    "source": "source/worker-walk-north-east-v1.png",
+    "accepted": false,
+    "packed": false,
+    "issues": [
+      "Repeated top-row stride phases",
+      "Axe missing in lower-row second and fourth cells",
+      "Axe switched to anatomical left in lower-row third cell"
+    ],
+    "nextAction": "Produce smaller four-pose batches with fixed anatomical right-hand axe and explicit alternating stride phases."
+  },
+  "workerWalkNorthEastFourV1": {
+    "source": "source/worker-walk-north-east-four-v1.png",
+    "accepted": false,
+    "packed": false,
+    "issues": [
+      "Three poses repeat the same foot-leading stride",
+      "Missing clear passing/support phases"
+    ],
+    "verified": [
+      "Axe remains anatomical right in all four poses",
+      "RGBA background contains 1252037 fully transparent pixels"
+    ],
+    "nextAction": "Generate a single explicit passing pose before assembling the sequence."
+  },
+  "workerWalkNorthEastPassingRightV1": {
+    "source": "source/worker-walk-north-east-passing-right-v1.png",
+    "accepted": false,
+    "packed": false,
+    "observed": [
+      "Anatomical right axe retained",
+      "Right foot lifted close to left supporting leg"
+    ],
+    "remaining": [
+      "Match body scale and root to other keys",
+      "Generate opposite passing pose and contact transitions",
+      "Verify complete loop in game"
+    ]
+  },
+  "workerWalkNorthEastPassingLeftV1": {
+    "source": "source/worker-walk-north-east-passing-left-v1.png",
+    "accepted": false,
+    "packed": false,
+    "observed": [
+      "Opposite supporting and airborne legs",
+      "Axe retained in anatomical right hand"
+    ],
+    "remaining": [
+      "Contact phases and complete loop",
+      "Runtime root alignment and visual verification"
+    ]
+  },
+  "workerWalkNorthEastContactLeftV1": {
+    "source": "source/worker-walk-north-east-contact-left-v1.png",
+    "accepted": false,
+    "packed": false,
+    "issues": [
+      "Leading boot has malformed doubled sole/heel"
+    ],
+    "nextAction": "Correct feet before extraction or packing"
+  },
+  "workerWalkNorthEastContactLeftV2": {
+    "source": "source/worker-walk-north-east-contact-left-v2.png",
+    "accepted": false,
+    "packed": false,
+    "observed": [
+      "Leading boot now has continuous sole with block heel",
+      "Right-hand axe preserved"
+    ],
+    "remaining": [
+      "Root and body scale must match passing frames",
+      "Opposite contact pose missing",
+      "Complete walk loop not verified"
+    ]
+  },
+  "workerWalkNorthEastFourKeys": {
+    "accepted": false,
+    "packed": false,
+    "review": "worker-front-four-key-review.png",
+    "observed": [
+      "Two alternating contact and two alternating passing poses",
+      "Anatomical right axe maintained"
+    ],
+    "remaining": [
+      "Scale and root calibration against approved idle",
+      "Intermediate down/up poses",
+      "Smooth loop playback",
+      "Runtime verification"
+    ]
+  },
+  "workerWalkNorthEastSixKeys": {
+    "accepted": false,
+    "packed": false,
+    "review": "worker-front-six-key-review.png",
+    "remaining": [
+      "Up phases",
+      "Common anatomical scale and ground root",
+      "Runtime loop verification"
+    ]
+  },
+  "workerWalkNorthEastEightKeys": {
+    "accepted": false,
+    "packed": false,
+    "review": "worker-front-eight-key-review.png",
+    "remaining": [
+      "Anatomical scale and ground-root calibration",
+      "Loop continuity and runtime verification"
+    ],
+    "issues": [
+      "Axe size and blade shape drift across independently generated keys",
+      "Body-height normalization is provisional, not anatomical ground-root calibration"
+    ],
+    "playback": "worker-front-eight-key-playback.webp"
+  },
+  "workerWalkNorthEastUnifiedV1": {
+    "source": "source/worker-walk-north-east-unified-v1.png",
+    "accepted": false,
+    "packed": false,
+    "observed": [
+      "Axe geometry more consistent across keys"
+    ],
+    "issues": [
+      "Whole-component extraction rejected frame 5 because its boot touches bottom image edge at y=887"
+    ],
+    "nextAction": "Generate additional transparent margins preserving all eight poses before extracting"
+  },
+  "workerWalkNorthEastUnifiedV2": {
+    "source": "source/worker-walk-north-east-unified-v2.png",
+    "accepted": false,
+    "packed": true,
+    "verified": [
+      "All eight whole silhouettes clear image boundaries",
+      "Eight frames in north-east walk preview clip",
+      "Trimmed atlas preserves visible pixels and canvas pivots"
+    ],
+    "remaining": [
+      "Anatomical scale and ground-root calibration",
+      "Full loop and heading verification in game"
+    ]
+  },
+  "workerWalkEastV1": {
+    "source": "source/worker-walk-east-v1.png",
+    "accepted": false,
+    "packed": false,
+    "issues": [
+      "Same leading leg repeated across rows"
+    ],
+    "verified": [
+      "Eight complete silhouettes extract without boundary contact"
+    ]
+  },
+  "workerWalkEastV2": {
+    "source": "source/worker-walk-east-v2.png",
+    "accepted": false,
+    "packed": false,
+    "issues": [
+      "Lower row still repeats near-side leading leg",
+      "Upper row changed scale despite requested preservation"
+    ],
+    "nextAction": "Generate explicit opposite leading-leg single poses as in front-facing walk workflow"
+  }
+}

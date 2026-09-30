@@ -6,12 +6,40 @@ const DIRECTIONS = Object.freeze([
 const SPRITE_ROOT = '/assets/units';
 const SPRITE_GROUND_LIFT = 0.018;
 
+export function spriteActionClip(clipByKey, state, direction, cargoType, role, approximateDirections = false) {
+  const gatherState = state === 'gather' && ['food', 'wood'].includes(cargoType)
+      ? `gather-${cargoType}` : state;
+  // First-pass roster: reuse the nearest authored action instead of idle holds.
+  // Keep this opt-in so other art lanes retain their exact-direction behavior.
+  if (approximateDirections && state !== 'idle') {
+    const states = [gatherState, state, ...(state === 'repair' ? ['build'] : [])];
+    for (const action of new Set(states)) {
+      const authored = DIRECTIONS.map((heading, index) => ({
+        clip: clipByKey.get(`${action}|${heading}`), index,
+      })).filter(({ clip }) => clip?.sequence?.some(({ frameId }) => !frameId.startsWith('idle-')));
+      if (authored.length) {
+        const index = Math.max(0, DIRECTIONS.indexOf(direction));
+        const distance = (candidate) => Math.min(Math.abs(candidate - index), 8 - Math.abs(candidate - index));
+        authored.sort((a, b) => distance(a.index) - distance(b.index));
+        return authored[0].clip;
+      }
+    }
+  }
+  return clipByKey.get(`${gatherState}|${direction}`)
+      || clipByKey.get(`${state}|${direction}`)
+      || (state === 'repair' ? clipByKey.get(`build|${direction}`) : null)
+      || (['build', 'repair'].includes(state) && CAST_ROLES.includes(role)
+        ? clipByKey.get(`gather|${direction}`) : null)
+      || clipByKey.get(`idle|${direction}`);
+}
+
 export function spriteDirectory(role, version) {
   const supportedVersions = {
     worker: ['v1', 'v2', 'v3'],
-    infantry: ['v1', 'v2'],
-    archer: ['v1'],
-    human: ['v1'],
+    infantry: ['v1', 'v2', 'v3'],
+    archer: ['v1', 'v2'],
+    spearman: ['v1'],
+    human: ['v1', 'v2', 'v3'],
     orc: ['v1'],
     elf: ['v1'],
     troll: ['v1'],
@@ -73,10 +101,12 @@ function clipFrame(clip, elapsedMs) {
   return clip.sequence.at(-1).frameId;
 }
 
-function activeState(unit, now, attackDurationMs = 900) {
+export function activeState(unit, now, attackDurationMs = 900) {
   if (unit.hp <= 0 && unit.defeatStartedAt > 0) return 'defeat';
   if (unit.walking) return 'walk';
+  if (unit.attackStartedAt > 0 && now - unit.attackStartedAt < attackDurationMs) return 'attack';
   if (unit.kind === 'worker') {
+    if (unit.task === 'repairing') return 'repair';
     if (unit.task === 'building') return 'build';
     if (unit.task === 'gathering') return 'gather';
     return 'idle';
@@ -176,7 +206,7 @@ export function castRoleForUnit(unit) {
 
 export function createUnitSpriteRuntime({
   THREE, scene, capacity, teamHex, cameraQuaternion, roles = UNIT_ROLES, roleSpriteVersions = {},
-  castPreview = false,
+  castPreview = false, humanAppearancePreview = false, approximateActionDirections = false,
 }) {
   const loader = new THREE.TextureLoader();
   const pendingCounts = [0, 0];
@@ -215,7 +245,7 @@ export function createUnitSpriteRuntime({
   }
 
   function roleForUnit(unit) {
-    return castPreview ? castRoleForUnit(unit) : unit.kind;
+    return humanAppearancePreview && unit.kind === 'worker' ? 'human' : castPreview ? castRoleForUnit(unit) : unit.kind;
   }
 
   function update(unit, now, visibleScale) {
@@ -226,10 +256,7 @@ export function createUnitSpriteRuntime({
     if (!selectedPack || !teamBatches) return;
     const state = activeState(unit, now, durationMs(role, 'attack') || 900);
     const direction = normalizedDirection(unit.angle || 0);
-    const clip = selectedPack.clipByKey.get(`${state}|${direction}`)
-      || (state === 'build' && CAST_ROLES.includes(role)
-        ? selectedPack.clipByKey.get(`gather|${direction}`) : null)
-      || selectedPack.clipByKey.get(`idle|${direction}`);
+    const clip = spriteActionClip(selectedPack.clipByKey, state, direction, unit.cargoType, role, approximateActionDirections);
     const frameId = clipFrame(clip, spriteAnimationTime(unit, state, now));
     const frame = selectedPack.frameById.get(frameId);
     const crop = frame && frameRectFor(frame, selectedPack.page.id, selectedPack.layerId);

@@ -1,0 +1,9 @@
+{
+  "seed": 941,
+  "stoneCells": 392,
+  "forestCells": 0,
+  "resourceNodes": 0,
+  "reachableCells": 3656,
+  "spawnRouteConnected": true,
+  "minReservedCorridorWidthCells": 9
+}

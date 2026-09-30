@@ -1,0 +1,93 @@
+{
+  "source": "docs/art-direction/human-roster-v1/source/spearman-idle-facings.png",
+  "frames": [
+    {
+      "frame": 0,
+      "sourceBounds": [
+        132,
+        12,
+        437,
+        455
+      ],
+      "opaquePixels": 39656,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 1,
+      "sourceBounds": [
+        541,
+        13,
+        876,
+        446
+      ],
+      "opaquePixels": 41440,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 2,
+      "sourceBounds": [
+        972,
+        12,
+        1309,
+        445
+      ],
+      "opaquePixels": 43490,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 3,
+      "sourceBounds": [
+        1399,
+        15,
+        1750,
+        446
+      ],
+      "opaquePixels": 42679,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 4,
+      "sourceBounds": [
+        65,
+        437,
+        386,
+        850
+      ],
+      "opaquePixels": 35670,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 5,
+      "sourceBounds": [
+        494,
+        438,
+        861,
+        850
+      ],
+      "opaquePixels": 42110,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 6,
+      "sourceBounds": [
+        936,
+        440,
+        1295,
+        856
+      ],
+      "opaquePixels": 43761,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 7,
+      "sourceBounds": [
+        1347,
+        438,
+        1718,
+        854
+      ],
+      "opaquePixels": 43624,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
-import { validateScenarioRegions, validRegionEntryTrigger } from './scenario-regions.mjs';
+import { regionGestureZone, ScenarioEditHistory } from './scenario-authoring.mjs';
+import { validateScenarioRegions, validRegionEntryTrigger, validCompletionTrigger } from './scenario-regions.mjs';
 import { TERRAIN_COLORS } from './terrain-materials.mjs';
 import { researchOptions, researchAction } from './research-actions.mjs';
 import { unitPresentation, buildingPresentation } from './gameplay-presentation.mjs';
@@ -118,7 +119,7 @@ const UNIT_SPRITE_MARKER_ZOOM_THRESHOLD = 0.6;
 const MAX_OBJECTIVE_FOOD_REWARD = 10000;
 const MAX_TRIGGER_UNIT_REWARD = 25;
 const WORKERS_PER_TEAM = 4;
-const WORKER_TASK_STATES = new Set(['idle', 'moving', 'gathering', 'returning', 'building', 'repairing', 'attacking', 'holding']);
+const WORKER_TASK_STATES = new Set(['idle', 'moving', 'gathering', 'returning', 'building', 'repairing', 'attacking', 'holding', 'patrolling', 'following']);
 const INFANTRY_FOOD_COST = UNIT_DEFINITIONS.infantry.cost.food;
 const INFANTRY_TRAIN_SECONDS = UNIT_DEFINITIONS.infantry.trainSeconds;
 const WORKER_FOOD_COST = UNIT_DEFINITIONS.worker.cost.food;
@@ -154,6 +155,11 @@ let guidanceDismissed = false;
 try { guidanceDismissed = localStorage.getItem('rts-guidance-dismissed') === 'true'; } catch {}
 const objectivePanel = document.querySelector('#objective-panel');
 const roomPageUrl = new URL(window.location.href);
+const humanRosterPreview = roomPageUrl.searchParams.get('humanRosterPreview') === '1'
+  || (!roomPageUrl.searchParams.has('humanRosterPreview')
+    && !roomPageUrl.searchParams.has('castPreview')
+    && !['workerSpritePreview', 'unitSpritePreview', 'meshyInfantrySpritePreview', 'humanVaeloraPreview']
+      .some((key) => roomPageUrl.searchParams.get(key) === '1'));
 const castPreview = roomPageUrl.searchParams.get('castPreview') !== '0'
   && !['workerSpritePreview', 'unitSpritePreview', 'meshyInfantrySpritePreview']
     .some((key) => roomPageUrl.searchParams.get(key) === '1');
@@ -161,19 +167,19 @@ const workerSpritePreview = roomPageUrl.searchParams.get('workerSpritePreview') 
 const unitSpritePreview = roomPageUrl.searchParams.get('unitSpritePreview') === '1';
 const meshyInfantrySpritePreview = roomPageUrl.searchParams.get('meshyInfantrySpritePreview') === '1';
 const unitSpritePreviewRoles = castPreview
-  ? ['human', 'orc', 'elf', 'troll']
+  ? humanRosterPreview ? ['human', 'infantry', 'spearman', 'archer'] : (roomPageUrl.searchParams.get('humanVaeloraPreview') === '1' ? ['human'] : ['human', 'orc', 'elf', 'troll'])
   : meshyInfantrySpritePreview
   ? ['infantry']
   : unitSpritePreview
   ? ['worker', 'infantry', 'archer']
   : ['worker'];
 const unitSpritePreviewVersions = castPreview
-  ? { human: 'v1', orc: 'v1', elf: 'v1', troll: 'v1' }
+  ? humanRosterPreview ? { human: 'v3', infantry: 'v3', spearman: 'v1', archer: 'v2' } : { human: roomPageUrl.searchParams.get('humanVaeloraPreview') === '1' ? (roomPageUrl.searchParams.get('humanAnimationPreview') === '1' ? 'v3' : 'v2') : 'v1', orc: 'v1', elf: 'v1', troll: 'v1' }
   : meshyInfantrySpritePreview
   ? { infantry: 'v2' }
   : workerSpritePreview && !unitSpritePreview ? { worker: 'v2' }
     : !unitSpritePreview ? { worker: 'v3' } : {};
-const unitSpritePreviewRoleSet = new Set(castPreview ? ['worker'] : unitSpritePreviewRoles);
+const unitSpritePreviewRoleSet = new Set(castPreview ? (humanRosterPreview ? ['worker', 'infantry', 'spearman', 'archer'] : ['worker']) : unitSpritePreviewRoles);
 const ROOM_ID = roomPageUrl.searchParams.get('room');
 const HAS_ROOM_PARAMETER = roomPageUrl.searchParams.has('room');
 const ROOM_ID_PATTERN = /^[A-Za-z0-9_-]{32}$/;
@@ -474,7 +480,9 @@ const unitSpriteRuntime = createUnitSpriteRuntime({
   THREE, scene, capacity: MAX_PER_TEAM, teamHex: TEAM_HEX, cameraQuaternion: camera.quaternion,
   roles: unitSpritePreviewRoles,
   roleSpriteVersions: unitSpritePreviewVersions,
+  approximateActionDirections: humanRosterPreview,
   castPreview,
+  humanAppearancePreview: humanRosterPreview || roomPageUrl.searchParams.get('humanVaeloraPreview') === '1',
 });
 unitSpriteRuntime.ready.then((loaded) => {
   if (!loaded) return;
@@ -521,10 +529,51 @@ let latestRosterSize = 1000;
 let matchWinner = -1;
 let matchWinnerReason = null;
 let attackMoveMode = false;
+let persistentTargetMode = null;
 let tapOrderArmed = false;
 let tapOrderPointer = null;
 let knownMaps = [];
 let editorDefinition = null;
+let selectedEditorRegionId = null;
+const scenarioEditHistory = new ScenarioEditHistory(64);
+let scenarioHistoryApplying = false;
+function scenarioEditorState() {
+  return { regions: ui.studioRegions.value, events: editorScenarioEvents,
+    regionId: selectedEditorRegionId, eventId: selectedEditorScenarioEventId };
+}
+function recordScenarioEdit() {
+  if (!scenarioHistoryApplying && editorDefinition) scenarioEditHistory.record(scenarioEditorState());
+  document.querySelector('#studio-scenario-undo').disabled = !scenarioEditHistory.canUndo;
+  document.querySelector('#studio-scenario-redo').disabled = !scenarioEditHistory.canRedo;
+}
+function restoreScenarioEdit(direction) {
+  const state = scenarioEditHistory[direction]();
+  if (!state) return;
+  scenarioHistoryApplying = true;
+  ui.studioRegions.value = state.regions;
+  editorScenarioEvents = state.events;
+  selectedEditorRegionId = state.regionId;
+  selectedEditorScenarioEventId = state.eventId;
+  syncEditorRegionControls(); syncEditorScenarioEventControls(); drawEditorGrid();
+  scenarioHistoryApplying = false;
+  recordScenarioEdit(); scheduleMapStudioDraftSave();
+}
+function syncEditorRegionControls() {
+  const list = document.querySelector('#studio-region-list');
+  let regions; try { regions = readEditorRegions(); } catch { return; }
+  list.replaceChildren(new Option('Select a named region', ''), ...regions.map(r => new Option(r.name, r.id)));
+  list.value = selectedEditorRegionId || '';
+  const selected = regions.find(r => r.id === selectedEditorRegionId);
+  for (const key of ['name','column','row','width','height']) {
+    const field = document.querySelector(`#studio-region-${key}`);
+    field.removeAttribute('aria-invalid'); field.disabled = !selected; field.value = selected ? key === 'name' ? selected.name : selected.zone[key] : '';
+  }
+  document.querySelector('#studio-region-delete').disabled = !selected;
+}
+function writeEditorRegions(regions) {
+  ui.studioRegions.value = JSON.stringify(regions, null, 2);
+  syncEditorRegionControls(); syncEditorScenarioEventControls(); drawEditorGrid(); recordScenarioEdit(); scheduleMapStudioDraftSave();
+}
 let editorDraftSourceMapId = null;
 let editorDraftStorageKey = null;
 let editorDraftDirty = false;
@@ -2283,7 +2332,7 @@ function buildMap(definition) {
     const label = document.createElement('span');
     label.className = 'objective-kicker';
     const eventSourceIds = scenarioEventSourceIds(event.trigger);
-    label.textContent = event.trigger?.type === 'region-entry' ? 'REGION EVENT'
+    label.textContent = validCompletionTrigger(event.trigger) ? 'COMPLETION EVENT' : event.trigger?.type === 'region-entry' ? 'REGION EVENT'
       : event.trigger?.type === 'capture' ? 'CAPTURE EVENT'
       : eventSourceIds.length > 1 ? 'JOINED EVENT'
         : event.trigger?.type === 'event' ? 'CHAINED EVENT' : 'TIMED EVENT';
@@ -2311,7 +2360,7 @@ function buildMap(definition) {
     const sourceEvents = eventSourceIds.map((sourceId) => (
       scenarioEvents.find((source) => source.id === sourceId)
     )).filter(Boolean);
-    const triggerLabel = event.trigger?.type === 'region-entry'
+    const triggerLabel = validCompletionTrigger(event.trigger) ? `ON ${event.trigger.type.toUpperCase()} · ${event.trigger.buildingType || event.trigger.technologyId} · ${event.afterSeconds}s DELAY · ` : event.trigger?.type === 'region-entry'
       ? `ON REACHING ${definition.regions?.find((region) => region.id === event.trigger.regionId)?.name?.toUpperCase() || event.trigger.regionId} · ${event.afterSeconds}s DELAY · `
       : objective
       ? `${event.trigger.occurrence === 'recapture' ? 'ON RECAPTURE OF' : 'ON FIRST CAPTURE OF'} ${objective.name.toUpperCase()} · ${event.afterSeconds}s DELAY · `
@@ -3415,7 +3464,7 @@ function setArmySize(count, showMessage = false) {
 
 function updateStationaryOrderControls(selectedBuilding) {
   const disabled = localTeam === null || matchWinner >= 0 || selectedIds().length === 0 || Boolean(selectedBuilding);
-  for (const button of document.querySelectorAll('[data-stationary-order]')) button.disabled = disabled;
+  for (const button of document.querySelectorAll('[data-stationary-order], [data-persistent-order]')) button.disabled = disabled;
 }
 
 function updateSelectionUI() {
@@ -3481,6 +3530,15 @@ function updateSelectionUI() {
     ui.selectedWaypoints.hidden = selected.size === 0 || queuedWaypointTotal === 0;
     ui.selectedWaypoints.textContent = `${queuedWaypointTotal.toLocaleString()} QUEUED WAYPOINTS · ${unitsWithQueuedWaypoints.toLocaleString()} UNITS`;
   }
+  const persistentCounts = new Map();
+  for (const id of selectedIds()) {
+    const order = units[id]?.persistentOrder;
+    if (order) { const label = `${order.type.toUpperCase()}${order.status === 'blocked' ? ' BLOCKED' : ''}`;
+      persistentCounts.set(label, (persistentCounts.get(label) || 0) + 1); }
+  }
+  const persistentSummary = document.querySelector('#selected-persistent-orders');
+  if (persistentSummary) { persistentSummary.hidden = !persistentCounts.size;
+    persistentSummary.textContent = [...persistentCounts].map(([label, count]) => `${count} ${label}`).join(' · '); }
   updateContextualCommands();
 }
 
@@ -3495,7 +3553,7 @@ function updateContextualCommands() {
   bar.querySelector('[data-context-summary]').textContent = building
     ? `${buildingLabel(building.type)} · ${ui.selectedBuildingHealth.textContent} · ${ui.selectedBuildingProduction.textContent}`
     : context.total ? `${context.total} selected${context.kind === 'military' || context.kind === 'mixed' ? ` · ${ui.formationSelect.value} formation` : ''} · ${Object.entries(context.counts).filter(([, n]) => n).map(([role, n]) => `${n} ${role}`).join(' · ')}${context.counts.worker ? ` · Cargo ${formatResourceStock(context.cargo.food)} food / ${formatResourceStock(context.cargo.wood)} wood` : ''}` : '';
-  for (const button of bar.querySelectorAll('[data-stationary-order]')) {
+  for (const button of bar.querySelectorAll('[data-stationary-order], [data-persistent-order]')) {
     button.hidden = !['workers', 'military', 'mixed'].includes(context.kind);
   }
   updateRosterProductionOptions(bar.querySelector('[data-context-products]'), building);
@@ -3833,7 +3891,7 @@ function renderScenarioEventCountdown(now = performance.now()) {
     } else if (!latestScenarioClockStarted) {
       visual.card.dataset.state = 'waiting';
       visual.status.textContent = 'WAITING FOR BOTH TEAMS';
-    } else if (['capture', 'event', 'region-entry'].includes(visual.event.trigger?.type)
+    } else if (['capture', 'event', 'region-entry', 'construction-complete', 'research-complete'].includes(visual.event.trigger?.type)
       && !Number.isFinite(state?.activatedAtSeconds)) {
       visual.card.dataset.state = 'waiting';
       if (visual.event.trigger.type === 'event') {
@@ -3852,6 +3910,8 @@ function renderScenarioEventCountdown(now = performance.now()) {
           const source = mapDefinition?.scenarioEvents.find((event) => event.id === sourceIds[0]);
           visual.status.textContent = `WAITING FOR ${source?.name?.toUpperCase() || 'SOURCE EVENT'}`;
         }
+      } else if (validCompletionTrigger(visual.event.trigger)) {
+        visual.status.textContent = `WAITING FOR ${visual.event.trigger.buildingType || visual.event.trigger.technologyId} · TEAM ${visual.event.trigger.team}`;
       } else if (visual.event.trigger.type === 'region-entry') {
         const region = mapDefinition?.regions?.find((item) => item.id === visual.event.trigger.regionId);
         visual.status.textContent = `WAITING FOR ${region?.name?.toUpperCase() || 'REGION'}`;
@@ -3866,7 +3926,7 @@ function renderScenarioEventCountdown(now = performance.now()) {
       visual.card.dataset.state = 'pending';
       const repeating = visual.event.repeatCount > 0;
       const dueAt = repeating ? state?.nextFireAtSeconds
-        : ['capture', 'event', 'region-entry'].includes(visual.event.trigger?.type)
+        : ['capture', 'event', 'region-entry', 'construction-complete', 'research-complete'].includes(visual.event.trigger?.type)
           ? state.activatedAtSeconds + visual.event.afterSeconds : visual.event.afterSeconds;
       const remaining = Math.max(0, dueAt - elapsed);
       const wholeSeconds = Math.ceil(remaining);
@@ -3924,6 +3984,7 @@ function updateMatchResult(winner, triggerId = null, reason = null) {
   if (matchWinner >= 0 && buildPlacementActive) cancelBuildPlacement(false);
   if (matchWinner >= 0) {
     attackMoveMode = false;
+    persistentTargetMode = null;
     if (tapOrderArmed) setTapOrderArmed(false, false);
   }
   if (!matchResult) return;
@@ -3976,7 +4037,7 @@ function updateCommandUI() {
     && building.team === localTeam) || null;
   updateStationaryOrderControls(selectedBuilding);
   const rallyCell = Number.isInteger(selectedBuilding?.rallyCell) ? selectedBuilding.rallyCell : -1;
-  const mode = selectedBuilding ? BUILDING_DEFINITIONS[selectedBuilding.type]?.products.length ? 'RALLY' : 'BUILDING' : attackMoveMode ? 'ATTACK MOVE' : 'MOVE';
+  const mode = selectedBuilding ? BUILDING_DEFINITIONS[selectedBuilding.type]?.products.length ? 'RALLY' : 'BUILDING' : persistentTargetMode ? persistentTargetMode.toUpperCase() : attackMoveMode ? 'ATTACK MOVE' : 'MOVE';
   if (ui.commandMode) {
     ui.commandMode.textContent = mode;
     ui.commandMode.dataset.mode = selectedBuilding ? 'rally' : attackMoveMode ? 'attack-move' : 'move';
@@ -4001,7 +4062,7 @@ function updateCommandUI() {
   }
   if (ui.commandTitle) ui.commandTitle.textContent = selectedBuilding
     ? selectedBuilding.home ? 'TOWN CENTER · HOME' : `${buildingLabel(selectedBuilding.type)} #${selectedBuilding.id}`
-    : attackMoveMode ? 'Advance and engage' : 'Move or attack';
+    : persistentTargetMode === 'patrol' ? 'Patrol there and back' : persistentTargetMode === 'follow' ? 'Follow a friendly leader' : attackMoveMode ? 'Advance and engage' : 'Move or attack';
   const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
   const utilityBuilding = selectedBuilding && !BUILDING_DEFINITIONS[selectedBuilding.type]?.products.length;
   if (ui.commandHint) ui.commandHint.textContent = utilityBuilding ? BUILDING_DEFINITIONS[selectedBuilding.type].combat
@@ -4015,6 +4076,11 @@ function updateCommandUI() {
       : (rallyCell >= 0 ? 'Right-click ground to move the production rally' : 'Right-click ground to set a production rally')
       : coarsePointer ? 'Use Target battlefield, then tap a target'
         : attackMoveMode ? 'Right-click ground to advance and engage' : 'Right-click ground or an enemy';
+  if (persistentTargetMode && ui.commandHint) ui.commandHint.textContent = `${tapOrderArmed ? 'Tap or click' : coarsePointer ? 'Use Target battlefield, then tap' : 'Right-click'} ${persistentTargetMode === 'follow' ? 'a friendly unit' : 'ground to set the second patrol endpoint'}`;
+  for (const button of document.querySelectorAll('[data-persistent-order]')) {
+    button.classList.toggle('active', button.dataset.persistentOrder === persistentTargetMode);
+    button.setAttribute('aria-pressed', String(button.dataset.persistentOrder === persistentTargetMode));
+  }
   if (ui.buildingCommandDetails) ui.buildingCommandDetails.hidden = !selectedBuilding || !BUILDING_DEFINITIONS[selectedBuilding.type]?.products.length;
   if (ui.buildingRallyReadout) {
     if (rallyCell >= 0) {
@@ -4093,6 +4159,10 @@ function appendUnitFromState(row, animateSpawn = false) {
 }
 
 function applyState(state, initial = false) {
+  const tracePanel = document.querySelector('#studio-scenario-diagnostics');
+  tracePanel.hidden = !isHost || !Array.isArray(state?.scenarioTrace);
+  if (!tracePanel.hidden) document.querySelector('#studio-scenario-trace').textContent = state.scenarioTrace.map(row =>
+    `${row.name}: ${row.status.toUpperCase()} · ${row.deliveries} deliveries · ${JSON.stringify(row.reason)} · recipients ${row.recipients.join(',')} · activated ${row.activatedAtSeconds ?? 'pending'} by ${row.activatedByTeam}`).join('\n');
   if (state?.rulesetRevision && state.rulesetRevision !== GAMEPLAY_RULESET_REVISION) {
     showToast('GAME RULES CHANGED · RELOAD TO RECONNECT', 10000);
     return;
@@ -4225,6 +4295,12 @@ function applyState(state, initial = false) {
       updateUnitCargoCueColor(unit);
       updateUnitTransform(unit);
       changed = true;
+    }
+  }
+  if (Array.isArray(state.persistentOrders)) {
+    for (const unit of units) if (unit) unit.persistentOrder = null;
+    for (const [id, type, status, targetId] of state.persistentOrders) {
+      if (units[id]?.team === localTeam) units[id].persistentOrder = { type, status, targetId };
     }
   }
   if (Array.isArray(state.queuedWaypointCounts)) applyWaypointQueueCounts(state.queuedWaypointCounts);
@@ -4792,7 +4868,7 @@ function captureMapStudioDraft() {
     resourceNodes: JSON.parse(JSON.stringify(editorResourceNodes)),
     triggers: JSON.parse(JSON.stringify(editorTriggers)),
     scenarioEvents: JSON.parse(JSON.stringify(editorScenarioEvents)),
-    regions: editorDefinition.regions || [],
+    regions: (() => { try { return readEditorRegions(); } catch { return editorDefinition.regions || []; } })(),
     audio: selectedStudioAudio({ allowIncomplete: true }),
   });
   return {
@@ -4860,12 +4936,15 @@ function restoreMapStudioDraft(draft) {
   syncEditorTriggerControls();
   syncEditorScenarioEventControls();
   syncEditorResourceControls();
-  setEditorTool(EDITOR_MATERIALS.includes(state.editorTool) || ['rock', 'cliff', 'ground-reset', 'erase', 'azure', 'ember', 'resource-food', 'resource-wood', 'objective', 'pan'].includes(state.editorTool)
+  setEditorTool(EDITOR_MATERIALS.includes(state.editorTool) || ['rock', 'cliff', 'ground-reset', 'erase', 'azure', 'ember', 'resource-food', 'resource-wood', 'objective', 'pan', 'region-draw', 'region-move', 'region-resize'].includes(state.editorTool)
     || ELEVATION_EDITOR_TOOLS.has(state.editorTool)
     || (typeof state.editorTool === 'string' && state.editorTool.startsWith('ground:')
       && TERRAIN_MATERIALS.includes(state.editorTool.slice(7)))
     ? state.editorTool : 'stone');
   restoreMapStudioFormValues(state.formValues);
+  try { selectedEditorRegionId = readEditorRegions().some(r => r.id === state.formValues?.['studio-region-list']?.value) ? state.formValues['studio-region-list'].value : null; } catch { selectedEditorRegionId = null; }
+  syncEditorRegionControls();
+  scenarioEditHistory.clear(); recordScenarioEdit();
   void refreshStudioAudioPacks(state.formValues?.['studio-audio-pack']?.value
     ? { packId: state.formValues['studio-audio-pack'].value, profileId: state.formValues?.['studio-audio-profile']?.value || '' }
     : undefined);
@@ -5219,7 +5298,7 @@ function describeEditorScenarioEvent(event) {
   const sourceEvents = scenarioEventSourceIds(event.trigger).map((sourceId) => (
     editorScenarioEvents.find((source) => source.id === sourceId)
   )).filter(Boolean);
-  const source = event.trigger?.type === 'region-entry'
+  const source = validCompletionTrigger(event.trigger) ? `${event.trigger.type.toUpperCase()} · ${event.trigger.buildingType || event.trigger.technologyId} · TEAM ${event.trigger.team}` : event.trigger?.type === 'region-entry'
     ? `REGION ${event.trigger.regionId} · ${event.trigger.minimumUnits ?? 1} ${event.trigger.unitKind || 'UNITS'}`
     : objective
     ? `${event.trigger.occurrence === 'recapture' ? 'RECAPTURE' : 'FIRST CAPTURE'} · ${objective.name}`
@@ -5284,6 +5363,10 @@ function saveSelectedEditorScenarioEventFields() {
     event.trigger = { type: 'region-entry', regionId: ui.studioEventRegion.value,
       team: ui.studioEventRegionTeam.value, minimumUnits: Number(ui.studioEventRegionMinimum.value) };
     if (ui.studioEventRegionKind.value) event.trigger.unitKind = ui.studioEventRegionKind.value;
+  } else if (['construction-complete', 'research-complete'].includes(ui.studioEventTrigger.value)) {
+    const type = ui.studioEventTrigger.value;
+    event.trigger = {type, team: document.querySelector('#studio-event-completion-team').value,
+      [type === 'construction-complete' ? 'buildingType' : 'technologyId']: document.querySelector('#studio-event-completion-id').value};
   } else if (ui.studioEventTrigger.value === 'event') {
     const eventIds = [...ui.studioEventSources.querySelectorAll('input[type="checkbox"]:checked')]
       .map((input) => input.value);
@@ -5315,6 +5398,7 @@ function saveSelectedEditorScenarioEventFields() {
   if (ui.studioEventMessage.value.trim()) event.message = ui.studioEventMessage.value;
   else delete event.message;
   renderEditorScenarioEventList();
+  recordScenarioEdit();
 }
 
 function eligibleEditorCaptureTriggers() {
@@ -5387,8 +5471,17 @@ function reconcileEditorScenarioEventTriggers() {
 function syncEditorScenarioEventControls() {
   reconcileEditorScenarioEventCapturingTeams();
   const event = getSelectedEditorScenarioEvent();
+  const completion = ['construction-complete', 'research-complete'].includes(event?.trigger?.type);
+  document.querySelector('#studio-event-completion-control').hidden = !completion;
+  const completionRegistry = event?.trigger?.type === 'research-complete' ? TECHNOLOGY_DEFINITIONS : BUILDING_DEFINITIONS;
+  document.querySelector('#studio-event-completion-id').replaceChildren(new Option('Choose registered ID', ''), ...Object.entries(completionRegistry).map(([id, rule]) => new Option(rule.label, id)));
+  document.querySelector('#studio-event-completion-id').value = event?.trigger?.buildingType || event?.trigger?.technologyId || '';
+  document.querySelector('#studio-event-completion-team').value = event?.trigger?.team || 'either';
   ui.studioEventRegionKind.replaceChildren(new Option('Any living unit', ''),
     ...Object.entries(UNIT_DEFINITIONS).map(([kind, rules]) => new Option(rules.label || kind, kind)));
+  let regionOptions = []; try { regionOptions = readEditorRegions(); } catch {}
+  ui.studioEventRegion.replaceChildren(new Option('Choose a region', ''), ...regionOptions.map(r => new Option(`${r.name} · ${r.id}`, r.id)));
+  if (event?.trigger?.regionId && !regionOptions.some(r => r.id === event.trigger.regionId)) ui.studioEventRegion.add(new Option(`Missing region: ${event.trigger.regionId}`, event.trigger.regionId));
   ui.studioEventRegion.value = event?.trigger?.regionId || '';
   ui.studioEventRegionTeam.value = event?.trigger?.team || 'either';
   ui.studioEventRegionKind.value = event?.trigger?.unitKind || '';
@@ -5432,8 +5525,7 @@ function syncEditorScenarioEventControls() {
   ui.studioEventSources.replaceChildren(...sourceOptions);
   if (event) {
     ui.studioEventName.value = event.name;
-    ui.studioEventTrigger.value = event.trigger?.type === 'capture' ? 'capture'
-      : event.trigger?.type === 'event' ? 'event' : event.trigger?.type === 'region-entry' ? 'region-entry' : 'clock';
+    ui.studioEventTrigger.value = event.trigger?.type || 'clock';
     ui.studioEventObjective.value = event.trigger?.objectiveId || '';
     ui.studioEventOccurrence.value = event.trigger?.occurrence || 'first';
     ui.studioEventAfter.value = event.afterSeconds;
@@ -5471,7 +5563,7 @@ function syncEditorScenarioEventControls() {
   ui.studioEventObjectiveControl.hidden = !captureTriggered;
   ui.studioEventSourceControl.hidden = !eventTriggered;
   ui.studioEventOccurrenceControl.hidden = !captureTriggered;
-  ui.studioEventAfterLabel.firstChild.textContent = captureTriggered
+  ui.studioEventAfterLabel.firstChild.textContent = completion ? 'DELAY AFTER COMPLETION (SECONDS)' : captureTriggered
     ? 'DELAY AFTER CAPTURE (SECONDS)' : eventTriggered
       ? 'DELAY AFTER EVENT (SECONDS)' : event?.trigger?.type === 'region-entry'
         ? 'DELAY AFTER REGION REACHED (SECONDS)' : 'AFTER MATCH START (SECONDS)';
@@ -5517,6 +5609,7 @@ function addEditorScenarioEvent() {
   };
   editorScenarioEvents.push(event);
   selectedEditorScenarioEventId = event.id;
+  recordScenarioEdit();
   syncEditorScenarioEventControls();
   ui.studioMessage.textContent = 'Scenario event added. Set it to start from the match clock or a capture zone.';
 }
@@ -5538,6 +5631,7 @@ function removeSelectedEditorScenarioEvent() {
     resetDependents++;
   }
   selectedEditorScenarioEventId = editorScenarioEvents[Math.min(index, editorScenarioEvents.length - 1)]?.id || null;
+  recordScenarioEdit();
   syncEditorScenarioEventControls();
   ui.studioMessage.textContent = `Removed ${removed.name}.${resetDependents
     ? ` Reset ${resetDependents} dependent event${resetDependents === 1 ? '' : 's'} to the match clock.` : ''}`;
@@ -5681,6 +5775,8 @@ ui.studioAudioPack.addEventListener('change', () => { void refreshStudioAudioPro
 ui.studioAudioProfile.addEventListener('change', scheduleMapStudioDraftSave);
 
 function populateMapEditor(definition, message) {
+  scenarioEditHistory.clear();
+  selectedEditorRegionId = null;
   editorDefinition = JSON.parse(JSON.stringify(definition));
   editorDefinition.fogOfWar ??= false;
   editorDefinition.terrainBase ??= environmentTheme(definition);
@@ -5715,6 +5811,7 @@ function populateMapEditor(definition, message) {
   editorTriggers = JSON.parse(JSON.stringify(editorDefinition.triggers || []));
   editorScenarioEvents = JSON.parse(JSON.stringify(editorDefinition.scenarioEvents || []));
   ui.studioRegions.value = JSON.stringify(editorDefinition.regions || [], null, 2);
+  syncEditorRegionControls();
   selectedEditorTriggerId = editorTriggers[0]?.id || null;
   selectedEditorScenarioEventId = editorScenarioEvents[0]?.id || null;
   editorTriggerCreationPending = false;
@@ -5742,6 +5839,7 @@ function populateMapEditor(definition, message) {
   editorPanDrag = null;
   fitMapStudioViewport();
   setEditorTool('stone');
+  recordScenarioEdit();
 }
 
 function validateImportedMap(value) {
@@ -5995,7 +6093,9 @@ function validateImportedMap(value) {
           && eventTrigger.eventIds.length <= MAX_MAP_SCENARIO_EVENTS - 1
           && eventTrigger.eventIds.every((id) => typeof id === 'string'
             && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)));
-    const validEventTrigger = eventTrigger === undefined || validCaptureTrigger || validEventChain || validRegionEntryTrigger(eventTrigger, regions);
+    if (['construction-complete', 'research-complete'].includes(eventTrigger?.type) && !validCompletionTrigger(eventTrigger)) throw new Error(`Event ${event.id}: choose a registered ${eventTrigger.type === 'construction-complete' ? 'buildingType' : 'technologyId'} and team.`);
+    if (eventTrigger?.type === 'region-entry' && !regions.some(r => r.id === eventTrigger.regionId)) throw new Error(`Event ${event.id}: trigger.regionId must reference an existing named region.`);
+    const validEventTrigger = eventTrigger === undefined || validCaptureTrigger || validEventChain || validRegionEntryTrigger(eventTrigger, regions) || validCompletionTrigger(eventTrigger);
     if (typeof event?.id !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(event.id)
       || scenarioEventIds.has(event.id) || event.type !== 'timed-supply'
       || typeof event.name !== 'string' || !event.name.trim() || event.name.length > 48
@@ -6082,6 +6182,9 @@ function setEditorTool(tool) {
     ember: 'CLICK TO PLACE EMBER SPAWN', 'resource-food': 'CLICK EMPTY CELL TO PLACE · CLICK NODE TO EDIT',
     'resource-wood': 'CLICK EMPTY CELL TO PLACE · CLICK NODE TO EDIT',
     pan: 'DRAG TO PAN · WHEEL TO ZOOM',
+    'region-draw': 'DRAG TO DRAW A NAMED REGION',
+    'region-move': 'DRAG INSIDE A REGION TO SELECT AND MOVE IT',
+    'region-resize': 'DRAG THE LOWER-RIGHT EXTENT TO RESIZE A REGION',
     'elevation:raise': 'DRAG TO RAISE GROUND ONE LEVEL · MAX 2',
     'elevation:lower': 'DRAG TO LOWER GROUND ONE LEVEL · MIN 0',
     'elevation:0': 'DRAG TO LEVEL GROUND AT 0',
@@ -6186,8 +6289,14 @@ function resizeEditorMap() {
   editorGroundMaterials = resizedGround;
   editorGroundLevels = resizedGroundLevels;
   editorCellElevations = resizedElevations;
+  const regions = readEditorRegions();
   editorDefinition.width = width;
   editorDefinition.height = height;
+  for (const region of regions) {
+    region.zone.column = Math.min(width-1,region.zone.column); region.zone.row = Math.min(height-1,region.zone.row);
+    region.zone.width = Math.min(region.zone.width,width-region.zone.column); region.zone.height = Math.min(region.zone.height,height-region.zone.row);
+  }
+  scenarioEditHistory.clear(); writeEditorRegions(regions);
   editorDefinition.spawnPoints = resizedSpawns.markers;
   let clippedZones = 0;
   for (const trigger of editorTriggers) {
@@ -6366,7 +6475,7 @@ function drawEditorGrid() {
       context.fillStyle = 'rgba(203, 143, 247, .15)';
       context.fillRect(column, row, width, height);
       context.strokeStyle = '#ce9af3';
-      context.lineWidth = 0.12;
+      context.lineWidth = region.id === selectedEditorRegionId ? 0.25 : 0.12;
       context.setLineDash([0.4, 0.3]);
       context.strokeRect(column, row, width, height);
       context.setLineDash([]);
@@ -6376,6 +6485,11 @@ function drawEditorGrid() {
       context.restore();
     }
   } catch { /* Validation reports malformed regions when publishing or exporting. */ }
+  if (editorDrag?.tool.startsWith('region-')) {
+    const zone = regionGestureZone(editorDrag, editorDefinition.width, editorDefinition.height);
+    context.strokeStyle = '#ffffff'; context.lineWidth = .2;
+    context.strokeRect(zone.column, zone.row, zone.width, zone.height);
+  }
   for (const [index, trigger] of editorTriggers.entries()) {
     const zone = trigger.zone;
     const isSelected = trigger.id === selectedEditorTriggerId;
@@ -6590,6 +6704,7 @@ function collectEditorMap() {
   saveEditorStartingResourcesFields();
   saveEditorMatchOpeningFields();
   saveSelectedEditorScenarioEventFields();
+  if (document.querySelector('[id^="studio-region-"][aria-invalid="true"]')) throw new Error('Correct the invalid region field before publishing or exporting.');
   if (!saveSelectedEditorResourceStock()) throw new Error('Resource node stock must be a positive number.');
   if (editorTriggerCreationPending) throw new Error('Finish placing the new capture zone before exporting or publishing.');
   const id = ui.studioId.value.trim();
@@ -6973,6 +7088,7 @@ function selectedIds() {
 }
 
 function issueStationaryOrder(type) {
+  persistentTargetMode = null;
   if (localTeam === null || matchWinner >= 0) return;
   const ids = selectedIds();
   if (!ids.length) { showToast('SELECT YOUR UNITS BEFORE ISSUING AN ORDER'); return; }
@@ -6985,8 +7101,22 @@ for (const button of document.querySelectorAll('[data-stationary-order]')) {
   button.addEventListener('click', () => issueStationaryOrder(button.dataset.stationaryOrder));
 }
 
+function setPersistentTargetMode(type) {
+  if (localTeam === null || matchWinner >= 0 || !selectedIds().length) return;
+  attackMoveMode = false;
+  persistentTargetMode = persistentTargetMode === type ? null : type;
+  updateCommandUI();
+  showToast(persistentTargetMode === 'patrol' ? 'PATROL READY · TARGET GROUND TO PATROL THERE AND BACK'
+    : persistentTargetMode === 'follow' ? 'FOLLOW READY · TARGET A FRIENDLY UNIT'
+    : 'MOVE MODE READY');
+}
+for (const button of document.querySelectorAll('[data-persistent-order]')) {
+  button.addEventListener('click', () => setPersistentTargetMode(button.dataset.persistentOrder));
+}
+
 function setAttackMoveMode(enabled, announce = true) {
   if (enabled && (localTeam === null || matchWinner >= 0)) return;
+  if (enabled) persistentTargetMode = null;
   attackMoveMode = Boolean(enabled);
   updateCommandUI();
   if (announce) showToast(attackMoveMode
@@ -7017,18 +7147,21 @@ function issueMove(point, queueWaypoint = false) {
   const ids = selectedIds();
   if (ids.length === 0) { showToast('SELECT YOUR UNITS BEFORE ISSUING AN ORDER'); return; }
   const attackMoveOrder = attackMoveMode;
-  const type = attackMoveOrder ? 'attackMove' : 'move';
+  if (persistentTargetMode === 'follow') { showToast('FOLLOW NEEDS A FRIENDLY UNIT TARGET'); return; }
+  const patrolOrder = persistentTargetMode === 'patrol';
+  const type = patrolOrder ? 'patrol' : attackMoveOrder ? 'attackMove' : 'move';
   const formation = ['line', 'column'].includes(ui.formationSelect?.value)
     ? ui.formationSelect.value : 'box';
   if (sendTrackedOrder({ type, ids, x: point.x, z: point.z, formation,
-    ...(queueWaypoint ? { queue: true } : {}) },
-  queueWaypoint ? 'QUEUE WAYPOINT' : attackMoveOrder ? 'ATTACK MOVE' : 'MOVE', ids.length)) {
+    ...(queueWaypoint && !patrolOrder ? { queue: true } : {}) },
+  patrolOrder ? 'PATROL' : queueWaypoint ? 'QUEUE WAYPOINT' : attackMoveOrder ? 'ATTACK MOVE' : 'MOVE', ids.length)) {
     moveMarker.position.set(point.x, 0.045, point.z);
     moveMarker.material.color.setHex(attackMoveOrder ? 0xf0b47c : 0xe5f79a);
     moveMarker.scale.setScalar(1);
     moveMarker.material.opacity = 0.95;
     moveMarker.visible = true;
     moveMarkerAge = 0;
+    if (patrolOrder) { persistentTargetMode = null; updateCommandUI(); }
     if (attackMoveOrder) setAttackMoveMode(false, false);
   }
 }
@@ -7106,6 +7239,19 @@ function issueContextOrder(clientX, clientY, queueWaypoint = false) {
   const rect = renderer.domElement.getBoundingClientRect();
   const x = clientX - rect.left;
   const y = clientY - rect.top;
+  if (persistentTargetMode === 'patrol') {
+    const point = worldAt(clientX, clientY); if (point) issueMove(point); return;
+  }
+  if (persistentTargetMode === 'follow') {
+    const friendly = pickAt(x, y, unit => unit.team === localTeam)?.unit;
+    if (!friendly) { showToast('FOLLOW NEEDS A FRIENDLY UNIT TARGET'); return; }
+    const ids = selectedIds().filter(id => id !== friendly.id);
+    if (!ids.length) { showToast('SELECT FOLLOWERS OTHER THAN THE LEADER'); return; }
+    if (sendTrackedOrder({ type: 'follow', ids, targetId: friendly.id }, 'FOLLOW', ids.length)) {
+      persistentTargetMode = null; setTapOrderArmed(false, false); updateCommandUI();
+    }
+    return;
+  }
   const enemyPick = localTeam === null ? null : pickAt(x, y, (unit) => unit.team !== localTeam);
   const enemy = enemyPick?.unit || null;
   if (enemy) {
@@ -7322,6 +7468,7 @@ function beginBuildPlacement(type) {
   syncSelectionMesh();
   updateSelectionUI();
   attackMoveMode = false;
+  persistentTargetMode = null;
   updateCommandUI();
   buildPlacementType = type;
   buildPlacementActive = true;
@@ -8315,6 +8462,10 @@ window.addEventListener('keydown', (event) => {
     }
   }
   if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey
+    && ['p', 'f'].includes(event.key.toLowerCase())) {
+    event.preventDefault(); setPersistentTargetMode(event.key.toLowerCase() === 'p' ? 'patrol' : 'follow'); return;
+  }
+  if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey
     && ['s', 'h'].includes(event.key.toLowerCase())) {
     event.preventDefault();
     issueStationaryOrder(event.key.toLowerCase() === 's' ? 'stop' : 'holdPosition');
@@ -8329,6 +8480,7 @@ window.addEventListener('keydown', (event) => {
   if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey
     && event.key.toLowerCase() === 'a') selectWholeTeam();
   if (event.key === 'Escape') {
+    if (persistentTargetMode) { persistentTargetMode = null; updateCommandUI(); return; }
     if (tapOrderArmed) {
       setTapOrderArmed(false);
       return;
@@ -8552,7 +8704,23 @@ ui.studioEventTrigger.addEventListener('change', () => {
   saveSelectedEditorScenarioEventFields();
   syncEditorScenarioEventControls();
 });
-ui.studioRegions.addEventListener('input', drawEditorGrid);
+for (const id of ['studio-event-completion-team', 'studio-event-completion-id']) document.querySelector(`#${id}`).addEventListener('change', saveSelectedEditorScenarioEventFields);
+ui.studioRegions.addEventListener('input', () => { syncEditorRegionControls(); syncEditorScenarioEventControls(); drawEditorGrid(); recordScenarioEdit(); });
+document.querySelector('#studio-region-list').addEventListener('change', e => { selectedEditorRegionId = e.target.value; syncEditorRegionControls(); drawEditorGrid(); });
+document.querySelector('#studio-region-delete').addEventListener('click', () => {
+  const regions = readEditorRegions().filter(r => r.id !== selectedEditorRegionId);
+  selectedEditorRegionId = null; writeEditorRegions(regions);
+  ui.studioMessage.textContent = 'Region removed. Events referencing it must choose another region before publishing; undo restores it.';
+});
+for (const key of ['name','column','row','width','height']) document.querySelector(`#studio-region-${key}`).addEventListener('change', e => {
+  try {
+    const regions = readEditorRegions(); const region = regions.find(r => r.id === selectedEditorRegionId); if (!region) return;
+    if (key === 'name') region.name = e.target.value; else region.zone[key] = Number(e.target.value);
+    validateScenarioRegions({ ...editorDefinition, regions }); e.target.removeAttribute('aria-invalid'); writeEditorRegions(regions);
+  } catch (error) { ui.studioMessage.textContent = error.message; e.target.setAttribute('aria-invalid','true'); }
+});
+document.querySelector('#studio-scenario-undo').addEventListener('click', () => restoreScenarioEdit('undo'));
+document.querySelector('#studio-scenario-redo').addEventListener('click', () => restoreScenarioEdit('redo'));
 for (const field of [ui.studioEventRegion, ui.studioEventRegionTeam, ui.studioEventRegionKind,
   ui.studioEventRegionMinimum]) field.addEventListener('change', saveSelectedEditorScenarioEventFields);
 ui.studioEventObjective.addEventListener('change', saveSelectedEditorScenarioEventFields);
@@ -8624,6 +8792,20 @@ ui.studioGrid.addEventListener('pointerdown', (event) => {
   if (event.button !== 0) return;
   const cell = editorCellFromPointer(event);
   if (!cell) return;
+  if (editorTool === 'region-draw' || editorTool === 'region-move' || editorTool === 'region-resize') {
+    let regions; try { regions = readEditorRegions(); } catch (error) { ui.studioMessage.textContent = error.message; return; }
+    recordScenarioEdit();
+    if (editorTool !== 'region-draw') {
+      const region = [...regions].reverse().find(r => cell.column >= r.zone.column && cell.column < r.zone.column+r.zone.width && cell.row >= r.zone.row && cell.row < r.zone.row+r.zone.height);
+      if (!region) { selectedEditorRegionId = null; syncEditorRegionControls(); drawEditorGrid(); return; }
+      selectedEditorRegionId = region.id;
+      editorDrag = { tool: editorTool, start: cell, current: cell, regionId: region.id, zone: {...region.zone} };
+    } else {
+      if (regions.length >= 32) { ui.studioMessage.textContent = 'At most 32 named regions.'; return; }
+      editorDrag = { tool: editorTool, start: cell, current: cell };
+    }
+    syncEditorRegionControls(); ui.studioGrid.setPointerCapture(event.pointerId); drawEditorGrid(); event.preventDefault(); return;
+  }
   if (editorTool === 'resource-food' || editorTool === 'resource-wood') {
     const resourceType = editorTool === 'resource-wood' ? 'wood' : 'food';
     if (!saveSelectedEditorResourceStock()) return;
@@ -8733,6 +8915,20 @@ function finishEditorPointer(event, commit) {
   if (!editorDrag) return;
   const drag = editorDrag;
   editorDrag = null;
+  if (drag.tool.startsWith('region-')) {
+    if (commit) {
+      drag.current = editorCellFromPointer(event) || drag.current;
+      const regions = readEditorRegions();
+      const zone = regionGestureZone(drag, editorDefinition.width, editorDefinition.height);
+      if (drag.tool === 'region-draw') {
+        let suffix = 1; while (regions.some(r => r.id === `region-${suffix}`)) suffix++;
+        selectedEditorRegionId = `region-${suffix}`;
+        regions.push({id:selectedEditorRegionId, name:`Region ${suffix}`, zone});
+      } else { const region = regions.find(r => r.id === drag.regionId); if (region) region.zone = zone; }
+      writeEditorRegions(regions);
+    } else drawEditorGrid();
+    return;
+  }
   if (commit) {
     const next = editorCellFromPointer(event) || drag.current;
     if (isGroundEditorTool(drag.tool)) paintEditorGroundStroke(drag, next);

@@ -1,5 +1,5 @@
 // Bounded declarative regions share grid coordinates with terrain and objectives.
-import { UNIT_DEFINITIONS } from './gameplay-definitions.mjs';
+import { UNIT_DEFINITIONS, BUILDING_DEFINITIONS, TECHNOLOGY_DEFINITIONS } from './gameplay-definitions.mjs';
 const idPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export function validateScenarioRegions(definition) {
   const regions = definition.regions ?? [];
@@ -43,4 +43,21 @@ export function regionEntryTeam(trigger, regions, units, width, height) {
   }
   return (trigger.team === 'either' ? [0, 1] : [Number(trigger.team)])
     .find((team) => counts[team] >= (trigger.minimumUnits ?? 1)) ?? -1;
+}
+
+// Completion is a first qualifying completed-state condition, including initial state.
+// Either-team ties choose Azure; later completions never rearm the same event.
+export function validCompletionTrigger(trigger) {
+  const construction = trigger?.type === 'construction-complete';
+  if (!construction && trigger?.type !== 'research-complete') return false;
+  const field = construction ? 'buildingType' : 'technologyId';
+  const registry = construction ? BUILDING_DEFINITIONS : TECHNOLOGY_DEFINITIONS;
+  return !Array.isArray(trigger) && Object.keys(trigger).every(key => ['type', 'team', field].includes(key))
+    && ['0', '1', 'either'].includes(trigger.team) && Object.hasOwn(registry, trigger[field]);
+}
+export function completionTeam(trigger, buildings, upgrades) {
+  return (trigger.team === 'either' ? [0, 1] : [Number(trigger.team)]).find(team =>
+    trigger.type === 'construction-complete'
+      ? buildings.some(building => building.team === team && building.type === trigger.buildingType && building.hp > 0 && building.complete)
+      : upgrades[team]?.[TECHNOLOGY_DEFINITIONS[trigger.technologyId]?.upgradeKey] === true) ?? -1;
 }

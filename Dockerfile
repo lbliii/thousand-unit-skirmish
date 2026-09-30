@@ -43,3 +43,8 @@ RUN mkdir -p /app/custom-maps /app/room-data && chown node:node /app/custom-maps
 
 EXPOSE 4173
 ENTRYPOINT ["/bin/sh", "/app/deploy/entrypoint.sh"]
+COPY --chown=node:node assets/units/cast-human-sprite-v2/sprite-atlas-pack-v1.json assets/units/cast-human-sprite-v2/cast-atlas-runtime.png assets/units/cast-human-sprite-v2/team-accent-mask.png ./assets/units/cast-human-sprite-v2/
+COPY --chown=node:node assets/units/cast-human-sprite-v3/sprite-atlas-pack-v1.json assets/units/cast-human-sprite-v3/cast-atlas-runtime.png assets/units/cast-human-sprite-v3/team-accent-mask.png ./assets/units/cast-human-sprite-v3/
+COPY --chown=node:node assets/units/infantry-sprite-v3/sprite-atlas-pack-v1.json assets/units/infantry-sprite-v3/infantry-atlas-runtime.png assets/units/infantry-sprite-v3/team-accent-mask.png ./assets/units/infantry-sprite-v3/
+COPY --chown=node:node assets/units/archer-sprite-v2/sprite-atlas-pack-v1.json assets/units/archer-sprite-v2/archer-atlas-runtime.png assets/units/archer-sprite-v2/team-accent-mask.png ./assets/units/archer-sprite-v2/
+COPY --chown=node:node assets/units/spearman-sprite-v1/sprite-atlas-pack-v1.json assets/units/spearman-sprite-v1/spearman-atlas-runtime.png assets/units/spearman-sprite-v1/team-accent-mask.png ./assets/units/spearman-sprite-v1/

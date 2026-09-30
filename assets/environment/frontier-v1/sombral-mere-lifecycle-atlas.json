@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-sombral-mere-lifecycle-atlas",
+  "packVersion": "1.0.0",
+  "maturity": "runtime-candidate",
+  "provenance": {
+    "license": "project-owned",
+    "source": "sombral-mere-lifecycle-manifest.json",
+    "authoringTool": "Pillow deterministic page packing",
+    "notes": "Exact decoded approved runtime pixels, no repaint or rescaling. Runtime WebP quality86; PNG page preserves exact decoded approved pixels. Fixed camera; state clips reserve direction IDs. 64px transparent RGB edge-extension gutter, mip cap6, half-texel inset. Original generated masters retained."
+  },
+  "files": [
+    {
+      "id": "source",
+      "path": "sombral-mere-lifecycle-atlas.png",
+      "usage": "source",
+      "format": "png",
+      "sha256": "c3d9f3519698c859a54ef1811ce758b4a61b4964e0ec5e7937fc2a62759cc14b",
+      "dimensionsPx": {
+        "width": 1664,
+        "height": 2304
+      }
+    },
+    {
+      "id": "runtime",
+      "path": "sombral-mere-lifecycle-atlas.webp",
+      "usage": "runtime",
+      "format": "webp",
+      "sha256": "9009452521f7b593ef380442c3b125be354785aa7e44beb1a223ccaff4388e40",
+      "dimensionsPx": {
+        "width": 1664,
+        "height": 2304
+      }
+    }
+  ],
+  "pages": [
+    {
+      "id": "color",
+      "sourceFileId": "source",
+      "runtimeFileId": "runtime",
+      "dimensionsPx": {
+        "width": 1664,
+        "height": 2304
+      },
+      "colorSpace": "srgb",
+      "pixelFormat": "rgba8",
+      "alphaMode": "straight",
+      "edgeRule": "bleed-rgb-under-transparent",
+      "gutterPx": 64,
+      "gutterRule": "edge-extended",
+      "wrapMode": "clamp",
+      "sampling": {
+        "generateMipmaps": true,
+        "minFilter": "linear-mipmap-linear",
+        "magFilter": "linear",
+        "uvInsetPx": 0.5,
+        "maxMipLevel": 6
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "sombral-mere-merebloom",
+      "kind": "environment",
+      "artBoundsWorld": {
+        "min": [
+          -1.3,
+          0,
+          0
+        ],
+        "max": [
+          1.3,
+          3.7,
+          0
+        ]
+      },
+      "heightWorld": 3.7,
+      "sortAnchorWorld": [
+        0,
+        0,
+        0
+      ],
+      "frames": [
+        {
+          "id": "full",
+          "canvasPx": {
+            "width": 704,
+            "height": 1024
+          },
+          "groundPivotPx": {
+            "x": 352.0,
+            "y": 1024
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 1,
+            "y": 1,
+            "width": 702,
+            "height": 1023
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 64,
+              "y": 64,
+              "width": 704,
+              "height": 1024
+            }
+          }
+        },
+        {
+          "id": "worked",
+          "canvasPx": {
+            "width": 704,
+            "height": 1024
+          },
+          "groundPivotPx": {
+            "x": 352.0,
+            "y": 1024
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 704,
+            "height": 1023
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 896,
+              "y": 64,
+              "width": 704,
+              "height": 1024
+            }
+          }
+        },
+        {
+          "id": "low",
+          "canvasPx": {
+            "width": 704,
+            "height": 1024
+          },
+          "groundPivotPx": {
+            "x": 352.0,
+            "y": 1024
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 704,
+            "height": 1024
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 64,
+              "y": 1216,
+              "width": 704,
+              "height": 1024
+            }
+          }
+        },
+        {
+          "id": "depleted",
+          "canvasPx": {
+            "width": 704,
+            "height": 1024
+          },
+          "groundPivotPx": {
+            "x": 352.0,
+            "y": 1024
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 169,
+            "y": 705,
+            "width": 442,
+            "height": 314
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 896,
+              "y": 1216,
+              "width": 704,
+              "height": 1024
+            }
+          }
+        }
+      ],
+      "clips": [
+        {
+          "stateId": "full",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "full",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "worked",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "worked",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "low",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "low",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "depleted",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "depleted",
+              "durationMs": 1000
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

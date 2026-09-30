@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-sombral-mere-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "sombral-mere-merebloom.png",
+  "prompts": "SOMBRAL-MERE-LIFECYCLE-PROMPTS.json",
+  "provenance": "Original built-in ImageGen against approved Sombral Mere ecology and project painted finish. Unmodified PNG; full-state shared crop, LANCZOS max1024 RGBA WebP quality86 method6. Generated alpha preserved. No measured perspective calibration or moon-elf survival claim.",
+  "files": [
+    {
+      "path": "sombral-mere-merebloom.png",
+      "role": "source-image",
+      "sha256": "473639da683e08b061cffbf9030124a8ceb95c7c37bbab733b938f365a890844",
+      "dimensionsPx": {
+        "width": 1054,
+        "height": 1493
+      },
+      "bytes": 1708124
+    },
+    {
+      "path": "sombral-mere-merebloom.webp",
+      "role": "runtime-image",
+      "sha256": "126422c5056c7648805a500d33f173c2b0da559915440e3d9f713675ed2c554b",
+      "dimensionsPx": {
+        "width": 704,
+        "height": 1024
+      },
+      "bytes": 294212
+    },
+    {
+      "path": "sombral-mere-merebloom-worked.png",
+      "role": "source-image",
+      "sha256": "7cc6db00738894479ff6f594345a1bd78661d223b41e9f061904fc51198f25b5",
+      "dimensionsPx": {
+        "width": 1053,
+        "height": 1493
+      },
+      "bytes": 1605969
+    },
+    {
+      "path": "sombral-mere-merebloom-worked.webp",
+      "role": "runtime-image",
+      "sha256": "66d192c478b595f7f39d75e252c114cc93a903df868ebcb7d81f4eb8682cc068",
+      "dimensionsPx": {
+        "width": 704,
+        "height": 1024
+      },
+      "bytes": 209532
+    },
+    {
+      "path": "sombral-mere-merebloom-low.png",
+      "role": "source-image",
+      "sha256": "5da22583d9d90d7480d94bc3673c813fdabca27c74d7533ef16754aac250bfd5",
+      "dimensionsPx": {
+        "width": 1054,
+        "height": 1493
+      },
+      "bytes": 1559116
+    },
+    {
+      "path": "sombral-mere-merebloom-low.webp",
+      "role": "runtime-image",
+      "sha256": "a19621d3cd3373498a7b8156ae3cb15797822d4d565cde1b3c48262d911e3a4b",
+      "dimensionsPx": {
+        "width": 704,
+        "height": 1024
+      },
+      "bytes": 186732
+    },
+    {
+      "path": "sombral-mere-merebloom-depleted.png",
+      "role": "source-image",
+      "sha256": "6aed119dcfb507bb6eaf6a304a1d7bd7bfb3f9adf65e99019a593070489cc88f",
+      "dimensionsPx": {
+        "width": 1054,
+        "height": 1493
+      },
+      "bytes": 269037
+    },
+    {
+      "path": "sombral-mere-merebloom-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "c819ef707efe4609f925b7cb764360b1caa1585b7e9d0524bfb2d803621665e5",
+      "dimensionsPx": {
+        "width": 704,
+        "height": 1024
+      },
+      "bytes": 32728
+    }
+  ],
+  "assets": [
+    {
+      "id": "sombral-mere-merebloom",
+      "stage": "full",
+      "sourceOutputId": "exec-adcfaaf9-fbd0-44cf-81bb-d70df23ce012",
+      "sourceFile": "sombral-mere-merebloom.png",
+      "runtimeFile": "sombral-mere-merebloom.webp",
+      "cropBoxPx": [
+        60,
+        27,
+        1020,
+        1424
+      ],
+      "logicalCanvasPx": [
+        1054,
+        1493
+      ],
+      "worldSize": {
+        "width": 2.6,
+        "height": 3.7
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "sombral-mere-merebloom-worked",
+      "stage": "worked",
+      "sourceOutputId": "exec-970453fc-b1c8-4410-a300-80b4ade0e3d3",
+      "sourceFile": "sombral-mere-merebloom-worked.png",
+      "runtimeFile": "sombral-mere-merebloom-worked.webp",
+      "cropBoxPx": [
+        60,
+        27,
+        1020,
+        1424
+      ],
+      "logicalCanvasPx": [
+        1054,
+        1493
+      ],
+      "worldSize": {
+        "width": 2.6,
+        "height": 3.7
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "sourceCanvasPx": [
+        1053,
+        1493
+      ],
+      "registrationNote": "Reviewed one-pixel canvas edge difference outside shared crop; no resize, translation or pixel repair."
+    },
+    {
+      "id": "sombral-mere-merebloom-low",
+      "stage": "low",
+      "sourceOutputId": "exec-105b7763-3619-4d65-a746-cb5da61cef30",
+      "sourceFile": "sombral-mere-merebloom-low.png",
+      "runtimeFile": "sombral-mere-merebloom-low.webp",
+      "cropBoxPx": [
+        60,
+        27,
+        1020,
+        1424
+      ],
+      "logicalCanvasPx": [
+        1054,
+        1493
+      ],
+      "worldSize": {
+        "width": 2.6,
+        "height": 3.7
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "sombral-mere-merebloom-depleted",
+      "stage": "depleted",
+      "sourceOutputId": "exec-2bbdce27-1ed4-4b71-8ca8-8f7f0f756312",
+      "sourceFile": "sombral-mere-merebloom-depleted.png",
+      "runtimeFile": "sombral-mere-merebloom-depleted.webp",
+      "cropBoxPx": [
+        60,
+        27,
+        1020,
+        1424
+      ],
+      "logicalCanvasPx": [
+        1054,
+        1493
+      ],
+      "worldSize": {
+        "width": 2.6,
+        "height": 3.7
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    }
+  ]
+}

@@ -208,7 +208,10 @@ async function waitForPage(expression, description, timeoutMs = 20_000) {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     checkInterrupted();
-    if (await cdp.evaluate(expression)) return;
+    try { if (await cdp.evaluate(expression)) return; }
+    catch (error) {
+      if (!/Inspected target navigated|Cannot find context|Execution context was destroyed/.test(error.message)) throw error;
+    }
     await sleep(100);
   }
   throw new Error(`Timed out waiting for ${description}.`);
@@ -244,6 +247,14 @@ async function clickGridCell(column, row) {
   const y = bounds.top + bounds.height * (row + 0.5) / 64;
   await cdp.call('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', clickCount: 1 });
   await cdp.call('Input.dispatchMouseEvent', { type: 'mouseReleased', x, y, button: 'left', clickCount: 1 });
+}
+
+async function dragGrid(fromColumn, fromRow, toColumn, toRow) {
+  const b=await cdp.evaluate(`(() => {const r=document.querySelector('#studio-grid').getBoundingClientRect();return {left:r.left,top:r.top,width:r.width,height:r.height};})()`);
+  const point=(column,row)=>({x:b.left+b.width*(column+.5)/64,y:b.top+b.height*(row+.5)/64});
+  await cdp.call('Input.dispatchMouseEvent',{type:'mousePressed',...point(fromColumn,fromRow),button:'left',clickCount:1});
+  await cdp.call('Input.dispatchMouseEvent',{type:'mouseMoved',...point(toColumn,toRow),button:'left',buttons:1});
+  await cdp.call('Input.dispatchMouseEvent',{type:'mouseReleased',...point(toColumn,toRow),button:'left',clickCount:1});
 }
 
 async function reloadAndWait(gameUrl) {
@@ -298,6 +309,23 @@ try {
   const initialResourceCount = await cdp.evaluate("Number.parseInt(document.querySelector('#studio-resource-count').textContent, 10)");
   await setField('#studio-name', 'Draft Recovery Test Map');
   await setField('#studio-starting-food', '750');
+  await click('[data-map-tool="region-draw"]');
+  await dragGrid(20,20,23,23);
+  assert.deepEqual(await cdp.evaluate("JSON.parse(document.querySelector('#studio-regions').value)[0].zone"),{column:20,row:20,width:4,height:4});
+  await setField('#studio-region-name','Visual Pass');
+  await click('[data-map-tool="region-move"]'); await dragGrid(21,21,23,22);
+  assert.deepEqual(await cdp.evaluate("JSON.parse(document.querySelector('#studio-regions').value)[0].zone"),{column:22,row:21,width:4,height:4});
+  await click('[data-map-tool="region-resize"]'); await dragGrid(25,24,27,26);
+  assert.deepEqual(await cdp.evaluate("JSON.parse(document.querySelector('#studio-regions').value)[0].zone"),{column:22,row:21,width:6,height:6});
+  await click('#studio-scenario-undo');
+  assert.equal(await cdp.evaluate("JSON.parse(document.querySelector('#studio-regions').value)[0].zone.width"),4);
+  await click('#studio-scenario-redo');
+  assert.equal(await cdp.evaluate("JSON.parse(document.querySelector('#studio-regions').value)[0].zone.width"),6);
+  await click('#studio-region-delete');
+  assert.equal(await cdp.evaluate("JSON.parse(document.querySelector('#studio-regions').value).length"),0);
+  await click('#studio-scenario-undo');
+  assert.equal(await cdp.evaluate("JSON.parse(document.querySelector('#studio-regions').value)[0].name"),'Visual Pass');
+  await click('[data-map-tool="stone"]');
   await setField('#studio-regions', JSON.stringify([{ id: 'draft-pass', name: 'Draft Pass', zone: { column: 20, row: 20, width: 4, height: 4 } }]));
   await cdp.evaluate("(() => { const field = document.querySelector('#studio-fog-of-war'); field.checked = true; field.dispatchEvent(new Event('change', { bubbles: true })); })()");
 
@@ -366,6 +394,13 @@ try {
   await click('#studio-add-event');
   await setField('#studio-event-name', 'Recovered Supply');
   await setField('#studio-event-after', '95');
+  await setField('#studio-event-trigger','construction-complete');
+  await setField('#studio-event-completion-id','barracks');
+  await setField('#studio-event-completion-team','1');
+  await waitForPage("(() => {const k=Object.keys(localStorage).find(k=>k.includes(':map-studio-draft:'));return k && JSON.parse(localStorage.getItem(k)).editor.definition.scenarioEvents[0]?.trigger?.buildingType==='barracks';})()",'typed construction condition');
+  await setField('#studio-event-trigger','research-complete');
+  await setField('#studio-event-completion-id','infantry-attack');
+  await waitForPage("(() => {const k=Object.keys(localStorage).find(k=>k.includes(':map-studio-draft:'));return k && JSON.parse(localStorage.getItem(k)).editor.definition.scenarioEvents[0]?.trigger?.technologyId==='infantry-attack';})()",'typed research condition');
   await setField('#studio-event-trigger', 'region-entry');
   await setField('#studio-event-region', 'draft-pass');
   await setField('#studio-event-region-team', '1');
@@ -393,6 +428,20 @@ try {
   assert.ok(saved.terrainBlocks > 0);
   assert.equal(saved.resourceCount, initialResourceCount + 1);
 
+  await click('#studio-add-event');
+  await setField('#studio-event-name','Construction Relief');
+  await setField('#studio-event-trigger','construction-complete');
+  await setField('#studio-event-completion-id','barracks');
+  await setField('#studio-event-completion-team','0');
+  await click('#studio-add-event');
+  await setField('#studio-event-name','Research Relief');
+  await setField('#studio-event-trigger','research-complete');
+  await setField('#studio-event-completion-id','infantry-attack');
+  await setField('#studio-event-completion-team','1');
+  await click('#studio-add-event');
+  await setField('#studio-event-name','Joined Relief');
+  await setField('#studio-event-trigger','event');
+  await cdp.evaluate(`(() => {const group=document.querySelector('#studio-event-sources'); const fields=[...group.querySelectorAll('input')];for(const field of fields) field.checked=true;group.dispatchEvent(new Event('change',{bubbles:true}));})()`);
   await cdp.call('Browser.setDownloadBehavior', { behavior: 'allow', downloadPath: tempRoot });
   const exportedId = await cdp.evaluate("document.querySelector('#studio-id').value");
   await click('#studio-download');
@@ -404,6 +453,10 @@ try {
     await sleep(100);
   }
   assert.ok(exported, 'Download JSON should produce a validated portable map');
+  assert.equal(exported.scenarioEvents.length,4);
+  assert.deepEqual(exported.scenarioEvents[1].trigger,{type:'construction-complete',team:'0',buildingType:'barracks'});
+  assert.deepEqual(exported.scenarioEvents[2].trigger,{type:'research-complete',team:'1',technologyId:'infantry-attack'});
+  assert.deepEqual(exported.scenarioEvents[3].trigger.eventIds,exported.scenarioEvents.slice(0,3).map(e=>e.id));
   assert.equal(exported.regions[0].id, 'draft-pass');
   assert.deepEqual(exported.scenarioEvents[0].trigger, saved.eventTrigger);
   await setField('#studio-regions', '[]');
@@ -415,6 +468,15 @@ try {
   assert.equal(await cdp.evaluate("document.querySelector('#studio-event-trigger').value"), 'region-entry');
   assert.equal(await cdp.evaluate("document.querySelector('#studio-event-region-kind').value"), 'worker');
 
+  await setField('#studio-regions','{invalid draft');
+  await sleep(450);
+  await click('#map-studio-close'); await reloadAndWait(gameUrl); await click('#map-studio-open');
+  await waitForPage("document.querySelector('#studio-draft-recovery')?.hidden === false",'invalid local draft prompt');
+  await click('#studio-draft-restore');
+  assert.equal(await cdp.evaluate("document.querySelector('#studio-regions').value"),'{invalid draft');
+  await click('#studio-download');
+  assert.match(await cdp.evaluate("document.querySelector('#studio-message').textContent"),/valid JSON/);
+  await setField('#studio-regions',JSON.stringify([{id:'draft-pass',name:'Draft Pass',zone:{column:20,row:20,width:4,height:4}}]));
   await setField('#studio-name', 'Changed After Recovery');
   await click('#map-studio-close');
   await reloadAndWait(gameUrl);
@@ -440,6 +502,7 @@ try {
     status: 'passed',
     sourceMapId: 'open-field',
     persistedComponents: ['terrain', 'resources', 'pending capture placement', 'starting resources', 'fog', 'scenario event', 'named regions', 'region conditions'],
+    graphicalRegionTools: 'passed', typedCompletionForms: 'passed', completionRegionJoinedChainExportImport: 'passed', invalidDraftRecovery: 'passed',
     regionJsonExportImport: 'passed',
     closeReloadRestore: 'passed',
     discard: 'passed',

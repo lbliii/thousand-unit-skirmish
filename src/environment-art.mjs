@@ -17,11 +17,12 @@ const spriteNames = [
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'bellweather-field-maple-worked', 'bellweather-field-maple-low', 'bellweather-field-maple-depleted',
-  'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
+  'veyrholds-highpine', 'veyrholds-ironlichen-outcrop', 'ru-lora-fiendwood', 'ru-lora-stone-fern',
   'underbough-copperleaf', 'underbough-bramble',
   'sereward-palm', 'sereward-acacia', 'sereward-scrub',
   'sereward-palm-worked', 'sereward-palm-low', 'sereward-palm-depleted',
   'pale-meridian-conifer', 'pale-meridian-conifer-worked', 'pale-meridian-conifer-low', 'pale-meridian-conifer-depleted',
+  'sombral-mere-merebloom', 'sombral-mere-merebloom-worked', 'sombral-mere-merebloom-low', 'sombral-mere-merebloom-depleted',
   'vesperra-mistbark', 'vesperra-mistbark-worked', 'vesperra-mistbark-low', 'vesperra-mistbark-depleted',
   'siltmouths-tidal-tree', 'siltmouths-tidal-tree-worked', 'siltmouths-tidal-tree-low', 'siltmouths-tidal-tree-depleted',
   'ellionar-cultivated-palm', 'ellionar-garden-hedge',
@@ -33,7 +34,7 @@ const spriteMaterials = new Map();
 const constructionTextures = new Map();
 const constructionMaterials = new Map();
 const constructionInstances = new Map();
-const forestAtlasPacks = new Map(await Promise.all(['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra'].map(async (region) => {
+const forestAtlasPacks = new Map(await Promise.all(['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere'].map(async (region) => {
   try {
     const response = await fetch(`${ASSET_ROOT}${region}-lifecycle-atlas.json`);
     if (!response.ok) throw new Error(`atlas metadata HTTP ${response.status}`);
@@ -549,7 +550,11 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     && definition.id !== 'meshy-resource-review';
   const vesperra = environmentTheme(definition) === 'jungle-loam'
     && definition.id !== 'meshy-resource-review';
-  const pineName = vesperra ? 'vesperra-mistbark' : siltmouths ? 'siltmouths-tidal-tree' : paleMeridian ? 'pale-meridian-conifer' : ellionar ? 'ellionar-cultivated-palm' : sereward ? 'sereward-palm' : veyrholds ? 'veyrholds-highpine' : 'pine';
+  const sombralMere = environmentTheme(definition) === 'lunar-soil'
+    && definition.id !== 'meshy-resource-review';
+  const ruLora = environmentTheme(definition) === 'salt-crust'
+    && definition.id !== 'meshy-resource-review';
+  const pineName = sombralMere ? 'sombral-mere-merebloom' : vesperra ? 'vesperra-mistbark' : siltmouths ? 'siltmouths-tidal-tree' : paleMeridian ? 'pale-meridian-conifer' : ellionar ? 'ellionar-cultivated-palm' : sereward ? 'sereward-palm' : veyrholds ? 'veyrholds-highpine' : 'pine';
   const mapleName = sereward ? 'sereward-acacia' : underbough ? 'underbough-copperleaf'
     : bellweather ? 'bellweather-field-maple' : 'field-maple';
   const thicketName = ellionar ? 'ellionar-garden-hedge' : sereward ? 'sereward-scrub' : underbough ? 'underbough-bramble'
@@ -561,6 +566,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
   const hazelThickets = [];
   const outcrops = [];
   const boulderClusters = [];
+  const stoneFerns = [];
   const ridges = [];
   const ridgeCaps = [];
   const cliffs = [];
@@ -585,6 +591,11 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
             point.scale = 0.72 + scaleVariation * 0.32;
             point.yaw = 0;
             (treeType < 0.45 ? oaks : pines).push(point);
+            continue;
+          }
+          if (sombralMere) {
+            point.scale = 0.76 + scaleVariation * 0.2;
+            pines.push(point);
             continue;
           }
           if (vesperra) {
@@ -660,7 +671,8 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
             };
             if ((obstacle.elevation ?? 1.12) < 1) {
               if (variation(index + 59) < 0.5) {
-                boulderClusters.push({
+                const cluster = ruLora && variation(index + 83) < 0.65 ? stoneFerns : boulderClusters;
+                cluster.push({
                   ...point,
                   scale: 0.82 + variation(index + 61) * 0.3,
                 });
@@ -686,12 +698,13 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     }
   }
   for (const [name, width, height, points] of [
-    [pineName, vesperra || siltmouths ? 3.1 : paleMeridian || ellionar || sereward || veyrholds ? 2.7 : 2.25, siltmouths ? 3.0 : paleMeridian || ellionar || sereward ? 3.8 : 3.4, pines],
+    [pineName, sombralMere ? 2.6 : vesperra || siltmouths ? 3.1 : paleMeridian || ellionar || sereward || veyrholds ? 2.7 : 2.25, sombralMere ? 3.7 : siltmouths ? 3.0 : paleMeridian || ellionar || sereward ? 3.8 : 3.4, pines],
     ['oak', 3.05, 2.86, oaks],
     ['silver-birch', 2.3, 3.45, birches],
     [mapleName, sereward ? 3.5 : 3.05, sereward ? 2.85 : 3.25, maples],
     [thicketName, ellionar ? 2.8 : sereward ? 2.6 : 3.1, ellionar ? 1.8 : sereward ? 1.7 : 2.07, hazelThickets],
-    [veyrholds ? 'veyrholds-ironlichen-outcrop' : 'rock-outcrop', 3.5, 2.2, outcrops],
+    [ruLora ? 'ru-lora-fiendwood' : veyrholds ? 'veyrholds-ironlichen-outcrop' : 'rock-outcrop', ruLora ? 3.3 : 3.5, ruLora ? 3.2 : 2.2, outcrops],
+    ['ru-lora-stone-fern', 2.511, 1.65, stoneFerns],
     ['rock-boulder-cluster', 2.7, 1.8, boulderClusters],
     ['basalt-ridge', 3.6, 3.05, ridges],
     ['basalt-ridge-cap', 3.4, 2.25, ridgeCaps],
@@ -702,7 +715,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       || createEnvironmentSpriteInstances(name, width, height, points);
     if (!mesh) continue;
     let stateMeshes;
-    if (!mesh.userData.forestAtlas && ['bellweather-field-maple', 'sereward-palm', 'pale-meridian-conifer', 'siltmouths-tidal-tree', 'vesperra-mistbark'].includes(name)) {
+    if (!mesh.userData.forestAtlas && ['bellweather-field-maple', 'sereward-palm', 'pale-meridian-conifer', 'siltmouths-tidal-tree', 'vesperra-mistbark', 'sombral-mere-merebloom'].includes(name)) {
       stateMeshes = { full: mesh };
       for (const stage of ['worked', 'low', 'depleted']) {
         const stateMesh = createEnvironmentSpriteInstances(`${name}-${stage}`, width, height,

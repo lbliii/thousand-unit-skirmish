@@ -47,6 +47,7 @@ Run from the repository root:
 | --- | --- |
 | Map logic / elevation | `node scripts/map-utils-scenario.mjs` / `node scripts/elevation-scenario.mjs` |
 | Default map geometry | `node scripts/forked-vale-layout.mjs` |
+| Fortified Crossing foundation | `node scripts/fortified-crossing-layout.mjs` and `node scripts/fortified-crossing-economy.mjs`; [evidence and scale runner](qa-custom-skirmish.md) |
 | Larger map geometry | `node scripts/frontier-160-layout.mjs` |
 | Highland Grove definition | `node scripts/generate-highland-grove.mjs --check` |
 | Complete Forked Vale scenario, each winner | `node scripts/forked-vale-scenario.mjs 0` and `node scripts/forked-vale-scenario.mjs 1` |
@@ -60,6 +61,9 @@ Run from the repository root:
 | Producer destruction, replacement builders, and population caps | `node scripts/production-lifecycle-scenario.mjs` |
 | Forest clearing | `node scripts/harvestable-woodland-scenario.mjs` |
 | Forest route repair / exact deposits | `node scripts/worker-cargo-return-scenario.mjs` and `node scripts/worker-cargo-return-scenario.mjs frontier-160` |
+| Patrol / Follow intent and replanning bounds | `node --test scripts/persistent-command.test.mjs` |
+| Both-seat Patrol / Follow combat, recovery, interruptions and obstruction | `node scripts/persistent-command-scenario.mjs` |
+| Patrol / Follow actual browser controls and large selections | `node scripts/persistent-command-browser.mjs` (installed Chrome; owner-run headless smoke) |
 | Queued routes and checkpoint recovery | `node scripts/queued-waypoint-scenario.mjs` |
 | Queue HUD metadata under backpressure | `node --test scripts/waypoint-backpressure.test.mjs` |
 | Route repair after construction | `node scripts/live-attack-move-repair-scenario.mjs` |
@@ -175,3 +179,13 @@ Separate logic, protocol, browser appearance, local performance, deployed
 behavior, and human comprehension. A pass in one category does not establish
 another. Keep raw measurements with their build; put current instructions here
 and dated evidence in the [archive](archive/README.md).
+
+Scenario authoring regressions: `node --test scripts/scenario-authoring.test.mjs`
+checks bounded history/gestures and completion registry semantics;
+`node scripts/completion-event-scenario.mjs` checks both-seat activation, initial
+completed state, technology grants, pending restart, exact rewards, rematch,
+and host-only diagnostics. `node scripts/progression-scenario.mjs` also observes
+completion conditions during paid construction and research.
+`node scripts/map-studio-draft-scenario.mjs` runs isolated headless Chrome for
+region gestures, name/delete, undo/redo, typed conditions, local recovery and
+JSON export/import. These are scripted checks, not unassisted human evidence.

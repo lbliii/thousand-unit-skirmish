@@ -1,5 +1,24 @@
 # Frontier environment art
 
+## Sombral Mere merebloom · 30 September 2026
+
+The [merebloom source sample](../assets/environment/frontier-v1/sombral-mere-lifecycle-manifest.json)
+uses the approved key's slender pearl trunk, lavender willow-like foliage and
+deep teal shadows. The [exact prompts](../assets/environment/frontier-v1/SOMBRAL-MERE-LIFECYCLE-PROMPTS.json)
+record built-in ImageGen authoring against the ecology key and existing painted
+finish. Lunar-soil base maps now use merebloom forests with four stock stages
+in one atlas and individual-texture fallback. The [focused local evidence](qa-evidence/vaelora-sombral-mere-atlas-2026-09-30/README.md)
+covers camera alignment, live harvesting/reset, fallback and packaging. Its colours are painted into ordinary matte
+surfaces, with no baked glow, water or reflections. This vegetation sample does
+not settle the region's open questions about moon-elf survival or lunar rites.
+
+The worked master is one pixel narrower than the intact master, outside their
+shared crop. Its manifest records the actual source canvas and reviewed exception;
+the export applies no resize or translation to compensate. The frame helper's
+explicit `--allow-outside-crop-edge-difference` option admits at most one pixel
+per dimension only when the entire shared crop fits both canvases. Larger or
+crop-intersecting differences still fail.
+
 ## Vesperra mistbark · 30 September 2026
 
 The [mistbark source sample](../assets/environment/frontier-v1/vesperra-lifecycle-manifest.json)
@@ -423,3 +442,27 @@ reconnect tests pass. Future painted-art briefs should state orthographic view,
 are guidance, not proof of an AI-painted image's intrinsic perspective. Exact
 source-view calibration requires a reproducible 3D capture or a measured art
 construction.
+
+## Ru’Lora petrified Fiendwood · 30 September 2026
+
+The [approved ecology key](art-direction/vaelora-v1/ru-lora-ecology.png) now has a first runtime petrified-interior specimen: [Fiendwood source](../assets/environment/frontier-v1/ru-lora-fiendwood.png), [manifest](../assets/environment/frontier-v1/ru-lora-manifest.json) and [exact prompt](../assets/environment/frontier-v1/RU-LORA-PROMPTS.json). Charcoal and dusty violet stone leaves carry ivory mineral seams and restrained cold opal accents. The master is unchanged built-in ImageGen output; runtime packaging crops and encodes with exact alpha.
+
+`addObstacleEnvironmentSprites` selects Fiendwood for the existing low stone-outcrop batch on salt-crust bases, except `meshy-resource-review`. Boulder clusters, taller ridges and cliffs retain their existing art. Existing stone obstacle cells still govern collision. This specimen is scenery, not mineable mineral or harvestable wood; extraction practice remains an open lore question. Authored forest cells still use existing woodland sprites and rules, so they do not yet represent Ru’Lora’s petrified interior. The living fringe is a separate proposal.
+
+One fixed oblique view and intact state are supplied. Mirroring provides silhouette variation, not another perspective. The 45° azimuth / 45.4359° elevation prompt guides the painting; it is not a measured source projection. The runtime uses the shared upright camera-facing basis. No destruction or harvesting animation is claimed for this nonharvestable prop.
+
+[Owner-run appearance evidence](qa-evidence/vaelora-ru-lora-2026-09-30/README.md) covers ordinary/strategic renderer views, lazy loading, regional binding and preserved forest slots. Broader fauna, dense interior composition, mineral harvesting, staging and performance proofs remain unfinished.
+
+## Ru’Lora stone fern companion · 30 September 2026
+
+[Stone fern source](../assets/environment/frontier-v1/ru-lora-stone-fern.png) extends the [Ru’Lora manifest](../assets/environment/frontier-v1/ru-lora-manifest.json) to v1.1.0. Its low spreading fan uses the approved charcoal/violet/ivory palette and small opal traces. Generated PNG is unchanged; exact prompt and source ID are recorded with the Fiendwood sample. Runtime alpha is preserved through crop and WebP encoding.
+
+On salt-crust maps, 65% of the existing low boulder-cluster placements deterministically select the fern, while remaining clusters retain boulders and existing outcrops retain Fiendwood. No new positions or collision cells are added. Other terrain bases, tall stone barriers, resource nodes and `meshy-resource-review` keep existing bindings. The renderer uses 2.511 × 1.65 world units, matching the cropped sprite aspect ratio; one intact fixed-oblique scenery view only.
+
+[Mixed scenery evidence](qa-evidence/vaelora-ru-lora-ferns-2026-09-30/README.md) shows the lower silhouette beside Fiendwood, plus lazy loading and eleven-base binding checks. This adds composition variety; it does not finish a dense petrified jungle, its fauna or extraction rules.
+
+## Ru’Lora interior composition study · 30 September 2026
+
+The [64×64 importable study](qa-evidence/vaelora-ru-lora-interior-2026-09-30/ru-lora-interior-study.json) groups the integrated petrified trees, stone ferns and boulders into six irregular clusters. Salt-crust and cinder companion paint establish a continuous ground palette; clear spawn spaces and a winding corridor preserve navigation readability. It contains stone scenery, no harvestable forest or resource nodes, and is not a balanced economy scenario. Import with Map Studio → Import → Save & Play.
+
+[Local game evidence](qa-evidence/vaelora-ru-lora-interior-2026-09-30/README.md) proves import/publish, sprite requests and close/whole-map appearance. A reproducible grid check confirms spawn connectivity and a nine-cell reserved corridor; actual unit travel and competitive balance remain unproven. Dense placement makes repeated crowns and similar lightness more visible: broken/crownless trunks and darker canopy silhouettes are the next composition need. The study remains editable source/evidence, outside the default shipped map catalog.
