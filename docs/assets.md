@@ -127,3 +127,5 @@ Ellionar garden-loam maps include sparse Sunbloom companions beneath palms and h
 Sereward sand-map forests include sparse turquoise/coral succulent companions that clear with their parent forest cells. See the [manifest](../assets/environment/frontier-v1/sereward-understory-manifest.json) and [environment guide](environment-pack-v1.md) for source/runtime details and scope.
 
 Vesperra shade ferns now mix two terrain-seeded silhouettes within the existing companion selection. The [variation manifest](../assets/environment/frontier-v1/vesperra-fern-variation-manifest.json) records the second source/runtime sprite. Both clear and reset with their parent forest cells.
+
+Bellweather meadow/grass-base forests include sparse meadow-herb clumps with cream/yellow flowers and pink clover, clearing with parent forest cells. See the [manifest](../assets/environment/frontier-v1/bellweather-understory-manifest.json) and [environment guide](environment-pack-v1.md) for sources, placement and remaining scope.

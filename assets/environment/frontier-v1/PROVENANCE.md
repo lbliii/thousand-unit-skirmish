@@ -298,3 +298,7 @@ Original built-in ImageGen against project-owned approved Sereward ecology key's
 ## Vesperra fern silhouette variation · 30 September 2026
 
 Built-in ImageGen used the project-owned original shade fern as palette/finish reference to generate a fuller five-frond sibling. [Exact prompt](VESPERRA-FERN-VARIATION-PROMPTS.json) and [manifest](vesperra-fern-variation-manifest.json) record selected source ID, dimensions, crop and hashes. Selected PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact generated alpha. Solid-background composite checked transparency. No repainting or alpha repair. Painted camera projection approximate; actual runtime roll measured separately.
+
+## Bellweather meadow herbs · 30 September 2026
+
+Original built-in ImageGen against the project-owned approved Bellweather ecology key's meadow-herb specimen. [Exact prompt](BELLWEATHER-UNDERSTORY-PROMPTS.json) and [manifest](bellweather-understory-manifest.json) record selected source ID, reference hash, dimensions, crop and file hashes. Selected PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background composite inspected leaf gaps and surroundings. No local repainting or alpha repair. One approximate painted oblique view; runtime roll measured separately.

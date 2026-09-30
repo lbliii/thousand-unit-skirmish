@@ -1,0 +1,177 @@
+{
+  "forestCells": 256,
+  "understoryCells": 75,
+  "cells": [
+    80,
+    109,
+    132,
+    153,
+    174,
+    368,
+    412,
+    418,
+    421,
+    90,
+    150,
+    155,
+    179,
+    198,
+    209,
+    234,
+    278,
+    293,
+    295,
+    298,
+    340,
+    366,
+    373,
+    389,
+    390,
+    395,
+    79,
+    114,
+    129,
+    178,
+    233,
+    257,
+    273,
+    305,
+    324,
+    350,
+    352,
+    367,
+    392,
+    396,
+    397,
+    425,
+    436,
+    437,
+    441,
+    89,
+    104,
+    111,
+    136,
+    161,
+    176,
+    195,
+    202,
+    208,
+    226,
+    230,
+    254,
+    268,
+    300,
+    323,
+    339,
+    344,
+    388,
+    449,
+    77,
+    101,
+    134,
+    227,
+    245,
+    251,
+    320,
+    321,
+    387,
+    422,
+    448
+  ],
+  "workedRetained": true,
+  "depletedHidden": true,
+  "resetRestored": true,
+  "batches": 1,
+  "variantCounts": {
+    "bellweather-meadow-herbs": 75
+  },
+  "maxScreenRollDegrees": 7.951386703658798e-15,
+  "raisedGroundContact": true,
+  "parentFamilies": [
+    "pine",
+    "oak",
+    "silver-birch",
+    "bellweather-field-maple",
+    "bellweather-hedgerow"
+  ],
+  "seedFixtures": [
+    {
+      "terrainBase": "meadow",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "short-grass",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "long-grass",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "dry-grass",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "jungle-loam",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "tidal-mud",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "snow",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "ice",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "lunar-soil",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "forest-floor",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "scree",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "garden-loam",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "sand",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    }
+  ]
+}

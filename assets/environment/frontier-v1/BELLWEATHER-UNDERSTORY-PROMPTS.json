@@ -1,0 +1,7 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Use case: game environment sprite. Create one compact clump of Bellweather meadow herbs from the bottom-right specimen of the provided approved ecology key: three cream daisy flowers with warm yellow centers, two butter-yellow five-petal flowers, one muted dusty pink clover blossom, a few broad sage-green leaves and quiet olive grass blades. Warm inviting painterly RTS finish, broad readable strokes and grouped shapes, restrained detail. A low naturally asymmetric clump, not a bouquet or planter, no barley, animals or trees. Orthographic camera 45.44 degrees above ground, 45 degree azimuth, world vertical upright with zero screen roll, visible upper petal surfaces without dramatic tilt. Entire plant isolated centered with generous transparent margin, ground/root base bottom-center. Genuine transparent alpha, no soil patch, no stones, no cast shadow cloud, no aura or glow, no text, no labels. Exactly one plant clump. Preserve Bellweather sage/butter/cream palette and modest ordinary countryside atmosphere.",
+  "reference": "../../../docs/art-direction/vaelora-v1/bellweather-ecology.png",
+  "transparentBackground": true,
+  "selectedOutput": "exec-e8f81281-2952-4e7a-8234-0836af2b29d3.png"
+}

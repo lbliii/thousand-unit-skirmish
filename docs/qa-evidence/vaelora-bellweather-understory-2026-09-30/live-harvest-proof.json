@@ -1,0 +1,20 @@
+{
+  "mapId": "bellweather-harvest-check",
+  "targetCell": 768,
+  "family": "bellweather-field-maple",
+  "observed": [
+    {
+      "stage": "worked",
+      "stock": 3.966669
+    },
+    {
+      "stage": "low",
+      "stock": 1.966671
+    },
+    {
+      "stage": "depleted",
+      "stock": 0
+    }
+  ],
+  "reset": true
+}

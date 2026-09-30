@@ -602,3 +602,9 @@ The approved key's [water-storing succulent](../assets/environment/frontier-v1/s
 A [second shade fern](../assets/environment/frontier-v1/vesperra-fern-variation-manifest.json) adds a fuller five-frond silhouette with one curled shoot beside the original open fan. Existing selected jungle-loam companion cells choose either silhouette with a terrain-seeded equal-share partition. Overall 28% cell selection, jitter and scale remain; the two variants use separate instanced meshes. Each follows its parent's received stock, staying through partial harvest, disappearing at zero and restoring on reset.
 
 [Local evidence](qa-evidence/vaelora-vesperra-fern-variation-2026-09-30/README.md) records both silhouettes, seeded distribution, ground contact, screen roll and clearing/reset. These are two plant shapes at one approximate painted view; registered multi-directional sources and independent fern harvesting remain future work.
+
+## Bellweather meadow herbs · 30 September 2026
+
+The approved ecology key's [meadow herbs](../assets/environment/frontier-v1/bellweather-understory-manifest.json) add cream daisies, butter-yellow flowers and muted pink clover among sage/olive leaves. Meadow, short-grass, long-grass and dry-grass base maps use the existing terrain-seeded28% forest-cell companion selection. One instanced mesh accompanies the current tree/hedge mix; plants remain through partial harvest, clear at received stock zero and restore on reset. Hidden cells retain their last received stock.
+
+[Local evidence](qa-evidence/vaelora-bellweather-understory-2026-09-30/README.md) covers parent families, regional loading, seeded variation, camera/ground contact and clearing/reset. Generated PNG unchanged; cropped WebP preserves alpha. This adds countryside color without food or collision cells. Open-meadow flower patches, barley, fauna and extra painted viewpoints remain future outcomes.
