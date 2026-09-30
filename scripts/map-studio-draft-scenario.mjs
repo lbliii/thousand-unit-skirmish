@@ -428,6 +428,20 @@ try {
   assert.ok(saved.terrainBlocks > 0);
   assert.equal(saved.resourceCount, initialResourceCount + 1);
 
+  await click('#studio-add-event');
+  await setField('#studio-event-name','Construction Relief');
+  await setField('#studio-event-trigger','construction-complete');
+  await setField('#studio-event-completion-id','barracks');
+  await setField('#studio-event-completion-team','0');
+  await click('#studio-add-event');
+  await setField('#studio-event-name','Research Relief');
+  await setField('#studio-event-trigger','research-complete');
+  await setField('#studio-event-completion-id','infantry-attack');
+  await setField('#studio-event-completion-team','1');
+  await click('#studio-add-event');
+  await setField('#studio-event-name','Joined Relief');
+  await setField('#studio-event-trigger','event');
+  await cdp.evaluate(`(() => {const group=document.querySelector('#studio-event-sources'); const fields=[...group.querySelectorAll('input')];for(const field of fields) field.checked=true;group.dispatchEvent(new Event('change',{bubbles:true}));})()`);
   await cdp.call('Browser.setDownloadBehavior', { behavior: 'allow', downloadPath: tempRoot });
   const exportedId = await cdp.evaluate("document.querySelector('#studio-id').value");
   await click('#studio-download');
@@ -439,6 +453,10 @@ try {
     await sleep(100);
   }
   assert.ok(exported, 'Download JSON should produce a validated portable map');
+  assert.equal(exported.scenarioEvents.length,4);
+  assert.deepEqual(exported.scenarioEvents[1].trigger,{type:'construction-complete',team:'0',buildingType:'barracks'});
+  assert.deepEqual(exported.scenarioEvents[2].trigger,{type:'research-complete',team:'1',technologyId:'infantry-attack'});
+  assert.deepEqual(exported.scenarioEvents[3].trigger.eventIds,exported.scenarioEvents.slice(0,3).map(e=>e.id));
   assert.equal(exported.regions[0].id, 'draft-pass');
   assert.deepEqual(exported.scenarioEvents[0].trigger, saved.eventTrigger);
   await setField('#studio-regions', '[]');
@@ -484,7 +502,7 @@ try {
     status: 'passed',
     sourceMapId: 'open-field',
     persistedComponents: ['terrain', 'resources', 'pending capture placement', 'starting resources', 'fog', 'scenario event', 'named regions', 'region conditions'],
-    graphicalRegionTools: 'passed', typedCompletionForms: 'passed', invalidDraftRecovery: 'passed',
+    graphicalRegionTools: 'passed', typedCompletionForms: 'passed', completionRegionJoinedChainExportImport: 'passed', invalidDraftRecovery: 'passed',
     regionJsonExportImport: 'passed',
     closeReloadRestore: 'passed',
     discard: 'passed',

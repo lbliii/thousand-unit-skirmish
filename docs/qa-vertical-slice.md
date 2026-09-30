@@ -562,7 +562,8 @@ were present for Azure and absent for Ember on a no-fog map.
 
 The owner-run headless Chrome authoring run passed draw/move/resize/name/delete,
 64-edit history behavior via focused tests, undo/redo in the browser, typed
-completion forms, draft reopen and region JSON export/import. The expanded invalid-draft run passed restoration of malformed local JSON and
+completion forms, draft reopen and JSON export/import of a joined region /
+construction / research reward chain. The expanded invalid-draft run passed restoration of malformed local JSON and
 blocked export until correction. One Chrome/CDP navigation error during reload
 was resolved by the rerun; bounded reload polling now tolerates context replacement. This local scripted evidence does not establish staging,
 Fortified Crossing balance, an unassisted creator/friend session or human comprehension.
