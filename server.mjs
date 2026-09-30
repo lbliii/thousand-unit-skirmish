@@ -6882,6 +6882,7 @@ const server = createServer(async (request, response) => {
     && ['oak', 'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
       'bellweather-field-maple', 'bellweather-hedgerow',
       'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
+      'underbough-copperleaf', 'underbough-bramble',
       'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
       'berries', 'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
       ...TERRAIN_MATERIALS].includes(path.basename(relative, path.extname(relative)));

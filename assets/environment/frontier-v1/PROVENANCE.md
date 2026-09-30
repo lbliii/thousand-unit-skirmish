@@ -148,3 +148,12 @@ Vaelora Veyrholds ecology key. [Prompts](VEYRHOLDS-PROMPTS.json) and
 checksums, dimensions and encoding. Source PNGs are unchanged generated
 outputs. Runtime cropping/downscaling/encoding preserves alpha without
 repainting. No third-party image inputs were used.
+
+## Underbough rooted woodland — 30 September 2026
+
+The Copperleaf and fruitless woody bramble derive from the approved Underbough
+ecology key. [Prompts](UNDERBOUGH-PROMPTS.json) and
+[manifest](underbough-manifest.json) preserve source output identifiers,
+reference hash, dimensions and runtime encoding. Source PNG masters are
+unmodified generated outputs. Packaging only crops to content bounds,
+downscales and encodes RGBA WebP. No third-party image inputs were used.

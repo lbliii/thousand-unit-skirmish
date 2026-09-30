@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-underbough",
+  "packVersion": "1.0.0",
+  "reference": "docs/art-direction/vaelora-v1/underbough-ecology.png",
+  "referenceSha256": "8a20fa0f121641e6066e144e80fa8f699c74a1884efab21c79c81bb5776cc264",
+  "prompts": "UNDERBOUGH-PROMPTS.json",
+  "provenance": "Original built-in ImageGen art derived from project ecology key; no third-party image inputs. Unmodified PNG masters. Runtime packaging crops to alpha>=21 bounds without repainting pixels, Pillow LANCZOS max1024 RGBA WebP quality86 method6.",
+  "files": [
+    {
+      "path": "underbough-copperleaf.png",
+      "role": "source-image",
+      "sha256": "e6203be5337f19f800d6792271e2bd8521d8c9c01093b129012fe76e7c08aa43",
+      "dimensionsPx": {
+        "width": 1312,
+        "height": 1199
+      },
+      "bytes": 2328165
+    },
+    {
+      "path": "underbough-copperleaf.webp",
+      "role": "runtime-image",
+      "sha256": "ba23936960966235deb47e385dbfad78fdf6cd3eedb718b1e446acbd2acb67e6",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 930
+      },
+      "bytes": 409702
+    },
+    {
+      "path": "underbough-bramble.png",
+      "role": "source-image",
+      "sha256": "9fb6000b2c96f6a4f38041a68984e9bd04351d69a9d2175fb5e05c677c7d8f90",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 2061290
+    },
+    {
+      "path": "underbough-bramble.webp",
+      "role": "runtime-image",
+      "sha256": "a06f899588c5b565ade4457eb11328f470d8c476dc0f503e6b1c09491f06004e",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 544
+      },
+      "bytes": 209830
+    }
+  ],
+  "assets": [
+    {
+      "id": "underbough-copperleaf",
+      "sourceOutputId": "exec-84bd4b6c-0bcb-4570-9c2c-ef18a5d4cf03",
+      "sourceFile": "underbough-copperleaf.png",
+      "runtimeFile": "underbough-copperleaf.webp",
+      "cropBoxPx": [
+        10,
+        12,
+        1299,
+        1183
+      ],
+      "worldSize": {
+        "width": 3.05,
+        "height": 3.25
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "kind": "harvestable-forest-sprite",
+      "forestSelectionShare": 0.8
+    },
+    {
+      "id": "underbough-bramble",
+      "sourceOutputId": "exec-fcc3e21c-a622-4770-9d4c-219b1b0b0721",
+      "sourceFile": "underbough-bramble.png",
+      "runtimeFile": "underbough-bramble.webp",
+      "cropBoxPx": [
+        37,
+        125,
+        1519,
+        913
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 2.07
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "kind": "harvestable-forest-sprite",
+      "forestSelectionShare": 0.2
+    }
+  ]
+}

@@ -16,6 +16,7 @@ const spriteNames = [
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
+  'underbough-copperleaf', 'underbough-bramble',
   'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
   'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
 ];
@@ -33,7 +34,8 @@ function loadSprite(url) {
   return texture;
 }
 
-const sprites = Object.fromEntries(spriteNames.map((name) => [name, loadSprite(`${ASSET_ROOT}${name}.webp`)]));
+// Decorative families load when a map uses them; resource-state fallbacks stay eager.
+const sprites = {};
 sprites.oak = loadSprite(`${ASSET_ROOT}oak.webp`);
 sprites.berries = loadSprite(`${ASSET_ROOT}berries.webp`);
 if (meshyResourcesEnabled) {
@@ -388,6 +390,10 @@ function spriteGeometry(width, height, name) {
 }
 
 function spriteMaterial(name) {
+  if (!sprites[name]) {
+    if (!spriteNames.includes(name)) throw new Error(`Unknown environment sprite: ${name}`);
+    sprites[name] = loadSprite(`${ASSET_ROOT}${name}.webp`);
+  }
   const material = new THREE.MeshBasicMaterial({
     map: sprites[name],
     side: THREE.DoubleSide,
@@ -487,6 +493,8 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     .includes(environmentTheme(definition));
   const veyrholds = environmentTheme(definition) === 'scree'
     && definition.id !== 'meshy-resource-review';
+  const underbough = environmentTheme(definition) === 'forest-floor'
+    && definition.id !== 'meshy-resource-review';
   const pines = [];
   const oaks = [];
   const birches = [];
@@ -518,6 +526,13 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
             point.scale = 0.72 + scaleVariation * 0.32;
             point.yaw = 0;
             (treeType < 0.45 ? oaks : pines).push(point);
+            continue;
+          }
+          if (underbough) {
+            // Rooted canopy and woody bramble form one coherent woodland mix.
+            point.scale = treeType < 0.8
+              ? 0.68 + scaleVariation * 0.3 : 0.62 + scaleVariation * 0.24;
+            (treeType < 0.8 ? maples : hazelThickets).push(point);
             continue;
           }
           if (treeType < 0.2) {
@@ -581,8 +596,8 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     [veyrholds ? 'veyrholds-highpine' : 'pine', veyrholds ? 2.7 : 2.25, 3.4, pines],
     ['oak', 3.05, 2.86, oaks],
     ['silver-birch', 2.3, 3.45, birches],
-    [bellweather ? 'bellweather-field-maple' : 'field-maple', 3.05, 3.25, maples],
-    [bellweather ? 'bellweather-hedgerow' : 'hazel-thicket', 3.1, 2.07, hazelThickets],
+    [underbough ? 'underbough-copperleaf' : bellweather ? 'bellweather-field-maple' : 'field-maple', 3.05, 3.25, maples],
+    [underbough ? 'underbough-bramble' : bellweather ? 'bellweather-hedgerow' : 'hazel-thicket', 3.1, 2.07, hazelThickets],
     [veyrholds ? 'veyrholds-ironlichen-outcrop' : 'rock-outcrop', 3.5, 2.2, outcrops],
     ['rock-boulder-cluster', 2.7, 1.8, boulderClusters],
     ['basalt-ridge', 3.6, 3.05, ridges],

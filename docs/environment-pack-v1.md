@@ -103,6 +103,35 @@ records two camera scales and palette/forest-slot checks. Choose **Scree** as
 Map Studio's base ground and paint forest/low stone obstacles to use this pair.
 The Meshy resource review fixture retains its explicit comparison art.
 
+## Underbough rooted woodland · 30 September 2026
+
+Forest-floor-base maps now use a coherent Copperleaf/bramble mix: approximately
+80% root-heavy copperleaf canopy and 20% low woody bramble, selected with the
+existing deterministic cell hash. The
+[Underbough ecology key](art-direction/vaelora-v1/README.md#the-underbough)
+guides burgundy shadows, copper foliage, moss and exposed roots. Unlike the
+first regional pairs, this woodland uses these two families for all forest
+cells, keeping unrelated alpine/field silhouettes out of the Underbough.
+
+[Preview](../assets/environment/frontier-v1/underbough-preview.png),
+[manifest](../assets/environment/frontier-v1/underbough-manifest.json) and
+[exact prompts](../assets/environment/frontier-v1/UNDERBOUGH-PROMPTS.json)
+record sources, ecology reference hash and runtime encodings. The bramble is
+fruitless cuttable wood: its appearance adds no food node, special resource,
+regrowth or new obstruction. Root geometry is painted into the tree sprite;
+clearing the cell removes the whole sprite through the existing slot contract.
+Ordinary resource nodes retain their separate art and state pack.
+
+Decorative sprite textures now load when a map actually uses their family and
+remain cached for reuse. Resource-state fallbacks retain their earlier loading
+path. This avoids downloading every regional kit for every match; it is not
+cache eviction or a decoded-memory budget. **Forest floor** in Map Studio's
+base selector activates the woodland mix. Painting forest-floor ground on a
+meadow base does not change vegetation. The Meshy comparison map remains explicit.
+
+[Browser evidence](qa-evidence/vaelora-underbough-2026-09-30/README.md)
+records two-scale forest captures, cell parity and unused-family request checks.
+
 ## Review in game
 
 1. Start with `npm start` and choose **Frontier Materials** in Match Controls.
