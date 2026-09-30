@@ -1,0 +1,29 @@
+{
+  "source": "docs/art-direction/boughward-roster-v1/source/archer-actions-v1.png",
+  "cellBounds": [
+    [
+      0,
+      0,
+      768,
+      512
+    ],
+    [
+      768,
+      0,
+      1536,
+      512
+    ],
+    [
+      0,
+      512,
+      768,
+      1024
+    ],
+    [
+      768,
+      512,
+      1536,
+      1024
+    ]
+  ]
+}

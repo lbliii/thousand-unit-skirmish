@@ -246,3 +246,19 @@ Built-in ImageGen edited the approved project-owned palm into worked, low and de
 ## Ellionar garden hedge lifecycle · 30 September 2026
 
 Built-in ImageGen edited the project-owned hedge into worked/low/depleted states. [Manifest](ellionar-hedge-lifecycle-manifest.json) records selected unchanged masters, source IDs, hashes and original shared crop; [exact prompts](ELLIONAR-HEDGE-LIFECYCLE-PROMPTS.json) include the discarded tall depletion and its shorter refinement. Original full source/runtime remain unchanged. LANCZOS max1024 RGBA WebP quality86 method6 preserves generated alpha; atlas copies decoded runtime pixels without repainting or rescaling. No third-party inputs or local alpha repairs. One fixed-oblique view, approximate painted camera guidance.
+
+## Sereward thorn acacia lifecycle · 30 September 2026
+
+Built-in ImageGen edited the project-owned acacia into worked/low/depleted states. [Manifest](sereward-acacia-lifecycle-manifest.json) records unchanged selected masters, source IDs, hashes, dimensions and shared crop; [exact prompts](SEREWARD-ACACIA-LIFECYCLE-PROMPTS.json) include the discarded tall depletion and registration refinement. Full PNG/WebP remain unchanged. LANCZOS max1024 RGBA WebP quality86 method6 preserves generated alpha; deterministic atlas copies decoded runtime pixels without rescaling or repainting. No third-party inputs or local alpha repairs. One fixed-oblique view; painted camera guidance approximate.
+
+## Sereward woody scrub lifecycle · 30 September 2026
+
+Built-in ImageGen edited the project-owned scrub into worked/low/depleted states. [Manifest](sereward-scrub-lifecycle-manifest.json) records unchanged masters, source IDs, hashes and original shared crop; [exact prompts](SEREWARD-SCRUB-LIFECYCLE-PROMPTS.json) record edit instructions. Full PNG/WebP remain unchanged. LANCZOS max1024 RGBA WebP quality86 method6 preserves generated alpha; deterministic atlas copies decoded runtime pixels without rescaling or repainting. No third-party inputs or local alpha repair. One fixed-oblique view, approximate painted camera guidance.
+
+## Bellweather hedgerow lifecycle · 30 September 2026
+
+Built-in ImageGen edited the project-owned hedgerow into worked/low/depleted states. [Manifest](bellweather-hedgerow-lifecycle-manifest.json) records unchanged masters, source IDs, hashes and original shared crop; [exact prompts](BELLWEATHER-HEDGEROW-LIFECYCLE-PROMPTS.json) record edit instructions. Full PNG/WebP remain unchanged. LANCZOS max1024 RGBA WebP quality86 method6 preserves generated alpha; deterministic atlas copies decoded runtime pixels without rescaling or repainting. No third-party inputs or local alpha repair. One fixed-oblique view, approximate painted camera guidance.
+
+## Vesperra shade fern understory · 30 September 2026
+
+Original built-in ImageGen plant, informed by the approved Vesperra Shade Fern ecology key. [Exact selected prompt](VESPERRA-UNDERSTORY-PROMPTS.json) and [manifest](vesperra-understory-manifest.json) retain source ID, hashes, dimensions and crop. Selected PNG unchanged; LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background compositing confirms empty surrounding pixels are transparent despite colored RGB in the native preview. No local repainting or alpha repair. One approximate oblique painted view.

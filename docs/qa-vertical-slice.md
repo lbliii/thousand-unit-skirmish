@@ -591,7 +591,7 @@ acceptance and full human both-seat match balance are not observed. See [layouts
 
 ## Regional ground and soundscape slice — 30 September 2026
 
-Build: `codex/regional-map-depth` based on main `d39ca87`; paired flagship maps
+Build: `codex/regional-map-depth` based on main `245d981`, integrated with main `f39a644`; paired flagship maps
 `bellweather-millrace` and `underbough-rootways`, 24-unit authored openings.
 Millrace gains orchard expansions and painted bank approaches. Rootways gains
 harvestable shortcut belts, two outer victory clearings with a 30-second hold,

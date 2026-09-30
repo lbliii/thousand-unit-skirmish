@@ -1,0 +1,10 @@
+{
+  "tool": "built-in ImageGen",
+  "selectedOutput": "exec-512d5a03-1eec-406e-96ed-fb6fbb37be39",
+  "prompt": "A single stylized painterly RTS game sprite: low squat shade fern, broad simple teal-green fronds with muted dusty violet undersides, compact visible root crown, two small curled fiddleheads. Opaque painted plant shapes with crisp silhouette, no fine lace details. Orthographic oblique view looking down at about45degrees, vertical stems upright, no camera roll. Entire plant fully visible and centered with ample empty padding. Transparent background: ALL surrounding space and leaf gaps completely empty alpha zero. ABSOLUTELY NO glow, haze, colored ambient mist, cast shadow, backdrop or ground. Only plant pixels. Wide landscape canvas. Restrained colors, ancient living forest understory, readable strategy game asset.",
+  "earlierDrafts": [
+    "exec-5534814d-bfec-43e2-806b-7fe34a42b9fb",
+    "exec-c86f6eca-8426-4bee-9090-87b7ab393526"
+  ],
+  "note": "Selected simpler readable fronds. Initial preview suggested haze, but compositing verified empty background alpha zero. No local alpha repair."
+}

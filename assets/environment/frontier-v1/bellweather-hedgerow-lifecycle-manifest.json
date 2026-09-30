@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-bellweather-hedgerow-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "bellweather-hedgerow.png",
+  "prompts": "BELLWEATHER-HEDGEROW-LIFECYCLE-PROMPTS.json",
+  "provenance": "Built-in ImageGen edits of approved project-owned hedgerow. Unchanged masters, shared original crop and alpha-preserving LANCZOS max1024 WebP quality86 method6. Camera guidance approximate.",
+  "files": [
+    {
+      "path": "bellweather-hedgerow.png",
+      "role": "source-image",
+      "sha256": "3eb222784bd2155235b93ea110d4ba046920063a24d441626cf12b3dead65f1a",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 2490605
+    },
+    {
+      "path": "bellweather-hedgerow.webp",
+      "role": "runtime-image",
+      "sha256": "9ec6300ef170645eb47d3c3acd1dcdf2dffc58cf41b305b48b6f05dda3a6d192",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 608
+      },
+      "bytes": 237488
+    },
+    {
+      "path": "bellweather-hedgerow-worked.png",
+      "role": "source-image",
+      "sha256": "f8fc9240aef29f31538e2c468d4bae0c9487ff7921dbd023a10e1d5693c62104",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 2429642
+    },
+    {
+      "path": "bellweather-hedgerow-worked.webp",
+      "role": "runtime-image",
+      "sha256": "2ba6b5fc49c0468a623899c82712f5be1c68b83fa8352387f7ac686553b84ba5",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 608
+      },
+      "bytes": 203404
+    },
+    {
+      "path": "bellweather-hedgerow-low.png",
+      "role": "source-image",
+      "sha256": "545c29f55e757714b440f7402999bca219f57f3ec953186af89c94bdf306945e",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 1647281
+    },
+    {
+      "path": "bellweather-hedgerow-low.webp",
+      "role": "runtime-image",
+      "sha256": "9c04094218b8556ad67f4de5ac40ae356349c03b28766769cf42a86f4b1f3d65",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 608
+      },
+      "bytes": 137678
+    },
+    {
+      "path": "bellweather-hedgerow-depleted.png",
+      "role": "source-image",
+      "sha256": "5072d13a49710452d32aacc6b8dcd5c5a0f378c03e0cf7bb4eb48a9010651bda",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      },
+      "bytes": 709645
+    },
+    {
+      "path": "bellweather-hedgerow-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "a0d2d6d92d74389fae9a6f4e2426281b221b6bd69ddfea706b8ee9c11ac0b8b1",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 608
+      },
+      "bytes": 22014
+    }
+  ],
+  "assets": [
+    {
+      "id": "bellweather-hedgerow",
+      "sourceOutputId": "exec-b29adef0-b067-4182-b343-5959abc25723",
+      "sourceFile": "bellweather-hedgerow.png",
+      "runtimeFile": "bellweather-hedgerow.webp",
+      "cropBoxPx": [
+        23,
+        48,
+        1511,
+        931
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 2.07
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "full",
+      "logicalCanvasPx": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "id": "bellweather-hedgerow-worked",
+      "sourceOutputId": "exec-65c58ff4-2ad0-4392-9a8e-773a98b56f49",
+      "sourceFile": "bellweather-hedgerow-worked.png",
+      "runtimeFile": "bellweather-hedgerow-worked.webp",
+      "cropBoxPx": [
+        23,
+        48,
+        1511,
+        931
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 2.07
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "worked",
+      "logicalCanvasPx": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "id": "bellweather-hedgerow-low",
+      "sourceOutputId": "exec-081160bd-ccaf-40dd-830a-e93653ab28f6",
+      "sourceFile": "bellweather-hedgerow-low.png",
+      "runtimeFile": "bellweather-hedgerow-low.webp",
+      "cropBoxPx": [
+        23,
+        48,
+        1511,
+        931
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 2.07
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "low",
+      "logicalCanvasPx": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "id": "bellweather-hedgerow-depleted",
+      "sourceOutputId": "exec-0fd107bb-9d77-4017-8eea-5005fa66efe5",
+      "sourceFile": "bellweather-hedgerow-depleted.png",
+      "runtimeFile": "bellweather-hedgerow-depleted.webp",
+      "cropBoxPx": [
+        23,
+        48,
+        1511,
+        931
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 2.07
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "depleted",
+      "logicalCanvasPx": [
+        1536,
+        1024
+      ]
+    }
+  ]
+}

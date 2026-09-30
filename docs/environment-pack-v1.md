@@ -514,3 +514,33 @@ The [bramble atlas](../assets/environment/frontier-v1/underbough-bramble-lifecyc
 [Separate lazy atlas](../assets/environment/frontier-v1/ellionar-hedge-lifecycle-atlas.json) follows the existing four-state, 64px-gutter, half-texel inset and mip-cap-six contract. Both Ellionar forest families now have matching depletion silhouettes. Garden-loam retains its approximately 80% palm / 20% hedge selection, forest identities, yield and collision rules.
 
 [Local evidence](qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30/README.md) exercises the hedge independently with a real worker, reset, upright renderer matrices and metadata-failure fallback. One fixed-oblique painted view; approximate camera guidance. Action animation, additional perspectives, fauna and more cultivated species remain ongoing.
+
+## Sereward thorn acacia lifecycle · 30 September 2026
+
+[Lifecycle preview](../assets/environment/frontier-v1/sereward-acacia-lifecycle-preview.png), [manifest](../assets/environment/frontier-v1/sereward-acacia-lifecycle-manifest.json) and [exact prompts](../assets/environment/frontier-v1/SEREWARD-ACACIA-LIFECYCLE-PROMPTS.json) add small/deep pale cuts and a matching low twisted stump to the approved peach/cream and muted turquoise thorn acacia. Standing states retain the broad umbrella crown. Full source/runtime remain unchanged; generated edits share the original 1402×1122 canvas and [13,131,1392,975] crop, yielding four 1024×627 frames.
+
+[Separate lazy atlas](../assets/environment/frontier-v1/sereward-acacia-lifecycle-atlas.json) uses the existing four-state contract, 64px gutter, half-texel inset and mip cap six, with individual-frame fallback. Sand maps keep their approximately 55% palm / 30% acacia / 15% scrub selection, forest identities, yield and collision. Scrub lifecycle remains unfinished.
+
+[Local evidence](qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30/README.md) exercises acacia separately with worker harvest/reset, upright renderer matrices and metadata-failure fallback. Single fixed-oblique painted view; approximate camera guidance. Action animation, extra perspectives and regional fauna remain ongoing.
+
+## Sereward woody scrub lifecycle · 30 September 2026
+
+[Scrub preview](../assets/environment/frontier-v1/sereward-scrub-lifecycle-preview.png), [manifest](../assets/environment/frontier-v1/sereward-scrub-lifecycle-manifest.json) and [exact prompts](../assets/environment/frontier-v1/SEREWARD-SCRUB-LIFECYCLE-PROMPTS.json) extend the approved sage/turquoise and violet-flowered woody shrub with clipped tips, cut-back branches and a low cleared root crown. It remains a wood-bearing forest slot, not a food or flower resource. Full source/runtime remain unchanged; edits share the original 1508×1043 canvas and [54,66,1466,976] crop, yielding four 1024×660 frames.
+
+[Lazy atlas](../assets/environment/frontier-v1/sereward-scrub-lifecycle-atlas.json) follows the four-state, 64px-gutter, half-texel inset and mip-cap-six contract, with individual-texture fallback. All three Sereward forest families now have matching depletion art. Sand maps retain their approximately 55% palm / 30% acacia / 15% scrub selection, forest identities, yield and collision.
+
+[Local evidence](qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30/README.md) exercises scrub harvesting/reset separately, upright renderer matrices and metadata-failure fallback. One fixed-oblique painted view; approximate camera guidance. Action animation, extra perspectives, fauna and more species remain ongoing.
+
+## Bellweather hedgerow lifecycle · 30 September 2026
+
+[Hedgerow preview](../assets/environment/frontier-v1/bellweather-hedgerow-lifecycle-preview.png), [manifest](../assets/environment/frontier-v1/bellweather-hedgerow-lifecycle-manifest.json) and [exact prompts](../assets/environment/frontier-v1/BELLWEATHER-HEDGEROW-LIFECYCLE-PROMPTS.json) extend the approved butter-yellow/sage woody hedge with clipped tips, cut-back foliage and bare cut stems. It remains an existing wood-bearing forest slot, not a food resource. Full source/runtime are unchanged; edits share the original 1536×1024 canvas and [23,48,1511,931] crop, yielding four 1024×608 frames.
+
+[Lazy atlas](../assets/environment/frontier-v1/bellweather-hedgerow-lifecycle-atlas.json) follows the four-state, 64px-gutter, half-texel inset and mip-cap-six contract with individual-texture fallback. Bellweather hedgerow and field maple now both have matching depletion art. Meadow maps retain their existing approximately 20% hedgerow selection and other tree mix; forest identity, yield and collision rules are unchanged. Other generic tree species remain in the palette.
+
+[Local evidence](qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30/README.md) exercises hedgerow worker harvest/reset separately, upright renderer matrices and metadata-failure fallback. One fixed-oblique painted view; approximate camera guidance. Action animation, extra perspectives, broader regional species and fauna remain ongoing.
+
+## Vesperra shade fern understory · 30 September 2026
+
+Sparse [shade ferns](../assets/environment/frontier-v1/vesperra-understory-manifest.json) bring the approved ecology key's petrol-green fronds and muted violet undersides beneath Mistbark. A seeded 28% selection attaches one decorative plant to an existing forest cell, in one shared mesh. It retains its appearance during partial harvest, disappears at received stock zero, and returns on reset. Hidden cells follow the existing received-stock contract. No resources or obstacle cells are added.
+
+[Local evidence](qa-evidence/vaelora-vesperra-understory-2026-09-30/README.md) covers placement, parent clearing/reset, regional isolation and existing lifecycle behavior. The selected generated master remains unchanged; cropped WebP preserves alpha. Runtime uses the existing world-up camera orientation. One painted view only; additional perspectives and fern-specific harvest animation remain future work.

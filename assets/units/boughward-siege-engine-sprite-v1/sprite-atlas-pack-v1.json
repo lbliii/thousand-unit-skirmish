@@ -1,0 +1,656 @@
+{
+  "schemaVersion": 1,
+  "packId": "boughward-siege-engine-sprite",
+  "packVersion": "0.1.0",
+  "maturity": "runtime-candidate",
+  "provenance": {
+    "license": "LicenseRef-Thousand-Unit-Skirmish-Internal-Review",
+    "source": "docs/art-direction/boughward-roster-v1/source/siege-engine-actions-v1.png",
+    "authoringTool": "OpenAI ImageGen; PNG atlas and mask packaging",
+    "notes": "Built-in ImageGen derived from Boughward exploration. Static approximate action poses reused across headings; neutral team mask and root calibration pending live review."
+  },
+  "files": [
+    {
+      "id": "boughward-siege-engine-atlas-source",
+      "path": "boughward-siege-engine-atlas-source.png",
+      "usage": "source",
+      "format": "png",
+      "dimensionsPx": {
+        "width": 2048,
+        "height": 512
+      },
+      "sha256": "c6f50295ef09178f65424f4825463c954ec75e54bc6d1a6084823a459f337033"
+    },
+    {
+      "id": "boughward-siege-engine-atlas-runtime",
+      "path": "boughward-siege-engine-atlas-runtime.png",
+      "usage": "runtime",
+      "format": "png",
+      "dimensionsPx": {
+        "width": 2048,
+        "height": 512
+      },
+      "sha256": "c6f50295ef09178f65424f4825463c954ec75e54bc6d1a6084823a459f337033"
+    },
+    {
+      "id": "boughward-siege-engine-team-mask",
+      "path": "team-accent-mask.png",
+      "usage": "team-mask",
+      "format": "png",
+      "dimensionsPx": {
+        "width": 2048,
+        "height": 512
+      },
+      "sha256": "dd97bc96a592a1c69db00e5f918f5f61c4772a901a9178ae9b50e7fdd67e0d50"
+    }
+  ],
+  "pages": [
+    {
+      "id": "boughward-siege-engine-color",
+      "sourceFileId": "boughward-siege-engine-atlas-source",
+      "runtimeFileId": "boughward-siege-engine-atlas-runtime",
+      "maskFileId": "boughward-siege-engine-team-mask",
+      "dimensionsPx": {
+        "width": 2048,
+        "height": 512
+      },
+      "colorSpace": "srgb",
+      "pixelFormat": "rgba8",
+      "alphaMode": "straight",
+      "edgeRule": "zero-rgb-under-transparent",
+      "gutterPx": 0,
+      "gutterRule": "none",
+      "wrapMode": "clamp",
+      "sampling": {
+        "generateMipmaps": false,
+        "minFilter": "linear",
+        "magFilter": "linear",
+        "uvInsetPx": 0.5,
+        "maxMipLevel": 0
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "boughward-siege-engine",
+      "kind": "unit",
+      "artBoundsWorld": {
+        "min": [
+          -0.9,
+          0,
+          -0.9
+        ],
+        "max": [
+          0.9,
+          1.8879830195985992,
+          0.9
+        ]
+      },
+      "heightWorld": 1.6879830195985992,
+      "sortAnchorWorld": [
+        0,
+        0,
+        0
+      ],
+      "cullingBoundsWorld": {
+        "min": [
+          -0.9,
+          0,
+          -0.9
+        ],
+        "max": [
+          0.9,
+          1.8879830195985992,
+          0.9
+        ]
+      },
+      "selectionBoundsWorld": {
+        "min": [
+          -0.5,
+          0,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          1.2,
+          0.5
+        ]
+      },
+      "layers": [
+        {
+          "id": "actor",
+          "drawLayer": "actor",
+          "batchKey": "unit.boughward-siege-engine"
+        }
+      ],
+      "frames": [
+        {
+          "id": "idle-south-east-0",
+          "groundPivotPx": {
+            "x": 215,
+            "y": 321
+          },
+          "canvasPx": {
+            "width": 440,
+            "height": 322
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 440,
+            "height": 322
+          },
+          "fallbackRectPx": {
+            "pageId": "boughward-siege-engine-color",
+            "rectPx": {
+              "x": 4,
+              "y": 4,
+              "width": 440,
+              "height": 322
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "boughward-siege-engine-color",
+              "rectPx": {
+                "x": 4,
+                "y": 4,
+                "width": 440,
+                "height": 322
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "walk-south-east-0",
+          "groundPivotPx": {
+            "x": 205,
+            "y": 290
+          },
+          "canvasPx": {
+            "width": 438,
+            "height": 291
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 438,
+            "height": 291
+          },
+          "fallbackRectPx": {
+            "pageId": "boughward-siege-engine-color",
+            "rectPx": {
+              "x": 452,
+              "y": 4,
+              "width": 438,
+              "height": 291
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "boughward-siege-engine-color",
+              "rectPx": {
+                "x": 452,
+                "y": 4,
+                "width": 438,
+                "height": 291
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "attack-south-east-0",
+          "groundPivotPx": {
+            "x": 235,
+            "y": 285
+          },
+          "canvasPx": {
+            "width": 469,
+            "height": 286
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 469,
+            "height": 286
+          },
+          "fallbackRectPx": {
+            "pageId": "boughward-siege-engine-color",
+            "rectPx": {
+              "x": 898,
+              "y": 4,
+              "width": 469,
+              "height": 286
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "boughward-siege-engine-color",
+              "rectPx": {
+                "x": 898,
+                "y": 4,
+                "width": 469,
+                "height": 286
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        },
+        {
+          "id": "defeat-south-east-0",
+          "groundPivotPx": {
+            "x": 239,
+            "y": 282
+          },
+          "canvasPx": {
+            "width": 478,
+            "height": 283
+          },
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 478,
+            "height": 283
+          },
+          "fallbackRectPx": {
+            "pageId": "boughward-siege-engine-color",
+            "rectPx": {
+              "x": 1375,
+              "y": 4,
+              "width": 478,
+              "height": 283
+            }
+          },
+          "frameRectsPx": [
+            {
+              "layerId": "actor",
+              "pageId": "boughward-siege-engine-color",
+              "rectPx": {
+                "x": 1375,
+                "y": 4,
+                "width": 478,
+                "height": 283
+              },
+              "offsetPx": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          ],
+          "groundPivotStatus": "unreviewed-estimate"
+        }
+      ],
+      "clips": [
+        {
+          "stateId": "idle",
+          "directionId": "north",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "north-east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "south-east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "south",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "south-west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "idle",
+          "directionId": "north-west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "idle-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "north",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "walk-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "north-east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "walk-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "walk-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "south-east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "walk-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "south",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "walk-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "south-west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "walk-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "walk-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "walk",
+          "directionId": "north-west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "walk-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "north",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "attack-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "north-east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "attack-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "attack-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "south-east",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "attack-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "south",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "attack-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "south-west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "attack-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "attack-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "attack",
+          "directionId": "north-west",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "attack-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "north",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "defeat-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "north-east",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "defeat-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "east",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "defeat-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "south-east",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "defeat-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "south",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "defeat-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "south-west",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "defeat-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "west",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "defeat-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "defeat",
+          "directionId": "north-west",
+          "loop": false,
+          "sequence": [
+            {
+              "frameId": "defeat-south-east-0",
+              "durationMs": 1000
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

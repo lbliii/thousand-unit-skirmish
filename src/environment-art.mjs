@@ -16,8 +16,10 @@ const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
 const GROUND_RENDER_ORDER = -20;
 export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
+  'vesperra-shade-fern',
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
+  'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
   'bellweather-field-maple-worked', 'bellweather-field-maple-low', 'bellweather-field-maple-depleted',
   'veyrholds-highpine-worked', 'veyrholds-highpine-low', 'veyrholds-highpine-depleted',
   'veyrholds-highpine', 'veyrholds-ironlichen-outcrop', 'ru-lora-fiendwood', 'ru-lora-stone-fern', 'ru-lora-broken-trunk',
@@ -26,6 +28,8 @@ const spriteNames = [
   'underbough-copperleaf-worked', 'underbough-copperleaf-low', 'underbough-copperleaf-depleted',
   'sereward-palm', 'sereward-acacia', 'sereward-scrub',
   'sereward-palm-worked', 'sereward-palm-low', 'sereward-palm-depleted',
+  'sereward-scrub-worked', 'sereward-scrub-low', 'sereward-scrub-depleted',
+  'sereward-acacia-worked', 'sereward-acacia-low', 'sereward-acacia-depleted',
   'pale-meridian-conifer', 'pale-meridian-conifer-worked', 'pale-meridian-conifer-low', 'pale-meridian-conifer-depleted',
   'sombral-mere-merebloom', 'sombral-mere-merebloom-worked', 'sombral-mere-merebloom-low', 'sombral-mere-merebloom-depleted',
   'vesperra-mistbark', 'vesperra-mistbark-worked', 'vesperra-mistbark-low', 'vesperra-mistbark-depleted',
@@ -41,7 +45,7 @@ const spriteMaterials = new Map();
 const constructionTextures = new Map();
 const constructionMaterials = new Map();
 const constructionInstances = new Map();
-const forestAtlasPacks = new Map(await Promise.all(['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough', 'underbough-bramble', 'veyrholds', 'ellionar', 'ellionar-hedge'].map(async (region) => {
+const forestAtlasPacks = new Map(await Promise.all(['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough', 'underbough-bramble', 'veyrholds', 'ellionar', 'ellionar-hedge', 'sereward-acacia', 'sereward-scrub', 'bellweather-hedgerow'].map(async (region) => {
   try {
     const response = await fetch(`${ASSET_ROOT}${region}-lifecycle-atlas.json`);
     if (!response.ok) throw new Error(`atlas metadata HTTP ${response.status}`);
@@ -552,6 +556,12 @@ export function setEnvironmentSpriteInstance(mesh, index, x, z, scale, flip = fa
 // Hidden cells retain their last received stock; callers must not infer new stock.
 export function setForestSpriteStock(slot, stock = 6) {
   const stage = resourceVisualStage(stock, 6);
+  if (slot.understory) {
+    const plant = slot.understory;
+    setEnvironmentSpriteInstance(plant.mesh, plant.index, plant.x, plant.z,
+      stock <= 0 ? 0 : plant.scale, plant.flip, plant.yaw);
+    plant.mesh.instanceMatrix.needsUpdate = true;
+  }
   if (slot.atlas) {
     slot.atlas.rects.setXYZW(slot.index, ...slot.atlas.frameRects[stage]);
     slot.atlas.rects.needsUpdate = true;
@@ -762,7 +772,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       || createEnvironmentSpriteInstances(name, width, height, points);
     if (!mesh) continue;
     let stateMeshes;
-    if (!mesh.userData.forestAtlas && ['bellweather-field-maple', 'sereward-palm', 'pale-meridian-conifer', 'siltmouths-tidal-tree', 'vesperra-mistbark', 'sombral-mere-merebloom', 'underbough-copperleaf', 'underbough-bramble', 'veyrholds-highpine', 'ellionar-cultivated-palm', 'ellionar-garden-hedge'].includes(name)) {
+    if (!mesh.userData.forestAtlas && ['bellweather-field-maple', 'sereward-palm', 'pale-meridian-conifer', 'siltmouths-tidal-tree', 'vesperra-mistbark', 'sombral-mere-merebloom', 'underbough-copperleaf', 'underbough-bramble', 'veyrholds-highpine', 'ellionar-cultivated-palm', 'ellionar-garden-hedge', 'sereward-acacia', 'sereward-scrub', 'bellweather-hedgerow'].includes(name)) {
       stateMeshes = { full: mesh };
       for (const stage of ['worked', 'low', 'depleted']) {
         const stateMesh = createEnvironmentSpriteInstances(`${name}-${stage}`, width, height,
@@ -777,6 +787,24 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       forestTreeSlots.set(point.cell, { mesh, index, ...point, family: name, stateMeshes, atlas: mesh.userData.forestAtlas });
     }
     addObject(mesh);
+  }
+  if (vesperra) {
+    // Decorative understory occupies existing forest cells only. Clearing follows
+    // received cell stock, so it cannot cover a newly traversable cleared cell.
+    const plants = [...forestTreeSlots.values()].filter(slot => variation(slot.cell + 107) < 0.28)
+      .map(slot => ({ cell: slot.cell,
+        x: slot.x + (variation(slot.cell + 109) - 0.5) * 0.32,
+        z: slot.z + (variation(slot.cell + 113) - 0.5) * 0.32,
+        scale: 0.8 + variation(slot.cell + 127) * 0.25,
+        flip: slot.flip, yaw: slot.yaw }));
+    const mesh = createEnvironmentSpriteInstances('vesperra-shade-fern', 1.07475, 0.72, plants);
+    if (mesh) {
+      mesh.userData.forestUnderstory = true;
+      plants.forEach((plant, index) => {
+        forestTreeSlots.get(plant.cell).understory = { mesh, index, ...plant };
+      });
+      addObject(mesh);
+    }
   }
   return forestTreeSlots;
 }

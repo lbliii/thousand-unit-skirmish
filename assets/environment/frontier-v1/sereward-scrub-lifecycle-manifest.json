@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-sereward-scrub-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "sereward-scrub.png",
+  "prompts": "SEREWARD-SCRUB-LIFECYCLE-PROMPTS.json",
+  "provenance": "Built-in ImageGen edits of approved project-owned scrub. Unchanged masters, original shared crop and alpha-preserving LANCZOS max1024 WebP quality86 method6. Camera guidance approximate.",
+  "files": [
+    {
+      "path": "sereward-scrub.png",
+      "role": "source-image",
+      "sha256": "6a453764c52e29cff7551b9b5c3523f831c5d088e2111782bf5d7d491adff9e6",
+      "dimensionsPx": {
+        "width": 1508,
+        "height": 1043
+      },
+      "bytes": 2004763
+    },
+    {
+      "path": "sereward-scrub.webp",
+      "role": "runtime-image",
+      "sha256": "bc85b18e2ea895ad9eb153828ce8d9e5d383736a2b194657483f8d3526cf189e",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 660
+      },
+      "bytes": 321098
+    },
+    {
+      "path": "sereward-scrub-low.png",
+      "role": "source-image",
+      "sha256": "d38af28a8f8375644958b10074925d7e7685ce15345d7760d90b7f82763a838e",
+      "dimensionsPx": {
+        "width": 1508,
+        "height": 1043
+      },
+      "bytes": 1152790
+    },
+    {
+      "path": "sereward-scrub-low.webp",
+      "role": "runtime-image",
+      "sha256": "94b1763db765a761dcf37f1c238c9c41b91086f8b86074aa5a3e705852b7b05e",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 660
+      },
+      "bytes": 171000
+    },
+    {
+      "path": "sereward-scrub-worked.png",
+      "role": "source-image",
+      "sha256": "0304b031c33114def603863899824c69a368f860d4950dc9f93374f24895b445",
+      "dimensionsPx": {
+        "width": 1508,
+        "height": 1043
+      },
+      "bytes": 1696408
+    },
+    {
+      "path": "sereward-scrub-worked.webp",
+      "role": "runtime-image",
+      "sha256": "1d4d50701cae574fbe2b332eed1a4cf10c8c17974e9e832a7d82dcdc93548f51",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 660
+      },
+      "bytes": 205952
+    },
+    {
+      "path": "sereward-scrub-depleted.png",
+      "role": "source-image",
+      "sha256": "509aadad90636cd20134937e819f7606de4454eee68aa5cf9942e22b19a22b11",
+      "dimensionsPx": {
+        "width": 1508,
+        "height": 1043
+      },
+      "bytes": 421605
+    },
+    {
+      "path": "sereward-scrub-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "c55c6e3c3c228f715485c6cbb86be4881f1489040eb224f0bda92bfe98786605",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 660
+      },
+      "bytes": 53874
+    }
+  ],
+  "assets": [
+    {
+      "id": "sereward-scrub",
+      "sourceOutputId": "exec-00f6242b-fe2f-47de-a865-e10731af7f3a",
+      "sourceFile": "sereward-scrub.png",
+      "runtimeFile": "sereward-scrub.webp",
+      "cropBoxPx": [
+        54,
+        66,
+        1466,
+        976
+      ],
+      "worldSize": {
+        "width": 2.6,
+        "height": 1.7
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "full",
+      "logicalCanvasPx": [
+        1508,
+        1043
+      ]
+    },
+    {
+      "id": "sereward-scrub-worked",
+      "sourceOutputId": "exec-f81b63aa-59fe-40d5-bd9f-587d361d96d9",
+      "sourceFile": "sereward-scrub-worked.png",
+      "runtimeFile": "sereward-scrub-worked.webp",
+      "cropBoxPx": [
+        54,
+        66,
+        1466,
+        976
+      ],
+      "worldSize": {
+        "width": 2.6,
+        "height": 1.7
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "worked",
+      "logicalCanvasPx": [
+        1508,
+        1043
+      ]
+    },
+    {
+      "id": "sereward-scrub-low",
+      "sourceOutputId": "exec-dc4087ae-b507-46d6-9265-acffccf7a68d",
+      "sourceFile": "sereward-scrub-low.png",
+      "runtimeFile": "sereward-scrub-low.webp",
+      "cropBoxPx": [
+        54,
+        66,
+        1466,
+        976
+      ],
+      "worldSize": {
+        "width": 2.6,
+        "height": 1.7
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "low",
+      "logicalCanvasPx": [
+        1508,
+        1043
+      ]
+    },
+    {
+      "id": "sereward-scrub-depleted",
+      "sourceOutputId": "exec-810b9f58-fe5c-4a6c-98f1-0f235e462273",
+      "sourceFile": "sereward-scrub-depleted.png",
+      "runtimeFile": "sereward-scrub-depleted.webp",
+      "cropBoxPx": [
+        54,
+        66,
+        1466,
+        976
+      ],
+      "worldSize": {
+        "width": 2.6,
+        "height": 1.7
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "depleted",
+      "logicalCanvasPx": [
+        1508,
+        1043
+      ]
+    }
+  ]
+}

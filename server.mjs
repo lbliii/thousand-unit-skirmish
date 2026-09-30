@@ -7127,13 +7127,14 @@ const server = createServer(async (request, response) => {
     'assets/ui/icons/attack.svg', 'assets/ui/icons/gather.svg', 'assets/ui/icons/build.svg',
   ].includes(relative);
   const publicEnvironmentModule = relative === 'src/environment-art.mjs';
-  const publicEnvironmentAtlasMetadata = ['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough', 'underbough-bramble', 'veyrholds', 'ellionar', 'ellionar-hedge'].some((region) =>
+  const publicEnvironmentAtlasMetadata = ['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough', 'underbough-bramble', 'veyrholds', 'ellionar', 'ellionar-hedge', 'sereward-acacia', 'sereward-scrub', 'bellweather-hedgerow'].some((region) =>
     relative === `assets/environment/frontier-v1/${region}-lifecycle-atlas.json`);
   const publicEnvironmentAsset = path.dirname(relative) === 'assets/environment/frontier-v1'
     && ['.png', '.webp'].includes(path.extname(relative))
     && ['oak', 'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
-      'bellweather-field-maple', 'bellweather-hedgerow',
-      'bellweather-lifecycle-atlas', 'sereward-lifecycle-atlas', 'pale-meridian-lifecycle-atlas', 'siltmouths-lifecycle-atlas', 'vesperra-lifecycle-atlas', 'sombral-mere-lifecycle-atlas', 'underbough-lifecycle-atlas', 'underbough-bramble-lifecycle-atlas', 'veyrholds-lifecycle-atlas', 'ellionar-lifecycle-atlas', 'ellionar-hedge-lifecycle-atlas',
+      'bellweather-field-maple', 'bellweather-hedgerow', 'vesperra-shade-fern',
+      'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
+      'bellweather-lifecycle-atlas', 'bellweather-hedgerow-lifecycle-atlas', 'sereward-lifecycle-atlas', 'pale-meridian-lifecycle-atlas', 'siltmouths-lifecycle-atlas', 'vesperra-lifecycle-atlas', 'sombral-mere-lifecycle-atlas', 'underbough-lifecycle-atlas', 'underbough-bramble-lifecycle-atlas', 'veyrholds-lifecycle-atlas', 'ellionar-lifecycle-atlas', 'ellionar-hedge-lifecycle-atlas', 'sereward-scrub-lifecycle-atlas', 'sereward-acacia-lifecycle-atlas',
       'sombral-mere-merebloom', 'sombral-mere-merebloom-worked', 'sombral-mere-merebloom-low', 'sombral-mere-merebloom-depleted',
       'vesperra-mistbark', 'vesperra-mistbark-worked', 'vesperra-mistbark-low', 'vesperra-mistbark-depleted',
       'siltmouths-tidal-tree', 'siltmouths-tidal-tree-worked', 'siltmouths-tidal-tree-low', 'siltmouths-tidal-tree-depleted',
@@ -7146,6 +7147,8 @@ const server = createServer(async (request, response) => {
       'underbough-copperleaf-worked', 'underbough-copperleaf-low', 'underbough-copperleaf-depleted',
       'sereward-palm', 'sereward-acacia', 'sereward-scrub',
       'sereward-palm-worked', 'sereward-palm-low', 'sereward-palm-depleted',
+      'sereward-scrub-worked', 'sereward-scrub-low', 'sereward-scrub-depleted',
+      'sereward-acacia-worked', 'sereward-acacia-low', 'sereward-acacia-depleted',
       'ellionar-cultivated-palm', 'ellionar-garden-hedge',
       'ellionar-cultivated-palm-worked', 'ellionar-cultivated-palm-low', 'ellionar-cultivated-palm-depleted',
       'ellionar-garden-hedge-worked', 'ellionar-garden-hedge-low', 'ellionar-garden-hedge-depleted',
@@ -7168,6 +7171,7 @@ const server = createServer(async (request, response) => {
     && new RegExp(`^${kind}-(foundation|frame|complete|damaged|critical)-(azure|ember)\\.webp$`).test(path.basename(relative)));
   const publicMapAsset = path.dirname(relative) === 'maps' && path.extname(relative) === '.json';
   const publicUnitSpriteAsset = [
+    ...['worker', 'infantry', 'spearman', 'archer', 'scout', 'rider', 'siege-engine'].map(role => [`boughward-${role}`, 'v1']),
     ['worker', 'v1'], ['worker', 'v2'], ['worker', 'v3'],
     ['infantry', 'v1'], ['infantry', 'v2'], ['infantry', 'v3'], ['spearman', 'v1'], ['scout', 'v1'], ['rider', 'v1'], ['siege-engine', 'v1'], ['archer', 'v1'], ['archer', 'v2'],
     ...['human', 'orc', 'elf', 'troll'].map(role => [role, 'v1', 'cast']),

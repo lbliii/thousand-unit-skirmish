@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-vesperra-understory",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/vesperra-ecology.png",
+  "prompts": "VESPERRA-UNDERSTORY-PROMPTS.json",
+  "files": [
+    {
+      "path": "vesperra-shade-fern.png",
+      "role": "source-image",
+      "sha256": "5bf778bbc8417f99123b9f4eb4db430e6d0c5d7f098079f0256015084a1c1b34",
+      "bytes": 2191666,
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "vesperra-shade-fern.webp",
+      "role": "runtime-image",
+      "sha256": "938c50c823481fb557013dae9425f1a65aec42f9dc465515d6f36706ba4a63d5",
+      "bytes": 184218,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 686
+      }
+    }
+  ],
+  "cropPx": [
+    22,
+    10,
+    1519,
+    1013
+  ],
+  "asset": {
+    "id": "vesperra-shade-fern",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 1.07475,
+    "worldHeight": 0.72,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen. Unmodified selected PNG, deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact generated alpha. One approximate painted oblique view, no measured source calibration."
+}

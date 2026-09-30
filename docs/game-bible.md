@@ -277,8 +277,8 @@ The normal game uses the Vaelora Human Worker, Infantry, Spearman and Archer spr
 
 The default roster uses multiple local battlefields inspired by Vaelora's regional
 landscapes, with Bellweather Millrace as the first match. Region palettes determine
-current ground, vegetation, everyday music and terrain ambience; the shared human Frontier roster
-remains usable throughout. A playable map does not settle unknown inhabitants,
+current ground, vegetation, everyday music and terrain ambience; the shared Frontier gameplay rules
+remain usable throughout. A playable map does not settle unknown inhabitants,
 exact atlas geography or divine histories. See the [map catalog](maps.md).
 
 
@@ -293,3 +293,6 @@ Flat base and marker pads protect generated openings. This initial model derives
 rendered corners from cell heights; independent RollerCoaster Tycoon style corner
 sculpting, live terraforming, bridges and altered combat damage rules are later
 work. It adds no new rules about regional inhabitants or hazards.
+### Default rival presentation (2026-09-30)
+
+Boughward is the selected initial rival civilization art family. Normal matches render team zero with the Human roster and team one with Boughward orcs/goblins, wolf Scouts, boar Riders and woodland ballistae. Both use the Frontier gameplay rules; civilization selection and asymmetric civilization rules remain unimplemented. See [Boughward roster sources and limits](art-direction/boughward-roster-v1/README.md).
