@@ -123,6 +123,8 @@
             <button type="button" data-context-panel="selection">Groups</button>
             <span data-context-groups class="contextual-groups"></span>
             <button type="button" data-context-proxy="order-target-toggle">Target battlefield</button>
+            <button type="button" data-persistent-order="patrol">Patrol · P</button>
+            <button type="button" data-persistent-order="follow">Follow · F</button>
             <button type="button" data-stationary-order="stop">Stop · S</button>
             <button type="button" data-stationary-order="holdPosition">Hold position · H</button>
             <button type="button" data-context-proxy="attack-move-toggle">Attack move · M</button>
@@ -175,6 +177,7 @@
               <div class="composition-stat"><span>ARCHERS</span><b id="selected-archers-count">0</b></div>
             </div>
             <div id="selected-waypoints" class="selected-waypoints" aria-live="polite" hidden></div>
+            <p id="selected-persistent-orders" hidden aria-live="polite"></p>
             <div class="control-groups" aria-label="Control groups">
               <div class="control-groups-heading"><span>CONTROL GROUPS</span><span>CTRL/⌘ REPLACE · SHIFT ADD</span></div>
               <div class="group-assignment"><label for="assign-group-slot">Assign selection to group</label><select id="assign-group-slot"><option value="0">1</option><option value="1">2</option><option value="2">3</option><option value="3">4</option><option value="4">5</option><option value="5">6</option><option value="6">7</option><option value="7">8</option><option value="8">9</option><option value="9">0</option></select><button type="button" id="assign-selected-group">Assign</button></div>
@@ -275,6 +278,8 @@
                 <option value="column">Column</option>
               </select>
             </div>
+            <button type="button" class="attack-move-toggle" data-persistent-order="patrol" title="Patrol to a ground target and back, engaging enemies">Patrol · P</button>
+            <button type="button" class="attack-move-toggle" data-persistent-order="follow" title="Follow a living friendly unit">Follow · F</button>
             <button type="button" class="attack-move-toggle" data-stationary-order="stop" title="Cancel all current tasks and queued routes">Stop · S</button>
             <button type="button" class="attack-move-toggle" data-stationary-order="holdPosition" title="Stay in place and attack enemies within weapon range">Hold position · H</button>
             <button id="attack-move-toggle" class="attack-move-toggle" type="button" aria-pressed="false">

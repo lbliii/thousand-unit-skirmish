@@ -48,7 +48,23 @@ It does not automatically attack structures. Both commands apply to workers and
 military units, are available in the Orders/context controls, and persist through
 reconnect/checkpoint recovery. A new move, gather, build, repair, or attack order
 replaces Hold; a rematch clears it. Held workers are excluded from idle-worker
-selection. Patrol and Follow remain future command capabilities.
+selection.
+
+Patrol (`P`) targets ground and repeatedly travels between each selected unit's
+current cell and its assigned formation destination. It engages visible enemies
+using the existing attack-move leash, then resumes the interrupted route. Follow
+(`F`) targets a living friendly unit by ID and generation. Followers move towards
+a two-cell offset when farther than four cells from their leader; this deadband
+prevents continual oscillation around a stopped or slower leader. Follow does not
+seek enemies. A lost, dead, replaced or no-longer-friendly leader ends Follow in
+Stop. A disconnected route retains the order with a visible `BLOCKED` state and
+retries every two seconds; reachable Follow updates at most once per second.
+Persistent replanning admits at most 64 units each tick through the existing
+sliced planner, so a large group can catch up over several ticks. Persistent
+orders appear in selected-unit context, persist through recovery and are cleared
+by Stop/Hold, replacing move/work/attack orders, or rematch. Shift waypoints cancel
+persistent intent and retain the existing queued-route behavior. Held and
+persistently ordered workers are excluded from idle-worker selection.
 
 ## The match loop
 

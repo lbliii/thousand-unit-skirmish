@@ -2,6 +2,13 @@
 
 [Documentation index](README.md) · [Testing commands](testing.md) · [Roadmap](roadmap.md)
 
+## Persistent tactical orders — 30 September 2026
+
+The tactical command lane now has engineering evidence for Patrol/Follow:
+[dated command record](qa-persistent-orders-2026-09-30.md). This establishes the
+order rules, both-seat recovery and actual UI wiring; it does not establish
+unassisted player comprehension or a new supported hardware limit.
+
 ## Evidence standard
 
 Record the source commit or deployed build, map, seats/seeds, environment,

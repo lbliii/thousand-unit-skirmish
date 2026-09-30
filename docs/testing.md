@@ -61,6 +61,9 @@ Run from the repository root:
 | Producer destruction, replacement builders, and population caps | `node scripts/production-lifecycle-scenario.mjs` |
 | Forest clearing | `node scripts/harvestable-woodland-scenario.mjs` |
 | Forest route repair / exact deposits | `node scripts/worker-cargo-return-scenario.mjs` and `node scripts/worker-cargo-return-scenario.mjs frontier-160` |
+| Patrol / Follow intent and replanning bounds | `node --test scripts/persistent-command.test.mjs` |
+| Both-seat Patrol / Follow combat, recovery, interruptions and obstruction | `node scripts/persistent-command-scenario.mjs` |
+| Patrol / Follow actual browser controls and large selections | `node scripts/persistent-command-browser.mjs` (installed Chrome; owner-run headless smoke) |
 | Queued routes and checkpoint recovery | `node scripts/queued-waypoint-scenario.mjs` |
 | Queue HUD metadata under backpressure | `node --test scripts/waypoint-backpressure.test.mjs` |
 | Route repair after construction | `node scripts/live-attack-move-repair-scenario.mjs` |
