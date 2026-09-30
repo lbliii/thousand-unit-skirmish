@@ -238,3 +238,7 @@ Built-in ImageGen edited the original project-owned fruitless woody bramble into
 ## Veyrholds highpine lifecycle · 30 September 2026
 
 Built-in ImageGen edited the project-owned approved highpine into worked, low and depleted frames. Original full PNG/WebP remain unchanged. Selected masters retain exact 1159×1358 canvas and share crop [72,48,1146,1325]. [Manifest](veyrholds-lifecycle-manifest.json) records source IDs, hashes and dimensions; [exact prompts](VEYRHOLDS-LIFECYCLE-PROMPTS.json) preserve edit instructions. LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha; deterministic atlas copies decoded runtime pixels without repainting or rescaling. One fixed-oblique view, no third-party inputs or local pixel repairs.
+
+## Ellionar cultivated palm lifecycle · 30 September 2026
+
+Built-in ImageGen edited the approved project-owned palm into worked, low and depleted frames. Full PNG/WebP are unchanged. Selected masters retain exact 1024×1536 canvas and original shared crop [14,46,1010,1490]. [Manifest](ellionar-lifecycle-manifest.json) records hashes, dimensions and selected source IDs; [exact prompts](ELLIONAR-LIFECYCLE-PROMPTS.json) record edits and the discarded overly tall stump. Final stump height was corrected through ImageGen. Runtime LANCZOS max1024 RGBA WebP quality86 method6 preserves alpha; atlas copies decoded runtime pixels without rescaling or repainting. One fixed-oblique view, approximate painted camera guidance, no third-party inputs or local alpha repair.

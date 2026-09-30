@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-ellionar-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "ellionar-cultivated-palm.png",
+  "prompts": "ELLIONAR-LIFECYCLE-PROMPTS.json",
+  "provenance": "Built-in ImageGen edits of approved project-owned cultivated palm. Unmodified masters; original shared crop, LANCZOS max1024 RGBA WebP quality86 method6 exact alpha. Camera guidance approximate.",
+  "files": [
+    {
+      "path": "ellionar-cultivated-palm.png",
+      "role": "source-image",
+      "sha256": "0e7be2e68250ac5bda5cf7c192ac57afbba63e163e761a67ee41cd67f508836a",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1536
+      },
+      "bytes": 2460970
+    },
+    {
+      "path": "ellionar-cultivated-palm.webp",
+      "role": "runtime-image",
+      "sha256": "fe0f448e6b214ead9005d5d0a5f1a902d86a3e52e3d5e00a72a9b510962c2e1e",
+      "dimensionsPx": {
+        "width": 706,
+        "height": 1024
+      },
+      "bytes": 280852
+    },
+    {
+      "path": "ellionar-cultivated-palm-worked.png",
+      "role": "source-image",
+      "sha256": "5b5c2f58a73e74c4c95796a8a4ea5ed4a36c3dfcdb44cd733213a2d02f7c1bac",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1536
+      },
+      "bytes": 2408735
+    },
+    {
+      "path": "ellionar-cultivated-palm-worked.webp",
+      "role": "runtime-image",
+      "sha256": "cc1d7d05fcfcd723854174914305e4a6bf24760ddf7e67b23bd00915f72588bb",
+      "dimensionsPx": {
+        "width": 706,
+        "height": 1024
+      },
+      "bytes": 261136
+    },
+    {
+      "path": "ellionar-cultivated-palm-low.png",
+      "role": "source-image",
+      "sha256": "c85bd2fe639253e8de5ca66ccaf82cff7c241419b0ef131caead914b3e743159",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1536
+      },
+      "bytes": 2470350
+    },
+    {
+      "path": "ellionar-cultivated-palm-low.webp",
+      "role": "runtime-image",
+      "sha256": "c3256078df9a383888a13ca10e3aef06435198fb9f7f17d320db8455252cabbd",
+      "dimensionsPx": {
+        "width": 706,
+        "height": 1024
+      },
+      "bytes": 269642
+    },
+    {
+      "path": "ellionar-cultivated-palm-depleted.png",
+      "role": "source-image",
+      "sha256": "3e2bcef703d6f3a3d8955ddc3b78b32ebf5ca9920598dff5535ec330c1ee5532",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1536
+      },
+      "bytes": 701564
+    },
+    {
+      "path": "ellionar-cultivated-palm-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "a133dd294bba7ec9ae7123550cb12316e661e56bd1908dd1169b73ae071657a1",
+      "dimensionsPx": {
+        "width": 706,
+        "height": 1024
+      },
+      "bytes": 19508
+    }
+  ],
+  "assets": [
+    {
+      "id": "ellionar-cultivated-palm",
+      "sourceOutputId": "exec-72e10017-6737-46dd-92a1-a19b6354eaeb",
+      "sourceFile": "ellionar-cultivated-palm.png",
+      "runtimeFile": "ellionar-cultivated-palm.webp",
+      "cropBoxPx": [
+        14,
+        46,
+        1010,
+        1490
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "full",
+      "logicalCanvasPx": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "id": "ellionar-cultivated-palm-worked",
+      "sourceOutputId": "exec-cd4379e7-9659-472a-a50d-a83bbe6c5126",
+      "sourceFile": "ellionar-cultivated-palm-worked.png",
+      "runtimeFile": "ellionar-cultivated-palm-worked.webp",
+      "cropBoxPx": [
+        14,
+        46,
+        1010,
+        1490
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "worked",
+      "logicalCanvasPx": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "id": "ellionar-cultivated-palm-low",
+      "sourceOutputId": "exec-0465162e-f991-4d16-acff-d70e6ab4f584",
+      "sourceFile": "ellionar-cultivated-palm-low.png",
+      "runtimeFile": "ellionar-cultivated-palm-low.webp",
+      "cropBoxPx": [
+        14,
+        46,
+        1010,
+        1490
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "low",
+      "logicalCanvasPx": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "id": "ellionar-cultivated-palm-depleted",
+      "sourceOutputId": "exec-ce62f9ef-9616-47bf-8d33-cb1049ac449b",
+      "sourceFile": "ellionar-cultivated-palm-depleted.png",
+      "runtimeFile": "ellionar-cultivated-palm-depleted.webp",
+      "cropBoxPx": [
+        14,
+        46,
+        1010,
+        1490
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "depleted",
+      "logicalCanvasPx": [
+        1024,
+        1536
+      ]
+    }
+  ]
+}
