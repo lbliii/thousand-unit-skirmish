@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-underbough-understory",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/underbough-ecology.png",
+  "referenceSha256": "8a20fa0f121641e6066e144e80fa8f699c74a1884efab21c79c81bb5776cc264",
+  "prompts": "UNDERBOUGH-UNDERSTORY-PROMPTS.json",
+  "files": [
+    {
+      "path": "underbough-rootward-fungus.png",
+      "role": "source-image",
+      "sha256": "29e7eeacee80cad2f512d875ac52f57e162200e848115a5072bde18bd4bd5235",
+      "bytes": 2574398,
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "underbough-rootward-fungus.webp",
+      "role": "runtime-image",
+      "sha256": "ff47a7941b2e317b030d472b3663fe55e9704991a21fcf7d275c0aeb09b9dcc2",
+      "bytes": 220346,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 614
+      }
+    }
+  ],
+  "cropPx": [
+    51,
+    99,
+    1500,
+    968
+  ],
+  "asset": {
+    "id": "underbough-rootward-fungus",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 1.08404,
+    "worldHeight": 0.65,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen against approved ecology key, refined to shorter gills/more cap-top view. Unmodified selected PNG; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 exact alpha. One approximate painted oblique view. No new resource or carved-stone lore."
+}

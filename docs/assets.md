@@ -117,3 +117,5 @@ Siltmouths tidal-mud forests include sparse silver reed companions that clear wi
 Pale Meridian snow/ice forests include sparse silver cushion moss companions, clearing with their parent forest cells. See the [manifest](../assets/environment/frontier-v1/pale-meridian-understory-manifest.json) and [environment guide](environment-pack-v1.md) for sources, placement and remaining scope.
 
 Sombral Mere lunar-soil forests include small Lunewort flower companions that clear with their parent forest cells. See the [understory manifest](../assets/environment/frontier-v1/sombral-mere-understory-manifest.json) and [environment guide](environment-pack-v1.md) for source/runtime details and remaining scope.
+
+Underbough forest-floor maps include sparse Rootward fungus companions beneath Copperleaf/bramble, clearing with their parent forest cells. See the [manifest](../assets/environment/frontier-v1/underbough-understory-manifest.json) and [environment guide](environment-pack-v1.md) for source/runtime details and scope.

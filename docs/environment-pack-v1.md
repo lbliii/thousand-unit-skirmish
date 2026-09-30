@@ -562,3 +562,9 @@ The approved key's [silver cushion moss](../assets/environment/frontier-v1/pale-
 The approved key's [Lunewort](../assets/environment/frontier-v1/sombral-mere-understory-manifest.json) adds small pearl-lavender flowers and deep teal leaves beneath Merebloom trees on lunar-soil base maps. Petal color is matte with no emission or baked halo. The shared companion path places one clump in a seeded 28% of existing forest cells, retains it through partial harvest, clears at received stock zero and restores on reset. Hidden cells retain their last received stock. No new resource or collision cells, medicinal mechanic or lunar-culture canon is introduced.
 
 [Focused local evidence](qa-evidence/vaelora-sombral-mere-understory-2026-09-30/README.md) covers placement, camera roll, raised ground contact, clearing/reset and existing tree behavior. Generated PNG remains unchanged and cropped WebP preserves alpha. Water lilies, lakeshore-wide placement, seasonal flower states and extra painted viewpoints remain future outcomes.
+
+## Underbough Rootward fungus · 30 September 2026
+
+The approved key's [Rootward fungus](../assets/environment/frontier-v1/underbough-understory-manifest.json) adds low rust/burgundy shelf caps on small mossy deadwood pieces beneath Copperleaf and woody bramble. The shared companion path selects 28% of existing forest cells. Fungus remains through partial harvest, clears at received stock zero and restores on reset; hidden cells retain their last received stock. This decorative sample adds no food, wood or collision cells and no carved-stone or forest-consciousness lore.
+
+[Local evidence](qa-evidence/vaelora-underbough-understory-2026-09-30/README.md) covers placement, camera roll, ground contact and clearing/reset. Generated source remains unchanged after selection; cropped WebP preserves alpha. Standalone fungus harvesting, deadwood variants and additional painted views remain future outcomes.
