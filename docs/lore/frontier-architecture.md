@@ -71,3 +71,7 @@ The first model pilot renders these two buildings at the same world scale. Town 
 ![Controlled Town Center and House scale gallery](../../assets/buildings/frontier-civilization-scale-pilot-v1/scale-gallery-review.png)
 
 [Explore the eight-view gallery](../../assets/buildings/frontier-civilization-scale-pilot-v1/preview.html). These are Complete source captures; active game art, lifecycle states and team treatment still require integration.
+
+## Support-building directional sources
+
+Storehouse, Stable, Workshop and Watchtower now have eight controlled Complete views each. [Review their shared-scale gallery](../../assets/buildings/frontier-civilization-models-v1/preview.html). These source captures extend the kit; doorway/bay scale acceptance, lifecycle/team treatment and active game integration remain outstanding.

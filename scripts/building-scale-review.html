@@ -8,6 +8,7 @@
 <section><div>
 <label>Local model <input id="file" type="file" accept=".glb"></label>
 <button id="town">Load Town Center pilot</button> <button id="house">Load House pilot</button>
+<button id="storehouse">Load Storehouse</button> <button id="stable">Load Stable</button> <button id="workshop">Load Workshop</button> <button id="watchtower">Load Watchtower</button>
 <button id="sample">Load existing Barracks sample</button>
 <label>Measured native base width <input id="native" type="number" min="0.001" step="0.01" placeholder="Required"></label>
 <label>Measured native base center X <input id="baseX" type="number" step="0.001" value="0"></label>
@@ -59,8 +60,13 @@ function install(gltf,name){
  $('status').textContent='Model loaded at native scale. Measure ground-contact base width before applying target scale. Roof/pennant bounds are shown only for inspection.';render();
 }
 const loader=new GLTFLoader();
+// The desktop browser can fail ImageBitmap decoding of large embedded JPEGs.
+// Use the DOM image texture path, retaining original texture pixels and color space.
+loader.register(parser=>({name:'LOCAL_DOM_TEXTURE_DECODE',beforeRoot(){parser.textureLoader=new THREE.TextureLoader(parser.options.manager);parser.textureLoader.setCrossOrigin(parser.options.crossOrigin);parser.textureLoader.setRequestHeader(parser.options.requestHeader);}}));
 $('sample').onclick=async()=>{try{install(await loader.loadAsync('../assets/units-buildings/frontier-glb-sample-v2/models/barracks.glb'),'existing-barracks-sample');}catch(error){$('status').textContent=error.message;}};
-for(const id of ['town-center','house'])$(id==='town-center'?'town':'house').onclick=async()=>{try{install(await loader.loadAsync('../assets/buildings/frontier-civilization-scale-pilot-v1/meshy_output/'+id+'.glb'),id);}catch(error){$('status').textContent=error.message;}};
+const pilotIds=['town-center','house'];
+const supportedIds=[...pilotIds,'storehouse','stable','workshop','watchtower'];
+for(const id of supportedIds)$(id==='town-center'?'town':id).onclick=async()=>{try{install(await loader.loadAsync('../assets/buildings/'+(pilotIds.includes(id)?'frontier-civilization-scale-pilot-v1':'frontier-civilization-models-v1')+'/meshy_output/'+id+'.glb'),id);}catch(error){$('status').textContent=error.message;}};
 $('file').onchange=async()=>{const file=$('file').files[0];if(!file)return;try{const gltf=await loader.parseAsync(await file.arrayBuffer(),'');install(gltf,file.name);}catch(error){$('status').textContent='Load failed: '+error.message;}};
 $('apply').onclick=()=>{
  const native=Number($('native').value),target=Number($('target').value);
@@ -71,11 +77,11 @@ $('apply').onclick=()=>{
  const factor=target/native;root.scale.setScalar(factor);root.updateMatrixWorld(true);
  calibration={source,measuredNativeBaseWidth:native,targetBaseWidthWorldUnits:target,uniformScale:factor,groundingTranslationNative:model.position.toArray(),nativeBounds,measuredBaseCenterNativeXZ:[baseX,baseZ],occupancyCells:Number($('footprint').value),status:'manual-base-calibration; measured base-center origin'};
  $('status').textContent=`Applied uniform scale ${factor.toFixed(4)}. Door and roof height remain proportional; compare doors against the 0.8-unit ruler.`;
- $('record').disabled=false;$('bake').disabled=!['town-center','house'].includes(source);render();
+ $('record').disabled=false;$('bake').disabled=!supportedIds.includes(source);render();
 };
 for(const id of ['azimuth','span','footprint'])$(id).onchange=render;
 $('bake').onclick=async()=>{
- if(!calibration||!['town-center','house'].includes(source))return;
+ if(!calibration||!supportedIds.includes(source))return;
  $('bake').disabled=true;const initial=$('azimuth').value;
  for(const object of [grid,outline,axes,ruler])object.visible=false;
  try{

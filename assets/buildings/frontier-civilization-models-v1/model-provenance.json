@@ -1,0 +1,60 @@
+{
+  "schema": "thousand-unit-skirmish.building-model-batch.v1",
+  "date": "2026-09-30",
+  "approvedCredits": 120,
+  "consumedCreditsTotal": 120,
+  "entries": [
+    {
+      "id": "storehouse",
+      "status": "SUCCEEDED",
+      "consumedCredits": 30,
+      "source": "../frontier-civilization-concepts-v1/storehouse.png",
+      "sourceModelPath": "meshy_output/storehouse.glb",
+      "sha256": "5860105a3642ce304b4166eaad0874bd522bcea49b2f95dabcf82e8ed805e2a1",
+      "bytes": 133849016,
+      "triangles": 3735552,
+      "measurement": "storehouse-measurement.json",
+      "preview": "previews/storehouse.png",
+      "runtimeIntegrated": false
+    },
+    {
+      "id": "stable",
+      "status": "SUCCEEDED",
+      "consumedCredits": 30,
+      "source": "../frontier-civilization-concepts-v1/stable.png",
+      "sourceModelPath": "meshy_output/stable.glb",
+      "sha256": "88b515890240032aa991a86cde171d6e40f21f5c2520cf3c4a3428b17bf17312",
+      "bytes": 96694824,
+      "triangles": 2417738,
+      "measurement": "stable-measurement.json",
+      "preview": "previews/stable.png",
+      "runtimeIntegrated": false
+    },
+    {
+      "id": "workshop",
+      "status": "SUCCEEDED",
+      "consumedCredits": 30,
+      "source": "../frontier-civilization-concepts-v1/workshop.png",
+      "sourceModelPath": "meshy_output/workshop.glb",
+      "sha256": "0b9dcf150f862eea876ab396942cb9c6cb2e7205576dd33a6f728ab8a7589aea",
+      "bytes": 146061612,
+      "triangles": 4044762,
+      "measurement": "workshop-measurement.json",
+      "preview": "previews/workshop.png",
+      "runtimeIntegrated": false
+    },
+    {
+      "id": "watchtower",
+      "status": "SUCCEEDED",
+      "consumedCredits": 30,
+      "source": "../frontier-civilization-concepts-v1/watchtower.png",
+      "sourceModelPath": "meshy_output/watchtower.glb",
+      "sha256": "c269d92488273da2f914044940008b21c429455281e690c6f39980b97764df21",
+      "bytes": 69870376,
+      "triangles": 1524326,
+      "measurement": "watchtower-measurement.json",
+      "preview": "previews/watchtower.png",
+      "runtimeIntegrated": false
+    }
+  ]
+}
