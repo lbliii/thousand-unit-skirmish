@@ -17,7 +17,7 @@ const spriteNames = [
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'bellweather-field-maple-worked', 'bellweather-field-maple-low', 'bellweather-field-maple-depleted',
-  'veyrholds-highpine', 'veyrholds-ironlichen-outcrop', 'ru-lora-fiendwood', 'ru-lora-stone-fern',
+  'veyrholds-highpine', 'veyrholds-ironlichen-outcrop', 'ru-lora-fiendwood', 'ru-lora-stone-fern', 'ru-lora-broken-trunk',
   'underbough-copperleaf', 'underbough-bramble',
   'sereward-palm', 'sereward-acacia', 'sereward-scrub',
   'sereward-palm-worked', 'sereward-palm-low', 'sereward-palm-depleted',
@@ -565,6 +565,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
   const maples = [];
   const hazelThickets = [];
   const outcrops = [];
+  const brokenTrunks = [];
   const boulderClusters = [];
   const stoneFerns = [];
   const ridges = [];
@@ -676,7 +677,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
                   ...point,
                   scale: 0.82 + variation(index + 61) * 0.3,
                 });
-              } else outcrops.push(point);
+              } else (ruLora && variation(index + 97) < 0.35 ? brokenTrunks : outcrops).push(point);
             } else if ((obstacle.elevation ?? 1.12) >= 1.75) {
               if (atBarrierEnd) {
                 cliffCaps.push({
@@ -704,6 +705,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     [mapleName, sereward ? 3.5 : 3.05, sereward ? 2.85 : 3.25, maples],
     [thicketName, ellionar ? 2.8 : sereward ? 2.6 : 3.1, ellionar ? 1.8 : sereward ? 1.7 : 2.07, hazelThickets],
     [ruLora ? 'ru-lora-fiendwood' : veyrholds ? 'veyrholds-ironlichen-outcrop' : 'rock-outcrop', ruLora ? 3.3 : 3.5, ruLora ? 3.2 : 2.2, outcrops],
+    ['ru-lora-broken-trunk', 1.655, 2.3, brokenTrunks],
     ['ru-lora-stone-fern', 2.511, 1.65, stoneFerns],
     ['rock-boulder-cluster', 2.7, 1.8, boulderClusters],
     ['basalt-ridge', 3.6, 3.05, ridges],

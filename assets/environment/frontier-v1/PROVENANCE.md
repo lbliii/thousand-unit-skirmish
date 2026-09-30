@@ -222,3 +222,7 @@ Built-in ImageGen generated this original stone scenery sprite from the project-
 ## Ru’Lora stone fern · 30 September 2026
 
 Built-in ImageGen generated the stone fern from the project-owned ecology key, with no third-party inputs. The unchanged PNG and alpha-preserving WebP are recorded in [manifest v1.1.0](ru-lora-manifest.json) and [exact prompts](RU-LORA-PROMPTS.json). Runtime uses alpha>=21 bounding crop and LANCZOS max1024, WebP quality86 method6 exact alpha. Inspection over a colored background confirmed that the dark haze visible in the generated preview is transparent RGB, not an opaque backdrop. No pixel repainting or alpha repair.
+
+## Ru’Lora naturally broken trunk · 30 September 2026
+
+Built-in ImageGen edited the approved project-owned Fiendwood source into a darker crownless mineral scenery sibling. [Exact prompt](RU-LORA-PROMPTS.json) and [manifest v1.2.0](ru-lora-manifest.json) record the unchanged generated master, source ID, crop, dimensions and hashes. Runtime is LANCZOS max1024 RGBA WebP quality86 method6 exact alpha; no pixel repainting or alpha repair. One fixed-oblique intact scenery view; not a harvest state.

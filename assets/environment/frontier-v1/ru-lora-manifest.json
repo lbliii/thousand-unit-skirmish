@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "packId": "environment.vaelora-ru-lora",
-  "packVersion": "1.1.0",
+  "packVersion": "1.2.0",
   "reference": "docs/art-direction/vaelora-v1/ru-lora-ecology.png",
   "referenceSha256": "de2facecd913436558baf31977e8aab4b5ab627649c6d2150ed49589010c8acc",
   "prompts": "RU-LORA-PROMPTS.json",
@@ -46,6 +46,26 @@
         "height": 673
       },
       "bytes": 216674
+    },
+    {
+      "path": "ru-lora-broken-trunk.png",
+      "role": "source-image",
+      "sha256": "677f6da764ebe05477d16769275cb3e439fc110e4cb65ab19c4b6d2ae7fd3428",
+      "dimensionsPx": {
+        "width": 1330,
+        "height": 1183
+      },
+      "bytes": 929929
+    },
+    {
+      "path": "ru-lora-broken-trunk.webp",
+      "role": "runtime-image",
+      "sha256": "6369c5268708883c433e1cd4ba530da484bcf811a0f0593831db0afeaf80166f",
+      "dimensionsPx": {
+        "width": 737,
+        "height": 1024
+      },
+      "bytes": 157858
     }
   ],
   "assets": [
@@ -102,6 +122,34 @@
       "states": [
         "intact"
       ]
+    },
+    {
+      "id": "ru-lora-broken-trunk",
+      "sourceOutputId": "exec-c59ab3d8-23e2-4cb1-8fbd-a6cebe7a4701",
+      "sourceFile": "ru-lora-broken-trunk.png",
+      "runtimeFile": "ru-lora-broken-trunk.webp",
+      "cropBoxPx": [
+        362,
+        129,
+        1114,
+        1174
+      ],
+      "worldSize": {
+        "width": 1.655,
+        "height": 2.3
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "kind": "stone-obstacle-sprite",
+      "directions": [
+        "fixed-oblique"
+      ],
+      "states": [
+        "intact"
+      ],
+      "note": "Naturally fractured mineral scenery, not a harvest depletion state."
     }
   ]
 }

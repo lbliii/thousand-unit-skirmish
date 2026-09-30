@@ -72,7 +72,7 @@ if(!['bellweather','veyrholds','underbough','sereward','ellionar','pale-meridian
 const lifecycle=process.env.RTS_VEGETATION_LIFECYCLE==='1';
 if(lifecycle&&!['bellweather','sereward','pale-meridian','siltmouths','vesperra','sombral-mere'].includes(region))throw new Error('No lifecycle pack for region');
 const atlasCapture=process.env.RTS_VEGETATION_ATLAS==='1';
-const out=atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-interior-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
+const out=atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-broken-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
@@ -116,7 +116,7 @@ try {
   }
   if(region==='ru-lora'){
    const requests=await cdp.evaluate('performance.getEntriesByType("resource").filter(e=>e.name.includes("assets/environment")).map(e=>new URL(e.name).pathname)');
-   if(!['ru-lora-fiendwood.webp','ru-lora-stone-fern.webp','rock-boulder-cluster.webp'].every(f=>requests.some(p=>p.endsWith('/'+f))))throw new Error('Interior study regional images missing');
+   if(!['ru-lora-fiendwood.webp','ru-lora-stone-fern.webp','ru-lora-broken-trunk.webp','rock-boulder-cluster.webp'].every(f=>requests.some(p=>p.endsWith('/'+f))))throw new Error('Interior study regional images missing');
    await writeFile(out+'/study-requests.json',JSON.stringify(requests,null,2)+'\n');
   }
  }
@@ -191,7 +191,7 @@ try {
   const {addObstacleEnvironmentSprites,createGroundSurfaces}=await import('/src/environment-art.mjs');
   const results=[];
   for(const terrainBase of ['meadow','snow','scree','forest-floor','sand','garden-loam','ice','tidal-mud','jungle-loam','lunar-soil','salt-crust']) {
-   const d={id:'vegetation-proof',width:12,height:12,terrainBase,obstacles:[{row:3,column:3,width:6,height:6,material:'forest'},{row:10,column:1,width:10,height:1,material:'stone',elevation:0.72}]};
+   const d={id:'vegetation-proof',width:12,height:12,terrainBase,obstacles:[{row:3,column:3,width:6,height:6,material:'forest'},{row:10,column:1,width:10,height:1,material:'stone',elevation:0.72},{row:9,column:1,width:10,height:1,material:'stone',elevation:0.72}]};
    const objects=[];const slots=addObstacleEnvironmentSprites(d,6,6,o=>objects.push(o));
    for(let i=0;i<50 && objects.some(o=>!o.material.map.image?.complete);i++)await new Promise(r=>setTimeout(r,100));
    if(objects.some(o=>!o.material.map.image?.naturalWidth))throw new Error('Environment texture failed to load');
@@ -212,7 +212,32 @@ try {
  if(!proof[7].files.includes('siltmouths-lifecycle-atlas.webp')||proof[7].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Siltmouths forest mix mismatch');
  if(!proof[8].files.includes('vesperra-lifecycle-atlas.webp')||proof[8].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Vesperra forest mix mismatch');
  if(!proof[9].files.includes('sombral-mere-lifecycle-atlas.webp')||proof[9].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Sombral Mere forest mix mismatch');
- if(!['ru-lora-fiendwood.webp','ru-lora-stone-fern.webp','rock-boulder-cluster.webp'].every(f=>proof[10].files.includes(f))||proof.slice(0,10).some(r=>r.files.some(f=>f.startsWith('ru-lora-'))))throw new Error('Ru Lora stone scenery binding mismatch');
+ if(!['ru-lora-fiendwood.webp','ru-lora-stone-fern.webp','ru-lora-broken-trunk.webp','rock-boulder-cluster.webp'].every(f=>proof[10].files.includes(f))||proof.slice(0,10).some(r=>r.files.some(f=>f.startsWith('ru-lora-'))))throw new Error('Ru Lora stone scenery binding mismatch');
+ if(region==='ru-lora'){
+  const placement=await cdp.evaluate(`(async()=>{
+   const THREE=await import('/vendor/three.module.js');
+   const {CAMERA_VIEW_DIRECTION}=await import('/src/camera-controls.mjs');
+   const {addObstacleEnvironmentSprites}=await import('/src/environment-art.mjs');
+   const up=new THREE.Vector3(0,1,0);const normal=new THREE.Vector3(...CAMERA_VIEW_DIRECTION).normalize();const screenRight=new THREE.Vector3().crossVectors(up,normal).normalize();
+   const result=[];
+   for(const id of ['ru-lora-placement-proof','meshy-resource-review']){
+    const objects=[];addObstacleEnvironmentSprites({id,width:32,height:32,terrainBase:'salt-crust',obstacles:[{column:3,row:8,width:25,height:1,material:'stone',elevation:0.72},{column:3,row:18,width:25,height:1,material:'stone',elevation:0.72}]},16,16,o=>objects.push(o));
+    const positions=[];let maxRoll=0;
+    for(const mesh of objects){
+     const matrix=new THREE.Matrix4();for(let i=0;i<mesh.count;i++){
+      mesh.getMatrixAt(i,matrix);positions.push([matrix.elements[12],matrix.elements[13],matrix.elements[14]]);
+      const spriteUp=new THREE.Vector3().setFromMatrixColumn(matrix,1).normalize();maxRoll=Math.max(maxRoll,Math.abs(spriteUp.dot(screenRight)));
+     }
+     mesh.geometry.dispose();mesh.material.dispose();
+    }
+    positions.sort((a,b)=>a[0]-b[0]||a[2]-b[2]);result.push({id,positions,maxScreenRollComponent:maxRoll});
+   }
+   if(JSON.stringify(result[0].positions)!==JSON.stringify(result[1].positions))throw new Error('Regional stone positions changed');
+   if(result.some(r=>r.maxScreenRollComponent>0.0001))throw new Error('Stone sprites have screen roll');
+   return result;
+  })()`);
+  await writeFile(out+'/stone-placement-proof.json',JSON.stringify(placement,null,2)+'\n');
+ }
  const reference=JSON.stringify(proof[0].cells.slice().sort((a,b)=>a-b));
  if(proof.some(r=>JSON.stringify(r.cells.slice().sort((a,b)=>a-b))!==reference))throw new Error('Regional forest cells differ');
  const covers=await cdp.evaluate(`(async()=>{
