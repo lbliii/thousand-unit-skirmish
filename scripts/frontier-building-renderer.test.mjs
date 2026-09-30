@@ -18,3 +18,19 @@ test('all six Complete renderer manifests preserve captured pixels, scale and re
  }
  assert.equal(count,6);
 });
+
+
+import {validateCaptureFamily} from './build-frontier-complete-manifests.mjs';
+test('capture admission rejects drift and duplicate directions before generating renderer metadata',async()=>{
+ const root=new URL('../assets/buildings/frontier-civilization-scale-pilot-v1/captures/capture-manifest.json',import.meta.url);
+ const records=JSON.parse(await readFile(root)).records.filter(r=>r.asset==='house');
+ assert.doesNotThrow(()=>validateCaptureFamily(records));
+ for(const mutate of [
+  rows=>{rows[1].viewIndex=rows[0].viewIndex;},
+  rows=>{rows[1].camera.pixelsPerWorldUnit=256;},
+  rows=>{rows[1].camera.groundOriginPixelFromTopLeft[0]+=1;},
+  rows=>{rows[1].uniformScale*=2;},
+  rows=>{rows[1].lighting.keyIntensity+=1;},
+  rows=>{rows[1].file='../source.glb';},
+ ]){const rows=structuredClone(records);mutate(rows);assert.throws(()=>validateCaptureFamily(rows));}
+});

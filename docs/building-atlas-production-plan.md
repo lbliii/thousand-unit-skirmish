@@ -88,3 +88,7 @@ These are absent from the current building registry. Prepare reference boards or
 6. Measure decoded texture memory and draw calls on a representative mixed-building settlement before choosing shared atlas pages or larger direction counts. Do not copy every reference resolution/lighting variant into runtime.
 
 Current source evidence: the Town Center/House pilot has sixteen measured Complete views with shared density and pivots. Next concrete outcomes are actual selected-role Worker clearance review and the remaining six calibrated Complete model families, before purchasing lifecycle families. Additional model spend is separately authorized. The 0.8-unit pilot ruler is approximate: Worker v1/v2/v3 sprite manifests declare 0.9385/0.8933/1.05-unit heights. See the [style guide](frontier-civilization-art-style.md#worker-scale-evidence) for the runtime scaling distinction.
+
+## Reusable capture admission
+
+`node scripts/build-frontier-complete-manifests.mjs` verifies each model family before producing renderer metadata: eight unique 45° directions, consistent orthographic camera/density/canvas, grounded pivots within numerical tolerance, measured uniform scale, shared grounding/lighting, explicit frame paths and actual pixel-file SHA-256. The renderer tests include deliberate camera, pivot, scale, light, direction and path drift. A new civilization should satisfy this same contract before game bindings are added; passing it does not certify role recognition, doorway scale or missing lifecycle/team art.
