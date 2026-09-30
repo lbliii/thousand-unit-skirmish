@@ -6881,6 +6881,7 @@ const server = createServer(async (request, response) => {
     && ['.png', '.webp'].includes(path.extname(relative))
     && ['oak', 'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
       'bellweather-field-maple', 'bellweather-hedgerow',
+      'bellweather-field-maple-worked', 'bellweather-field-maple-low', 'bellweather-field-maple-depleted',
       'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
       'underbough-copperleaf', 'underbough-bramble',
       'sereward-palm', 'sereward-acacia', 'sereward-scrub',

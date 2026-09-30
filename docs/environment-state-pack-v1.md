@@ -79,3 +79,46 @@ source-only oak candidate remains outside the manifest/runtime path; adoption
 needs black/light edge review and matching file/hash changes. Berry source
 comparisons supported leaving v1 alpha unchanged. Neither finding substitutes
 for the required game-zoom views.
+
+## Regional asset production requirement · 30 September 2026
+
+Regional vegetation must develop matching lifecycle art as well as its intact
+silhouette. Before the Bellweather maple pilot, regional samples had one intact
+view and used the shared generic stump only at zero stock. The maple now covers
+four stages; other regional families still need worked/low variants and matching
+depleted art. See the [integrated pilot](environment-pack-v1.md#bellweather-maple-lifecycle--30-september-2026).
+
+| Asset role | Required useful states |
+| --- | --- |
+| Harvestable tree | Intact, worked (cut/notched trunk), low stock, matching stump. Keep the standing crown plausible rather than shrinking the whole tree. |
+| Harvestable fruit/shrub | Full yield, reduced yield, nearly empty, depleted plant. |
+| Mineable resource | Intact deposit, worked surface, low deposit, exhausted remnant. |
+| Decorative vegetation/rock | Intact variants; lifecycle states only when gameplay uses them. |
+
+These are visual production requirements, not new harvest rules: a decorative
+flowering hedge does not become a food node. Active chopping/picking feedback
+belongs to worker animation and localized effects; stock stages persist when a
+worker stops. Regrowth, seasonal changes and falling-tree animation need a
+separate concrete gameplay or presentation outcome before expanding the matrix.
+
+The renderer currently pans and zooms at one fixed oblique camera direction
+(`cameraOffset` in `src/main.js`). One matching camera view per state is therefore
+the first runtime target. Mirroring a sprite is not a second perspective.
+Asymmetric props can benefit from alternate authored orientations even with this
+camera. If camera rotation becomes a supported feature, evaluate four or eight
+azimuth views at the same elevation using one consistent source asset, then
+implement direction selection; the current renderer does not do that selection.
+
+Use the [sprite-atlas contract](sprite-atlas-contract-v1.md) for new atlas packs:
+state clips and optional direction IDs already fit its format. Keep a shared
+logical canvas, ground pivot, scale and lighting across all states/directions.
+Record trimmed rectangles relative to that canvas instead of independently
+centering each crop, which would make state changes jump. Group pages by asset
+family or region and load them on demand; do not require one world-sized sheet.
+For planning, four stages at one view are four frames; eight views would make
+32 before animation. Page size, padding and mip settings follow the existing
+contract and measured residency rather than frame count alone.
+
+The first regional lifecycle pilot should prove fixed registration, matching
+depleted art, partial-stock selection, fog-preserved last-known states, reset and
+game-zoom readability before multiplying the direction count across the library.

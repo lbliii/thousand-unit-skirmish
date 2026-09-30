@@ -1,6 +1,6 @@
 import { TERRAIN_MATERIALS, forestGroundForBase } from './terrain-materials.mjs';
 import * as THREE from 'three';
-import { RESOURCE_VISUAL_STAGES } from './resource-visual-state.mjs';
+import { RESOURCE_VISUAL_STAGES, resourceVisualStage } from './resource-visual-state.mjs';
 import { createGroundMistStudy } from './terrain-atmosphere.mjs';
 import { applyTerrainTextureSampling } from './terrain-texture-sampling.mjs';
 import { buildTerrainBlendMasks, buildForestGroundMask } from './terrain-blend.mjs';
@@ -15,6 +15,7 @@ export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
+  'bellweather-field-maple-worked', 'bellweather-field-maple-low', 'bellweather-field-maple-depleted',
   'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
   'underbough-copperleaf', 'underbough-bramble',
   'sereward-palm', 'sereward-acacia', 'sereward-scrub',
@@ -433,6 +434,24 @@ export function setEnvironmentSpriteInstance(mesh, index, x, z, scale, flip = fa
   mesh.setMatrixAt(index, instanceDummy.matrix);
 }
 
+// Matches the authoritative six wood per forest cell in server.mjs.
+// Hidden cells retain their last received stock; callers must not infer new stock.
+export function setForestSpriteStock(slot, stock = 6) {
+  const stage = resourceVisualStage(stock, 6);
+  if (slot.stateMeshes) {
+    for (const [key, mesh] of Object.entries(slot.stateMeshes)) {
+      setEnvironmentSpriteInstance(mesh, slot.index, slot.x, slot.z,
+        key === stage ? slot.scale : 0, slot.flip, slot.yaw);
+      mesh.instanceMatrix.needsUpdate = true;
+    }
+  } else {
+    setEnvironmentSpriteInstance(slot.mesh, slot.index, slot.x, slot.z,
+      stock <= 0 ? 0 : slot.scale, slot.flip, slot.yaw);
+    slot.mesh.instanceMatrix.needsUpdate = true;
+  }
+  return stage;
+}
+
 function variation(index) {
   const value = Math.sin(index * 127.1 + 17.7) * 43758.5453;
   return value - Math.floor(value);
@@ -587,10 +606,20 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
   ]) {
     const mesh = createEnvironmentSpriteInstances(name, width, height, points);
     if (!mesh) continue;
+    let stateMeshes;
+    if (name === 'bellweather-field-maple') {
+      stateMeshes = { full: mesh };
+      for (const stage of ['worked', 'low', 'depleted']) {
+        const stateMesh = createEnvironmentSpriteInstances(`${name}-${stage}`, width, height,
+          points.map((point) => ({ ...point, scale: 0 })));
+        stateMeshes[stage] = stateMesh;
+        addObject(stateMesh);
+      }
+    }
     for (let index = 0; index < points.length; index++) {
       const point = points[index];
       if (!Number.isInteger(point.cell)) continue;
-      forestTreeSlots.set(point.cell, { mesh, index, ...point });
+      forestTreeSlots.set(point.cell, { mesh, index, ...point, family: name, stateMeshes });
     }
     addObject(mesh);
   }

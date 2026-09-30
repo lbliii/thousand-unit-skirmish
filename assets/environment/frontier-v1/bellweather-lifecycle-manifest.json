@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-bellweather-lifecycle",
+  "packVersion": "1.0.0",
+  "reference": "bellweather-field-maple.png",
+  "prompts": "BELLWEATHER-LIFECYCLE-PROMPTS.json",
+  "provenance": "Original built-in ImageGen edits of project-authored Bellweather maple. Source PNGs unmodified. All frames use the original full-frame crop box, then LANCZOS max1024, RGBA WebP quality86 method6. No recoloring or alpha painting. Full source/runtime reused byte-for-byte. Separate image textures, not yet an atlas.",
+  "files": [
+    {
+      "path": "bellweather-field-maple.png",
+      "role": "source-image",
+      "sha256": "72997bdcf96f009c03033ab516abbba891adb3fb0d5645038d3f5a985a02d427",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 1508748
+    },
+    {
+      "path": "bellweather-field-maple.webp",
+      "role": "runtime-image",
+      "sha256": "7485632657f6b6fb3228cdb424fd78d315cd757dbfcc488cba169bc6349bb5a1",
+      "dimensionsPx": {
+        "width": 1012,
+        "height": 1024
+      },
+      "bytes": 248360
+    },
+    {
+      "path": "bellweather-field-maple-worked.png",
+      "role": "source-image",
+      "sha256": "20ff9b5b3fda0a402f943910f3e16acff8f4d3176369a2cf0d0798ab26094181",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 1435299
+    },
+    {
+      "path": "bellweather-field-maple-worked.webp",
+      "role": "runtime-image",
+      "sha256": "61d6bbe0a79b03aef4edb72070425881472cc1e528f683818cf7d4b31bef2a60",
+      "dimensionsPx": {
+        "width": 1012,
+        "height": 1024
+      },
+      "bytes": 187656
+    },
+    {
+      "path": "bellweather-field-maple-low.png",
+      "role": "source-image",
+      "sha256": "65be83acfe3981c963aa0760143779677153bf926f9aa9cd0f843cde6934e5e4",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 1510524
+    },
+    {
+      "path": "bellweather-field-maple-low.webp",
+      "role": "runtime-image",
+      "sha256": "add46a10d44c5d63e3f8b8fda5438fc7a200d3ced713c83f85006129ee9517b6",
+      "dimensionsPx": {
+        "width": 1012,
+        "height": 1024
+      },
+      "bytes": 203558
+    },
+    {
+      "path": "bellweather-field-maple-depleted.png",
+      "role": "source-image",
+      "sha256": "91706eb2059552c14ed4f32755fcdb855de1bb77966965fcd84e83ee5deaf023",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 278028
+    },
+    {
+      "path": "bellweather-field-maple-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "d9bfbe60f8e39821ae78ddc653f4cccdc3caaa4a4db3dbdccb41bb51c2635c9a",
+      "dimensionsPx": {
+        "width": 1012,
+        "height": 1024
+      },
+      "bytes": 41438
+    }
+  ],
+  "assets": [
+    {
+      "id": "bellweather-field-maple",
+      "stage": "full",
+      "sourceOutputId": "exec-90488e98-0ad2-415f-9018-e1b8dffd5408",
+      "sourceFile": "bellweather-field-maple.png",
+      "runtimeFile": "bellweather-field-maple.webp",
+      "cropBoxPx": [
+        74,
+        68,
+        1197,
+        1204
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.05,
+        "height": 3.25
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "bellweather-field-maple-worked",
+      "stage": "worked",
+      "sourceOutputId": "exec-12c485cb-c7b4-48b6-9111-e2868cf890fb",
+      "sourceFile": "bellweather-field-maple-worked.png",
+      "runtimeFile": "bellweather-field-maple-worked.webp",
+      "cropBoxPx": [
+        74,
+        68,
+        1197,
+        1204
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.05,
+        "height": 3.25
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "bellweather-field-maple-low",
+      "stage": "low",
+      "sourceOutputId": "exec-90e80f31-ff35-439d-a793-d03d40f8de88",
+      "sourceFile": "bellweather-field-maple-low.png",
+      "runtimeFile": "bellweather-field-maple-low.webp",
+      "cropBoxPx": [
+        74,
+        68,
+        1197,
+        1204
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.05,
+        "height": 3.25
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "bellweather-field-maple-depleted",
+      "stage": "depleted",
+      "sourceOutputId": "exec-86c6c22f-7c48-475d-909b-836979ba3082",
+      "sourceFile": "bellweather-field-maple-depleted.png",
+      "runtimeFile": "bellweather-field-maple-depleted.webp",
+      "cropBoxPx": [
+        74,
+        68,
+        1197,
+        1204
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.05,
+        "height": 3.25
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    }
+  ]
+}

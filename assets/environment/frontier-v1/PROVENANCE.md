@@ -176,3 +176,17 @@ reference hash, dimensions and RGBA encoding. Generated PNG masters remain
 unmodified; runtime packaging only crops/downscales/encodes. No third-party
 image inputs were used. The hedge is a production adaptation of the key's
 cascading garden vine, not a newly established canonical species.
+
+## Bellweather maple lifecycle · 30 September 2026
+
+Built-in ImageGen edited the project-authored Bellweather maple into worked, low
+and matching stump states. No third-party image inputs. Unmodified PNG masters
+and alpha-preserving WebP encodings are recorded in
+[the lifecycle manifest](bellweather-lifecycle-manifest.json);
+[exact prompts](BELLWEATHER-LIFECYCLE-PROMPTS.json) identify the edit invariants.
+All frames retain the original 1254-square logical canvas and share the original
+crop box [74,68,1197,1204], then LANCZOS max1024 and WebP quality86 method6.
+Full source/runtime are reused without changes. No alpha/color repainting; the
+contact sheet composites the runtime files over sage solely for inspection.
+Single camera view, separate textures; neither atlas packing nor directional
+selection is implemented by this pilot.

@@ -17,7 +17,7 @@ import {
 import {
   addObstacleEnvironmentSprites, createConstructionGroundInstances,
   createEnvironmentSprite, createEnvironmentSpriteInstances,
-  createGroundSurfaces, environmentTheme, setEnvironmentSpriteInstance,
+  createGroundSurfaces, environmentTheme, setEnvironmentSpriteInstance, setForestSpriteStock,
   TERRAIN_MATERIALS, updateConstructionGroundInstances,
   RESOURCE_STATE_ASSETS_AVAILABLE, RESOURCE_STATE_ASSET_STATUS, resourceStateAssetsReady,
 } from './environment-art.mjs';
@@ -1981,9 +1981,7 @@ function setForestTreeVisual(cell, stock) {
   const slot = forestTreeSlots.get(cell);
   if (!slot) return;
   const depleted = stock <= 0;
-  setEnvironmentSpriteInstance(slot.mesh, slot.index, slot.x, slot.z,
-    depleted ? 0 : slot.scale, slot.flip, slot.yaw);
-  slot.mesh.instanceMatrix.needsUpdate = true;
+  setForestSpriteStock(slot, stock);
   const stump = forestStumpSlots.get(cell);
   if (!stump || !forestStumpMesh) return;
   const showStump = depleted && RESOURCE_STATE_ASSETS_AVAILABLE;
@@ -2015,8 +2013,8 @@ function applyForestState(state) {
   let visualChanged = false;
   if (latestForestEpoch !== state.forestEpoch) {
     for (const [cell, stock] of latestForestStocks) {
-      if (stock <= 0) {
-        setForestTreeVisual(cell, 1);
+      if (stock < 6) {
+        setForestTreeVisual(cell, 6);
         visualChanged = true;
       }
     }
@@ -2032,7 +2030,7 @@ function applyForestState(state) {
       const previousStock = latestForestStocks.get(cell);
       if (previousStock === stock) continue;
       latestForestStocks.set(cell, stock);
-      if ((previousStock === 0) !== (stock === 0)) {
+      if (resourceVisualStage(previousStock ?? 6, 6) !== resourceVisualStage(stock, 6)) {
         setForestTreeVisual(cell, stock);
         visualChanged = true;
       }
@@ -2089,7 +2087,7 @@ function buildMap(definition) {
   buildConstructionGroundBatches();
 
   forestTreeSlots = addObstacleEnvironmentSprites(definition, MAP_HALF_X, MAP_HALF_Z, addMapObject);
-  const stumpPositions = [...forestTreeSlots].map(([cell, slot], index) => {
+  const stumpPositions = [...forestTreeSlots].filter(([, slot]) => !slot.stateMeshes).map(([cell, slot], index) => {
     forestStumpSlots.set(cell, {
       index, x: slot.x, z: slot.z, scale: slot.scale * 0.48,
       flip: slot.flip, visible: false,

@@ -266,3 +266,30 @@ pairwise transition tiles are not needed for basic material mixing.
 The [cliff package](../assets/environment/frontier-cliff-pilot-v1/README.md)
 contains the model, eight color/depth views, scripts, and provenance. It is an
 isolated review page; normal battlefield terrain does not use that pilot.
+
+## Bellweather maple lifecycle · 30 September 2026
+
+Bellweather field maples now have matching full, worked, low and depleted images.
+A widening cream axe cut and chips communicate partial harvest without shrinking
+the standing canopy; depletion leaves the same tree's rooted stump. The existing
+full image is unchanged. This pilot covers only the maple family: other regional
+trees and shrubs still need matching states and use the shared stump path.
+
+[Preview](../assets/environment/frontier-v1/bellweather-lifecycle-preview.png),
+[manifest](../assets/environment/frontier-v1/bellweather-lifecycle-manifest.json)
+and [exact prompts](../assets/environment/frontier-v1/BELLWEATHER-LIFECYCLE-PROMPTS.json)
+record the original generated edits and runtime encodings. All four frames use
+the same source canvas and original full-frame crop, so the depleted frame keeps
+transparent space above its roots. These are separate textures, not an integrated
+atlas or multiple camera views. The documented
+[production requirement](environment-state-pack-v1.md#regional-asset-production-requirement--30-september-2026)
+sets the direction/state approach for subsequent families.
+
+Forest stock changes now select the existing four-stage percentages, with six
+wood per cell matching the server rule. Epoch reset restores partially worked
+trees as well as depleted trees. Sparse snapshots preserve last-known hidden
+stock. Matching-state slots are excluded from generic stump batches. Selection
+uses three extra instanced meshes for this family and lazily loaded textures;
+GPU residency and large-match cost remain unmeasured. Authored forest soil remains
+after clearing. [Local checks](qa-evidence/vaelora-bellweather-lifecycle-2026-09-30/README.md)
+record frame selection, loading, appearance and harvesting regression scope.

@@ -69,7 +69,8 @@ const profile=await mkdtemp('/tmp/vaelora-vegetation-chrome-');
 const chrome=spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',['--headless=new','--no-first-run','--no-default-browser-check','--remote-debugging-port=0','--window-size=1280,720','--user-data-dir='+profile,'about:blank'],{stdio:'ignore'});
 const region=process.env.RTS_VEGETATION_REGION || 'bellweather';
 if(!['bellweather','veyrholds','underbough','sereward','ellionar'].includes(region))throw new Error('Unknown vegetation capture region');
-const out=region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
+const lifecycle=process.env.RTS_VEGETATION_LIFECYCLE==='1';
+const out=lifecycle ? 'docs/qa-evidence/vaelora-bellweather-lifecycle-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
@@ -108,6 +109,44 @@ try {
    scene.traverse(o=>{o.geometry?.dispose();if(o.material){o.userData.ownedGroundTextures?.forEach(t=>t.dispose());o.material.dispose()}});renderer.dispose();renderer.forceContextLoss();return image;
   })()`);
   await writeFile(out+'/'+region+'-renderer-'+(span===18?'ordinary':'strategic')+'.png',Buffer.from(data.split(',')[1],'base64'));
+ }
+ if(lifecycle) {
+  const result=await cdp.evaluate(`(async()=>{
+   const THREE=await import('/vendor/three.module.js');
+   const {addObstacleEnvironmentSprites,createGroundSurfaces,setForestSpriteStock}=await import('/src/environment-art.mjs');
+   const d={width:24,height:24,terrainBase:'meadow',obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]};
+   const scene=new THREE.Scene();scene.background=new THREE.Color(0x727a57);
+   const slots=addObstacleEnvironmentSprites(d,12,12,o=>scene.add(o));
+   for(const slot of slots.values())setForestSpriteStock(slot,0);
+   // Hide every non-preview slot, including registered depleted frames.
+   for(const m of scene.children){const zero=new THREE.Matrix4().makeScale(0,0,0);for(let i=0;i<m.count;i++)m.setMatrixAt(i,zero);m.instanceMatrix.needsUpdate=true}
+   const selected=[...slots.values()].filter(s=>s.stateMeshes).slice(0,4);
+   if(selected.length!==4)throw new Error('Lifecycle pilot slots missing');
+   const expected=['full','worked','low','depleted'],stocks=[6,3,1,0],checks=[];
+   for(let i=0;i<4;i++){
+    const s=selected[i];s.x=(i-1.5)*3;s.z=-s.x;
+    const actual=setForestSpriteStock(s,stocks[i]);if(actual!==expected[i])throw new Error('Wrong stock stage');
+    const matrices={};for(const [stage,m] of Object.entries(s.stateMeshes)){
+     const matrix=new THREE.Matrix4();m.getMatrixAt(s.index,matrix);const scale=new THREE.Vector3().setFromMatrixScale(matrix);
+     if((scale.length()>0)!==(stage===expected[i]))throw new Error('Multiple/missing active frames');
+     matrices[stage]=matrix.elements;
+    }
+    checks.push({stock:stocks[i],stage:actual,matrices});
+   }
+   // A reset restores full art and hides each prior stock frame at the same address.
+   const s=selected[3];setForestSpriteStock(s,6);const matrix=new THREE.Matrix4();s.stateMeshes.full.getMatrixAt(s.index,matrix);
+   if(new THREE.Vector3().setFromMatrixScale(matrix).length()===0)throw new Error('Reset failed');setForestSpriteStock(s,0);
+   for(const o of createGroundSurfaces({...d,obstacles:[]}))scene.add(o);
+   for(let i=0;i<50&&scene.children.some(o=>o.material.map&&!o.material.map.image?.complete);i++)await new Promise(r=>setTimeout(r,100));
+   if(scene.children.some(o=>o.material.map&&!o.material.map.image?.naturalWidth))throw new Error('Lifecycle texture load failed');
+   const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true,antialias:true});renderer.setSize(1200,500);
+   const camera=new THREE.OrthographicCamera(-12,12,5,-5,0.1,200);camera.position.set(30,43,30);camera.lookAt(0,1,0);
+   renderer.render(scene,camera);const image=renderer.domElement.toDataURL('image/png');
+   scene.traverse(o=>{o.geometry?.dispose();o.userData.ownedGroundTextures?.forEach(t=>t.dispose());o.material?.dispose()});renderer.dispose();renderer.forceContextLoss();
+   return {checks,reset:true,image};
+  })()`);
+  await writeFile(out+'/lifecycle-renderer.png',Buffer.from(result.image.split(',')[1],'base64'));delete result.image;
+  await writeFile(out+'/lifecycle-proof.json',JSON.stringify(result,null,2)+'\n');
  }
  const proof=await cdp.evaluate(`(async()=>{
   const THREE=await import('/vendor/three.module.js');
