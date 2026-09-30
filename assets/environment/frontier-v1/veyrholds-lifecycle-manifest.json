@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "packId": "environment.vaelora-veyrholds-lifecycle",
-  "packVersion": "0.1.0",
+  "packVersion": "0.1.1",
   "maturity": "source-sample",
   "reference": "veyrholds-highpine.png",
   "prompts": "VEYRHOLDS-LIFECYCLE-PROMPTS.json",
@@ -48,26 +48,6 @@
       "bytes": 291218
     },
     {
-      "path": "veyrholds-highpine-low.png",
-      "role": "source-image",
-      "sha256": "cb280271b3ffd122879f5cfedcf77cc44aacaba907fd4fab15538cd743087d6a",
-      "dimensionsPx": {
-        "width": 1159,
-        "height": 1358
-      },
-      "bytes": 1898593
-    },
-    {
-      "path": "veyrholds-highpine-low.webp",
-      "role": "runtime-image",
-      "sha256": "2563a273dc40f09a9bc54913cc5374585fd1ac3073c5c529450e25a1347d44ff",
-      "dimensionsPx": {
-        "width": 861,
-        "height": 1024
-      },
-      "bytes": 305434
-    },
-    {
       "path": "veyrholds-highpine-depleted.png",
       "role": "source-image",
       "sha256": "7004345eb9580f1b3ec8828b7cb5beefc91b764b1d342c107bfd36fcb85c705f",
@@ -86,6 +66,26 @@
         "height": 1024
       },
       "bytes": 58406
+    },
+    {
+      "path": "veyrholds-highpine-low.png",
+      "role": "source-image",
+      "sha256": "5b1c9ea9f2da21dc0bb8ede0607aba1f7d1de6dc8120eb346e56b496b01139ee",
+      "dimensionsPx": {
+        "width": 1159,
+        "height": 1358
+      },
+      "bytes": 1155207
+    },
+    {
+      "path": "veyrholds-highpine-low.webp",
+      "role": "runtime-image",
+      "sha256": "6407860f77ee0b2cf7fe0e1f5267cb3a627d99dd7075fbbadeee4f53d9756f7e",
+      "dimensionsPx": {
+        "width": 861,
+        "height": 1024
+      },
+      "bytes": 197384
     }
   ],
   "assets": [
@@ -141,7 +141,7 @@
     },
     {
       "id": "veyrholds-highpine-low",
-      "sourceOutputId": "exec-2fc3505d-010c-4546-9822-a2190f5366a7",
+      "sourceOutputId": "exec-47d8916b-097f-4ef5-a96b-adb8fcd49724",
       "sourceFile": "veyrholds-highpine-low.png",
       "runtimeFile": "veyrholds-highpine-low.webp",
       "cropBoxPx": [
@@ -189,5 +189,7 @@
         1358
       ]
     }
-  ]
+  ],
+  "refinementPrompts": "VEYRHOLDS-LOW-READABILITY-PROMPTS.json",
+  "refinementNote": "Low-stock frame now has a cut-back crown and exposed branch ends for stronger gameplay silhouette. Same source canvas/shared crop and root registration; full, worked and depleted source/runtime unchanged."
 }

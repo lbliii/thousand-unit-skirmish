@@ -282,3 +282,7 @@ Built-in ImageGen against the project-owned approved Underbough ecology key, the
 ## Veyrholds ridgegrass · 30 September 2026
 
 Built-in ImageGen against the project-owned approved Veyrholds ecology key's Ridgegrass specimen. [Exact prompt](VEYRHOLDS-UNDERSTORY-PROMPTS.json) and [manifest](veyrholds-understory-manifest.json) record selected source ID, reference hash, dimensions, crop and file hashes. Unmodified selected PNG; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background compositing inspected leaf gaps and surroundings. No local repainting or alpha repair. One approximate painted oblique view.
+
+## Veyrholds low-stock readability refinement · 30 September 2026
+
+Built-in ImageGen edited the original low-stock highpine to a smaller crown and exposed pale branch cuts. [Exact refinement prompt](VEYRHOLDS-LOW-READABILITY-PROMPTS.json) records previous/selected IDs. Selected PNG retains exact1159×1358 canvas and original crop[72,48,1146,1325]. Generated master copied unchanged; shared crop LANCZOS max1024 WebP quality86 method6 alpha exact, atlas copies decoded runtime frames without repaint/rescaling. Full/worked/depleted source/runtime unchanged; original prompt remains historical. Runtime roll measured separately, painted source perspective approximate.

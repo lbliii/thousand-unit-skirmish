@@ -1,0 +1,20 @@
+{
+  "mapId": "veyrholds-harvest-check",
+  "targetCell": 810,
+  "family": "veyrholds-highpine",
+  "observed": [
+    {
+      "stage": "worked",
+      "stock": 3.900002
+    },
+    {
+      "stage": "low",
+      "stock": 1.900004
+    },
+    {
+      "stage": "depleted",
+      "stock": 0
+    }
+  ],
+  "reset": true
+}

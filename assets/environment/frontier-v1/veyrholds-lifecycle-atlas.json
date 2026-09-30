@@ -15,7 +15,7 @@
       "path": "veyrholds-lifecycle-atlas.png",
       "usage": "source",
       "format": "png",
-      "sha256": "b5059dab55cabcfe34827eca2249ea705f7a311d7b99362d8d100df90d25f556",
+      "sha256": "ce97d959d947a27bc9d29662cb3115d718b47afb6353b18895bef1dbd02bb762",
       "dimensionsPx": {
         "width": 1978,
         "height": 2304
@@ -26,7 +26,7 @@
       "path": "veyrholds-lifecycle-atlas.webp",
       "usage": "runtime",
       "format": "webp",
-      "sha256": "efc5d1995e024e38537fac3b1fa628d0544e9716dbbdbc48dd60340e597e4ce3",
+      "sha256": "de760a307ef45861b97232690905e24260b707a76725271100ed422928e9fdd1",
       "dimensionsPx": {
         "width": 1978,
         "height": 2304
@@ -147,10 +147,10 @@
           },
           "groundPivotStatus": "reviewed",
           "alphaBoundsPx": {
-            "x": 0,
-            "y": 0,
-            "width": 861,
-            "height": 1024
+            "x": 90,
+            "y": 6,
+            "width": 744,
+            "height": 1018
           },
           "fallbackRectPx": {
             "pageId": "color",
