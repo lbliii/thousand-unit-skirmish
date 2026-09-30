@@ -128,3 +128,10 @@ builds; they do not certify today's deployment.
 The previous task-by-task ledger is preserved in the
 [September roadmap archive](archive/2026-09/roadmap.md). Use it to trace past
 choices, rather than copying its dated statuses into new work.
+
+## Army-command foundations
+
+Stop and Hold Position establish explicit task/route interruption and stationary
+in-range defense, with both-seat authority and checkpoint/rematch regressions.
+Continue with Patrol/Follow only as bounded additions to these semantics; use
+[the command evidence](qa-command-foundations-2026-09-30.md) as the regression floor.

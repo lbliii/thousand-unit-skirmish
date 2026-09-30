@@ -1,3 +1,4 @@
+import { validateScenarioRegions, validRegionEntryTrigger, regionEntryTeam } from './src/scenario-regions.mjs';
 import { TERRAIN_MATERIALS } from './src/terrain-materials.mjs';
 import { researchAction, researchOptions, emptyTechnologyCompletions } from './src/research-actions.mjs';
 import { combatDamage, canCombatTarget, hasGameplayCapability } from './src/combat-rules.mjs';
@@ -324,6 +325,7 @@ function validateMapDefinition(definition, filename) {
       throw new Error(`Map ${filename} has an invalid timed victory rule.`);
     }
   }
+  const regions = validateScenarioRegions(definition);
   const scenarioEvents = definition.scenarioEvents ?? [];
   if (!Array.isArray(scenarioEvents) || scenarioEvents.length > MAX_MAP_SCENARIO_EVENTS) {
     throw new Error(`Map ${filename} scenarioEvents must be an array with at most ${MAX_MAP_SCENARIO_EVENTS} entries.`);
@@ -354,7 +356,7 @@ function validateMapDefinition(definition, filename) {
           && eventTrigger.eventIds.length <= MAX_MAP_SCENARIO_EVENTS - 1
           && eventTrigger.eventIds.every((id) => typeof id === 'string'
             && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)));
-    const validEventTrigger = eventTrigger === undefined || validCaptureTrigger || validEventChain;
+    const validEventTrigger = eventTrigger === undefined || validCaptureTrigger || validEventChain || validRegionEntryTrigger(eventTrigger, regions);
     if (typeof event?.id !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(event.id)
       || scenarioEventIds.has(event.id) || event.type !== 'timed-supply'
       || typeof event.name !== 'string' || !event.name.trim() || event.name.length > 48
@@ -424,6 +426,7 @@ function validateMapDefinition(definition, filename) {
     terrainSeed: Number.isInteger(definition.terrainSeed) ? definition.terrainSeed : 1,
     triggers,
     scenarioEvents,
+    ...(definition.regions === undefined ? {} : { regions }),
     resourceNodes,
   };
 }
@@ -581,6 +584,18 @@ for (let row = -attackMoveBucketRadius; row <= attackMoveBucketRadius; row++) {
 }
 attackMoveBucketOffsets.sort((left, right) => left.distance - right.distance
   || left.row - right.row || left.column - right.column);
+// Hold acquisition covers the full supported weapon range, including siege.
+const holdBucketRadius = Math.ceil(Math.max(...Object.values(UNIT_DEFINITIONS)
+  .map(definition => definition.combat.range)) / SPATIAL_BUCKET_SIZE);
+const holdBucketOffsets = [];
+for (let row = -holdBucketRadius; row <= holdBucketRadius; row++) {
+  for (let column = -holdBucketRadius; column <= holdBucketRadius; column++) {
+    holdBucketOffsets.push({ column, row, distance: column * column + row * row });
+  }
+}
+holdBucketOffsets.sort((left, right) => left.distance - right.distance
+  || left.row - right.row || left.column - right.column);
+const targetBucketCapacity = Math.max(holdBucketOffsets.length, attackMoveBucketOffsets.length);
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
@@ -644,8 +659,8 @@ let spatialBucketTeamCounts = [new Uint16Array(0), new Uint16Array(0)];
 let spatialBucketTeamCursors = [new Int32Array(0), new Int32Array(0)];
 const spatialBucketOfUnit = new Int32Array(MAX_UNITS);
 const spatialBucketTeamNext = [new Int32Array(MAX_UNITS), new Int32Array(MAX_UNITS)];
-const attackMoveCandidateBuckets = new Int32Array(attackMoveBucketOffsets.length);
-const attackMoveCandidateRemaining = new Uint16Array(attackMoveBucketOffsets.length);
+const attackMoveCandidateBuckets = new Int32Array(targetBucketCapacity);
+const attackMoveCandidateRemaining = new Uint16Array(targetBucketCapacity);
 let attackFlowFields = new Map();
 let triggerStates = new Map();
 let scenarioEventStates = new Map();
@@ -704,7 +719,7 @@ function resetScenarioEventClock() {
   matchElapsedSeconds = 0;
   scenarioClockStarted = false;
   scenarioEventStates = new Map((mapDefinition?.scenarioEvents || []).map((event) => [
-    event.id, event.trigger?.type === 'capture'
+    event.id, ['capture', 'region-entry'].includes(event.trigger?.type)
       ? {
         id: event.id, fired: false, activatedAtSeconds: null, triggeredByTeam: -1,
         ...(event.repeatCount === undefined ? {} : { fireCount: 0, nextFireAtSeconds: null }),
@@ -1542,7 +1557,7 @@ function makeUnit(id, team, x, z, kind, teamSlot) {
     attackCooldown: ((teamSlot * 37) % 30) / 30,
     repathTimer: 0, lastAttackCell: -1, lastAttackTick: -1,
     lastAttackX: 0, lastAttackZ: 0, orderRevision: 0,
-    attackMove: false, attackMoveRouteReady: false,
+    holdingPosition: false, attackMove: false, attackMoveRouteReady: false,
     attackMoveResumePath: null, attackMoveResumePathIndex: 0,
     movePlanningPending: false,
     attackMoveAnchorX: 0, attackMoveAnchorZ: 0,
@@ -1730,6 +1745,7 @@ function snapshotQueuedWaypointCounts(viewTeam = null) {
 }
 
 function workerTaskStatus(unit) {
+  if (unit.holdingPosition) return 'holding';
   if (unit.gatherNodeId !== null || unit.gatherForestCell >= 0) {
     return unit.gatherPhase === 'to-base' ? 'returning' : 'gathering';
   }
@@ -2159,7 +2175,16 @@ function evaluateScenarioTriggers(deltaSeconds) {
   if (matchWinner < 0 && scenarioClockStarted) {
     for (const event of mapDefinition.scenarioEvents) {
       const state = scenarioEventStates.get(event.id);
-      const activationTriggered = event.trigger?.type === 'capture' || event.trigger?.type === 'event';
+      const activationTriggered = ['capture', 'event', 'region-entry'].includes(event.trigger?.type);
+      if (state && event.trigger?.type === 'region-entry' && state.activatedAtSeconds === null) {
+        const enteringTeam = regionEntryTeam(event.trigger, mapDefinition.regions, units, MAP_WIDTH, MAP_HEIGHT);
+        if (enteringTeam >= 0) {
+          state.activatedAtSeconds = matchElapsedSeconds;
+          state.triggeredByTeam = enteringTeam;
+          if (event.repeatCount !== undefined) state.nextFireAtSeconds = matchElapsedSeconds + event.afterSeconds;
+          dirty = true;
+        }
+      }
       const repeating = event.repeatCount !== undefined;
       if (!state || state.fired
         || (activationTriggered && state.activatedAtSeconds === null)) continue;
@@ -2330,7 +2355,7 @@ function roomPayload(viewTeam = null, includeWaypointCounts = true) {
       const repeatState = event?.repeatCount === undefined ? {} : {
         fireCount: state.fireCount, nextFireAtSeconds: state.nextFireAtSeconds,
       };
-      return event?.trigger?.type === 'capture' || event?.trigger?.type === 'event'
+      return ['capture', 'event', 'region-entry'].includes(event?.trigger?.type)
         ? {
           id: state.id, fired: state.fired,
           ...repeatState,
@@ -2553,11 +2578,12 @@ function validateMatchCheckpoint(snapshot) {
       && (unit.lastAttackX === undefined || finite(unit.lastAttackX))
       && (unit.lastAttackZ === undefined || finite(unit.lastAttackZ))
       && integerIn(unit.orderRevision, 0, Number.MAX_SAFE_INTEGER), `invalid unit combat state ${index}`);
-    assertSnapshot(typeof unit.attackMove === 'boolean' && typeof unit.attackMoveRouteReady === 'boolean'
+    assertSnapshot((unit.holdingPosition === undefined || typeof unit.holdingPosition === 'boolean')
+      && typeof unit.attackMove === 'boolean' && typeof unit.attackMoveRouteReady === 'boolean'
       && typeof unit.movePlanningPending === 'boolean'
       && finite(unit.attackMoveAnchorX) && finite(unit.attackMoveAnchorZ)
       && integerIn(unit.attackMoveScanTick, 0, Number.MAX_SAFE_INTEGER)
-      && integerIn(unit.attackMoveBucketScanOffset, 0, attackMoveBucketOffsets.length - 1), `invalid unit order state ${index}`);
+      && integerIn(unit.attackMoveBucketScanOffset, 0, targetBucketCapacity - 1), `invalid unit order state ${index}`);
     assertSnapshot(finite(unit.cargo) && unit.cargo >= 0 && unit.cargo <= WORKER_CARRY_CAPACITY
       && (unit.cargoType === null || ['food', 'wood'].includes(unit.cargoType))
       && (unit.gatherNodeId === null || typeof unit.gatherNodeId === 'string')
@@ -2713,7 +2739,7 @@ function validateMatchCheckpoint(snapshot) {
     assertSnapshot(eventDefinition && !eventIds.has(event.id)
       && typeof event.fired === 'boolean', 'invalid scenario event state');
     if (eventDefinition.repeatCount !== undefined) {
-      const awaitingActivation = ['capture', 'event'].includes(eventDefinition.trigger?.type)
+      const awaitingActivation = ['capture', 'event', 'region-entry'].includes(eventDefinition.trigger?.type)
         && event.activatedAtSeconds === null;
       assertSnapshot(Number.isInteger(event.fireCount)
         && event.fireCount >= 0 && event.fireCount <= eventDefinition.repeatCount + 1
@@ -2727,16 +2753,21 @@ function validateMatchCheckpoint(snapshot) {
       assertSnapshot(event.fireCount === undefined && event.nextFireAtSeconds === undefined,
         'unexpected repeating scenario event state');
     }
-    if (eventDefinition.trigger?.type === 'capture' || eventDefinition.trigger?.type === 'event') {
+    if (['capture', 'event', 'region-entry'].includes(eventDefinition.trigger?.type)) {
       assertSnapshot((event.activatedAtSeconds === null
         || (finite(event.activatedAtSeconds) && event.activatedAtSeconds >= 0
           && event.activatedAtSeconds <= state.matchElapsedSeconds))
         && integerIn(event.triggeredByTeam, -1, 1)
         && (event.activatedAtSeconds === null
           ? event.triggeredByTeam === -1
-          : eventDefinition.trigger.type === 'capture'
+          : ['capture', 'region-entry'].includes(eventDefinition.trigger.type)
             ? event.triggeredByTeam >= 0 : integerIn(event.triggeredByTeam, -1, 1))
         && (!event.fired || event.activatedAtSeconds !== null), 'invalid triggered scenario event state');
+      if (eventDefinition.trigger.type === 'region-entry' && event.activatedAtSeconds !== null) {
+        assertSnapshot(eventDefinition.trigger.team === 'either'
+          || event.triggeredByTeam === Number(eventDefinition.trigger.team),
+        'invalid region event entering team');
+      }
       if (eventDefinition.trigger.type === 'event') {
         const sourceIds = scenarioEventSourceIds(eventDefinition.trigger);
         const sourceStates = sourceIds.map((sourceId) => (
@@ -2871,6 +2902,7 @@ function restoreMatchCheckpoint(snapshot) {
   for (const record of state.units) {
     units.push({
       ...record,
+      holdingPosition: record.holdingPosition ?? false,
       gatherForestCell: record.gatherForestCell ?? -1,
       path: [...record.path],
       attackMoveResumePath: record.attackMoveResumePath === null ? null : [...record.attackMoveResumePath],
@@ -3467,6 +3499,7 @@ function completeMovePlanningJob(job) {
 }
 
 function clearAttackMoveOrder(unit) {
+  unit.holdingPosition = false;
   unit.attackMove = false;
   unit.attackMoveRouteReady = false;
   unit.attackMoveResumePath = null;
@@ -5229,6 +5262,7 @@ function assignFormationMove(player, command, buildingTargetId = null, orderLabe
     unit.movePlanningPending = true;
     unit.repathTimer = 0;
     unit.lastAttackCell = -1;
+    unit.holdingPosition = false;
     unit.attackMove = attackMove;
     unit.attackMoveRouteReady = false;
     unit.attackMoveResumePath = null;
@@ -5286,6 +5320,38 @@ function assignFormationMove(player, command, buildingTargetId = null, orderLabe
     : attackMove ? 'ATTACK MOVE' : 'MOVE';
   sendOrderNotice(player, job.clientOrderToken, `PLANNING ${planningLabel} · ${assignments.length} UNITS`);
   scheduleNextMovePlanning();
+}
+
+// Stationary orders invalidate sliced planning jobs by revision, preserve carried
+// resources, and abandon work without canceling the shared construction itself.
+function assignStationaryOrder(player, command) {
+  const label = command.type === 'holdPosition' ? 'HOLD POSITION' : 'STOP';
+  const selectedUnits = player.team === null || !Array.isArray(command.ids) ? []
+    : commandUnits(command).filter(unit => unit.hp > 0 && unit.team === player.team);
+  if (!selectedUnits.length) {
+    sendOrderNotice(player, command, `${label} REJECTED · NO VALID UNITS`);
+    return;
+  }
+  for (const unit of selectedUnits) {
+    cancelGatherOrder(unit);
+    clearAttackMoveOrder(unit);
+    unit.holdingPosition = command.type === 'holdPosition';
+    unit.orderRevision++;
+    unit.movePlanningPending = false;
+    unit.moveGoalCell = -1;
+    unit.path = [];
+    unit.pathIndex = 0;
+    unit.queuedWaypoints.length = 0;
+    unit.buildingTargetId = null;
+    unit.repairing = false;
+    unit.attackTargetId = -1;
+    unit.attackBuildingTargetId = -1;
+    unit.repathTimer = 0;
+    unit.lastAttackCell = -1;
+    unit.attackMoveScanTick = tickNumber;
+  }
+  dirty = true;
+  sendOrderNotice(player, command, `${label} ORDER · ${selectedUnits.length} UNITS`);
 }
 
 function assignAttack(player, command) {
@@ -5549,12 +5615,13 @@ async function publishMap(player, rawDefinition, persist = false) {
 
 async function handleCommand(player, command) {
   if (shuttingDown || !command || typeof command.type !== 'string') return;
-  if (matchWinner >= 0 && ['move', 'attackMove', 'attack', 'attackBuilding', 'gather', 'train', 'build', 'trainArcher', 'trainUnit', 'trainWorker', 'setRallyPoint', 'researchUpgrade', 'cancelConstruction', 'cancelTraining', 'cancelResearch', 'repairBuilding'].includes(command.type)) {
+  if (matchWinner >= 0 && ['stop', 'holdPosition', 'move', 'attackMove', 'attack', 'attackBuilding', 'gather', 'train', 'build', 'trainArcher', 'trainUnit', 'trainWorker', 'setRallyPoint', 'researchUpgrade', 'cancelConstruction', 'cancelTraining', 'cancelResearch', 'repairBuilding'].includes(command.type)) {
     sendOrderNotice(player, command, player.team === 0
       ? 'MATCH OVER · RESET BATTLEFIELD TO PLAY AGAIN'
       : 'MATCH OVER · WAIT FOR HOST TO RESET');
     return;
   }
+  if (command.type === 'stop' || command.type === 'holdPosition') assignStationaryOrder(player, command);
   if (command.type === 'move') assignFormationMove(player, command);
   if (command.type === 'attackMove') assignFormationMove(player, command);
   if (command.type === 'attack') assignAttack(player, command);
@@ -5658,7 +5725,7 @@ function rebuildSpatialBuckets() {
   }
 }
 
-function findAttackMoveTarget(unit) {
+function findAttackMoveTarget(unit, acquireRadius = ATTACK_MOVE_ACQUIRE_RADIUS, offsets = attackMoveBucketOffsets) {
   if (!unitHasCapability(unit, 'attack')) return null;
   const targetTeam = 1 - unit.team;
   const unitCell = nearestOpenCell(worldToCell(unit.x, unit.z));
@@ -5666,7 +5733,7 @@ function findAttackMoveTarget(unit) {
   if (componentId < 0) return null;
   const centerColumn = spatialBucketColumn(unit.x);
   const centerRow = spatialBucketRow(unit.z);
-  const rangeSquared = ATTACK_MOVE_ACQUIRE_RADIUS * ATTACK_MOVE_ACQUIRE_RADIUS;
+  const rangeSquared = acquireRadius * acquireRadius;
   let bestDistanceSquared = rangeSquared;
   let bestTarget = null;
   let visited = 0;
@@ -5674,7 +5741,7 @@ function findAttackMoveTarget(unit) {
   const targetCounts = spatialBucketTeamCounts[targetTeam];
   const targetNext = spatialBucketTeamNext[targetTeam];
   const targetCursors = spatialBucketTeamCursors[targetTeam];
-  const offsetCount = attackMoveBucketOffsets.length;
+  const offsetCount = offsets.length;
   const firstOffset = unit.attackMoveBucketScanOffset % offsetCount;
   let candidateBucketCount = 0;
 
@@ -5682,7 +5749,7 @@ function findAttackMoveTarget(unit) {
   // cannot permanently starve candidates in later buckets.
   unit.attackMoveBucketScanOffset = (firstOffset + 1) % offsetCount;
   for (let offsetIndex = 0; offsetIndex < offsetCount; offsetIndex++) {
-    const offset = attackMoveBucketOffsets[(firstOffset + offsetIndex) % offsetCount];
+    const offset = offsets[(firstOffset + offsetIndex) % offsetCount];
     const column = centerColumn + offset.column;
     const row = centerRow + offset.row;
     if (column < 0 || column >= spatialBucketColumns || row < 0 || row >= spatialBucketRows) continue;
@@ -6054,6 +6121,11 @@ function simulateTick() {
 
   for (const unit of units) {
     if (unit.hp <= 0) continue;
+    if (unit.holdingPosition && tickNumber >= unit.attackMoveScanTick) {
+      unit.attackMoveScanTick = tickNumber + ATTACK_MOVE_SCAN_INTERVAL_TICKS;
+      const target = findAttackMoveTarget(unit, UNIT_DEFINITIONS[unit.kind].combat.range, holdBucketOffsets);
+      unit.attackTargetId = target?.id ?? -1;
+    }
     if (unit.attackTargetId >= 0) {
       const target = units[unit.attackTargetId];
       if (!target || target.hp <= 0 || !unitHasCapability(unit, 'attack') || !canCombatTarget(UNIT_DEFINITIONS[unit.kind], UNIT_DEFINITIONS[target.kind])) {
@@ -6089,6 +6161,10 @@ function simulateTick() {
             unit.lastAttackZ = target.z;
             dirty = true;
           }
+          continue;
+        }
+        if (unit.holdingPosition) {
+          clearAttackTarget(unit);
           continue;
         }
         if (unit.repathTimer <= 0
@@ -6214,7 +6290,7 @@ function simulateTick() {
     if (unit.hp <= 0) continue;
     // A target can move within its current cell after the flow path ends.
     // Close that last gap directly so the attacker does not wait in place.
-    if (unit.pathIndex >= unit.path.length && unit.attackTargetId >= 0) {
+    if (!unit.holdingPosition && unit.pathIndex >= unit.path.length && unit.attackTargetId >= 0) {
       const target = units[unit.attackTargetId];
       const range = UNIT_DEFINITIONS[unit.kind].combat.range;
       if (target?.hp > 0 && worldToCell(unit.x, unit.z) === worldToCell(target.x, target.z)) {
@@ -6234,7 +6310,7 @@ function simulateTick() {
         }
       }
     }
-    if (unit.pathIndex >= unit.path.length) continue;
+    if (unit.holdingPosition || unit.pathIndex >= unit.path.length) continue;
     let remainingStep = UNIT_DEFINITIONS[unit.kind].combat.moveSpeed * STEP_SECONDS;
     while (remainingStep > 0 && unit.pathIndex < unit.path.length) {
       const move = getMoveVector(unit, remainingStep);
@@ -6842,7 +6918,7 @@ const server = createServer(async (request, response) => {
     'environment-review.html', 'src/environment-review.mjs', 'src/environment-pilot.mjs',
     'index.html', 'style.css', 'vendor/three.module.js', 'vendor/three.core.js', 'src/main.js',
     'src/building-sprites.mjs', 'src/battlefield-cursor.mjs', 'src/pve-entry.mjs', 'src/pve-match.mjs',
-    'src/map-utils.mjs', 'src/elevation.mjs', 'src/town-center-spawn.mjs', 'src/map-resize.mjs',
+    'src/scenario-regions.mjs', 'src/map-utils.mjs', 'src/elevation.mjs', 'src/town-center-spawn.mjs', 'src/map-resize.mjs',
     'src/map-studio-viewport.mjs', 'src/order-feedback.mjs', 'src/resource-visual-state.mjs', 'src/resource-format.mjs', 'src/gameplay-definitions.mjs', 'src/gameplay-presentation.mjs', 'src/population.mjs', 'src/production-actions.mjs', 'src/research-actions.mjs',
     'src/building-visual-state.mjs', 'src/unit-lod-state.mjs', 'src/unit-selection.mjs',
     'src/selection-context.mjs', 'src/unit-visual-state.mjs', 'src/unit-sprite-runtime.mjs',

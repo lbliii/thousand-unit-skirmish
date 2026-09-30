@@ -828,7 +828,7 @@ try {
   await stopServer(server);
   server = null;
   const repeatCheckpoint = JSON.parse(await readFile(checkpointPath, 'utf8'));
-  assert.equal(repeatCheckpoint.schemaVersion, 9);
+  assert.equal(repeatCheckpoint.schemaVersion, 19);
   assert.deepEqual(repeatCheckpoint.mapDefinition.scenarioEvents[0], recaptureMap.scenarioEvents[0],
     'the checkpoint should preserve the authored repeat schedule');
   const savedRepeatState = repeatCheckpoint.state.scenarioEventStates

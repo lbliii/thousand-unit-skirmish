@@ -107,6 +107,41 @@ Capture/hold/elimination results on the same evaluation take precedence over a
 deadline. Due supply deliveries occur before a timed result. Final results stop
 the simulation and pending events and survive reconnect until reset/map change.
 
+## Named regions and region conditions
+
+`regions` is an optional array of up to 32 `{id, name, zone}` rectangles. IDs are
+unique lowercase hyphenated names; display names are 1–48 characters. Zones use
+integer grid `column`, `row`, `width`, and `height`, fit the map, and may overlap.
+They do not block movement or establish capture ownership.
+
+Map Studio's **Named regions (JSON)** field edits these rectangles and previews
+valid regions with purple outlines. Invalid in-progress text survives local draft
+recovery; validation blocks publishing/export until it is corrected. Region
+painting and drag handles are future authoring work. Shrinking a map requires
+reviewing region bounds before validation.
+
+Select **Region reached** on a scenario event, enter its region ID, entering
+team (`"0"`, `"1"`, or `"either"`), optional unit kind, and minimum living units
+(1–1,000). This creates a bounded declarative trigger:
+
+```json
+"trigger": {
+  "type": "region-entry", "regionId": "pass", "team": "1",
+  "unitKind": "worker", "minimumUnits": 3
+}
+```
+
+The first qualifying presence starts the event delay once. Initial occupants
+qualify when both seats start the match clock. Eligibility is sampled after
+simulation updates; this is not a continuous swept-path detector. Either-team
+ties choose Azure deterministically. Leaving the region does not cancel an armed
+event. Dead units do not count. Recipients are configured independently using
+Azure, Ember, or both; `"capturing"` remains exclusive to capture-rooted chains.
+Existing reward/message fields are the actions, including food, wood,
+reinforcements, and technology. Region events can repeat deliveries and lead
+into ordinary event-completion chains. Activation, entering team, deadlines,
+and delivery state survive checkpoints; reset rearms them.
+
 ## Scenario events
 
 `scenarioEvents` supports up to 32 `timed-supply` entries. Each has an `id`, `name`,

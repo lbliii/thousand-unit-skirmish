@@ -170,6 +170,13 @@ try {
     const add = definition => { paid.food += definition.cost.food; paid.wood += definition.cost.wood; };
     for (const building of saved.state.buildings) if (building.team === team && !baseline.state.buildings.some(original => original.id === building.id)) add(BUILDING_DEFINITIONS[building.type]);
     for (const unit of saved.state.units) if (unit.team === team && unit.id >= baseline.state.units.length) add(UNIT_DEFINITIONS[unit.kind]);
+    // Costs are charged when queued, before a unit spawns or research completes.
+    // A policy decision on the tower's final tick can leave a paid Rider pending.
+    for (const building of saved.state.buildings) if (building.team === team) {
+      for (const kind of building.productionQueue) add(UNIT_DEFINITIONS[kind]);
+    }
+    for (let count = 0; count < saved.state.workerProduction[team].queue; count++) add(UNIT_DEFINITIONS.worker);
+    if (saved.state.teamResearch[team]) add(TECHNOLOGY_DEFINITIONS[saved.state.teamResearch[team].type]);
     for (const technology of Object.values(TECHNOLOGY_DEFINITIONS)) if (saved.state.teamUpgrades[team][technology.upgradeKey]
       && !baseline.state.teamUpgrades[team][technology.upgradeKey]) add(technology);
     assert.equal(saved.state.teamFood[team], baseline.state.teamFood[team] - paid.food, 'exact paid AI food ledger');

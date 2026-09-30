@@ -38,6 +38,18 @@ requires it.
 | Readability survives scale | Team, role, selection, health, commands, and ownership remain distinct in a crowded battle. |
 | Online play earns trust | Orders receive specific feedback; disconnects, recovery, results, and rematches are understandable. |
 
+## Stationary army orders
+
+Stop (`S`) abandons a unit's current task, attack, path planning and queued route.
+It leaves the unit idle until another order; it preserves carried resources and
+leaves shared construction in place. Hold Position (`H`) interrupts the same work,
+then attacks visible enemy units already within its weapon range without chasing.
+It does not automatically attack structures. Both commands apply to workers and
+military units, are available in the Orders/context controls, and persist through
+reconnect/checkpoint recovery. A new move, gather, build, repair, or attack order
+replaces Hold; a rematch clears it. Held workers are excluded from idle-worker
+selection. Patrol and Follow remain future command capabilities.
+
 ## The match loop
 
 1. Join a friend or start a solo match and understand the objective.

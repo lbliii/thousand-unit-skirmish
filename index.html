@@ -123,6 +123,8 @@
             <button type="button" data-context-panel="selection">Groups</button>
             <span data-context-groups class="contextual-groups"></span>
             <button type="button" data-context-proxy="order-target-toggle">Target battlefield</button>
+            <button type="button" data-stationary-order="stop">Stop · S</button>
+            <button type="button" data-stationary-order="holdPosition">Hold position · H</button>
             <button type="button" data-context-proxy="attack-move-toggle">Attack move · M</button>
             <button type="button" data-context-proxy="select-workers">Select workers</button>
             <button type="button" data-context-build data-context-panel="economy">Build</button>
@@ -273,6 +275,8 @@
                 <option value="column">Column</option>
               </select>
             </div>
+            <button type="button" class="attack-move-toggle" data-stationary-order="stop" title="Cancel all current tasks and queued routes">Stop · S</button>
+            <button type="button" class="attack-move-toggle" data-stationary-order="holdPosition" title="Stay in place and attack enemies within weapon range">Hold position · H</button>
             <button id="attack-move-toggle" class="attack-move-toggle" type="button" aria-pressed="false">
               <span>Attack move</span><span class="attack-move-key">M</span>
             </button>
@@ -649,6 +653,8 @@
               <div class="studio-fields objective-fields scenario-event-fields">
                 <div class="studio-trigger-heading"><span>SCENARIO EVENTS <b id="studio-event-count">0 / 32</b></span></div>
                 <small>Events pay once by default. Add up to 20 repeat deliveries on a match clock, capture, or completed-event trigger. Chains can branch and join; a joined delay starts when the last selected source finishes its final delivery. A final win cancels pending deliveries; match reset rearms them.</small>
+                <label>NAMED REGIONS (JSON)<textarea id="studio-regions" rows="5" aria-label="Named rectangular regions">[]</textarea></label>
+                <small>Up to 32 named grid rectangles: [{"id":"pass","name":"Pass","zone":{"column":10,"row":10,"width":4,"height":4}}]. Regions may overlap. Validate before playing.</small>
                 <div id="studio-event-list" class="studio-trigger-list" role="group" aria-label="Scenario events"></div>
                 <div class="studio-trigger-actions">
                   <button id="studio-add-event" type="button">+ ADD SCENARIO EVENT</button>
@@ -657,8 +663,16 @@
                 <label>EVENT NAME<input id="studio-event-name" maxlength="48" value="Supply drop"></label>
                 <div class="studio-fields two-up">
                   <label>TRIGGER
-                    <select id="studio-event-trigger"><option value="clock">Match clock</option><option value="capture">Capture zone</option><option value="event">Event completed</option></select>
+                    <select id="studio-event-trigger"><option value="clock">Match clock</option><option value="capture">Capture zone</option><option value="event">Event completed</option><option value="region-entry">Region reached</option></select>
                   </label>
+                  <fieldset id="studio-event-region-control" hidden>
+                    <legend>REGION CONDITIONS</legend>
+                    <label>REGION ID<input id="studio-event-region" placeholder="pass"></label>
+                    <label>ENTERING TEAM<select id="studio-event-region-team"><option value="either">Either team</option><option value="0">Azure</option><option value="1">Ember</option></select></label>
+                    <label>UNIT KIND<select id="studio-event-region-kind"><option value="">Any living unit</option></select></label>
+                    <label>MINIMUM UNITS<input id="studio-event-region-minimum" type="number" min="1" max="1000" value="1"></label>
+                    <small>First qualifying presence starts the delay once. Initial occupants qualify at match start. Recipients below are independent of the entering team.</small>
+                  </fieldset>
                   <label id="studio-event-objective-control" hidden>CAPTURE ZONE
                     <select id="studio-event-objective"><option value="">Choose a capture zone</option></select>
                   </label>
