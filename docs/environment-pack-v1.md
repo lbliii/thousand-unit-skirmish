@@ -538,3 +538,9 @@ The [bramble atlas](../assets/environment/frontier-v1/underbough-bramble-lifecyc
 [Lazy atlas](../assets/environment/frontier-v1/bellweather-hedgerow-lifecycle-atlas.json) follows the four-state, 64px-gutter, half-texel inset and mip-cap-six contract with individual-texture fallback. Bellweather hedgerow and field maple now both have matching depletion art. Meadow maps retain their existing approximately 20% hedgerow selection and other tree mix; forest identity, yield and collision rules are unchanged. Other generic tree species remain in the palette.
 
 [Local evidence](qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30/README.md) exercises hedgerow worker harvest/reset separately, upright renderer matrices and metadata-failure fallback. One fixed-oblique painted view; approximate camera guidance. Action animation, extra perspectives, broader regional species and fauna remain ongoing.
+
+## Vesperra shade fern understory · 30 September 2026
+
+Sparse [shade ferns](../assets/environment/frontier-v1/vesperra-understory-manifest.json) bring the approved ecology key's petrol-green fronds and muted violet undersides beneath Mistbark. A seeded 28% selection attaches one decorative plant to an existing forest cell, in one shared mesh. It retains its appearance during partial harvest, disappears at received stock zero, and returns on reset. Hidden cells follow the existing received-stock contract. No resources or obstacle cells are added.
+
+[Local evidence](qa-evidence/vaelora-vesperra-understory-2026-09-30/README.md) covers placement, parent clearing/reset, regional isolation and existing lifecycle behavior. The selected generated master remains unchanged; cropped WebP preserves alpha. Runtime uses the existing world-up camera orientation. One painted view only; additional perspectives and fern-specific harvest animation remain future work.

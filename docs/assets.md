@@ -109,3 +109,5 @@ strategic game views for readability; reserve measured performance claims for a
 comparable run on the integrated renderer.
 
 By user direction on 29 September 2026, the cast human/orc/elf/troll review atlases supply stable mixed Worker appearances by default. `?castPreview=0` restores Worker v3. Infantry and Archer keep their prior defaults. The cast packs remain exploratory runtime candidates.
+
+Vesperra jungle-loam forests also carry sparse decorative shade fern companions; see the [understory manifest](../assets/environment/frontier-v1/vesperra-understory-manifest.json) and [environment guide](environment-pack-v1.md). They clear with their parent forest cell, without introducing a new resource.

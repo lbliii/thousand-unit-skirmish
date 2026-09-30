@@ -14,6 +14,7 @@ const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
 const GROUND_RENDER_ORDER = -20;
 export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
+  'vesperra-shade-fern',
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
@@ -515,6 +516,12 @@ export function setEnvironmentSpriteInstance(mesh, index, x, z, scale, flip = fa
 // Hidden cells retain their last received stock; callers must not infer new stock.
 export function setForestSpriteStock(slot, stock = 6) {
   const stage = resourceVisualStage(stock, 6);
+  if (slot.understory) {
+    const plant = slot.understory;
+    setEnvironmentSpriteInstance(plant.mesh, plant.index, plant.x, plant.z,
+      stock <= 0 ? 0 : plant.scale, plant.flip, plant.yaw);
+    plant.mesh.instanceMatrix.needsUpdate = true;
+  }
   if (slot.atlas) {
     slot.atlas.rects.setXYZW(slot.index, ...slot.atlas.frameRects[stage]);
     slot.atlas.rects.needsUpdate = true;
@@ -740,6 +747,24 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       forestTreeSlots.set(point.cell, { mesh, index, ...point, family: name, stateMeshes, atlas: mesh.userData.forestAtlas });
     }
     addObject(mesh);
+  }
+  if (vesperra) {
+    // Decorative understory occupies existing forest cells only. Clearing follows
+    // received cell stock, so it cannot cover a newly traversable cleared cell.
+    const plants = [...forestTreeSlots.values()].filter(slot => variation(slot.cell + 107) < 0.28)
+      .map(slot => ({ cell: slot.cell,
+        x: slot.x + (variation(slot.cell + 109) - 0.5) * 0.32,
+        z: slot.z + (variation(slot.cell + 113) - 0.5) * 0.32,
+        scale: 0.8 + variation(slot.cell + 127) * 0.25,
+        flip: slot.flip, yaw: slot.yaw }));
+    const mesh = createEnvironmentSpriteInstances('vesperra-shade-fern', 1.07475, 0.72, plants);
+    if (mesh) {
+      mesh.userData.forestUnderstory = true;
+      plants.forEach((plant, index) => {
+        forestTreeSlots.get(plant.cell).understory = { mesh, index, ...plant };
+      });
+      addObject(mesh);
+    }
   }
   return forestTreeSlots;
 }
