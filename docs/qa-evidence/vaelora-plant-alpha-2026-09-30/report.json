@@ -1,0 +1,113 @@
+{
+  "checked": 12,
+  "packs": [
+    {
+      "asset": "bellweather-meadow-herbs",
+      "pixels": 653312,
+      "decodedAlphaExact": true,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset": "ellionar-sunbloom",
+      "pixels": 815048,
+      "decodedAlphaExact": true,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "asset": "sombral-mere-mirelily",
+      "pixels": 1010688,
+      "decodedAlphaExact": true,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset": "pale-meridian-silver-moss",
+      "pixels": 568320,
+      "decodedAlphaExact": true,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset": "ru-lora-god-bone",
+      "pixels": 609280,
+      "decodedAlphaExact": true,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset": "sereward-succulent",
+      "pixels": 807936,
+      "decodedAlphaExact": true,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset": "siltmouths-silver-reed",
+      "pixels": 852992,
+      "decodedAlphaExact": true,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset": "sombral-mere-lunewort",
+      "pixels": 702438,
+      "decodedAlphaExact": true,
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "asset": "underbough-rootward-fungus",
+      "pixels": 628736,
+      "decodedAlphaExact": true,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset": "vesperra-shade-fern-02",
+      "pixels": 714752,
+      "decodedAlphaExact": true,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset": "vesperra-shade-fern",
+      "pixels": 702464,
+      "decodedAlphaExact": true,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset": "veyrholds-ridgegrass",
+      "pixels": 728064,
+      "decodedAlphaExact": true,
+      "alphaRange": [
+        0,
+        255
+      ]
+    }
+  ]
+}

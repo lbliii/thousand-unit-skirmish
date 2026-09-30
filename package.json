@@ -18,7 +18,8 @@
     "release:pack": "node scripts/pack-railway-release.mjs",
     "release:smoke": "node scripts/railway-smoke.mjs",
     "docs:check": "node scripts/check-docs.mjs",
-    "validate:environment-plants": "node scripts/validate-environment-plants.mjs"
+    "validate:environment-plants": "node scripts/validate-environment-plants.mjs",
+    "validate:environment-plant-alpha": "python3 scripts/validate-environment-plant-alpha.py"
   },
   "dependencies": {
     "three": "0.180.0"

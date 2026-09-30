@@ -632,3 +632,7 @@ The shared shore placement selects existing blocked water cells with continuous 
 Run `npm run validate:environment-plants` before packaging new understory, variation, water-plant or god-bone samples. The validator checks recorded source/runtime bytes and hashes, encoded dimensions/alpha headers, reference hashes, prompt JSON, crop/export bounds, world aspect, surface-specific pivot and forest-stock clearing metadata. It discovers the12 current manifests in these naming families; tree lifecycle atlases use their separate existing validation.
 
 [Recorded evidence](qa-evidence/vaelora-plant-pack-validation-2026-09-30/README.md) includes covered pack IDs and deliberate rejection cases. Original Vesperra understory metadata is v0.1.1 with its existing reference hash recorded; images are unchanged. CI includes both validation and rejection scenarios. Decoded-alpha equality, camera/ground contact, runtime binding and appearance still require their focused source/browser checks.
+
+## Decoded-alpha audit · 30 September 2026
+
+Run `npm run validate:environment-plant-alpha` with Python3/Pillow to compare every decoded runtime alpha pixel with the recorded selected-source crop and LANCZOS max1024 recipe. [Evidence](qa-evidence/vaelora-plant-alpha-2026-09-30/README.md) covers all12 current single-asset packs. This read-only check complements the Node contract validator; it does not repaint sources or assess RGB/perspective/placement. The command is optional production tooling, separate from Node-only CI.
