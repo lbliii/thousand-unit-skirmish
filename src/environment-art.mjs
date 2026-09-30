@@ -17,6 +17,7 @@ const spriteNames = [
   'bellweather-field-maple', 'bellweather-hedgerow',
   'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
   'underbough-copperleaf', 'underbough-bramble',
+  'sereward-palm', 'sereward-acacia', 'sereward-scrub',
   'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
   'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
 ];
@@ -495,6 +496,13 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     && definition.id !== 'meshy-resource-review';
   const underbough = environmentTheme(definition) === 'forest-floor'
     && definition.id !== 'meshy-resource-review';
+  const sereward = environmentTheme(definition) === 'sand'
+    && definition.id !== 'meshy-resource-review';
+  const pineName = sereward ? 'sereward-palm' : veyrholds ? 'veyrholds-highpine' : 'pine';
+  const mapleName = sereward ? 'sereward-acacia' : underbough ? 'underbough-copperleaf'
+    : bellweather ? 'bellweather-field-maple' : 'field-maple';
+  const thicketName = sereward ? 'sereward-scrub' : underbough ? 'underbough-bramble'
+    : bellweather ? 'bellweather-hedgerow' : 'hazel-thicket';
   const pines = [];
   const oaks = [];
   const birches = [];
@@ -526,6 +534,19 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
             point.scale = 0.72 + scaleVariation * 0.32;
             point.yaw = 0;
             (treeType < 0.45 ? oaks : pines).push(point);
+            continue;
+          }
+          if (sereward) {
+            if (treeType < 0.55) {
+              point.scale = 0.76 + scaleVariation * 0.2;
+              pines.push(point);
+            } else if (treeType < 0.85) {
+              point.scale = 0.68 + scaleVariation * 0.3;
+              maples.push(point);
+            } else {
+              point.scale = 0.62 + scaleVariation * 0.24;
+              hazelThickets.push(point);
+            }
             continue;
           }
           if (underbough) {
@@ -593,11 +614,11 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     }
   }
   for (const [name, width, height, points] of [
-    [veyrholds ? 'veyrholds-highpine' : 'pine', veyrholds ? 2.7 : 2.25, 3.4, pines],
+    [pineName, sereward || veyrholds ? 2.7 : 2.25, sereward ? 3.8 : 3.4, pines],
     ['oak', 3.05, 2.86, oaks],
     ['silver-birch', 2.3, 3.45, birches],
-    [underbough ? 'underbough-copperleaf' : bellweather ? 'bellweather-field-maple' : 'field-maple', 3.05, 3.25, maples],
-    [underbough ? 'underbough-bramble' : bellweather ? 'bellweather-hedgerow' : 'hazel-thicket', 3.1, 2.07, hazelThickets],
+    [mapleName, sereward ? 3.5 : 3.05, sereward ? 2.85 : 3.25, maples],
+    [thicketName, sereward ? 2.6 : 3.1, sereward ? 1.7 : 2.07, hazelThickets],
     [veyrholds ? 'veyrholds-ironlichen-outcrop' : 'rock-outcrop', 3.5, 2.2, outcrops],
     ['rock-boulder-cluster', 2.7, 1.8, boulderClusters],
     ['basalt-ridge', 3.6, 3.05, ridges],

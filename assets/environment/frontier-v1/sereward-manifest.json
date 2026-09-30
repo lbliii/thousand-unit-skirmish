@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-sereward",
+  "packVersion": "1.0.0",
+  "reference": "docs/art-direction/vaelora-v1/sereward-ecology.png",
+  "referenceSha256": "9c856d041c638cf3e2602b6500c87751f4f5ff5496b31f42cadb777bb1b02143",
+  "prompts": "SEREWARD-PROMPTS.json",
+  "provenance": "Original built-in ImageGen art derived from project ecology key; no third-party image inputs. Unmodified PNG masters. Runtime packaging crops to alpha>=21 bounds without repainting pixels, Pillow LANCZOS max1024 RGBA WebP quality86 method6.",
+  "files": [
+    {
+      "path": "sereward-palm.png",
+      "role": "source-image",
+      "sha256": "99225c657b6f530ecceb4562916b775f5c0ad787650bf66bc4cbc99ff1bffd23",
+      "dimensionsPx": {
+        "width": 1145,
+        "height": 1374
+      },
+      "bytes": 2041674
+    },
+    {
+      "path": "sereward-palm.webp",
+      "role": "runtime-image",
+      "sha256": "8d101968ac841f769570ced26d55c6c1ffa2f1ba0e5490d18aa89782276d38ee",
+      "dimensionsPx": {
+        "width": 853,
+        "height": 1024
+      },
+      "bytes": 346232
+    },
+    {
+      "path": "sereward-acacia.png",
+      "role": "source-image",
+      "sha256": "38228858e33c8896c34cfc56e14ab15accdcbcbe6d4ac28711838bbe0fe4c721",
+      "dimensionsPx": {
+        "width": 1402,
+        "height": 1122
+      },
+      "bytes": 1555358
+    },
+    {
+      "path": "sereward-acacia.webp",
+      "role": "runtime-image",
+      "sha256": "0e2dfd06a1377d168265d658b97d6d004afc3c235a813ff0c281ead110652428",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 627
+      },
+      "bytes": 259830
+    },
+    {
+      "path": "sereward-scrub.png",
+      "role": "source-image",
+      "sha256": "6a453764c52e29cff7551b9b5c3523f831c5d088e2111782bf5d7d491adff9e6",
+      "dimensionsPx": {
+        "width": 1508,
+        "height": 1043
+      },
+      "bytes": 2004763
+    },
+    {
+      "path": "sereward-scrub.webp",
+      "role": "runtime-image",
+      "sha256": "bc85b18e2ea895ad9eb153828ce8d9e5d383736a2b194657483f8d3526cf189e",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 660
+      },
+      "bytes": 321098
+    }
+  ],
+  "assets": [
+    {
+      "id": "sereward-palm",
+      "sourceOutputId": "exec-77909418-ef05-4999-9504-ad516d57a4d0",
+      "sourceFile": "sereward-palm.png",
+      "runtimeFile": "sereward-palm.webp",
+      "cropBoxPx": [
+        23,
+        24,
+        1133,
+        1356
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "kind": "harvestable-forest-sprite",
+      "forestSelectionShare": 0.55
+    },
+    {
+      "id": "sereward-acacia",
+      "sourceOutputId": "exec-669b2b1e-f334-4529-be07-51efbc6a47fd",
+      "sourceFile": "sereward-acacia.png",
+      "runtimeFile": "sereward-acacia.webp",
+      "cropBoxPx": [
+        13,
+        131,
+        1392,
+        975
+      ],
+      "worldSize": {
+        "width": 3.5,
+        "height": 2.85
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "kind": "harvestable-forest-sprite",
+      "forestSelectionShare": 0.3
+    },
+    {
+      "id": "sereward-scrub",
+      "sourceOutputId": "exec-00f6242b-fe2f-47de-a865-e10731af7f3a",
+      "sourceFile": "sereward-scrub.png",
+      "runtimeFile": "sereward-scrub.webp",
+      "cropBoxPx": [
+        54,
+        66,
+        1466,
+        976
+      ],
+      "worldSize": {
+        "width": 2.6,
+        "height": 1.7
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "kind": "harvestable-forest-sprite",
+      "forestSelectionShare": 0.15
+    }
+  ]
+}

@@ -157,3 +157,12 @@ ecology key. [Prompts](UNDERBOUGH-PROMPTS.json) and
 reference hash, dimensions and runtime encoding. Source PNG masters are
 unmodified generated outputs. Packaging only crops to content bounds,
 downscales and encodes RGBA WebP. No third-party image inputs were used.
+
+## Sereward oasis woodland — 30 September 2026
+
+The fruitless palm, pale thorn acacia and woody flowering scrub derive from
+the approved Sereward ecology key. [Prompts](SEREWARD-PROMPTS.json) and
+[manifest](sereward-manifest.json) record source identifiers, the reference
+hash, dimensions and runtime packaging. PNG masters are unchanged generated
+outputs. Cropping/downscaling/WebP encoding preserves alpha and does not
+repaint the source. No third-party image inputs were used.

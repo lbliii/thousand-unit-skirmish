@@ -35,7 +35,7 @@ and `row` begin at the northwest corner. World positions use `x` and `z`.
 | `startingArmySize` | Optional even total from 8–2,000. Omission uses the 1,000-total fallback. |
 | `startingResources` | Optional shared `{food, wood}`; each integer 0–100,000, omitted values zero. |
 | `fogOfWar` | Boolean, default false. |
-| `terrainBase` | `meadow`, `short-grass`, `long-grass`, `forest-floor`, `dirt`, `sand`, `scree`, or `cinder`. |
+| `terrainBase` | Any of the sixteen grounds in the [environment catalog](environment-pack-v1.md#asset-roles), including the regional companion grounds. |
 | `terrainPatches` | Up to 4,096 nonoverlapping `{column, row, width, height, material}` rectangles. Ground paint does not block movement. |
 | `obstacles` | Required array of up to 4,096 nonoverlapping rectangles; material is `stone`, `forest`, or `water`. Optional positive `elevation` is obstacle height. |
 | `elevationPatches` | Optional nonoverlapping rectangles with integer `level` 0–2; at most 4,096. Omitted cells are level 0. |

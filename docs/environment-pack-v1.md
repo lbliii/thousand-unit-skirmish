@@ -132,6 +132,34 @@ meadow base does not change vegetation. The Meshy comparison map remains explici
 [Browser evidence](qa-evidence/vaelora-underbough-2026-09-30/README.md)
 records two-scale forest captures, cell parity and unused-family request checks.
 
+## Sereward oasis woodland · 30 September 2026
+
+Sand-base maps now use palms, pale thorn acacias and hardy woody scrub for all
+forest cells: approximately 55/30/15 shares selected by the existing deterministic
+cell hash. The [Sereward ecology key](art-direction/vaelora-v1/README.md#the-sereward)
+guides turquoise/sage fronds, peach canopies, warm bark and sparse violet scrub
+accents. Palm height, acacia spread and low scrub give the same harvestable mask
+three readable height/silhouette families.
+
+[Preview](../assets/environment/frontier-v1/sereward-preview.png),
+[manifest](../assets/environment/frontier-v1/sereward-manifest.json) and
+[exact prompts](../assets/environment/frontier-v1/SEREWARD-PROMPTS.json)
+record original generated masters, ecology reference hash and alpha-preserving
+runtime packaging. There is no visible fruit on these wood sprites. Dates,
+water-storing succulents and desert food-node art remain later content; existing
+ordinary oak/berry resource nodes retain their separate state pack.
+
+**Sand** as Map Studio's base ground selects the mix. Ground patches do not
+select independent vegetation; another base retains its own forest palette.
+The Meshy resource comparison fixture stays explicit, and new cutouts use the
+on-demand decorative loader.
+
+The [oasis study](qa-evidence/vaelora-sereward-2026-09-30/README.md) contains an
+importable map with organic water/forest spans, a green oasis margin and a
+curving dirt trail around the bank. It is a composition and ground-contact
+review, not a finished Sereward zone or balanced scenario. Local Map Studio
+import/save/play and two-scale renderer evidence are recorded beside it.
+
 ## Review in game
 
 1. Start with `npm start` and choose **Frontier Materials** in Match Controls.
