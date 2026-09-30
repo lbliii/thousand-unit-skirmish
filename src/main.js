@@ -155,6 +155,11 @@ let guidanceDismissed = false;
 try { guidanceDismissed = localStorage.getItem('rts-guidance-dismissed') === 'true'; } catch {}
 const objectivePanel = document.querySelector('#objective-panel');
 const roomPageUrl = new URL(window.location.href);
+const humanRosterPreview = roomPageUrl.searchParams.get('humanRosterPreview') === '1'
+  || (!roomPageUrl.searchParams.has('humanRosterPreview')
+    && !roomPageUrl.searchParams.has('castPreview')
+    && !['workerSpritePreview', 'unitSpritePreview', 'meshyInfantrySpritePreview', 'humanVaeloraPreview']
+      .some((key) => roomPageUrl.searchParams.get(key) === '1'));
 const castPreview = roomPageUrl.searchParams.get('castPreview') !== '0'
   && !['workerSpritePreview', 'unitSpritePreview', 'meshyInfantrySpritePreview']
     .some((key) => roomPageUrl.searchParams.get(key) === '1');
@@ -162,19 +167,19 @@ const workerSpritePreview = roomPageUrl.searchParams.get('workerSpritePreview') 
 const unitSpritePreview = roomPageUrl.searchParams.get('unitSpritePreview') === '1';
 const meshyInfantrySpritePreview = roomPageUrl.searchParams.get('meshyInfantrySpritePreview') === '1';
 const unitSpritePreviewRoles = castPreview
-  ? ['human', 'orc', 'elf', 'troll']
+  ? humanRosterPreview ? ['human', 'infantry', 'spearman', 'archer'] : (roomPageUrl.searchParams.get('humanVaeloraPreview') === '1' ? ['human'] : ['human', 'orc', 'elf', 'troll'])
   : meshyInfantrySpritePreview
   ? ['infantry']
   : unitSpritePreview
   ? ['worker', 'infantry', 'archer']
   : ['worker'];
 const unitSpritePreviewVersions = castPreview
-  ? { human: 'v1', orc: 'v1', elf: 'v1', troll: 'v1' }
+  ? humanRosterPreview ? { human: 'v3', infantry: 'v3', spearman: 'v1', archer: 'v2' } : { human: roomPageUrl.searchParams.get('humanVaeloraPreview') === '1' ? (roomPageUrl.searchParams.get('humanAnimationPreview') === '1' ? 'v3' : 'v2') : 'v1', orc: 'v1', elf: 'v1', troll: 'v1' }
   : meshyInfantrySpritePreview
   ? { infantry: 'v2' }
   : workerSpritePreview && !unitSpritePreview ? { worker: 'v2' }
     : !unitSpritePreview ? { worker: 'v3' } : {};
-const unitSpritePreviewRoleSet = new Set(castPreview ? ['worker'] : unitSpritePreviewRoles);
+const unitSpritePreviewRoleSet = new Set(castPreview ? (humanRosterPreview ? ['worker', 'infantry', 'spearman', 'archer'] : ['worker']) : unitSpritePreviewRoles);
 const ROOM_ID = roomPageUrl.searchParams.get('room');
 const HAS_ROOM_PARAMETER = roomPageUrl.searchParams.has('room');
 const ROOM_ID_PATTERN = /^[A-Za-z0-9_-]{32}$/;
@@ -475,7 +480,9 @@ const unitSpriteRuntime = createUnitSpriteRuntime({
   THREE, scene, capacity: MAX_PER_TEAM, teamHex: TEAM_HEX, cameraQuaternion: camera.quaternion,
   roles: unitSpritePreviewRoles,
   roleSpriteVersions: unitSpritePreviewVersions,
+  approximateActionDirections: humanRosterPreview,
   castPreview,
+  humanAppearancePreview: humanRosterPreview || roomPageUrl.searchParams.get('humanVaeloraPreview') === '1',
 });
 unitSpriteRuntime.ready.then((loaded) => {
   if (!loaded) return;

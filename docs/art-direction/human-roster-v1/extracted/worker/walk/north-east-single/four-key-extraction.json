@@ -1,0 +1,73 @@
+{
+  "frames": [
+    {
+      "key": 0,
+      "phase": "contact-left-v2",
+      "source": "docs/art-direction/human-roster-v1/source/worker-walk-north-east-contact-left-v2.png",
+      "sourceBounds": [
+        95,
+        28,
+        976,
+        1493
+      ],
+      "scale": 0.1583617747440273,
+      "groundPivotPx": [
+        128,
+        244
+      ],
+      "accepted": false
+    },
+    {
+      "key": 1,
+      "phase": "passing-right-v1",
+      "source": "docs/art-direction/human-roster-v1/source/worker-walk-north-east-passing-right-v1.png",
+      "sourceBounds": [
+        176,
+        103,
+        853,
+        1384
+      ],
+      "scale": 0.18110850897736144,
+      "groundPivotPx": [
+        128,
+        244
+      ],
+      "accepted": false
+    },
+    {
+      "key": 2,
+      "phase": "contact-right-v1",
+      "source": "docs/art-direction/human-roster-v1/source/worker-walk-north-east-contact-right-v1.png",
+      "sourceBounds": [
+        68,
+        16,
+        984,
+        1487
+      ],
+      "scale": 0.15771583956492183,
+      "groundPivotPx": [
+        128,
+        244
+      ],
+      "accepted": false
+    },
+    {
+      "key": 3,
+      "phase": "passing-left-v1",
+      "source": "docs/art-direction/human-roster-v1/source/worker-walk-north-east-passing-left-v1.png",
+      "sourceBounds": [
+        161,
+        103,
+        894,
+        1384
+      ],
+      "scale": 0.18110850897736144,
+      "groundPivotPx": [
+        128,
+        244
+      ],
+      "accepted": false
+    }
+  ],
+  "note": "Body-height normalization is provisional; physical ground-root alignment and smooth loop remain unverified."
+}

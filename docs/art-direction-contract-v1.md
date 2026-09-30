@@ -10,6 +10,8 @@ The [selected world atlas, ten zone maps and ten ecology keys](art-direction/vae
 
 Azure and Ember remain match identities. Region and culture palettes must remain recognizable under either owner's team accents. Environment cutouts, unit geometry and captured building views must share scale, lighting and readable silhouettes within each region.
 
+The [blueprint-derived peoples and faction sheets](art-direction/vaelora-peoples-v1/README.md) propose character anatomy, clothing, materials and architecture for the four working allegiances. They extend the world checkpoint as source concepts; ancestry is not restricted by allegiance, and their role labels add no gameplay abilities.
+
 ![Vaelora world atlas](art-direction/vaelora-v1/world-atlas.png)
 
 The [first-civilization architecture kit](frontier-civilization-art-style.md) develops a Bellweather-inspired Frontier building family, with [eight illustrated Complete concepts](lore/frontier-architecture.md) for wiki and production use. These are source concepts; runtime views and lifecycle integration proceed separately.
@@ -31,6 +33,8 @@ The [first-civilization architecture kit](frontier-civilization-art-style.md) de
 Worker: pack and broad tool. Infantry: spear and six-sided shield. Archer: bow
 and quiver. Town Center: wide hall and rear tower. Barracks: enclosed gable and
 gate. Archery Range: open canopy and target. Test these cues at native display size.
+
+The user-approved Human appearance preview on 30 September 2026 retains the existing Human atlas height of **1.2161865234375 world units**. This is the production baseline for the current Human roster, superseding the approximate 0.8-unit guidance for these sprites. Preserve that apparent body height across equipment and actions; long weapons must not shrink the body when atlas alpha height grows. See [Human roster production](art-direction/human-roster-v1/README.md).
 
 ## Rules by asset family
 

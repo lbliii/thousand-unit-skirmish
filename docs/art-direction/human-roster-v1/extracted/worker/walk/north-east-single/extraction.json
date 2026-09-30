@@ -1,0 +1,12 @@
+{
+  "source": "docs/art-direction/human-roster-v1/source/worker-walk-north-east-passing-right-v1.png",
+  "sourceBounds": [
+    176,
+    103,
+    853,
+    1384
+  ],
+  "alphaThreshold": 9,
+  "accepted": false,
+  "purpose": "Single passing key candidate; full cycle, body alignment and runtime verification remain pending"
+}

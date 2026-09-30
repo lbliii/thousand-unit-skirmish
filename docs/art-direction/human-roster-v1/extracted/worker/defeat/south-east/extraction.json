@@ -1,0 +1,93 @@
+{
+  "source": "docs/art-direction/human-roster-v1/source/worker-defeat-south-east-v1.png",
+  "frames": [
+    {
+      "frame": 0,
+      "sourceBounds": [
+        67,
+        47,
+        359,
+        457
+      ],
+      "opaquePixels": 60764,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 1,
+      "sourceBounds": [
+        544,
+        80,
+        851,
+        457
+      ],
+      "opaquePixels": 60733,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 2,
+      "sourceBounds": [
+        977,
+        139,
+        1277,
+        487
+      ],
+      "opaquePixels": 58988,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 3,
+      "sourceBounds": [
+        1408,
+        170,
+        1730,
+        444
+      ],
+      "opaquePixels": 54859,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 4,
+      "sourceBounds": [
+        54,
+        510,
+        427,
+        839
+      ],
+      "opaquePixels": 66496,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 5,
+      "sourceBounds": [
+        461,
+        575,
+        866,
+        832
+      ],
+      "opaquePixels": 55189,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 6,
+      "sourceBounds": [
+        892,
+        590,
+        1292,
+        832
+      ],
+      "opaquePixels": 55476,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 7,
+      "sourceBounds": [
+        1326,
+        622,
+        1748,
+        840
+      ],
+      "opaquePixels": 55523,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    }
+  ]
+}

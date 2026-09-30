@@ -1,0 +1,93 @@
+{
+  "source": "docs/art-direction/human-roster-v1/source/spearman-walk-south-east-v3.png",
+  "frames": [
+    {
+      "frame": 0,
+      "sourceBounds": [
+        75,
+        43,
+        370,
+        452
+      ],
+      "opaquePixels": 35361,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 1,
+      "sourceBounds": [
+        453,
+        44,
+        761,
+        450
+      ],
+      "opaquePixels": 38208,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 2,
+      "sourceBounds": [
+        810,
+        43,
+        1143,
+        450
+      ],
+      "opaquePixels": 39463,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 3,
+      "sourceBounds": [
+        1195,
+        42,
+        1506,
+        451
+      ],
+      "opaquePixels": 37518,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 4,
+      "sourceBounds": [
+        75,
+        523,
+        370,
+        949
+      ],
+      "opaquePixels": 39000,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 5,
+      "sourceBounds": [
+        455,
+        526,
+        760,
+        922
+      ],
+      "opaquePixels": 40807,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 6,
+      "sourceBounds": [
+        817,
+        523,
+        1145,
+        933
+      ],
+      "opaquePixels": 41503,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 7,
+      "sourceBounds": [
+        1211,
+        525,
+        1506,
+        924
+      ],
+      "opaquePixels": 37093,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    }
+  ]
+}

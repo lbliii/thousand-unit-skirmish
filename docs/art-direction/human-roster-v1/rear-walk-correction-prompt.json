@@ -1,0 +1,4 @@
+{
+  "provider": "built-in imagegen",
+  "prompt": "Correct only the tool consistency in this eight-frame rear-view Human Worker walk sheet. All eight figures must carry ONE identical iron-headed wood-handled axe in their anatomical RIGHT hand (viewer-right because viewed from behind), with a relaxed downward grip. Frame1 already correct. In frames2 and4 and5 restore missing axe in right hand. Frame3 move its wrongly left-held axe to right hand. Keep other frames' right-hand axe. Preserve exact eight gait poses, backpack, clothing, identity, elevated camera, layout and scale; do not mirror bodies or change motion. Fully transparent alpha background and keep all axe shapes within their cells. No extra axes, no left-hand axes, no axes mounted on backpack."
+}

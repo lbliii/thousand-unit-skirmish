@@ -1,0 +1,93 @@
+{
+  "source": "docs/art-direction/human-roster-v1/source/spearman-defeat-south-east-v1.png",
+  "frames": [
+    {
+      "frame": 0,
+      "sourceBounds": [
+        76,
+        41,
+        450,
+        504
+      ],
+      "opaquePixels": 53030,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 1,
+      "sourceBounds": [
+        530,
+        111,
+        879,
+        474
+      ],
+      "opaquePixels": 46065,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 2,
+      "sourceBounds": [
+        942,
+        158,
+        1334,
+        490
+      ],
+      "opaquePixels": 43353,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 3,
+      "sourceBounds": [
+        1418,
+        153,
+        1737,
+        505
+      ],
+      "opaquePixels": 37697,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 4,
+      "sourceBounds": [
+        26,
+        615,
+        431,
+        786
+      ],
+      "opaquePixels": 38581,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 5,
+      "sourceBounds": [
+        454,
+        667,
+        875,
+        804
+      ],
+      "opaquePixels": 37672,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 6,
+      "sourceBounds": [
+        897,
+        672,
+        1316,
+        806
+      ],
+      "opaquePixels": 37340,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 7,
+      "sourceBounds": [
+        1332,
+        671,
+        1753,
+        801
+      ],
+      "opaquePixels": 37160,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    }
+  ]
+}

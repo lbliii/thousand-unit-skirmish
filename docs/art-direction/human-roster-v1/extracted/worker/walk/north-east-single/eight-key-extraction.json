@@ -1,0 +1,112 @@
+{
+  "frames": [
+    {
+      "key": 0,
+      "phase": "contact-left-v2",
+      "source": "docs/art-direction/human-roster-v1/source/worker-walk-north-east-contact-left-v2.png",
+      "sourceBounds": [
+        95,
+        28,
+        976,
+        1493
+      ],
+      "scale": 0.1583617747440273,
+      "accepted": false
+    },
+    {
+      "key": 1,
+      "phase": "down-left-v1",
+      "source": "docs/art-direction/human-roster-v1/source/worker-walk-north-east-down-left-v1.png",
+      "sourceBounds": [
+        105,
+        74,
+        903,
+        1468
+      ],
+      "scale": 0.16642754662840745,
+      "accepted": false
+    },
+    {
+      "key": 2,
+      "phase": "passing-right-v1",
+      "source": "docs/art-direction/human-roster-v1/source/worker-walk-north-east-passing-right-v1.png",
+      "sourceBounds": [
+        176,
+        103,
+        853,
+        1384
+      ],
+      "scale": 0.18110850897736144,
+      "accepted": false
+    },
+    {
+      "key": 3,
+      "phase": "up-right-v1",
+      "source": "docs/art-direction/human-roster-v1/source/worker-walk-north-east-up-right-v1.png",
+      "sourceBounds": [
+        119,
+        21,
+        902,
+        1426
+      ],
+      "scale": 0.16512455516014235,
+      "accepted": false
+    },
+    {
+      "key": 4,
+      "phase": "contact-right-v1",
+      "source": "docs/art-direction/human-roster-v1/source/worker-walk-north-east-contact-right-v1.png",
+      "sourceBounds": [
+        68,
+        16,
+        984,
+        1487
+      ],
+      "scale": 0.15771583956492183,
+      "accepted": false
+    },
+    {
+      "key": 5,
+      "phase": "down-right-v1",
+      "source": "docs/art-direction/human-roster-v1/source/worker-walk-north-east-down-right-v1.png",
+      "sourceBounds": [
+        121,
+        73,
+        877,
+        1371
+      ],
+      "scale": 0.17873651771956856,
+      "accepted": false
+    },
+    {
+      "key": 6,
+      "phase": "passing-left-v1",
+      "source": "docs/art-direction/human-roster-v1/source/worker-walk-north-east-passing-left-v1.png",
+      "sourceBounds": [
+        161,
+        103,
+        894,
+        1384
+      ],
+      "scale": 0.18110850897736144,
+      "accepted": false
+    },
+    {
+      "key": 7,
+      "phase": "up-left-v1",
+      "source": "docs/art-direction/human-roster-v1/source/worker-walk-north-east-up-left-v1.png",
+      "sourceBounds": [
+        94,
+        17,
+        949,
+        1476
+      ],
+      "scale": 0.15901302261823166,
+      "accepted": false
+    }
+  ],
+  "remaining": [
+    "Anatomical scale and ground-root calibration",
+    "Loop continuity and runtime verification"
+  ]
+}

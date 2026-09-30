@@ -1,0 +1,153 @@
+{
+  "directions": [
+    "north",
+    "north-east",
+    "east",
+    "south-east",
+    "south",
+    "south-west",
+    "west",
+    "north-west"
+  ],
+  "approvedBodyHeightWorld": 1.2161865234375,
+  "roles": {
+    "worker": {
+      "idle": {
+        "status": "pending",
+        "acceptedDirections": []
+      },
+      "walk": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east",
+          "south-west",
+          "north-east"
+        ]
+      },
+      "attack": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      },
+      "gather-wood": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      },
+      "gather-food": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      },
+      "build": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      },
+      "repair": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      },
+      "defeat": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      }
+    },
+    "infantry": {
+      "idle": {
+        "status": "pending",
+        "acceptedDirections": []
+      },
+      "walk": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      },
+      "attack": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      },
+      "defeat": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      }
+    },
+    "spearman": {
+      "idle": {
+        "status": "pending",
+        "acceptedDirections": []
+      },
+      "walk": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      },
+      "attack": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      },
+      "defeat": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      }
+    },
+    "archer": {
+      "idle": {
+        "status": "pending",
+        "acceptedDirections": []
+      },
+      "walk": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      },
+      "attack": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      },
+      "defeat": {
+        "status": "pending",
+        "acceptedDirections": [],
+        "candidateDirections": [
+          "south-east"
+        ]
+      }
+    }
+  }
+}

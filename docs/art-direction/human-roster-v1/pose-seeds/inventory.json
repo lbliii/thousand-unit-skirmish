@@ -1,0 +1,522 @@
+[
+  {
+    "path": "walk-north.png",
+    "source": "north.png",
+    "action": "walk",
+    "frameIds": [
+      "walk-north-0",
+      "walk-north-1",
+      "walk-north-2",
+      "walk-north-3",
+      "walk-north-4",
+      "walk-north-5",
+      "walk-north-6",
+      "walk-north-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "attack-north.png",
+    "source": "north.png",
+    "action": "attack",
+    "frameIds": [
+      "attack-north-0",
+      "attack-north-1",
+      "attack-north-2",
+      "attack-north-3",
+      "attack-north-4",
+      "attack-north-5",
+      "attack-north-6",
+      "attack-north-7",
+      "attack-north-8",
+      "attack-north-9",
+      "attack-north-10",
+      "attack-north-11",
+      "attack-north-12",
+      "attack-north-13",
+      "attack-north-14",
+      "attack-north-15"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "defeat-north.png",
+    "source": "north.png",
+    "action": "defeat",
+    "frameIds": [
+      "defeat-north-0",
+      "defeat-north-1",
+      "defeat-north-2",
+      "defeat-north-3",
+      "defeat-north-4",
+      "defeat-north-5",
+      "defeat-north-6",
+      "defeat-north-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "idle-north.png",
+    "source": "north.png",
+    "action": "idle",
+    "frameIds": [
+      "idle-north-0"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "walk-north-east.png",
+    "source": "north-east.png",
+    "action": "walk",
+    "frameIds": [
+      "walk-north-east-0",
+      "walk-north-east-1",
+      "walk-north-east-2",
+      "walk-north-east-3",
+      "walk-north-east-4",
+      "walk-north-east-5",
+      "walk-north-east-6",
+      "walk-north-east-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "attack-north-east.png",
+    "source": "north-east.png",
+    "action": "attack",
+    "frameIds": [
+      "attack-north-east-0",
+      "attack-north-east-1",
+      "attack-north-east-2",
+      "attack-north-east-3",
+      "attack-north-east-4",
+      "attack-north-east-5",
+      "attack-north-east-6",
+      "attack-north-east-7",
+      "attack-north-east-8",
+      "attack-north-east-9",
+      "attack-north-east-10",
+      "attack-north-east-11",
+      "attack-north-east-12",
+      "attack-north-east-13",
+      "attack-north-east-14",
+      "attack-north-east-15"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "defeat-north-east.png",
+    "source": "north-east.png",
+    "action": "defeat",
+    "frameIds": [
+      "defeat-north-east-0",
+      "defeat-north-east-1",
+      "defeat-north-east-2",
+      "defeat-north-east-3",
+      "defeat-north-east-4",
+      "defeat-north-east-5",
+      "defeat-north-east-6",
+      "defeat-north-east-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "idle-north-east.png",
+    "source": "north-east.png",
+    "action": "idle",
+    "frameIds": [
+      "idle-north-east-0"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "walk-east.png",
+    "source": "east.png",
+    "action": "walk",
+    "frameIds": [
+      "walk-east-0",
+      "walk-east-1",
+      "walk-east-2",
+      "walk-east-3",
+      "walk-east-4",
+      "walk-east-5",
+      "walk-east-6",
+      "walk-east-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "attack-east.png",
+    "source": "east.png",
+    "action": "attack",
+    "frameIds": [
+      "attack-east-0",
+      "attack-east-1",
+      "attack-east-2",
+      "attack-east-3",
+      "attack-east-4",
+      "attack-east-5",
+      "attack-east-6",
+      "attack-east-7",
+      "attack-east-8",
+      "attack-east-9",
+      "attack-east-10",
+      "attack-east-11",
+      "attack-east-12",
+      "attack-east-13",
+      "attack-east-14",
+      "attack-east-15"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "defeat-east.png",
+    "source": "east.png",
+    "action": "defeat",
+    "frameIds": [
+      "defeat-east-0",
+      "defeat-east-1",
+      "defeat-east-2",
+      "defeat-east-3",
+      "defeat-east-4",
+      "defeat-east-5",
+      "defeat-east-6",
+      "defeat-east-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "idle-east.png",
+    "source": "east.png",
+    "action": "idle",
+    "frameIds": [
+      "idle-east-0"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "walk-south-east.png",
+    "source": "south-east.png",
+    "action": "walk",
+    "frameIds": [
+      "walk-south-east-0",
+      "walk-south-east-1",
+      "walk-south-east-2",
+      "walk-south-east-3",
+      "walk-south-east-4",
+      "walk-south-east-5",
+      "walk-south-east-6",
+      "walk-south-east-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "attack-south-east.png",
+    "source": "south-east.png",
+    "action": "attack",
+    "frameIds": [
+      "attack-south-east-0",
+      "attack-south-east-1",
+      "attack-south-east-2",
+      "attack-south-east-3",
+      "attack-south-east-4",
+      "attack-south-east-5",
+      "attack-south-east-6",
+      "attack-south-east-7",
+      "attack-south-east-8",
+      "attack-south-east-9",
+      "attack-south-east-10",
+      "attack-south-east-11",
+      "attack-south-east-12",
+      "attack-south-east-13",
+      "attack-south-east-14",
+      "attack-south-east-15"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "defeat-south-east.png",
+    "source": "south-east.png",
+    "action": "defeat",
+    "frameIds": [
+      "defeat-south-east-0",
+      "defeat-south-east-1",
+      "defeat-south-east-2",
+      "defeat-south-east-3",
+      "defeat-south-east-4",
+      "defeat-south-east-5",
+      "defeat-south-east-6",
+      "defeat-south-east-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "idle-south-east.png",
+    "source": "south-east.png",
+    "action": "idle",
+    "frameIds": [
+      "idle-south-east-0"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "walk-south.png",
+    "source": "south.png",
+    "action": "walk",
+    "frameIds": [
+      "walk-south-0",
+      "walk-south-1",
+      "walk-south-2",
+      "walk-south-3",
+      "walk-south-4",
+      "walk-south-5",
+      "walk-south-6",
+      "walk-south-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "attack-south.png",
+    "source": "south.png",
+    "action": "attack",
+    "frameIds": [
+      "attack-south-0",
+      "attack-south-1",
+      "attack-south-2",
+      "attack-south-3",
+      "attack-south-4",
+      "attack-south-5",
+      "attack-south-6",
+      "attack-south-7",
+      "attack-south-8",
+      "attack-south-9",
+      "attack-south-10",
+      "attack-south-11",
+      "attack-south-12",
+      "attack-south-13",
+      "attack-south-14",
+      "attack-south-15"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "defeat-south.png",
+    "source": "south.png",
+    "action": "defeat",
+    "frameIds": [
+      "defeat-south-0",
+      "defeat-south-1",
+      "defeat-south-2",
+      "defeat-south-3",
+      "defeat-south-4",
+      "defeat-south-5",
+      "defeat-south-6",
+      "defeat-south-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "idle-south.png",
+    "source": "south.png",
+    "action": "idle",
+    "frameIds": [
+      "idle-south-0"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "walk-south-west.png",
+    "source": "south-west.png",
+    "action": "walk",
+    "frameIds": [
+      "walk-south-west-0",
+      "walk-south-west-1",
+      "walk-south-west-2",
+      "walk-south-west-3",
+      "walk-south-west-4",
+      "walk-south-west-5",
+      "walk-south-west-6",
+      "walk-south-west-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "attack-south-west.png",
+    "source": "south-west.png",
+    "action": "attack",
+    "frameIds": [
+      "attack-south-west-0",
+      "attack-south-west-1",
+      "attack-south-west-2",
+      "attack-south-west-3",
+      "attack-south-west-4",
+      "attack-south-west-5",
+      "attack-south-west-6",
+      "attack-south-west-7",
+      "attack-south-west-8",
+      "attack-south-west-9",
+      "attack-south-west-10",
+      "attack-south-west-11",
+      "attack-south-west-12",
+      "attack-south-west-13",
+      "attack-south-west-14",
+      "attack-south-west-15"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "defeat-south-west.png",
+    "source": "south-west.png",
+    "action": "defeat",
+    "frameIds": [
+      "defeat-south-west-0",
+      "defeat-south-west-1",
+      "defeat-south-west-2",
+      "defeat-south-west-3",
+      "defeat-south-west-4",
+      "defeat-south-west-5",
+      "defeat-south-west-6",
+      "defeat-south-west-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "idle-south-west.png",
+    "source": "south-west.png",
+    "action": "idle",
+    "frameIds": [
+      "idle-south-west-0"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "walk-west.png",
+    "source": "west.png",
+    "action": "walk",
+    "frameIds": [
+      "walk-west-0",
+      "walk-west-1",
+      "walk-west-2",
+      "walk-west-3",
+      "walk-west-4",
+      "walk-west-5",
+      "walk-west-6",
+      "walk-west-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "attack-west.png",
+    "source": "west.png",
+    "action": "attack",
+    "frameIds": [
+      "attack-west-0",
+      "attack-west-1",
+      "attack-west-2",
+      "attack-west-3",
+      "attack-west-4",
+      "attack-west-5",
+      "attack-west-6",
+      "attack-west-7",
+      "attack-west-8",
+      "attack-west-9",
+      "attack-west-10",
+      "attack-west-11",
+      "attack-west-12",
+      "attack-west-13",
+      "attack-west-14",
+      "attack-west-15"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "defeat-west.png",
+    "source": "west.png",
+    "action": "defeat",
+    "frameIds": [
+      "defeat-west-0",
+      "defeat-west-1",
+      "defeat-west-2",
+      "defeat-west-3",
+      "defeat-west-4",
+      "defeat-west-5",
+      "defeat-west-6",
+      "defeat-west-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "idle-west.png",
+    "source": "west.png",
+    "action": "idle",
+    "frameIds": [
+      "idle-west-0"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "walk-north-west.png",
+    "source": "north-west.png",
+    "action": "walk",
+    "frameIds": [
+      "walk-north-west-0",
+      "walk-north-west-1",
+      "walk-north-west-2",
+      "walk-north-west-3",
+      "walk-north-west-4",
+      "walk-north-west-5",
+      "walk-north-west-6",
+      "walk-north-west-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "attack-north-west.png",
+    "source": "north-west.png",
+    "action": "attack",
+    "frameIds": [
+      "attack-north-west-0",
+      "attack-north-west-1",
+      "attack-north-west-2",
+      "attack-north-west-3",
+      "attack-north-west-4",
+      "attack-north-west-5",
+      "attack-north-west-6",
+      "attack-north-west-7",
+      "attack-north-west-8",
+      "attack-north-west-9",
+      "attack-north-west-10",
+      "attack-north-west-11",
+      "attack-north-west-12",
+      "attack-north-west-13",
+      "attack-north-west-14",
+      "attack-north-west-15"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "defeat-north-west.png",
+    "source": "north-west.png",
+    "action": "defeat",
+    "frameIds": [
+      "defeat-north-west-0",
+      "defeat-north-west-1",
+      "defeat-north-west-2",
+      "defeat-north-west-3",
+      "defeat-north-west-4",
+      "defeat-north-west-5",
+      "defeat-north-west-6",
+      "defeat-north-west-7"
+    ],
+    "purpose": "pose mechanics only"
+  },
+  {
+    "path": "idle-north-west.png",
+    "source": "north-west.png",
+    "action": "idle",
+    "frameIds": [
+      "idle-north-west-0"
+    ],
+    "purpose": "pose mechanics only"
+  }
+]

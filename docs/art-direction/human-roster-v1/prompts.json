@@ -1,0 +1,7 @@
+{
+  "provider": "built-in imagegen",
+  "reference": "docs/art-direction/human-vaelora-sprites-v1/source/Idle/facings.png",
+  "prompts": {
+    "infantryIdle": "Use case: stylized-concept. Project game sprite source: Human INFANTRY eight-facing idle sheet. Reference image is the approved Human Worker painting style, detail, proportions and isometric camera ONLY; change role equipment. Create one identical adult human infantry soldier in E, SE, S, SW on top row and W, NW, N, NE on bottom row. Strict 4 columns by 2 rows, evenly spaced separate complete figures, generous transparent margins around every spear and shield; no labels, lines, scenery or ground shadows. Camera elevated 45 degrees, orthographic game view, rotate same figure around world vertical, do not change camera. Same broad painterly Vaelora warm welcoming craft, cream tunic, sage padded jack, olive trousers, brown boots, matte steel simple open-face helmet, restrained copper fittings. Short spear held in RIGHT hand, distinctive six-sided wooden shield with neutral cream face held LEFT, no backpack or axe. Neutral cream waist sash reserved for team color. Warm expressive face, strong ordinary athletic build, consistent face and costume across views. No photoreal noise. Preserve readable large value shapes and reference quality. Each full figure and all equipment stays wholly within its own cell with 10 percent margins. All eight idle poses grounded to same relative baseline and apparent human height. Truly transparent background."
+  }
+}
