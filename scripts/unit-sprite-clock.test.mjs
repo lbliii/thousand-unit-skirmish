@@ -90,14 +90,14 @@ test('approximate roster reuses nearest authored action while exact lanes keep i
 });
 
 
-test('every Human foot-unit action and heading has first-pass graphics', async () => {
+test('every available Human unit action and heading has first-pass graphics', async () => {
   const { readFile } = await import('node:fs/promises');
   const { UNIT_DEFINITIONS } = await import('../src/gameplay-definitions.mjs');
   const { spriteActionClip } = await import('../src/unit-sprite-runtime.mjs');
   const packs = { worker: 'cast-human-sprite-v3', infantry: 'infantry-sprite-v3',
-    archer: 'archer-sprite-v2', spearman: 'spearman-sprite-v1' };
-  const geometryRoles = ['scout', 'rider', 'siege-engine'];
-  assert.deepEqual([...Object.keys(packs), ...geometryRoles].sort(), Object.keys(UNIT_DEFINITIONS).sort());
+    archer: 'archer-sprite-v2', spearman: 'spearman-sprite-v1', scout: 'scout-sprite-v1',
+    rider: 'rider-sprite-v1', 'siege-engine': 'siege-engine-sprite-v1' };
+  assert.deepEqual(Object.keys(packs).sort(), Object.keys(UNIT_DEFINITIONS).sort());
   for (const [role, directory] of Object.entries(packs)) {
     const pack = JSON.parse(await readFile(new URL(`../assets/units/${directory}/sprite-atlas-pack-v1.json`, import.meta.url), 'utf8'));
     const asset = pack.assets[0];

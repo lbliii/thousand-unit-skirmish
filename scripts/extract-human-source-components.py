@@ -18,8 +18,9 @@ for seed,v in enumerate(alpha):
   for q in neighbors:
    if not seen[q] and alpha[q]>=9:seen[q]=1;queue.append(q)
  if len(pixels)>500:components.append(pixels)
-components=sorted(components,key=len,reverse=True)[:8]
-if len(components)!=8:raise ValueError(f'Expected eight silhouettes, found {len(components)}')
+count=int(sys.argv[3]) if len(sys.argv)>3 else 8
+components=sorted(components,key=len,reverse=True)[:count]
+if len(components)!=count:raise ValueError(f'Expected {count} silhouettes, found {len(components)}')
 items=[]
 for pixels in components:
  xs=[p%w for p in pixels];ys=[p//w for p in pixels];bbox=(min(xs),min(ys),max(xs)+1,max(ys)+1);items.append((bbox,pixels))

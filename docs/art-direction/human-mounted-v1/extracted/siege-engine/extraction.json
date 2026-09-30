@@ -1,0 +1,30 @@
+{
+  "source": "docs/art-direction/human-mounted-v1/source/siege-engine-actions-v1.png",
+  "cellBounds": [
+    [
+      0,
+      0,
+      768,
+      512
+    ],
+    [
+      768,
+      0,
+      1536,
+      512
+    ],
+    [
+      0,
+      512,
+      845,
+      1024
+    ],
+    [
+      845,
+      512,
+      1536,
+      1024
+    ]
+  ],
+  "notes": "Full alpha cells retain disconnected wreck pieces."
+}

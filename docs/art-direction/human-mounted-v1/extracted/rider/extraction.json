@@ -1,0 +1,49 @@
+{
+  "source": "/Users/lb/.codex/worktrees/7040/thousand-unit-skirmish/docs/art-direction/human-mounted-v1/source/rider-actions-v1.png",
+  "frames": [
+    {
+      "frame": 0,
+      "sourceBounds": [
+        201,
+        4,
+        668,
+        527
+      ],
+      "opaquePixels": 106940,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 1,
+      "sourceBounds": [
+        892,
+        10,
+        1400,
+        537
+      ],
+      "opaquePixels": 113171,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 2,
+      "sourceBounds": [
+        126,
+        532,
+        890,
+        1005
+      ],
+      "opaquePixels": 131920,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 3,
+      "sourceBounds": [
+        867,
+        634,
+        1424,
+        996
+      ],
+      "opaquePixels": 110915,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    }
+  ]
+}

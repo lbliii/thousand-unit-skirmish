@@ -27,7 +27,7 @@ One world unit equals one gameplay cell. Current registry occupancy is 5 × 5 fo
 | Barracks | 2.8 world units | Enclosed gabled hall and gate |
 | Archery Range | 2.8 world units | Open canopy and targets |
 
-These are starting targets for model review, not image-derived measurements. Town Center is about 1.9 times House base width. Ordinary doors begin near 0.9-world-unit clear height against the existing approximately 0.8-unit Worker; horse/engineering bays are larger. Preserve head clearance and equipment proportions rather than exaggerating every doorway. A 3-cell House footprint can include accessible open space around a smaller visible house.
+These are starting targets for model review, not image-derived measurements. Town Center is about 1.9 times House base width. Door clearance must be reviewed against the selected runtime unit pack. Worker v1/v2/v3 declare `heightWorld` 0.9385/0.8933/1.05; a 0.8-unit ruler understates these sprite references. Horse/engineering bays are larger. Preserve head clearance and equipment proportions rather than exaggerating every doorway. A 3-cell House footprint can include accessible open space around a smaller visible house.
 
 Concept prompts requested orthographic 45° azimuth and roughly 46° downward elevation. Generated concepts are illustrative and not geometrically certified. Captured production uses a fixed orthographic camera, eight 45° directions, known pixels/world unit and grounded pivots. A taller/wider canvas is allowed at consistent density. No transparent-padding trick may establish a scale claim.
 
@@ -38,3 +38,7 @@ The eight Complete concepts are the first source outcome. Each final gameplay pa
 Inspect the whole roster beside Workers at ordinary 0.91 and strategic 0.48 review zoom on representative ground. Check functional recognition, both owner accents, camera transitions, fog, terrain contact, accessible exits and repair/construction transitions. Record exact build/map/manifest and actual runtime visibility in QA. Source concepts can be integrated into the wiki while these runtime outcomes continue independently.
 
 The [Town Center/House source pilot](../assets/buildings/frontier-civilization-scale-pilot-v1/README.md) now demonstrates those two width targets through measured uniform model transforms and sixteen controlled Complete captures. Their lower bases measure 4.40 × 4.24 and 2.30 × 2.95 world units. This establishes source registration; Worker clearance, lifecycle/team treatment and runtime scale remain open.
+
+### Worker scale evidence
+
+The sprite loader uses `heightWorld / maxAlphaHeight` for world units per atlas pixel (`src/unit-sprite-runtime.mjs`). Worker versions differ; human-roster preview can select the Human role instead. Review the actual selected role/version, its ground pivot and camera-facing quad, not only a vertical model ruler. At the pilot density of 128 pixels/world unit, the Worker packs’ maximum alpha heights map to approximately 120.13, 114.34 and 134.40 screen pixels respectively. A vertical 0.8-unit model ruler projects to about 71.13 pixels at 46° elevation and is a different measurement. These values do not prove any generated doorway fits a Worker.
