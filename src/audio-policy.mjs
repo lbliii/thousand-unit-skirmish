@@ -93,3 +93,31 @@ export class UnitLifecycleAudioGate {
     return [...events.values()];
   }
 }
+
+export class OrderAudioGate {
+  constructor() { this.pending = new Map(); }
+  reset() { this.pending.clear(); }
+  sent(token, event) {
+    this.pending.set(token, event);
+    while (this.pending.size > 32) this.pending.delete(this.pending.keys().next().value);
+  }
+  observe(token, message) {
+    const event = this.pending.get(token);
+    if (!event || typeof message !== 'string') return null;
+    if (/(FAILED|REJECTED|UNAVAILABLE|UNREACHABLE|EMPTY|SUPERSEDED|CANCELLED|MATCH OVER)/.test(message)) { this.pending.delete(token); return null; }
+    if (!/^(?:STOP ORDER|HOLD POSITION ORDER|PATROL ORDER|FOLLOW ORDER|MOVE ORDER|ATTACK MOVE ORDER|WAYPOINT ORDER|WAYPOINT QUEUED|ATTACK ORDER|ATTACK BUILDING ORDER|GATHER ORDER|BUILD ORDER|BUILD RESUME ORDER|REPAIR ORDER) · /.test(message)) return null;
+    this.pending.delete(token); return event;
+  }
+}
+
+// The server supplies execution at row 14; legacy snapshots stay silent.
+export function workAudioEvents(rows, { localTeam, x = 0, z = 0, radius = 24 } = {}) {
+  if (![0, 1].includes(localTeam)) return [];
+  const resources = new Set();
+  for (const row of rows || []) {
+    if (row[1] !== localTeam || row[4] <= 0 || row[5] !== 'worker'
+      || (row[2] - x) ** 2 + (row[3] - z) ** 2 > radius ** 2) continue;
+    if (['wood', 'food', 'repair'].includes(row[14])) resources.add(row[14]);
+  }
+  return [...resources].sort().map((resource) => ({ cue: 'work', kind: 'worker', resource }));
+}

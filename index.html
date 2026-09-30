@@ -424,6 +424,10 @@
             <label class="audio-range" for="audio-voice-level"><span>Voice level</span><input id="audio-voice-level" type="range" min="0" max="200" value="100"><output id="audio-voice-level-value" for="audio-voice-level">100%</output></label>
             <label class="audio-range" for="audio-music-level"><span>Music level</span><input id="audio-music-level" type="range" min="0" max="200" value="100"><output id="audio-music-level-value" for="audio-music-level">100%</output></label>
             <small id="audio-pack-status" class="audio-status" role="status">NO AUDIO PACK ASSIGNED</small>
+            <details><summary>Audio binding inspector</summary>
+              <button id="audio-inspector-refresh" type="button">Refresh decisions</button>
+              <pre id="audio-inspector-output">Recent local binding and playback decisions appear here.</pre>
+            </details>
             <label class="audio-check"><input id="audio-ambience" type="checkbox" checked><span>Ambient wind</span></label>
             <div class="audio-preview-controls audio-ambience-preview-controls">
               <label for="audio-ambience-preview">Synth music</label>

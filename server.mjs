@@ -1730,9 +1730,22 @@ function snapshotUnits(viewTeam = null) {
         targetVisible ? unit.lastAttackX : null,
         targetVisible ? unit.lastAttackZ : null);
     }
+    row[14] = unit.team === viewTeam ? workerAudioExecution(unit) : null;
     rows.push(row);
   }
   return rows;
+}
+
+function workerAudioExecution(unit) {
+  if (unit.hp <= 0 || unit.kind !== 'worker') return null;
+  if (unit.gatherPhase === 'gathering') return unit.gatherForestCell >= 0 ? 'wood'
+    : mapDefinition.resourceNodes.find((node) => node.id === unit.gatherNodeId)?.type || null;
+  if (!unit.repairing || teamWood[unit.team] <= 0) return null;
+  const building = buildingsById.get(unit.buildingTargetId);
+  if (!building || !building.complete || building.hp >= BUILDING_DEFINITIONS[building.type].maxHp) return null;
+  const dx = Math.max(0, Math.abs(unit.x - building.x) - BUILDING_DEFINITIONS[building.type].footprint / 2);
+  const dz = Math.max(0, Math.abs(unit.z - building.z) - BUILDING_DEFINITIONS[building.type].footprint / 2);
+  return dx * dx + dz * dz <= BUILDER_INTERACTION_RANGE ** 2 ? 'repair' : null;
 }
 
 function snapshotQueuedWaypointCounts(viewTeam = null) {
@@ -6924,6 +6937,7 @@ const server = createServer(async (request, response) => {
     'src/building-visual-state.mjs', 'src/unit-lod-state.mjs', 'src/unit-selection.mjs',
     'src/selection-context.mjs', 'src/unit-visual-state.mjs', 'src/unit-sprite-runtime.mjs',
     'src/audio.mjs', 'src/audio-policy.mjs', 'src/audio-event-profile.mjs',
+    'src/audio-shipped-loader.mjs', 'src/audio-shipped-catalog.mjs',
     'src/audio-composition-player.mjs', 'src/audio-assets.mjs', 'src/audio-library-store.mjs',
     'src/audio-library-ui.mjs', 'src/audio-studio.mjs', 'src/audio-studio.css',
     'src/audio-composition.mjs', 'src/audio-composer.mjs', 'src/audio-composer.css',
@@ -7004,7 +7018,8 @@ const server = createServer(async (request, response) => {
   const publicBuildingLifecycleManifest = relative === `${buildingPackRoot}/lifecycle-grid.json`;
   const publicBuildingLifecycleRuntimeAsset = path.dirname(relative) === `${buildingPackRoot}/runtime`
     && /^(?:town-center-(?:foundation|frame|complete|damaged|critical)-view-\d{2}\.webp|team-mask-(?:foundation|frame|complete|damaged|critical)-view-\d{2}\.png)$/.test(path.basename(relative));
-  const publicZoneAudioAsset = relative === 'assets/audio/vaelora-zones-v1/catalog.json'
+  const publicZoneAudioAsset = relative === 'assets/audio/runtime/rts-feedback-test/v1/manifest.json'
+    || relative === 'assets/audio/vaelora-zones-v1/catalog.json'
     || /^assets\/audio\/vaelora-zones-v1\/sources\/tus_(?:bellweather|underbough|sereward|ellionar|veyrholds|pale-meridian|siltmouths|vesperra|sombral-mere|ru-lora-fringe|ru-lora-interior)_(?:music|terrain|contrast|signature)_0[12]_v001\.mp3$/.test(relative)
     || /^assets\/audio\/vaelora-pilot-v1\/sources\/tus_ui_(?:wood-token|iron-latch|muted-pluck|horn-note)_01_v001\.mp3$/.test(relative);
   if (!publicZoneAudioAsset && !publicClientAsset && !publicEnvironmentModule && !publicEnvironmentAsset && !publicEnvironmentAtlasMetadata && !publicUiAsset

@@ -1,0 +1,282 @@
+{
+  "version": "v1",
+  "pack": {
+    "schemaVersion": 1,
+    "id": "rts-feedback-test",
+    "name": "Supplied UI feedback \u00b7 technical test",
+    "sources": [
+      {
+        "id": "horn-note",
+        "name": "Horn note",
+        "fileName": "tus_ui_horn-note_01_v001.mp3",
+        "mimeType": "audio/mpeg",
+        "tags": [
+          "technical-test"
+        ],
+        "provenance": {
+          "provider": "ElevenLabs",
+          "prompt": "One short restrained natural horn note in a middle-low register, clear rounded breath attack and brief steady body, dry close isolated recording on silence with no melody or accompaniment.",
+          "createdAt": "2026-09-30"
+        }
+      },
+      {
+        "id": "iron-latch",
+        "name": "Iron latch",
+        "fileName": "tus_ui_iron-latch_01_v001.mp3",
+        "mimeType": "audio/mpeg",
+        "tags": [
+          "technical-test"
+        ],
+        "provenance": {
+          "provider": "ElevenLabs",
+          "prompt": "One worn iron buckle snapping closed, compact dull metallic click with very little ringing, immediate onset, close dry isolated recording on silence.",
+          "createdAt": "2026-09-30"
+        }
+      },
+      {
+        "id": "muted-pluck",
+        "name": "Muted pluck",
+        "fileName": "tus_ui_muted-pluck_01_v001.mp3",
+        "mimeType": "audio/mpeg",
+        "tags": [
+          "technical-test"
+        ],
+        "provenance": {
+          "provider": "ElevenLabs",
+          "prompt": "One softly plucked gut lute string in a middle register, clear warm attack and short muted natural decay, dry isolated recording on silence with no accompaniment.",
+          "createdAt": "2026-09-30"
+        }
+      },
+      {
+        "id": "wood-token",
+        "name": "Wood token",
+        "fileName": "tus_ui_wood-token_01_v001.mp3",
+        "mimeType": "audio/mpeg",
+        "tags": [
+          "technical-test"
+        ],
+        "provenance": {
+          "provider": "ElevenLabs",
+          "prompt": "One small hardwood token tapped on a timber board, warm rounded knock with crisp immediate contact and short dry decay, close isolated recording on silence.",
+          "createdAt": "2026-09-30"
+        }
+      }
+    ],
+    "profiles": [
+      {
+        "id": "worker-actions",
+        "name": "Worker actions \u00b7 technical test",
+        "bindings": {
+          "cue.select": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "muted-pluck",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "cue.move": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "wood-token",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "cue.attack": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "iron-latch",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "cue.ready": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "horn-note",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "cue.death": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "iron-latch",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "cue.repair": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "iron-latch",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "cue.stop": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "wood-token",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "cue.hold": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "wood-token",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "cue.patrol": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "wood-token",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "cue.follow": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "wood-token",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "unit.worker.gather.wood": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "wood-token",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "unit.worker.gather.food": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "muted-pluck",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "unit.worker.work.wood": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "wood-token",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "unit.worker.work.food": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "muted-pluck",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          },
+          "unit.worker.work.repair": {
+            "bus": "effects",
+            "cooldownMs": 900,
+            "variants": [
+              {
+                "sourceId": "iron-latch",
+                "trimStartSeconds": 0,
+                "trimEndSeconds": 0.6,
+                "gain": 0.35
+              }
+            ]
+          }
+        },
+        "music": {}
+      }
+    ],
+    "compositions": []
+  },
+  "downloads": {
+    "horn-note": {
+      "path": "/assets/audio/vaelora-pilot-v1/sources/tus_ui_horn-note_01_v001.mp3",
+      "bytes": 49898,
+      "sha256": "b35cb77145843cbef7f84e5e0784037ddc039b17bc7805190a025b9b6052079e",
+      "mimeType": "audio/mpeg"
+    },
+    "iron-latch": {
+      "path": "/assets/audio/vaelora-pilot-v1/sources/tus_ui_iron-latch_01_v001.mp3",
+      "bytes": 49898,
+      "sha256": "d8e7900806d1816fadebadca2aed10a73f8c7bd77f0f06ac64694a047ba46e06",
+      "mimeType": "audio/mpeg"
+    },
+    "muted-pluck": {
+      "path": "/assets/audio/vaelora-pilot-v1/sources/tus_ui_muted-pluck_01_v001.mp3",
+      "bytes": 49898,
+      "sha256": "73fd38366f83cef4801cca9412e8a5b302c5848ea4d3889d378e16aae9ba32a6",
+      "mimeType": "audio/mpeg"
+    },
+    "wood-token": {
+      "path": "/assets/audio/vaelora-pilot-v1/sources/tus_ui_wood-token_01_v001.mp3",
+      "bytes": 49898,
+      "sha256": "645b3c00adfc0af3e3f1e7821dbc0bf7cc4bcaed5aa43caa1db4071f43c26b48",
+      "mimeType": "audio/mpeg"
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import { loadShippedAudio } from './audio-shipped-loader.mjs';
 import { createProfileDecisionGate, resolveEventBinding } from './audio-event-profile.mjs';
 // Web Audio synthesis remains the fallback when an authored local pack is unavailable.
 const STORAGE_KEY = 'tus-audio-v1';
@@ -5,7 +6,7 @@ const DEFAULT_SETTINGS = Object.freeze({
   enabled: true, captions: false, volume: 0.5, effectsLevel: 1, voiceLevel: 1, musicLevel: 1, ambience: true, ambienceLevel: 1,
 });
 const COOLDOWN_MS = Object.freeze({
-  stop: 170, hold: 170, ready: 2200, death: 2200, repair: 170, select: 90, move: 90, attack: 120, gather: 140, rally: 550, build: 170,
+  send: 90, work: 1200, patrol: 170, follow: 170, stop: 170, hold: 170, ready: 2200, death: 2200, repair: 170, select: 90, move: 90, attack: 120, gather: 140, rally: 550, build: 170,
   queue: 170, complete: 2200, 'research-complete': 2600, 'scenario-reward': 2400,
   reject: 250, objective: 1200, 'objective-lost': 1200,
   'resource-empty': 8000, 'base-lost': 2000, 'building-complete': 2600,
@@ -64,6 +65,30 @@ export function createGameAudio({
   let activeProfile = null;
   let activeSourceBlobs = null;
   let packGeneration = 0;
+  let packAbort = null;
+  let workGeneration = 0;
+  let workSignature = '';
+  let lastWorkAt = -Infinity;
+  const activeWorkSamples = new Set();
+  const decisions = [];
+  const record = (event, outcome, key = null) => {
+    decisions.push({ cue: event?.cue, resource: event?.resource, key, outcome });
+    if (decisions.length > 24) decisions.shift();
+  };
+  function stopWork() {
+    workGeneration++; workSignature = ''; lastWorkAt = -Infinity;
+    for (const source of activeWorkSamples) { try { source.stop(); } catch {} }
+    activeWorkSamples.clear();
+  }
+  function updateWork(events = []) {
+    const signature = events.map((event) => event.resource).sort().join(',');
+    if (signature !== workSignature) { stopWork(); workSignature = signature; }
+    if (!signature || doc?.hidden || !settings.enabled || settings.volume <= 0 || settings.effectsLevel <= 0) { stopWork(); return; }
+    const now = performance.now();
+    if (now - lastWorkAt < 1500) return;
+    lastWorkAt = now;
+    for (const event of events.slice(0, 3)) playEvent(event);
+  }
   let packStatus = 'No audio pack assigned';
   let profileMusicReady = false;
   const activeSamples = new Set();
@@ -318,7 +343,7 @@ export function createGameAudio({
   }
 
   function play(cue, { preview = false, suppressDecision = false } = {}) {
-    if (!(cue in COOLDOWN_MS)) return false;
+    if (!(cue in COOLDOWN_MS)) { record(event, 'unsupported cue'); return false; }
     if (!suppressDecision && !doc?.hidden && (!preview || settings.captions)) {
       try { onCueDecision?.(cue); } catch {}
     }
@@ -339,7 +364,11 @@ export function createGameAudio({
         tone(490, at + 0.008, 0.085, { endFrequency: 370, gain: 0.07, percussive: true });
         noiseBurst(at + 0.018, 0.045, { centerFrequency: 1550, gain: 0.018 });
         break;
+      case 'send':
+      case 'work':
       case 'gather': tone(420, at, 0.07, { wave: 'triangle', endFrequency: 550, gain: 0.14 }); break;
+      case 'patrol':
+      case 'follow':
       case 'stop':
       case 'hold':
       case 'rally':
@@ -449,6 +478,8 @@ export function createGameAudio({
   }
 
   async function setMapAudio(reference, libraryStore) {
+    packAbort?.abort(); packAbort = new AbortController();
+    stopWork();
     const ticket = ++packGeneration;
     compositionPlayer?.stop();
     profileMusicReady = false;
@@ -460,7 +491,7 @@ export function createGameAudio({
     if (!reference) { setPackStatus('No audio pack assigned'); return; }
     setPackStatus(`Loading audio pack ${reference.packId}…`);
     try {
-      const loaded = await libraryStore.loadPack(reference.packId);
+      const loaded = reference.version ? await loadShippedAudio(reference, { signal: packAbort.signal }) : await libraryStore.loadPack(reference.packId);
       if (ticket !== packGeneration) return;
       if (!loaded) { setPackStatus(`Audio pack ${reference.packId} is missing. Install it in Audio Studio; other players need their own copy.`); return; }
       const profile = loaded.pack.profiles.find((item) => item.id === reference.profileId);
@@ -475,21 +506,23 @@ export function createGameAudio({
 
   function playEvent(event) {
     const cue = event?.cue;
-    if (!(cue in COOLDOWN_MS)) return false;
-    if (!resolveEventBinding(activeProfile, event)) return play(cue);
+    if (!(cue in COOLDOWN_MS)) { record(event, 'unsupported cue'); return false; }
+    if (!resolveEventBinding(activeProfile, event)) { record(event, 'synthesized fallback'); return play(cue); }
     const choice = profileGate.choose(activeProfile, event);
-    if (!choice) return false;
+    if (!choice) { record(event, profileGate.getReason()); return false; }
+    record(event, 'resolved', choice.key);
     if (!doc?.hidden && (!settings.enabled || settings.captions)) onCueDecision?.(cue);
-    if (!settings.enabled || settings.volume <= 0 || doc?.hidden) return false;
-    if (!context || context.state !== 'running') return false;
+    if (!settings.enabled || settings.volume <= 0 || doc?.hidden) { record(event, 'muted/hidden', choice.key); return false; }
+    if (!context || context.state !== 'running') { record(event, 'audio locked/suspended', choice.key); return false; }
     const { binding, variant } = choice;
     const destination = binding.bus === 'voice' ? voice : binding.bus === 'ambience' ? atmosphere : effects;
     const enabled = binding.bus === 'voice' ? settings.voiceLevel > 0
       : binding.bus === 'ambience' ? settings.ambience && settings.ambienceLevel > 0 : settings.effectsLevel > 0;
-    if (!enabled) return false;
+    if (!enabled) { record(event, 'bus muted', choice.key); return false; }
     const ticket = packGeneration;
+    const workTicket = workGeneration;
     void decodeSource(variant.sourceId).then((buffer) => {
-      if (ticket !== packGeneration || context.state !== 'running') return;
+      if (ticket !== packGeneration || context.state !== 'running' || (cue === 'work' && workTicket !== workGeneration)) return;
       const start = Math.max(0, variant.trimStartSeconds || 0);
       const end = Math.min(buffer.duration, variant.trimEndSeconds ?? buffer.duration);
       if (end <= start) throw new Error('Invalid cue trim');
@@ -500,9 +533,9 @@ export function createGameAudio({
         }
         activeVoiceSamples.clear();
       }
-      if (binding.bus === 'voice' && activeVoiceSamples.size >= 2) return;
+      if (binding.bus === 'voice' && activeVoiceSamples.size >= 2) { record(event, 'voice limit', choice.key); return; }
       if (activeSamples.size >= MAX_ACTIVE_SAMPLES) {
-        if (!['battle-alert', 'selected-alert', 'base-alert', 'base-lost', 'victory', 'defeat'].includes(cue)) return;
+        if (!['battle-alert', 'selected-alert', 'base-alert', 'base-lost', 'victory', 'defeat'].includes(cue)) { record(event, 'sample limit', choice.key); return; }
         const interrupted = activeSamples.values().next().value;
         activeSamples.delete(interrupted); activeVoiceSamples.delete(interrupted);
         try { interrupted.stop(); } catch {}
@@ -511,8 +544,10 @@ export function createGameAudio({
       const gain = context.createGain();
       node.buffer = buffer; gain.gain.value = variant.gain ?? 1;
       node.connect(gain); gain.connect(destination);
-      node.onended = () => { activeSamples.delete(node); activeVoiceSamples.delete(node); node.disconnect(); gain.disconnect(); };
+      node.onended = () => { activeSamples.delete(node); activeVoiceSamples.delete(node); activeWorkSamples.delete(node); node.disconnect(); gain.disconnect(); };
       activeSamples.add(node);
+      if (cue === 'work') activeWorkSamples.add(node);
+      record(event, 'sample scheduled', choice.key);
       if (binding.bus === 'voice') activeVoiceSamples.add(node);
       try { node.start(context.currentTime, start, end - start); }
       catch (error) {
@@ -543,6 +578,7 @@ export function createGameAudio({
       ambienceLevel: Number.isFinite(next.ambienceLevel)
         ? Math.max(0, Math.min(2, next.ambienceLevel)) : settings.ambienceLevel,
     };
+    stopWork();
     save();
     applyLevels();
     if (previousMusicLevel <= 0 && settings.musicLevel > 0 && activeProfile) void startProfileMusic();
@@ -556,6 +592,7 @@ export function createGameAudio({
   function onVisibilityChange() {
     if (!context) return;
     if (doc?.hidden) {
+      stopWork();
       compositionPlayer?.stop(); profileMusicReady = false;
       context.suspend().then(emitStatus).catch(() => {});
     } else if (hasAudibleOutput()) {
@@ -568,9 +605,10 @@ export function createGameAudio({
   doc?.addEventListener?.('visibilitychange', onVisibilityChange);
 
   return {
-    play, playEvent, setMapAudio, getPackStatus: () => packStatus, preview, previewAmbience, unlock, setSettings,
+    play, playEvent, stopWork, updateWork, getInspector: () => ({ status: packStatus, decisions: [...decisions] }), setMapAudio, getPackStatus: () => packStatus, preview, previewAmbience, unlock, setSettings,
     getSettings: () => ({ ...settings }), getStatus: status,
     dispose() {
+      packAbort?.abort(); stopWork();
       doc?.removeEventListener?.('visibilitychange', onVisibilityChange);
       if (musicTimer !== null) globalThis.clearInterval(musicTimer);
       if (duckTimer !== null) globalThis.clearTimeout(duckTimer);

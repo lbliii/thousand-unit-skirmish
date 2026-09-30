@@ -4,6 +4,7 @@ import { researchOptions, researchAction } from './research-actions.mjs';
 import { unitPresentation, buildingPresentation } from './gameplay-presentation.mjs';
 import { UNIT_DEFINITIONS, BUILDING_DEFINITIONS, TECHNOLOGY_DEFINITIONS, GAMEPLAY_RULESET_REVISION } from './gameplay-definitions.mjs';
 import { formatResourceStock, formatResourceRequirement } from './resource-format.mjs';
+import { SHIPPED_AUDIO_REFERENCES } from './audio-shipped-catalog.mjs';
 import { validateMapAudioReference } from './audio-event-profile.mjs';
 import { battlefieldCursor } from './battlefield-cursor.mjs';
 import { visibleHudRects, hudSafeRect, normalizeHudPreferences } from './hud-layout.mjs';
@@ -53,7 +54,7 @@ import {
 } from './map-studio-viewport.mjs';
 import { classifyOrderNotice } from './order-feedback.mjs';
 import { AMBIENCE_PREVIEW_DURATION_MS, createGameAudio } from './audio.mjs';
-import { CombatAudioGate, UnitLifecycleAudioGate, cueForNotice, cueForScenarioEvent, isLocalRejection } from './audio-policy.mjs';
+import { CombatAudioGate, UnitLifecycleAudioGate, OrderAudioGate, workAudioEvents, cueForNotice, cueForScenarioEvent, isLocalRejection } from './audio-policy.mjs';
 import {
   AUDIO_RECOGNITION_CUE_LABELS, AUDIO_RECOGNITION_UNSURE_ANSWER,
   copyAudioRecognitionText, createAudioRecognitionRound,
@@ -395,6 +396,7 @@ const audio = createGameAudio({
 });
 const combatAudioGate = new CombatAudioGate();
 const unitLifecycleAudioGate = new UnitLifecycleAudioGate();
+const orderAudioGate = new OrderAudioGate();
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x859175);
@@ -4102,6 +4104,8 @@ function applyState(state, initial = false) {
   // A same-size rematch drops trained units too. Rebuild render slots and local
   // selection before applying its authoritative roster, including on reconnect.
   if (state.armySize && (state.armySize !== currentArmySize || matchRestarted)) setArmySize(state.armySize);
+  if (audioReset) { orderAudioGate.reset(); audio.stopWork(); }
+  audio.updateWork(workAudioEvents(state.units, { localTeam, x: cameraTarget.x, z: cameraTarget.z }));
   for (const event of unitLifecycleAudioGate.observe({ units: state.units, tick: state.tick, localTeam, reset: audioReset })) audio.playEvent(event);
   let changed = false;
   let controlGroupsChanged = false;
@@ -4378,7 +4382,8 @@ function updateBuildingLifecycleActions() {
         if (choice.type === 'repairBuilding') {
           command.ids = teamUnits[localTeam].filter((unit) => unit.hp > 0 && unit.kind === 'worker').map((unit) => unit.id);
         }
-        sendCommand(command);
+        if (choice.type === 'repairBuilding') sendTrackedOrder(command, 'REPAIR', command.ids.length, 'WORKERS');
+        else sendCommand(command);
       });
       container.append(button);
     }
@@ -5592,7 +5597,7 @@ async function loadMapAudio(reference) {
   const request = ++mapAudioRequest;
   if (!reference) { await audio.setMapAudio(null); return; }
   try {
-    const store = await getAudioLibraryStore();
+    const store = reference.version ? null : await getAudioLibraryStore();
     if (request === mapAudioRequest) await audio.setMapAudio(reference, store);
   } catch (error) {
     if (request === mapAudioRequest) ui.audioPackStatus.textContent = `Audio library unavailable: ${error.message}. Synthesized feedback remains available.`;
@@ -5606,11 +5611,14 @@ function selectedStudioAudio({ allowIncomplete = false } = {}) {
     if (allowIncomplete) return undefined;
     throw new Error('Choose an audio profile for this map.');
   }
-  return validateMapAudioReference({ packId, profileId });
+  const shipped = SHIPPED_AUDIO_REFERENCES.find((ref) => ref.packId === packId);
+  return validateMapAudioReference({ ...(shipped || studioOriginalAudioReference?.packId === packId ? shipped || studioOriginalAudioReference : {}), packId, profileId });
 }
+let studioOriginalAudioReference = null;
 let studioAudioPackRequest = 0;
 let studioAudioProfileRequest = 0;
 async function refreshStudioAudioPacks(reference) {
+  studioOriginalAudioReference = reference || null;
   const request = ++studioAudioPackRequest;
   const select = ui.studioAudioPack;
   select.replaceChildren(new Option('Synthesized default', ''));
@@ -5621,7 +5629,7 @@ async function refreshStudioAudioPacks(reference) {
   }
   try {
     const library = await getAudioLibraryStore();
-    const packs = await library.listPacks();
+    const packs = [...SHIPPED_AUDIO_REFERENCES.map((ref) => ({ id: ref.packId, name: 'Shipped feedback · technical test' })), ...await library.listPacks()];
     if (request !== studioAudioPackRequest) return;
     const chosen = select.value;
     select.replaceChildren(new Option('Synthesized default', ''));
@@ -5633,6 +5641,8 @@ async function refreshStudioAudioPacks(reference) {
     await refreshStudioAudioProfiles(chosen === reference?.packId ? reference?.profileId : '');
   } catch (error) {
     if (request !== studioAudioPackRequest) return;
+    for (const ref of SHIPPED_AUDIO_REFERENCES) if (![...select.options].some((option) => option.value === ref.packId)) select.add(new Option('Shipped feedback · technical test', ref.packId));
+    if (reference?.version) { select.value = reference.packId; await refreshStudioAudioProfiles(reference.profileId); return; }
     if (reference && select.value === reference.packId) {
       const existing = [...select.options].find((option) => option.value === reference.packId);
       if (existing) existing.text = `Missing pack: ${reference.packId}`;
@@ -5650,7 +5660,8 @@ async function refreshStudioAudioProfiles(selectedId = '') {
   const packId = ui.studioAudioPack.value;
   if (!packId) return;
   try {
-    const loaded = await (await getAudioLibraryStore()).loadPack(packId);
+    const shipped = SHIPPED_AUDIO_REFERENCES.find((ref) => ref.packId === packId);
+    const loaded = shipped ? await (await import('./audio-shipped-loader.mjs')).loadShippedAudio(shipped) : await (await getAudioLibraryStore()).loadPack(packId);
     if (request !== studioAudioProfileRequest || packId !== ui.studioAudioPack.value) return;
     for (const profile of loaded?.pack?.profiles || []) select.add(new Option(profile.name || profile.id, profile.id));
     if (selectedId && ![...(loaded?.pack?.profiles || [])].some((profile) => profile.id === selectedId)) {
@@ -6713,7 +6724,7 @@ function applyOrderNotice(token, message) {
     finishOrderStatus(token, message, 'failed');
     return true;
   }
-  if (/^(STOP ORDER|HOLD POSITION ORDER|MOVE ORDER|ATTACK MOVE ORDER|WAYPOINT ORDER|ATTACK ORDER|ATTACK BUILDING ORDER|GATHER ORDER|BUILD ORDER|BUILD RESUME ORDER) · /.test(message)
+  if (/^(STOP ORDER|HOLD POSITION ORDER|PATROL ORDER|FOLLOW ORDER|REPAIR ORDER|MOVE ORDER|ATTACK MOVE ORDER|WAYPOINT ORDER|ATTACK ORDER|ATTACK BUILDING ORDER|GATHER ORDER|BUILD ORDER|BUILD RESUME ORDER) · /.test(message)
     || message.startsWith('WAYPOINT QUEUED · ')) {
     finishOrderStatus(token, message, 'applied');
     return true;
@@ -6724,12 +6735,13 @@ function applyOrderNotice(token, message) {
 function sendTrackedOrder(command, label, count, unitName = 'UNITS') {
   const token = beginOrderStatus(label, count, unitName);
   if (sendCommand({ ...command, clientOrderToken: token })) {
-    audio.playEvent({ cue: command.type === 'stop' ? 'stop' : command.type === 'holdPosition' ? 'hold' : command.type === 'build' ? 'build'
+    orderAudioGate.sent(token, { cue: command.type === 'stop' ? 'stop' : command.type === 'holdPosition' ? 'hold' : command.type === 'patrol' ? 'patrol' : command.type === 'follow' ? 'follow' : command.type === 'repairBuilding' ? 'repair' : command.type === 'build' ? 'build'
       : command.type === 'gather' ? 'gather'
         : command.type === 'attack' || command.type === 'attackBuilding' || command.type === 'attackMove'
           ? 'attack' : 'move', kind: units[command.ids?.[0]]?.kind,
       resource: command.type === 'gather' ? (command.forestCell !== undefined ? 'wood'
         : mapDefinition?.resourceNodes?.find((node) => node.id === command.nodeId)?.type) : undefined });
+    audio.play('send');
     return token;
   }
   finishOrderStatus(token, 'ORDER NOT SENT · CONNECTION OFFLINE', 'failed');
@@ -6758,7 +6770,7 @@ function sendCommand(command) {
     return false;
   }
   socket.send(serialized);
-  if (command.type === 'repairBuilding') audio.playEvent({ cue: 'repair', kind: units[command.ids?.[0]]?.kind });
+
   return true;
 }
 
@@ -8180,6 +8192,9 @@ ui.audioRecognitionCopy.addEventListener('click', async () => {
     ui.audioRecognitionCopyStatus.textContent = 'Clipboard unavailable. Open trial notes and copy them manually.';
   }
 });
+document.querySelector('#audio-inspector-refresh').addEventListener('click', () => {
+  document.querySelector('#audio-inspector-output').textContent = JSON.stringify(audio.getInspector(), null, 2);
+});
 ui.audioAmbience.addEventListener('change', () => { audio.setSettings({ ambience: ui.audioAmbience.checked }); syncAudioControls(); });
 ui.audioAmbiencePreview.addEventListener('click', () => {
   audio.unlock();
@@ -9103,6 +9118,8 @@ function connectSocket() {
         currentOrderToken,
         pendingBuildOrderToken,
       });
+      const appliedAudio = orderAudioGate.observe(noticeToken, notice);
+      if (appliedAudio) audio.playEvent(appliedAudio);
       if (feedback.applyOrderStatus) applyOrderNotice(noticeToken, notice);
       if (feedback.showToast) {
         const cue = cueForNotice(notice, { localTeam, tokenized: noticeToken !== null });
@@ -9139,6 +9156,7 @@ function connectSocket() {
   connection.addEventListener('close', () => {
     if (socket !== connection) return;
     socket = null;
+    audio.stopWork(); orderAudioGate.reset();
     if (pageLeaving) return;
     const retryImmediately = retryWhenSeatFree;
     retryWhenSeatFree = false;
