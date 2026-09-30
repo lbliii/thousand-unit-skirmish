@@ -460,3 +460,9 @@ One fixed oblique view and intact state are supplied. Mirroring provides silhoue
 On salt-crust maps, 65% of the existing low boulder-cluster placements deterministically select the fern, while remaining clusters retain boulders and existing outcrops retain Fiendwood. No new positions or collision cells are added. Other terrain bases, tall stone barriers, resource nodes and `meshy-resource-review` keep existing bindings. The renderer uses 2.511 × 1.65 world units, matching the cropped sprite aspect ratio; one intact fixed-oblique scenery view only.
 
 [Mixed scenery evidence](qa-evidence/vaelora-ru-lora-ferns-2026-09-30/README.md) shows the lower silhouette beside Fiendwood, plus lazy loading and eleven-base binding checks. This adds composition variety; it does not finish a dense petrified jungle, its fauna or extraction rules.
+
+## Ru’Lora interior composition study · 30 September 2026
+
+The [64×64 importable study](qa-evidence/vaelora-ru-lora-interior-2026-09-30/ru-lora-interior-study.json) groups the integrated petrified trees, stone ferns and boulders into six irregular clusters. Salt-crust and cinder companion paint establish a continuous ground palette; clear spawn spaces and a winding corridor preserve navigation readability. It contains stone scenery, no harvestable forest or resource nodes, and is not a balanced economy scenario. Import with Map Studio → Import → Save & Play.
+
+[Local game evidence](qa-evidence/vaelora-ru-lora-interior-2026-09-30/README.md) proves import/publish, sprite requests and close/whole-map appearance. A reproducible grid check confirms spawn connectivity and a nine-cell reserved corridor; actual unit travel and competitive balance remain unproven. Dense placement makes repeated crowns and similar lightness more visible: broken/crownless trunks and darker canopy silhouettes are the next composition need. The study remains editable source/evidence, outside the default shipped map catalog.

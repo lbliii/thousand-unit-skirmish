@@ -72,7 +72,7 @@ if(!['bellweather','veyrholds','underbough','sereward','ellionar','pale-meridian
 const lifecycle=process.env.RTS_VEGETATION_LIFECYCLE==='1';
 if(lifecycle&&!['bellweather','sereward','pale-meridian','siltmouths','vesperra','sombral-mere'].includes(region))throw new Error('No lifecycle pack for region');
 const atlasCapture=process.env.RTS_VEGETATION_ATLAS==='1';
-const out=atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-ferns-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
+const out=atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-interior-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
@@ -100,11 +100,25 @@ try {
   if(mode==='strategic')await cdp.evaluate('document.querySelector("#camera-fit-map").click()');
   await sleep(400);const shot=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/forked-vale-'+mode+'.png',Buffer.from(shot.data,'base64'));
  }
- if(region==='sereward') {
+ if(['sereward','ru-lora'].includes(region)) {
+  const studyFile=region==='ru-lora'?'docs/qa-evidence/vaelora-ru-lora-interior-2026-09-30/ru-lora-interior-study.json':'docs/qa-evidence/vaelora-sereward-2026-09-30/sereward-oasis-study.json';
+  const study=JSON.parse(await readFile(studyFile,'utf8'));
   await cdp.evaluate('document.querySelector("#map-studio-open").click()');await cdp.call('DOM.enable');const doc=await cdp.call('DOM.getDocument');const input=await cdp.call('DOM.querySelector',{nodeId:doc.root.nodeId,selector:'#studio-import-file'});
-  await cdp.call('DOM.setFileInputFiles',{nodeId:input.nodeId,files:[path.join(ROOT,'docs/qa-evidence/vaelora-sereward-2026-09-30/sereward-oasis-study.json')]});await sleep(600);await cdp.evaluate('document.querySelector("#studio-publish").click()');await sleep(2500);
-  if(await cdp.evaluate('document.querySelector("#map-label-title")?.textContent')!=='SEREWARD OASIS STUDY')throw new Error('Oasis study import/save/play failed');
-  await cdp.evaluate('document.querySelector("#camera-fit-map").click()');await sleep(400);const shot=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/oasis-save-play.png',Buffer.from(shot.data,'base64'));
+  await cdp.call('DOM.setFileInputFiles',{nodeId:input.nodeId,files:[path.join(ROOT,studyFile)]});await sleep(600);await cdp.evaluate('document.querySelector("#studio-publish").click()');await sleep(2500);
+  if(await cdp.evaluate('document.querySelector("#map-label-title")?.textContent')!==study.name)throw new Error('Regional study import/save/play failed: '+await cdp.evaluate('document.querySelector("#studio-message")?.textContent'));
+  for(const mode of ['ordinary','strategic']){
+   if(region==='ru-lora'&&mode==='ordinary'){
+    await cdp.evaluate(`const c=document.querySelector('#viewport canvas');const r=c.getBoundingClientRect();c.dispatchEvent(new WheelEvent('wheel',{deltaY:-1000,clientX:r.x+r.width/2,clientY:r.y+r.height/2,cancelable:true}));document.querySelector('#camera-home-base').click()`);
+   }
+   if(mode==='strategic')await cdp.evaluate('document.querySelector("#camera-fit-map").click()');
+   await sleep(400);const shot=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/'+(region==='sereward'?'oasis':'interior')+'-save-play-'+mode+'.png',Buffer.from(shot.data,'base64'));
+   if(region==='sereward'&&mode==='strategic')await writeFile(out+'/oasis-save-play.png',Buffer.from(shot.data,'base64'));
+  }
+  if(region==='ru-lora'){
+   const requests=await cdp.evaluate('performance.getEntriesByType("resource").filter(e=>e.name.includes("assets/environment")).map(e=>new URL(e.name).pathname)');
+   if(!['ru-lora-fiendwood.webp','ru-lora-stone-fern.webp','rock-boulder-cluster.webp'].every(f=>requests.some(p=>p.endsWith('/'+f))))throw new Error('Interior study regional images missing');
+   await writeFile(out+'/study-requests.json',JSON.stringify(requests,null,2)+'\n');
+  }
  }
  for(const span of [18,36]) {
   const data=await cdp.evaluate(`(async()=>{

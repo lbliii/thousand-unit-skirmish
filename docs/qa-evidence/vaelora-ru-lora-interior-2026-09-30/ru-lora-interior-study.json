@@ -1,0 +1,3971 @@
+{
+  "id": "vaelora-ru-lora-interior-study",
+  "name": "RU LORA INTERIOR STUDY",
+  "summary": "Petrified jungle scenery and route readability study; not a balanced economy map.",
+  "width": 64,
+  "height": 64,
+  "terrainSeed": 941,
+  "terrainBase": "salt-crust",
+  "terrainPatches": [
+    {
+      "column": 39,
+      "row": 8,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 31,
+      "row": 9,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 35,
+      "row": 9,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 31,
+      "row": 10,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 35,
+      "row": 10,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 47,
+      "row": 10,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 11,
+      "row": 11,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 39,
+      "row": 11,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 43,
+      "row": 11,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 19,
+      "row": 12,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 39,
+      "row": 12,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 47,
+      "row": 12,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 31,
+      "row": 13,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 39,
+      "row": 13,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 47,
+      "row": 13,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 47,
+      "row": 14,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 15,
+      "row": 15,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 31,
+      "row": 15,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 39,
+      "row": 15,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 19,
+      "row": 16,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 51,
+      "row": 16,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 11,
+      "row": 17,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 51,
+      "row": 17,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 55,
+      "row": 17,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 11,
+      "row": 19,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 19,
+      "row": 19,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 15,
+      "row": 20,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 55,
+      "row": 22,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 55,
+      "row": 23,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 15,
+      "row": 42,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 19,
+      "row": 42,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 11,
+      "row": 44,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 15,
+      "row": 44,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 19,
+      "row": 44,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 43,
+      "row": 44,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 15,
+      "row": 45,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 19,
+      "row": 45,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 23,
+      "row": 45,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 35,
+      "row": 45,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 19,
+      "row": 46,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 23,
+      "row": 46,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 39,
+      "row": 46,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 47,
+      "row": 46,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 47,
+      "row": 47,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 11,
+      "row": 48,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 23,
+      "row": 48,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 39,
+      "row": 49,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 35,
+      "row": 50,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 47,
+      "row": 50,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 39,
+      "row": 51,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 51,
+      "row": 51,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 19,
+      "row": 52,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 47,
+      "row": 52,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 19,
+      "row": 53,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 23,
+      "row": 53,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 35,
+      "row": 53,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 55,
+      "row": 53,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 19,
+      "row": 54,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    },
+    {
+      "column": 55,
+      "row": 57,
+      "width": 3,
+      "height": 1,
+      "material": "cinder"
+    }
+  ],
+  "spawnPoints": [
+    {
+      "team": 0,
+      "x": -24,
+      "z": 0
+    },
+    {
+      "team": 1,
+      "x": 23,
+      "z": 0
+    }
+  ],
+  "startingArmySize": 24,
+  "resourceNodes": [],
+  "obstacles": [
+    {
+      "id": "petrified-0",
+      "column": 32,
+      "row": 8,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-1",
+      "column": 36,
+      "row": 8,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-2",
+      "column": 41,
+      "row": 8,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-3",
+      "column": 42,
+      "row": 8,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-4",
+      "column": 10,
+      "row": 9,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-5",
+      "column": 16,
+      "row": 9,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-6",
+      "column": 17,
+      "row": 9,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-7",
+      "column": 31,
+      "row": 9,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-8",
+      "column": 33,
+      "row": 9,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-9",
+      "column": 35,
+      "row": 9,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-10",
+      "column": 37,
+      "row": 9,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-11",
+      "column": 44,
+      "row": 9,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-12",
+      "column": 45,
+      "row": 9,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-13",
+      "column": 47,
+      "row": 9,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-14",
+      "column": 8,
+      "row": 10,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-15",
+      "column": 15,
+      "row": 10,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-16",
+      "column": 18,
+      "row": 10,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-17",
+      "column": 20,
+      "row": 10,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-18",
+      "column": 26,
+      "row": 10,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-19",
+      "column": 34,
+      "row": 10,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-20",
+      "column": 36,
+      "row": 10,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-21",
+      "column": 39,
+      "row": 10,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-22",
+      "column": 40,
+      "row": 10,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-23",
+      "column": 41,
+      "row": 10,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-24",
+      "column": 9,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-25",
+      "column": 12,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-26",
+      "column": 13,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-27",
+      "column": 14,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-28",
+      "column": 16,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-29",
+      "column": 17,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-30",
+      "column": 18,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-31",
+      "column": 19,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-32",
+      "column": 31,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-33",
+      "column": 32,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-34",
+      "column": 34,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-35",
+      "column": 38,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-36",
+      "column": 39,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-37",
+      "column": 41,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-38",
+      "column": 42,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-39",
+      "column": 43,
+      "row": 11,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-40",
+      "column": 10,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-41",
+      "column": 14,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-42",
+      "column": 16,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-43",
+      "column": 20,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-44",
+      "column": 21,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-45",
+      "column": 23,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-46",
+      "column": 24,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-47",
+      "column": 27,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-48",
+      "column": 33,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-49",
+      "column": 34,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-50",
+      "column": 35,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-51",
+      "column": 37,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-52",
+      "column": 40,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-53",
+      "column": 43,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-54",
+      "column": 44,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-55",
+      "column": 45,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-56",
+      "column": 48,
+      "row": 12,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-57",
+      "column": 7,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-58",
+      "column": 12,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-59",
+      "column": 13,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-60",
+      "column": 16,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-61",
+      "column": 20,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-62",
+      "column": 21,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-63",
+      "column": 22,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-64",
+      "column": 26,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-65",
+      "column": 27,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-66",
+      "column": 31,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-67",
+      "column": 36,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-68",
+      "column": 38,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-69",
+      "column": 39,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-70",
+      "column": 40,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-71",
+      "column": 41,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-72",
+      "column": 43,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-73",
+      "column": 44,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-74",
+      "column": 47,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-75",
+      "column": 48,
+      "row": 13,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-76",
+      "column": 12,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-77",
+      "column": 15,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-78",
+      "column": 16,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-79",
+      "column": 18,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-80",
+      "column": 27,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-81",
+      "column": 32,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-82",
+      "column": 33,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-83",
+      "column": 34,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-84",
+      "column": 37,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-85",
+      "column": 38,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-86",
+      "column": 39,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-87",
+      "column": 41,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-88",
+      "column": 43,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-89",
+      "column": 44,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-90",
+      "column": 50,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-91",
+      "column": 10,
+      "row": 15,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-92",
+      "column": 11,
+      "row": 15,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-93",
+      "column": 12,
+      "row": 15,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-94",
+      "column": 14,
+      "row": 15,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-95",
+      "column": 16,
+      "row": 15,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-96",
+      "column": 17,
+      "row": 15,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-97",
+      "column": 18,
+      "row": 15,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-98",
+      "column": 25,
+      "row": 15,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-99",
+      "column": 32,
+      "row": 15,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-100",
+      "column": 36,
+      "row": 15,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-101",
+      "column": 40,
+      "row": 15,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-102",
+      "column": 54,
+      "row": 15,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-103",
+      "column": 7,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-104",
+      "column": 8,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-105",
+      "column": 10,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-106",
+      "column": 11,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-107",
+      "column": 13,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-108",
+      "column": 14,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-109",
+      "column": 18,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-110",
+      "column": 19,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-111",
+      "column": 36,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-112",
+      "column": 38,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-113",
+      "column": 40,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-114",
+      "column": 46,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-115",
+      "column": 52,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-116",
+      "column": 55,
+      "row": 16,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-117",
+      "column": 13,
+      "row": 17,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-118",
+      "column": 15,
+      "row": 17,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-119",
+      "column": 16,
+      "row": 17,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-120",
+      "column": 22,
+      "row": 17,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-121",
+      "column": 35,
+      "row": 17,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-122",
+      "column": 38,
+      "row": 17,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-123",
+      "column": 48,
+      "row": 17,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-124",
+      "column": 51,
+      "row": 17,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-125",
+      "column": 55,
+      "row": 17,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-126",
+      "column": 56,
+      "row": 17,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-127",
+      "column": 14,
+      "row": 18,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-128",
+      "column": 17,
+      "row": 18,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-129",
+      "column": 19,
+      "row": 18,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-130",
+      "column": 23,
+      "row": 18,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-131",
+      "column": 50,
+      "row": 18,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-132",
+      "column": 52,
+      "row": 18,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-133",
+      "column": 56,
+      "row": 18,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-134",
+      "column": 8,
+      "row": 19,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-135",
+      "column": 11,
+      "row": 19,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-136",
+      "column": 13,
+      "row": 19,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-137",
+      "column": 14,
+      "row": 19,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-138",
+      "column": 15,
+      "row": 19,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-139",
+      "column": 16,
+      "row": 19,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-140",
+      "column": 22,
+      "row": 19,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-141",
+      "column": 45,
+      "row": 19,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-142",
+      "column": 49,
+      "row": 19,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-143",
+      "column": 54,
+      "row": 19,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-144",
+      "column": 55,
+      "row": 19,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-145",
+      "column": 56,
+      "row": 19,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-146",
+      "column": 58,
+      "row": 19,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-147",
+      "column": 14,
+      "row": 20,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-148",
+      "column": 20,
+      "row": 20,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-149",
+      "column": 51,
+      "row": 20,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-150",
+      "column": 56,
+      "row": 20,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-151",
+      "column": 17,
+      "row": 21,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-152",
+      "column": 48,
+      "row": 21,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-153",
+      "column": 49,
+      "row": 21,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-154",
+      "column": 50,
+      "row": 21,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-155",
+      "column": 54,
+      "row": 21,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-156",
+      "column": 55,
+      "row": 21,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-157",
+      "column": 56,
+      "row": 21,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-158",
+      "column": 57,
+      "row": 21,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-159",
+      "column": 59,
+      "row": 21,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-160",
+      "column": 12,
+      "row": 22,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-161",
+      "column": 46,
+      "row": 22,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-162",
+      "column": 53,
+      "row": 22,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-163",
+      "column": 54,
+      "row": 22,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-164",
+      "column": 47,
+      "row": 23,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-165",
+      "column": 48,
+      "row": 23,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-166",
+      "column": 50,
+      "row": 23,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-167",
+      "column": 52,
+      "row": 23,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-168",
+      "column": 53,
+      "row": 23,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-169",
+      "column": 57,
+      "row": 23,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-170",
+      "column": 46,
+      "row": 24,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-171",
+      "column": 48,
+      "row": 24,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-172",
+      "column": 50,
+      "row": 24,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-173",
+      "column": 51,
+      "row": 24,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-174",
+      "column": 53,
+      "row": 24,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-175",
+      "column": 55,
+      "row": 24,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-176",
+      "column": 56,
+      "row": 24,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-177",
+      "column": 48,
+      "row": 25,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-178",
+      "column": 37,
+      "row": 39,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-179",
+      "column": 14,
+      "row": 40,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-180",
+      "column": 18,
+      "row": 40,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-181",
+      "column": 44,
+      "row": 40,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-182",
+      "column": 16,
+      "row": 41,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-183",
+      "column": 18,
+      "row": 41,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-184",
+      "column": 19,
+      "row": 41,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-185",
+      "column": 35,
+      "row": 41,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-186",
+      "column": 37,
+      "row": 41,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-187",
+      "column": 38,
+      "row": 41,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-188",
+      "column": 40,
+      "row": 41,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-189",
+      "column": 42,
+      "row": 41,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-190",
+      "column": 15,
+      "row": 42,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-191",
+      "column": 16,
+      "row": 42,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-192",
+      "column": 17,
+      "row": 42,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-193",
+      "column": 18,
+      "row": 42,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-194",
+      "column": 37,
+      "row": 42,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-195",
+      "column": 42,
+      "row": 42,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-196",
+      "column": 43,
+      "row": 42,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-197",
+      "column": 45,
+      "row": 42,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-198",
+      "column": 50,
+      "row": 42,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-199",
+      "column": 11,
+      "row": 43,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-200",
+      "column": 13,
+      "row": 43,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-201",
+      "column": 14,
+      "row": 43,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-202",
+      "column": 15,
+      "row": 43,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-203",
+      "column": 20,
+      "row": 43,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-204",
+      "column": 22,
+      "row": 43,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-205",
+      "column": 29,
+      "row": 43,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-206",
+      "column": 34,
+      "row": 43,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-207",
+      "column": 37,
+      "row": 43,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-208",
+      "column": 39,
+      "row": 43,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-209",
+      "column": 41,
+      "row": 43,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-210",
+      "column": 42,
+      "row": 43,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-211",
+      "column": 45,
+      "row": 43,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-212",
+      "column": 11,
+      "row": 44,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-213",
+      "column": 13,
+      "row": 44,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-214",
+      "column": 19,
+      "row": 44,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-215",
+      "column": 24,
+      "row": 44,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-216",
+      "column": 25,
+      "row": 44,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-217",
+      "column": 31,
+      "row": 44,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-218",
+      "column": 34,
+      "row": 44,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-219",
+      "column": 35,
+      "row": 44,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-220",
+      "column": 36,
+      "row": 44,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-221",
+      "column": 40,
+      "row": 44,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-222",
+      "column": 42,
+      "row": 44,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-223",
+      "column": 48,
+      "row": 44,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-224",
+      "column": 23,
+      "row": 45,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-225",
+      "column": 24,
+      "row": 45,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-226",
+      "column": 34,
+      "row": 45,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-227",
+      "column": 35,
+      "row": 45,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-228",
+      "column": 37,
+      "row": 45,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-229",
+      "column": 39,
+      "row": 45,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-230",
+      "column": 41,
+      "row": 45,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-231",
+      "column": 42,
+      "row": 45,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-232",
+      "column": 44,
+      "row": 45,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-233",
+      "column": 45,
+      "row": 45,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-234",
+      "column": 8,
+      "row": 46,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-235",
+      "column": 12,
+      "row": 46,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-236",
+      "column": 18,
+      "row": 46,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-237",
+      "column": 24,
+      "row": 46,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-238",
+      "column": 27,
+      "row": 46,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-239",
+      "column": 33,
+      "row": 46,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-240",
+      "column": 34,
+      "row": 46,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-241",
+      "column": 36,
+      "row": 46,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-242",
+      "column": 37,
+      "row": 46,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-243",
+      "column": 48,
+      "row": 46,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-244",
+      "column": 52,
+      "row": 46,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-245",
+      "column": 5,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-246",
+      "column": 14,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-247",
+      "column": 15,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-248",
+      "column": 19,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-249",
+      "column": 21,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-250",
+      "column": 23,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-251",
+      "column": 27,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-252",
+      "column": 37,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-253",
+      "column": 39,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-254",
+      "column": 42,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-255",
+      "column": 43,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-256",
+      "column": 44,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-257",
+      "column": 45,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-258",
+      "column": 46,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-259",
+      "column": 50,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-260",
+      "column": 12,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-261",
+      "column": 15,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-262",
+      "column": 16,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-263",
+      "column": 17,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-264",
+      "column": 18,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-265",
+      "column": 19,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-266",
+      "column": 21,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-267",
+      "column": 22,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-268",
+      "column": 33,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-269",
+      "column": 34,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-270",
+      "column": 35,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-271",
+      "column": 36,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-272",
+      "column": 37,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-273",
+      "column": 39,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-274",
+      "column": 40,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-275",
+      "column": 41,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-276",
+      "column": 42,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-277",
+      "column": 50,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-278",
+      "column": 52,
+      "row": 48,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-279",
+      "column": 11,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-280",
+      "column": 12,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-281",
+      "column": 13,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-282",
+      "column": 18,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-283",
+      "column": 19,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-284",
+      "column": 20,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-285",
+      "column": 24,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-286",
+      "column": 28,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-287",
+      "column": 33,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-288",
+      "column": 36,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-289",
+      "column": 41,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-290",
+      "column": 42,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-291",
+      "column": 43,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-292",
+      "column": 46,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-293",
+      "column": 47,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-294",
+      "column": 51,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-295",
+      "column": 56,
+      "row": 49,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-296",
+      "column": 8,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-297",
+      "column": 15,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-298",
+      "column": 20,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-299",
+      "column": 22,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-300",
+      "column": 24,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-301",
+      "column": 25,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-302",
+      "column": 34,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-303",
+      "column": 36,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-304",
+      "column": 37,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-305",
+      "column": 38,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-306",
+      "column": 39,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-307",
+      "column": 41,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-308",
+      "column": 42,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-309",
+      "column": 44,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-310",
+      "column": 46,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-311",
+      "column": 48,
+      "row": 50,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-312",
+      "column": 11,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-313",
+      "column": 12,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-314",
+      "column": 16,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-315",
+      "column": 23,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-316",
+      "column": 27,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-317",
+      "column": 34,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-318",
+      "column": 35,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-319",
+      "column": 39,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-320",
+      "column": 41,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-321",
+      "column": 44,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-322",
+      "column": 45,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-323",
+      "column": 46,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-324",
+      "column": 47,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-325",
+      "column": 53,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-326",
+      "column": 54,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-327",
+      "column": 56,
+      "row": 51,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-328",
+      "column": 10,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-329",
+      "column": 14,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-330",
+      "column": 15,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-331",
+      "column": 16,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-332",
+      "column": 18,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-333",
+      "column": 20,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-334",
+      "column": 22,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-335",
+      "column": 25,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-336",
+      "column": 26,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-337",
+      "column": 30,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-338",
+      "column": 34,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-339",
+      "column": 36,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-340",
+      "column": 41,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-341",
+      "column": 42,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-342",
+      "column": 43,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-343",
+      "column": 44,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-344",
+      "column": 45,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-345",
+      "column": 46,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-346",
+      "column": 48,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-347",
+      "column": 49,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-348",
+      "column": 50,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-349",
+      "column": 51,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-350",
+      "column": 55,
+      "row": 52,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-351",
+      "column": 16,
+      "row": 53,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-352",
+      "column": 22,
+      "row": 53,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-353",
+      "column": 34,
+      "row": 53,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-354",
+      "column": 36,
+      "row": 53,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-355",
+      "column": 39,
+      "row": 53,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-356",
+      "column": 44,
+      "row": 53,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-357",
+      "column": 49,
+      "row": 53,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-358",
+      "column": 51,
+      "row": 53,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-359",
+      "column": 52,
+      "row": 53,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-360",
+      "column": 54,
+      "row": 53,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-361",
+      "column": 55,
+      "row": 53,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-362",
+      "column": 57,
+      "row": 53,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-363",
+      "column": 17,
+      "row": 54,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-364",
+      "column": 34,
+      "row": 54,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-365",
+      "column": 38,
+      "row": 54,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-366",
+      "column": 44,
+      "row": 54,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-367",
+      "column": 49,
+      "row": 54,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-368",
+      "column": 52,
+      "row": 54,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-369",
+      "column": 53,
+      "row": 54,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-370",
+      "column": 54,
+      "row": 54,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-371",
+      "column": 23,
+      "row": 55,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-372",
+      "column": 45,
+      "row": 55,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-373",
+      "column": 46,
+      "row": 55,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-374",
+      "column": 47,
+      "row": 55,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-375",
+      "column": 48,
+      "row": 55,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-376",
+      "column": 51,
+      "row": 55,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-377",
+      "column": 54,
+      "row": 55,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-378",
+      "column": 18,
+      "row": 56,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-379",
+      "column": 49,
+      "row": 56,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-380",
+      "column": 50,
+      "row": 56,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-381",
+      "column": 53,
+      "row": 56,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-382",
+      "column": 56,
+      "row": 56,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-383",
+      "column": 42,
+      "row": 57,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-384",
+      "column": 49,
+      "row": 57,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-385",
+      "column": 51,
+      "row": 57,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-386",
+      "column": 54,
+      "row": 57,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-387",
+      "column": 50,
+      "row": 58,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-388",
+      "column": 51,
+      "row": 58,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-389",
+      "column": 52,
+      "row": 58,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-390",
+      "column": 53,
+      "row": 58,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    },
+    {
+      "id": "petrified-391",
+      "column": 51,
+      "row": 59,
+      "width": 1,
+      "height": 1,
+      "material": "stone",
+      "elevation": 0.72
+    }
+  ],
+  "triggers": [],
+  "scenarioEvents": [],
+  "fogOfWar": false
+}
