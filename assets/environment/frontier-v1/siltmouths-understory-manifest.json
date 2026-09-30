@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-siltmouths-understory",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/siltmouths-ecology.png",
+  "referenceSha256": "d8d7bbf05dee83f544ca322b5bf03ac3ec83a9c090d51c6991455f8f9ae95669",
+  "prompts": "SILTMOUTHS-UNDERSTORY-PROMPTS.json",
+  "files": [
+    {
+      "path": "siltmouths-silver-reed.png",
+      "role": "source-image",
+      "sha256": "ebad9980f30174067716a4476736336672286208d87af88a30286cd5911524a9",
+      "bytes": 2259413,
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "siltmouths-silver-reed.webp",
+      "role": "runtime-image",
+      "sha256": "db320fcf6a6c0fea469438a8aa5af4fb38c6429f3accf10c323cc3d101599ca7",
+      "bytes": 368470,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 833
+      }
+    }
+  ],
+  "cropPx": [
+    182,
+    14,
+    1388,
+    995
+  ],
+  "asset": {
+    "id": "siltmouths-silver-reed",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 1.29076,
+    "worldHeight": 1.05,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen against approved regional key. Unmodified PNG; deterministic crop, LANCZOS max1024 RGBA WebP quality86 method6 exact alpha. One approximate painted oblique view; no measured source calibration."
+}

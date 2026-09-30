@@ -544,3 +544,9 @@ The [bramble atlas](../assets/environment/frontier-v1/underbough-bramble-lifecyc
 Sparse [shade ferns](../assets/environment/frontier-v1/vesperra-understory-manifest.json) bring the approved ecology key's petrol-green fronds and muted violet undersides beneath Mistbark. A seeded 28% selection attaches one decorative plant to an existing forest cell, in one shared mesh. It retains its appearance during partial harvest, disappears at received stock zero, and returns on reset. Hidden cells follow the existing received-stock contract. No resources or obstacle cells are added.
 
 [Local evidence](qa-evidence/vaelora-vesperra-understory-2026-09-30/README.md) covers placement, parent clearing/reset, regional isolation and existing lifecycle behavior. The selected generated master remains unchanged; cropped WebP preserves alpha. Runtime uses the existing world-up camera orientation. One painted view only; additional perspectives and fern-specific harvest animation remain future work.
+
+## Siltmouths silver reed understory · 30 September 2026
+
+The approved key's [silver reeds](../assets/environment/frontier-v1/siltmouths-understory-manifest.json) now accompany tidal trees on tidal-mud base maps. Sea-green blades, pale seed heads and muted lilac shadows give the region a narrower upright silhouette. One shared mesh uses the existing seeded 28% forest-cell selection. Reeds stay through partial harvest, clear at received stock zero, and restore on reset; hidden cells retain their last received stock. No new resource or collision cells are added.
+
+[Focused local evidence](qa-evidence/vaelora-siltmouths-understory-2026-09-30/README.md) covers companion placement, clearing/reset, regional isolation and tree lifecycle behavior. Original generated master and alpha-preserving runtime export are retained. This increment places reeds within existing forest cells; shoreline-wide reeds, salt grass, fauna and additional painted viewpoints remain future outcomes.

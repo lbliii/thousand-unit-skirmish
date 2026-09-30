@@ -14,7 +14,7 @@ const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
 const GROUND_RENDER_ORDER = -20;
 export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
-  'vesperra-shade-fern',
+  'vesperra-shade-fern', 'siltmouths-silver-reed',
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
@@ -748,7 +748,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     }
     addObject(mesh);
   }
-  if (vesperra) {
+  if (vesperra || siltmouths) {
     // Decorative understory occupies existing forest cells only. Clearing follows
     // received cell stock, so it cannot cover a newly traversable cleared cell.
     const plants = [...forestTreeSlots.values()].filter(slot => variation(slot.cell + 107) < 0.28)
@@ -757,7 +757,9 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
         z: slot.z + (variation(slot.cell + 113) - 0.5) * 0.32,
         scale: 0.8 + variation(slot.cell + 127) * 0.25,
         flip: slot.flip, yaw: slot.yaw }));
-    const mesh = createEnvironmentSpriteInstances('vesperra-shade-fern', 1.07475, 0.72, plants);
+    const mesh = createEnvironmentSpriteInstances(
+      siltmouths ? 'siltmouths-silver-reed' : 'vesperra-shade-fern',
+      siltmouths ? 1.29076 : 1.07475, siltmouths ? 1.05 : 0.72, plants);
     if (mesh) {
       mesh.userData.forestUnderstory = true;
       plants.forEach((plant, index) => {

@@ -262,3 +262,7 @@ Built-in ImageGen edited the project-owned hedgerow into worked/low/depleted sta
 ## Vesperra shade fern understory · 30 September 2026
 
 Original built-in ImageGen plant, informed by the approved Vesperra Shade Fern ecology key. [Exact selected prompt](VESPERRA-UNDERSTORY-PROMPTS.json) and [manifest](vesperra-understory-manifest.json) retain source ID, hashes, dimensions and crop. Selected PNG unchanged; LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background compositing confirms empty surrounding pixels are transparent despite colored RGB in the native preview. No local repainting or alpha repair. One approximate oblique painted view.
+
+## Siltmouths silver reed understory · 30 September 2026
+
+Built-in ImageGen against the project-owned approved Siltmouths ecology key's Silver Reed. [Exact prompt](SILTMOUTHS-UNDERSTORY-PROMPTS.json) and [manifest](siltmouths-understory-manifest.json) record selected source ID, reference hash, dimensions, crop and file hashes. Unchanged generated PNG; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background compositing inspected empty gaps and backdrop. No local repainting or alpha repair. One approximate painted oblique view.
