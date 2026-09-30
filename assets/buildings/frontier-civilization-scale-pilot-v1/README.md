@@ -28,3 +28,5 @@ No runtime renderer or active game asset changes in this milestone. Construction
 Run `npm ci`, then `node scripts/serve-building-scale-review.mjs` and open `http://127.0.0.1:8769/scripts/building-scale-review.html`. Original ignored GLBs must be present for model inspection; the saved gallery works without them. Enter measured native base width and center, target world width and occupancy before capturing. The server writes only the two fixed pilot families' eight PNG/JSON frame paths.
 
 Use `node scripts/inspect-building-glb.mjs model.glb report.json` to inspect uncompressed GLB geometry and lower-height bands. Lower bands are measurement candidates, not automatic support-plane approval. See [dated QA evidence](../../../docs/qa-frontier-building-scale-pilot-2026-09-30.md).
+
+Run `node scripts/validate-building-scale-pilot.mjs` to verify all sixteen frame hashes, dimensions, per-view record consistency and shared registration. It checks recorded alpha margins, not decoded alpha pixels or runtime behavior.
