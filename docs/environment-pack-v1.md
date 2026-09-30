@@ -530,3 +530,11 @@ The [bramble atlas](../assets/environment/frontier-v1/underbough-bramble-lifecyc
 [Lazy atlas](../assets/environment/frontier-v1/sereward-scrub-lifecycle-atlas.json) follows the four-state, 64px-gutter, half-texel inset and mip-cap-six contract, with individual-texture fallback. All three Sereward forest families now have matching depletion art. Sand maps retain their approximately 55% palm / 30% acacia / 15% scrub selection, forest identities, yield and collision.
 
 [Local evidence](qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30/README.md) exercises scrub harvesting/reset separately, upright renderer matrices and metadata-failure fallback. One fixed-oblique painted view; approximate camera guidance. Action animation, extra perspectives, fauna and more species remain ongoing.
+
+## Bellweather hedgerow lifecycle · 30 September 2026
+
+[Hedgerow preview](../assets/environment/frontier-v1/bellweather-hedgerow-lifecycle-preview.png), [manifest](../assets/environment/frontier-v1/bellweather-hedgerow-lifecycle-manifest.json) and [exact prompts](../assets/environment/frontier-v1/BELLWEATHER-HEDGEROW-LIFECYCLE-PROMPTS.json) extend the approved butter-yellow/sage woody hedge with clipped tips, cut-back foliage and bare cut stems. It remains an existing wood-bearing forest slot, not a food resource. Full source/runtime are unchanged; edits share the original 1536×1024 canvas and [23,48,1511,931] crop, yielding four 1024×608 frames.
+
+[Lazy atlas](../assets/environment/frontier-v1/bellweather-hedgerow-lifecycle-atlas.json) follows the four-state, 64px-gutter, half-texel inset and mip-cap-six contract with individual-texture fallback. Bellweather hedgerow and field maple now both have matching depletion art. Meadow maps retain their existing approximately 20% hedgerow selection and other tree mix; forest identity, yield and collision rules are unchanged. Other generic tree species remain in the palette.
+
+[Local evidence](qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30/README.md) exercises hedgerow worker harvest/reset separately, upright renderer matrices and metadata-failure fallback. One fixed-oblique painted view; approximate camera guidance. Action animation, extra perspectives, broader regional species and fauna remain ongoing.

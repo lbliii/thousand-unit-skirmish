@@ -254,3 +254,7 @@ Built-in ImageGen edited the project-owned acacia into worked/low/depleted state
 ## Sereward woody scrub lifecycle · 30 September 2026
 
 Built-in ImageGen edited the project-owned scrub into worked/low/depleted states. [Manifest](sereward-scrub-lifecycle-manifest.json) records unchanged masters, source IDs, hashes and original shared crop; [exact prompts](SEREWARD-SCRUB-LIFECYCLE-PROMPTS.json) record edit instructions. Full PNG/WebP remain unchanged. LANCZOS max1024 RGBA WebP quality86 method6 preserves generated alpha; deterministic atlas copies decoded runtime pixels without rescaling or repainting. No third-party inputs or local alpha repair. One fixed-oblique view, approximate painted camera guidance.
+
+## Bellweather hedgerow lifecycle · 30 September 2026
+
+Built-in ImageGen edited the project-owned hedgerow into worked/low/depleted states. [Manifest](bellweather-hedgerow-lifecycle-manifest.json) records unchanged masters, source IDs, hashes and original shared crop; [exact prompts](BELLWEATHER-HEDGEROW-LIFECYCLE-PROMPTS.json) record edit instructions. Full PNG/WebP remain unchanged. LANCZOS max1024 RGBA WebP quality86 method6 preserves generated alpha; deterministic atlas copies decoded runtime pixels without rescaling or repainting. No third-party inputs or local alpha repair. One fixed-oblique view, approximate painted camera guidance.

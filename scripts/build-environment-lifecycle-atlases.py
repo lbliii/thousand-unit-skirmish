@@ -2,7 +2,7 @@ from PIL import Image
 from pathlib import Path
 import json,hashlib,argparse
 root=Path('assets/environment/frontier-v1')
-packs = [('bellweather','bellweather-field-maple'),('sereward','sereward-palm'),('pale-meridian','pale-meridian-conifer'),('siltmouths','siltmouths-tidal-tree'),('vesperra','vesperra-mistbark'),('sombral-mere','sombral-mere-merebloom'),('underbough','underbough-copperleaf'),('underbough-bramble','underbough-bramble'),('veyrholds','veyrholds-highpine'),('ellionar','ellionar-cultivated-palm'),('ellionar-hedge','ellionar-garden-hedge'),('sereward-acacia','sereward-acacia'),('sereward-scrub','sereward-scrub')]
+packs = [('bellweather','bellweather-field-maple'),('sereward','sereward-palm'),('pale-meridian','pale-meridian-conifer'),('siltmouths','siltmouths-tidal-tree'),('vesperra','vesperra-mistbark'),('sombral-mere','sombral-mere-merebloom'),('underbough','underbough-copperleaf'),('underbough-bramble','underbough-bramble'),('veyrholds','veyrholds-highpine'),('ellionar','ellionar-cultivated-palm'),('ellionar-hedge','ellionar-garden-hedge'),('sereward-acacia','sereward-acacia'),('sereward-scrub','sereward-scrub'),('bellweather-hedgerow','bellweather-hedgerow')]
 parser = argparse.ArgumentParser(description='Pack approved lifecycle frames without repainting or rescaling.')
 parser.add_argument('--region', choices=[region for region, family in packs], help='Build only one regional page; omitted builds all.')
 args = parser.parse_args()

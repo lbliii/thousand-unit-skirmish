@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-bellweather-hedgerow-lifecycle-atlas",
+  "packVersion": "1.0.0",
+  "maturity": "runtime-candidate",
+  "provenance": {
+    "license": "project-owned",
+    "source": "bellweather-hedgerow-lifecycle-manifest.json",
+    "authoringTool": "Pillow deterministic page packing",
+    "notes": "Exact decoded approved runtime pixels, no repaint or rescaling. Runtime WebP quality86; PNG page preserves exact decoded approved pixels. Fixed camera; state clips reserve direction IDs. 64px transparent RGB edge-extension gutter, mip cap6, half-texel inset. Original generated masters retained."
+  },
+  "files": [
+    {
+      "id": "source",
+      "path": "bellweather-hedgerow-lifecycle-atlas.png",
+      "usage": "source",
+      "format": "png",
+      "sha256": "a52e6117c4f2875bb2f40f21d769ddfded5992e731636448ddc5ddba37e2b6e9",
+      "dimensionsPx": {
+        "width": 2304,
+        "height": 1472
+      }
+    },
+    {
+      "id": "runtime",
+      "path": "bellweather-hedgerow-lifecycle-atlas.webp",
+      "usage": "runtime",
+      "format": "webp",
+      "sha256": "19a66797bbbc4713f6a12a276e5b792c587b4c6a35ded94fb3bf60a01cc2787e",
+      "dimensionsPx": {
+        "width": 2304,
+        "height": 1472
+      }
+    }
+  ],
+  "pages": [
+    {
+      "id": "color",
+      "sourceFileId": "source",
+      "runtimeFileId": "runtime",
+      "dimensionsPx": {
+        "width": 2304,
+        "height": 1472
+      },
+      "colorSpace": "srgb",
+      "pixelFormat": "rgba8",
+      "alphaMode": "straight",
+      "edgeRule": "bleed-rgb-under-transparent",
+      "gutterPx": 64,
+      "gutterRule": "edge-extended",
+      "wrapMode": "clamp",
+      "sampling": {
+        "generateMipmaps": true,
+        "minFilter": "linear-mipmap-linear",
+        "magFilter": "linear",
+        "uvInsetPx": 0.5,
+        "maxMipLevel": 6
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "bellweather-hedgerow",
+      "kind": "environment",
+      "artBoundsWorld": {
+        "min": [
+          -1.55,
+          0,
+          0
+        ],
+        "max": [
+          1.55,
+          2.07,
+          0
+        ]
+      },
+      "heightWorld": 2.07,
+      "sortAnchorWorld": [
+        0,
+        0,
+        0
+      ],
+      "frames": [
+        {
+          "id": "full",
+          "canvasPx": {
+            "width": 1024,
+            "height": 608
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 608
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 1,
+            "y": 0,
+            "width": 1023,
+            "height": 607
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 64,
+              "y": 64,
+              "width": 1024,
+              "height": 608
+            }
+          }
+        },
+        {
+          "id": "worked",
+          "canvasPx": {
+            "width": 1024,
+            "height": 608
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 608
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 10,
+            "y": 12,
+            "width": 999,
+            "height": 596
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 1216,
+              "y": 64,
+              "width": 1024,
+              "height": 608
+            }
+          }
+        },
+        {
+          "id": "low",
+          "canvasPx": {
+            "width": 1024,
+            "height": 608
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 608
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 89,
+            "y": 217,
+            "width": 849,
+            "height": 390
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 64,
+              "y": 800,
+              "width": 1024,
+              "height": 608
+            }
+          }
+        },
+        {
+          "id": "depleted",
+          "canvasPx": {
+            "width": 1024,
+            "height": 608
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 608
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 389,
+            "y": 447,
+            "width": 258,
+            "height": 150
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 1216,
+              "y": 800,
+              "width": 1024,
+              "height": 608
+            }
+          }
+        }
+      ],
+      "clips": [
+        {
+          "stateId": "full",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "full",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "worked",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "worked",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "low",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "low",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "depleted",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "depleted",
+              "durationMs": 1000
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -21,6 +21,7 @@
 
 Current runtime defaults:
 
+- Bellweather woody hedgerows on meadow maps use the [hedgerow lifecycle atlas](environment-pack-v1.md#bellweather-hedgerow-lifecycle--30-september-2026), with matching cleared cut stems alongside the field maple lifecycle.
 - Sereward thorn acacias on sand maps use the [acacia lifecycle atlas](environment-pack-v1.md#sereward-thorn-acacia-lifecycle--30-september-2026), alongside palms. The [woody scrub companion](environment-pack-v1.md#sereward-woody-scrub-lifecycle--30-september-2026) has clipped, cut-back and cleared root-crown states.
 - Ellionar cultivated palms on garden-loam maps use the [palm lifecycle atlas](environment-pack-v1.md#ellionar-cultivated-palm-lifecycle--30-september-2026), including matching diamond-bark stumps. The [garden hedge companion](environment-pack-v1.md#ellionar-garden-hedge-lifecycle--30-september-2026) has clipped, cut-back and cleared wood states.
 - Veyrholds highpine slots on scree maps use the [highpine lifecycle atlas](environment-pack-v1.md#veyrholds-highpine-lifecycle--30-september-2026), including matching depletion roots. Their existing share of the forest mix stays unchanged.
