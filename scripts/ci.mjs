@@ -133,6 +133,7 @@ const scenarios = [
   ['scripts/siege-ai-runtime-scenario.mjs', 'Paid AI siege acquisition and assault (Ember)', '1'],
   ['scripts/watchtower-scenario.mjs', 'Watchtower fire and simultaneous trade'],
   ['scripts/town-center-scenario.mjs', 'Town Center expansion and recovery'],
+  ['scripts/expansion-ai-runtime-scenario.mjs', 'Paid live AI base expansion (both seats)'],
   ['scripts/base-lifecycle-scenario.mjs', 'Base cancel/refund and interrupted repair'],
   ['scripts/storehouse-scenario.mjs', 'Storehouse drop-off and cargo recovery'],
   ['scripts/population-scenario.mjs', 'House population lifecycle'],

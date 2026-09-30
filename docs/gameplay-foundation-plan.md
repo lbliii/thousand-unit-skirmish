@@ -21,14 +21,15 @@ is in `src/main.js`. Existing queues, rally points, construction connectivity,
 food/wood gathering, combat, fog, objectives, persistence and seeded PvE should
 be extended rather than replaced.
 
-`BUILDING_RULES` already describes Barracks and Range, but each names one unit
-kind. Unit stats/costs and research effects still contain role-specific branches.
-`src/pve-production.mjs` duplicates opening costs and assumes Barracks/Infantry;
-`src/selection-context.mjs` enumerates the three current kinds. Population
-reservations enforce safety caps; they do not yet provide a house-based economy.
-Visual-state helpers and sprite/GLB formats exist, but a common presentation
-binding and animation-capability boundary must be established. Renderer v1 is
-static rigid geometry, not an implemented skeletal-animation contract.
+`src/gameplay-definitions.mjs` now owns validated unit, building, technology and
+faction content, stable wire identities and the canonical gameplay revision.
+Authoritative queues/actions, HUD availability, editor validation and filtered AI
+observations consume these definitions. Houses and completed Town Centers provide
+gameplay capacity separately from safety ceilings; friendly drop-offs, repair,
+cancellation and shared combat/progression rules extend the existing simulation.
+`src/gameplay-presentation.mjs` binds content to declared procedural profiles.
+Sprite/GLB loaders remain renderer capabilities; skeletal animation and full F4
+variant/scale proofs are still separate work.
 
 ## Milestones and shipping slices
 
@@ -327,3 +328,46 @@ opposing full-health tower from both seats. This component interaction proof doe
 not replace a full AI match. The separate Forked Vale reconnaissance/raid check
 demonstrates fog discovery, retreat and a timely Spearman response in both seats.
 Integration, staging and representative full-match evidence remain required.
+
+### 2026-09-30 — Completion audit checkpoint
+
+F1–F3 remain the active implementation scope; F4's complete variant and scale
+proofs are separate. The following maps the original requirements to current
+authoritative check surfaces, rather than declaring all acceptance complete.
+
+| Requirement | Current proof surface | Remaining verification |
+| --- | --- | --- |
+| F1.1–2 registry, stable IDs, revision and compatibility | gameplay-definitions, ruleset-revision and ruleset-checkpoint checks | Integrated main CI remains the regression floor. |
+| F1.3–5 shared actions, open roster, Spearman/House | roster-options runtime scenarios, roster UI, population and editor checks | Deployed Firefox empty-selection/catalog observation recorded in QA; local narrow-layout evidence retained. |
+| F2.1 capacity and atomic reservations | population and production-lifecycle scenarios | No new implementation gap identified in these checks. |
+| F2.2 reachable food/wood drop-offs | storehouse-routing tests and Storehouse runtime scenario | Runtime destruction/cargo proof complements disconnected-route selection tests. |
+| F2.3 additional centers and survival | Town Center runtime and Worker exit scenarios | Corrected live both-seat expansion run passed at tick 4560; PR #252 integration/CI pending. |
+| F2.4 defenses and counter | Watchtower and siege-defense scenarios, shared combat tests | Field-role and paid AI siege evidence cover distinct interactions. |
+| F2.5 construction, training, research, repair lifecycle | base-lifecycle and production-lifecycle scenarios | Includes cancellation, interruption, repair funding and persisted reservations. |
+| F3.1 shared deterministic combat | combat-rules tests and simultaneous lethal runtime scenario | Damage rules are documented in architecture/game bible. |
+| F3.2–3 mounted/scouting and siege roster | mounted/siege roster scenarios, field-roles and siege-defense scenarios | These role fixtures do not claim one full match exercises every role. |
+| F3.4 technology progression | progression and siege roster scenarios, research action tests | Both-seat purchase rejection, active/completed restart and rematch covered. |
+| F3.5 bounded filtered AI | production/reconnaissance tests, paid siege runtime and contested-match scenarios | Live expansion passed; outstanding PR integration and final evidence review pending. |
+| Early presentation binding | gameplay-presentation validation and runtime profile consumption | Full F4 interchangeability/animated asset proof is outside this goal. |
+| Staging integration | Deployment fcc377e8 at abce656; readiness/assets/WSS and 250-unit gameplay smoke | Deployed contextual catalog and automatic art-deploy recovery observed separately in Firefox. |
+
+Read the dated QA records for build identities, measured observations and limits.
+A listed test is a proof surface, not an assertion that every original acceptance
+criterion has passed merely because its filename exists. Final completion still
+requires review of the results and integration of outstanding focused PRs.
+
+### 2026-09-30 — F1–F3 integrated completion
+
+F1–F3 and the early presentation binding are implemented and integrated in main.
+PR #252 merged as `496d387` after all three CI shards passed at `c8539cf`; the
+new live expansion check passed in CI at tick 4560. The requirement audit above
+is resolved by those results together with the named registry, lifecycle,
+combined-arms, progression, filtered AI, authoring and recovery runtime evidence.
+
+Staging deployment `d0707391-06ce-4e74-9972-d74e4301ea93` succeeded at exact
+merge `496d387bcd7d8b3d2a720ca53aa167b36a04d292`. Packaging/transport smoke and
+a fresh 250-unit authored room passed readiness, both seats/reconnect, map
+save/reload, elimination victory and synchronized rematch (`qa-staging-muo1git3`).
+The deployed HUD observation and earlier narrow-layout evidence remain in QA.
+These proofs establish the requested foundation; they do not certify final
+balance, finished art, unassisted novice usability or full F4 variants/scale.

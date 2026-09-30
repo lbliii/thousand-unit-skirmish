@@ -424,3 +424,68 @@ catalog with population readout. Flattening the nested building grid and giving
 unit catalog buttons a minimum column width removed narrow-layout text overlap.
 DOM inspection confirmed scrollable production content; eleven focused roster,
 selection and HUD tests passed. CI and deployed verification of this fix remain.
+
+### 2026-09-30 — Latest foundation staging deployment recovery
+
+PRs #248 and #250 merged after all three CI shards passed for their respective
+heads. Railway initially kept the older AI merge while removing the newer HUD
+deployment. An explicit staging-only redeploy from source succeeded as
+`fcc377e8-d3a5-40af-a878-437db4f5408c` at
+`abce6567631a8658aa72798ccde7fe5949dd75b6`, which includes both foundation merges
+and the subsequent forest-art merge #251. The Railway smoke passed readiness,
+authentication, all discovered browser imports and authenticated WebSocket upgrade.
+This establishes current packaging and transport; rendered appearance and staged
+gameplay verification remain separate evidence.
+
+The staged gameplay smoke also passed on that deployment using authored map
+`qa-staging-muo04ti8` and a 250-unit fixture: invite creation, both human seats,
+both-seat reconnect, authored-map save/reload, elimination victory and synchronized
+rematch reset. This fixture validates integration and recovery rather than AI
+expansion or a balanced combined-arms match.
+
+### 2026-09-30 — Live deterministic AI expansion
+
+The corrected expansion runtime scenario passed at `83b82ed`, completing both
+seats' Town Centers by tick 4560. Each policy purchased its Barracks, remote
+Storehouse and exactly one expansion through ordinary authoritative commands;
+construction completed at full registered HP. Shadow policies reproduced every
+command from identical team observations. The authored 80×64 map starts with
+24 units and 2,000 food/wood per seat, disables fog and holds military stationary
+to isolate production. This is not a competitive full-match or fog scouting
+claim. PR #252 adds this scenario to CI; its broad checks remain in progress.
+
+### 2026-09-30 — Deployed contextual roster observation
+
+Native Firefox opened isolated staging room
+`RmVxHIa4g67QYk1IjB7gm8rZu8jXgy4S` as Ember. The empty-selection bar showed
+only Idle workers, Army, Production and Groups. Build & train showed registered
+House, Barracks, Range, Workshop, Stable, Watchtower, Town Center and Storehouse
+choices, their costs and unavailable reasons, plus 12 used / 0 queued / 15
+population. The building grid had no nested-column text overlap in this desktop
+view; earlier local 740×800 evidence remains the narrow-layout proof.
+
+During the observation, staging deployed the art-only main `eed4dc8` as
+`2854c50b-88c4-4682-9c2e-e60faf35828d` (SUCCESS). The page briefly reported
+RECONNECTING, then returned to ROOM LIVE with MATCH RESTORED · RECENT CHECKPOINT
+and retained its Ember resources, population and open production panel. This is
+a concrete deployed checkpoint-recovery observation, not an assertion about all
+network failure modes. Native screenshots were inspected in the task; no exported
+screenshot file is claimed.
+
+The completion audit reran 40 focused tests on the expansion branch: registry
+validation, canonical revision/wire identity, presentation capabilities, combat
+classes/modifiers, technology availability, private snapshots, selection, reachable
+drop-offs and bounded AI base/progression decisions. All 40 passed. These complement
+the runtime and staging proofs above; PR #252's full CI remains the integration gate.
+
+### 2026-09-30 — Merged foundation integration
+
+PR #252 merged as `496d387` after all three CI shards passed at `c8539cf`.
+CI run 36707855800 includes the live both-seat expansion proof (tick 4560) and
+release packaging. Exact staging deployment `d0707391-06ce-4e74-9972-d74e4301ea93`
+succeeded at `496d387bcd7d8b3d2a720ca53aa167b36a04d292`. Packaging/transport smoke
+and fresh authored room `qa-staging-muo1git3` (250-unit fixture) passed readiness,
+authenticated assets, invite creation, both seats/reconnect, authored-map
+save/reload, elimination victory and synchronized rematch. This resolves the
+previous pending integration items for F1–F3 and early presentation binding.
+Full F4 animation, variant and scale proofs remain separate.
