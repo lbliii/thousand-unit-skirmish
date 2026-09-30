@@ -113,7 +113,11 @@ try {
 
   async function duel(azureId, emberId) {
     const start = azure.messages.length;
-    const latest = [...azure.messages].reverse().find(message => message.type === 'state') ?? azureMap.state;
+    // mapChange carries the new snapshot before the next ordinary state tick.
+    // Do not select a stale pre-publication state from the previous army size.
+    const message = [...azure.messages].reverse().find(message => message.type === 'state'
+      || message.type === 'mapChange');
+    const latest = message?.type === 'mapChange' ? message.state : message ?? azureMap.state;
     const a = unit(latest, azureId);
     const b = unit(latest, emberId);
     assert.equal(a[1], 0);

@@ -533,3 +533,18 @@ exact food/wood assertions. No gameplay costs or purchasing behavior change.
 [September 30 Stop/Hold evidence](qa-command-foundations-2026-09-30.md) records
 both-seat interruption, worker cancellation, ranged/melee no-pursuit, checkpoint
 recovery and rematch checks.
+
+## Worker-combat snapshot race · 30 September 2026
+
+Atlas PR #264 CI shard 1 failed at `worker-combat-scenario.mjs:120` with
+`0 !== 1`. The same failure reproduced locally on main `8f148b1`. After map
+publication, the test selected the newest ordinary `state` message even when
+a newer `mapChange` had already supplied the new army snapshot. Unit 9 was
+therefore read from the previous large army as Azure rather than the new
+ten-unit map as Ember. This is a test snapshot-selection race, not evidence
+that worker combat or sprite rendering changed.
+
+The test now selects the newest state-bearing `state` or `mapChange` message.
+The focused scenario passes both duels: Worker loses to Infantry for both
+Azure and Ember. Game rules and protocol are unchanged. This fix-forward
+record does not claim that the full CI workflow passed.
