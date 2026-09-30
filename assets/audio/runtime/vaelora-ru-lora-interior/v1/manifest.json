@@ -1,0 +1,76 @@
+{
+  "version": "v1",
+  "pack": {
+    "schemaVersion": 1,
+    "id": "vaelora-ru-lora-interior",
+    "name": "Ru’Lora — petrified interior regional music",
+    "sources": [
+      {
+        "id": "ru-lora-interior-music",
+        "name": "Ru’Lora — petrified interior everyday candidate",
+        "fileName": "tus_ru-lora-interior_music_01_v001.mp3",
+        "mimeType": "audio/mpeg",
+        "tags": [
+          "ru-lora-interior",
+          "candidate"
+        ],
+        "provenance": {
+          "provider": "ElevenLabs",
+          "prompt": "Instrumental sparse dark acoustic chamber texture, immense, absent and forbidding, half-time feeling over a quiet D/A pedal at 96 BPM. Low contrabass harmonics and bowed stone-like resonances, rare dry ceramic friction and one cold glass tone, long silences and controlled natural decay, almost no melody or percussion. Minimal restrained energy, no voices, choir, screams, cinematic impacts or heavy sub-bass, fade into silence.",
+          "createdAt": "2026-09-30"
+        }
+      }
+    ],
+    "profiles": [
+      {
+        "id": "landscape",
+        "name": "Ru’Lora — petrified interior",
+        "bindings": {},
+        "music": {
+          "defaultCompositionId": "everyday"
+        }
+      }
+    ],
+    "compositions": [
+      {
+        "schemaVersion": 1,
+        "id": "everyday",
+        "name": "Everyday landscape",
+        "bpm": 50.420168067226896,
+        "beatsPerBar": 4,
+        "lengthBars": 4,
+        "tracks": [
+          {
+            "id": "music",
+            "name": "Everyday music",
+            "gain": 0.35,
+            "pan": 0,
+            "mute": false,
+            "solo": false,
+            "clips": [
+              {
+                "id": "take",
+                "sourceId": "ru-lora-interior-music",
+                "startBeat": 0,
+                "durationBeats": 16,
+                "offsetSeconds": 0,
+                "gain": 1,
+                "loop": false,
+                "fadeInSeconds": 2,
+                "fadeOutSeconds": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "downloads": {
+    "ru-lora-interior-music": {
+      "path": "/assets/audio/vaelora-zones-v1/sources/tus_ru-lora-interior_music_01_v001.mp3",
+      "bytes": 498417,
+      "mimeType": "audio/mpeg",
+      "sha256": "9dca752a71f690541839b27fbf63a34d3c75453f38ebc9614fa1c735d38d3110"
+    }
+  }
+}

@@ -13,7 +13,7 @@ and `src/pve-match.mjs` are authoritative.
 | `PORT` | `4173` | Public supervisor port, or direct worker port. |
 | `RTS_HOST` | `127.0.0.1` | Listening interface; use `0.0.0.0` for LAN/container access. |
 | `RTS_PUBLIC_ORIGINS` | Local matching origins | Comma-separated browser-facing full origins. Required for non-loopback/custom hosts unless the Railway domain supplies one. |
-| `RTS_MAP` | `maps/forked-vale.json` | Initial shipped map; existing checkpoints may restore another map. |
+| `RTS_MAP` | `maps/bellweather-millrace.json` | Initial shipped map; existing checkpoints may restore another map. |
 | `RTS_MAX_ROOMS` | `4` | Invite-room cap in addition to the default room. |
 | `RTS_ROOM_IDLE_TTL_MS` | `21600000` | Six-hour idle expiry for invite-room data. |
 | `RTS_MAX_PEERS` | `32` | Connections per worker, including spectators; valid range 2–256. Compose defaults to 16. |

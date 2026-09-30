@@ -1,6 +1,6 @@
 /** Stable, server-owned launch rules for the curated Play vs AI map pool. */
 
-export const PVE_MAP_IDS = Object.freeze(['forked-vale', 'woodland-expanse']);
+export const PVE_MAP_IDS = Object.freeze(['bellweather-millrace', 'underbough-rootways']);
 
 export function parseUint32Seed(value, label = 'seed') {
   const number = typeof value === 'string' && /^\d+$/.test(value) ? Number(value) : value;

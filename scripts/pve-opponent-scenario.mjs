@@ -38,11 +38,11 @@ const DECISION_INTERVAL_MS = 1_000;
 const PVE_RUNTIME_TIMEOUT_MS = 20_000;
 
 function verifyPveLaunchRules() {
-  assert.deepEqual(PVE_MAP_IDS, ['forked-vale', 'woodland-expanse'],
+  assert.deepEqual(PVE_MAP_IDS, ['bellweather-millrace', 'underbough-rootways'],
     'the solo pool contains only the two authored small-army scenarios');
   const authoredMaps = new Map([
-    [FORKED_VALE_MAP.id, FORKED_VALE_MAP],
-    [WOODLAND_EXPANSE_MAP.id, WOODLAND_EXPANSE_MAP],
+    ['bellweather-millrace', JSON.parse(readFileSync(path.join(ROOT, 'maps/bellweather-millrace.json'), 'utf8'))],
+    ['underbough-rootways', JSON.parse(readFileSync(path.join(ROOT, 'maps/underbough-rootways.json'), 'utf8'))],
   ]);
   for (const mapId of PVE_MAP_IDS) {
     const map = authoredMaps.get(mapId);
@@ -51,9 +51,9 @@ function verifyPveLaunchRules() {
     assert.ok(map.resourceNodes.length >= 2, `${mapId} supports the deterministic opening economy`);
     assert.ok(map.triggers.length > 0, `${mapId} has an authored objective for the opponent to contest`);
   }
-  assert.equal(selectPveMapId(0), 'forked-vale');
-  assert.equal(selectPveMapId(1), 'woodland-expanse');
-  assert.equal(selectPveMapId(0xffff_ffff), 'woodland-expanse');
+  assert.equal(selectPveMapId(0), 'bellweather-millrace');
+  assert.equal(selectPveMapId(1), 'underbough-rootways');
+  assert.equal(selectPveMapId(0xffff_ffff), 'underbough-rootways');
   assert.equal(parseUint32Seed('4294967295'), 0xffff_ffff);
   assert.throws(() => parseUint32Seed(-1), /unsigned 32-bit/);
   assert.throws(() => parseUint32Seed('4294967296'), /unsigned 32-bit/);
@@ -62,7 +62,7 @@ function verifyPveLaunchRules() {
   assert.deepEqual(readPveLaunchOptions({
     RTS_GAME_MODE: 'pve', RTS_PVE_MAP_SEED: '1', RTS_PVE_POLICY_SEED: '20260926',
   }), {
-    mode: 'pve', mapSeed: 1, policySeed: 20260926, mapId: 'woodland-expanse',
+    mode: 'pve', mapSeed: 1, policySeed: 20260926, mapId: 'underbough-rootways',
   });
   assert.throws(() => readPveLaunchOptions({ RTS_GAME_MODE: 'pve', RTS_PVE_MAP_SEED: '1' }),
     /RTS_PVE_POLICY_SEED/);

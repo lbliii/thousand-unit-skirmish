@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { readFile, realpath } from 'node:fs/promises';
 import path from 'node:path';
+import { UNIT_DEFINITIONS } from '../src/gameplay-definitions.mjs';
 import { fileURLToPath } from 'node:url';
 
 const PROJECT_ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -30,10 +31,7 @@ if (!Array.isArray(definition.obstacles) || !Array.isArray(definition.spawnPoint
   throw new Error('Map must define obstacle, spawnPoints, resourceNodes, and triggers arrays.');
 }
 
-const source = await readFile(path.join(PROJECT_ROOT, 'server.mjs'), 'utf8');
-const speedMatch = source.match(/\bconst WALK_SPEED = ([0-9]+(?:\.[0-9]+)?);/);
-if (!speedMatch) throw new Error('Could not read WALK_SPEED from server.mjs.');
-const walkSpeed = Number(speedMatch[1]);
+const walkSpeed = Math.max(...Object.values(UNIT_DEFINITIONS).map(rule => rule.combat.moveSpeed));
 
 const cellCount = width * height;
 const blocked = new Uint8Array(cellCount);

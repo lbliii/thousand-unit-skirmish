@@ -19,7 +19,7 @@ Open [localhost:4173](http://127.0.0.1:4173).
 - **Play vs AI** starts a seeded match against the deterministic opponent.
 - For a human match, create a **New room** and share its invite link. The first
   player is Azure; the second is Ember. Two tabs can exercise both seats locally.
-- New PvP matches default to **Forked Vale**, a 24-unit economy and objective
+- New PvP matches default to **Bellweather · Millrace**, a 24-unit economy and objective
   scenario. Azure can change the map, reset the match, and select larger armies.
 
 For controls and the first match, read the [player guide](docs/playing.md).

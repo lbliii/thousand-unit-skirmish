@@ -11,9 +11,9 @@ Ember is the second player. Further connections watch as spectators.
 When you take a player seat, the camera starts at your Town Center. Use **Fit
 map** for an overview. Reconnecting to the same seat keeps your current view.
 
-The default PvP scenario is [Forked Vale](forked-vale-scenario.md). Each team
+The default PvP scenario is [Bellweather · Millrace](maps.md). Each team
 starts with four workers, eight infantry, 150 food, and 250 wood. Own both
-Signals to unlock Vale Watch, then hold all three objectives for 20 seconds.
+Fords to unlock Crossing Watch, then hold all three objectives for 20 seconds.
 At 15 minutes, the Watch owner wins; an unclaimed Watch means a draw.
 
 Select workers and send them to food or wood. Build a Barracks or Archery Range,

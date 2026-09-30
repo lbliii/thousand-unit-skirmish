@@ -23,6 +23,11 @@ try {
   assert.ok(ready, output);
   const loaded = await loadShippedAudio(SHIPPED_AUDIO_REFERENCES[0], { fetch: (url, options) => fetch(new URL(url, base), options) });
   assert.equal(Object.keys(loaded.sourceBlobs).length, 4);
+  for (const reference of SHIPPED_AUDIO_REFERENCES.filter(ref => ref.packId.startsWith('vaelora-'))) {
+    const regional = await loadShippedAudio(reference, { fetch: (url, options) => fetch(new URL(url, base), options) });
+    assert.equal(regional.pack.profiles[0].music.defaultCompositionId, 'everyday');
+    assert.equal(Object.keys(regional.sourceBlobs).length, 1);
+  }
   for (const module of ['audio-shipped-loader.mjs', 'audio-shipped-catalog.mjs']) {
     const response = await fetch(`${base}/src/${module}`); assert.equal(response.status, 200); assert.match(response.headers.get('content-type'), /javascript/);
   }

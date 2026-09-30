@@ -1,0 +1,229 @@
+{
+  "id": "bellweather-common",
+  "name": "Bellweather · Orchard Common",
+  "summary": "A wide common between paired orchards; outer harvests compete with the central market route.",
+  "width": 96,
+  "height": 72,
+  "terrainSeed": 93001,
+  "fogOfWar": true,
+  "terrainBase": "short-grass",
+  "terrainPatches": [
+    {
+      "column": 0,
+      "row": 32,
+      "width": 96,
+      "height": 8,
+      "material": "dirt"
+    }
+  ],
+  "spawnPoints": [
+    {
+      "team": 0,
+      "x": -33.5,
+      "z": 0.5
+    },
+    {
+      "team": 1,
+      "x": 33.5,
+      "z": 0.5
+    }
+  ],
+  "startingArmySize": 24,
+  "startingResources": {
+    "food": 150,
+    "wood": 250
+  },
+  "obstacles": [
+    {
+      "column": 8,
+      "row": 4,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 80,
+      "row": 4,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 8,
+      "row": 60,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 80,
+      "row": 60,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 28,
+      "row": 12,
+      "width": 8,
+      "height": 14,
+      "material": "forest"
+    },
+    {
+      "column": 60,
+      "row": 12,
+      "width": 8,
+      "height": 14,
+      "material": "forest"
+    },
+    {
+      "column": 28,
+      "row": 46,
+      "width": 8,
+      "height": 14,
+      "material": "forest"
+    },
+    {
+      "column": 60,
+      "row": 46,
+      "width": 8,
+      "height": 14,
+      "material": "forest"
+    }
+  ],
+  "resourceNodes": [
+    {
+      "id": "s0-0",
+      "type": "food",
+      "x": -29.5,
+      "z": 7.5,
+      "stock": 650
+    },
+    {
+      "id": "s0-1",
+      "type": "wood",
+      "x": -29.5,
+      "z": -6.5,
+      "stock": 650
+    },
+    {
+      "id": "s0-2",
+      "type": "food",
+      "x": -27.5,
+      "z": 22.5,
+      "stock": 450
+    },
+    {
+      "id": "s0-3",
+      "type": "wood",
+      "x": -27.5,
+      "z": -21.5,
+      "stock": 450
+    },
+    {
+      "id": "s1-0",
+      "type": "food",
+      "x": 29.5,
+      "z": 7.5,
+      "stock": 650
+    },
+    {
+      "id": "s1-1",
+      "type": "wood",
+      "x": 29.5,
+      "z": -6.5,
+      "stock": 650
+    },
+    {
+      "id": "s1-2",
+      "type": "food",
+      "x": 27.5,
+      "z": 22.5,
+      "stock": 450
+    },
+    {
+      "id": "s1-3",
+      "type": "wood",
+      "x": 27.5,
+      "z": -21.5,
+      "stock": 450
+    }
+  ],
+  "triggers": [
+    {
+      "id": "post-0",
+      "name": "North Clearing",
+      "type": "capture-zone",
+      "zone": {
+        "column": 43,
+        "row": 14,
+        "width": 10,
+        "height": 8
+      },
+      "requiredUnits": 5,
+      "captureSeconds": 9,
+      "foodReward": 75,
+      "woodReward": 50,
+      "victory": true
+    },
+    {
+      "id": "post-1",
+      "name": "South Clearing",
+      "type": "capture-zone",
+      "zone": {
+        "column": 43,
+        "row": 50,
+        "width": 10,
+        "height": 8
+      },
+      "requiredUnits": 5,
+      "captureSeconds": 9,
+      "foodReward": 75,
+      "woodReward": 50,
+      "victory": true
+    },
+    {
+      "id": "post-2",
+      "name": "Clearing Watch",
+      "type": "capture-zone",
+      "zone": {
+        "column": 43,
+        "row": 32,
+        "width": 10,
+        "height": 8
+      },
+      "requiredUnits": 8,
+      "captureSeconds": 12,
+      "foodReward": 0,
+      "woodReward": 0,
+      "victory": true,
+      "requiresAll": [
+        "post-0",
+        "post-1"
+      ]
+    }
+  ],
+  "victoryMode": "all",
+  "victoryHoldSeconds": 20,
+  "timedVictory": {
+    "afterSeconds": 900,
+    "objectiveId": "post-2"
+  },
+  "scenarioEvents": [
+    {
+      "id": "relief",
+      "name": "Traveling supplies",
+      "type": "timed-supply",
+      "afterSeconds": 120,
+      "team": "both",
+      "foodReward": 100,
+      "woodReward": 75
+    }
+  ],
+  "audio": {
+    "packId": "vaelora-bellweather",
+    "profileId": "landscape",
+    "version": "v1",
+    "sha256": "472fb50e915de0ab33bc5ecab9777a18486e375d32b17edc63abe54d83a066c2"
+  }
+}

@@ -96,7 +96,7 @@ let lastCheckpointBytes = 0;
 let lastCheckpointWriteMs = 0;
 let lastCheckpointCaptureMs = 0;
 let lastCheckpointSerializeMs = 0;
-const configuredMapPath = path.resolve(ROOT, process.env.RTS_MAP || 'maps/forked-vale.json');
+const configuredMapPath = path.resolve(ROOT, process.env.RTS_MAP || 'maps/bellweather-millrace.json');
 if (!Number.isInteger(MAX_PEERS) || MAX_PEERS < 2 || MAX_PEERS > 256) {
   throw new Error('RTS_MAX_PEERS must be an integer between 2 and 256.');
 }
@@ -840,8 +840,9 @@ function activateMap(definition) {
 }
 
 function mapCatalogPayload() {
-  return [...mapCatalog.values()].map((map) => ({
-    id: map.id, name: map.name, summary: map.summary || `${map.width} × ${map.height}`,
+  const regional = (map) => map.audio?.packId?.startsWith('vaelora-');
+  return [...mapCatalog.values()].sort((a, b) => Number(regional(b)) - Number(regional(a)) || a.name.localeCompare(b.name)).map((map) => ({
+    id: map.id, name: shippedMapIds.has(map.id) && !regional(map) ? `Lab · ${map.name}` : map.name, summary: map.summary || `${map.width} × ${map.height}`,
   }));
 }
 
@@ -7173,7 +7174,8 @@ const server = createServer(async (request, response) => {
   const publicBuildingLifecycleManifest = relative === `${buildingPackRoot}/lifecycle-grid.json`;
   const publicBuildingLifecycleRuntimeAsset = path.dirname(relative) === `${buildingPackRoot}/runtime`
     && /^(?:town-center-(?:foundation|frame|complete|damaged|critical)-view-\d{2}\.webp|team-mask-(?:foundation|frame|complete|damaged|critical)-view-\d{2}\.png)$/.test(path.basename(relative));
-  const publicZoneAudioAsset = relative === 'assets/audio/runtime/rts-feedback-test/v1/manifest.json'
+  const publicZoneAudioAsset = (relative === 'assets/audio/runtime/rts-feedback-test/v1/manifest.json'
+    || /^assets\/audio\/runtime\/vaelora-(?:bellweather|underbough|sereward|ellionar|veyrholds|pale-meridian|siltmouths|vesperra|sombral-mere|ru-lora-fringe|ru-lora-interior)\/v1\/manifest\.json$/.test(relative))
     || relative === 'assets/audio/vaelora-zones-v1/catalog.json'
     || /^assets\/audio\/vaelora-zones-v1\/sources\/tus_(?:bellweather|underbough|sereward|ellionar|veyrholds|pale-meridian|siltmouths|vesperra|sombral-mere|ru-lora-fringe|ru-lora-interior)_(?:music|terrain|contrast|signature)_0[12]_v001\.mp3$/.test(relative)
     || /^assets\/audio\/vaelora-pilot-v1\/sources\/tus_ui_(?:wood-token|iron-latch|muted-pluck|horn-note)_01_v001\.mp3$/.test(relative);

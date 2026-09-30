@@ -1,0 +1,257 @@
+{
+  "id": "siltmouths-reed-crossings",
+  "name": "Siltmouths · Reed Crossings",
+  "summary": "Staggered tidal channels leave three dry crossings. Reeds shelter the outer supply routes.",
+  "width": 80,
+  "height": 72,
+  "terrainSeed": 93007,
+  "fogOfWar": true,
+  "terrainBase": "tidal-mud",
+  "terrainPatches": [
+    {
+      "column": 0,
+      "row": 32,
+      "width": 80,
+      "height": 8,
+      "material": "dirt"
+    }
+  ],
+  "spawnPoints": [
+    {
+      "team": 0,
+      "x": -25.5,
+      "z": 0.5
+    },
+    {
+      "team": 1,
+      "x": 25.5,
+      "z": 0.5
+    }
+  ],
+  "startingArmySize": 24,
+  "startingResources": {
+    "food": 150,
+    "wood": 250
+  },
+  "obstacles": [
+    {
+      "column": 8,
+      "row": 4,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 64,
+      "row": 4,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 8,
+      "row": 60,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 64,
+      "row": 60,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 28,
+      "row": 0,
+      "width": 3,
+      "height": 14,
+      "material": "water"
+    },
+    {
+      "column": 49,
+      "row": 0,
+      "width": 3,
+      "height": 14,
+      "material": "water"
+    },
+    {
+      "column": 28,
+      "row": 25,
+      "width": 3,
+      "height": 6,
+      "material": "water"
+    },
+    {
+      "column": 49,
+      "row": 25,
+      "width": 3,
+      "height": 6,
+      "material": "water"
+    },
+    {
+      "column": 28,
+      "row": 41,
+      "width": 3,
+      "height": 6,
+      "material": "water"
+    },
+    {
+      "column": 49,
+      "row": 41,
+      "width": 3,
+      "height": 6,
+      "material": "water"
+    },
+    {
+      "column": 28,
+      "row": 58,
+      "width": 3,
+      "height": 14,
+      "material": "water"
+    },
+    {
+      "column": 49,
+      "row": 58,
+      "width": 3,
+      "height": 14,
+      "material": "water"
+    }
+  ],
+  "resourceNodes": [
+    {
+      "id": "s0-0",
+      "type": "food",
+      "x": -21.5,
+      "z": 7.5,
+      "stock": 650
+    },
+    {
+      "id": "s0-1",
+      "type": "wood",
+      "x": -21.5,
+      "z": -6.5,
+      "stock": 650
+    },
+    {
+      "id": "s0-2",
+      "type": "food",
+      "x": -19.5,
+      "z": 22.5,
+      "stock": 450
+    },
+    {
+      "id": "s0-3",
+      "type": "wood",
+      "x": -19.5,
+      "z": -21.5,
+      "stock": 450
+    },
+    {
+      "id": "s1-0",
+      "type": "food",
+      "x": 21.5,
+      "z": 7.5,
+      "stock": 650
+    },
+    {
+      "id": "s1-1",
+      "type": "wood",
+      "x": 21.5,
+      "z": -6.5,
+      "stock": 650
+    },
+    {
+      "id": "s1-2",
+      "type": "food",
+      "x": 19.5,
+      "z": 22.5,
+      "stock": 450
+    },
+    {
+      "id": "s1-3",
+      "type": "wood",
+      "x": 19.5,
+      "z": -21.5,
+      "stock": 450
+    }
+  ],
+  "triggers": [
+    {
+      "id": "post-0",
+      "name": "North Landing",
+      "type": "capture-zone",
+      "zone": {
+        "column": 35,
+        "row": 14,
+        "width": 10,
+        "height": 8
+      },
+      "requiredUnits": 5,
+      "captureSeconds": 9,
+      "foodReward": 75,
+      "woodReward": 50,
+      "victory": true
+    },
+    {
+      "id": "post-1",
+      "name": "South Landing",
+      "type": "capture-zone",
+      "zone": {
+        "column": 35,
+        "row": 50,
+        "width": 10,
+        "height": 8
+      },
+      "requiredUnits": 5,
+      "captureSeconds": 9,
+      "foodReward": 75,
+      "woodReward": 50,
+      "victory": true
+    },
+    {
+      "id": "post-2",
+      "name": "Reed Watch",
+      "type": "capture-zone",
+      "zone": {
+        "column": 35,
+        "row": 32,
+        "width": 10,
+        "height": 8
+      },
+      "requiredUnits": 8,
+      "captureSeconds": 12,
+      "foodReward": 0,
+      "woodReward": 0,
+      "victory": true,
+      "requiresAll": [
+        "post-0",
+        "post-1"
+      ]
+    }
+  ],
+  "victoryMode": "all",
+  "victoryHoldSeconds": 20,
+  "timedVictory": {
+    "afterSeconds": 900,
+    "objectiveId": "post-2"
+  },
+  "scenarioEvents": [
+    {
+      "id": "relief",
+      "name": "Traveling supplies",
+      "type": "timed-supply",
+      "afterSeconds": 120,
+      "team": "both",
+      "foodReward": 100,
+      "woodReward": 75
+    }
+  ],
+  "audio": {
+    "packId": "vaelora-siltmouths",
+    "profileId": "landscape",
+    "version": "v1",
+    "sha256": "fad484989ce03d8c22b9637ce534d104eaf34bd3a50d290de4ff4be7d3a52714"
+  }
+}

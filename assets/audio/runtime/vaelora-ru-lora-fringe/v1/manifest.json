@@ -1,0 +1,76 @@
+{
+  "version": "v1",
+  "pack": {
+    "schemaVersion": 1,
+    "id": "vaelora-ru-lora-fringe",
+    "name": "Ru’Lora — living fringe regional music",
+    "sources": [
+      {
+        "id": "ru-lora-fringe-music",
+        "name": "Ru’Lora — living fringe everyday candidate",
+        "fileName": "tus_ru-lora-fringe_music_01_v001.mp3",
+        "mimeType": "audio/mpeg",
+        "tags": [
+          "ru-lora-fringe",
+          "candidate"
+        ],
+        "provenance": {
+          "provider": "ElevenLabs",
+          "prompt": "Original instrumental fantasy RTS music for Ru’Lora — living fringe. Mood: cautious, fragile, awed. Small acoustic ensemble of wood flute, low plucked strings and contrabass harmonics; increasingly sparse phrases without a full climax. Target 96 BPM, 4/4, D Dorian, restrained dynamics and spacious eight-bar phrases. Quiet everyday gameplay background with gaps for commands, consistent ensemble and a gently sustained ending. No vocals, lyrics, environmental recordings, trailer crescendo, epic brass or modern drum kit.",
+          "createdAt": "2026-09-30"
+        }
+      }
+    ],
+    "profiles": [
+      {
+        "id": "landscape",
+        "name": "Ru’Lora — living fringe",
+        "bindings": {},
+        "music": {
+          "defaultCompositionId": "everyday"
+        }
+      }
+    ],
+    "compositions": [
+      {
+        "schemaVersion": 1,
+        "id": "everyday",
+        "name": "Everyday landscape",
+        "bpm": 33.0760749724366,
+        "beatsPerBar": 4,
+        "lengthBars": 4,
+        "tracks": [
+          {
+            "id": "music",
+            "name": "Everyday music",
+            "gain": 0.35,
+            "pan": 0,
+            "mute": false,
+            "solo": false,
+            "clips": [
+              {
+                "id": "take",
+                "sourceId": "ru-lora-fringe-music",
+                "startBeat": 0,
+                "durationBeats": 16,
+                "offsetSeconds": 0,
+                "gain": 1,
+                "loop": false,
+                "fadeInSeconds": 2,
+                "fadeOutSeconds": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "downloads": {
+    "ru-lora-fringe-music": {
+      "path": "/assets/audio/vaelora-zones-v1/sources/tus_ru-lora-fringe_music_01_v001.mp3",
+      "bytes": 738033,
+      "mimeType": "audio/mpeg",
+      "sha256": "70d20875617091ced02006ab723ef7e341b549637614ba2e789ea7f9ddd70434"
+    }
+  }
+}

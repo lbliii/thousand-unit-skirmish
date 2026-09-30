@@ -574,3 +574,17 @@ construction / research reward chain. The expanded invalid-draft run passed rest
 blocked export until correction. One Chrome/CDP navigation error during reload
 was resolved by the rerun; bounded reload polling now tolerates context replacement. This local scripted evidence does not establish staging,
 Fortified Crossing balance, an unassisted creator/friend session or human comprehension.
+
+## Vaelora map roster — 30 September 2026
+
+Source baseline: `07f80a1` plus this map-roster working change. All twelve maps
+pass resource/objective reachability with both collision-reserving Town Centers
+and unobstructed base footprints. The authoritative server accepts the full
+catalog; all eleven regional music manifests and original recordings load through
+the production hash/MIME/size-verifying loader. Layout audits report mirrored
+resource budgets and objective distances. These are local engineering observations.
+Seeded server-owned solo openings and rematches pass on Millrace and Rootways.
+Both maps also pass live Barracks construction, reinforcement training and
+new-unit orders for both seats. The updated production test accepts the current Spearman
+as well as Infantry reinforcement roster. Browser appearance, listening/loop-seam
+acceptance and full human both-seat match balance are not observed. See [layouts and playtest steps](maps.md).

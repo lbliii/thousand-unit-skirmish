@@ -1,0 +1,76 @@
+{
+  "version": "v1",
+  "pack": {
+    "schemaVersion": 1,
+    "id": "vaelora-pale-meridian",
+    "name": "The Pale Meridian regional music",
+    "sources": [
+      {
+        "id": "pale-meridian-music",
+        "name": "The Pale Meridian everyday candidate",
+        "fileName": "tus_pale-meridian_music_01_v001.mp3",
+        "mimeType": "audio/mpeg",
+        "tags": [
+          "pale-meridian",
+          "candidate"
+        ],
+        "provenance": {
+          "provider": "ElevenLabs",
+          "prompt": "Original instrumental fantasy RTS music for The Pale Meridian. Mood: clear, solitary, wondrous. Small acoustic ensemble of zither, warm low viol, wood flute and rare tuned glass; half-time feel, measured high notes and long rests. Target 96 BPM, 4/4, D Dorian, restrained dynamics and spacious eight-bar phrases. Quiet everyday gameplay background with gaps for commands, consistent ensemble and a gently sustained ending. No vocals, lyrics, environmental recordings, trailer crescendo, epic brass or modern drum kit.",
+          "createdAt": "2026-09-30"
+        }
+      }
+    ],
+    "profiles": [
+      {
+        "id": "landscape",
+        "name": "The Pale Meridian",
+        "bindings": {},
+        "music": {
+          "defaultCompositionId": "everyday"
+        }
+      }
+    ],
+    "compositions": [
+      {
+        "schemaVersion": 1,
+        "id": "everyday",
+        "name": "Everyday landscape",
+        "bpm": 33.0760749724366,
+        "beatsPerBar": 4,
+        "lengthBars": 4,
+        "tracks": [
+          {
+            "id": "music",
+            "name": "Everyday music",
+            "gain": 0.35,
+            "pan": 0,
+            "mute": false,
+            "solo": false,
+            "clips": [
+              {
+                "id": "take",
+                "sourceId": "pale-meridian-music",
+                "startBeat": 0,
+                "durationBeats": 16,
+                "offsetSeconds": 0,
+                "gain": 1,
+                "loop": false,
+                "fadeInSeconds": 2,
+                "fadeOutSeconds": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "downloads": {
+    "pale-meridian-music": {
+      "path": "/assets/audio/vaelora-zones-v1/sources/tus_pale-meridian_music_01_v001.mp3",
+      "bytes": 738033,
+      "mimeType": "audio/mpeg",
+      "sha256": "766ed2bfa70db71c442cc89f8c7ba07568d4654f262f6407dd7cf8bd23c0b927"
+    }
+  }
+}

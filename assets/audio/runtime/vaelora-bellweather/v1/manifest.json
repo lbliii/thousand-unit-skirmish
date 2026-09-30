@@ -1,0 +1,76 @@
+{
+  "version": "v1",
+  "pack": {
+    "schemaVersion": 1,
+    "id": "vaelora-bellweather",
+    "name": "Bellweather regional music",
+    "sources": [
+      {
+        "id": "bellweather-music",
+        "name": "Bellweather everyday candidate",
+        "fileName": "tus_bellweather_music_01_v001.mp3",
+        "mimeType": "audio/mpeg",
+        "tags": [
+          "bellweather",
+          "candidate"
+        ],
+        "provenance": {
+          "provider": "ElevenLabs",
+          "prompt": "Original instrumental fantasy RTS music for Bellweather, oak orchards and barley beside a broad river. Companionable, capable and wistful pastoral chamber folk. Wooden flute lead, plucked lute answers, bowed viol floor and light wood drum; hummable phrases with warm breathing rests. Target 96 BPM, 4/4, D Dorian, restrained dynamics, spacious eight-bar phrases. Quiet everyday gameplay background with gaps for commands and a gently sustained ending. No vocals, lyrics, environmental recordings, epic brass, trailer crescendo or modern drums.",
+          "createdAt": "2026-09-30"
+        }
+      }
+    ],
+    "profiles": [
+      {
+        "id": "landscape",
+        "name": "Bellweather",
+        "bindings": {},
+        "music": {
+          "defaultCompositionId": "everyday"
+        }
+      }
+    ],
+    "compositions": [
+      {
+        "schemaVersion": 1,
+        "id": "everyday",
+        "name": "Everyday landscape",
+        "bpm": 33.0760749724366,
+        "beatsPerBar": 4,
+        "lengthBars": 4,
+        "tracks": [
+          {
+            "id": "music",
+            "name": "Everyday music",
+            "gain": 0.35,
+            "pan": 0,
+            "mute": false,
+            "solo": false,
+            "clips": [
+              {
+                "id": "take",
+                "sourceId": "bellweather-music",
+                "startBeat": 0,
+                "durationBeats": 16,
+                "offsetSeconds": 0,
+                "gain": 1,
+                "loop": false,
+                "fadeInSeconds": 2,
+                "fadeOutSeconds": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "downloads": {
+    "bellweather-music": {
+      "path": "/assets/audio/vaelora-zones-v1/sources/tus_bellweather_music_01_v001.mp3",
+      "bytes": 738033,
+      "mimeType": "audio/mpeg",
+      "sha256": "51b4f9bb79eec35803a757e0b861f565b6bf191f456605298cc47375844f94fc"
+    }
+  }
+}

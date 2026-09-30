@@ -1,0 +1,76 @@
+{
+  "version": "v1",
+  "pack": {
+    "schemaVersion": 1,
+    "id": "vaelora-ellionar",
+    "name": "Ellionar regional music",
+    "sources": [
+      {
+        "id": "ellionar-music",
+        "name": "Ellionar everyday candidate",
+        "fileName": "tus_ellionar_music_01_v001.mp3",
+        "mimeType": "audio/mpeg",
+        "tags": [
+          "ellionar",
+          "candidate"
+        ],
+        "provenance": {
+          "provider": "ElevenLabs",
+          "prompt": "Instrumental luminous ceremonial chamber music, cultivated, assured and gently flowing, 96 BPM in 4/4, D Dorian with spacious eight-bar phrases. Plucked lyre and low harp trade measured answers with paired reed pipes, sparse copper bowls and soft frame drum, warm acoustic room and restrained dynamics. Quiet even energy, no vocals, fanfares, modern drums or dramatic climax, open sustained ending.",
+          "createdAt": "2026-09-30"
+        }
+      }
+    ],
+    "profiles": [
+      {
+        "id": "landscape",
+        "name": "Ellionar",
+        "bindings": {},
+        "music": {
+          "defaultCompositionId": "everyday"
+        }
+      }
+    ],
+    "compositions": [
+      {
+        "schemaVersion": 1,
+        "id": "everyday",
+        "name": "Everyday landscape",
+        "bpm": 50.420168067226896,
+        "beatsPerBar": 4,
+        "lengthBars": 4,
+        "tracks": [
+          {
+            "id": "music",
+            "name": "Everyday music",
+            "gain": 0.35,
+            "pan": 0,
+            "mute": false,
+            "solo": false,
+            "clips": [
+              {
+                "id": "take",
+                "sourceId": "ellionar-music",
+                "startBeat": 0,
+                "durationBeats": 16,
+                "offsetSeconds": 0,
+                "gain": 1,
+                "loop": false,
+                "fadeInSeconds": 2,
+                "fadeOutSeconds": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "downloads": {
+    "ellionar-music": {
+      "path": "/assets/audio/vaelora-zones-v1/sources/tus_ellionar_music_01_v001.mp3",
+      "bytes": 498417,
+      "mimeType": "audio/mpeg",
+      "sha256": "b47911f5e5dfc910cc3250acd3413899fb30112e98a33458f655fdad45271cbe"
+    }
+  }
+}

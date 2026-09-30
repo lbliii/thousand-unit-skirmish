@@ -1,0 +1,229 @@
+{
+  "id": "veyrholds-slate-saddle",
+  "name": "Veyrholds · Slate Saddle",
+  "summary": "Paired slate ridges shelter bases; a broad saddle and two exposed passes offer alternate approaches.",
+  "width": 80,
+  "height": 72,
+  "terrainSeed": 93005,
+  "fogOfWar": true,
+  "terrainBase": "scree",
+  "terrainPatches": [
+    {
+      "column": 0,
+      "row": 32,
+      "width": 80,
+      "height": 8,
+      "material": "dirt"
+    }
+  ],
+  "spawnPoints": [
+    {
+      "team": 0,
+      "x": -25.5,
+      "z": 0.5
+    },
+    {
+      "team": 1,
+      "x": 25.5,
+      "z": 0.5
+    }
+  ],
+  "startingArmySize": 24,
+  "startingResources": {
+    "food": 150,
+    "wood": 250
+  },
+  "obstacles": [
+    {
+      "column": 8,
+      "row": 4,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 64,
+      "row": 4,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 8,
+      "row": 60,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 64,
+      "row": 60,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 21,
+      "row": 8,
+      "width": 7,
+      "height": 17,
+      "material": "stone"
+    },
+    {
+      "column": 52,
+      "row": 8,
+      "width": 7,
+      "height": 17,
+      "material": "stone"
+    },
+    {
+      "column": 21,
+      "row": 47,
+      "width": 7,
+      "height": 17,
+      "material": "stone"
+    },
+    {
+      "column": 52,
+      "row": 47,
+      "width": 7,
+      "height": 17,
+      "material": "stone"
+    }
+  ],
+  "resourceNodes": [
+    {
+      "id": "s0-0",
+      "type": "food",
+      "x": -21.5,
+      "z": 7.5,
+      "stock": 650
+    },
+    {
+      "id": "s0-1",
+      "type": "wood",
+      "x": -21.5,
+      "z": -6.5,
+      "stock": 650
+    },
+    {
+      "id": "s0-2",
+      "type": "food",
+      "x": -19.5,
+      "z": 22.5,
+      "stock": 450
+    },
+    {
+      "id": "s0-3",
+      "type": "wood",
+      "x": -19.5,
+      "z": -21.5,
+      "stock": 450
+    },
+    {
+      "id": "s1-0",
+      "type": "food",
+      "x": 21.5,
+      "z": 7.5,
+      "stock": 650
+    },
+    {
+      "id": "s1-1",
+      "type": "wood",
+      "x": 21.5,
+      "z": -6.5,
+      "stock": 650
+    },
+    {
+      "id": "s1-2",
+      "type": "food",
+      "x": 19.5,
+      "z": 22.5,
+      "stock": 450
+    },
+    {
+      "id": "s1-3",
+      "type": "wood",
+      "x": 19.5,
+      "z": -21.5,
+      "stock": 450
+    }
+  ],
+  "triggers": [
+    {
+      "id": "post-0",
+      "name": "North Pass",
+      "type": "capture-zone",
+      "zone": {
+        "column": 35,
+        "row": 14,
+        "width": 10,
+        "height": 8
+      },
+      "requiredUnits": 5,
+      "captureSeconds": 9,
+      "foodReward": 75,
+      "woodReward": 50,
+      "victory": true
+    },
+    {
+      "id": "post-1",
+      "name": "South Pass",
+      "type": "capture-zone",
+      "zone": {
+        "column": 35,
+        "row": 50,
+        "width": 10,
+        "height": 8
+      },
+      "requiredUnits": 5,
+      "captureSeconds": 9,
+      "foodReward": 75,
+      "woodReward": 50,
+      "victory": true
+    },
+    {
+      "id": "post-2",
+      "name": "Saddle Watch",
+      "type": "capture-zone",
+      "zone": {
+        "column": 35,
+        "row": 32,
+        "width": 10,
+        "height": 8
+      },
+      "requiredUnits": 8,
+      "captureSeconds": 12,
+      "foodReward": 0,
+      "woodReward": 0,
+      "victory": true,
+      "requiresAll": [
+        "post-0",
+        "post-1"
+      ]
+    }
+  ],
+  "victoryMode": "all",
+  "victoryHoldSeconds": 20,
+  "timedVictory": {
+    "afterSeconds": 900,
+    "objectiveId": "post-2"
+  },
+  "scenarioEvents": [
+    {
+      "id": "relief",
+      "name": "Traveling supplies",
+      "type": "timed-supply",
+      "afterSeconds": 120,
+      "team": "both",
+      "foodReward": 100,
+      "woodReward": 75
+    }
+  ],
+  "audio": {
+    "packId": "vaelora-veyrholds",
+    "profileId": "landscape",
+    "version": "v1",
+    "sha256": "a998ffa07cd81dade5c37e47a3e785664fceda6018073c1e61ace94f0eedcda9"
+  }
+}

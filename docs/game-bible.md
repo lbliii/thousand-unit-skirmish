@@ -265,3 +265,11 @@ presentation, and match-level costs/terrain/composition balance remain provision
 ### Human graphics first pass
 
 The normal game uses the Vaelora Human Worker, Infantry, Spearman and Archer sprite roster at the approved Human size/detail, plus initial Scout, Rider and Siege Engine cutouts. Mounted size and siege footprint remain provisional until live review. The latter three have distinct static idle, movement, attack and defeat poses reused across headings. First-pass action coverage takes priority over correct animation: missing headings temporarily reuse the nearest authored action sequence. Directional fidelity, smooth loops and team sash masks remain polish work. Explicit legacy preview flags still select their respective art lanes. `humanRosterPreview=0` restores the older default cast preview.
+
+## Playable regional interpretation
+
+The default roster uses multiple local battlefields inspired by Vaelora's regional
+landscapes, with Bellweather Millrace as the first match. Region palettes determine
+current ground, vegetation and everyday music; the shared human Frontier roster
+remains usable throughout. A playable map does not settle unknown inhabitants,
+exact atlas geography or divine histories. See the [map catalog](maps.md).

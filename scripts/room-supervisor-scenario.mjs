@@ -357,7 +357,7 @@ try {
   clients.push(rootAzure);
   const rootWelcome = await welcome(rootAzure);
   assert.equal(rootWelcome.player.team, 0, 'the default match should assign its first player to Azure');
-  assert.equal(rootWelcome.state.mapId, 'forked-vale');
+  assert.equal(rootWelcome.state.mapId, 'bellweather-millrace');
   assert.equal(rootWelcome.state.armySize, 24);
   assert.deepEqual(rootWelcome.state.food, [150, null]);
   assert.deepEqual(rootWelcome.state.wood, [250, null]);
@@ -399,7 +399,7 @@ try {
   clients.push(roomAzure);
   const roomWelcome = await welcome(roomAzure);
   assert.equal(roomWelcome.player.team, 0, 'the invite room should have an independent Azure seat');
-  assert.equal(roomWelcome.state.mapId, 'forked-vale');
+  assert.equal(roomWelcome.state.mapId, 'bellweather-millrace');
   assert.equal(roomWelcome.state.armySize, 24);
   assert.notEqual(roomWelcome.player.sessionToken, rootWelcome.player.sessionToken,
     'seat tokens should be scoped to the match process');
@@ -807,7 +807,7 @@ try {
     'rejected snapshots should start an explicitly new match');
   assert.equal(fallbackWelcome.player.team, 0);
   assert.equal(fallbackWelcome.player.resumed, false);
-  assert.equal(fallbackWelcome.state.mapId, 'forked-vale');
+  assert.equal(fallbackWelcome.state.mapId, 'bellweather-millrace');
   assert.equal(fallbackWelcome.state.armySize, 24);
   assert.ok(!await readFile(secondRoomCheckpointPath, 'utf8').then(() => true, () => false),
     'rejected checkpoint should be removed so subsequent restarts do not loop on it');

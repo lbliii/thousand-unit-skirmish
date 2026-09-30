@@ -178,3 +178,12 @@ Stop and Hold Position establish explicit task/route interruption and stationary
 in-range defense, with both-seat authority and checkpoint/rematch regressions.
 Continue with Patrol/Follow only as bounded additions to these semantics; use
 [the command evidence](qa-command-foundations-2026-09-30.md) as the regression floor.
+
+## Regional map roster — 30 September 2026
+
+Twelve Vaelora maps now provide playable destinations for the ten regional asset
+families and eleven audio palettes. Next proof: both-seat economy-to-watch matches
+on Bellweather Millrace and Underbough Rootways, then congestion/expansion comparison
+on channel, basin and ridge layouts. Follow with dedicated living-fringe vegetation
+and map-driven regional environment beds; preserve existing mute/ducking policy.
+See [roster and limitations](maps.md).

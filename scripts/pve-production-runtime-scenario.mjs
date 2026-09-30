@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { createDeterministicPolicy, toOpponentObservation } from '../src/pve-opponent.mjs';
 
 const mapId = process.argv[2] || 'forked-vale';
-assert.ok(['forked-vale', 'woodland-expanse'].includes(mapId));
+assert.ok(['forked-vale', 'woodland-expanse', 'bellweather-millrace', 'underbough-rootways'].includes(mapId));
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const temporary = await mkdtemp(path.join(os.tmpdir(), 'pve-production-'));
 const listener = createServer();
@@ -85,7 +85,7 @@ try {
       }
       assert.ok(run.buildingIds.size <= 1, 'at most one accepted Barracks per match');
       for (const unit of observation.units.friendly) {
-        if (unit.kind === 'infantry' && !run.initialSoldiers.has(`${unit.id}:${unit.generation}`)) run.trained.add(unit.id);
+        if (['infantry', 'spearman'].includes(unit.kind) && !run.initialSoldiers.has(`${unit.id}:${unit.generation}`)) run.trained.add(unit.id);
       }
       for (const command of run.policy.next(observation)) {
         run.commands.push({ tick: observation.tick, command });
@@ -98,10 +98,10 @@ try {
     assert.equal(run.buildingIds.size, 1);
     assert.deepEqual(run.commands.slice(0, 3).map(({ command }) => command.type), ['gather', 'gather', 'attackMove']);
     assert.ok(run.client.state.buildings.some((building) => building.team === run.team && building.complete));
-    assert.ok(run.client.messages.some((message) => message.type === 'notice' && message.message.startsWith('INFANTRY QUEUED')));
+    assert.ok(run.client.messages.some((message) => message.type === 'notice' && /^(INFANTRY|SPEARMAN) QUEUED/.test(message.message)));
     console.log(JSON.stringify({ map: mapId, team: run.team, seed: run.seed,
       buildingIds: [...run.buildingIds], trainedAndOrdered: [...run.trained],
-      production: run.commands.filter(({ command }) => ['build', 'train'].includes(command.type)) }));
+      production: run.commands.filter(({ command }) => ['build', 'train', 'trainUnit'].includes(command.type)) }));
   }
 } finally {
   for (const { socket } of clients) socket.close();
