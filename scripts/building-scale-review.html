@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Building scale review</title>
+<style>body{margin:0;padding:24px;background:#ede8dc;color:#343d32;font:15px/1.5 system-ui}main{max-width:1250px;margin:auto}h1{font-family:Georgia,serif}section{display:grid;grid-template-columns:320px 1fr;gap:24px}label{display:block;margin:12px 0}input,select,button{font:inherit;padding:7px;max-width:95%}input[type=number]{width:90px}canvas{display:block;width:100%;max-width:800px;aspect-ratio:1;background:#d3d5c5}pre{white-space:pre-wrap;font-size:12px}#status{min-height:48px}@media(max-width:750px){section{grid-template-columns:1fr}}</style>
+<script type="importmap">{"imports":{"three":"../node_modules/three/build/three.module.js","three/addons/":"../node_modules/three/examples/jsm/"}}</script>
+<main><h1>Measured building scale review</h1><p>Load a local GLB, measure its actual ground-contact base, then apply a uniform transform. The ruler is 0.8 world units tall. Camera framing stays fixed across models; source image padding and roof bounds do not define the base.</p>
+<section><div>
+<label>Local model <input id="file" type="file" accept=".glb"></label>
+<button id="town">Load Town Center pilot</button> <button id="house">Load House pilot</button>
+<button id="sample">Load existing Barracks sample</button>
+<label>Measured native base width <input id="native" type="number" min="0.001" step="0.01" placeholder="Required"></label>
+<label>Measured native base center X <input id="baseX" type="number" step="0.001" value="0"></label>
+<label>Measured native base center Z <input id="baseZ" type="number" step="0.001" value="0"></label>
+<label>Target base width (world units) <input id="target" type="number" min="0.1" step="0.1" value="4.4"></label>
+<label>Occupancy width (cells) <select id="footprint"><option value="5">5 · Town Center</option><option value="3">3 · other roster buildings</option></select></label>
+<button id="apply" disabled>Apply measured scale</button>
+<label>Camera azimuth <select id="azimuth"><option>0</option><option selected>45</option><option>90</option><option>135</option><option>180</option><option>225</option><option>270</option><option>315</option></select> degrees</label>
+<label>Fixed canvas span <select id="span"><option>5</option><option selected>8</option><option>10</option><option>12</option></select> world units</label>
+<button id="bake" disabled>Save eight Complete views</button>
+<button id="record" disabled>Download calibration record</button>
+<p id="status" role="status">Ready. All model loading and review runs locally without provider credits.</p><pre id="bounds"></pre>
+</div><div><canvas id="view" width="1024" height="1024" aria-label="Orthographic building and scale ruler"></canvas><p>46° elevation · 1024-pixel canvas · ground origin cross · occupancy outline. White ruler: Worker height reference, not replacement Worker art. Native base width must be measured from ground geometry; it is deliberately not inferred from full-model bounds.</p></div></section></main>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+const $=id=>document.getElementById(id);
+const renderer=new THREE.WebGLRenderer({canvas:$('view'),antialias:true,alpha:true,preserveDrawingBuffer:true});
+renderer.setSize(1024,1024,false); renderer.outputColorSpace=THREE.SRGBColorSpace;
+const scene=new THREE.Scene();
+scene.add(new THREE.HemisphereLight(0xfff4dc,0x53634b,2));
+const key=new THREE.DirectionalLight(0xffefd6,2.4); key.position.set(-4,8,5);scene.add(key);
+const camera=new THREE.OrthographicCamera(-4,4,4,-4,0.01,100);
+const root=new THREE.Group();scene.add(root);
+const grid=new THREE.GridHelper(14,14,0x80917c,0xb1baa6);scene.add(grid);
+const outline=new THREE.LineLoop(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:0x537da0}));scene.add(outline);
+const axes=new THREE.AxesHelper(0.55);axes.position.y=.02;scene.add(axes);
+const ruler=new THREE.Group(); const rulerMaterial=new THREE.MeshBasicMaterial({color:0xffffff});
+const stem=new THREE.Mesh(new THREE.CylinderGeometry(.025,.025,.8,6),rulerMaterial);stem.position.y=.4;ruler.add(stem);
+for(const y of [0,.4,.8]){const mark=new THREE.Mesh(new THREE.BoxGeometry(.18,.015,.02),rulerMaterial);mark.position.y=y;ruler.add(mark);}scene.add(ruler);
+let model=null, source=null, nativeBounds=null, calibration=null;
+function render(){
+ const span=Number($('span').value),az=THREE.MathUtils.degToRad(Number($('azimuth').value)),el=THREE.MathUtils.degToRad(46);
+ camera.left=-span/2;camera.right=span/2;camera.top=span/2;camera.bottom=-span/2;
+ const aim=new THREE.Vector3(0,span*.19,0);camera.position.set(Math.sin(az)*20*Math.cos(el),20*Math.sin(el),Math.cos(az)*20*Math.cos(el)).add(aim);camera.lookAt(aim);camera.updateProjectionMatrix();
+ const half=Number($('footprint').value)/2;
+ outline.geometry.dispose();outline.geometry=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-half,.03,-half),new THREE.Vector3(half,.03,-half),new THREE.Vector3(half,.03,half),new THREE.Vector3(-half,.03,half)]);
+ ruler.position.set(half+.5,0,0);renderer.render(scene,camera);
+}
+function disposeModel(object){object.traverse(child=>{if(child.isMesh){child.geometry?.dispose();for(const m of (Array.isArray(child.material)?child.material:[child.material])){for(const v of Object.values(m))if(v?.isTexture)v.dispose();m.dispose();}}});}
+function install(gltf,name){
+ if(model){root.remove(model);disposeModel(model);} model=gltf.scene;root.add(model);source=name;calibration=null;
+ root.scale.setScalar(1);model.position.set(0,0,0);root.updateMatrixWorld(true);
+ const box=new THREE.Box3().setFromObject(model),center=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());
+ nativeBounds={min:box.min.toArray(),max:box.max.toArray(),size:size.toArray()};
+ model.position.set(-center.x,-box.min.y,-center.z);
+ $('bounds').textContent=JSON.stringify({source,nativeBounds,originConvention:'horizontal full-envelope center; lowest model point grounded. Verify against actual base before adoption.'},null,2);
+ $('native').value='';$('apply').disabled=false;$('record').disabled=true;$('bake').disabled=true;
+ $('status').textContent='Model loaded at native scale. Measure ground-contact base width before applying target scale. Roof/pennant bounds are shown only for inspection.';render();
+}
+const loader=new GLTFLoader();
+$('sample').onclick=async()=>{try{install(await loader.loadAsync('../assets/units-buildings/frontier-glb-sample-v2/models/barracks.glb'),'existing-barracks-sample');}catch(error){$('status').textContent=error.message;}};
+for(const id of ['town-center','house'])$(id==='town-center'?'town':'house').onclick=async()=>{try{install(await loader.loadAsync('../assets/buildings/frontier-civilization-scale-pilot-v1/meshy_output/'+id+'.glb'),id);}catch(error){$('status').textContent=error.message;}};
+$('file').onchange=async()=>{const file=$('file').files[0];if(!file)return;try{const gltf=await loader.parseAsync(await file.arrayBuffer(),'');install(gltf,file.name);}catch(error){$('status').textContent='Load failed: '+error.message;}};
+$('apply').onclick=()=>{
+ const native=Number($('native').value),target=Number($('target').value);
+ if(!model||!Number.isFinite(native)||native<=0||!Number.isFinite(target)||target<=0){$('status').textContent='Enter positive measured native and target base widths.';return;}
+ const baseX=Number($('baseX').value),baseZ=Number($('baseZ').value);
+ if(!Number.isFinite(baseX)||!Number.isFinite(baseZ)){$('status').textContent='Enter finite native base center coordinates.';return;}
+ model.position.x=-baseX;model.position.z=-baseZ;
+ const factor=target/native;root.scale.setScalar(factor);root.updateMatrixWorld(true);
+ calibration={source,measuredNativeBaseWidth:native,targetBaseWidthWorldUnits:target,uniformScale:factor,groundingTranslationNative:model.position.toArray(),nativeBounds,measuredBaseCenterNativeXZ:[baseX,baseZ],occupancyCells:Number($('footprint').value),status:'manual-base-calibration; measured base-center origin'};
+ $('status').textContent=`Applied uniform scale ${factor.toFixed(4)}. Door and roof height remain proportional; compare doors against the 0.8-unit ruler.`;
+ $('record').disabled=false;$('bake').disabled=!['town-center','house'].includes(source);render();
+};
+for(const id of ['azimuth','span','footprint'])$(id).onchange=render;
+$('bake').onclick=async()=>{
+ if(!calibration||!['town-center','house'].includes(source))return;
+ $('bake').disabled=true;const initial=$('azimuth').value;
+ for(const object of [grid,outline,axes,ruler])object.visible=false;
+ try{
+  for(let view=0;view<8;view++){
+   $('azimuth').value=String(view*45);render();
+   const origin=new THREE.Vector3();root.getWorldPosition(origin);origin.project(camera);
+   const record={...calibration,camera:{projection:'orthographic',elevationDegrees:46,azimuthDegrees:view*45,canvasPixels:[1024,1024],canvasWorldUnits:Number($('span').value),pixelsPerWorldUnit:1024/Number($('span').value),groundOriginPixelFromTopLeft:[(origin.x+1)*512,(1-origin.y)*512]},lighting:{hemisphere:['#fff4dc','#53634b',2],keyColor:'#ffefd6',keyIntensity:2.4,keyPosition:[-4,8,5]}};
+   const response=await fetch('/capture-building-view',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({asset:source,view,png:renderer.domElement.toDataURL('image/png'),calibration:record})});
+   if(!response.ok)throw new Error(await response.text());
+   $('status').textContent=`Saved ${source} Complete view ${view+1}/8.`;
+  }
+  $('status').textContent=`Saved all eight ${source} Complete captures with fixed scale, projected ground pivot and frame hashes.`;
+ }catch(error){$('status').textContent='Capture failed: '+error.message;}
+ finally{for(const object of [grid,outline,axes,ruler])object.visible=true;$('azimuth').value=initial;render();$('bake').disabled=false;}
+};
+$('record').onclick=()=>{
+ if(!calibration)return;const origin=new THREE.Vector3();root.getWorldPosition(origin);origin.project(camera);
+ const record={...calibration,camera:{projection:'orthographic',elevationDegrees:46,azimuthDegrees:Number($('azimuth').value),canvasPixels:[1024,1024],canvasWorldUnits:Number($('span').value),pixelsPerWorldUnit:1024/Number($('span').value),groundOriginPixelFromTopLeft:[(origin.x+1)*512,(1-origin.y)*512]}};
+ const url=URL.createObjectURL(new Blob([JSON.stringify(record,null,2)+'\n'],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='building-calibration.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+render();
+</script>
+</html>

@@ -63,3 +63,11 @@ The renderings depict Complete only, from one illustrative view. Existing game a
 **Sources:** selected Bellweather map/ecology and art contract; current building definitions at main `f896d09`; newly generated images using the built-in image-generation tool. Exact prompts, source outputs and hashes are retained in the [concept pack](../../assets/buildings/frontier-civilization-concepts-v1/README.md). The [style guide](../frontier-civilization-art-style.md) records architectural, scale and team-treatment decisions. This is new working visual development, not a quotation from private source stories.
 
 [Wiki index](README.md) · [Bellweather](regions/bellweather.md) · [Peoples and cultures](peoples.md)
+
+## Controlled Town Center and House views
+
+The first model pilot renders these two buildings at the same world scale. Town Center spans 4.4 units across its measured base, compared with 2.3 for House. The shared camera preserves that relationship across eight views per building.
+
+![Controlled Town Center and House scale gallery](../../assets/buildings/frontier-civilization-scale-pilot-v1/scale-gallery-review.png)
+
+[Explore the eight-view gallery](../../assets/buildings/frontier-civilization-scale-pilot-v1/preview.html). These are Complete source captures; active game art, lifecycle states and team treatment still require integration.

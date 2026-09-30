@@ -1,0 +1,69 @@
+{
+  "source": "town-center",
+  "measuredNativeBaseWidth": 1.866894006729126,
+  "targetBaseWidthWorldUnits": 4.4,
+  "uniformScale": 2.3568558172774785,
+  "groundingTranslationNative": [
+    0.018453001976013184,
+    0.8103489875793457,
+    0.0013000071048736572
+  ],
+  "nativeBounds": {
+    "min": [
+      -0.9519000053405762,
+      -0.8103489875793457,
+      -0.9012410044670105
+    ],
+    "max": [
+      0.9149940013885498,
+      0.7998669743537903,
+      0.8986409902572632
+    ],
+    "size": [
+      1.866894006729126,
+      1.610215961933136,
+      1.7998819947242737
+    ]
+  },
+  "measuredBaseCenterNativeXZ": [
+    -0.018453001976013184,
+    -0.0013000071048736572
+  ],
+  "occupancyCells": 5,
+  "status": "manual-base-calibration; measured base-center origin",
+  "camera": {
+    "projection": "orthographic",
+    "elevationDegrees": 46,
+    "azimuthDegrees": 135,
+    "canvasPixels": [
+      1024,
+      1024
+    ],
+    "canvasWorldUnits": 8,
+    "pixelsPerWorldUnit": 128,
+    "groundOriginPixelFromTopLeft": [
+      511.9999999999999,
+      647.1527325565027
+    ]
+  },
+  "lighting": {
+    "hemisphere": [
+      "#fff4dc",
+      "#53634b",
+      2
+    ],
+    "keyColor": "#ffefd6",
+    "keyIntensity": 2.4,
+    "keyPosition": [
+      -4,
+      8,
+      5
+    ]
+  },
+  "asset": "town-center",
+  "state": "complete",
+  "viewIndex": 3,
+  "file": "town-center-complete-view-03.png",
+  "sha256": "c53ba897c21c7e20ca24dd780bf853e0c470e01a09c1a3d2437a11a9e5f9d9da",
+  "bytes": 687189
+}

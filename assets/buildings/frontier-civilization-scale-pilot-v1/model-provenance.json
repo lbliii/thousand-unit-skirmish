@@ -1,0 +1,40 @@
+{
+  "schema": "thousand-unit-skirmish.building-model-pilot.v1",
+  "date": "2026-09-30",
+  "approvedCreditsEstimate": 60,
+  "consumedCreditsTotal": 60,
+  "entries": [
+    {
+      "id": "town-center",
+      "resource": "image-to-3d",
+      "taskId": "01a0f31c-cd41-7568-a45e-db9a04a63497",
+      "status": "SUCCEEDED",
+      "consumedCredits": 30,
+      "sourceModelPath": "meshy_output/town-center.glb",
+      "sourceModelSha256": "c86e1e55223df8b26c8060622ea3bbd2fb49e78ae576417734bd8eb6a30c6faa",
+      "sourceModelBytes": 129781816,
+      "triangles": 3498950,
+      "taskProject": "meshy_output/20260930_121947_town-center_01a0f31c",
+      "preview": "town-center-preview/thumbnail.png",
+      "previewSha256": "1fa3ca98bfc5257917c5ba2516ebd5569e4407f04d8b4fc98f9fdda1e2515e02",
+      "measurement": "town-center-measurement.json",
+      "runtimeIntegrated": false
+    },
+    {
+      "id": "house",
+      "resource": "image-to-3d",
+      "taskId": "01a0f31d-7e92-7365-a8b0-454b5d4be422",
+      "status": "SUCCEEDED",
+      "consumedCredits": 30,
+      "sourceModelPath": "meshy_output/house.glb",
+      "sourceModelSha256": "235fd3be4424165e5ae9b4447425881c00502d2c120cf068a555f118a3b3ad27",
+      "sourceModelBytes": 86543008,
+      "triangles": 2068938,
+      "taskProject": "meshy_output/20260930_122056_house_01a0f31d",
+      "preview": "house-preview/thumbnail.png",
+      "previewSha256": "bbec106874d65fcdb2a74c8522adabc8e8b1afb1d7f8a875c2e8fd3a3cb51263",
+      "measurement": "house-measurement.json",
+      "runtimeIntegrated": false
+    }
+  ]
+}

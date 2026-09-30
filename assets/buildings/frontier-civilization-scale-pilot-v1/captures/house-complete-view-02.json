@@ -1,0 +1,69 @@
+{
+  "source": "house",
+  "measuredNativeBaseWidth": 1.4238219857215881,
+  "targetBaseWidthWorldUnits": 2.3,
+  "uniformScale": 1.6153704768327255,
+  "groundingTranslationNative": [
+    -0.022017985582351685,
+    0.8811630010604858,
+    0.03766798973083496
+  ],
+  "nativeBounds": {
+    "min": [
+      -0.7470449805259705,
+      -0.8811630010604858,
+      -0.9519799947738647
+    ],
+    "max": [
+      0.7473679780960083,
+      0.8825389742851257,
+      0.951541006565094
+    ],
+    "size": [
+      1.4944129586219788,
+      1.7637019753456116,
+      1.9035210013389587
+    ]
+  },
+  "measuredBaseCenterNativeXZ": [
+    0.022017985582351685,
+    -0.03766798973083496
+  ],
+  "occupancyCells": 3,
+  "status": "manual-base-calibration; measured base-center origin",
+  "camera": {
+    "projection": "orthographic",
+    "elevationDegrees": 46,
+    "azimuthDegrees": 90,
+    "canvasPixels": [
+      1024,
+      1024
+    ],
+    "canvasWorldUnits": 8,
+    "pixelsPerWorldUnit": 128,
+    "groundOriginPixelFromTopLeft": [
+      512.0000000000001,
+      647.1527325565025
+    ]
+  },
+  "lighting": {
+    "hemisphere": [
+      "#fff4dc",
+      "#53634b",
+      2
+    ],
+    "keyColor": "#ffefd6",
+    "keyIntensity": 2.4,
+    "keyPosition": [
+      -4,
+      8,
+      5
+    ]
+  },
+  "asset": "house",
+  "state": "complete",
+  "viewIndex": 2,
+  "file": "house-complete-view-02.png",
+  "sha256": "a60126a019dbff8cc3ee49e21fc4e255ab7f595a5a09338fe5bb778b7ca09dd2",
+  "bytes": 297169
+}
