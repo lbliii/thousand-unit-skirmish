@@ -160,7 +160,7 @@ const scenarios = [
   ['scripts/forked-vale-scenario.mjs', 'Forked Vale economy-to-victory (Team 1)', '1'],
   ['scripts/forked-vale-layout.mjs', 'Forked Vale layout'],
   ['scripts/fortified-crossing-layout.mjs', 'Fortified Crossing layout'],
-  ['scripts/fortified-crossing-economy.mjs', 'Fortified Crossing paid economy and recovery'],
+  ['scripts/fortified-crossing-combined.mjs', 'Fortified Crossing combined economy, orders, events, result and recovery', '0'],
   ['scripts/frontier-160-layout.mjs', 'Frontier 160 layout'],
   ['scripts/generate-highland-grove.mjs', 'Highland Grove playable layout', '--check'],
   ['scripts/three-crowns-layout.mjs', 'Three Crowns layout'],

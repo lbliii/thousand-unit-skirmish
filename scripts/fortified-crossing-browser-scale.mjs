@@ -28,7 +28,7 @@ for(const size of sizes){
     for(const team of [0,1]){const browser=await createFortifiedBrowser();browsers.push(browser);const page=await browser.page(origin,{beforeScript:instrumentation});pages.push(page);await page.wait(`window.__fortifiedProbe?.welcome?.player.team===${team}&&document.documentElement.dataset.boot==='ready'`,'player boot');await page.cdp.call('Input.dispatchMouseEvent',{type:'mousePressed',x:20,y:20,button:'left',buttons:1,clickCount:1});await page.cdp.call('Input.dispatchMouseEvent',{type:'mouseReleased',x:20,y:20,button:'left',clickCount:1});}
     async function state(team){return pages[team].cdp.evaluate('window.__fortifiedProbe.state');}
     async function send(team,command,label=/ORDER/){const orderToken=token++;const issued=await pages[team].cdp.evaluate(`(() => {const at=performance.now();window.__fortifiedProbe.socket.send(JSON.stringify(${JSON.stringify({...command,clientOrderToken:orderToken})}));return at;})()`);const message=await pages[team].wait(`window.__fortifiedProbe.notices.find(n=>n.token===${orderToken}&&(new RegExp(${JSON.stringify(label.source)},${JSON.stringify(label.flags)}).test(n.message)||/REJECTED|FAILED|MATCH OVER/.test(n.message)))`,'applied order',120000);assert.ok(label.test(message.message),message.message);return message.receivedAt-issued;}
-    const scaled=structuredClone(map);scaled.id=`fortified-browser-scale-${size}`;scaled.startingArmySize=size-2;
+    const scaled=structuredClone(map);scaled.id=`fortified-browser-scale-${size}`;scaled.startingArmySize=size-4;
     await pages[0].cdp.evaluate(`window.__fortifiedProbe.socket.send(JSON.stringify({type:'publishMap',map:${JSON.stringify(scaled)}}))`);
     await Promise.all(pages.map(p=>p.wait(`window.__fortifiedProbe.state?.mapId===${JSON.stringify(scaled.id)}`,'scaled map')));
     stage='economy, execution audio and completion warmup';
@@ -42,7 +42,11 @@ for(const size of sizes){
       await page.wait(`window.__fortifiedProbe.state.scenarioEvents.find(e=>e.id==='research-relief-${team}')?.fired`,'research relief',120000);
       await page.wait("document.querySelector('#audio-pack-status').textContent.toLowerCase().includes('ready')",'shipped profile ready');
     }));
-    assert.equal((await fixture.health()).armySize,size,'Scout relief produces exact measured total');
+    stage='forward movement and completed supply-chain warmup';
+    await Promise.all(pages.map(async(page,team)=>{const s=await state(team),army=s.units.filter(u=>u[1]===team&&u[4]>0&&u[5]==='infantry');await send(team,{type:'move',ids:army.map(u=>u[0]),unitGenerations:army.map(u=>u[8]),x:team?6.5:-6.5,z:.5},/MOVE ORDER/);await page.wait(`window.__fortifiedProbe.state.scenarioEvents.find(e=>e.id==='field-relief-${team}')?.fired`,'joined field relief',120000);}));
+    const measuredTotal=(await state(0)).alive[0]+(await state(1)).alive[1];
+    assert.equal(measuredTotal,size,'Scout and field relief produce exact measured total');
+    for(const page of pages)await page.cdp.evaluate("document.querySelector('#camera-home-base').click()");
     for(const page of pages)await page.cdp.evaluate('window.__fortifiedProbe.begin()');
     const started=performance.now(),samples=[],orderDelays=[],inspectors=[[],[]];let next=0;
     stage='combined movement, combat, persistent intent and audio';
@@ -63,13 +67,13 @@ for(const size of sizes){
     }
     const render=[];for(const [team,page] of pages.entries()){
       const r=await page.cdp.evaluate('(() => {const p=window.__fortifiedProbe;p.measuring=false;return {frames:p.frames,callbacks:p.callbacks,longTasks:p.longTasks,longTasksSupported:p.longTasksSupported,audioStarts:p.audioStarts,audioStops:p.audioStops,alive:p.state.alive,armySize:p.state.armySize,visibleUnits:p.state.units.length};})()');
-      const decisions=inspectors[team].flatMap(i=>i.decisions);assert.ok(decisions.some(d=>d.cue==='work'&&d.outcome==='sample scheduled'),'observed work feedback participates');assert.ok(r.audioStarts>0,'native buffer playback participates');assert.ok(r.frames.length>0);assert.equal(page.errors.length,0);
+      const decisions=inspectors[team].flatMap(i=>i.decisions);assert.ok(decisions.some(d=>d.cue==='work'&&d.outcome==='sample scheduled'),`observed work feedback participates; decisions=${JSON.stringify(decisions.slice(-12))}`);assert.ok(r.audioStarts>0,'native buffer playback participates');assert.ok(r.frames.length>0);assert.equal(page.errors.length,0);
       render.push({team,frameIntervalMs:quantiles(r.frames),allRafCallbackCpuMs:quantiles(r.callbacks),longTasks:quantiles(r.longTasks),longTasksSupported:r.longTasksSupported,audioStarts:r.audioStarts,audioStops:r.audioStops,peakSamples:Math.max(...inspectors[team].map(i=>i.activeSamples)),peakWork:Math.max(...inspectors[team].map(i=>i.activeWork)),decodedBytes:Math.max(...inspectors[team].map(i=>i.decodedBytes)),workDecisionsObserved:true,alive:r.alive,armySize:r.armySize,visibleUnits:r.visibleUnits});
     }
     stage='browser seat recovery';const saved=await fixture.checkpoint();await fixture.stop();const restart=performance.now();await fixture.start();
     await Promise.all(pages.map((p,t)=>p.wait(`window.__fortifiedProbe.welcome?.recoveredFromCheckpoint===true&&window.__fortifiedProbe.welcome.player.team===${t}`,'browser seat recovery',30000)));
     const after=await fixture.checkpoint();assert.ok(after.state.matchElapsedSeconds>=saved.state.matchElapsedSeconds);
-    results.push({size,startingArmySize:scaled.startingArmySize,durationSeconds:duration,healthSamples:samples.length,appliedNoticeMs:quantiles(orderDelays),recoveryMs:performance.now()-restart,render,tickTiming:samples.at(-1).tickTiming,movePlanning:samples.at(-1).movePlanning,transport:samples.at(-1).transport,checkpoint:samples.at(-1).checkpoint,browser:browsers.map(b=>b.version.product)});
+    results.push({size,measuredTotal,startingArmySize:scaled.startingArmySize,durationSeconds:duration,healthSamples:samples.length,appliedNoticeMs:quantiles(orderDelays),recoveryMs:performance.now()-restart,render,tickTiming:samples.at(-1).tickTiming,movePlanning:samples.at(-1).movePlanning,transport:samples.at(-1).transport,checkpoint:samples.at(-1).checkpoint,browser:browsers.map(b=>b.version.product)});
     console.error(`Combined browser scale ${size}: ${samples.length} health samples, two rendered seats, audio and recovery passed`);
   }catch(error){throw new Error(`${size} ${stage}: ${error.message}`,{cause:error});}
   finally{for(const browser of browsers)await browser.dispose();await fixture.dispose();}

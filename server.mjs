@@ -975,7 +975,13 @@ function tickTimingPayload() {
       lastOverloadSkippedSlots,
       lastOverloadTick,
     },
-    ...(tickDiagnosticSamples ? { slowestTick } : {}),
+    ...(tickDiagnosticSamples ? { slowestTick, scenarioTiming: (() => {
+      const values = Array.from({ length: count }, (_, index) =>
+        tickDiagnosticSamples[(base + index) % TICK_SAMPLE_WINDOW])
+        .filter(sample => sample?.scenarioEvaluated).map(sample => sample.scenarioMs).sort((a, b) => a - b);
+      const at = q => values.length ? values[Math.max(0, Math.ceil(values.length * q) - 1)] : null;
+      return { sampleCount: values.length, p50Ms: at(.5), p95Ms: at(.95), maxMs: at(1) };
+    })() } : {}),
   };
 }
 
@@ -7292,10 +7298,16 @@ function runSimulationTick() {
   const moveStartBroadcastRequested = takeMoveStartBroadcastRequest();
   const afterSimulation = tickDiagnosticSamples ? performance.now() : null;
   let afterVision = afterSimulation;
-  if (tickNumber % STATE_EVERY_TICKS === 0) {
+  let scenarioMs = 0;
+  const scenarioEvaluated = tickNumber % STATE_EVERY_TICKS === 0;
+  if (scenarioEvaluated) {
     updateVisionMasks();
+    const scenarioStartedAt = tickDiagnosticSamples ? performance.now() : null;
     evaluateScenarioTriggers(STATE_EVERY_TICKS * STEP_SECONDS);
-    if (tickDiagnosticSamples) afterVision = performance.now();
+    if (tickDiagnosticSamples) {
+      afterVision = performance.now();
+      scenarioMs = afterVision - scenarioStartedAt;
+    }
     if (dirty) broadcastState();
   } else if (moveStartBroadcastRequested && dirty) {
     updateVisionMasks();
@@ -7314,7 +7326,8 @@ function runSimulationTick() {
       durationMs: Number(durationMs.toFixed(3)),
       cpuMs: Number(((cpu.user + cpu.system) / 1000).toFixed(3)),
       simulationMs: Number((afterSimulation - tickStartedAt).toFixed(3)),
-      visionMs: Number((afterVision - afterSimulation).toFixed(3)),
+      visionMs: Number((afterVision - afterSimulation - scenarioMs).toFixed(3)),
+      scenarioMs: Number(scenarioMs.toFixed(3)), scenarioEvaluated,
       broadcastMs: Number((afterBroadcast - afterVision).toFixed(3)),
       checkpointMs: Number((tickEndedAt - afterBroadcast).toFixed(3)),
     };
