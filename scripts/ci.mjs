@@ -106,6 +106,7 @@ const scenarios = [
   ['scripts/audio-runtime-scenario.mjs', 'Audio profile routing and settings migration'],
   ['scripts/audio-runtime-playback-scenario.mjs', 'Sampled audio playback and fallback'],
   ['scripts/audio-composition-player-scenario.mjs', 'Audio composition clock and cancellation'],
+  ['scripts/audio-lifecycle-scenario.mjs', 'Unit audio lifecycle'],
   ['scripts/audio-policy-scenario.mjs', 'Audio policy'],
   ['scripts/audio-recognition-check-scenario.mjs', 'Audio recognition check'],
   ['scripts/map-utils-scenario.mjs', 'Map utilities'],

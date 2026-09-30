@@ -52,7 +52,7 @@ import {
 } from './map-studio-viewport.mjs';
 import { classifyOrderNotice } from './order-feedback.mjs';
 import { AMBIENCE_PREVIEW_DURATION_MS, createGameAudio } from './audio.mjs';
-import { CombatAudioGate, cueForNotice, cueForScenarioEvent, isLocalRejection } from './audio-policy.mjs';
+import { CombatAudioGate, UnitLifecycleAudioGate, cueForNotice, cueForScenarioEvent, isLocalRejection } from './audio-policy.mjs';
 import {
   AUDIO_RECOGNITION_CUE_LABELS, AUDIO_RECOGNITION_UNSURE_ANSWER,
   copyAudioRecognitionText, createAudioRecognitionRound,
@@ -386,6 +386,7 @@ const audio = createGameAudio({
   },
 });
 const combatAudioGate = new CombatAudioGate();
+const unitLifecycleAudioGate = new UnitLifecycleAudioGate();
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x859175);
@@ -1436,7 +1437,6 @@ function reconcileBuildings(buildings = [], initial = false) {
   const previousBuildings = new Map(latestBuildings.map((building) => [building.id, building]));
   let buildingDamage = 0;
   let finishedFriendlyConstruction = false;
-  let finishedFriendlyProduction = false;
   const priorSelectedRallyCell = latestBuildings.find((building) => building.id === selectedBuildingId)?.rallyCell ?? -1;
   if (selectedBuildingId !== null && !rows.some((building) => building.id === selectedBuildingId
     && building.team === localTeam)) selectedBuildingId = null;
@@ -1446,7 +1446,6 @@ function reconcileBuildings(buildings = [], initial = false) {
     if (previous && building.team === localTeam) {
       if (Number.isFinite(previous.hp) && Number.isFinite(building.hp) && building.hp < previous.hp) buildingDamage++;
       if (previous.complete !== true && building.complete === true) finishedFriendlyConstruction = true;
-      if (getBuildingQueueLength(previous) > getBuildingQueueLength(building)) finishedFriendlyProduction = true;
     }
     seen.add(building.id);
     let visual = buildingVisuals.get(building.id);
@@ -1475,7 +1474,7 @@ function reconcileBuildings(buildings = [], initial = false) {
   }
   latestBuildings = rows;
   if (!initial && finishedFriendlyConstruction) audio.playEvent({ cue: 'building-complete' });
-  if (!initial && finishedFriendlyProduction) audio.playEvent({ cue: 'complete' });
+  // Unit births, rather than queue decreases/cancellations, emit ready feedback.
   const selectedBuilding = rows.find((building) => building.id === selectedBuildingId
     && building.team === localTeam) || null;
   if (priorSelectedBuildingId !== selectedBuildingId
@@ -4079,6 +4078,7 @@ function applyState(state, initial = false) {
   // A same-size rematch drops trained units too. Rebuild render slots and local
   // selection before applying its authoritative roster, including on reconnect.
   if (state.armySize && (state.armySize !== currentArmySize || matchRestarted)) setArmySize(state.armySize);
+  for (const event of unitLifecycleAudioGate.observe({ units: state.units, tick: state.tick, localTeam, reset: audioReset })) audio.playEvent(event);
   let changed = false;
   let controlGroupsChanged = false;
   let friendlyDamage = 0;
@@ -4397,8 +4397,7 @@ function updateEconomyUI(state = {}, initial = false) {
   if (Array.isArray(state.food)) latestFood = [Number(state.food[0]) || 0, Number(state.food[1]) || 0];
   if (Array.isArray(state.wood)) latestWood = [Number(state.wood[0]) || 0, Number(state.wood[1]) || 0];
   if (Array.isArray(state.workerProduction)) {
-    if (!initial && localTeam !== null && Number.isFinite(latestWorkerProduction[localTeam]?.queue)
-      && Number(state.workerProduction[localTeam]?.queue) < latestWorkerProduction[localTeam].queue) audio.playEvent({ cue: 'complete' });
+
     latestWorkerProduction = [state.workerProduction[0] || null, state.workerProduction[1] || null];
   }
   if (Array.isArray(state.teamResearch)) {
@@ -6656,7 +6655,7 @@ function applyOrderNotice(token, message) {
 function sendTrackedOrder(command, label, count, unitName = 'UNITS') {
   const token = beginOrderStatus(label, count, unitName);
   if (sendCommand({ ...command, clientOrderToken: token })) {
-    audio.playEvent({ cue: command.type === 'build' ? 'build'
+    audio.playEvent({ cue: command.type === 'stop' ? 'stop' : command.type === 'holdPosition' ? 'hold' : command.type === 'build' ? 'build'
       : command.type === 'gather' ? 'gather'
         : command.type === 'attack' || command.type === 'attackBuilding' || command.type === 'attackMove'
           ? 'attack' : 'move', kind: units[command.ids?.[0]]?.kind,
@@ -6690,6 +6689,7 @@ function sendCommand(command) {
     return false;
   }
   socket.send(serialized);
+  if (command.type === 'repairBuilding') audio.playEvent({ cue: 'repair', kind: units[command.ids?.[0]]?.kind });
   return true;
 }
 
@@ -7874,6 +7874,8 @@ window.addEventListener('keydown', (event) => {
 }, true);
 
 const AUDIO_CAPTIONS = Object.freeze({
+  ready: 'UNIT READY',
+  death: 'UNIT LOST',
   complete: 'UNIT READY',
   'building-complete': 'BUILDING COMPLETE',
   'research-complete': 'RESEARCH COMPLETE',
@@ -9013,7 +9015,7 @@ function connectSocket() {
       if (feedback.applyOrderStatus) applyOrderNotice(noticeToken, notice);
       if (feedback.showToast) {
         const cue = cueForNotice(notice, { localTeam, tokenized: noticeToken !== null });
-        if (cue) audio.playEvent({ cue });
+        if (cue && !notice.endsWith(' READY')) audio.playEvent({ cue });
       }
       if (notice.startsWith('BUILD REJECTED ·')) {
         if (feedback.clearPendingBuild) {

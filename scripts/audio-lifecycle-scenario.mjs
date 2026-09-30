@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import { UnitLifecycleAudioGate } from '../src/audio-policy.mjs';
+import { bindingKeysForEvent } from '../src/audio-event-profile.mjs';
+const gate = new UnitLifecycleAudioGate();
+const row = (id, hp, generation = 0, team = 0) => [id, team, 0, 0, hp, 'worker', 0, null, generation];
+const observe = (tick, units, options = {}) => gate.observe({ tick, units, localTeam: 0, ...options });
+assert.deepEqual(observe(1, [row(1, 100)], { reset: true }), []);
+assert.deepEqual(observe(2, [row(1, 0), row(2, 100), row(3, 100), row(4, 0, 0, 1)]), [{ cue: 'death', kind: 'worker' }, { cue: 'ready', kind: 'worker' }]);
+assert.deepEqual(observe(2, [row(1, 0)]), []);
+assert.deepEqual(observe(1, [row(1, 100)]), []);
+assert.deepEqual(observe(3, [row(1, 100, 1)]), [{ cue: 'ready', kind: 'worker' }]);
+assert.deepEqual(observe(4, []), [], 'absence is never death');
+assert.deepEqual(observe(0, [row(1, 100)], { reset: true }), [], 'reconnect/rematch baselines are silent');
+assert.deepEqual(observe(1, [row(1, 0)], { localTeam: null }), [], 'spectator does not receive local lifecycle cues');
+assert.deepEqual(bindingKeysForEvent({ cue: 'ready', kind: 'scout' }), ['unit.scout.ready', 'cue.ready', 'cue.complete']);
+assert.deepEqual(bindingKeysForEvent({ cue: 'gather', kind: 'worker', resource: 'food' }), ['unit.worker.gather.food', 'unit.worker.gather', 'cue.gather']);
+console.log('Audio lifecycle scenario passed.');

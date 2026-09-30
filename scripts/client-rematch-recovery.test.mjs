@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
+import { UnitLifecycleAudioGate } from '../src/audio-policy.mjs';
 
 const source = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
 const declaration = (name, next) => source.slice(source.indexOf(`function ${name}(`), source.indexOf(`\nfunction ${next}(`));
@@ -10,7 +11,7 @@ const map = { id: 'forked-vale', fogOfWar: true, obstacles: [], triggers: [], sc
   spawnPoints: [{team: 0, x: -18, z: 0}, {team: 1, x: 18, z: 0}] };
 const row = (id, team, generation = 1) => [id, team, team ? 18 : -18, 0, 100, 'worker', 0, null, generation, 'idle', 0];
 function snapshot(team, { winner = -1, elapsed = 0, trained = false, generation = 1 } = {}) {
-  return { type: 'state', mapId: map.id, armySize: 24, matchElapsedSeconds: elapsed, winner,
+  return { type: 'state', tick: Math.round(elapsed * 10), mapId: map.id, armySize: 24, matchElapsedSeconds: elapsed, winner,
     winnerReason: winner < 0 ? null : 'elimination', fogOfWar: true, connected: 2,
     units: [...Array.from({ length: 12 }, (_, slot) => row(team * 12 + slot, team, generation)),
       ...(trained ? [row(24, team, generation)] : [])] };
@@ -47,7 +48,7 @@ function fixture(team) {
     lastFriendlyUnitClick:null,lastUnitPickState:null, currentOrderToken:null, orderStatusTimeout:null,reconnectDelayMs:500,
     ui:{total:element('total'),orderStatus:element('orders'),mapStudio:{open:false},
       playerTeam:element('player-team'),mapSelect:element('map-select'),mapStudioOpen:element('studio-open')},
-    audio:{play:noop,playEvent:noop},combatAudioGate:{reset:noop,observe:noop},
+    audio:{play:noop,playEvent:noop},combatAudioGate:{reset:noop,observe:noop},unitLifecycleAudioGate:new UnitLifecycleAudioGate(),
     setUnitInstanceCount:(side,count) => {counts[side] = count;},
     setUnitTint:noop,updateUnitTransform:noop,updateUnitCargoCueColor:noop,
     markUnitInstanceMatricesDirty:noop,flushUnitCargoPackColor:noop,

@@ -1,6 +1,8 @@
 import { MAX_SOURCE_BYTES, validateAudioPack } from './audio-assets.mjs';
 
 const EVENT_KEYS = [
+  'unit.worker.ready', 'unit.worker.death', 'unit.worker.repair', 'unit.infantry.ready', 'unit.infantry.death',
+  'unit.archer.ready', 'unit.archer.death', 'cue.stop', 'cue.hold', 'cue.ready', 'cue.death', 'cue.repair',
   'unit.worker.select', 'unit.worker.gather.wood', 'unit.worker.gather.food', 'unit.worker.move',
   'building.town-center.select', 'building.barracks.select', 'building.archery-range.select',
   'cue.select', 'cue.move', 'cue.attack', 'cue.build', 'cue.victory', 'cue.defeat',

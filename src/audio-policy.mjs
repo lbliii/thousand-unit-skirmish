@@ -65,3 +65,31 @@ export class CombatAudioGate {
     return null;
   }
 }
+
+// Only authoritative local rows can produce lifecycle feedback. Absence is fog,
+// not death. Each snapshot emits at most one representative per cue.
+export class UnitLifecycleAudioGate {
+  constructor() { this.reset(); }
+  reset() { this.units = new Map(); this.tick = -1; }
+  observe({ units = [], tick, localTeam, reset = false } = {}) {
+    if (reset) this.reset();
+    if (!Number.isSafeInteger(tick) || tick <= this.tick) return [];
+    this.tick = tick;
+    const events = new Map();
+    const next = new Map();
+    for (const row of units) {
+      const [id, team, , , hp, kind, , , generation = 0] = row;
+      if (team !== localTeam || ![0, 1].includes(localTeam)) continue;
+      const previous = this.units.get(id);
+      next.set(id, { generation, hp });
+      if (reset) continue;
+      if (hp > 0 && (!previous || previous.generation !== generation)) {
+        if (!events.has('ready')) events.set('ready', { cue: 'ready', kind });
+      } else if (previous?.generation === generation && previous.hp > 0 && hp <= 0) {
+        if (!events.has('death')) events.set('death', { cue: 'death', kind });
+      }
+    }
+    this.units = next;
+    return [...events.values()];
+  }
+}

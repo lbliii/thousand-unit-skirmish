@@ -5,7 +5,7 @@ const DEFAULT_SETTINGS = Object.freeze({
   enabled: true, captions: false, volume: 0.5, effectsLevel: 1, voiceLevel: 1, musicLevel: 1, ambience: true, ambienceLevel: 1,
 });
 const COOLDOWN_MS = Object.freeze({
-  select: 90, move: 90, attack: 120, gather: 140, rally: 550, build: 170,
+  stop: 170, hold: 170, ready: 2200, death: 2200, repair: 170, select: 90, move: 90, attack: 120, gather: 140, rally: 550, build: 170,
   queue: 170, complete: 2200, 'research-complete': 2600, 'scenario-reward': 2400,
   reject: 250, objective: 1200, 'objective-lost': 1200,
   'resource-empty': 8000, 'base-lost': 2000, 'building-complete': 2600,
@@ -340,16 +340,21 @@ export function createGameAudio({
         noiseBurst(at + 0.018, 0.045, { centerFrequency: 1550, gain: 0.018 });
         break;
       case 'gather': tone(420, at, 0.07, { wave: 'triangle', endFrequency: 550, gain: 0.14 }); break;
+      case 'stop':
+      case 'hold':
       case 'rally':
         tone(466.16, at, 0.09, { wave: 'triangle', gain: 0.12 });
         tone(698.46, at + 0.1, 0.14, { wave: 'sine', gain: 0.1 });
         break;
+      case 'repair':
       case 'build':
         noiseBurst(at, 0.035, { centerFrequency: 900, gain: 0.032 });
         tone(175, at, 0.16, { wave: 'triangle', endFrequency: 147, gain: 0.19 });
         tone(350, at + 0.055, 0.09, { gain: 0.09 });
         break;
       case 'queue': tone(470, at, 0.06, { wave: 'triangle', gain: 0.12 }); tone(590, at + 0.095, 0.07, { wave: 'triangle', gain: 0.1 }); break;
+      case 'death': tone(220, at, 0.2, { wave: 'triangle', endFrequency: 110, gain: 0.12 }); break;
+      case 'ready':
       case 'complete': tone(392, at, 0.13, { gain: 0.17 }); tone(587, at + 0.13, 0.23, { gain: 0.15 }); break;
       case 'research-complete':
         tone(523.25, at, 0.13, { wave: 'triangle', gain: 0.14 });
@@ -495,6 +500,7 @@ export function createGameAudio({
         }
         activeVoiceSamples.clear();
       }
+      if (binding.bus === 'voice' && activeVoiceSamples.size >= 2) return;
       if (activeSamples.size >= MAX_ACTIVE_SAMPLES) {
         if (!['battle-alert', 'selected-alert', 'base-alert', 'base-lost', 'victory', 'defeat'].includes(cue)) return;
         const interrupted = activeSamples.values().next().value;

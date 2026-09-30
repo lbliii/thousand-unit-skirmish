@@ -24,6 +24,7 @@ export function bindingKeysForEvent({ cue, kind, buildingType, resource } = {}) 
     keys.push(`unit.${role}.${cue}`);
   }
   if (cue) keys.push(`cue.${cue}`);
+  if (cue === 'ready') keys.push('cue.complete');
   return keys;
 }
 
