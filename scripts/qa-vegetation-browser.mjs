@@ -219,6 +219,10 @@ try {
     setForestSpriteStock(s,6);p.mesh.getMatrixAt(p.index,m);if(JSON.stringify(before)!==JSON.stringify(m.elements))throw new Error('Companion reset failed');checks.push(p.cell);
    }
    if(slots.size!==256)throw new Error('Forest cell identities changed');
+   const {setActiveTerrain,groundHeight}=await import('/src/terrain-height.mjs');
+   setActiveTerrain({width:24,height:24,elevationPatches:[{column:0,row:0,width:24,height:24,level:2}]});
+   for(const s of plants){setForestSpriteStock(s,6);const p=s.understory,m=new THREE.Matrix4();p.mesh.getMatrixAt(p.index,m);if(Math.abs(m.elements[13]-groundHeight(p.x,p.z))>1e-6)throw new Error('Raised companion ground contact failed');}
+   setActiveTerrain({width:24,height:24});for(const s of plants)setForestSpriteStock(s,6);
    const {createGroundSurfaces}=await import('/src/environment-art.mjs');
    const scene=new THREE.Scene();scene.background=new THREE.Color(0x727a57);
    for(const o of objects){const zero=new THREE.Matrix4().makeScale(0,0,0);for(let i=0;i<o.count;i++)o.setMatrixAt(i,zero);o.instanceMatrix.needsUpdate=true;scene.add(o)}
@@ -229,7 +233,7 @@ try {
    const camera=new THREE.OrthographicCamera(-8,8,4,-4,.1,200);camera.position.set(...CAMERA_VIEW_DIRECTION).multiplyScalar(50).add(new THREE.Vector3(0,1,0));camera.lookAt(0,1,0);
    renderer.render(scene,camera);const image=renderer.domElement.toDataURL('image/png');
    scene.traverse(o=>{o.geometry?.dispose();o.userData.ownedGroundTextures?.forEach(t=>t.dispose());o.material?.dispose()});renderer.dispose();renderer.forceContextLoss();
-   return {forestCells:slots.size,understoryCells:checks.length,cells:checks,workedRetained:true,depletedHidden:true,resetRestored:true,batches:1,maxScreenRollDegrees,image};
+   return {forestCells:slots.size,understoryCells:checks.length,cells:checks,workedRetained:true,depletedHidden:true,resetRestored:true,batches:1,maxScreenRollDegrees,raisedGroundContact:true,image};
   })()`);
   await writeFile(out+'/understory-renderer.png',Buffer.from(result.image.split(',')[1],'base64'));delete result.image;
   await writeFile(out+'/understory-proof.json',JSON.stringify(result,null,2)+'\n');

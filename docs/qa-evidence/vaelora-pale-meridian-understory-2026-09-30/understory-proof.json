@@ -82,5 +82,6 @@
   "depletedHidden": true,
   "resetRestored": true,
   "batches": 1,
-  "maxScreenRollDegrees": 7.951386703658798e-15
+  "maxScreenRollDegrees": 7.951386703658798e-15,
+  "raisedGroundContact": true
 }
