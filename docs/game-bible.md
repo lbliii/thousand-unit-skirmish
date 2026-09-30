@@ -74,7 +74,10 @@ persistently ordered workers are excluded from idle-worker selection.
 4. Contest objectives and react to the opposing plan and scenario events.
 5. Reach a clear result, then rematch or try another authored scenario.
 
-[Forked Vale](forked-vale-scenario.md) is the default small-opening scenario.
+[Bellweather · Millrace](maps.md) is the default regional two-seat scenario.
+[Fortified Crossing](../maps/fortified-crossing.json) supplies a small-opening
+custom skirmish with construction, research and crossing rewards.
+[Forked Vale](forked-vale-scenario.md) remains a laboratory scenario.
 Larger maps test travel, resource regions, forest clearing, and elevation.
 Match length and economy pacing must come from observed play.
 
@@ -85,13 +88,17 @@ a display never rounds insufficient stock up to the purchase price.
 ## Implemented scope
 
 - Azure and Ember seats, invite rooms, spectators, reconnects, and checkpoints.
-- Workers, Infantry, Archers, and Spearmen; food/wood gathering, construction, queues,
-  rally points, population reservations, and two attack upgrades.
+- Workers, Infantry, Archers, Spearmen, Scouts, Riders and Siege Engines; food/wood
+  gathering, construction, queues, rally points, population reservations and bounded research.
 - Box/Line/Column destinations, direct attacks, attack move, queued waypoints,
-  control groups, class selection, and idle-worker selection.
+  control groups, class selection, idle-worker selection, Stop/Hold, Patrol and friendly Follow.
 - Capture prerequisites, any/all victories, continuous holds, deadlines, supply
-  events, branching/joined event chains, and elimination.
-- Fog, minimap, Map Studio, saved custom maps, elevation, and cut-to-clear forests.
+  events, branching/joined event chains, named-region entry, registered construction/research
+  completion and elimination.
+- Fog, minimap, Map Studio with graphical named regions and bounded region/event undo,
+  saved custom maps, elevation and cut-to-clear forests.
+- Versioned shipped audio delivery, authoritative applied-order feedback, unit ready/death
+  hooks and bounded food/wood/repair execution samples using supplied placeholder content.
 - Seeded deterministic PvE through the same authoritative command rules.
 
 Implementation is distinct from balance, readability, and external-playtest

@@ -17,12 +17,12 @@ fine-grained observations and pinned research sources.
 | World/visibility | Authored terrain, elevation, fog, minimap, cuttable forest cells. | Readable slopes, forest changes, and larger-map routes in play. |
 | Economy | Finite food/wood, carrying/depositing, costs, queues, population reservations. | Contested economy and pacing; trade/regrowth remain proposals. |
 | Units/technology | Worker, Infantry, Archer, Spearman, Scout, Rider, Siege Engine; bounded tier, weapon, armor and siege progression. | Integrated late-game decisions and role balance; broader factions remain later. |
-| Selection/orders | Single/box/class/double-click/groups, formations, attack move, waypoints. | Discoverability and crowded-match control. |
+| Selection/orders | Single/box/class/double-click/groups, formations, attack move, waypoints, Stop/Hold and persistent Patrol/friendly Follow. | Discoverability and crowded-match control. |
 | Movement | Authoritative pathfinding, shared routes, separation, elevation costs, repair after occupancy changes. | Measured long-order/choke behavior on intended hardware. |
 | Combat | Unit/building attacks, ranged roles, simultaneous damage, visibility checks. | Human counterplay and parity beyond isolated fixtures. Heroes/spells/naval systems remain candidates. |
 | Buildings | Town Center, House, Storehouse, Barracks, Range, Stable, Watchtower, Workshop; expansion, rally, production/research, repair and cancellation. | Placement/blocked-exit usability; garrison/walls remain absent. |
-| Scenarios | Capture dependencies, any/all/hold/deadline victory, supply/repeat/event chains. | Complete authored matches and understandable triggers. |
-| Editor | Painting, resizing, elevation, resources, objectives/events, import/export/publish. | Unassisted authoring and current deployed round trip. |
+| Scenarios | Capture dependencies, any/all/hold/deadline victory, supply/repeat/event chains, named-region entry and registered construction/research completion. | Complete authored matches and understandable triggers. |
+| Editor | Painting, resizing, elevation, resources, objectives/events, graphical regions, typed completion forms, bounded region/event undo/redo, import/export/publish. | Unassisted authoring and current deployed round trip. |
 | Reliability | Isolated workers, bounded transport, seat reclaim, checkpoints, guarded release. | Hosted latency/loss, restore rehearsal, and measured capacity. |
 | UI/audio | Compact HUD, contextual actions, help, synthesized fallback, local sampled audio profiles, Audio Studio/composer, captions and mix settings. | Unit lifecycle/execution hooks and shared pack delivery remain incomplete. |
 | AI/content | Seeded deterministic PvE; bounded optional fake-provider experiment. | Solo-play feedback. Campaign/public mod ecosystem are outside the first slice. |
@@ -50,7 +50,9 @@ Use [roadmap milestones](../roadmap.md) and [QA acceptance](../qa-vertical-slice
 for product proof; do not duplicate their checklists here. Update this summary
 when a feature boundary changes, with a link to the owning contract or experiment.
 
-## 2026-09-30 — Engine breadth assessment
+The custom-skirmish wave is integrated in main `eecc2d0`; [combined evidence](../qa-custom-skirmish.md) records shared shipped audio, execution feedback, orders, authoring, recovery and scale limits. The following assessment retains its pre-wave source snapshot; use the current table above for implementation coverage.
+
+## 2026-09-30 — Engine breadth assessment (pre-wave snapshot)
 
 Compared local source `b61e167` with the renewed [openage](openage-study.md) and
 [Warcraft](warcraft-rts-inventory.md) research. Implemented means an inspected

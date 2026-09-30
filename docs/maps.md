@@ -78,7 +78,8 @@ forest cutting, command readability and music seams in [QA](qa-vertical-slice.md
 
 ## Which map to use
 
-- **Forked Vale:** default PvP economy-to-victory scenario. See its [rules and layout](forked-vale-scenario.md).
+- **Fortified Crossing:** original 24-unit paired skirmish with 350 food/600 wood per seat. Secure North/South Signals, then capture and hold Vale Watch for 30 seconds. A named crossing, paid Barracks completion and infantry research join into delayed supplies. The versioned supplied feedback profile loads automatically. See the [map definition](../maps/fortified-crossing.json) and [combined acceptance and limits](qa-custom-skirmish.md).
+- **Forked Vale:** retained laboratory PvP economy-to-victory scenario. See its [rules and layout](forked-vale-scenario.md).
 - **Woodland Expanse:** larger solo-play alternative in the seeded PvE pool.
 - **Frontier Reach:** 160 × 160 regional resources, forests, river, and crossings;
   see [scale and density](map-scale-density.md).

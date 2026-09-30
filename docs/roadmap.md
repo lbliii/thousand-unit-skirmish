@@ -21,12 +21,21 @@ production can develop independently of these engine capabilities.
 ## Foundation milestones
 
 The [authorized custom-skirmish milestone](custom-skirmish-milestone-plan.md)
-builds on the merged command/region/audio wave: Patrol/Follow, visual region and
-completion-trigger authoring, and automatic shipped audio delivery with bounded
-work feedback. Three independent owners converge on one author-to-friend custom
-match proof. The user authorized completion on 30 September 2026; all three
-existing implementation owners are resumed. Claims of implementation and
-acceptance belong to their merged artifacts and the combined proof record.
+is integrated in main `eecc2d0` through [PR #289](https://github.com/lbliii/thousand-unit-skirmish/pull/289):
+Patrol/Follow, visual named-region and completion-trigger authoring, and versioned
+shipped audio delivery with bounded execution feedback. Combined authoritative
+matches prove economy, event chains, combat, recovery, victory and rematch;
+the stable hosted author-to-friend browser proof also passes native audio
+mute/Stop/reset checks. [Combined QA](qa-custom-skirmish.md) owns exact builds,
+deployments, acceptance and limits.
+
+The rendered combined workload passes at 250/500/1,000 units. The diagnostic
+2,000 case cannot clear its construction site within the bounded attempt and
+never reaches the full workload; crowded movement/placement is a concrete core
+follow-up, not a supported capacity claim. Unassisted author and human-pair
+observations are still needed for discoverability and listening. Art remains
+independent. Authored entity placement/identity and death triggers remain later
+candidates from the loose capability inventory.
 
 ### Parallel core workstreams — 30 September 2026
 

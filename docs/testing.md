@@ -64,6 +64,9 @@ Run from the repository root:
 | Patrol / Follow intent and replanning bounds | `node --test scripts/persistent-command.test.mjs` |
 | Both-seat Patrol / Follow combat, recovery, interruptions and obstruction | `node scripts/persistent-command-scenario.mjs` |
 | Patrol / Follow actual browser controls and large selections | `node scripts/persistent-command-browser.mjs` (installed Chrome; owner-run headless smoke) |
+| Combined Fortified Crossing paid economy, event/order recovery, combat, result and rematch | `node scripts/fortified-crossing-combined.mjs 0` and `1` |
+| Visual Fortified authoring, authoritative publication, fresh guest audio and native work/reset lifecycle | `node scripts/fortified-crossing-browser.mjs` (installed Chrome) |
+| Two-seat rendered Fortified scale diagnostics and retained failures | `FORTIFIED_SCALE_RECORD=<output.json> node scripts/fortified-crossing-browser-scale.mjs 20 250,500,1000,2000` |
 | Queued routes and checkpoint recovery | `node scripts/queued-waypoint-scenario.mjs` |
 | Queue HUD metadata under backpressure | `node --test scripts/waypoint-backpressure.test.mjs` |
 | Route repair after construction | `node scripts/live-attack-move-repair-scenario.mjs` |

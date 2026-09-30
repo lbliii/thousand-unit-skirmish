@@ -4,22 +4,23 @@
 
 ## Current acceptance audit
 
-This record distinguishes the foundation from the final combined proof. It does
-not declare the milestone complete. Each lane's focused implementation and
-checks must be integrated before the combined scenario can establish its claims.
+The three feature lanes and combined integration are merged in main `eecc2d0`
+([PR #289](https://github.com/lbliii/thousand-unit-skirmish/pull/289)). The table
+records engineering acceptance and explicit observation limits; merged-main and
+stable staging verification is recorded below. Unassisted human discovery and
+listening remain explicit follow-up observations.
 
-| Requirement | Current evidence | Remaining proof |
+| Requirement | Authoritative evidence | Limit or remaining observation |
 | --- | --- | --- |
-| Fortified Crossing terrain and resources | `scripts/fortified-crossing-layout.mjs` passes on foundation commit `b42b50e`; mirrored routes to North Signal 31 cells, South Signal 30, Watch/crossing 20 from each seat, including home collision | Recheck final published map |
-| Both-seat paid economy and active research recovery | `scripts/fortified-crossing-economy.mjs` passes on `b42b50e`; both Barracks complete, infantry trained, infantry attack research completes after worker restart with original seat tokens; final resources 200 food / 350 wood per seat | Combine with completion rewards, gathering, orders and combat |
-| Persistent Patrol/Follow | Lane A merged in PR #277 (`540785b`), with focused both-seat/1,000-unit browser evidence in `qa-persistent-orders-2026-09-30.md` | Lane A acceptance and combined mixed-speed, combat, recovery/rematch proof |
-| Visual region/event authoring | Lane B merged in PR #274 (`8a93749`); combined candidate `559ce08` passes visual draw, typed forms, joined-source assertions, undo/redo, export/import, reopening and publishing all nine events in a real invite | Recheck combined final build; human discoverability remains unobserved |
-| Completion triggers and diagnostic trace | Lane B merged in PR #274; focused both-seat completion/recovery/rematch and guest privacy checks recorded there | Both-seat construction/research chains, initial-state semantics and delayed delivery recovery |
-| Automatic shipped audio and execution feedback | Lane C merged in PR #271 (`56011c4`); verified shipped manifests/sources, bounded observed work, applied-token acknowledgements and inspector. Focused loader/execution/serving/playback and fresh-context browser evidence recorded in the PR | Fresh guest, missing content fallback, accepted/rejected feedback, wood/food/repair task lifecycle and inspector |
-| Combined result and rematch | Candidate `a4c9a31` plus roster/diagnostic harness edits passes both winner variants of the authoritative combined script | Final merged build and browser/audio reset checks |
-| Scale evidence | Runner being validated; no comparable measurements recorded | Server and browser/audio measurements at 250/500/1,000, diagnostic 2,000, with controlled conditions |
-| Hosted observation | Local real-invite browser proof passes on candidate `559ce08`; this is not staging evidence | Identified staging deployment and fresh invite/guest observations |
-| Unassisted author and human pair | Not observed | Actual people must establish discoverability; automation cannot supply this evidence |
+| Terrain and resources | Final candidate layout passes: mirrored North 31 cells, South 30, Watch/crossing 20, including home collision. Browser proof selects the shipped terrain and verifies roster, resources and capture rules in its export. | No balance or human route-readability claim. |
+| Paid economy, event chains, combat, result and rematch | Both winner variants of `fortified-crossing-combined.mjs` pass. Paid Barracks, infantry and research, nine delivered events, actual combat death, capture/hold result and clean rematch are asserted without modifying checkpoints. | Scripted commands establish behavior, not comprehension. |
+| Patrol/Follow | PR #277 (`540785b`), [lane evidence](qa-persistent-orders-2026-09-30.md), plus combined mixed-speed Follow and Patrol/research/armed-event restart. | Follow is bounded catch-up, not a rigid convoy. |
+| Visual authoring and completion trace | PR #274 (`8a93749`); final browser proof draws/names the crossing, configures nine events through typed forms, checks joined IDs, undo/redo, export/import/reopen, then verifies the authoritative published map ID. Focused completion tests cover initial completed state, simultaneous teams and recovery; guest trace privacy passes in the combined match. | Arbitrary scripts, variables and authored entity/death triggers remain deferred. |
+| Automatic audio and execution lifecycle | PR #271 (`56011c4`), loader/serving/execution tests, distinct food/wood/repair clip browser test. Combined fresh host/guest have zero imported packs and available shipped bindings; native work scheduling, effects mute/resume, Stop silence and same-size reset pass. | Supplied technical clips prove hooks and delivery; no creative acceptance or human listening claim. |
+| Recovery | Original seat tokens reclaim after restart with preserved intent, active paid research and delayed event state; Ember disconnect/reclaim and no duplicate event delivery pass. All three complete rendered scale cases recover both browser seats. | Loopback restart timing is not a hosted resilience budget. |
+| Scale | Candidate `1f419d9` passes combined rendered 250/500/1,000-unit cases. [Retained report](qa/custom-skirmish-scale-2026-09-30.json) includes the diagnostic 2,000-unit construction-clearance failure and its measurements. | The 2,000 workload never reached economy/audio/combat/recovery; no supported capacity claim. |
+| Hosted observation | Stable deployment `43b7af65-91d7-4008-9092-6cce5f78cd21`, source `6fa5c27`, passes a fresh invite and all thirteen browser checks. Azure-winning combined match passes on integration main `eecc2d0`. | No public matchmaking, internet impairment or unassisted-human claim. |
+| Unassisted author and human pair | Not observed. | Actual people must establish discoverability and listening; automation cannot supply this evidence. |
 
 ## Reproduction commands
 
@@ -33,6 +34,7 @@ node scripts/fortified-crossing-scale.mjs 20 250,500,1000,2000
 node scripts/fortified-crossing-combined.mjs 0
 node scripts/fortified-crossing-combined.mjs 1
 node scripts/fortified-crossing-browser.mjs
+FORTIFIED_SCALE_RECORD=<output.json> node scripts/fortified-crossing-browser-scale.mjs 20 250,500,1000,2000
 ```
 
 The economy test uses real paid orders and never injects checkpoint state. Its
@@ -106,3 +108,102 @@ Ember follower correctly stopped outside the three-unit condition. The final
 probe moves the leader farther inside rather than changing the authored rule.
 These scripted matches establish the engineering behavior, not player comprehension
 or browser playback; those use their separate browser evidence.
+
+## Final candidate authoring and audio lifecycle — 30 September 2026
+
+Candidate `1f419d9` supersedes the earlier browser proof's narrow checks. The
+earlier probe checked the dialog closing and editor fields; it did not establish
+that the exact shipped Fortified terrain and exported draft reached the room.
+The final probe selects Fortified Crossing with the normal map selector, verifies
+its roster/resources/capture rules, and waits for the authoritative map ID on
+both host and fresh guest. It passes all thirteen reported checks, including
+native work playback, effects mute/resume, Stop silence and same-size reset.
+
+The stronger probe exposed a real restore race: refreshing the audio profile
+list briefly cleared a known selected profile and could reject publication.
+The client now retains the selected profile during loading and invalidates stale
+profile requests when a different pack list is opened. The editor help explains
+automatic versioned shipped delivery and separate local-pack imports.
+
+Harness iteration also parks the pointer away from edge scrolling and uses normal
+zoom/Home controls so the commanded workers are within the camera's audio radius.
+The browser test still cannot establish listening quality or unassisted discovery.
+
+## Bounded rendered scale — 30 September 2026
+
+Source `1f419d9266823fbf4d292f5f891bebe2e5c2ddde`, Apple M2/macOS,
+Node 24.9.0, two independent Chrome 154.0.8037.92 processes, each 1280×720/DPR 1.
+Each complete case warms up paid gathering/Barracks/research and the joined supply
+chain before 20 seconds of attack-move, Patrol, Scout Follow and withdrawal.
+Actual combat casualties, native work scheduling and both-seat restart recovery
+are asserted. The coordinator launched no concurrent benchmark; background
+desktop load is not isolated. Full data and limitations are in the retained report.
+
+| Measured opening | Combat casualties | Tick p95 ms | Event evaluation p95 ms | Frame interval p95, Azure/Ember ms | Applied notice p95 ms | Both-seat recovery ms |
+| --- | --- | --- | --- | --- | --- | --- |
+| 250 | 118 | 1.889 | 0.077 | 16.7 / 16.7 | 3.8 | 574.9 |
+| 500 | 123 | 2.711 | 0.279 | 16.8 / 16.8 | 4.2 | 572.8 |
+| 1,000 | 203 | 3.393 | 0.308 | 16.7 / 16.7 | 4.8 | 571.1 |
+
+The retained final planning histories have maximum slices 0.268/0.550/0.595 ms.
+All-RAF callback p95 is 2.1/2.2, 2.9/2.7, and 3.4/3.3 ms; no browser long tasks
+were observed. Native sampled-buffer starts are 26/31, 29/31 and 30/31; these
+include other effects and are not exclusively work counts. Each case reports
+39 health polls, no queued commands/backpressure disconnects or checkpoint write
+failures, and inspected work decisions. Tick data is the last rolling 10-second
+window, with 100 scenario-evaluated samples; planning history and transport totals
+are bounded/cumulative diagnostics, not full-window percentiles or network rates.
+
+The diagnostic 2,000 case starts at 1,996 units to allow later supply. It timed
+out after the 120-second ordinary-movement clearance bound, with 999 living units
+per seat after Scout supply. Even clearing only the actual 3×3 Barracks footprint
+did not finish. Its final tick p95 is 5.254 ms, event evaluation p95 0.079 ms,
+frame p95 16.7/16.7 ms, all-RAF CPU p95 3.7/3.7 ms, and no browser long tasks.
+These are measurements of the failed warmup. Paid completion chains, work audio,
+combat and recovery at 2,000 remain unproven. Prior broad-footprint probes also
+failed; this is a recorded crowded movement/placement follow-up, not a passing
+capacity result. The runner preserves each completed case and failure diagnostics
+through `FORTIFIED_SCALE_RECORD` and exits nonzero on the ceiling failure.
+
+Headless frame intervals do not establish windowed GPU performance. Loopback
+applied notices do not establish internet latency. Probe overhead, fog-limited
+rendered populations, casualties and overlapping inspector polls bound these
+observations; retain the existing hosted support-profile work separately.
+
+## Merged-main and hosted integration — 30 September 2026
+
+The integration is merged in [PR #289](https://github.com/lbliii/thousand-unit-skirmish/pull/289),
+main `eecc2d0cdd9f6214c886f65ff0a98c0492fc5735`. The Azure-winning combined
+match passes on that actual main build; the Ember variant passes on final source
+candidate `1f419d9`. Both include paid economy, delayed/research/region chains,
+persistent intent and seat recovery, actual combat, capture/hold victory and
+clean rematch. The final layout check passes with the mirrored distances above.
+
+Railway reported `SUCCESS` for exact integration deployment
+`7a3f3391-9730-47ce-8278-ac06ea0da601`. Staging subsequently advanced to the
+Ellionar palm art merge `6fa5c27bcb5aa870528fed77e6cd8fd89c9a88ee` in deployment
+`43b7af65-91d7-4008-9092-6cce5f78cd21`. The first browser observation overlapped
+that transition and is not attributed to one build. A separate repeated proof
+passes all thirteen checks while that latter deployment is `SUCCESS` before and
+after the run. This is the stable hosted evidence at
+`https://game-staging-21f9.up.railway.app`, using a fresh disposable invite, empty
+host/guest contexts and the assigned test profile. No service password is recorded.
+
+Reproduce using the existing staging service credentials, not a password in a
+command or document:
+
+```sh
+FORTIFIED_STAGING_ORIGIN=https://game-staging-21f9.up.railway.app \
+  railway run --project 32da8e2c-3377-49ed-8df0-45f72ecdc562 \
+  --environment staging --service game --no-local -- \
+  node scripts/fortified-crossing-browser.mjs
+```
+
+Final source candidate `1f419d9` passes all three integration CI shards in
+[run 36758467927](https://github.com/lbliii/thousand-unit-skirmish/actions/runs/36758467927):
+19m49s, 19m07s and 23m48s, including release packaging and the combined Azure
+match regression. Engineering acceptance is complete with the recorded scale
+and human-observation limits.
+Production promotion was not performed. Unassisted authoring, human 1v1
+comprehension and listening quality remain unobserved; these require actual
+people, an identified build/map and concrete confusing or failed actions.
