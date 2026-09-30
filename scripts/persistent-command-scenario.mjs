@@ -180,6 +180,8 @@ const definition = JSON.parse(await readFile(path.join(ROOT, 'maps/open-field.js
 definition.startingResources = { food: 350, wood: 400 };
 definition.id = 'persistent-open-field';
 definition.startingArmySize = 250;
+definition.scenarioEvents = [{ id: 'follow-scout', name: 'Follow Scout', type: 'timed-supply',
+  afterSeconds: 3, team: 'both', foodReward: 0, unitCount: 1, unitKind: 'scout', message: '{team} SCOUT READY' }];
 let child; let clients = []; let stage = 'startup';
 try {
   child = await startServer(port, checkpointPath, customMapDirectory);
@@ -208,20 +210,28 @@ try {
     Math.abs(unitById(state, ids[team])[2] - starts[team][2]) < 1)));
   stage = 'generation-safe friendly follow and interrupts';
   for (let team = 0; team < 2; team++) {
-    const client = clients[team], id = ids[team], leader = ids[team] + 1;
-    const target = unitById(client.state.latest, leader);
+    const client = clients[team], id = ids[team];
+    const supplied = await client.waitForState(state => state.units.some(row => row[1] === team && row[5] === 'scout'));
+    const target = supplied.units.find(row => row[1] === team && row[5] === 'scout');
+    const leader = target[0];
     send(client, { type: 'follow', ids: [id], targetId: leader, targetGeneration: target[8] + 1, clientOrderToken: 2 });
     await waitForNotice(client, 'FOLLOW REJECTED', 2);
     send(client, { type: 'follow', ids: [id], targetId: ids[1-team], targetGeneration: unitById(clients[1-team].state.latest, ids[1-team])[8], clientOrderToken: 3 });
     await waitForNotice(client, 'FOLLOW REJECTED', 3);
     send(client, { type: 'follow', ids: [id], targetId: leader, targetGeneration: target[8], clientOrderToken: 4 });
     await waitForNotice(client, 'FOLLOW ORDER', 4);
-    formationMoveCommand(client, [leader], [target[8]], { x: target[2] + (team ? -10 : 10), z: target[3] }, { token: 5 });
+    formationMoveCommand(client, [leader], [target[8]], { x: target[2] + (team ? -16 : 16), z: target[3] }, { token: 5 });
     await waitForNotice(client, 'MOVE ORDER', 5);
     await client.waitForState(state => Math.abs(unitById(state, id)[2] - starts[team][2]) > 5);
   }
+  const recoveryPatrolIds = ids.map(id => id + 2);
+  for (let team = 0; team < 2; team++) {
+    const row = unitById(clients[team].state.latest, recoveryPatrolIds[team]);
+    formationMoveCommand(clients[team], [row[0]], [row[8]], { x: row[2] + (team ? -6 : 6), z: row[3] + 5 }, { type: 'patrol', token: 40 });
+    await waitForNotice(clients[team], 'PATROL ORDER', 40);
+  }
   stage = 'checkpoint restart';
-  const saved = await waitForCheckpoint(checkpointPath, checkpoint => ids.every(id => checkpoint.state.units[id].persistentOrder?.type === 'follow'));
+  const saved = await waitForCheckpoint(checkpointPath, checkpoint => ids.every(id => checkpoint.state.units[id].persistentOrder?.type === 'follow') && recoveryPatrolIds.every(id => checkpoint.state.units[id].persistentOrder?.type === 'patrol'));
   assert.ok(saved.state.units[ids[0]].persistentOrder.targetGeneration > 0);
   for (const client of clients) await closeClient(client);
   await stopServer(child); child = await startServer(port, checkpointPath, customMapDirectory);
@@ -229,6 +239,9 @@ try {
   assert.equal(azure.welcome.recoveredFromCheckpoint, true);
   for (let team = 0; team < 2; team++) {
     assert.ok(clients[team].welcome.state.persistentOrders.some(row => row[0] === ids[team] && row[1] === 'follow'));
+    assert.ok(clients[team].welcome.state.persistentOrders.some(row => row[0] === recoveryPatrolIds[team] && row[1] === 'patrol'));
+    send(clients[team], { type: 'stop', ids: [recoveryPatrolIds[team]], clientOrderToken: 41 });
+    await waitForNotice(clients[team], 'STOP ORDER', 41);
     send(clients[team], { type: 'holdPosition', ids: [ids[team]], clientOrderToken: 6 });
     await waitForNotice(clients[team], 'HOLD POSITION ORDER', 6);
     await clients[team].waitForState(state => !state.persistentOrders.some(row => row[0] === ids[team]));
@@ -255,8 +268,14 @@ try {
     await waitForNotice(enemyClient, 'HOLD POSITION ORDER', 14 + team);
     formationMoveCommand(client, [id], [row[8]], { x: 4.5, z }, { type: 'patrol', token: 16 + team });
     await waitForNotice(client, 'PATROL ORDER', 16 + team);
+    stage = `combat seat ${team}: wounded leader`;
+    await enemyClient.waitForState(state => unitById(state, victimId)?.[4] > 0 && unitById(state, victimId)[4] <= 20);
+    const deathFollower = recoveryPatrolIds[1-team];
+    send(enemyClient, { type: 'follow', ids: [deathFollower], targetId: victimId, targetGeneration: victim[8], clientOrderToken: 42 + team });
+    await waitForNotice(enemyClient, 'FOLLOW ORDER', 42 + team);
     stage = `combat seat ${team}: kill`;
     await enemyClient.waitForState(state => unitById(state, victimId)?.[4] === 0);
+    await enemyClient.waitForState(state => !state.persistentOrders.some(row => row[0] === deathFollower));
     stage = `combat seat ${team}: resume outbound`;
     await client.waitForState(state => unitById(state, id)?.[4] > 0 && unitById(state, id)[2] > 3.5);
     stage = `combat seat ${team}: repeated return`;
@@ -281,6 +300,6 @@ try {
   await azure.waitForState(state => !state.buildings.some(building => building.id === construction.id)
     && state.persistentOrders.some(row => row[0] === ids[0] && row[2] === 'active'));
   await azure.waitForState(state => unitById(state, ids[0])[2] > -9.5);
-  console.log('Persistent commands passed: both-seat patrol return, friendly generation validation, follow movement, restart, Hold, reset, combat acquisition, resumed patrol and live endpoint obstruction/removal.');
+  console.log('Persistent commands passed: both-seat patrol return, friendly generation validation, mixed-speed Scout following, Patrol/Follow restart, leader death, Hold, reset, combat acquisition, resumed patrol and live endpoint obstruction/removal.');
 } catch (error) { throw new Error(`${stage}: ${error.message}\n${serverLogs}\n${JSON.stringify(clients.map(client => client.messages.filter(message => message.type === 'notice').slice(-8)))}`, { cause: error }); }
 finally { for (const client of clients) await closeClient(client); await stopServer(child); await rm(dataDirectory, { recursive: true, force: true }); }
