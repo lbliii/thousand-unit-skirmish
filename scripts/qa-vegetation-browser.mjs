@@ -83,7 +83,7 @@ const lifecycle=process.env.RTS_VEGETATION_LIFECYCLE==='1';
 if(lifecycle&&!['bellweather','sereward','pale-meridian','siltmouths','vesperra','sombral-mere','underbough','veyrholds','ellionar'].includes(region))throw new Error('No lifecycle pack for region');
 const atlasCapture=process.env.RTS_VEGETATION_ATLAS==='1';
 const understoryCapture=process.env.RTS_VEGETATION_UNDERSTORY==='1';
-if(understoryCapture&&!['vesperra','siltmouths'].includes(region))throw new Error('Understory capture requires a supported region');
+if(understoryCapture&&!['vesperra','siltmouths','pale-meridian'].includes(region))throw new Error('Understory capture requires a supported region');
 const out=understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-broken-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
 try {
@@ -201,31 +201,35 @@ try {
   const result=await cdp.evaluate(`(async()=>{
    const THREE=await import('/vendor/three.module.js');
    const {addObstacleEnvironmentSprites,setForestSpriteStock}=await import('/src/environment-art.mjs');
-   const objects=[];const slots=addObstacleEnvironmentSprites({width:24,height:24,terrainBase:${JSON.stringify(region==='siltmouths'?'tidal-mud':'jungle-loam')},obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]},12,12,o=>objects.push(o));
+   const objects=[];const slots=addObstacleEnvironmentSprites({width:24,height:24,terrainBase:${JSON.stringify(region==='pale-meridian'?'snow':region==='siltmouths'?'tidal-mud':'jungle-loam')},obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]},12,12,o=>objects.push(o));
    const plants=[...slots.values()].filter(s=>s.understory);
    if(!plants.length||plants.length>=slots.size)throw new Error('Understory density invalid');
    if(objects.filter(o=>o.userData.forestUnderstory).length!==1)throw new Error('Understory not batched');
-   const checks=[];
+   const {CAMERA_VIEW_DIRECTION}=await import('/src/camera-controls.mjs');
+   const cameraRotation=new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().lookAt(new THREE.Vector3(...CAMERA_VIEW_DIRECTION),new THREE.Vector3(),new THREE.Vector3(0,1,0))).invert();
+   const checks=[];let maxScreenRollDegrees=0;
    for(const s of plants){
     const p=s.understory,m=new THREE.Matrix4();p.mesh.getMatrixAt(p.index,m);const before=m.elements.slice();
+    const up=new THREE.Vector3(0,1,0).transformDirection(m).applyQuaternion(cameraRotation);
+    const roll=Math.abs(Math.atan2(-up.x,up.y)*180/Math.PI);maxScreenRollDegrees=Math.max(maxScreenRollDegrees,roll);
+    if(roll>.0001)throw new Error('Companion screen roll '+roll);
     if(p.cell!==s.cell||Math.abs(p.x-(p.cell%24-11.5))>.5||Math.abs(p.z-(Math.floor(p.cell/24)-11.5))>.5)throw new Error('Understory outside parent cell');
     setForestSpriteStock(s,3);p.mesh.getMatrixAt(p.index,m);if(JSON.stringify(before)!==JSON.stringify(m.elements))throw new Error('Worked companion changed');
     setForestSpriteStock(s,0);p.mesh.getMatrixAt(p.index,m);if(Math.abs(m.determinant())>1e-9)throw new Error('Cleared companion still visible');
     setForestSpriteStock(s,6);p.mesh.getMatrixAt(p.index,m);if(JSON.stringify(before)!==JSON.stringify(m.elements))throw new Error('Companion reset failed');checks.push(p.cell);
    }
    if(slots.size!==256)throw new Error('Forest cell identities changed');
-   const {CAMERA_VIEW_DIRECTION}=await import('/src/camera-controls.mjs');
    const {createGroundSurfaces}=await import('/src/environment-art.mjs');
    const scene=new THREE.Scene();scene.background=new THREE.Color(0x727a57);
    for(const o of objects){const zero=new THREE.Matrix4().makeScale(0,0,0);for(let i=0;i<o.count;i++)o.setMatrixAt(i,zero);o.instanceMatrix.needsUpdate=true;scene.add(o)}
    for(let i=0;i<3;i++){const s=plants[i];s.x=(i-1)*3;s.z=-s.x;s.understory.x=s.x+.3;s.understory.z=s.z+.3;setForestSpriteStock(s,[3,1,0][i]);}
-   for(const o of createGroundSurfaces({width:24,height:24,terrainBase:${JSON.stringify(region==='siltmouths'?'tidal-mud':'jungle-loam')},obstacles:[]}))scene.add(o);
+   for(const o of createGroundSurfaces({width:24,height:24,terrainBase:${JSON.stringify(region==='pale-meridian'?'snow':region==='siltmouths'?'tidal-mud':'jungle-loam')},obstacles:[]}))scene.add(o);
    for(let i=0;i<50&&scene.children.some(o=>o.material.map&&!o.material.map.image?.complete);i++)await new Promise(r=>setTimeout(r,100));
    const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true,antialias:true});renderer.setSize(1200,600);
    const camera=new THREE.OrthographicCamera(-8,8,4,-4,.1,200);camera.position.set(...CAMERA_VIEW_DIRECTION).multiplyScalar(50).add(new THREE.Vector3(0,1,0));camera.lookAt(0,1,0);
    renderer.render(scene,camera);const image=renderer.domElement.toDataURL('image/png');
    scene.traverse(o=>{o.geometry?.dispose();o.userData.ownedGroundTextures?.forEach(t=>t.dispose());o.material?.dispose()});renderer.dispose();renderer.forceContextLoss();
-   return {forestCells:slots.size,understoryCells:checks.length,cells:checks,workedRetained:true,depletedHidden:true,resetRestored:true,batches:1,image};
+   return {forestCells:slots.size,understoryCells:checks.length,cells:checks,workedRetained:true,depletedHidden:true,resetRestored:true,batches:1,maxScreenRollDegrees,image};
   })()`);
   await writeFile(out+'/understory-renderer.png',Buffer.from(result.image.split(',')[1],'base64'));delete result.image;
   await writeFile(out+'/understory-proof.json',JSON.stringify(result,null,2)+'\n');
@@ -256,6 +260,8 @@ try {
  for(const i of [1,6])if(!proof[i].files.includes('pale-meridian-lifecycle-atlas.webp')||proof[i].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Pale Meridian forest mix mismatch');
  if(!proof[7].files.includes('siltmouths-lifecycle-atlas.webp')||proof[7].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Siltmouths forest mix mismatch');
  if(!proof[8].files.includes('vesperra-lifecycle-atlas.webp')||proof[8].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Vesperra forest mix mismatch');
+ for(const i of [1,6])if(!proof[i].files.includes('pale-meridian-silver-moss.webp'))throw new Error('Cold moss binding missing');
+ if(proof.some((r,i)=>![1,6].includes(i)&&r.files.includes('pale-meridian-silver-moss.webp')))throw new Error('Cold moss leaked into another region');
  if(!proof[7].files.includes('siltmouths-silver-reed.webp')||proof.some((r,i)=>i!==7&&r.files.includes('siltmouths-silver-reed.webp')))throw new Error('Silver reed region binding mismatch');
  if(!proof[8].files.includes('vesperra-shade-fern.webp')||proof.some((r,i)=>i!==8&&r.files.includes('vesperra-shade-fern.webp')))throw new Error('Understory region binding mismatch');
  if(!proof[9].files.includes('sombral-mere-lifecycle-atlas.webp')||proof[9].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Sombral Mere forest mix mismatch');

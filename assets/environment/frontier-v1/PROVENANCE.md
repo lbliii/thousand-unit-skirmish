@@ -266,3 +266,7 @@ Original built-in ImageGen plant, informed by the approved Vesperra Shade Fern e
 ## Siltmouths silver reed understory · 30 September 2026
 
 Built-in ImageGen against the project-owned approved Siltmouths ecology key's Silver Reed. [Exact prompt](SILTMOUTHS-UNDERSTORY-PROMPTS.json) and [manifest](siltmouths-understory-manifest.json) record selected source ID, reference hash, dimensions, crop and file hashes. Unchanged generated PNG; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background compositing inspected empty gaps and backdrop. No local repainting or alpha repair. One approximate painted oblique view.
+
+## Pale Meridian silver cushion moss · 30 September 2026
+
+Built-in ImageGen against project-owned approved Pale Meridian ecology key. [Exact prompt](PALE-MERIDIAN-UNDERSTORY-PROMPTS.json) and [manifest](pale-meridian-understory-manifest.json) record source ID, reference hash, source/runtime dimensions, crop and file hashes. Unchanged generated PNG; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. Solid-background compositing inspected empty surroundings. No local repainting or alpha repair. One approximate painted oblique view; runtime matrix roll is separately measured.

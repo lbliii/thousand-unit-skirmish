@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-pale-meridian-understory",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/pale-meridian-ecology.png",
+  "referenceSha256": "f6fe68d0a40f0f118f37c40582c96ae0fb7c88ffe03977c8baac0ec500bd917e",
+  "prompts": "PALE-MERIDIAN-UNDERSTORY-PROMPTS.json",
+  "files": [
+    {
+      "path": "pale-meridian-silver-moss.png",
+      "role": "source-image",
+      "sha256": "6f33b519d27d5dde577afdef125d7f6f0e3681e7cbe87ba59b76a51e02ccdfe4",
+      "bytes": 2245057,
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "pale-meridian-silver-moss.webp",
+      "role": "runtime-image",
+      "sha256": "bd2eba9eb0c523649b0ec27b171e472a504f8b1e1312b792e08e1c443a5a897f",
+      "bytes": 263256,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 555
+      }
+    }
+  ],
+  "cropPx": [
+    155,
+    189,
+    1403,
+    866
+  ],
+  "asset": {
+    "id": "pale-meridian-silver-moss",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 0.83027,
+    "worldHeight": 0.45,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen against approved ecology key. Unmodified PNG, deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha. One approximate painted oblique view; no measured source calibration."
+}
