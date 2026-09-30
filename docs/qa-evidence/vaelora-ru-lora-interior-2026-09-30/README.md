@@ -1,6 +1,6 @@
 # Ru’Lora interior composition study · 30 September 2026
 
-Working candidate based on `059bc53f3dcd251ac0595418193cb5080b77f357`, owner-run local server port 4178, isolated room/map storage and headless Chrome. [Editable map JSON](ru-lora-interior-study.json) is an importable 64×64 art/navigation study, not a balanced economy map or a new default scenario.
+Final working candidate after main integration at `e87135aa41f1d8d8ffa1bb8ecdee97a21688414c`, owner-run local server port 4178, isolated room/map storage and headless Chrome. [Editable map JSON](ru-lora-interior-study.json) is an importable 64×64 art/navigation study, not a balanced economy map or a new default scenario.
 
 Import the JSON through Map Studio → Import → Save & Play. Six irregular clusters of low stone obstacles use the already integrated Fiendwood, stone fern and retained boulder mix. Salt-crust ground and sparse cinder companion patches keep the petrified palette. No authored harvestable forest or resource nodes are present. Open spawn spaces and a winding central corridor separate the dense canopy groups.
 
