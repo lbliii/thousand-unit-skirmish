@@ -1564,7 +1564,7 @@ function makeUnit(id, team, x, z, kind, teamSlot) {
     attackCooldown: ((teamSlot * 37) % 30) / 30,
     repathTimer: 0, lastAttackCell: -1, lastAttackTick: -1,
     lastAttackX: 0, lastAttackZ: 0, orderRevision: 0,
-    holdingPosition: false, attackMove: false, attackMoveRouteReady: false,
+    holdingPosition: false, persistentOrder: null, attackMove: false, attackMoveRouteReady: false,
     attackMoveResumePath: null, attackMoveResumePathIndex: 0,
     movePlanningPending: false,
     attackMoveAnchorX: 0, attackMoveAnchorZ: 0,
@@ -1755,6 +1755,14 @@ function workerAudioExecution(unit) {
   return dx * dx + dz * dz <= BUILDER_INTERACTION_RANGE ** 2 ? 'repair' : null;
 }
 
+function snapshotPersistentOrders(viewTeam = null) {
+  return units.filter(unit => unit.hp > 0 && unit.persistentOrder
+    && (viewTeam === null || unit.team === viewTeam)).map(unit => [
+      unit.id, unit.persistentOrder.type, unit.persistentOrder.status,
+      unit.persistentOrder.type === 'follow' ? unit.persistentOrder.targetId : null,
+    ]);
+}
+
 function snapshotQueuedWaypointCounts(viewTeam = null) {
   const rows = [];
   for (const unit of units) {
@@ -1767,6 +1775,7 @@ function snapshotQueuedWaypointCounts(viewTeam = null) {
 
 function workerTaskStatus(unit) {
   if (unit.holdingPosition) return 'holding';
+  if (unit.persistentOrder) return unit.persistentOrder.type === 'patrol' ? 'patrolling' : 'following';
   if (unit.gatherNodeId !== null || unit.gatherForestCell >= 0) {
     return unit.gatherPhase === 'to-base' ? 'returning' : 'gathering';
   }
@@ -2413,6 +2422,7 @@ function roomPayload(viewTeam = null, includeWaypointCounts = true) {
     winnerTriggerId: matchWinnerTriggerId, winnerReason: matchWinnerReason,
     fogOfWar: mapDefinition.fogOfWar,
     visibility: fogView ? snapshotVisibility(viewTeam) : null,
+    persistentOrders: snapshotPersistentOrders(viewTeam),
     units: snapshotUnits(fogView ? viewTeam : null), objectives: snapshotObjectives(fogView ? viewTeam : null),
     ...(includeWaypointCounts ? { queuedWaypointCounts: snapshotQueuedWaypointCounts(viewTeam) } : {}),
     food: fogView ? teamFood.map((amount, team) => team === viewTeam ? amount : null) : [...teamFood],
@@ -2510,6 +2520,7 @@ function captureMatchCheckpoint(sequence, savedAt = Date.now()) {
       currentArmySize,
     units: units.map((unit) => ({
       ...unit,
+      persistentOrder: unit.persistentOrder ? { ...unit.persistentOrder } : null,
       path: [...unit.path],
       attackMoveResumePath: unit.attackMoveResumePath === null
         ? null : [...unit.attackMoveResumePath],
@@ -2621,6 +2632,17 @@ function validateMatchCheckpoint(snapshot) {
       && (unit.lastAttackX === undefined || finite(unit.lastAttackX))
       && (unit.lastAttackZ === undefined || finite(unit.lastAttackZ))
       && integerIn(unit.orderRevision, 0, Number.MAX_SAFE_INTEGER), `invalid unit combat state ${index}`);
+    const persistent = unit.persistentOrder;
+    assertSnapshot(persistent === undefined || persistent === null || (
+      ['patrol', 'follow'].includes(persistent.type)
+      && ['active', 'blocked', 'following'].includes(persistent.status)
+      && integerIn(persistent.nextTick, 0, Number.MAX_SAFE_INTEGER)
+      && (persistent.type === 'patrol'
+        ? integerIn(persistent.start, 0, cellCount - 1) && integerIn(persistent.end, 0, cellCount - 1)
+          && [0, 1].includes(persistent.leg)
+        : integerIn(persistent.targetId, 0, state.units.length - 1)
+          && integerIn(persistent.targetGeneration, 1, 0xffffffff)
+          && integerIn(persistent.lastTargetCell, -1, cellCount - 1))), `invalid persistent order ${index}`);
     assertSnapshot((unit.holdingPosition === undefined || typeof unit.holdingPosition === 'boolean')
       && typeof unit.attackMove === 'boolean' && typeof unit.attackMoveRouteReady === 'boolean'
       && typeof unit.movePlanningPending === 'boolean'
@@ -2946,6 +2968,7 @@ function restoreMatchCheckpoint(snapshot) {
     units.push({
       ...record,
       holdingPosition: record.holdingPosition ?? false,
+      persistentOrder: record.persistentOrder ? { ...record.persistentOrder } : null,
       gatherForestCell: record.gatherForestCell ?? -1,
       path: [...record.path],
       attackMoveResumePath: record.attackMoveResumePath === null ? null : [...record.attackMoveResumePath],
@@ -3185,6 +3208,9 @@ function migrateMatchCheckpoint(snapshot) {
   if ([1, 2, 3].includes(snapshot?.rulesVersion)
     && !snapshot?.mapDefinition?.elevationPatches?.some((patch) => patch.level > 0)) {
     snapshot.rulesVersion = MATCH_RULES_VERSION;
+  }
+  if (snapshot?.schemaVersion === MATCH_CHECKPOINT_SCHEMA_VERSION && Array.isArray(snapshot.state?.units)) {
+    for (const unit of snapshot.state.units) if (unit && typeof unit === 'object') unit.persistentOrder ??= null;
   }
   return snapshot;
 }
@@ -3542,6 +3568,7 @@ function completeMovePlanningJob(job) {
 }
 
 function clearAttackMoveOrder(unit) {
+  unit.persistentOrder = null;
   unit.holdingPosition = false;
   unit.attackMove = false;
   unit.attackMoveRouteReady = false;
@@ -5290,6 +5317,7 @@ function assignFormationMove(player, command, buildingTargetId = null, orderLabe
     if (destination < 0) return;
     reservedDestinations.add(destination);
     if (queueWaypoint && canQueueBehindCurrentRoute(unit)) {
+      unit.persistentOrder = null;
       unit.queuedWaypoints.push({ destination, attackMove });
       queuedCount++;
       dirty = true;
@@ -5306,6 +5334,7 @@ function assignFormationMove(player, command, buildingTargetId = null, orderLabe
     unit.repathTimer = 0;
     unit.lastAttackCell = -1;
     unit.holdingPosition = false;
+    unit.persistentOrder = null;
     unit.attackMove = attackMove;
     unit.attackMoveRouteReady = false;
     unit.attackMoveResumePath = null;
@@ -5363,6 +5392,95 @@ function assignFormationMove(player, command, buildingTargetId = null, orderLabe
     : attackMove ? 'ATTACK MOVE' : 'MOVE';
   sendOrderNotice(player, job.clientOrderToken, `PLANNING ${planningLabel} · ${assignments.length} UNITS`);
   scheduleNextMovePlanning();
+  return assignments;
+}
+
+// Persistent intent rides the existing revision-safe, sliced planning queue.
+// Replanning is staggered and capped independently of army size; stalled routes
+// retry slowly, while Follow uses a four-cell deadband around a two-cell offset.
+const PERSISTENT_PLAN_BUDGET = 64;
+function assignPatrolOrder(player, command) {
+  if (!Array.isArray(command.ids)) { sendOrderNotice(player, command, 'PATROL REJECTED · NO VALID UNITS'); return; }
+  const starts = new Map(commandUnits(command).map(unit => [unit.id, nearestOpenCell(worldToCell(unit.x, unit.z))]));
+  const assignments = assignFormationMove(player, { ...command, type: 'attackMove', queue: false }, null, 'PATROL ORDER');
+  for (const { unit, destination } of assignments || []) {
+    unit.persistentOrder = { type: 'patrol', start: starts.get(unit.id), end: destination,
+      leg: 1, status: 'active', nextTick: tickNumber + (unit.id % TICK_RATE) };
+  }
+}
+function assignFollowOrder(player, command) {
+  if (!Array.isArray(command.ids)) { sendOrderNotice(player, command, 'FOLLOW REJECTED · NO VALID UNITS'); return; }
+  const target = units[command.targetId];
+  if (player.team === null || !target || target.hp <= 0 || target.team !== player.team
+    || !Number.isInteger(command.targetGeneration) || target.generation !== command.targetGeneration) {
+    sendOrderNotice(player, command, 'FOLLOW REJECTED · LIVING FRIENDLY TARGET REQUIRED'); return;
+  }
+  const selectedUnits = commandUnits(command).filter(unit => unit.hp > 0 && unit.team === player.team && unit !== target);
+  const selectedSet = new Set(selectedUnits.map(unit => unit.id));
+  let leader = target; const visited = new Set();
+  while (leader) {
+    if (selectedSet.has(leader.id) || visited.has(leader.id)) {
+      sendOrderNotice(player, command, 'FOLLOW REJECTED · FOLLOW CYCLE'); return;
+    }
+    visited.add(leader.id);
+    leader = leader.persistentOrder?.type === 'follow' ? units[leader.persistentOrder.targetId] : null;
+  }
+  if (!selectedUnits.length) { sendOrderNotice(player, command, 'FOLLOW REJECTED · NO VALID UNITS'); return; }
+  assignStationaryOrder({ ...player, sendJson() {} }, { type: 'stop', ids: selectedUnits.map(unit => unit.id) });
+  for (const unit of selectedUnits) {
+    unit.persistentOrder = { type: 'follow', targetId: target.id, targetGeneration: target.generation,
+      status: 'following', nextTick: tickNumber + (unit.id % TICK_RATE), lastTargetCell: -1 };
+  }
+  dirty = true;
+  sendOrderNotice(player, command, `FOLLOW ORDER · ${selectedUnits.length} UNITS`);
+}
+function updatePersistentOrders() {
+  const repairs = [];
+  for (const unit of units) {
+    const order = unit?.persistentOrder;
+    if (!order || unit.hp <= 0 || tickNumber < order.nextTick) continue;
+    order.nextTick = tickNumber + TICK_RATE;
+    let target = null;
+    if (order.type === 'follow') {
+      target = units[order.targetId];
+      if (!target || target.hp <= 0 || target.team !== unit.team || target.generation !== order.targetGeneration) {
+        // Losing a friendly leader stops safely; a recycled slot is never followed.
+        assignStationaryOrder({ team: unit.team, sendJson() {} }, { type: 'stop', ids: [unit.id] });
+        continue;
+      }
+    }
+    if (unit.movePlanningPending || unit.attackTargetId >= 0 || unit.attackBuildingTargetId >= 0) continue;
+    const start = nearestOpenCell(worldToCell(unit.x, unit.z));
+    let destination;
+    if (order.type === 'patrol') {
+      destination = order.leg ? order.end : order.start;
+      if (unit.pathIndex < unit.path.length) continue;
+      if (start === destination) { order.leg = 1 - order.leg; destination = order.leg ? order.end : order.start; }
+    } else {
+      const targetCell = nearestOpenCell(worldToCell(target.x, target.z));
+      if (walkableComponents[start] !== walkableComponents[targetCell]) {
+        order.status = 'blocked'; order.nextTick = tickNumber + TICK_RATE * 2; dirty = true; continue;
+      }
+      const distance = Math.hypot(target.x - unit.x, target.z - unit.z);
+      if (distance <= 4) {
+        if (unit.pathIndex < unit.path.length) { unit.orderRevision++; unit.path = []; unit.pathIndex = 0; }
+        order.status = 'following'; dirty = true; continue;
+      }
+      if (unit.pathIndex < unit.path.length && targetCell === order.lastTargetCell) continue;
+      const angle = (unit.id * 2.399963229728653);
+      destination = findAvailableCellNear(worldToCell(target.x + Math.cos(angle) * 2, target.z + Math.sin(angle) * 2),
+        walkableComponents[targetCell], new Set());
+      if (destination < 0) destination = targetCell;
+      order.lastTargetCell = targetCell;
+    }
+    if (walkableComponents[start] !== walkableComponents[destination]) {
+      order.status = 'blocked'; order.nextTick = tickNumber + TICK_RATE * 2; dirty = true; continue;
+    }
+    if (repairs.length >= PERSISTENT_PLAN_BUDGET) { order.nextTick = tickNumber + 1; continue; }
+    order.status = order.type === 'follow' ? 'following' : 'active';
+    repairs.push({ unit, destination });
+  }
+  enqueueRouteRepairs(repairs, { mode: 'persistent-order', orderLabel: 'PERSISTENT ROUTE' });
 }
 
 // Stationary orders invalidate sliced planning jobs by revision, preserve carried
@@ -5658,13 +5776,15 @@ async function publishMap(player, rawDefinition, persist = false) {
 
 async function handleCommand(player, command) {
   if (shuttingDown || !command || typeof command.type !== 'string') return;
-  if (matchWinner >= 0 && ['stop', 'holdPosition', 'move', 'attackMove', 'attack', 'attackBuilding', 'gather', 'train', 'build', 'trainArcher', 'trainUnit', 'trainWorker', 'setRallyPoint', 'researchUpgrade', 'cancelConstruction', 'cancelTraining', 'cancelResearch', 'repairBuilding'].includes(command.type)) {
+  if (matchWinner >= 0 && ['stop', 'holdPosition', 'patrol', 'follow', 'move', 'attackMove', 'attack', 'attackBuilding', 'gather', 'train', 'build', 'trainArcher', 'trainUnit', 'trainWorker', 'setRallyPoint', 'researchUpgrade', 'cancelConstruction', 'cancelTraining', 'cancelResearch', 'repairBuilding'].includes(command.type)) {
     sendOrderNotice(player, command, player.team === 0
       ? 'MATCH OVER · RESET BATTLEFIELD TO PLAY AGAIN'
       : 'MATCH OVER · WAIT FOR HOST TO RESET');
     return;
   }
   if (command.type === 'stop' || command.type === 'holdPosition') assignStationaryOrder(player, command);
+  if (command.type === 'patrol') assignPatrolOrder(player, command);
+  if (command.type === 'follow') assignFollowOrder(player, command);
   if (command.type === 'move') assignFormationMove(player, command);
   if (command.type === 'attackMove') assignFormationMove(player, command);
   if (command.type === 'attack') assignAttack(player, command);
@@ -6157,6 +6277,7 @@ function simulateTick() {
   if (!scenarioClockStarted && connectedCount() >= 2) scenarioClockStarted = true;
   if (scenarioClockStarted) matchElapsedSeconds += STEP_SECONDS;
   rebuildSpatialBuckets();
+  updatePersistentOrders();
   const attackMovePlans = prepareAttackMovePaths();
   // Resolve attacks together so a lethal hit cannot cancel a same-tick counterattack.
   pendingUnitDamage.fill(0, 0, units.length);

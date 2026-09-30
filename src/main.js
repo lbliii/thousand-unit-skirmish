@@ -119,7 +119,7 @@ const UNIT_SPRITE_MARKER_ZOOM_THRESHOLD = 0.6;
 const MAX_OBJECTIVE_FOOD_REWARD = 10000;
 const MAX_TRIGGER_UNIT_REWARD = 25;
 const WORKERS_PER_TEAM = 4;
-const WORKER_TASK_STATES = new Set(['idle', 'moving', 'gathering', 'returning', 'building', 'repairing', 'attacking', 'holding']);
+const WORKER_TASK_STATES = new Set(['idle', 'moving', 'gathering', 'returning', 'building', 'repairing', 'attacking', 'holding', 'patrolling', 'following']);
 const INFANTRY_FOOD_COST = UNIT_DEFINITIONS.infantry.cost.food;
 const INFANTRY_TRAIN_SECONDS = UNIT_DEFINITIONS.infantry.trainSeconds;
 const WORKER_FOOD_COST = UNIT_DEFINITIONS.worker.cost.food;
@@ -529,6 +529,7 @@ let latestRosterSize = 1000;
 let matchWinner = -1;
 let matchWinnerReason = null;
 let attackMoveMode = false;
+let persistentTargetMode = null;
 let tapOrderArmed = false;
 let tapOrderPointer = null;
 let knownMaps = [];
@@ -3463,7 +3464,7 @@ function setArmySize(count, showMessage = false) {
 
 function updateStationaryOrderControls(selectedBuilding) {
   const disabled = localTeam === null || matchWinner >= 0 || selectedIds().length === 0 || Boolean(selectedBuilding);
-  for (const button of document.querySelectorAll('[data-stationary-order]')) button.disabled = disabled;
+  for (const button of document.querySelectorAll('[data-stationary-order], [data-persistent-order]')) button.disabled = disabled;
 }
 
 function updateSelectionUI() {
@@ -3529,6 +3530,15 @@ function updateSelectionUI() {
     ui.selectedWaypoints.hidden = selected.size === 0 || queuedWaypointTotal === 0;
     ui.selectedWaypoints.textContent = `${queuedWaypointTotal.toLocaleString()} QUEUED WAYPOINTS · ${unitsWithQueuedWaypoints.toLocaleString()} UNITS`;
   }
+  const persistentCounts = new Map();
+  for (const id of selectedIds()) {
+    const order = units[id]?.persistentOrder;
+    if (order) { const label = `${order.type.toUpperCase()}${order.status === 'blocked' ? ' BLOCKED' : ''}`;
+      persistentCounts.set(label, (persistentCounts.get(label) || 0) + 1); }
+  }
+  const persistentSummary = document.querySelector('#selected-persistent-orders');
+  if (persistentSummary) { persistentSummary.hidden = !persistentCounts.size;
+    persistentSummary.textContent = [...persistentCounts].map(([label, count]) => `${count} ${label}`).join(' · '); }
   updateContextualCommands();
 }
 
@@ -3543,7 +3553,7 @@ function updateContextualCommands() {
   bar.querySelector('[data-context-summary]').textContent = building
     ? `${buildingLabel(building.type)} · ${ui.selectedBuildingHealth.textContent} · ${ui.selectedBuildingProduction.textContent}`
     : context.total ? `${context.total} selected${context.kind === 'military' || context.kind === 'mixed' ? ` · ${ui.formationSelect.value} formation` : ''} · ${Object.entries(context.counts).filter(([, n]) => n).map(([role, n]) => `${n} ${role}`).join(' · ')}${context.counts.worker ? ` · Cargo ${formatResourceStock(context.cargo.food)} food / ${formatResourceStock(context.cargo.wood)} wood` : ''}` : '';
-  for (const button of bar.querySelectorAll('[data-stationary-order]')) {
+  for (const button of bar.querySelectorAll('[data-stationary-order], [data-persistent-order]')) {
     button.hidden = !['workers', 'military', 'mixed'].includes(context.kind);
   }
   updateRosterProductionOptions(bar.querySelector('[data-context-products]'), building);
@@ -3974,6 +3984,7 @@ function updateMatchResult(winner, triggerId = null, reason = null) {
   if (matchWinner >= 0 && buildPlacementActive) cancelBuildPlacement(false);
   if (matchWinner >= 0) {
     attackMoveMode = false;
+    persistentTargetMode = null;
     if (tapOrderArmed) setTapOrderArmed(false, false);
   }
   if (!matchResult) return;
@@ -4026,7 +4037,7 @@ function updateCommandUI() {
     && building.team === localTeam) || null;
   updateStationaryOrderControls(selectedBuilding);
   const rallyCell = Number.isInteger(selectedBuilding?.rallyCell) ? selectedBuilding.rallyCell : -1;
-  const mode = selectedBuilding ? BUILDING_DEFINITIONS[selectedBuilding.type]?.products.length ? 'RALLY' : 'BUILDING' : attackMoveMode ? 'ATTACK MOVE' : 'MOVE';
+  const mode = selectedBuilding ? BUILDING_DEFINITIONS[selectedBuilding.type]?.products.length ? 'RALLY' : 'BUILDING' : persistentTargetMode ? persistentTargetMode.toUpperCase() : attackMoveMode ? 'ATTACK MOVE' : 'MOVE';
   if (ui.commandMode) {
     ui.commandMode.textContent = mode;
     ui.commandMode.dataset.mode = selectedBuilding ? 'rally' : attackMoveMode ? 'attack-move' : 'move';
@@ -4051,7 +4062,7 @@ function updateCommandUI() {
   }
   if (ui.commandTitle) ui.commandTitle.textContent = selectedBuilding
     ? selectedBuilding.home ? 'TOWN CENTER · HOME' : `${buildingLabel(selectedBuilding.type)} #${selectedBuilding.id}`
-    : attackMoveMode ? 'Advance and engage' : 'Move or attack';
+    : persistentTargetMode === 'patrol' ? 'Patrol there and back' : persistentTargetMode === 'follow' ? 'Follow a friendly leader' : attackMoveMode ? 'Advance and engage' : 'Move or attack';
   const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
   const utilityBuilding = selectedBuilding && !BUILDING_DEFINITIONS[selectedBuilding.type]?.products.length;
   if (ui.commandHint) ui.commandHint.textContent = utilityBuilding ? BUILDING_DEFINITIONS[selectedBuilding.type].combat
@@ -4065,6 +4076,11 @@ function updateCommandUI() {
       : (rallyCell >= 0 ? 'Right-click ground to move the production rally' : 'Right-click ground to set a production rally')
       : coarsePointer ? 'Use Target battlefield, then tap a target'
         : attackMoveMode ? 'Right-click ground to advance and engage' : 'Right-click ground or an enemy';
+  if (persistentTargetMode && ui.commandHint) ui.commandHint.textContent = `${tapOrderArmed ? 'Tap or click' : coarsePointer ? 'Use Target battlefield, then tap' : 'Right-click'} ${persistentTargetMode === 'follow' ? 'a friendly unit' : 'ground to set the second patrol endpoint'}`;
+  for (const button of document.querySelectorAll('[data-persistent-order]')) {
+    button.classList.toggle('active', button.dataset.persistentOrder === persistentTargetMode);
+    button.setAttribute('aria-pressed', String(button.dataset.persistentOrder === persistentTargetMode));
+  }
   if (ui.buildingCommandDetails) ui.buildingCommandDetails.hidden = !selectedBuilding || !BUILDING_DEFINITIONS[selectedBuilding.type]?.products.length;
   if (ui.buildingRallyReadout) {
     if (rallyCell >= 0) {
@@ -4279,6 +4295,12 @@ function applyState(state, initial = false) {
       updateUnitCargoCueColor(unit);
       updateUnitTransform(unit);
       changed = true;
+    }
+  }
+  if (Array.isArray(state.persistentOrders)) {
+    for (const unit of units) if (unit) unit.persistentOrder = null;
+    for (const [id, type, status, targetId] of state.persistentOrders) {
+      if (units[id]?.team === localTeam) units[id].persistentOrder = { type, status, targetId };
     }
   }
   if (Array.isArray(state.queuedWaypointCounts)) applyWaypointQueueCounts(state.queuedWaypointCounts);
@@ -7066,6 +7088,7 @@ function selectedIds() {
 }
 
 function issueStationaryOrder(type) {
+  persistentTargetMode = null;
   if (localTeam === null || matchWinner >= 0) return;
   const ids = selectedIds();
   if (!ids.length) { showToast('SELECT YOUR UNITS BEFORE ISSUING AN ORDER'); return; }
@@ -7078,8 +7101,22 @@ for (const button of document.querySelectorAll('[data-stationary-order]')) {
   button.addEventListener('click', () => issueStationaryOrder(button.dataset.stationaryOrder));
 }
 
+function setPersistentTargetMode(type) {
+  if (localTeam === null || matchWinner >= 0 || !selectedIds().length) return;
+  attackMoveMode = false;
+  persistentTargetMode = persistentTargetMode === type ? null : type;
+  updateCommandUI();
+  showToast(persistentTargetMode === 'patrol' ? 'PATROL READY · TARGET GROUND TO PATROL THERE AND BACK'
+    : persistentTargetMode === 'follow' ? 'FOLLOW READY · TARGET A FRIENDLY UNIT'
+    : 'MOVE MODE READY');
+}
+for (const button of document.querySelectorAll('[data-persistent-order]')) {
+  button.addEventListener('click', () => setPersistentTargetMode(button.dataset.persistentOrder));
+}
+
 function setAttackMoveMode(enabled, announce = true) {
   if (enabled && (localTeam === null || matchWinner >= 0)) return;
+  if (enabled) persistentTargetMode = null;
   attackMoveMode = Boolean(enabled);
   updateCommandUI();
   if (announce) showToast(attackMoveMode
@@ -7110,18 +7147,21 @@ function issueMove(point, queueWaypoint = false) {
   const ids = selectedIds();
   if (ids.length === 0) { showToast('SELECT YOUR UNITS BEFORE ISSUING AN ORDER'); return; }
   const attackMoveOrder = attackMoveMode;
-  const type = attackMoveOrder ? 'attackMove' : 'move';
+  if (persistentTargetMode === 'follow') { showToast('FOLLOW NEEDS A FRIENDLY UNIT TARGET'); return; }
+  const patrolOrder = persistentTargetMode === 'patrol';
+  const type = patrolOrder ? 'patrol' : attackMoveOrder ? 'attackMove' : 'move';
   const formation = ['line', 'column'].includes(ui.formationSelect?.value)
     ? ui.formationSelect.value : 'box';
   if (sendTrackedOrder({ type, ids, x: point.x, z: point.z, formation,
-    ...(queueWaypoint ? { queue: true } : {}) },
-  queueWaypoint ? 'QUEUE WAYPOINT' : attackMoveOrder ? 'ATTACK MOVE' : 'MOVE', ids.length)) {
+    ...(queueWaypoint && !patrolOrder ? { queue: true } : {}) },
+  patrolOrder ? 'PATROL' : queueWaypoint ? 'QUEUE WAYPOINT' : attackMoveOrder ? 'ATTACK MOVE' : 'MOVE', ids.length)) {
     moveMarker.position.set(point.x, 0.045, point.z);
     moveMarker.material.color.setHex(attackMoveOrder ? 0xf0b47c : 0xe5f79a);
     moveMarker.scale.setScalar(1);
     moveMarker.material.opacity = 0.95;
     moveMarker.visible = true;
     moveMarkerAge = 0;
+    if (patrolOrder) { persistentTargetMode = null; updateCommandUI(); }
     if (attackMoveOrder) setAttackMoveMode(false, false);
   }
 }
@@ -7199,6 +7239,19 @@ function issueContextOrder(clientX, clientY, queueWaypoint = false) {
   const rect = renderer.domElement.getBoundingClientRect();
   const x = clientX - rect.left;
   const y = clientY - rect.top;
+  if (persistentTargetMode === 'patrol') {
+    const point = worldAt(clientX, clientY); if (point) issueMove(point); return;
+  }
+  if (persistentTargetMode === 'follow') {
+    const friendly = pickAt(x, y, unit => unit.team === localTeam)?.unit;
+    if (!friendly) { showToast('FOLLOW NEEDS A FRIENDLY UNIT TARGET'); return; }
+    const ids = selectedIds().filter(id => id !== friendly.id);
+    if (!ids.length) { showToast('SELECT FOLLOWERS OTHER THAN THE LEADER'); return; }
+    if (sendTrackedOrder({ type: 'follow', ids, targetId: friendly.id }, 'FOLLOW', ids.length)) {
+      persistentTargetMode = null; setTapOrderArmed(false, false); updateCommandUI();
+    }
+    return;
+  }
   const enemyPick = localTeam === null ? null : pickAt(x, y, (unit) => unit.team !== localTeam);
   const enemy = enemyPick?.unit || null;
   if (enemy) {
@@ -7415,6 +7468,7 @@ function beginBuildPlacement(type) {
   syncSelectionMesh();
   updateSelectionUI();
   attackMoveMode = false;
+  persistentTargetMode = null;
   updateCommandUI();
   buildPlacementType = type;
   buildPlacementActive = true;
@@ -8408,6 +8462,10 @@ window.addEventListener('keydown', (event) => {
     }
   }
   if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey
+    && ['p', 'f'].includes(event.key.toLowerCase())) {
+    event.preventDefault(); setPersistentTargetMode(event.key.toLowerCase() === 'p' ? 'patrol' : 'follow'); return;
+  }
+  if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey
     && ['s', 'h'].includes(event.key.toLowerCase())) {
     event.preventDefault();
     issueStationaryOrder(event.key.toLowerCase() === 's' ? 'stop' : 'holdPosition');
@@ -8422,6 +8480,7 @@ window.addEventListener('keydown', (event) => {
   if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey
     && event.key.toLowerCase() === 'a') selectWholeTeam();
   if (event.key === 'Escape') {
+    if (persistentTargetMode) { persistentTargetMode = null; updateCommandUI(); return; }
     if (tapOrderArmed) {
       setTapOrderArmed(false);
       return;
