@@ -1,0 +1,269 @@
+{
+  "id": "fortified-crossing",
+  "name": "FORTIFIED CROSSING",
+  "summary": "Patrol the crossings; build and research for relief. Claim both Signals, then hold the Watch for 30s.",
+  "width": 80,
+  "height": 64,
+  "terrainSeed": 881,
+  "fogOfWar": true,
+  "spawnPoints": [
+    {
+      "team": 0,
+      "x": -26.5,
+      "z": 0.5
+    },
+    {
+      "team": 1,
+      "x": 26.5,
+      "z": 0.5
+    }
+  ],
+  "resourceNodes": [
+    {
+      "id": "food-17-39",
+      "type": "food",
+      "x": -22.5,
+      "z": 7.5,
+      "stock": 1200
+    },
+    {
+      "id": "wood-17-25",
+      "type": "wood",
+      "x": -22.5,
+      "z": -6.5,
+      "stock": 1200
+    },
+    {
+      "id": "food-62-39",
+      "type": "food",
+      "x": 22.5,
+      "z": 7.5,
+      "stock": 1200
+    },
+    {
+      "id": "wood-62-25",
+      "type": "wood",
+      "x": 22.5,
+      "z": -6.5,
+      "stock": 1200
+    },
+    {
+      "id": "food-27-48",
+      "type": "food",
+      "x": -12.5,
+      "z": 16.5,
+      "stock": 800
+    },
+    {
+      "id": "wood-27-16",
+      "type": "wood",
+      "x": -12.5,
+      "z": -15.5,
+      "stock": 800
+    },
+    {
+      "id": "food-52-48",
+      "type": "food",
+      "x": 12.5,
+      "z": 16.5,
+      "stock": 800
+    },
+    {
+      "id": "wood-52-16",
+      "type": "wood",
+      "x": 12.5,
+      "z": -15.5,
+      "stock": 800
+    }
+  ],
+  "obstacles": [
+    {
+      "column": 38,
+      "row": 0,
+      "width": 4,
+      "height": 10,
+      "material": "water"
+    },
+    {
+      "column": 14,
+      "row": 2,
+      "width": 5,
+      "height": 5,
+      "material": "forest"
+    },
+    {
+      "column": 61,
+      "row": 2,
+      "width": 5,
+      "height": 5,
+      "material": "forest"
+    },
+    {
+      "column": 38,
+      "row": 23,
+      "width": 4,
+      "height": 5,
+      "material": "water"
+    },
+    {
+      "column": 38,
+      "row": 37,
+      "width": 4,
+      "height": 5,
+      "material": "water"
+    },
+    {
+      "column": 38,
+      "row": 54,
+      "width": 4,
+      "height": 10,
+      "material": "water"
+    },
+    {
+      "column": 14,
+      "row": 57,
+      "width": 5,
+      "height": 5,
+      "material": "forest"
+    },
+    {
+      "column": 61,
+      "row": 57,
+      "width": 5,
+      "height": 5,
+      "material": "forest"
+    }
+  ],
+  "triggers": [
+    {
+      "id": "capture-zone-1",
+      "name": "North Signal",
+      "type": "capture-zone",
+      "zone": {
+        "column": 33,
+        "row": 11,
+        "width": 14,
+        "height": 11
+      },
+      "requiredUnits": 5,
+      "captureSeconds": 9,
+      "foodReward": 75,
+      "woodReward": 50,
+      "unitCount": 0,
+      "unitKind": "infantry",
+      "victory": true,
+      "message": "{team} CLAIMED THE NORTH SIGNAL"
+    },
+    {
+      "id": "capture-zone-2",
+      "name": "South Signal",
+      "type": "capture-zone",
+      "zone": {
+        "column": 33,
+        "row": 42,
+        "width": 14,
+        "height": 11
+      },
+      "requiredUnits": 5,
+      "captureSeconds": 9,
+      "foodReward": 75,
+      "woodReward": 50,
+      "unitCount": 0,
+      "unitKind": "infantry",
+      "victory": true,
+      "message": "{team} CLAIMED THE SOUTH SIGNAL"
+    },
+    {
+      "id": "capture-zone-3",
+      "name": "Vale Watch",
+      "type": "capture-zone",
+      "zone": {
+        "column": 33,
+        "row": 28,
+        "width": 14,
+        "height": 8
+      },
+      "requiredUnits": 8,
+      "captureSeconds": 12,
+      "foodReward": 0,
+      "unitCount": 0,
+      "unitKind": "infantry",
+      "victory": true,
+      "message": "{team} HOLDS THE VALE WATCH",
+      "requiresAll": [
+        "capture-zone-1",
+        "capture-zone-2"
+      ]
+    }
+  ],
+  "victoryMode": "all",
+  "scenarioEvents": [
+    {
+      "id": "scout-relief",
+      "name": "Scout Relief",
+      "type": "timed-supply",
+      "afterSeconds": 20,
+      "team": "both",
+      "foodReward": 0,
+      "unitCount": 1,
+      "unitKind": "scout",
+      "message": "{team} SCOUT RELIEF ARRIVED \u00b7 FOLLOW IT TO THE CROSSING"
+    },
+    {
+      "id": "crossing-relief-0",
+      "name": "Azure Crossing Relief",
+      "type": "timed-supply",
+      "afterSeconds": 10,
+      "team": "0",
+      "foodReward": 50,
+      "woodReward": 25,
+      "trigger": {
+        "type": "region-entry",
+        "regionId": "crossing",
+        "team": "0",
+        "minimumUnits": 3
+      },
+      "message": "{team} REACHED THE CROSSING \u00b7 +{reward} FOOD \u00b7 +{wood} WOOD"
+    },
+    {
+      "id": "crossing-relief-1",
+      "name": "Ember Crossing Relief",
+      "type": "timed-supply",
+      "afterSeconds": 10,
+      "team": "1",
+      "foodReward": 50,
+      "woodReward": 25,
+      "trigger": {
+        "type": "region-entry",
+        "regionId": "crossing",
+        "team": "1",
+        "minimumUnits": 3
+      },
+      "message": "{team} REACHED THE CROSSING \u00b7 +{reward} FOOD \u00b7 +{wood} WOOD"
+    }
+  ],
+  "terrainBase": "meadow",
+  "startingArmySize": 24,
+  "startingResources": {
+    "food": 350,
+    "wood": 600
+  },
+  "victoryHoldSeconds": 30,
+  "timedVictory": {
+    "afterSeconds": 900,
+    "objectiveId": "capture-zone-3"
+  },
+  "terrainPatches": [],
+  "regions": [
+    {
+      "id": "crossing",
+      "name": "Central Crossing",
+      "zone": {
+        "column": 33,
+        "row": 28,
+        "width": 14,
+        "height": 8
+      }
+    }
+  ]
+}
