@@ -79,3 +79,5 @@ First-pass integration audit: nine sprite tests pass, including every available 
 ### Integration against current main, 30 September
 
 Current main additionally implements Scout, Rider and Siege Engine. These retain their existing mounted/siege placeholder geometry; this sprite slice covers the four foot roles. Their bespoke art remains outstanding. All four foot roles resolve non-idle action graphics in every heading, using approximate nearest-heading clips where needed. Atlas validation, nine sprite tests, documentation links and disposable release packaging passed. The broader suite stopped at a mirrored Infantry combat message timeout, before the main rebase; it is not recorded as passing. Browser policy blocked the live appearance capture, so post-integration in-game appearance remains unverified.
+
+The focused mirrored Infantry combat retry passed on current main, covering both seat layouts and both command orders. Current-main disposable release packaging also passed. PR #279 tracks integration; hosted CI is pending.
