@@ -71,6 +71,8 @@ const region=process.env.RTS_VEGETATION_REGION || 'bellweather';
 if(!['bellweather','veyrholds','underbough','sereward','ellionar','pale-meridian','siltmouths','vesperra','sombral-mere','ru-lora'].includes(region))throw new Error('Unknown vegetation capture region');
 const acaciaCapture=process.env.RTS_VEGETATION_FAMILY==='sereward-acacia';
 if(acaciaCapture&&region!=='sereward')throw new Error('Acacia capture requires Sereward');
+const scrubCapture=process.env.RTS_VEGETATION_FAMILY==='sereward-scrub';
+if(scrubCapture&&region!=='sereward')throw new Error('Scrub capture requires Sereward');
 const hedgeCapture=process.env.RTS_VEGETATION_FAMILY==='ellionar-garden-hedge';
 if(hedgeCapture&&region!=='ellionar')throw new Error('Hedge capture requires Ellionar');
 const brambleCapture=process.env.RTS_VEGETATION_FAMILY==='underbough-bramble';
@@ -78,7 +80,7 @@ if(brambleCapture&&region!=='underbough')throw new Error('Bramble capture requir
 const lifecycle=process.env.RTS_VEGETATION_LIFECYCLE==='1';
 if(lifecycle&&!['bellweather','sereward','pale-meridian','siltmouths','vesperra','sombral-mere','underbough','veyrholds','ellionar'].includes(region))throw new Error('No lifecycle pack for region');
 const atlasCapture=process.env.RTS_VEGETATION_ATLAS==='1';
-const out=acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-broken-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
+const out=scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-broken-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
@@ -160,7 +162,7 @@ try {
    for(const slot of slots.values())setForestSpriteStock(slot,0);
    // Hide every non-preview slot, including registered depleted frames.
    for(const m of scene.children){const zero=new THREE.Matrix4().makeScale(0,0,0);for(let i=0;i<m.count;i++)m.setMatrixAt(i,zero);m.instanceMatrix.needsUpdate=true}
-   const selected=[...slots.values()].filter(s=>s.family===${JSON.stringify(acaciaCapture?'sereward-acacia':hedgeCapture?'ellionar-garden-hedge':region==='ellionar'?'ellionar-cultivated-palm':region==='veyrholds'?'veyrholds-highpine':brambleCapture?'underbough-bramble':region==='underbough'?'underbough-copperleaf':region==='sombral-mere'?'sombral-mere-merebloom':region==='vesperra'?'vesperra-mistbark':region==='siltmouths'?'siltmouths-tidal-tree':region==='pale-meridian'?'pale-meridian-conifer':region==='sereward'?'sereward-palm':'bellweather-field-maple')}&&s.atlas).slice(0,4);
+   const selected=[...slots.values()].filter(s=>s.family===${JSON.stringify(acaciaCapture?'sereward-acacia':scrubCapture?'sereward-scrub':hedgeCapture?'ellionar-garden-hedge':region==='ellionar'?'ellionar-cultivated-palm':region==='veyrholds'?'veyrholds-highpine':brambleCapture?'underbough-bramble':region==='underbough'?'underbough-copperleaf':region==='sombral-mere'?'sombral-mere-merebloom':region==='vesperra'?'vesperra-mistbark':region==='siltmouths'?'siltmouths-tidal-tree':region==='pale-meridian'?'pale-meridian-conifer':region==='sereward'?'sereward-palm':'bellweather-field-maple')}&&s.atlas).slice(0,4);
    if(selected.length!==4)throw new Error('Lifecycle pilot slots missing');
    const expected=['full','worked','low','depleted'],stocks=[6,3,1,0],checks=[];
    for(let i=0;i<4;i++){
@@ -212,7 +214,7 @@ try {
  if(!proof[0].files.includes('bellweather-lifecycle-atlas.webp')||!proof[0].files.includes('bellweather-hedgerow.webp')||proof[1].files.some(f=>f.startsWith('bellweather')))throw new Error('Vegetation palette binding mismatch');
  if(!proof[2].files.includes('veyrholds-lifecycle-atlas.webp')||!proof[2].files.includes('veyrholds-ironlichen-outcrop.webp')||proof.slice(0,2).some(r=>r.files.some(f=>f.startsWith('veyrholds'))))throw new Error('Veyrholds palette binding mismatch');
  if(!proof[3].files.includes('underbough-lifecycle-atlas.webp')||!proof[3].files.includes('underbough-bramble-lifecycle-atlas.webp')||proof[3].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f))||proof.slice(0,3).some(r=>r.files.some(f=>f.startsWith('underbough'))))throw new Error('Underbough forest mix mismatch');
- if(!['sereward-lifecycle-atlas.webp','sereward-acacia-lifecycle-atlas.webp','sereward-scrub.webp'].every(f=>proof[4].files.includes(f))||proof[4].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f))||proof.slice(0,4).some(r=>r.files.some(f=>f.startsWith('sereward'))))throw new Error('Sereward forest mix mismatch');
+ if(!['sereward-lifecycle-atlas.webp','sereward-acacia-lifecycle-atlas.webp','sereward-scrub-lifecycle-atlas.webp'].every(f=>proof[4].files.includes(f))||proof[4].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f))||proof.slice(0,4).some(r=>r.files.some(f=>f.startsWith('sereward'))))throw new Error('Sereward forest mix mismatch');
  if(!['ellionar-lifecycle-atlas.webp','ellionar-hedge-lifecycle-atlas.webp'].every(f=>proof[5].files.includes(f))||proof[5].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f))||proof.slice(0,5).some(r=>r.files.some(f=>f.startsWith('ellionar'))))throw new Error('Ellionar garden mix mismatch');
  for(const i of [1,6])if(!proof[i].files.includes('pale-meridian-lifecycle-atlas.webp')||proof[i].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Pale Meridian forest mix mismatch');
  if(!proof[7].files.includes('siltmouths-lifecycle-atlas.webp')||proof[7].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Siltmouths forest mix mismatch');
@@ -264,7 +266,7 @@ try {
  await writeFile(out+'/forest-cover-proof.json',JSON.stringify(covers,null,2)+'\n');
  if(lifecycle&&['sereward','pale-meridian','siltmouths','vesperra','sombral-mere','underbough','veyrholds','ellionar'].includes(region)){
   const cold=region==='pale-meridian';
-  const harvestCell=acaciaCapture?770:region==='veyrholds'?810:brambleCapture||hedgeCapture?769:768;
+  const harvestCell=scrubCapture?769:acaciaCapture?770:region==='veyrholds'?810:brambleCapture||hedgeCapture?769:768;
   const map={id:region+'-harvest-check',name:region.toUpperCase()+' HARVEST CHECK',summary:'Observe one regional tree through harvest and reset.',width:40,height:40,terrainBase:region==='ellionar'?'garden-loam':region==='veyrholds'?'scree':region==='underbough'?'forest-floor':region==='sombral-mere'?'lunar-soil':region==='vesperra'?'jungle-loam':region==='siltmouths'?'tidal-mud':cold?'snow':'sand',startingArmySize:8,startingResources:{wood:0},fogOfWar:true,spawnPoints:[{team:0,x:-14,z:0},{team:1,x:14,z:0}],obstacles:[{column:harvestCell%40,row:Math.floor(harvestCell/40),width:1,height:1,material:'forest'}],resourceNodes:[],triggers:[],scenarioEvents:[]};
   await cdp.evaluate(`window.__qaForestSocket.send(JSON.stringify({type:'publishMap',persist:false,map:${JSON.stringify(map)}}))`);
   for(let i=0;i<50;i++){if(await cdp.evaluate('document.querySelector("#map-label-title")?.textContent')===map.name)break;await sleep(100)}
@@ -296,7 +298,7 @@ try {
   }
   if(!restored)throw new Error('Live forest reset failed');
   await sleep(100);shot=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/harvest-reset.png',Buffer.from(shot.data,'base64'));
-  await writeFile(out+'/live-harvest-proof.json',JSON.stringify({mapId:map.id,targetCell:harvestCell,family:acaciaCapture?'sereward-acacia':hedgeCapture?'ellionar-garden-hedge':region==='ellionar'?'ellionar-cultivated-palm':region==='veyrholds'?'veyrholds-highpine':brambleCapture?'underbough-bramble':region==='underbough'?'underbough-copperleaf':region==='sombral-mere'?'sombral-mere-merebloom':region==='vesperra'?'vesperra-mistbark':region==='siltmouths'?'siltmouths-tidal-tree':cold?'pale-meridian-conifer':'sereward-palm',observed,reset:true},null,2)+'\n');
+  await writeFile(out+'/live-harvest-proof.json',JSON.stringify({mapId:map.id,targetCell:harvestCell,family:acaciaCapture?'sereward-acacia':scrubCapture?'sereward-scrub':hedgeCapture?'ellionar-garden-hedge':region==='ellionar'?'ellionar-cultivated-palm':region==='veyrholds'?'veyrholds-highpine':brambleCapture?'underbough-bramble':region==='underbough'?'underbough-copperleaf':region==='sombral-mere'?'sombral-mere-merebloom':region==='vesperra'?'vesperra-mistbark':region==='siltmouths'?'siltmouths-tidal-tree':cold?'pale-meridian-conifer':'sereward-palm',observed,reset:true},null,2)+'\n');
  }
  if(atlasCapture){
   cdp.on('Fetch.requestPaused',e=>{void cdp.call('Fetch.fulfillRequest',{requestId:e.requestId,responseCode:404,responseHeaders:[{name:'content-type',value:'application/json'}],body:Buffer.from('{}').toString('base64')})});
@@ -305,7 +307,7 @@ try {
   const fallback=await cdp.evaluate(`(async()=>{
    const {addObstacleEnvironmentSprites,setForestSpriteStock}=await import('/src/environment-art.mjs');
    const result=[];
-   for(const [base,family] of [['meadow','bellweather-field-maple'],['sand','sereward-palm'],['snow','pale-meridian-conifer'],['tidal-mud','siltmouths-tidal-tree'],['jungle-loam','vesperra-mistbark'],['lunar-soil','sombral-mere-merebloom'],['forest-floor','underbough-copperleaf'],['forest-floor','underbough-bramble'],['scree','veyrholds-highpine'],['garden-loam','ellionar-cultivated-palm'],['garden-loam','ellionar-garden-hedge'],['sand','sereward-acacia']]){
+   for(const [base,family] of [['meadow','bellweather-field-maple'],['sand','sereward-palm'],['snow','pale-meridian-conifer'],['tidal-mud','siltmouths-tidal-tree'],['jungle-loam','vesperra-mistbark'],['lunar-soil','sombral-mere-merebloom'],['forest-floor','underbough-copperleaf'],['forest-floor','underbough-bramble'],['scree','veyrholds-highpine'],['garden-loam','ellionar-cultivated-palm'],['garden-loam','ellionar-garden-hedge'],['sand','sereward-acacia'],['sand','sereward-scrub']]){
     const objects=[];const slots=addObstacleEnvironmentSprites({width:24,height:24,terrainBase:base,obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]},12,12,o=>objects.push(o));
     const s=[...slots.values()].find(s=>s.family===family);if(!s?.stateMeshes||s.atlas)throw new Error('Atlas fallback did not restore individual state batches');
     for(let i=0;i<50&&objects.some(o=>!o.material.map.image?.complete);i++)await new Promise(r=>setTimeout(r,100));

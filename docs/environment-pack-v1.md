@@ -522,3 +522,11 @@ The [bramble atlas](../assets/environment/frontier-v1/underbough-bramble-lifecyc
 [Separate lazy atlas](../assets/environment/frontier-v1/sereward-acacia-lifecycle-atlas.json) uses the existing four-state contract, 64px gutter, half-texel inset and mip cap six, with individual-frame fallback. Sand maps keep their approximately 55% palm / 30% acacia / 15% scrub selection, forest identities, yield and collision. Scrub lifecycle remains unfinished.
 
 [Local evidence](qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30/README.md) exercises acacia separately with worker harvest/reset, upright renderer matrices and metadata-failure fallback. Single fixed-oblique painted view; approximate camera guidance. Action animation, extra perspectives and regional fauna remain ongoing.
+
+## Sereward woody scrub lifecycle · 30 September 2026
+
+[Scrub preview](../assets/environment/frontier-v1/sereward-scrub-lifecycle-preview.png), [manifest](../assets/environment/frontier-v1/sereward-scrub-lifecycle-manifest.json) and [exact prompts](../assets/environment/frontier-v1/SEREWARD-SCRUB-LIFECYCLE-PROMPTS.json) extend the approved sage/turquoise and violet-flowered woody shrub with clipped tips, cut-back branches and a low cleared root crown. It remains a wood-bearing forest slot, not a food or flower resource. Full source/runtime remain unchanged; edits share the original 1508×1043 canvas and [54,66,1466,976] crop, yielding four 1024×660 frames.
+
+[Lazy atlas](../assets/environment/frontier-v1/sereward-scrub-lifecycle-atlas.json) follows the four-state, 64px-gutter, half-texel inset and mip-cap-six contract, with individual-texture fallback. All three Sereward forest families now have matching depletion art. Sand maps retain their approximately 55% palm / 30% acacia / 15% scrub selection, forest identities, yield and collision.
+
+[Local evidence](qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30/README.md) exercises scrub harvesting/reset separately, upright renderer matrices and metadata-failure fallback. One fixed-oblique painted view; approximate camera guidance. Action animation, extra perspectives, fauna and more species remain ongoing.

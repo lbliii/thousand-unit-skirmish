@@ -1,0 +1,20 @@
+{
+  "mapId": "sereward-harvest-check",
+  "targetCell": 769,
+  "family": "sereward-scrub",
+  "observed": [
+    {
+      "stage": "worked",
+      "stock": 3.966669
+    },
+    {
+      "stage": "low",
+      "stock": 1.966671
+    },
+    {
+      "stage": "depleted",
+      "stock": 0
+    }
+  ],
+  "reset": true
+}
