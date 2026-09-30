@@ -6885,6 +6885,7 @@ const server = createServer(async (request, response) => {
       'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
       'underbough-copperleaf', 'underbough-bramble',
       'sereward-palm', 'sereward-acacia', 'sereward-scrub',
+      'sereward-palm-worked', 'sereward-palm-low', 'sereward-palm-depleted',
       'ellionar-cultivated-palm', 'ellionar-garden-hedge',
       'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
       'berries', 'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',

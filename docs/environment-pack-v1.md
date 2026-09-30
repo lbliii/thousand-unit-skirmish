@@ -293,3 +293,26 @@ uses three extra instanced meshes for this family and lazily loaded textures;
 GPU residency and large-match cost remain unmeasured. Authored forest soil remains
 after clearing. [Local checks](qa-evidence/vaelora-bellweather-lifecycle-2026-09-30/README.md)
 record frame selection, loading, appearance and harvesting regression scope.
+
+## Sereward palm lifecycle · 30 September 2026
+
+Sand-base Sereward palms now use full/worked/low/depleted art through the same
+forest-state path as Bellweather maples. Pale peach fibrous axe cuts contrast
+with the honey trunk, while the intact turquoise/coral crown remains standing.
+Depletion leaves a short palm stump with its triangular bark scales and roots.
+Acacias and scrub retain their current full/depleted generic path; no fruit or
+food resource rules are added.
+
+[Preview](../assets/environment/frontier-v1/sereward-lifecycle-preview.png),
+[manifest](../assets/environment/frontier-v1/sereward-lifecycle-manifest.json)
+and [exact prompts](../assets/environment/frontier-v1/SEREWARD-LIFECYCLE-PROMPTS.json)
+record original built-in ImageGen edits of our Sereward palm. Unmodified source
+PNGs retain a 1145×1374 canvas; all encodings share the full frame's crop box
+[23,24,1133,1356], with 853×1024 RGBA WebPs. The original intact source/runtime
+are unchanged. These are single-view separate textures, not an atlas.
+
+Matching-state slots avoid the generic stump batch. Three extra instanced
+batches and lazily loaded textures appear only on maps using this palm;
+residency/performance remain unmeasured.
+[Local evidence](qa-evidence/vaelora-sereward-lifecycle-2026-09-30/README.md)
+records the lineup and live worker harvesting/reset checks separately.

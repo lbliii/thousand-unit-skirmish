@@ -190,3 +190,15 @@ Full source/runtime are reused without changes. No alpha/color repainting; the
 contact sheet composites the runtime files over sage solely for inspection.
 Single camera view, separate textures; neither atlas packing nor directional
 selection is implemented by this pilot.
+
+## Sereward palm lifecycle · 30 September 2026
+
+Built-in ImageGen edited the original project-authored Sereward palm into worked,
+low and depleted states. No third-party inputs. Unmodified PNG masters and
+alpha-preserving runtime encodings are recorded in
+[the manifest](sereward-lifecycle-manifest.json) and
+[exact prompts](SEREWARD-LIFECYCLE-PROMPTS.json). All frames use the original
+1145×1374 logical canvas and full-frame crop [23,24,1133,1356], LANCZOS max1024,
+RGBA WebP quality86 method6. Full source/runtime reused byte-for-byte. No alpha
+or color repainting; the preview composites runtime images over peach solely
+for inspection. Single view, separate textures, no directional atlas yet.

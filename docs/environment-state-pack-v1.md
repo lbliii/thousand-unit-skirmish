@@ -84,7 +84,7 @@ for the required game-zoom views.
 
 Regional vegetation must develop matching lifecycle art as well as its intact
 silhouette. Before the Bellweather maple pilot, regional samples had one intact
-view and used the shared generic stump only at zero stock. The maple now covers
+view and used the shared generic stump only at zero stock. The maple and Sereward palm now cover
 four stages; other regional families still need worked/low variants and matching
 depleted art. See the [integrated pilot](environment-pack-v1.md#bellweather-maple-lifecycle--30-september-2026).
 

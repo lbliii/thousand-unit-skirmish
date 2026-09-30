@@ -70,13 +70,24 @@ const chrome=spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome
 const region=process.env.RTS_VEGETATION_REGION || 'bellweather';
 if(!['bellweather','veyrholds','underbough','sereward','ellionar'].includes(region))throw new Error('Unknown vegetation capture region');
 const lifecycle=process.env.RTS_VEGETATION_LIFECYCLE==='1';
-const out=lifecycle ? 'docs/qa-evidence/vaelora-bellweather-lifecycle-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
+if(lifecycle&&!['bellweather','sereward'].includes(region))throw new Error('No lifecycle pack for region');
+const out=lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
  const targets=await(await fetch('http://127.0.0.1:'+port+'/json/list')).json();cdp=new Cdp(targets.find(t=>t.type==='page').webSocketDebuggerUrl);
  const errors=[];cdp.on('Runtime.consoleAPICalled',e=>{if(e.type==='error')errors.push(e.args.map(a=>a.value||a.description).join(' '))});
  await cdp.call('Page.enable');await cdp.call('Runtime.enable');await mkdir(out,{recursive:true});
+ if(lifecycle)await cdp.call('Page.addScriptToEvaluateOnNewDocument',{source:`
+  const NativeWebSocket=window.WebSocket;
+  window.WebSocket=class extends NativeWebSocket{
+   constructor(...args){super(...args);window.__qaForestSocket=this;
+    this.addEventListener('message',event=>{const m=JSON.parse(event.data);
+     if(m.type==='state')window.__qaForestState=m;
+     else if(m.state)window.__qaForestState=m.state;
+    });
+   }
+  };`});
  const room=await(await fetch(new URL('/api/rooms',BASE),{method:'POST',headers:{origin:BASE.origin,'content-type':'application/json'},body:'{}'})).json();
  if(!room.roomId)throw new Error(room.error || 'isolated review room failed');
  await cdp.call('Page.navigate',{url:BASE.origin+'/?room='+room.roomId});await sleep(5500);
@@ -89,7 +100,7 @@ try {
  }
  if(region==='sereward') {
   await cdp.evaluate('document.querySelector("#map-studio-open").click()');await cdp.call('DOM.enable');const doc=await cdp.call('DOM.getDocument');const input=await cdp.call('DOM.querySelector',{nodeId:doc.root.nodeId,selector:'#studio-import-file'});
-  await cdp.call('DOM.setFileInputFiles',{nodeId:input.nodeId,files:[path.join(ROOT,out,'sereward-oasis-study.json')]});await sleep(600);await cdp.evaluate('document.querySelector("#studio-publish").click()');await sleep(2500);
+  await cdp.call('DOM.setFileInputFiles',{nodeId:input.nodeId,files:[path.join(ROOT,'docs/qa-evidence/vaelora-sereward-2026-09-30/sereward-oasis-study.json')]});await sleep(600);await cdp.evaluate('document.querySelector("#studio-publish").click()');await sleep(2500);
   if(await cdp.evaluate('document.querySelector("#map-label-title")?.textContent')!=='SEREWARD OASIS STUDY')throw new Error('Oasis study import/save/play failed');
   await cdp.evaluate('document.querySelector("#camera-fit-map").click()');await sleep(400);const shot=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/oasis-save-play.png',Buffer.from(shot.data,'base64'));
  }
@@ -114,13 +125,13 @@ try {
   const result=await cdp.evaluate(`(async()=>{
    const THREE=await import('/vendor/three.module.js');
    const {addObstacleEnvironmentSprites,createGroundSurfaces,setForestSpriteStock}=await import('/src/environment-art.mjs');
-   const d={width:24,height:24,terrainBase:'meadow',obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]};
+   const d={width:24,height:24,terrainBase:${JSON.stringify(region==='sereward'?'sand':'meadow')},obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]};
    const scene=new THREE.Scene();scene.background=new THREE.Color(0x727a57);
    const slots=addObstacleEnvironmentSprites(d,12,12,o=>scene.add(o));
    for(const slot of slots.values())setForestSpriteStock(slot,0);
    // Hide every non-preview slot, including registered depleted frames.
    for(const m of scene.children){const zero=new THREE.Matrix4().makeScale(0,0,0);for(let i=0;i<m.count;i++)m.setMatrixAt(i,zero);m.instanceMatrix.needsUpdate=true}
-   const selected=[...slots.values()].filter(s=>s.stateMeshes).slice(0,4);
+   const selected=[...slots.values()].filter(s=>s.family===${JSON.stringify(region==='sereward'?'sereward-palm':'bellweather-field-maple')}&&s.stateMeshes).slice(0,4);
    if(selected.length!==4)throw new Error('Lifecycle pilot slots missing');
    const expected=['full','worked','low','depleted'],stocks=[6,3,1,0],checks=[];
    for(let i=0;i<4;i++){
@@ -188,6 +199,40 @@ try {
   return result;
  })()`);
  await writeFile(out+'/forest-cover-proof.json',JSON.stringify(covers,null,2)+'\n');
+ if(lifecycle&&region==='sereward'){
+  const map={id:'sereward-harvest-check',name:'SEREWARD HARVEST CHECK',summary:'Observe one palm through harvest and reset.',width:40,height:40,terrainBase:'sand',startingArmySize:8,startingResources:{wood:0},fogOfWar:true,spawnPoints:[{team:0,x:-14,z:0},{team:1,x:14,z:0}],obstacles:[{column:8,row:19,width:1,height:1,material:'forest'}],resourceNodes:[],triggers:[],scenarioEvents:[]};
+  await cdp.evaluate(`window.__qaForestSocket.send(JSON.stringify({type:'publishMap',persist:false,map:${JSON.stringify(map)}}))`);
+  for(let i=0;i<50;i++){if(await cdp.evaluate('document.querySelector("#map-label-title")?.textContent')==='SEREWARD HARVEST CHECK')break;await sleep(100)}
+  if(await cdp.evaluate('document.querySelector("#map-label-title")?.textContent')!=='SEREWARD HARVEST CHECK')throw new Error('Harvest map publication failed');
+  await cdp.evaluate('document.querySelector("#camera-home-base").click()');
+  const anchor=await cdp.evaluate('(()=>{const r=document.querySelector("#viewport canvas").getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()');
+  await cdp.evaluate(`document.querySelector('#viewport canvas').dispatchEvent(new WheelEvent('wheel',{deltaY:-1600,clientX:${anchor.x},clientY:${anchor.y},cancelable:true}))`);
+  await cdp.evaluate('document.querySelector("#camera-home-base").click()');
+  await sleep(500);
+  const before=await cdp.evaluate('window.__qaForestState.forestEpoch');
+  let shot=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/harvest-full.png',Buffer.from(shot.data,'base64'));
+  await cdp.evaluate('window.__qaForestSocket.send(JSON.stringify({type:"gather",ids:[0],forestCell:768}))');
+  const observed=[];
+  for(const [stage,limit] of [['worked',4],['low',2],['depleted',0]]){
+   let stock=null;
+   for(let i=0;i<300;i++){
+    stock=await cdp.evaluate('window.__qaForestState.forestStocks?.find(r=>r[0]===768)?.[1] ?? null');
+    if(stock!==null&&stock<=limit)break;await sleep(100);
+   }
+   if(stock===null||stock>limit)throw new Error('Live harvest did not reach '+stage);
+   if((stage==='worked'&&stock<=2)||(stage==='low'&&stock<=0))throw new Error('Missed live stock stage '+stage);
+   await sleep(40);shot=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/harvest-'+stage+'.png',Buffer.from(shot.data,'base64'));observed.push({stage,stock});
+  }
+  await cdp.evaluate('window.__qaForestSocket.send(JSON.stringify({type:"reset"}))');
+  let restored=false;
+  for(let i=0;i<100;i++){
+   restored=await cdp.evaluate(`window.__qaForestState.forestEpoch>${before}&&!window.__qaForestState.forestStocks?.length`);
+   if(restored)break;await sleep(100);
+  }
+  if(!restored)throw new Error('Live forest reset failed');
+  await sleep(100);shot=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/harvest-reset.png',Buffer.from(shot.data,'base64'));
+  await writeFile(out+'/live-harvest-proof.json',JSON.stringify({mapId:map.id,targetCell:768,family:'sereward-palm',observed,reset:true},null,2)+'\n');
+ }
  console.log(await cdp.evaluate('JSON.stringify({boot:document.documentElement.dataset.boot,map:document.querySelector("#map-label-title")?.textContent,error:document.querySelector("#runtime-error")?.textContent})'));
  console.log(JSON.stringify({forestCells:36,errors}));if(errors.length)process.exitCode=1;
 } finally {cdp?.socket.close();chrome.kill('SIGTERM')}

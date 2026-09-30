@@ -19,6 +19,7 @@ const spriteNames = [
   'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
   'underbough-copperleaf', 'underbough-bramble',
   'sereward-palm', 'sereward-acacia', 'sereward-scrub',
+  'sereward-palm-worked', 'sereward-palm-low', 'sereward-palm-depleted',
   'ellionar-cultivated-palm', 'ellionar-garden-hedge',
   'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
   'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
@@ -607,7 +608,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     const mesh = createEnvironmentSpriteInstances(name, width, height, points);
     if (!mesh) continue;
     let stateMeshes;
-    if (name === 'bellweather-field-maple') {
+    if (['bellweather-field-maple', 'sereward-palm'].includes(name)) {
       stateMeshes = { full: mesh };
       for (const stage of ['worked', 'low', 'depleted']) {
         const stateMesh = createEnvironmentSpriteInstances(`${name}-${stage}`, width, height,

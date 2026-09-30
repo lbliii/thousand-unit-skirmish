@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-sereward-lifecycle",
+  "packVersion": "1.0.0",
+  "reference": "sereward-palm.png",
+  "prompts": "SEREWARD-LIFECYCLE-PROMPTS.json",
+  "provenance": "Original built-in ImageGen edits of project-authored Sereward palm. Unmodified PNG masters. Every frame uses original full-frame crop, LANCZOS max1024, RGBA WebP quality86 method6. Full source/runtime reused unchanged. No alpha/color repainting. Separate textures, not an atlas.",
+  "files": [
+    {
+      "path": "sereward-palm.png",
+      "role": "source-image",
+      "sha256": "99225c657b6f530ecceb4562916b775f5c0ad787650bf66bc4cbc99ff1bffd23",
+      "dimensionsPx": {
+        "width": 1145,
+        "height": 1374
+      },
+      "bytes": 2041674
+    },
+    {
+      "path": "sereward-palm.webp",
+      "role": "runtime-image",
+      "sha256": "8d101968ac841f769570ced26d55c6c1ffa2f1ba0e5490d18aa89782276d38ee",
+      "dimensionsPx": {
+        "width": 853,
+        "height": 1024
+      },
+      "bytes": 346232
+    },
+    {
+      "path": "sereward-palm-worked.png",
+      "role": "source-image",
+      "sha256": "3668978affcd0c958b845d62152744e921fbac302b372132bcc76e45c6601f86",
+      "dimensionsPx": {
+        "width": 1145,
+        "height": 1374
+      },
+      "bytes": 1948594
+    },
+    {
+      "path": "sereward-palm-worked.webp",
+      "role": "runtime-image",
+      "sha256": "c281dd218d61ac2b9bd2697f94d5a7cb9e7cac1ad9baff004ea052cab2bb6488",
+      "dimensionsPx": {
+        "width": 853,
+        "height": 1024
+      },
+      "bytes": 268390
+    },
+    {
+      "path": "sereward-palm-low.png",
+      "role": "source-image",
+      "sha256": "5b9dae69f2f6a062fe8f321050c014bff28d4850bc0e6a1ed5ba17a2d974d4ca",
+      "dimensionsPx": {
+        "width": 1145,
+        "height": 1374
+      },
+      "bytes": 1966010
+    },
+    {
+      "path": "sereward-palm-low.webp",
+      "role": "runtime-image",
+      "sha256": "9e68521d1ec42676e3488f814f7f232cbd3d270e9de9fa00f3689a55841bf65b",
+      "dimensionsPx": {
+        "width": 853,
+        "height": 1024
+      },
+      "bytes": 270086
+    },
+    {
+      "path": "sereward-palm-depleted.png",
+      "role": "source-image",
+      "sha256": "c14c73b8d37c3faab99219595606529c471d719a7d237c2b668661aed96f3222",
+      "dimensionsPx": {
+        "width": 1145,
+        "height": 1374
+      },
+      "bytes": 346577
+    },
+    {
+      "path": "sereward-palm-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "0d2f19a1c0a487d38c72f4ca5a168e21296bd2be07b74881919a30dbbae5f446",
+      "dimensionsPx": {
+        "width": 853,
+        "height": 1024
+      },
+      "bytes": 46674
+    }
+  ],
+  "assets": [
+    {
+      "id": "sereward-palm",
+      "stage": "full",
+      "sourceOutputId": "exec-77909418-ef05-4999-9504-ad516d57a4d0",
+      "sourceFile": "sereward-palm.png",
+      "runtimeFile": "sereward-palm.webp",
+      "cropBoxPx": [
+        23,
+        24,
+        1133,
+        1356
+      ],
+      "logicalCanvasPx": [
+        1145,
+        1374
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "sereward-palm-worked",
+      "stage": "worked",
+      "sourceOutputId": "exec-744aa146-d48c-47d4-8fcc-43d619fce996",
+      "sourceFile": "sereward-palm-worked.png",
+      "runtimeFile": "sereward-palm-worked.webp",
+      "cropBoxPx": [
+        23,
+        24,
+        1133,
+        1356
+      ],
+      "logicalCanvasPx": [
+        1145,
+        1374
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "sereward-palm-low",
+      "stage": "low",
+      "sourceOutputId": "exec-8c4da9b7-f8b7-40c2-9d58-9a84e6c46aef",
+      "sourceFile": "sereward-palm-low.png",
+      "runtimeFile": "sereward-palm-low.webp",
+      "cropBoxPx": [
+        23,
+        24,
+        1133,
+        1356
+      ],
+      "logicalCanvasPx": [
+        1145,
+        1374
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "sereward-palm-depleted",
+      "stage": "depleted",
+      "sourceOutputId": "exec-b3e4d762-5839-4674-978f-850fda3cc119",
+      "sourceFile": "sereward-palm-depleted.png",
+      "runtimeFile": "sereward-palm-depleted.webp",
+      "cropBoxPx": [
+        23,
+        24,
+        1133,
+        1356
+      ],
+      "logicalCanvasPx": [
+        1145,
+        1374
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.8
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    }
+  ]
+}
