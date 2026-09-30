@@ -650,3 +650,11 @@ A [second succulent silhouette](../assets/environment/frontier-v1/sereward-succu
 Selected generated PNG is unchanged; cropped max1024 WebP preserves alpha. [Exact prompt](../assets/environment/frontier-v1/SEREWARD-SUCCULENT-VARIATION-PROMPTS.json) records both source sprite and approved ecology references. One approximate painted view per silhouette; additional viewpoints remain future work.
 
 [Local variation evidence](qa-evidence/vaelora-sereward-succulent-variation-2026-09-30/README.md) records both silhouettes, unchanged companion density, seeded partitioning, partial/depleted/reset states and calibrated runtime orientation. Both single-asset validators pass fourteen packs.
+
+## Bellweather open-meadow flowers · 30 September 2026
+
+The existing selected meadow-herbs sprite now also supplies small independent patches on meadow, short-grass, long-grass and dry-grass base maps. `meadowPlantPositions` first applies ordered terrain patches, then excludes obstacle cells and their one-cell margins, capture/event rectangles and their margins, an eight-unit radius around opening spawns, and 2.5 units around resource nodes. Dirt roads and other non-grass patches remain bare. Seeded four-cell patch selection plus sparse per-cell selection avoids uniform scatter; each occupied cell has at most one 0.5–0.72 scale clump. The generic resource-review map and other regional bases are excluded.
+
+One instanced batch reuses the approved source and calibrated upright billboard path, independently of forest clearing. These low plants add no collision or resource yield. This is static authored-map scenery: it does not react to moving units or later building construction. Additional flowers, seasonal states and registered viewpoints remain future art work.
+
+[Local meadow evidence](qa-evidence/vaelora-bellweather-open-meadow-2026-09-30/README.md) records 135 independent clumps on Bellweather Millrace, protected economic/capture areas, deterministic reloads, unchanged map data, actual camera/ground contact and forest-clearing independence.

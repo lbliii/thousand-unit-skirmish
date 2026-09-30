@@ -199,6 +199,7 @@ const scenarios = [
   ['scripts/terrain-atmosphere-scenario.mjs', 'Decorative ground mist coverage and foreground order'],
   ['scripts/terrain-blend-scenario.mjs', 'Soft terrain material masks and normalized joins'],
   ['scripts/water-surface-scenario.mjs', 'Batched water surface and shore geometry'],
+  ['scripts/meadow-vegetation-scenario.mjs', 'Seeded meadow flowers and protected economy markers'],
   ['scripts/shore-vegetation-scenario.mjs', 'Seeded shoreline vegetation and clear crossings'],
   ['scripts/validate-environment-plants.mjs', 'Regional plant source/runtime file contracts'],
   ['scripts/environment-plant-pack-scenario.mjs', 'Regional plant contract rejection cases'],

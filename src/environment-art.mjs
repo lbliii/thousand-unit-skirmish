@@ -9,6 +9,7 @@ import { applyTerrainTextureSampling } from './terrain-texture-sampling.mjs';
 import { buildTerrainBlendMasks, buildForestGroundMask } from './terrain-blend.mjs';
 import { buildWaterSurfaceGeometry, WATER_LEVEL } from './water-surface-geometry.mjs';
 import { shorePlantPositions } from './shore-vegetation.mjs';
+import { meadowPlantPositions } from './meadow-vegetation.mjs';
 
 const meshyResourcesEnabled = new URLSearchParams(globalThis.location?.search ?? '').get('meshyResources') !== '0';
 
@@ -845,6 +846,14 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
         });
         addObject(mesh);
       }
+    }
+  }
+  if (bellweather) {
+    const flowers = createEnvironmentSpriteInstances('bellweather-meadow-herbs', 1.15561, 0.72,
+      meadowPlantPositions(definition, environmentTheme(definition)));
+    if (flowers) {
+      flowers.userData.meadowVegetation = true;
+      addObject(flowers);
     }
   }
   if (siltmouths || sombralMere) {
