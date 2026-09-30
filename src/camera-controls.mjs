@@ -1,3 +1,6 @@
+// Shared fixed oblique view: 45° azimuth, 45.4359° elevation, world Y up.
+export const CAMERA_VIEW_DIRECTION = Object.freeze([0.78, 1.12, 0.78]);
+
 export function edgeScrollStrength(position, size, zone) {
   if (position < zone) return -1 + Math.max(0, position) / zone;
   if (position > size - zone) return 1 - Math.max(0, size - position) / zone;

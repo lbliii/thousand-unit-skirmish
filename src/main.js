@@ -67,6 +67,7 @@ import {
   edgeScrollCameraDelta,
   edgeScrollDirection,
   shouldBlockEdgeScrollForFocus,
+  CAMERA_VIEW_DIRECTION,
 } from './camera-controls.mjs';
 import {
   cameraArrowInputAllowed, cameraTargetDeltaForScreenFocus, createCameraArrowKeys,
@@ -394,7 +395,7 @@ scene.fog = new THREE.Fog(0x859175, 145, 235);
 
 const camera = new THREE.OrthographicCamera(-32, 32, 32, -32, 0.1, 300);
 const cameraTarget = new THREE.Vector3(0, 0, 0);
-const cameraOffset = new THREE.Vector3(0.78, 1.12, 0.78).normalize();
+const cameraOffset = new THREE.Vector3(...CAMERA_VIEW_DIRECTION).normalize();
 const baseFrustum = 43;
 const defaultCameraZoom = 0.91;
 let zoom = defaultCameraZoom;

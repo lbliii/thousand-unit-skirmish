@@ -1,4 +1,5 @@
 import { TERRAIN_MATERIALS, forestGroundForBase } from './terrain-materials.mjs';
+import { CAMERA_VIEW_DIRECTION } from './camera-controls.mjs';
 import * as THREE from 'three';
 import { RESOURCE_VISUAL_STAGES, resourceVisualStage } from './resource-visual-state.mjs';
 import { createGroundMistStudy } from './terrain-atmosphere.mjs';
@@ -278,10 +279,11 @@ function groundTexture(name) {
   return texture;
 }
 
-const cameraFacing = new THREE.Quaternion().setFromUnitVectors(
-  new THREE.Vector3(0, 0, 1),
-  new THREE.Vector3(0.78, 1.12, 0.78).normalize(),
-);
+// Match the camera's world-up basis as well as its viewing normal. The shortest
+// rotation from +Z matches the normal but adds about 19.7 degrees of screen roll.
+const cameraFacing = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().lookAt(
+  new THREE.Vector3(...CAMERA_VIEW_DIRECTION), new THREE.Vector3(), new THREE.Vector3(0, 1, 0),
+));
 const instanceDummy = new THREE.Object3D();
 const spriteUpAxis = new THREE.Vector3(0, 1, 0);
 const spriteYawRotation = new THREE.Quaternion();

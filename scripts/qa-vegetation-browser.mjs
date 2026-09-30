@@ -108,6 +108,7 @@ try {
  for(const span of [18,36]) {
   const data=await cdp.evaluate(`(async()=>{
    const THREE=await import('/vendor/three.module.js');
+   const {CAMERA_VIEW_DIRECTION}=await import('/src/camera-controls.mjs');
    const {addObstacleEnvironmentSprites,createGroundSurfaces}=await import('/src/environment-art.mjs');
    const d={id:'bellweather-study',width:24,height:24,terrainSeed:941,terrainBase:'meadow',terrainPatches:[{column:0,row:12,width:24,height:12,material:'dry-grass'}],obstacles:[{row:5,column:6,width:5,height:5,material:'forest'},{row:14,column:14,width:4,height:3,material:'forest'}]};
    if(${JSON.stringify(region)}==='veyrholds'){d.id='veyrholds-study';d.terrainBase='scree';d.terrainPatches=[];d.obstacles.push({row:16,column:6,width:5,height:2,material:'stone',elevation:0.72})}
@@ -115,7 +116,7 @@ try {
    if(${JSON.stringify(region)}==='sereward'){d.id='sereward-study';d.terrainBase='sand';d.terrainPatches=[]}
    if(${JSON.stringify(region)}==='ellionar'){d.id='ellionar-study';d.terrainBase='garden-loam';d.terrainPatches=[{column:0,row:12,width:24,height:12,material:'dirt'}]}
    const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true,antialias:true});renderer.setSize(1000,750);renderer.setPixelRatio(1);
-   const scene=new THREE.Scene();scene.background=new THREE.Color(0x859175);const camera=new THREE.OrthographicCamera(-${span}*4/3,${span}*4/3,${span},-${span},0.1,200);camera.position.set(30,43,30);camera.lookAt(0,0,0);
+   const scene=new THREE.Scene();scene.background=new THREE.Color(0x859175);const camera=new THREE.OrthographicCamera(-${span}*4/3,${span}*4/3,${span},-${span},0.1,200);camera.position.set(...CAMERA_VIEW_DIRECTION).multiplyScalar(50);camera.lookAt(0,0,0);
    for(const o of createGroundSurfaces(d))scene.add(o);addObstacleEnvironmentSprites(d,12,12,o=>scene.add(o));
    await new Promise(r=>setTimeout(r,1400));renderer.render(scene,camera);const image=renderer.domElement.toDataURL('image/png');
    scene.traverse(o=>{o.geometry?.dispose();if(o.material){o.userData.ownedGroundTextures?.forEach(t=>t.dispose());o.material.dispose()}});renderer.dispose();renderer.forceContextLoss();return image;
@@ -125,6 +126,7 @@ try {
  if(lifecycle) {
   const result=await cdp.evaluate(`(async()=>{
    const THREE=await import('/vendor/three.module.js');
+   const {CAMERA_VIEW_DIRECTION}=await import('/src/camera-controls.mjs');
    const {addObstacleEnvironmentSprites,createGroundSurfaces,setForestSpriteStock}=await import('/src/environment-art.mjs');
    const d={width:24,height:24,terrainBase:${JSON.stringify(region==='sereward'?'sand':'meadow')},obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]};
    const scene=new THREE.Scene();scene.background=new THREE.Color(0x727a57);
@@ -142,7 +144,10 @@ try {
     if(uv.some((v,j)=>Math.abs(v-s.atlas.frameRects[expected[i]][j])>1e-7))throw new Error('Wrong atlas UV');
     const matrix=new THREE.Matrix4();s.mesh.getMatrixAt(s.index,matrix);
     if(new THREE.Vector3().setFromMatrixScale(matrix).length()===0)throw new Error('Atlas state hidden');
-    checks.push({stock:stocks[i],stage:actual,uv,matrix:matrix.elements});
+    const view=new THREE.Matrix4().lookAt(new THREE.Vector3(...CAMERA_VIEW_DIRECTION),new THREE.Vector3(),new THREE.Vector3(0,1,0));
+    const up=new THREE.Vector3(0,1,0).transformDirection(matrix).applyQuaternion(new THREE.Quaternion().setFromRotationMatrix(view).invert());
+    const roll=Math.atan2(-up.x,up.y)*180/Math.PI;if(Math.abs(roll)>0.0001)throw new Error('Sprite screen roll '+roll);
+    checks.push({stock:stocks[i],stage:actual,uv,matrix:matrix.elements,screenRollDegrees:roll});
    }
    if(new Set(selected.map(s=>s.mesh)).size!==1)throw new Error('Lifecycle not batched into one mesh');
    const s=selected[3];setForestSpriteStock(s,6);
@@ -152,7 +157,7 @@ try {
    for(let i=0;i<50&&scene.children.some(o=>o.material.map&&!o.material.map.image?.complete);i++)await new Promise(r=>setTimeout(r,100));
    if(scene.children.some(o=>o.material.map&&!o.material.map.image?.naturalWidth))throw new Error('Lifecycle texture load failed');
    const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true,antialias:true});renderer.setSize(1200,500);
-   const camera=new THREE.OrthographicCamera(-12,12,5,-5,0.1,200);camera.position.set(30,43,30);camera.lookAt(0,1,0);
+   const camera=new THREE.OrthographicCamera(-12,12,5,-5,0.1,200);camera.position.set(...CAMERA_VIEW_DIRECTION).multiplyScalar(50).add(new THREE.Vector3(0,1,0));camera.lookAt(0,1,0);
    renderer.render(scene,camera);const image=renderer.domElement.toDataURL('image/png');
    scene.traverse(o=>{o.geometry?.dispose();o.userData.ownedGroundTextures?.forEach(t=>t.dispose());o.material?.dispose()});renderer.dispose();renderer.forceContextLoss();
    return {checks,reset:true,forestBatches:1,image};
@@ -162,6 +167,7 @@ try {
  }
  const proof=await cdp.evaluate(`(async()=>{
   const THREE=await import('/vendor/three.module.js');
+   const {CAMERA_VIEW_DIRECTION}=await import('/src/camera-controls.mjs');
   const {addObstacleEnvironmentSprites,createGroundSurfaces}=await import('/src/environment-art.mjs');
   const results=[];
   for(const terrainBase of ['meadow','snow','scree','forest-floor','sand','garden-loam']) {
