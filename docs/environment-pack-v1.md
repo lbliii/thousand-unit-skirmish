@@ -1,5 +1,24 @@
 # Frontier environment art
 
+## Sombral Mere merebloom · 30 September 2026
+
+The [merebloom source sample](../assets/environment/frontier-v1/sombral-mere-lifecycle-manifest.json)
+uses the approved key's slender pearl trunk, lavender willow-like foliage and
+deep teal shadows. The [exact prompts](../assets/environment/frontier-v1/SOMBRAL-MERE-LIFECYCLE-PROMPTS.json)
+record built-in ImageGen authoring against the ecology key and existing painted
+finish. Lunar-soil base maps now use merebloom forests with four stock stages
+in one atlas and individual-texture fallback. The [focused local evidence](qa-evidence/vaelora-sombral-mere-atlas-2026-09-30/README.md)
+covers camera alignment, live harvesting/reset, fallback and packaging. Its colours are painted into ordinary matte
+surfaces, with no baked glow, water or reflections. This vegetation sample does
+not settle the region's open questions about moon-elf survival or lunar rites.
+
+The worked master is one pixel narrower than the intact master, outside their
+shared crop. Its manifest records the actual source canvas and reviewed exception;
+the export applies no resize or translation to compensate. The frame helper's
+explicit `--allow-outside-crop-edge-difference` option admits at most one pixel
+per dimension only when the entire shared crop fits both canvases. Larger or
+crop-intersecting differences still fail.
+
 ## Vesperra mistbark · 30 September 2026
 
 The [mistbark source sample](../assets/environment/frontier-v1/vesperra-lifecycle-manifest.json)
