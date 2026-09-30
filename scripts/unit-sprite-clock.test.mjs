@@ -114,3 +114,24 @@ test('every available Human unit action and heading has first-pass graphics', as
     }
   }
 });
+
+test('default rival routes every unit role to Boughward with required action coverage', async () => {
+  const {readFile} = await import('node:fs/promises');
+  const {UNIT_DEFINITIONS} = await import('../src/gameplay-definitions.mjs');
+  const {civilizationSpriteRole,spriteDirectory,spriteActionClip} = await import('../src/unit-sprite-runtime.mjs');
+  for(const kind of Object.keys(UNIT_DEFINITIONS)) {
+    assert.equal(civilizationSpriteRole(kind,'human'),kind==='worker'?'human':kind);
+    const role=civilizationSpriteRole(kind,'boughward');
+    assert.equal(role,`boughward-${kind}`);
+    const dir=spriteDirectory(role,'v1');
+    const pack=JSON.parse(await readFile(new URL(`../assets/units/${dir}/sprite-atlas-pack-v1.json`,import.meta.url),'utf8'));
+    const asset=pack.assets[0]; assert.equal(asset.id,role);
+    const clips=new Map(asset.clips.map(c=>[`${c.stateId}|${c.directionId}`,c]));
+    const states=['idle','walk','attack','defeat',...(kind==='worker'?['gather-food','gather-wood','build','repair']:[])];
+    for(const direction of ['north','north-east','east','south-east','south','south-west','west','north-west'])for(const state of states){
+      const clip=spriteActionClip(clips,state,direction,null,role,true);
+      assert.ok(clip?.sequence?.length,`${kind}/${state}/${direction}`);
+      assert.ok(clip.sequence.every(f=>f.frameId.startsWith(state+'-')),`${kind}/${state} must use its own action`);
+    }
+  }
+});

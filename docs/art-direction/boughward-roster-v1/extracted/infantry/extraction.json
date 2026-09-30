@@ -1,0 +1,49 @@
+{
+  "source": "/Users/lb/.codex/worktrees/7040/thousand-unit-skirmish/docs/art-direction/boughward-roster-v1/source/infantry-actions-v1.png",
+  "frames": [
+    {
+      "frame": 0,
+      "sourceBounds": [
+        213,
+        6,
+        590,
+        544
+      ],
+      "opaquePixels": 119207,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 1,
+      "sourceBounds": [
+        854,
+        44,
+        1304,
+        561
+      ],
+      "opaquePixels": 117901,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 2,
+      "sourceBounds": [
+        26,
+        534,
+        893,
+        991
+      ],
+      "opaquePixels": 143673,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 3,
+      "sourceBounds": [
+        736,
+        686,
+        1506,
+        1012
+      ],
+      "opaquePixels": 124571,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    }
+  ]
+}

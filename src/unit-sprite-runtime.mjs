@@ -33,7 +33,12 @@ export function spriteActionClip(clipByKey, state, direction, cargoType, role, a
       || clipByKey.get(`idle|${direction}`);
 }
 
+export function civilizationSpriteRole(kind, civilization) {
+  return civilization === 'boughward' ? `boughward-${kind}` : kind === 'worker' ? 'human' : kind;
+}
+
 export function spriteDirectory(role, version) {
+  if (/^boughward-(worker|infantry|spearman|archer|scout|rider|siege-engine)$/.test(role) && version === 'v1') return `${role}-sprite-v1`;
   const supportedVersions = {
     worker: ['v1', 'v2', 'v3'],
     infantry: ['v1', 'v2', 'v3'],
@@ -209,7 +214,7 @@ export function castRoleForUnit(unit) {
 
 export function createUnitSpriteRuntime({
   THREE, scene, capacity, teamHex, cameraQuaternion, roles = UNIT_ROLES, roleSpriteVersions = {},
-  castPreview = false, humanAppearancePreview = false, approximateActionDirections = false,
+  castPreview = false, humanAppearancePreview = false, approximateActionDirections = false, teamCivilizations = null,
 }) {
   const loader = new THREE.TextureLoader();
   const pendingCounts = [0, 0];
@@ -248,6 +253,7 @@ export function createUnitSpriteRuntime({
   }
 
   function roleForUnit(unit) {
+    if (teamCivilizations) return civilizationSpriteRole(unit.kind, teamCivilizations[unit.team]);
     return humanAppearancePreview && unit.kind === 'worker' ? 'human' : castPreview ? castRoleForUnit(unit) : unit.kind;
   }
 

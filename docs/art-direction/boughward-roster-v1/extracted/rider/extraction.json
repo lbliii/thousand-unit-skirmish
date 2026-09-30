@@ -1,0 +1,49 @@
+{
+  "source": "/Users/lb/.codex/worktrees/7040/thousand-unit-skirmish/docs/art-direction/boughward-roster-v1/source/rider-actions-v1.png",
+  "frames": [
+    {
+      "frame": 0,
+      "sourceBounds": [
+        73,
+        8,
+        625,
+        626
+      ],
+      "opaquePixels": 175128,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 1,
+      "sourceBounds": [
+        696,
+        6,
+        1261,
+        618
+      ],
+      "opaquePixels": 170459,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 2,
+      "sourceBounds": [
+        23,
+        632,
+        677,
+        1150
+      ],
+      "opaquePixels": 171661,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    },
+    {
+      "frame": 3,
+      "sourceBounds": [
+        677,
+        631,
+        1307,
+        1161
+      ],
+      "opaquePixels": 163373,
+      "note": "alpha<9 discarded consistent with game alpha test; isolated connected silhouette, no invented pixels"
+    }
+  ]
+}
