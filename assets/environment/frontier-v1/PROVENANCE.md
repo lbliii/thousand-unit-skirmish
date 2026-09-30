@@ -246,3 +246,7 @@ Built-in ImageGen edited the approved project-owned palm into worked, low and de
 ## Ellionar garden hedge lifecycle · 30 September 2026
 
 Built-in ImageGen edited the project-owned hedge into worked/low/depleted states. [Manifest](ellionar-hedge-lifecycle-manifest.json) records selected unchanged masters, source IDs, hashes and original shared crop; [exact prompts](ELLIONAR-HEDGE-LIFECYCLE-PROMPTS.json) include the discarded tall depletion and its shorter refinement. Original full source/runtime remain unchanged. LANCZOS max1024 RGBA WebP quality86 method6 preserves generated alpha; atlas copies decoded runtime pixels without repainting or rescaling. No third-party inputs or local alpha repairs. One fixed-oblique view, approximate painted camera guidance.
+
+## Sereward thorn acacia lifecycle · 30 September 2026
+
+Built-in ImageGen edited the project-owned acacia into worked/low/depleted states. [Manifest](sereward-acacia-lifecycle-manifest.json) records unchanged selected masters, source IDs, hashes, dimensions and shared crop; [exact prompts](SEREWARD-ACACIA-LIFECYCLE-PROMPTS.json) include the discarded tall depletion and registration refinement. Full PNG/WebP remain unchanged. LANCZOS max1024 RGBA WebP quality86 method6 preserves generated alpha; deterministic atlas copies decoded runtime pixels without rescaling or repainting. No third-party inputs or local alpha repairs. One fixed-oblique view; painted camera guidance approximate.

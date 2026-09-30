@@ -514,3 +514,11 @@ The [bramble atlas](../assets/environment/frontier-v1/underbough-bramble-lifecyc
 [Separate lazy atlas](../assets/environment/frontier-v1/ellionar-hedge-lifecycle-atlas.json) follows the existing four-state, 64px-gutter, half-texel inset and mip-cap-six contract. Both Ellionar forest families now have matching depletion silhouettes. Garden-loam retains its approximately 80% palm / 20% hedge selection, forest identities, yield and collision rules.
 
 [Local evidence](qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30/README.md) exercises the hedge independently with a real worker, reset, upright renderer matrices and metadata-failure fallback. One fixed-oblique painted view; approximate camera guidance. Action animation, additional perspectives, fauna and more cultivated species remain ongoing.
+
+## Sereward thorn acacia lifecycle · 30 September 2026
+
+[Lifecycle preview](../assets/environment/frontier-v1/sereward-acacia-lifecycle-preview.png), [manifest](../assets/environment/frontier-v1/sereward-acacia-lifecycle-manifest.json) and [exact prompts](../assets/environment/frontier-v1/SEREWARD-ACACIA-LIFECYCLE-PROMPTS.json) add small/deep pale cuts and a matching low twisted stump to the approved peach/cream and muted turquoise thorn acacia. Standing states retain the broad umbrella crown. Full source/runtime remain unchanged; generated edits share the original 1402×1122 canvas and [13,131,1392,975] crop, yielding four 1024×627 frames.
+
+[Separate lazy atlas](../assets/environment/frontier-v1/sereward-acacia-lifecycle-atlas.json) uses the existing four-state contract, 64px gutter, half-texel inset and mip cap six, with individual-frame fallback. Sand maps keep their approximately 55% palm / 30% acacia / 15% scrub selection, forest identities, yield and collision. Scrub lifecycle remains unfinished.
+
+[Local evidence](qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30/README.md) exercises acacia separately with worker harvest/reset, upright renderer matrices and metadata-failure fallback. Single fixed-oblique painted view; approximate camera guidance. Action animation, extra perspectives and regional fauna remain ongoing.

@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-sereward-acacia-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "sereward-acacia.png",
+  "prompts": "SEREWARD-ACACIA-LIFECYCLE-PROMPTS.json",
+  "provenance": "Built-in ImageGen edits of approved project-owned acacia. Unchanged masters, original shared crop and alpha-preserving LANCZOS max1024 WebP quality86 method6. Camera guidance approximate.",
+  "files": [
+    {
+      "path": "sereward-acacia.png",
+      "role": "source-image",
+      "sha256": "38228858e33c8896c34cfc56e14ab15accdcbcbe6d4ac28711838bbe0fe4c721",
+      "dimensionsPx": {
+        "width": 1402,
+        "height": 1122
+      },
+      "bytes": 1555358
+    },
+    {
+      "path": "sereward-acacia.webp",
+      "role": "runtime-image",
+      "sha256": "0e2dfd06a1377d168265d658b97d6d004afc3c235a813ff0c281ead110652428",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 627
+      },
+      "bytes": 259830
+    },
+    {
+      "path": "sereward-acacia-low.png",
+      "role": "source-image",
+      "sha256": "96c824a958b352e96d168307df95023c0897c1f86ccf61e5cd3594239a0c5c82",
+      "dimensionsPx": {
+        "width": 1402,
+        "height": 1122
+      },
+      "bytes": 1461141
+    },
+    {
+      "path": "sereward-acacia-low.webp",
+      "role": "runtime-image",
+      "sha256": "884826406dd0b5e099d2986d65893a919bbb0174e80e74603cffd703877de52c",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 627
+      },
+      "bytes": 201166
+    },
+    {
+      "path": "sereward-acacia-worked.png",
+      "role": "source-image",
+      "sha256": "be8408445767872c30426a9129f816ed8d00188deb8781b2c3be30b8b07a1226",
+      "dimensionsPx": {
+        "width": 1402,
+        "height": 1122
+      },
+      "bytes": 1458380
+    },
+    {
+      "path": "sereward-acacia-worked.webp",
+      "role": "runtime-image",
+      "sha256": "eb0febaff18301bf0bc8253639f6bea239714a13bfd4a0450048a9665af1b797",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 627
+      },
+      "bytes": 197106
+    },
+    {
+      "path": "sereward-acacia-depleted.png",
+      "role": "source-image",
+      "sha256": "b9b27ca836959f58d36135643d5ab015a85f18d7129fd928ac06091eeb5a6211",
+      "dimensionsPx": {
+        "width": 1402,
+        "height": 1122
+      },
+      "bytes": 161786
+    },
+    {
+      "path": "sereward-acacia-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "b0204b4c471bdfe6350eebc5d4ee0d88aeffb12bbf6a4477a005fa8cc10993ac",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 627
+      },
+      "bytes": 16850
+    }
+  ],
+  "assets": [
+    {
+      "id": "sereward-acacia",
+      "sourceOutputId": "exec-669b2b1e-f334-4529-be07-51efbc6a47fd",
+      "sourceFile": "sereward-acacia.png",
+      "runtimeFile": "sereward-acacia.webp",
+      "cropBoxPx": [
+        13,
+        131,
+        1392,
+        975
+      ],
+      "worldSize": {
+        "width": 3.5,
+        "height": 2.85
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "full",
+      "logicalCanvasPx": [
+        1402,
+        1122
+      ]
+    },
+    {
+      "id": "sereward-acacia-worked",
+      "sourceOutputId": "exec-1c4caae7-abd0-4de3-90ba-1a38ce08dcdd",
+      "sourceFile": "sereward-acacia-worked.png",
+      "runtimeFile": "sereward-acacia-worked.webp",
+      "cropBoxPx": [
+        13,
+        131,
+        1392,
+        975
+      ],
+      "worldSize": {
+        "width": 3.5,
+        "height": 2.85
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "worked",
+      "logicalCanvasPx": [
+        1402,
+        1122
+      ]
+    },
+    {
+      "id": "sereward-acacia-low",
+      "sourceOutputId": "exec-e48af264-b393-42ff-bbaf-1c6b09959c54",
+      "sourceFile": "sereward-acacia-low.png",
+      "runtimeFile": "sereward-acacia-low.webp",
+      "cropBoxPx": [
+        13,
+        131,
+        1392,
+        975
+      ],
+      "worldSize": {
+        "width": 3.5,
+        "height": 2.85
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "low",
+      "logicalCanvasPx": [
+        1402,
+        1122
+      ]
+    },
+    {
+      "id": "sereward-acacia-depleted",
+      "sourceOutputId": "exec-ea19f99e-bab8-4ad7-ac14-7f9eb7fb3eda",
+      "sourceFile": "sereward-acacia-depleted.png",
+      "runtimeFile": "sereward-acacia-depleted.webp",
+      "cropBoxPx": [
+        13,
+        131,
+        1392,
+        975
+      ],
+      "worldSize": {
+        "width": 3.5,
+        "height": 2.85
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "depleted",
+      "logicalCanvasPx": [
+        1402,
+        1122
+      ]
+    }
+  ]
+}
