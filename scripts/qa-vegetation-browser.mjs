@@ -92,6 +92,7 @@ try {
  const room=await(await fetch(new URL('/api/rooms',BASE),{method:'POST',headers:{origin:BASE.origin,'content-type':'application/json'},body:'{}'})).json();
  if(!room.roomId)throw new Error(room.error || 'isolated review room failed');
  await cdp.call('Page.navigate',{url:BASE.origin+'/?room='+room.roomId});await sleep(5500);
+ if(await cdp.evaluate('document.documentElement.dataset.boot')!=='ready')throw new Error('Game did not boot before appearance capture');
  const openingRequests=await cdp.evaluate('performance.getEntriesByType("resource").filter(e=>e.name.includes("assets/environment")).map(e=>new URL(e.name).pathname)');
  if(openingRequests.filter(p=>p.endsWith('.webp')).some(p=>p.includes('underbough-')||p.includes('veyrholds-')||p.includes('sereward-')||p.includes('ellionar-')))throw new Error('Unused regional sprites loaded eagerly');
  await writeFile(out+'/opening-requests.json',JSON.stringify(openingRequests,null,2)+'\n');

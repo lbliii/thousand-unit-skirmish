@@ -1,10 +1,10 @@
 [
-  "/assets/environment/frontier-v1/bellweather-lifecycle-atlas.json",
   "/assets/environment/frontier-v1/sereward-lifecycle-atlas.json",
+  "/assets/environment/frontier-v1/bellweather-lifecycle-atlas.json",
   "/assets/environment/frontier-interactive-v1/manifest.json",
-  "/assets/environment/frontier-meshy-sprites-v1/oak/runtime/oak-01.webp",
   "/assets/environment/frontier-v1/berries.webp",
   "/assets/environment/frontier-v1/oak.webp",
+  "/assets/environment/frontier-meshy-sprites-v1/oak/runtime/oak-01.webp",
   "/assets/environment/frontier-meshy-sprites-v1/pine/runtime/pine-01.webp",
   "/assets/environment/frontier-meshy-sprites-v1/berries/runtime/berries-01.webp",
   "/assets/environment/frontier-interactive-v1/oak-full.webp",

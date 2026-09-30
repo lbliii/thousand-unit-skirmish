@@ -24,3 +24,17 @@ release packaging checks support integrity. Both JSON/WebP pairs appear in
 the release manifest; Docker admission explicitly includes the JSON files. Batch count is an implementation
 observation, not an FPS or residency measurement. Padding costs additional GPU
 memory; the owning environment guide records estimates and cache limitations.
+
+## Camera correction and integrated rerun
+
+After user feedback about dramatic angles, instance-facing matrices were changed
+to match the camera's world-Y-up basis. The former shortest-arc quaternion added
+about -19.677° of unintended screen roll. Current captures use the shared exact
+[0.78,1.12,0.78] camera direction (45° azimuth, 45.4359° elevation).
+`screenRollDegrees` in the lifecycle proof is within 0.0001° of zero across all
+four tested states. Natural curves in the painted palm remain.
+
+The local server was restarted on integrated main `242d330`/branch merge
+`eb5cfac`, and the browser capture passed again. Camera controls scenario, camera
+recovery tests (3), client imports (5), and stationary-command tests (6) passed.
+No staging or intrinsic generated-image perspective calibration claim.

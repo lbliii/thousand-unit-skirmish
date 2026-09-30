@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { CAMERA_VIEW_DIRECTION } from './camera-controls.mjs';
 import { createEnvironmentPilot } from './environment-pilot.mjs';
 
 const stage = document.querySelector('#stage');
@@ -19,7 +20,7 @@ renderer.domElement.setAttribute('aria-label', 'Current cliff on the left, Meshy
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x505b43);
 const camera = new THREE.OrthographicCamera(-12, 12, 8, -8, 0.1, 100);
-const elevation = Math.atan2(1.12, Math.hypot(0.78, 0.78));
+const elevation = Math.atan2(CAMERA_VIEW_DIRECTION[1], Math.hypot(CAMERA_VIEW_DIRECTION[0], CAMERA_VIEW_DIRECTION[2]));
 const pilot = createEnvironmentPilot();
 const specimen = pilot.create(5, -3);
 scene.add(specimen);
@@ -38,7 +39,9 @@ const oldTexture = loader.load('./assets/environment/frontier-v1/cliff.webp');
 oldTexture.colorSpace = THREE.SRGBColorSpace;
 const old = new THREE.Mesh(new THREE.PlaneGeometry(4.2, 4.6).translate(0, 2.3, 0),
   new THREE.MeshBasicMaterial({ map: oldTexture, transparent: true, alphaTest: 0.08, side: THREE.DoubleSide, toneMapped: false }));
-old.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), new THREE.Vector3(0.78, 1.12, 0.78).normalize());
+old.quaternion.setFromRotationMatrix(new THREE.Matrix4().lookAt(
+  new THREE.Vector3(...CAMERA_VIEW_DIRECTION), new THREE.Vector3(), new THREE.Vector3(0, 1, 0),
+));
 scene.add(old);
 function label(text, detail) {
   const canvas = document.createElement('canvas'); canvas.width = 640; canvas.height = 112;

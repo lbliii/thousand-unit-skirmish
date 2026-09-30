@@ -349,3 +349,26 @@ totals. Texture caching still lacks eviction; no large-match GPU budget is
 claimed. [Maple evidence](qa-evidence/vaelora-bellweather-atlas-2026-09-30/README.md)
 and [palm evidence](qa-evidence/vaelora-sereward-atlas-2026-09-30/README.md)
 record appearance, UV state/reset selection and real palm harvesting.
+
+## Camera calibration and upright sprites · 30 September 2026
+
+The fixed camera direction is shared through `CAMERA_VIEW_DIRECTION` in
+`src/camera-controls.mjs`: [0.78,1.12,0.78], giving 45° azimuth and
+45.4359° elevation above ground. This is a steeper oblique view than true
+isometric's 35.2644° elevation. The camera remains unchanged.
+
+The old shortest-arc +Z-to-camera quaternion matched the viewing normal but
+introduced about -19.677° of screen roll. Environment sprites now use the
+camera's world-Y-up basis, removing that unintended sideways tilt. This covers
+individual sprites, instanced forest/rocks, state atlases and the legacy cliff
+comparison. Natural painted curves remain in the source art.
+
+QA previews use the same shared direction and target rather than an approximate
+[30,43,30] camera. Actual instance matrices are checked at all four stock stages
+for zero screen roll; ordinary/strategic captures and live harvesting/reset were
+repeated after integrating main `242d330` at `eb5cfac`. Camera-controls and
+reconnect tests pass. Future painted-art briefs should state orthographic view,
+45° azimuth, 45.4359° elevation, Y-up and zero screen roll; those prompt numbers
+are guidance, not proof of an AI-painted image's intrinsic perspective. Exact
+source-view calibration requires a reproducible 3D capture or a measured art
+construction.
