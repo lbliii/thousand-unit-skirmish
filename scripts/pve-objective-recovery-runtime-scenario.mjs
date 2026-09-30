@@ -143,7 +143,7 @@ try {
       const observation = toOpponentObservation(state, team, map);
       replacementComplete ||= observation.buildings.friendly.some((b) => b.type === 'barracks' && b.complete);
       regainedSignal ||= observation.objectives.find((o) => o.id === 'capture-zone-1').owner === team;
-      for (const [type, maximum] of [['barracks', 1], ['house', 2], ['storehouse', 1], ['watchtower', 1]]) {
+      for (const [type, maximum] of [['barracks', 1], ['house', 2], ['storehouse', 1], ['watchtower', 1], ['stable', 1], ['workshop', 1]]) {
         assert.ok(observation.buildings.friendly.filter((b) => b.type === type).length <= maximum, `bounded ${type} recovery`);
       }
       assert.ok(observation.buildings.friendly.filter((b) => b.type === 'town-center' && !b.home).length <= 1, 'one expansion');

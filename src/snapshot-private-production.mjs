@@ -4,6 +4,7 @@ export function privateProductionView(payload, team) {
   const mask = (rows) => rows.map((building) => building.team === team ? building : {
     ...building, productionQueue: [],
     ...(Array.isArray(building.productionOptions) ? { productionOptions: [] } : {}),
+    ...(Array.isArray(building.researchOptions) ? { researchOptions: [] } : {}),
   });
   return {
     ...payload,

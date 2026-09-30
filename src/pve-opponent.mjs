@@ -1,3 +1,5 @@
+import { createReconnaissancePolicy } from './pve-reconnaissance.mjs';
+import { TECHNOLOGY_DEFINITIONS, BUILDING_DEFINITIONS } from './gameplay-definitions.mjs';
 /**
  * Team-visible adapter and deterministic opening policy for an ordinary RTS
  * WebSocket player. The server assigns the seat and remains authoritative for
@@ -140,6 +142,9 @@ function normalizeBuilding(building, viewTeam) {
     progress: Number.isFinite(building.progress) ? building.progress : null,
     complete: building.complete === true,
     queue,
+    researchOptions: building.team === viewTeam && Array.isArray(building.researchOptions)
+      ? building.researchOptions.filter(option => option && Object.hasOwn(TECHNOLOGY_DEFINITIONS, option.upgrade) && typeof option.available === 'boolean')
+        .map(option => ({ upgrade: option.upgrade, available: option.available, reason: typeof option.reason === 'string' ? option.reason : '' })) : [],
     productionOptions: building.team === viewTeam && Array.isArray(building.productionOptions)
       ? building.productionOptions.filter((option) => option && typeof option.kind === 'string' && typeof option.available === 'boolean')
         .map((option) => ({ kind: option.kind, available: option.available, reason: typeof option.reason === 'string' ? option.reason : '',
@@ -169,8 +174,7 @@ function normalizeWorkerProduction(record, team) {
 function normalizeResearch(record) {
   if (!record || typeof record !== 'object') return null;
   return {
-    infantryAttack: record.infantryAttack === true,
-    archerAttack: record.archerAttack === true,
+    ...Object.fromEntries(Object.values(TECHNOLOGY_DEFINITIONS).map(technology => [technology.upgradeKey, record[technology.upgradeKey] === true])),
     active: record.active && typeof record.active === 'object'
       ? {
         type: typeof record.active.type === 'string' ? record.active.type : null,
@@ -363,7 +367,7 @@ function isPristineMatchState(state, team, map) {
     || production.productionBlocked) return false;
 
   const research = observation.research;
-  if (!research || research.infantryAttack || research.archerAttack || research.active !== null) return false;
+  if (!research || Object.values(TECHNOLOGY_DEFINITIONS).some(technology => research[technology.upgradeKey]) || research.active !== null) return false;
 
   const mapResources = new Map((Array.isArray(map?.resourceNodes) ? map.resourceNodes : [])
     .filter((node) => typeof node?.id === 'string')
@@ -447,6 +451,7 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
   if (!Number.isSafeInteger(seed)) throw new TypeError('Opponent seed must be a safe integer.');
   const normalizedSeed = seed >>> 0;
   const productionPolicy = createProductionPolicy(normalizedSeed);
+  const reconnaissancePolicy = createReconnaissancePolicy(normalizedSeed);
   const gatherAssignments = new Map();
   const objectiveOwners = new Map();
   const lostObjectiveIds = new Set();
@@ -631,7 +636,9 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
       }));
   }
 
-  function nextOrders(observation) {
+  const siegeBuildingOrders = new Map();
+
+  function nextOrders(observation, reconnaissanceIds = new Set()) {
     if (observation?.schemaVersion !== OPPONENT_OBSERVATION_SCHEMA_VERSION
       || !validTeam(observation.team)) throw new TypeError('Policy requires opponent observation schema v1.');
 
@@ -645,8 +652,30 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
     }
     previousDecisionGatherOnly = false;
 
+    const siegeUnits = observation.units.friendly.filter(unit => unit.hp > 0 && unit.kind === 'siege-engine').sort((a, b) => a.id - b.id).slice(0, 2);
+    const defense = (observation.buildings?.visibleEnemies || []).filter(building => building.hp > 0
+      && BUILDING_DEFINITIONS[building.type]?.tags.includes('defense')).slice(0, 64)
+      .sort((left, right) => {
+        const distance = building => siegeUnits.reduce((sum, unit) => sum + (unit.x - building.x) ** 2 + (unit.z - building.z) ** 2, 0);
+        return distance(left) - distance(right) || left.id - right.id;
+      })[0];
+    const activeSiege = defense ? siegeUnits : [];
+    const activeKeys = new Set(activeSiege.map(soldierKey));
+    for (const key of siegeBuildingOrders.keys()) if (!activeKeys.has(key)) siegeBuildingOrders.delete(key);
+    const unassigned = activeSiege.filter(unit => {
+      const order = siegeBuildingOrders.get(soldierKey(unit));
+      if (!order || order.buildingId !== defense.id) return true;
+      if (Math.hypot(unit.x - order.x, unit.z - order.z) > 0.25 || (unit.lastAttack?.tick ?? -1) > order.attackTick) {
+        order.x = unit.x; order.z = unit.z; order.attackTick = unit.lastAttack?.tick ?? -1; order.progressTick = observation.tick;
+      }
+      return observation.tick - order.progressTick >= TACTICAL_STALL_TICKS;
+    });
+    const siegeOrders = unassigned.length ? [{ type: 'attackBuilding', ids: unassigned.map(unit => unit.id),
+      unitGenerations: unassigned.map(unit => unit.generation), buildingId: defense.id }] : [];
+    for (const unit of unassigned) siegeBuildingOrders.set(soldierKey(unit), { buildingId: defense.id, x: unit.x, z: unit.z,
+      attackTick: unit.lastAttack?.tick ?? -1, progressTick: observation.tick });
     const soldiers = observation.units.friendly
-      .filter((unit) => unit.kind !== 'worker' && unit.hp > 0)
+      .filter((unit) => unit.kind !== 'worker' && unit.hp > 0 && !activeKeys.has(soldierKey(unit)) && !reconnaissanceIds.has(unit.id))
       .sort((left, right) => left.id - right.id);
     const liveSoldiers = new Set(soldiers.map(soldierKey));
     for (const key of orderedSoldiers) if (!liveSoldiers.has(key)) orderedSoldiers.delete(key);
@@ -668,31 +697,31 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
         watchTacticalOrder(ordered, target.point, observation.tick, stalled.length > 0);
         recordOrderedSoldiers(ordered);
         lostObjectiveIds.delete(target.id);
-        return [...gathering, {
+        return [...gathering, ...siegeOrders, {
           type: 'attackMove',
           ids: ordered.map((unit) => unit.id),
           x: target.point.x,
           z: target.point.z,
         }];
       }
-      return gathering;
+      return [...gathering, ...siegeOrders];
     }
 
     tacticalObjectiveId = null;
     if (objectives.length > 0 || soldiers.length === 0) {
       tacticalWatch = null;
       if (soldiers.length === 0) fallbackTacticsStarted = false;
-      return gathering;
+      return [...gathering, ...siegeOrders];
     }
     if (fallbackTacticsStarted) {
       const stalled = stalledTacticalSoldiers(observation, soldiers);
-      if (stalled.length === 0 && reinforcements.length === 0) return gathering;
+      if (stalled.length === 0 && reinforcements.length === 0) return [...gathering, ...siegeOrders];
       const point = tacticalWatch.point;
       const retryKeys = new Set(stalled.map(soldierKey));
       const ordered = soldiers.filter((unit) => retryKeys.has(soldierKey(unit)) || !orderedSoldiers.has(soldierKey(unit)));
       watchTacticalOrder(ordered, point, observation.tick, stalled.length > 0);
       recordOrderedSoldiers(ordered);
-      return [...gathering, { type: 'attackMove', ids: ordered.map((unit) => unit.id), ...point }];
+      return [...gathering, ...siegeOrders, { type: 'attackMove', ids: ordered.map((unit) => unit.id), ...point }];
     }
 
     const visibleTarget = observation.units.visibleEnemies
@@ -701,7 +730,7 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
     fallbackTacticsStarted = true;
     recordOrderedSoldiers(soldiers);
     watchTacticalOrder(soldiers, { x: visibleTarget?.x ?? 0, z: visibleTarget?.z ?? 0 }, observation.tick);
-    return [...gathering, {
+    return [...gathering, ...siegeOrders, {
       type: 'attackMove',
       ids: soldiers.map((unit) => unit.id),
       x: visibleTarget?.x ?? 0,
@@ -712,13 +741,14 @@ export function createDeterministicPolicy(seed = DEFAULT_OPPONENT_SEED) {
 
   return {
     next(observation) {
-      const orders = nextOrders(observation);
+      const reconnaissance = reconnaissancePolicy.next(observation);
+      const orders = nextOrders(observation, new Set(reconnaissance.ids));
       const production = productionPolicy.next(observation);
       const builders = new Set(production.filter((command) => ['build', 'repairBuilding'].includes(command.type)).flatMap((command) => command.ids));
       const compatibleOrders = orders.map((command) => command.type === 'gather'
         ? { ...command, ids: command.ids.filter((id) => !builders.has(id)) } : command)
         .filter((command) => !Array.isArray(command.ids) || command.ids.length > 0);
-      return [...compatibleOrders, ...production];
+      return [...reconnaissance.commands, ...compatibleOrders, ...production];
     },
   };
 }

@@ -42,3 +42,22 @@ for (const team of [0, 1]) test(`roster production choices follow definitions an
   context.updateRosterProductionOptions(container, building);
   assert.equal(spear.disabled, true); assert.match(spear.textContent, /REQUIRES MILITARY TIER II/);
 });
+
+for (const team of [0, 1]) test(`Stable exposes both mounted products and weighted population for seat ${team}`, () => {
+  const building = { id: 8, team, type: 'stable', complete: true, queue: 0 };
+  const commands = [];
+  const container = { dataset: {}, children: [], replaceChildren() { this.children = []; }, append(button) { this.children.push(button); } };
+  const context = vm.createContext({ UNIT_DEFINITIONS, BUILDING_DEFINITIONS, formatResourceRequirement,
+    document: { createElement() { return { dataset: {}, addEventListener(_, callback) { this.click = callback; } }; } },
+    localTeam: team, latestBuildings: [building], teamUnits: [[], []], latestFood: [500, 500], latestWood: [500, 500],
+    latestWorkerProduction: [null, null], latestPopulation: [{ available: 1 }, { available: 1 }],
+    BARRACKS_QUEUE_LIMIT: 5, MAX_PER_TEAM: 1000, MAX_UNITS: 2000, latestRosterSize: 0, matchWinner: -1,
+    getBuildingQueueLength: row => row.queue, sendCommand: command => commands.push(command) });
+  vm.runInContext(fn, context); context.updateRosterProductionOptions(container, building);
+  assert.deepEqual(container.children.map(button => button.dataset.product), ['scout', 'rider']);
+  assert.equal(container.children[0].disabled, false); assert.equal(container.children[1].disabled, true);
+  assert.match(container.children[1].textContent, /Population full/);
+  context.latestPopulation[team].available = 2; context.updateRosterProductionOptions(container, building);
+  assert.equal(container.children[1].disabled, false); container.children[1].click();
+  assert.deepEqual(JSON.parse(JSON.stringify(commands)), [{ type: 'trainUnit', kind: 'rider', buildingId: 8 }]);
+});

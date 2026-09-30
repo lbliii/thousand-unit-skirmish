@@ -1,3 +1,4 @@
+import { UNIT_DEFINITIONS, BUILDING_DEFINITIONS } from '../src/gameplay-definitions.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
@@ -10,7 +11,13 @@ import { fileURLToPath } from 'node:url';
 // Exercise mixed roster production and restart recovery through the authoritative runtime.
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SERVER_PATH = path.join(ROOT, 'server.mjs');
-const TIMEOUT_MS = 70_000;
+const siegeMode = process.argv.includes('--siege');
+const TIMEOUT_MS = siegeMode ? 115_000 : 70_000;
+const mounted = process.argv.includes('--mounted');
+const producerType = siegeMode ? 'workshop' : mounted ? 'stable' : 'barracks';
+const products = BUILDING_DEFINITIONS[producerType].products;
+const order = siegeMode ? ['siege-engine', 'siege-engine', 'siege-engine'] : mounted ? ['scout', 'rider', 'scout'] : ['spearman', 'infantry', 'spearman'];
+const featuredKind = order[0];
 
 async function freePort() {
   const server = createServer();
@@ -106,50 +113,80 @@ async function start() {
 try {
   await start();
   const map = { id: 'roster-options-audit', name: 'Roster Options Audit', width: 64, height: 64,
-    terrainSeed: 19, fogOfWar: false, startingArmySize: 24, startingResources: { food: 1000, wood: 1000 },
+    terrainSeed: 19, fogOfWar: false, startingArmySize: siegeMode ? 12 : mounted ? 20 : 24, startingResources: { food: siegeMode ? 1500 : 1000, wood: siegeMode ? 1500 : 1000 },
     spawnPoints: [{ team: 0, x: -20, z: 0 }, { team: 1, x: 20, z: 0 }],
     obstacles: [], resourceNodes: [], triggers: [], scenarioEvents: [] };
   send(clients[0], { type: 'publishMap', map });
   await Promise.all(clients.map((client) => client.wait((m) => m.type === 'mapChange' && m.state.mapId === map.id)));
   const openingCount = clients[0].latest.units.length;
+  if (siegeMode) {
+    for (const [team, client] of clients.entries()) {
+      const worker = client.latest.units.find(u => u[1] === team && u[5] === 'worker');
+      send(client, { type: 'build', ids: [worker[0]], buildingType: 'workshop', x: team ? 14.5 : -14.5, z: 8.5 });
+      assert.match((await client.wait(m => m.type === 'notice' && /BUILD REJECTED/.test(m.message))).message, /REQUIRES MILITARY TIER II/);
+      const home = client.latest.homeTownCenters.find(b => b.team === team);
+      send(client, { type: 'researchUpgrade', buildingId: home.id, upgrade: 'military-tier-2' });
+    }
+    await checkpointWith(checkpointPath, s => s.state.teamUpgrades.every(u => u.militaryTier2));
+  }
+
   for (const [team, client] of clients.entries()) {
     const workers = client.latest.units.filter((u) => u[1] === team && u[5] === 'worker');
-    send(client, { type: 'build', ids: workers.map((u) => u[0]), buildingType: 'barracks',
+    send(client, { type: 'build', ids: workers.map((u) => u[0]), buildingType: producerType,
       x: team === 0 ? -14.5 : 14.5, z: 8.5, clientOrderToken: 1 });
   }
   await clients[0].wait((m) => m.type === 'state' && m.buildings.length === 2 && m.buildings.every((b) => b.complete));
   for (const [team, client] of clients.entries()) {
     await client.wait((m) => m.type === 'state' && m.buildings.some((b) => b.team === team && b.complete));
     const building = client.latest.buildings.find((b) => b.team === team);
-    assert.deepEqual(building.productionOptions.map((option) => option.kind), ['infantry', 'spearman']);
-    assert.ok(building.productionOptions.every((option) => option.available), JSON.stringify(building.productionOptions));
+    assert.deepEqual(building.productionOptions.map((option) => option.kind), products);
+    if (!siegeMode) assert.ok(building.productionOptions.every((option) => option.available), JSON.stringify(building.productionOptions));
     const enemy = client.latest.buildings.find((b) => b.team !== team);
     assert.deepEqual(enemy.productionOptions, [], 'production actions never reveal enemy resources or prerequisites');
-    for (const kind of ['spearman', 'infantry', 'spearman']) send(client, { type: 'trainUnit', kind, buildingId: building.id });
+    if (siegeMode) {
+      assert.equal(building.productionOptions[0].available, false);
+      assert.match(building.productionOptions[0].reason, /REQUIRES SIEGE ENGINEERING/);
+      client.clearMessages();
+      send(client, { type: 'trainUnit', kind: 'siege-engine', buildingId: building.id });
+      assert.match((await client.wait(m => m.type === 'notice' && /TRAINING REJECTED/.test(m.message))).message, /REQUIRES SIEGE ENGINEERING/);
+      send(client, { type: 'researchUpgrade', buildingId: building.id, upgrade: 'siege-engineering' });
+    }
+    if (!siegeMode) for (const kind of order) send(client, { type: 'trainUnit', kind, buildingId: building.id });
+  }
+  if (siegeMode) {
+    await checkpointWith(checkpointPath, s => s.state.teamUpgrades.every(u => u.siegeEngineering));
+    for (const [team, client] of clients.entries()) {
+      await client.wait(m => m.type === 'state' && m.teamResearch[team].siegeEngineering);
+      const building = client.latest.buildings.find(b => b.team === team);
+      assert.equal(building.productionOptions[0].available, true);
+      for (const kind of order) send(client, { type: 'trainUnit', kind, buildingId: building.id });
+    }
   }
   await checkpointWith(checkpointPath, (s) => s.state.buildings.every((b) => b.queue === 3));
   await stop();
   const saved = JSON.parse(await readFile(checkpointPath, 'utf8'));
   for (const building of saved.state.buildings) {
-    assert.deepEqual(building.productionQueue, ['spearman', 'infantry', 'spearman']);
-    assert.ok(building.trainingRemaining > 0 && building.trainingRemaining <= 12);
+    assert.deepEqual(building.productionQueue, order);
+    assert.ok(building.trainingRemaining > 0 && building.trainingRemaining <= UNIT_DEFINITIONS[featuredKind].trainSeconds);
   }
-  assert.deepEqual(saved.state.teamFood, [830, 830]);
-  assert.deepEqual(saved.state.teamWood, [785, 785]);
+  const expectedFood = (siegeMode ? 1500 - 350 : 1000) - order.reduce((sum, kind) => sum + UNIT_DEFINITIONS[kind].cost.food, 0);
+  assert.deepEqual(saved.state.teamFood, [expectedFood, expectedFood]);
+  const expectedWood = (siegeMode ? 1500 - 300 : 1000) - BUILDING_DEFINITIONS[producerType].cost.wood - order.reduce((sum, kind) => sum + UNIT_DEFINITIONS[kind].cost.wood, 0);
+  assert.deepEqual(saved.state.teamWood, [expectedWood, expectedWood]);
   saved.state.seatSessions = [];
   await writeFile(checkpointPath, JSON.stringify(saved));
   await start();
   for (const [team, client] of clients.entries()) {
     const own = client.latest.buildings.find((b) => b.team === team);
     const enemy = client.latest.buildings.find((b) => b.team !== team);
-    assert.deepEqual(own.productionQueue, ['spearman', 'infantry', 'spearman']);
+    assert.deepEqual(own.productionQueue, order);
     assert.deepEqual(enemy.productionQueue, [], 'enemy queue products stay private even on a no-fog map');
   }
   const completed = await checkpointWith(checkpointPath, (s) => s.state.buildings.every((b) => b.queue === 0));
   for (const team of [0, 1]) {
     const produced = completed.state.units.filter((u) => u.team === team && u.id >= openingCount);
-    assert.deepEqual(produced.map((u) => u.kind), ['spearman', 'infantry', 'spearman']);
-    assert.ok(produced.filter((u) => u.kind === 'spearman').every((u) => u.hp === 110));
+    assert.deepEqual(produced.map((u) => u.kind), order);
+    assert.ok(produced.filter((u) => u.kind === featuredKind).every((u) => u.hp === UNIT_DEFINITIONS[featuredKind].combat.maxHp));
   }
   assert.deepEqual(completed.state.teamFood, saved.state.teamFood, 'restart and completion do not charge twice');
   assert.deepEqual(completed.state.teamWood, saved.state.teamWood);
@@ -158,16 +195,16 @@ try {
   rosterSave.state.seatSessions = [];
   await writeFile(checkpointPath, JSON.stringify(rosterSave));
   await start();
-  assert.equal(clients[0].latest.units.filter((u) => u[5] === 'spearman').length, 4, 'completed Spearmen survive restart with registry HP');
+  assert.equal(clients[0].latest.units.filter((u) => u[5] === featuredKind).length, siegeMode ? 6 : 4, 'completed Spearmen survive restart with registry HP');
   send(clients[0], { type: 'reset' });
   await clients[0].wait((m) => m.type === 'state' && m.buildings.length === 0 && m.units.length === openingCount);
-  assert.ok(clients[0].latest.units.every((u) => u[5] !== 'spearman'), 'rematch resets trained roster');
+  assert.ok(clients[0].latest.units.every((u) => u[5] !== featuredKind), 'rematch resets trained roster');
   const rewardMap = { ...map, id: 'roster-reward-audit', scenarioEvents: [{ id: 'spear-supply', name: 'Spear Supply',
-    type: 'timed-supply', afterSeconds: 0.5, team: 'both', foodReward: 0, woodReward: 0, unitCount: 1, unitKind: 'spearman' }] };
+    type: 'timed-supply', afterSeconds: 0.5, team: 'both', foodReward: 0, woodReward: 0, unitCount: 1, unitKind: featuredKind }] };
   send(clients[0], { type: 'publishMap', map: rewardMap });
   await clients[0].wait((m) => m.type === 'state' && m.mapId === rewardMap.id
-    && [0, 1].every((team) => m.units.some((u) => u[1] === team && u[5] === 'spearman')));
-  console.log('Roster options passed: both-seat mixed Barracks FIFO, costs, restart, queue privacy, Spearman stats, rematch and authored Spearman reinforcements.');
+    && [0, 1].every((team) => m.units.some((u) => u[1] === team && u[5] === featuredKind)));
+  console.log(`Roster options passed: both-seat mixed ${producerType} FIFO, exact costs, restart, queue privacy, ${featuredKind} stats, rematch and authored reinforcements.`);
 } finally {
   await stop();
   await rm(temp, { recursive: true, force: true });

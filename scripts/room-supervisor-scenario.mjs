@@ -18,7 +18,7 @@ const WORKER_TRAIN_SECONDS = 25;
 const INFANTRY_FOOD_COST = 50;
 const INFANTRY_TRAIN_SECONDS = 12;
 const HOUSE_COST = BUILDING_DEFINITIONS.house?.cost.wood ?? 0;
-const publicBuildings = (rows) => rows.map(({ productionQueue, productionOptions, ...publicState }) => publicState);
+const publicBuildings = (rows) => rows.map(({ productionQueue, productionOptions, researchOptions, ...publicState }) => publicState);
 
 async function reservePort() {
   const server = createServer();
@@ -559,6 +559,10 @@ try {
     restartedRoomEmber.waitForMessage(completedBarracks, 45_000),
   ]);
   assert.equal(completedBarracksAzure.buildings.find((building) => building.id === barracksId).type, 'barracks');
+  assert.ok(completedBarracksAzure.buildings.find((building) => building.id === barracksId).researchOptions.length > 0,
+    'the owning seat receives legal research choices');
+  assert.deepEqual(completedBarracksEmber.buildings.find((building) => building.id === barracksId).researchOptions, [],
+    'the enemy seat receives no private research choices');
   assert.deepEqual(publicBuildings(completedBarracksAzure.buildings), publicBuildings(completedBarracksEmber.buildings),
     'both players should see the completed Barracks before production begins');
 

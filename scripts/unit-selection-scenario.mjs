@@ -1,3 +1,4 @@
+import { UNIT_DEFINITIONS } from '../src/gameplay-definitions.mjs';
 import assert from 'node:assert/strict';
 import {
   chooseUnitPickCandidate,
@@ -45,14 +46,26 @@ assert.deepEqual(livingIdleWorkerIds(roster, 1), [12]);
 assert.deepEqual(livingIdleWorkerIds(roster, null), []);
 const rosterById = [];
 for (const unit of roster) if (unit && Number.isInteger(unit.id)) rosterById[unit.id] = unit;
+const emptyCounts = Object.fromEntries(Object.keys(UNIT_DEFINITIONS).map(kind => [kind, 0]));
 assert.deepEqual(summarizeUnitComposition(rosterById, new Set([4, 5, 8, 11, 12, 999]), 0), {
-  worker: 1, infantry: 1, archer: 1, spearman: 0,
+  ...emptyCounts, worker: 1, infantry: 1, archer: 1,
 }, 'group composition should count only living selected friendlies of known combat and worker types');
 assert.deepEqual(summarizeUnitComposition(rosterById, new Set([4, 5, 8]), null), {
-  worker: 0, infantry: 0, archer: 0, spearman: 0,
+  ...emptyCounts,
 }, 'spectators should not receive a local friendly-group composition');
 rosterById[20] = { id: 20, team: 0, kind: 'spearman', hp: 110 };
 assert.equal(summarizeUnitComposition(rosterById, [20], 0).spearman, 1, 'new roster kinds appear in group composition');
+rosterById[21] = { id: 21, team: 0, kind: 'scout', hp: 60 };
+rosterById[22] = { id: 22, team: 0, kind: 'rider', hp: 130 };
+assert.deepEqual(summarizeUnitComposition(rosterById, [21, 22], 0), {
+  ...emptyCounts, scout: 1, rider: 1,
+}, 'mounted units appear in selected group composition');
+for (const [index, definition] of Object.values(UNIT_DEFINITIONS).entries()) {
+  const id = 30 + index;
+  rosterById[id] = { id, team: 0, kind: definition.id, hp: definition.combat.maxHp };
+  assert.equal(summarizeUnitComposition(rosterById, [id], 0)[definition.id], 1, `${definition.id} is counted by registered identity`);
+  assert.deepEqual(livingUnitIdsOfKinds(rosterById, 0, [definition.id]).filter(candidate => candidate === id), [id]);
+}
 const visibleRoster = [
   { id: 5, team: 0, kind: 'infantry', hp: 100, visible: true, screenX: 40, screenY: 60 },
   { id: 14, team: 0, kind: 'infantry', hp: 100, visible: false, screenX: 45, screenY: 60 },

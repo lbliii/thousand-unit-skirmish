@@ -1,4 +1,4 @@
-import { UNIT_DEFINITIONS, BUILDING_DEFINITIONS } from './gameplay-definitions.mjs';
+import { UNIT_DEFINITIONS, BUILDING_DEFINITIONS, TECHNOLOGY_DEFINITIONS } from './gameplay-definitions.mjs';
 /** Bounded production using only the existing team-visible opponent DTO. */
 export const PVE_PRODUCTION_LIMITS = Object.freeze({
   openingDelayTicks: 300,
@@ -117,6 +117,19 @@ export function createProductionPolicy(seed) {
         postpone(observation.tick);
         return [{ type: 'repairBuilding', buildingId: damaged.id, ids: [repairer.id], unitGenerations: [repairer.generation] }];
       }
+      if (barracks?.complete && friendly.filter(unit => unit.kind !== 'worker').length >= 6 && !observation.research?.active) {
+        const priorities = ['military-tier-2', 'siege-engineering', 'military-armor', 'infantry-attack', 'archer-attack', 'mounted-attack'];
+        for (const upgrade of priorities) {
+          const definition = TECHNOLOGY_DEFINITIONS[upgrade];
+          const producer = observation.buildings.friendly.find(building => building.complete
+            && building.researchOptions?.some(option => option.upgrade === upgrade && option.available));
+          if (producer && observation.resources.food >= definition.cost.food + limits.foodReserve
+            && observation.resources.wood >= definition.cost.wood + limits.woodReserve) {
+            postpone(observation.tick);
+            return [{ type: 'researchUpgrade', buildingId: producer.id, upgrade }];
+          }
+        }
+      }
       if (!barracks) {
         // Keep one living Barracks; even the last Worker may rebuild after losses.
         // Reserves and backoff still bound spending while gathering pauses.
@@ -186,18 +199,76 @@ export function createProductionPolicy(seed) {
           }
         }
       }
+      const visibleDefense = observation.buildings.visibleEnemies.some(building => building.hp > 0
+        && BUILDING_DEFINITIONS[building.type]?.tags.includes('defense'));
+      const workshop = observation.buildings.friendly.find(building => building.type === 'workshop' && building.hp > 0);
+      if (economyBuilder && home && friendly.filter(unit => unit.kind !== 'worker').length >= 6) {
+        if (workshop && !workshop.complete) {
+          postpone(observation.tick);
+          return [{ type: 'build', ids: [economyBuilder.id], unitGenerations: [economyBuilder.generation], buildingId: workshop.id }];
+        }
+        if (!workshop && visibleDefense && observation.research?.militaryTier2
+          && observation.resources.wood >= BUILDING_DEFINITIONS.workshop.cost.wood + limits.woodReserve) {
+          const sites = candidateSites(observation, home, seed, 'workshop');
+          if (sites.length) {
+            const point = sites[siteAttempt++ % sites.length]; postpone(observation.tick);
+            return [{ type: 'build', ids: [economyBuilder.id], unitGenerations: [economyBuilder.generation], buildingType: 'workshop', ...point }];
+          }
+        }
+      }
+      const militaryCount = friendly.filter(unit => unit.kind !== 'worker').length;
+      const stable = observation.buildings.friendly.find(building => building.type === 'stable' && building.hp > 0);
+      // One mounted producer, after a viable opening army; resume paid foundations.
+      if (economyBuilder && home && militaryCount >= 4 && militaryCount < limits.military) {
+        if (stable && !stable.complete) {
+          postpone(observation.tick);
+          return [{ type: 'build', ids: [economyBuilder.id], unitGenerations: [economyBuilder.generation], buildingId: stable.id }];
+        }
+        if (!stable && observation.resources.wood >= BUILDING_DEFINITIONS.stable.cost.wood + limits.woodReserve
+          && observation.resources.food >= UNIT_DEFINITIONS.rider.cost.food + limits.foodReserve) {
+          const sites = candidateSites(observation, home, seed, 'stable');
+          if (sites.length) {
+            const point = sites[siteAttempt++ % sites.length]; postpone(observation.tick);
+            return [{ type: 'build', ids: [economyBuilder.id], unitGenerations: [economyBuilder.generation], buildingType: 'stable', ...point }];
+          }
+        }
+      }
       const queued = observation.buildings.friendly.filter((building) => !building.home).reduce((sum, building) => sum + building.queue, 0);
       const workerQueue = observation.workerProduction?.queue ?? 0;
       if (barracks.productionBlocked || barracks.queue >= limits.queue
         || friendly.filter((unit) => unit.kind !== 'worker').length + queued >= limits.military
         || friendly.length + queued + workerQueue >= limits.roster
         || observation.resources.food < limits.infantryFoodCost + limits.foodReserve) return [];
+      const siege = UNIT_DEFINITIONS['siege-engine'];
+      if (visibleDefense && workshop?.complete && workshop.queue === 0 && queued === 0
+        && friendly.filter(unit => unit.kind === siege.id).length < 2
+        && workshop.productionOptions?.some(option => option.kind === siege.id && option.available)
+        && observation.resources.food >= siege.cost.food + limits.foodReserve
+        && observation.resources.wood >= siege.cost.wood + limits.woodReserve) {
+        postpone(observation.tick);
+        return [{ type: 'trainUnit', kind: siege.id, buildingId: workshop.id }];
+      }
+      const visibleMounted = observation.units.visibleEnemies.filter(unit => unit.hp > 0 && UNIT_DEFINITIONS[unit.kind]?.tags.includes('mounted')).length;
+      const scoutCount = friendly.filter(unit => unit.kind === 'scout').length;
+      const riderCount = friendly.filter(unit => unit.kind === 'rider').length;
+      const ownSpears = friendly.filter(unit => unit.kind === 'spearman').length;
+      if (stable?.complete && !stable.productionBlocked && stable.queue === 0 && queued === 0
+        && !(visibleMounted > ownSpears) && (scoutCount === 0 || riderCount < 2)) {
+        const kind = scoutCount === 0 ? 'scout' : 'rider';
+        const definition = UNIT_DEFINITIONS[kind];
+        const option = stable.productionOptions?.find(option => option.kind === kind);
+        if (option?.available && observation.resources.food >= definition.cost.food + limits.foodReserve
+          && observation.resources.wood >= definition.cost.wood + limits.woodReserve) {
+          postpone(observation.tick);
+          return [{ type: 'trainUnit', kind, buildingId: stable.id }];
+        }
+      }
       const infantry = friendly.filter((unit) => unit.kind === 'infantry').length;
       const spearmen = friendly.filter((unit) => unit.kind === 'spearman').length;
       const spear = UNIT_DEFINITIONS.spearman;
       const spearOption = barracks.productionOptions?.find((option) => option.kind === spear.id);
       const infantryOption = barracks.productionOptions?.find((option) => option.kind === 'infantry');
-      const wantsSpear = spearOption?.available !== false && spearmen < Math.ceil(infantry / 3)
+      const wantsSpear = spearOption?.available !== false && spearmen < Math.max(Math.ceil(infantry / 3), visibleMounted)
         && BUILDING_DEFINITIONS[barracks.type].products.includes(spear.id)
         && observation.resources.food >= spear.cost.food + limits.foodReserve
         && observation.resources.wood >= spear.cost.wood + limits.woodReserve;

@@ -74,7 +74,9 @@ for (const team of [0, 1]) for (const seed of [0, 20260925, 0xffff_ffff]) {
     ['other military queue', (s) => { s.buildings.friendly.push(building(team, { id: 11, type: 'archery-range', queue: 4 })); }],
   ]) {
     const constrained = fixture(team);
-    constrained.buildings.friendly = [building(team)];
+    // Exercise recruitment guards with mounted infrastructure already present;
+    // an independent Stable construction order is allowed before recruitment.
+    constrained.buildings.friendly = [building(team), building(team, { id: 12, type: 'stable' })];
     mutate(constrained);
     const guarded = createProductionPolicy(seed);
     next(guarded, constrained, 0);

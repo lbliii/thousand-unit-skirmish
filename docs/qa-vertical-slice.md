@@ -289,3 +289,88 @@ the attack-move replanner looked up a building definition for a unit. The check
 now uses the unit's attack capability and target unit definition. Both-seat
 `cliff-pursuit-scenario.mjs` passed in direct and attack-move modes, including
 lateral pursuit, unreachable retreat and acquisition of a reachable alternative.
+
+### 2026-09-29 — Stable and mounted owner checks
+
+Local `roster-options-audit` (64×64, no fog, 20 starting units, 1,000 food/wood
+per seat), `roster-options-scenario.mjs --mounted`: both seats built Stable and
+queued Scout/Rider/Scout. Exact spending left 835 food and 715 wood per seat.
+Paid mixed FIFO queues and enemy privacy survived restart, all three products
+completed without another debit, trained Scouts survived a second restart, and
+rematch reset the roster. Authored timed Scout reinforcements resolved for both
+seats. Schema-17 ruleset pinning/migration and rejected-save preservation passed.
+
+The lethal/cadence permutation scenario passed 36 same-role cases including Scout
+and armored Rider; six full-health mixed-role duels confirmed Spearman over Rider,
+Rider over Worker, and Worker over Scout in both seats. All 150 pure/UI checks
+passed, including weighted Stable population controls, mounted health indicators
+and bounded observed-threat AI responses. Strategic LOD state checks passed.
+Broader CI, real AI recovery, staging appearance, reconnaissance routes and mounted
+raids across representative terrain remain separate integration evidence.
+
+Mounted AI recovery follow-up: seeded Forked Vale loss recovery passed for Azure
+(winner 0, tick 5,070, three builds, eight trained units) and Ember (winner 1,
+tick 6,090, four builds, ten trained units), with one-Stable and existing per-role
+construction bounds. Mounted CI also exposed a stale schema-16 assertion in the
+legacy producer-destruction fixture; its expected migrated schema is now 17.
+
+### 2026-09-29 — Bounded progression owner checks
+
+Local `progression-audit` (64×64, no fog, 20 starting units, 1,000 food/wood each):
+both seats built Barracks/Stable, rejected armor before Tier II without spending,
+and researched Tier II at their home. Active Tier II survived a restart with its
+remaining duration; completion enabled armor. A second simultaneous project was
+rejected. Armor and mounted forging completed with exact final balances of 580
+food / 275 wood per seat; all three completions survived another restart and reset
+on rematch. Enemy legal research options stayed private on the no-fog map.
+
+The first restart run exposed a validator that searched only constructed buildings
+for active research. Validation now also accepts the matching surviving home and
+the complete both-seat scenario passed. Ruleset migration/rejected-save preservation
+passed. All 158 pure/UI cases passed, covering availability, scoped armor/weapon
+effects, cached completion reset, focused registered HUD choices and reserve-aware
+AI acquisition. A fresh local server served all 33 browser import dependencies,
+including the shared research module. Full CI, staging and representative matches
+remain integration evidence rather than inferred from these focused checks.
+
+### 2026-09-29 — Workshop and siege owner checks
+
+Local `roster-options-audit` (64×64, no fog, 12 starting units, 1,500 food/wood
+per seat), `roster-options-scenario.mjs --siege`: both seats rejected Workshop
+before Tier II, rejected engine production before siege engineering, completed
+both projects and reserved three engines at three population each. Exact paid
+balances were 910 food / 470 wood per seat. Queues survived restart, all engines
+completed without another debit, completed units reloaded, rematch reset the
+roster and authored siege reinforcements resolved for both seats.
+
+Local `siege-defense-audit` (64×64, no fog, 24 units): engines placed at the
+outer eight-cell structure firing edge dealt 48 per hit and demolished full-health
+1,200-HP towers after 25 shots; engines retained 90 HP. Engines exposed six cells
+from tower centers died before demolishing the towers. Forty-two same-role lethal/
+cadence cases and eight full-health mixed-role trades passed; Rider defeated engine
+in both seats with 112 HP left. All 165 pure/UI tests passed, together with strategic
+LOD, generic selection composition and ruleset migration/rejected-save preservation.
+AI cases cover one Workshop, unlock acquisition, two-engine bounds, visible-defense
+assault, separation from ordinary army orders, stalled retry and release of lost
+targets. Full CI, live AI defended-position/terrain interactions and staging visual
+checks remain integration work rather than inferred from these focused cases.
+
+### 2026-09-29 — Reconnaissance and mounted terrain interactions
+
+Local `forked-vale-field-roles` on siege build `81bdd7c` plus the reconnaissance
+slice retained Forked Vale's 80×64 terrain, resources, fog and objectives, with
+24 starting units. Checkpoint fixtures isolated the roles; this is an automated
+two-seat interaction check, not an unassisted human match. From both seats the
+eleven-cell Scout revealed an enemy ten cells away that an ordinary eight-cell
+Worker could not see. The Scout explored 490/488 additional cells, then retreated
+when the other seat moved the visible enemy toward it. Three reconnaissance
+orders were issued per seat and the Scout retained all 60 HP.
+
+A Rider crossed the middle lane and damaged an enemy Worker. A timely Spearman
+response killed the Rider while preserving the Worker at 45 HP and the Spearman
+at 110 HP in both seats. `field-roles-scenario.mjs` passed. Focused policy checks
+cover deterministic both-seat frontier selection, generation binding, exclusion
+from ordinary army orders, retreat, bounded stalled retries and fully explored
+fog. Room-supervisor recovery passed with owner-only research choices asserted
+separately from public building state. CI, staging and live AI defended-position
+evidence remain integration work.

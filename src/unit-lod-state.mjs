@@ -1,5 +1,5 @@
-export const UNIT_LOD_ROLES = Object.freeze(['worker', 'infantry', 'archer']);
-export const UNIT_LOD_ROLE_BITS = Object.freeze({ worker: 1, infantry: 2, archer: 4 });
+export const UNIT_LOD_ROLES = Object.freeze(['worker', 'infantry', 'archer', 'mounted', 'siege']);
+export const UNIT_LOD_ROLE_BITS = Object.freeze({ worker: 1, infantry: 2, archer: 4, mounted: 8, siege: 16 });
 const ALL_UNIT_LOD_ROLE_BITS = UNIT_LOD_ROLES.reduce((mask, role) => mask | UNIT_LOD_ROLE_BITS[role], 0);
 
 export function unitLodRoleMatrixUpdateMask(previousRole, currentRole) {

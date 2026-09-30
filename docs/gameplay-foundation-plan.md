@@ -251,3 +251,62 @@ Spearman declares its mounted multiplier for the following Stable/Rider slice.
 Generic ranged-building access uses the content's mode/range. Gathering,
 construction, repair and structure attacks use supported capabilities, and the
 military selection control includes the full registered military roster.
+
+### Stable and mounted roster slice
+
+Stable supplies Scout and Rider through the shared producer registry. Its three-cell
+foundation costs 200 wood, builds in 25 seconds and has 1,600 HP. Scout costs
+40 food / 30 wood, trains in 16 seconds, uses one population, moves at 4.5 cells
+per second and sees eleven cells; 60 HP and weak attacks make it reconnaissance
+rather than a frontline fighter. Rider costs 85 food / 25 wood, trains in 20
+seconds and uses two population. Its 130 HP, 3.8-cell speed and melee/pierce armor
+support raids, while Spearman's mounted bonus remains a direct answer. These are
+provisional numbers grounded in the first both-seat combat trades.
+
+Mounted procedural placeholders share one instanced horse mesh per team and a
+mounted silhouette at strategic zoom. Stable currently uses the procedural
+Barracks presentation profile as its declared fallback. The bounded policy can
+acquire/resume one Stable and train at most one Scout and two Riders, prioritizing
+Spearmen for currently visible mounted threats. Workshop, siege, second-tier
+progression and representative defended-position/scouting matches remain F3 work.
+
+### Bounded technology progression slice
+
+Military Tier II researches at any completed Town Center for 200 food / 150 wood
+in 35 seconds. It enables military armor (Barracks, 100 / 100, 25 seconds) and
+mounted forging (Stable, 120 / 100, 25 seconds). Armor adds one melee and one
+pierce armor to Infantry, Spearman, Archer and mounted/siege tags; Workers stay
+outside that scope. Mounted forging multiplies mounted damage by 1.2. Existing
+Infantry forging and Archer fletching remain the initial weapon choices. Effects
+resolve from completion state for current and newly produced units.
+
+Shared research actions now derive prerequisites, ownership, completed-building,
+economy, completion and single-active-project checks. HUD/contextual choices,
+filtered AI options and Map Studio technology rewards enumerate the registry.
+Checkpoint completion flags are generic; schema 18 explicitly migrates known
+schema-17 state and validates active research at the correct surviving home as
+well as constructed producers. AI acquires available progression after a viable
+army while retaining food/wood reserves. Workshop/siege supplies the next concrete
+tier unlock; representative raid, scouting and defended-position proofs remain.
+
+### Workshop and siege slice
+
+Tier II enables a three-cell Workshop (250 wood, 30 seconds, 1,600 HP). Siege
+engineering researches there for 150 food / 150 wood in 30 seconds and unlocks
+the Siege Engine: 80 food / 160 wood, 30-second training, three population,
+90 HP, 1.8-cell movement, eight-cell range and a 2.5-second attack period.
+Its siege-class hits deal six unit damage or 24 structure damage, multiplied
+by two for defense tags. No area effect or projectile simulation is necessary
+for this single-target role. Full-health both-seat checks show an engine at the
+outer firing edge destroying a tower in 25 shots without return fire, while an
+engine exposed inside tower range dies first. Rider defeats an engine with
+112 HP remaining. These initial interactions inform provisional balance.
+
+Procedural siege carts remain instanced and have a separate strategic silhouette;
+Workshop declares the existing Range geometry as its placeholder. AI can build
+one Workshop for a visible defense, acquire the unlock and train at most two
+engines. Up to two engines assault the nearest inspected visible defense among
+at most 64 candidates; army orders exclude those engines. Observed movement or
+attacks preserve the order, a ten-second stall permits a retry, and loss of the
+visible target returns them to army orders. Mixed-terrain/scouting/raid matches,
+full CI and staging evidence are still required for claiming F3 completion.

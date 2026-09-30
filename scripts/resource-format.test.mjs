@@ -1,3 +1,4 @@
+import { researchAction, researchOptions } from '../src/research-actions.mjs';
 import { UNIT_DEFINITIONS, BUILDING_DEFINITIONS, TECHNOLOGY_DEFINITIONS } from '../src/gameplay-definitions.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -13,7 +14,7 @@ function fixture(team) {
   const ui = new Proxy({}, { get(target, key) { return target[key] ||= element(); } });
   const context = vm.createContext({ ui, localTeam: team, matchWinner: -1,
     formatResourceStock, formatResourceRequirement,
-    UNIT_DEFINITIONS, BUILDING_DEFINITIONS, TECHNOLOGY_DEFINITIONS,
+    UNIT_DEFINITIONS, BUILDING_DEFINITIONS, TECHNOLOGY_DEFINITIONS, researchAction, researchOptions,
     latestFood: [0, 0], latestWood: [0, 0], latestWorkerProduction: [null, null], latestPopulation: [null, null],
     latestTeamResearch: [{}, {}], latestRosterSize: 4,
     latestBuildings: [{ id: 1, team, type: 'barracks', complete: true, queue: [] },

@@ -129,7 +129,7 @@
             <button type="button" data-context-proxy="train-infantry">Train infantry · 50 food</button>
             <button type="button" data-context-proxy="train-archer">Train archer · 25 food / 45 wood</button>
             <button type="button" data-context-proxy="clear-building-rally">Clear rally</button>
-            <button type="button" data-context-proxy="research-attack-upgrade">Research attack</button>
+            <div data-context-research-options></div>
             <div data-context-products></div>
             <div id="building-lifecycle-actions" class="contextual-actions"></div>
             <button type="button" data-context-details data-context-panel="command">Details / formation</button>
@@ -259,8 +259,9 @@
                 <button id="clear-building-rally" type="button" hidden>Clear rally</button>
               </div>
               <div class="building-command-row building-research-row">
+                <div id="research-options" class="economy-actions"></div>
                 <span id="building-research-readout">RESEARCH · SELECT A BUILDING</span>
-                <button id="research-attack-upgrade" type="button" aria-label="Research attack upgrade">Research</button>
+                <button id="research-attack-upgrade" type="button" hidden aria-label="Research attack upgrade">Research</button>
               </div>
             </div>
             <small id="order-status" class="order-status" data-state="ready" role="status" aria-live="polite">READY FOR ORDERS</small>

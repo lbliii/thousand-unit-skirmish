@@ -1,4 +1,5 @@
 import { TERRAIN_COLORS } from './terrain-materials.mjs';
+import { researchOptions, researchAction } from './research-actions.mjs';
 import { unitPresentation, buildingPresentation } from './gameplay-presentation.mjs';
 import { UNIT_DEFINITIONS, BUILDING_DEFINITIONS, TECHNOLOGY_DEFINITIONS, GAMEPLAY_RULESET_REVISION } from './gameplay-definitions.mjs';
 import { formatResourceStock, formatResourceRequirement } from './resource-format.mjs';
@@ -128,12 +129,6 @@ const ARCHERY_RANGE_SIZE = BUILDING_DEFINITIONS['archery-range'].footprint;
 const BARRACKS_WOOD_COST = BUILDING_DEFINITIONS.barracks.cost.wood;
 const BARRACKS_QUEUE_LIMIT = 5;
 const BARRACKS_SIZE = BUILDING_DEFINITIONS.barracks.footprint;
-const ATTACK_UPGRADE_RULES = Object.freeze(Object.fromEntries(
-  Object.entries(TECHNOLOGY_DEFINITIONS).map(([type, rule]) => [rule.building, Object.freeze({
-    type, key: rule.upgradeKey, label: rule.label,
-    foodCost: rule.cost.food, woodCost: rule.cost.wood, durationSeconds: rule.durationSeconds,
-  })]),
-));
 const TEAM_NAMES = ['Azure', 'Ember'];
 const TEAM_HEX = [0x5aa7d7, 0xe67a5e];
 const pausedProductionCueColor = new THREE.Color(0xa8a797);
@@ -221,6 +216,7 @@ const ui = {
   clearBuildingRally: document.querySelector('#clear-building-rally'),
   buildingResearchReadout: document.querySelector('#building-research-readout'),
   researchAttackUpgrade: document.querySelector('#research-attack-upgrade'),
+  researchOptions: document.querySelector('#research-options'),
   buildingLifecycleActions: document.querySelector('#building-lifecycle-actions'),
   cancelWorkerTraining: document.querySelector('#cancel-worker-training'),
   workerProductionStatus: document.querySelector('#worker-production-status'),
@@ -448,7 +444,9 @@ const spearMeshes = [null, null];
 const toolMeshes = [null, null];
 const packMeshes = [null, null];
 const quiverMeshes = [null, null];
-const unitArtMeshes = [bodyMeshes, headMeshes, bowMeshes, shieldMeshes, spearMeshes, toolMeshes, packMeshes, quiverMeshes];
+const mountMeshes = [null, null];
+const siegeMeshes = [null, null];
+const unitArtMeshes = [siegeMeshes, mountMeshes, bodyMeshes, headMeshes, bowMeshes, shieldMeshes, spearMeshes, toolMeshes, packMeshes, quiverMeshes];
 const unitLodRoleMeshes = [
   { worker: null, infantry: null, archer: null },
   { worker: null, infantry: null, archer: null },
@@ -1529,43 +1527,62 @@ function buildingLabel(type) {
 }
 
 function updateBuildingResearchControls(selectedBuilding) {
-  const rules = selectedBuilding ? ATTACK_UPGRADE_RULES[selectedBuilding.type] : null;
   const teamState = localTeam === null ? null : latestTeamResearch[localTeam];
   const active = teamState?.active || null;
-  const researchingHere = Boolean(rules && active?.type === rules.type
-    && active.buildingId === selectedBuilding.id);
-  const alreadyComplete = Boolean(rules && teamState?.[rules.key] === true);
   const food = localTeam === null ? 0 : latestFood[localTeam];
   const wood = localTeam === null ? 0 : latestWood[localTeam];
-  const canStart = Boolean(selectedBuilding && rules && selectedBuilding.complete === true
-    && !alreadyComplete && !active && matchWinner < 0
-    && food >= rules.foodCost && wood >= rules.woodCost);
-
+  const candidates = Object.values(TECHNOLOGY_DEFINITIONS).filter(rule => rule.building === selectedBuilding?.type);
+  const definition = candidates.find(rule => rule.id === active?.type)
+    || candidates.find(rule => !teamState?.[rule.upgradeKey] && !(rule.requires || []).some(id => !teamState?.[TECHNOLOGY_DEFINITIONS[id].upgradeKey]))
+    || candidates.find(rule => !teamState?.[rule.upgradeKey]) || candidates[0];
+  const rules = definition ? { type: definition.id, key: definition.upgradeKey, label: definition.label,
+    foodCost: definition.cost.food, woodCost: definition.cost.wood, durationSeconds: definition.durationSeconds } : null;
+  const option = rules ? researchAction(selectedBuilding, rules.type, { team: localTeam, food, wood,
+    upgrades: teamState, active, matchOver: matchWinner >= 0 }) : null;
   if (ui.buildingResearchReadout) {
-    if (!selectedBuilding || !rules) ui.buildingResearchReadout.textContent = 'RESEARCH · SELECT A PRODUCTION BUILDING';
-    else if (alreadyComplete) ui.buildingResearchReadout.textContent = `${rules.label} · COMPLETED · +20% ATTACK`;
-    else if (researchingHere) {
-      const percent = Math.round(Math.max(0, Math.min(1, Number(active.progress) || 0)) * 100);
-      const remaining = Math.max(0, Math.ceil(Number(active.remaining) || 0));
-      ui.buildingResearchReadout.textContent = `${rules.label} · RESEARCHING ${percent}% · ${remaining}S`;
-    } else if (active) {
-      const activeRules = ATTACK_UPGRADE_RULES[active.type === 'infantry-attack' ? 'barracks' : 'archery-range'];
-      const activeBuilding = latestBuildings.find((building) => building.id === active.buildingId);
-      ui.buildingResearchReadout.textContent = `RESEARCH BUSY · ${activeRules?.label || 'UPGRADE'}${activeBuilding ? ` AT #${activeBuilding.id}` : ''}`;
-    } else if (!selectedBuilding.complete) {
-      ui.buildingResearchReadout.textContent = `${rules.label} · COMPLETE BUILDING TO RESEARCH`;
+    if (!rules) ui.buildingResearchReadout.textContent = 'RESEARCH · SELECT A RESEARCH BUILDING';
+    else if (teamState?.[rules.key]) ui.buildingResearchReadout.textContent = `${rules.label} · COMPLETED`;
+    else if (active?.buildingId === selectedBuilding.id) {
+      ui.buildingResearchReadout.textContent = `${TECHNOLOGY_DEFINITIONS[active.type]?.label || 'RESEARCH'} · RESEARCHING ${Math.round((active.progress || 0) * 100)}% · ${Math.ceil(active.remaining || 0)}S`;
     } else {
       const short = [];
       if (food < rules.foodCost) short.push(`${formatResourceRequirement(rules.foodCost - food)} FOOD`);
       if (wood < rules.woodCost) short.push(`${formatResourceRequirement(rules.woodCost - wood)} WOOD`);
-      ui.buildingResearchReadout.textContent = `${rules.label} · +20% ATTACK · ${formatResourceRequirement(rules.foodCost)} FOOD / ${formatResourceRequirement(rules.woodCost)} WOOD · ${rules.durationSeconds}S${short.length ? ` · NEED ${short.join(' + ')}` : ''}`;
+      const reason = short.length && !option?.missingPrerequisites.length && !active ? `NEED ${short.join(' + ')}` : option?.reason;
+      ui.buildingResearchReadout.textContent = `${rules.label} · ${rules.foodCost} FOOD / ${rules.woodCost} WOOD · ${rules.durationSeconds}S${reason ? ` · ${reason}` : ''}`;
     }
   }
   if (ui.researchAttackUpgrade) {
-    ui.researchAttackUpgrade.disabled = !canStart;
-    ui.researchAttackUpgrade.setAttribute('aria-label', rules
-      ? `Research ${rules.label.toLowerCase()} for ${formatResourceRequirement(rules.foodCost)} food and ${formatResourceRequirement(rules.woodCost)} wood; completes in ${rules.durationSeconds} seconds`
-      : 'Select a friendly Barracks or Archery Range to research an attack upgrade');
+    ui.researchAttackUpgrade.disabled = !option?.available;
+    ui.researchAttackUpgrade.dataset.technology = rules?.type || '';
+    ui.researchAttackUpgrade.setAttribute('aria-label', rules ? `Research ${rules.label}` : 'Select a research building');
+  }
+  updateResearchOptions(ui.researchOptions, selectedBuilding);
+}
+
+function updateResearchOptions(container, building) {
+  if (!container || typeof container.replaceChildren !== 'function') return;
+  const own = building && building.team === localTeam;
+  const teamState = localTeam === null ? null : latestTeamResearch[localTeam];
+  const state = { team: localTeam, food: latestFood[localTeam] || 0, wood: latestWood[localTeam] || 0,
+    upgrades: teamState, active: teamState?.active, matchOver: matchWinner >= 0 };
+  const options = own ? researchOptions(building, state) : [];
+  const signature = `${building?.id || ''}:${options.map(option => option.upgrade).join(',')}`;
+  if (container.dataset.signature !== signature) {
+    container.replaceChildren(); container.dataset.signature = signature;
+    for (const option of options) {
+      const button = document.createElement('button'); button.type = 'button';
+      button.className = 'economy-action'; button.dataset.technology = option.upgrade;
+      button.addEventListener('click', () => sendCommand({ type: 'researchUpgrade', buildingId: building.id, upgrade: option.upgrade }));
+      container.append(button);
+    }
+  }
+  for (const [index, option] of options.entries()) {
+    const button = container.children[index]; const definition = TECHNOLOGY_DEFINITIONS[option.upgrade];
+    const authoritative = building.researchOptions?.find(row => row.upgrade === option.upgrade);
+    const reason = authoritative?.available === false ? authoritative.reason : option.reason;
+    button.disabled = !option.available || authoritative?.available === false;
+    button.textContent = `${definition.label} · ${definition.cost.food} food / ${definition.cost.wood} wood${reason ? ` · ${reason}` : ''}`;
   }
 }
 
@@ -2279,7 +2296,7 @@ function buildMap(definition) {
       rewards.push(`+${event.unitCount} ${(event.unitKind ?? 'infantry').toUpperCase()} / TEAM`);
     }
     if (event.technologyReward) {
-      rewards.push(event.technologyReward === 'infantry-attack' ? 'INFANTRY FORGING' : 'ARCHER FLETCHING');
+      rewards.push(TECHNOLOGY_DEFINITIONS[event.technologyReward]?.label || event.technologyReward);
     }
     const objective = event.trigger?.type === 'capture'
       ? definition.triggers.find((trigger) => trigger.id === event.trigger.objectiveId) : null;
@@ -2689,7 +2706,43 @@ function createGroundSilhouette(polygons, baseColor = 0xf3e8cd, polygonColors = 
   return geometry;
 }
 
+function createUnitBoxAssembly(parts) {
+  const positions = [], normals = [];
+  for (const [w, h, d, x, y, z] of parts) {
+    const part = new THREE.BoxGeometry(w, h, d).toNonIndexed(); part.translate(x, y, z);
+    positions.push(...part.attributes.position.array); normals.push(...part.attributes.normal.array); part.dispose();
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+  return geometry;
+}
+function createMountGeometry() {
+  return createUnitBoxAssembly([
+    [0.46, 0.42, 0.85, 0, 0.66, 0], [0.28, 0.46, 0.24, 0, 0.92, 0.4],
+    [0.25, 0.23, 0.42, 0, 1.12, 0.52],
+    ...[-0.16, 0.16].flatMap(x => [-0.3, 0.3].map(z => [0.11, 0.47, 0.11, x, 0.24, z])),
+  ]);
+}
+function createSiegeGeometry() {
+  return createUnitBoxAssembly([
+    [0.7, 0.18, 0.95, 0, 0.38, 0], [0.15, 0.75, 0.15, 0, 0.82, 0],
+    [0.18, 0.13, 1.1, 0, 1.13, 0.18], [0.3, 0.15, 0.3, 0, 1.16, 0.66],
+    ...[-0.4, 0.4].flatMap(x => [-0.35, 0.35].map(z => [0.13, 0.4, 0.4, x, 0.22, z])),
+  ]);
+}
+
 const unitLodRoleGeometries = {
+  siege: createGroundSilhouette([
+    [[-0.36, -0.5], [0.36, -0.5], [0.36, 0.5], [-0.36, 0.5]],
+    [[-0.1, -0.25], [0.1, -0.25], [0.1, 0.85], [-0.1, 0.85]],
+    [[-0.5, -0.4], [-0.36, -0.4], [-0.36, 0.4], [-0.5, 0.4]],
+    [[0.36, -0.4], [0.5, -0.4], [0.5, 0.4], [0.36, 0.4]],
+  ], 0x8b6947, { 1: 0xf3e8cd }),
+  mounted: createGroundSilhouette([
+    [[-0.28, -0.5], [0.28, -0.5], [0.28, 0.35], [0.16, 0.35], [0.16, 0.8], [-0.16, 0.8], [-0.16, 0.35], [-0.28, 0.35]],
+    [[-0.14, -0.16], [0.14, -0.16], [0.14, 0.22], [-0.14, 0.22]],
+  ], 0x8b6947, { 1: 0xf3e8cd }),
   worker: createGroundSilhouette([
     [[-0.14, -0.16], [-0.19, -0.05], [-0.16, 0.12], [-0.08, 0.21], [0.08, 0.21], [0.16, 0.12], [0.19, -0.05], [0.14, -0.16]],
     [[-0.12, 0.22], [-0.1, 0.31], [0.1, 0.31], [0.12, 0.22]],
@@ -2727,6 +2780,8 @@ const unitLodMarkerGeometries = [
 ];
 
 for (let team = 0; team < 2; team++) {
+  siegeMeshes[team] = makeInstances(createSiegeGeometry(), new THREE.MeshBasicMaterial({ color: TEAM_HEX[team] }), MAX_PER_TEAM);
+  mountMeshes[team] = makeInstances(createMountGeometry(), new THREE.MeshBasicMaterial({ color: 0x8b6947 }), MAX_PER_TEAM);
   bodyMeshes[team] = makeInstances(
     addPaintedFacets(new THREE.CylinderGeometry(0.16, 0.235, 0.48, 6, 1)),
     new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true }),
@@ -3102,7 +3157,7 @@ function updateUnitHealthVisual(unit) {
   unit.healthVisualRatio = ratio;
   unit.healthVisualX = unit.renderX;
   unit.healthVisualZ = unit.renderZ;
-  dummy.position.set(unit.renderX, 1.55, unit.renderZ);
+  dummy.position.set(unit.renderX, unitPresentation(unit.kind).role === 'mounted' ? 2.1 : 1.55, unit.renderZ);
   dummy.quaternion.copy(camera.quaternion);
   dummy.scale.set(scale, scale, scale);
   dummy.updateMatrix();
@@ -3137,6 +3192,9 @@ function updateUnitTransform(unit, now = performance.now()) {
   const presentationRole = unitPresentation(unit.kind).role;
   const isWorker = presentationRole === 'worker';
   const isArcher = presentationRole === 'archer';
+  const isMounted = presentationRole === 'mounted';
+  const isSiege = presentationRole === 'siege';
+  const riderLift = isMounted ? 0.72 : 0;
   if (unitSpritePreviewActive && unitSpritePreviewRoleSet.has(unit.kind)) {
     updateUnitLodTransform(unit, unitSpriteMarkersActive ? visibleScale : 0);
     dummy.position.set(unit.renderX, 0, unit.renderZ);
@@ -3155,7 +3213,7 @@ function updateUnitTransform(unit, now = performance.now()) {
     updateUnitFocusVisual(unit);
     return;
   }
-  const bodyScale = isWorker ? visibleScale * 0.82 : isArcher ? visibleScale * 0.9 : visibleScale;
+  const bodyScale = isSiege ? 0 : isWorker ? visibleScale * 0.82 : isArcher ? visibleScale * 0.9 : visibleScale;
   const actionPoseAllowed = unitActionPoseAllowed(unit.hp, unit.defeatStartedAt);
   const workerActionPose = actionPoseAllowed && isWorker
     ? unitWorkerActionPose(unit.kind, unit.visible, unit.task, unit.cargoType, unit.walking)
@@ -3182,7 +3240,7 @@ function updateUnitTransform(unit, now = performance.now()) {
   const sideZ = -Math.sin(unit.angle);
   facing.setFromAxisAngle(worldUp, unit.angle);
   dummy.position.set(unit.renderX + forwardX * (attackPose * 0.05 - hitPose * 0.075),
-    (isWorker ? 0.23 : isArcher ? 0.25 : 0.27) + Math.max(0, stride) + idleBreath
+    (isWorker ? 0.23 : isArcher ? 0.25 : 0.27) + riderLift + Math.max(0, stride) + idleBreath
       - defeatProgress * 0.16,
     unit.renderZ + forwardZ * (attackPose * 0.05 - hitPose * 0.075));
   dummy.quaternion.copy(facing);
@@ -3195,7 +3253,7 @@ function updateUnitTransform(unit, now = performance.now()) {
   bodyMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
 
   dummy.position.set(unit.renderX + sideX * defeatProgress * 0.16,
-    (isWorker ? 0.48 : isArcher ? 0.54 : 0.61) + Math.max(0, stride) + idleBreath * 0.7
+    (isWorker ? 0.48 : isArcher ? 0.54 : 0.61) + riderLift + Math.max(0, stride) + idleBreath * 0.7
       - hitPose * 0.035 - defeatProgress * 0.34,
     unit.renderZ + sideZ * defeatProgress * 0.16);
   dummy.quaternion.identity();
@@ -3215,19 +3273,19 @@ function updateUnitTransform(unit, now = performance.now()) {
   dummy.updateMatrix();
   bowMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
 
-  dummy.position.set(unit.renderX - sideX * 0.235 + forwardX * 0.1, 0.42 + Math.max(0, stride),
+  dummy.position.set(unit.renderX - sideX * 0.235 + forwardX * 0.1, 0.42 + riderLift + Math.max(0, stride),
     unit.renderZ - sideZ * 0.235 + forwardZ * 0.1);
   dummy.quaternion.copy(facing);
   dummy.rotateX(-attackPose * 0.16 + hitPose * 0.22);
-  dummy.scale.setScalar(isWorker || isArcher ? 0 : visibleScale);
+  dummy.scale.setScalar(isWorker || isArcher || isSiege ? 0 : visibleScale);
   dummy.updateMatrix();
   shieldMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
 
-  dummy.position.set(unit.renderX + sideX * 0.24, 0.57 + Math.max(0, stride),
+  dummy.position.set(unit.renderX + sideX * 0.24, 0.57 + riderLift + Math.max(0, stride),
     unit.renderZ + sideZ * 0.24);
   dummy.quaternion.copy(facing);
   dummy.rotateX(attackPose * 0.66);
-  dummy.scale.setScalar(isWorker || isArcher ? 0 : visibleScale);
+  dummy.scale.setScalar(isWorker || isArcher || isSiege ? 0 : visibleScale);
   dummy.updateMatrix();
   spearMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
 
@@ -3253,6 +3311,17 @@ function updateUnitTransform(unit, now = performance.now()) {
   dummy.scale.setScalar(isArcher ? visibleScale : 0);
   dummy.updateMatrix();
   quiverMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
+
+  dummy.position.set(unit.renderX, Math.max(0, stride), unit.renderZ);
+  dummy.quaternion.copy(facing);
+  dummy.rotateZ(defeatProgress * 0.9);
+  dummy.scale.setScalar(isMounted ? visibleScale : 0);
+  dummy.updateMatrix();
+  mountMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
+  dummy.rotateX(-attackPose * 0.07);
+  dummy.scale.setScalar(isSiege ? visibleScale : 0);
+  dummy.updateMatrix();
+  siegeMeshes[unit.team].setMatrixAt(unit.slot, dummy.matrix);
 
   updateUnitCargoCueColor(unit);
   updateUnitFocusVisual(unit);
@@ -3411,6 +3480,7 @@ function updateContextualCommands() {
     ? `${buildingLabel(building.type)} · ${ui.selectedBuildingHealth.textContent} · ${ui.selectedBuildingProduction.textContent}`
     : context.total ? `${context.total} selected${context.kind === 'military' || context.kind === 'mixed' ? ` · ${ui.formationSelect.value} formation` : ''} · ${Object.entries(context.counts).filter(([, n]) => n).map(([role, n]) => `${n} ${role}`).join(' · ')}${context.counts.worker ? ` · Cargo ${formatResourceStock(context.cargo.food)} food / ${formatResourceStock(context.cargo.wood)} wood` : ''}` : '';
   updateRosterProductionOptions(bar.querySelector('[data-context-products]'), building);
+  updateResearchOptions(bar.querySelector('[data-context-research-options]'), building);
   for (const button of bar.querySelectorAll('[data-context-proxy]')) {
     const source = document.getElementById(button.dataset.contextProxy);
     const action = button.dataset.contextProxy;
@@ -5126,7 +5196,7 @@ function describeEditorScenarioEvent(event) {
     rewards.push(`+${event.unitCount} ${(event.unitKind ?? 'infantry').toUpperCase()} / TEAM`);
   }
   if (event.technologyReward) {
-    rewards.push(event.technologyReward === 'infantry-attack' ? 'INFANTRY FORGING' : 'ARCHER FLETCHING');
+    rewards.push(TECHNOLOGY_DEFINITIONS[event.technologyReward]?.label || event.technologyReward);
   }
   const repeats = event.repeatCount
     ? ` · ${event.repeatCount} REPEATS EVERY ${event.repeatEverySeconds}s` : '';
@@ -5888,7 +5958,7 @@ function validateImportedMap(value) {
         || event.unitCount < 0 || event.unitCount > 25))
       || (event.unitKind !== undefined && !Object.hasOwn(UNIT_DEFINITIONS, event.unitKind))
       || (event.technologyReward !== undefined
-        && !['infantry-attack', 'archer-attack'].includes(event.technologyReward))
+        && !Object.hasOwn(TECHNOLOGY_DEFINITIONS, event.technologyReward))
       || (event.message !== undefined && (typeof event.message !== 'string' || event.message.length > 120))
       || (event.foodReward === 0 && (event.woodReward ?? 0) === 0
         && (event.unitCount ?? 0) === 0 && !event.technologyReward && !event.message?.trim())) {
@@ -7245,24 +7315,13 @@ function queueArcher() {
 
 function startSelectedAttackResearch() {
   if (localTeam === null || matchWinner >= 0) return;
-  const building = latestBuildings.find((row) => row.id === selectedBuildingId
-    && row.team === localTeam);
-  const rules = building ? ATTACK_UPGRADE_RULES[building.type] : null;
-  if (!building || !rules) {
-    showToast('SELECT A FRIENDLY BARRACKS OR ARCHERY RANGE');
-    return;
-  }
-  if (building.complete !== true) {
-    showToast('COMPLETE THE BUILDING BEFORE RESEARCH');
-    return;
-  }
-  if (latestFood[localTeam] < rules.foodCost || latestWood[localTeam] < rules.woodCost) {
-    showToast(`RESEARCH NEEDS ${formatResourceRequirement(rules.foodCost)} FOOD + ${formatResourceRequirement(rules.woodCost)} WOOD`);
-    return;
-  }
-  if (sendCommand({ type: 'researchUpgrade', buildingId: building.id, upgrade: rules.type })) {
-    showToast(`${rules.label} REQUEST SENT`, 1600);
-  }
+  const building = latestBuildings.find(row => row.id === selectedBuildingId && row.team === localTeam);
+  const upgrade = ui.researchAttackUpgrade?.dataset.technology;
+  if (!building || !upgrade) { showToast('SELECT A RESEARCH BUILDING'); return; }
+  const option = researchAction(building, upgrade, { team: localTeam, food: latestFood[localTeam], wood: latestWood[localTeam],
+    upgrades: latestTeamResearch[localTeam], active: latestTeamResearch[localTeam]?.active, matchOver: matchWinner >= 0 });
+  if (!option.available) { showToast(option.reason); return; }
+  sendCommand({ type: 'researchUpgrade', buildingId: building.id, upgrade });
 }
 
 function resumeConstruction() {
@@ -8238,6 +8297,13 @@ ui.attackMoveToggle?.addEventListener('click', () => setAttackMoveMode(!attackMo
 ui.orderTargetToggle?.addEventListener('click', () => setTapOrderArmed(!tapOrderArmed));
 ui.clearBuildingRally?.addEventListener('click', clearSelectedBuildingRally);
 ui.researchAttackUpgrade?.addEventListener('click', startSelectedAttackResearch);
+if (ui.studioEventTechnologyReward) {
+  const none = document.createElement('option'); none.value = ''; none.textContent = 'None';
+  ui.studioEventTechnologyReward.replaceChildren(none, ...Object.values(TECHNOLOGY_DEFINITIONS).map(definition => {
+    const option = document.createElement('option'); option.value = definition.id; option.textContent = definition.label;
+    return option;
+  }));
+}
 for (const selector of [ui.studioObjectiveUnitKind, ui.studioEventUnitKind]) {
   const initial = selector.value || 'infantry';
   selector.replaceChildren(...Object.values(UNIT_DEFINITIONS).map((definition) => {

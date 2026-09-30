@@ -1,8 +1,7 @@
-import { GAMEPLAY_RULESET_REVISION, DEFAULT_FACTION_ID, UNIT_WIRE_IDS } from '../src/gameplay-definitions.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
-import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:net';
 import os from 'node:os';
 import path from 'node:path';
@@ -72,7 +71,7 @@ async function checkpointWith(checkpointPath, predicate) {
 
 
 const port = await freePort();
-const temp = await mkdtemp(path.join(os.tmpdir(), 'rts-ruleset-'));
+const temp = await mkdtemp(path.join(os.tmpdir(), 'rts-siege-defense-'));
 const checkpointPath = path.join(temp, 'match.json');
 let child;
 let clients = [];
@@ -106,37 +105,39 @@ async function start() {
 }
 try {
   await start();
-  for (const client of clients) {
-    assert.equal(client.latest.rulesetRevision, GAMEPLAY_RULESET_REVISION);
-    assert.equal(client.latest.factionId, DEFAULT_FACTION_ID);
-    assert.deepEqual(client.latest.unitWireIds, UNIT_WIRE_IDS);
+  const map = { id: 'siege-defense-audit', name: 'Siege Defense Audit', width: 64, height: 64,
+    terrainSeed: 19, fogOfWar: false, startingArmySize: 24, startingResources: { food: 1000, wood: 1000 },
+    spawnPoints: [{ team: 0, x: -20, z: 0 }, { team: 1, x: 20, z: 0 }],
+    obstacles: [], resourceNodes: [], triggers: [], scenarioEvents: [] };
+  send(clients[0], { type: 'publishMap', map });
+  await Promise.all(clients.map(client => client.wait(m => m.type === 'mapChange' && m.state.mapId === map.id)));
+  for (const [team, client] of clients.entries()) send(client, { type: 'build', ids: client.latest.units.filter(u => u[1] === team && u[5] === 'worker').map(u => u[0]),
+    buildingType: 'watchtower', x: team ? 10.5 : -10.5, z: 8.5 });
+  await checkpointWith(checkpointPath, s => s.state.buildings.length === 2); await stop();
+  const baseline = JSON.parse(await readFile(checkpointPath, 'utf8'));
+  baseline.state.seatSessions = [];
+  for (const unit of baseline.state.units) if (unit.kind === 'worker') Object.assign(unit, { buildingTargetId: null,
+    repairing: false, path: [], pathIndex: 0, movePlanningPending: false, moveGoalCell: -1 });
+  for (const tower of baseline.state.buildings) { tower.complete = true; tower.progress = 1; tower.attackCooldown = 0; }
+  const attackers = baseline.state.buildings.map(tower => baseline.state.units.find(u => u.team !== tower.team && u.kind === 'infantry').id);
+  function positionAttackers(distance) {
+    const fixture = structuredClone(baseline);
+    for (const [index, tower] of fixture.state.buildings.entries()) Object.assign(fixture.state.units[attackers[index]], {
+      kind: 'siege-engine', hp: 90, x: tower.x + (tower.team ? -distance : distance), z: tower.z,
+      path: [], pathIndex: 0, moveGoalCell: -1, attackTargetId: -1, attackBuildingTargetId: tower.id,
+      attackCooldown: 0, repathTimer: 0, movePlanningPending: false });
+    return fixture;
   }
+  const outrange = positionAttackers(9.5); await writeFile(checkpointPath, JSON.stringify(outrange)); await start();
+  const hit = await checkpointWith(checkpointPath, s => s.state.buildings.every(b => b.hp === 1152));
+  assert.ok(attackers.every(id => hit.state.units[id].hp === 90), 'defense bonus lands outside tower range');
+  const destroyed = await checkpointWith(checkpointPath, s => s.state.buildings.length === 0);
+  assert.ok(attackers.every(id => destroyed.state.units[id].hp === 90), 'correct firing positions destroy full-health towers without return damage');
+  assert.ok(destroyed.state.tickNumber - outrange.state.tickNumber >= 24 * 75, '25 shots retain the 2.5-second attack cadence');
   await stop();
-  const original = JSON.parse(await readFile(checkpointPath, 'utf8'));
-  assert.equal(original.schemaVersion, 19); assert.equal(original.rulesetRevision, GAMEPLAY_RULESET_REVISION);
-  assert.equal(original.factionId, DEFAULT_FACTION_ID);
-  const legacy = structuredClone(original); legacy.schemaVersion = 11; delete legacy.rulesetRevision; delete legacy.factionId;
-  legacy.state.seatSessions = [];
-  await writeFile(checkpointPath, JSON.stringify(legacy)); await start(); await stop();
-  const restored = JSON.parse(await readFile(checkpointPath, 'utf8'));
-  assert.equal(restored.matchId, original.matchId, 'supported legacy saves migrate without replacing the match');
-  assert.equal(restored.rulesetRevision, GAMEPLAY_RULESET_REVISION);
-  const priorContent = structuredClone(restored);
-  priorContent.schemaVersion = 12;
-  priorContent.rulesetRevision = 'v1:4a8f7db2ce7f694407489bee0923c19c20c52126176f57f972906aa1dd1dc254';
-  priorContent.state.seatSessions = [];
-  await writeFile(checkpointPath, JSON.stringify(priorContent)); await start(); await stop();
-  const contentMigrated = JSON.parse(await readFile(checkpointPath, 'utf8'));
-  assert.equal(contentMigrated.matchId, original.matchId, 'the explicitly compatible Storehouse addition retains the existing match');
-  assert.equal(contentMigrated.rulesetRevision, GAMEPLAY_RULESET_REVISION);
-  const incompatible = structuredClone(restored); incompatible.rulesetRevision = 'v1:' + '0'.repeat(64); incompatible.state.seatSessions = [];
-  const incompatibleSource = JSON.stringify(incompatible);
-  await writeFile(checkpointPath, incompatibleSource); await start(); await stop();
-  const fresh = JSON.parse(await readFile(checkpointPath, 'utf8'));
-  assert.notEqual(fresh.matchId, original.matchId, 'an incompatible ruleset cannot silently resume');
-  const rejected = (await readdir(temp)).find((name) => name.startsWith('match.json.rejected-'));
-  assert.ok(rejected, 'rejected checkpoint is preserved for recovery');
-  assert.equal(await readFile(path.join(temp, rejected), 'utf8'), incompatibleSource);
-  assert.match(logs, /gameplay ruleset revision mismatch/);
-  console.log('Ruleset pinning passed: both-seat metadata, compact stable wire IDs, schema-11 migration, mismatched revision rejection and exact preservation of the rejected save.');
+  const exposed = positionAttackers(6); await writeFile(checkpointPath, JSON.stringify(exposed)); await start();
+  const defeated = await checkpointWith(checkpointPath, s => attackers.every(id => s.state.units[id].hp === 0));
+  assert.ok(defeated.state.buildings.every(b => b.hp > 0), 'an exposed engine loses to a completed tower before demolishing it');
+  assert.deepEqual(defeated.state.teamFood, baseline.state.teamFood); assert.deepEqual(defeated.state.teamWood, baseline.state.teamWood);
+  console.log('Siege defense passed: both-seat full-health towers take 48 per hit, fall after 25 outranged shots, and defeat engines exposed inside range.');
 } finally { await stop(); await rm(temp, { recursive: true, force: true }); }

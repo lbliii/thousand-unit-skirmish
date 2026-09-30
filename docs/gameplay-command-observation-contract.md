@@ -101,6 +101,15 @@ visual mapping. The renderer must never infer hidden changes.
 
 ## Checks
 
+The deterministic policy assigns one Scout to reconnaissance separately from
+frontline army orders. It samples sixteen frontier destinations from the filtered
+visibility mask and public objective locations, avoiding up to 64 observed threats.
+An enemy within nine cells triggers retreat toward a known friendly completed
+Town Center. A stalled route retries after 300 ticks and remembers four failed
+destinations. Orders bind entity generation; neither hidden terrain nor enemy
+economy is available to this planner. See `scripts/pve-reconnaissance.test.mjs`
+and `scripts/field-roles-scenario.mjs` for deterministic and terrain checks.
+
 Use `scripts/pve-opponent-scenario.mjs`, `scripts/objective-fog-visibility-scenario.mjs`,
 `scripts/harvestable-woodland-scenario.mjs`, and the relevant command scenario in
 [testing](testing.md). Schema and visibility changes need both-seat coverage.

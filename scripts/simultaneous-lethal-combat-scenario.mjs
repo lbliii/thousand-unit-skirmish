@@ -1,3 +1,4 @@
+import { combatDamage } from '../src/combat-rules.mjs';
 import { UNIT_DEFINITIONS } from '../src/gameplay-definitions.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
@@ -96,7 +97,7 @@ try {
   for (let slot = 0; slot < 4; slot++) assert.equal(initial.state.units[slot].attackCooldown,
     initial.state.units[slot+4].attackCooldown, 'opening cadence must match by team slot');
   const results = [];
-  for (const [kind, damage] of Object.entries(UNIT_DEFINITIONS).map(([kind, definition]) => [kind, definition.combat.damage])) {
+  for (const [kind, damage] of Object.entries(UNIT_DEFINITIONS).map(([kind, definition]) => [kind, combatDamage(definition, definition)])) {
     for (const lowerIdTeam of [0, 1]) {
       for (const strikes of [1, 3, 'staggered']) {
         const fixture = structuredClone(initial);
@@ -151,6 +152,25 @@ try {
         }
         results.push({ kind, lowerIdTeam, strikes, finalStrikeTick: fighters[0].lastAttackTick });
       }
+    }
+  }
+  for (const [strong, weak] of [['spearman', 'rider'], ['rider', 'worker'], ['worker', 'scout'], ['rider', 'siege-engine']]) {
+    for (const strongTeam of [0, 1]) {
+      const fixture = structuredClone(initial);
+      fixture.state.seatSessions = []; fixture.state.scenarioClockStarted = true;
+      for (const unit of fixture.state.units) unit.hp = 0;
+      for (const [id, enemyId, kind, team] of [[0, 4, strong, strongTeam], [4, 0, weak, 1 - strongTeam]]) {
+        Object.assign(fixture.state.units[id], { team, kind, x: id === 0 ? -.5 : .5, z: .5,
+          hp: UNIT_DEFINITIONS[kind].combat.maxHp, attackTargetId: enemyId, attackCooldown: .4,
+          repathTimer: 0, lastAttackCell: -1, lastAttackTick: -1 });
+      }
+      await writeFile(checkpointPath, JSON.stringify(fixture)); await start();
+      if (clients[0].latest.winner < 0) await clients[0].wait(m => m.type === 'state' && m.winner >= 0);
+      await stop();
+      const result = JSON.parse(await readFile(checkpointPath, 'utf8'));
+      assert.equal(result.state.matchWinner, strongTeam, `${strong} should defeat ${weak} in both seats`);
+      assert.ok(result.state.units[0].hp > 0); assert.equal(result.state.units[4].hp, 0);
+      results.push({ strong, weak, strongTeam, survivingHp: result.state.units[0].hp });
     }
   }
   console.log(JSON.stringify({ passed: 'simultaneous lethal damage and equal cadence under both seat/ID orders', results }, null, 2));

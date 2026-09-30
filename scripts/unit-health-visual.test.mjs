@@ -1,3 +1,4 @@
+import { unitPresentation } from '../src/gameplay-presentation.mjs';
 import { UNIT_DEFINITIONS } from '../src/gameplay-definitions.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -24,7 +25,7 @@ function fixture() {
     updateMatrix() { this.matrix = { x: this.position.x, y: this.position.y,
       z: this.position.z, scaleX: this.scale.x, scaleY: this.scale.y }; },
   };
-  const context = vm.createContext({ UNIT_DEFINITIONS, dummy, camera: { quaternion: {} },
+  const context = vm.createContext({ UNIT_DEFINITIONS, unitPresentation, dummy, camera: { quaternion: {} },
     color: { setHex(hex) { this.hex = hex; } },
     unitHealthBackground: mesh(0), unitHealthFill: mesh(1),
   });
@@ -42,6 +43,7 @@ for (const team of [0, 1]) {
       assert.equal(f.matrices[0].get(4).scaleX, 0, 'healthy units hide bars');
       unit.hp = maxHp * .35; f.update(unit);
       assert.equal(f.matrices[1].get(4).scaleX, .35);
+      assert.equal(f.matrices[1].get(4).y, unitPresentation(kind).role === 'mounted' ? 2.1 : 1.55);
       assert.equal(f.colors.get(4), 0xe3c46f);
       const leftEdge = f.matrices[1].get(4).x - 1.1 * .35 / 2;
       assert.equal(leftEdge, 10 - 1.1 / 2);

@@ -68,3 +68,10 @@ opening requests meadow and forest floor rather than all sixteen sources. Cached
 sources stay resident across later maps; this is not an eviction/memory-budget
 system. The three enriched flower/root/bone studies are still separate source
 candidates and have no runtime loader.
+
+After integrating main `32e5076`, syntax, client-import/CI-shard tests, terrain
+scenarios, sixteen-material persistence and documentation links passed again.
+A [combined-build browser smoke](post-integration-materials.png) confirmed ready
+boot on Frontier Materials with no visible runtime error or console shader error.
+The import and served-module conflicts were resolved by retaining both the
+terrain catalog and current gameplay research-action modules.
