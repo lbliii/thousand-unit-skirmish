@@ -10,7 +10,36 @@ sequence and acceptance criteria. Existing solo/two-seat checks are the regressi
 floor; expansion of gameplay functionality is the next development outcome.
 Art proceeds separately against stable presentation interfaces.
 
+Use the [RTS capability inventory](references/feature-coverage-inventory.md) as
+a loose roadmap for further maturity. AoE, openage and Warcraft identify systems
+we may match, adapt or improve; prioritize dependable player control, useful
+scenario tools and reusable content/feedback interfaces. Select concrete outcomes
+from the inventory rather than treating comprehensive parity or its proposed
+milestone sequence as a prerequisite for progress. Art direction and character
+production can develop independently of these engine capabilities.
+
 ## Foundation milestones
+
+### Parallel core workstreams — 30 September 2026
+
+The user authorized a parallel implementation wave targeting `main`. Each owner
+uses an isolated worktree, ships focused PRs and owns proportionate checks,
+staging integration and fix-forward work. Art and audio production proceed in
+their existing lanes. The workstreams below are starting outcomes, not claims
+of implemented functionality or comprehensive reference parity.
+
+| Workstream | First useful outcome | Primary edit boundary |
+| --- | --- | --- |
+| Army commands | Stop/Hold with predictable interruption, no Hold pursuit, HUD/hotkeys and persisted both-seat behavior. | Authoritative orders/movement/combat idle semantics; command input/HUD and command tests. |
+| Scenario authoring | Named regions and bounded region-entry condition/action events, Map Studio editing, validated import/export and checkpoint-safe execution. | Map/schema validation, scenario event simulation, editor and authoring tests. |
+| Unit audio engineering | Supported lifecycle event catalog, ready/death/repair routing, food/wood context, bounded playback and recovery-safe deduplication. | Audio policies/runtime/library UI and narrow client audio emission sites. |
+
+Keep edits to shared server/client files localized to these responsibilities;
+prefer focused modules over broad rewrites. Read current `main` before dependent
+work and contact only an affected owner for a concrete conflicting edit or shared
+contract. A completed scoped slice may integrate independently; do not create a
+central approval queue or wait for the whole wave. Later Patrol/Follow, broader
+triggers and shared content delivery follow useful integrated outcomes.
 
 | Milestone | Observable outcome |
 | --- | --- |
