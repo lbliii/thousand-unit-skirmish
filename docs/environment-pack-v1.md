@@ -584,3 +584,9 @@ The approved key's [ridgegrass](../assets/environment/frontier-v1/veyrholds-unde
 ## Veyrholds low-stock silhouette refinement · 30 September 2026
 
 The highpine low-stock frame now has fewer leafy tiers, a narrower crown and pale cut branch ends. The original trunk/root registration and shared crop remain, while full/worked/depleted frames are unchanged. This makes remaining stock easier to distinguish at gameplay scale; no stock thresholds or harvesting rules change. [Manifest](../assets/environment/frontier-v1/veyrholds-lifecycle-manifest.json), [exact refinement prompt](../assets/environment/frontier-v1/VEYRHOLDS-LOW-READABILITY-PROMPTS.json) and [local evidence](qa-evidence/vaelora-highpine-low-readability-2026-09-30/README.md) record the selected source, atlas and live transition.
+
+## Ellionar Sunbloom · 30 September 2026
+
+The approved ecology key's [Sunbloom](../assets/environment/frontier-v1/ellionar-understory-manifest.json) adds lapis-blue flowers with ivory centers and cultivated green leaves beneath palms and hedges on garden-loam maps. One shared mesh uses terrain-seeded28% forest-cell selection. Flowers remain through partial harvest, clear at received stock zero and restore on reset; hidden cells retain their last received stock. No medicinal, food or collision rules are introduced.
+
+[Local evidence](qa-evidence/vaelora-ellionar-understory-2026-09-30/README.md) covers both parent families, seeded variation, camera/ground contact and clearing/reset. Generated PNG remains unchanged, cropped WebP preserves alpha, and flowers have no emission. Planters, cultivated flower-bed placement, medicinal harvesting and additional painted viewpoints remain future outcomes.

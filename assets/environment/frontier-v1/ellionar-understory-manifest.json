@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-ellionar-understory",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/ellionar-ecology.png",
+  "referenceSha256": "b1a4c22af679f031728c0d5bb66c43f7e41a8bee2748c396f6c962dbcb7ad1d2",
+  "prompts": "ELLIONAR-UNDERSTORY-PROMPTS.json",
+  "files": [
+    {
+      "path": "ellionar-sunbloom.png",
+      "role": "source-image",
+      "sha256": "1d3371a3860b29fc8ab514c36aa53298d9e87c100eb6823bdb647304333be16a",
+      "bytes": 1835759,
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "ellionar-sunbloom.webp",
+      "role": "runtime-image",
+      "sha256": "81723ed782d471f79342ea6be9509abe8dbcd8e63dd9575c2afecb2a86df9623",
+      "bytes": 254190,
+      "dimensionsPx": {
+        "width": 922,
+        "height": 884
+      }
+    }
+  ],
+  "cropPx": [
+    313,
+    62,
+    1235,
+    946
+  ],
+  "asset": {
+    "id": "ellionar-sunbloom",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 0.88654,
+    "worldHeight": 0.85,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "terrainSeedPlacement": true,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen against approved ecology key. Unmodified selected PNG, deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 exact alpha. One approximate painted oblique view. No medicinal resource rules or emission."
+}

@@ -1,0 +1,20 @@
+{
+  "mapId": "ellionar-harvest-check",
+  "targetCell": 768,
+  "family": "ellionar-cultivated-palm",
+  "observed": [
+    {
+      "stage": "worked",
+      "stock": 3.900002
+    },
+    {
+      "stage": "low",
+      "stock": 1.900004
+    },
+    {
+      "stage": "depleted",
+      "stock": 0
+    }
+  ],
+  "reset": true
+}
