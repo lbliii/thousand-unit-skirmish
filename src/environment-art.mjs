@@ -1,5 +1,8 @@
+import { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 import * as THREE from 'three';
 import { RESOURCE_VISUAL_STAGES } from './resource-visual-state.mjs';
+import { createGroundMistStudy } from './terrain-atmosphere.mjs';
+import { applyTerrainTextureSampling } from './terrain-texture-sampling.mjs';
 import { buildTerrainBlendMasks } from './terrain-blend.mjs';
 import { buildWaterSurfaceGeometry } from './water-surface-geometry.mjs';
 
@@ -8,7 +11,7 @@ const meshyResourcesEnabled = new URLSearchParams(globalThis.location?.search ??
 const ASSET_ROOT = './assets/environment/frontier-v1/';
 const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
 const GROUND_RENDER_ORDER = -20;
-export const TERRAIN_MATERIALS = ['meadow', 'short-grass', 'long-grass', 'forest-floor', 'dirt', 'sand', 'scree', 'cinder', 'snow', 'ice', 'tidal-mud', 'jungle-loam', 'lunar-soil'];
+export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
@@ -193,14 +196,17 @@ async function loadResourceStateAssets() {
 
 export const resourceStateAssetsReady = loadResourceStateAssets();
 
-const grounds = Object.fromEntries(TERRAIN_MATERIALS.map((name) => {
+const grounds = new Map();
+function groundTexture(name) {
+  if (grounds.has(name)) return grounds.get(name);
   const texture = textureLoader.load(`${ASSET_ROOT}${name}.webp?v=vaelora-ground-v1`);
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.wrapS = THREE.MirroredRepeatWrapping;
   texture.wrapT = THREE.MirroredRepeatWrapping;
   texture.anisotropy = 4;
-  return [name, texture];
-}));
+  grounds.set(name, texture);
+  return texture;
+}
 
 const cameraFacing = new THREE.Quaternion().setFromUnitVectors(
   new THREE.Vector3(0, 0, 1),
@@ -286,13 +292,16 @@ function paintedGroundGeometry(rectangles, definition, materialIndex, materialGr
 
 export function createGroundSurfaces(definition) {
   const base = environmentTheme(definition);
+  const stochastic = new URLSearchParams(globalThis.location?.search ?? '').get('terrainTiling') !== 'mirror';
+  const groundMaterial = options => applyTerrainTextureSampling(
+    new THREE.MeshBasicMaterial(options), definition.terrainSeed || 0, stochastic);
   const baseBuffer = groundBuffer();
   addGroundQuad(baseBuffer, definition,
     -definition.width / 2, -definition.height / 2,
     definition.width / 2, definition.height / 2, -0.025);
   const meshes = [new THREE.Mesh(
     finishGroundGeometry(baseBuffer),
-    new THREE.MeshBasicMaterial({ map: grounds[base], color: 0xd2d4bd }),
+    groundMaterial({ map: groundTexture(base), color: 0xd2d4bd }),
   )];
   const waterGeometry = buildWaterSurfaceGeometry(definition);
   if (waterGeometry) {
@@ -315,14 +324,14 @@ export function createGroundSurfaces(definition) {
       uv.setXY(vertex, uv.getX(vertex) * 12 / definition.width,
         uv.getY(vertex) * 12 / definition.height);
     }
-    const texture = grounds[mask.material].clone();
+    const texture = groundTexture(mask.material).clone();
     texture.repeat.set(definition.width / 12, definition.height / 12);
     const alphaMap = new THREE.DataTexture(mask.pixels, mask.width, mask.height, THREE.RGBAFormat);
     alphaMap.magFilter = THREE.LinearFilter;
     alphaMap.minFilter = THREE.LinearMipmapLinearFilter;
     alphaMap.generateMipmaps = true;
     alphaMap.needsUpdate = true;
-    const mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
+    const mesh = new THREE.Mesh(geometry, groundMaterial({
       map: texture, alphaMap, color: 0xd2d4bd,
       transparent: true, depthWrite: false,
     }));
@@ -342,11 +351,18 @@ export function createGroundSurfaces(definition) {
     }
     const forestFloor = new THREE.Mesh(
       paintedGroundGeometry(forestRects, definition, 1, forestGrid, -0.012),
-      new THREE.MeshBasicMaterial({ map: grounds['forest-floor'], color: 0xd2d4bd,
+      groundMaterial({ map: groundTexture('forest-floor'), color: 0xd2d4bd,
         vertexColors: true, transparent: true, depthWrite: false }),
     );
     forestFloor.renderOrder = GROUND_RENDER_ORDER + TERRAIN_MATERIALS.length;
     meshes.push(forestFloor);
+  }
+  const atmosphere = new URLSearchParams(globalThis.location?.search ?? '');
+  if (atmosphere.get('terrainAtmosphere') === 'mist') {
+    const timeValue = atmosphere.get('terrainAtmosphereTime');
+    const fixedTime = timeValue !== null && Number.isFinite(Number(timeValue)) ? Number(timeValue) : null;
+    const mist = createGroundMistStudy(definition, fixedTime);
+    if (mist) meshes.push(mist);
   }
   return meshes;
 }

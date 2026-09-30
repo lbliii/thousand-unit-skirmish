@@ -119,3 +119,14 @@ historical ground hashes above. Source PNGs are preserved; runtime WebPs use
 Pillow 12.3.0, RGB, 1024-square LANCZOS resize, quality 86. The
 [contact sheet](vaelora-ground-preview.png) assembles mirrored repeats without
 repainting source pixels. Props and their provenance are unchanged.
+
+## Vaelora regional companions · 29 September 2026
+
+`dry-grass`, `garden-loam`, and `salt-crust` were generated using the approved
+meadow, dirt, and cinder PNGs as project-owned style references. The thirteen
+checkpointed source/runtime grounds retain their hashes. The
+[companion manifest](vaelora-ground-variety-manifest.json) binds exact prompts,
+reference hashes, source output identifiers, and six delivered PNG/WebP files.
+The [preview](vaelora-ground-variety-preview.png) is a source contact sheet.
+No third-party imagery was supplied. Encoding follows the existing RGB,
+1024-square LANCZOS, WebP quality-86 runtime path.

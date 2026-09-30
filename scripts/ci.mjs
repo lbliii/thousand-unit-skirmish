@@ -163,6 +163,7 @@ const scenarios = [
   ['scripts/unit-lod-state-scenario.mjs', 'Unit LOD matrix updates'],
   ['scripts/unit-visual-state-scenario.mjs', 'Unit visual state'],
   ['scripts/resource-visual-state-scenario.mjs', 'Resource visual state'],
+  ['scripts/terrain-atmosphere-scenario.mjs', 'Decorative ground mist coverage and foreground order'],
   ['scripts/terrain-blend-scenario.mjs', 'Soft terrain material masks and normalized joins'],
   ['scripts/water-surface-scenario.mjs', 'Batched water surface and shore geometry'],
   ['scripts/harvestable-woodland-scenario.mjs', 'Harvestable woodland gameplay'],

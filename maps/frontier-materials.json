@@ -21,7 +21,10 @@
     { "column": 13, "row": 36, "width": 13, "height": 7, "material": "ice" },
     { "column": 26, "row": 36, "width": 13, "height": 7, "material": "tidal-mud" },
     { "column": 39, "row": 36, "width": 13, "height": 7, "material": "jungle-loam" },
-    { "column": 52, "row": 36, "width": 12, "height": 7, "material": "lunar-soil" }
+    { "column": 52, "row": 36, "width": 12, "height": 7, "material": "lunar-soil" },
+    { "column": 16, "row": 18, "width": 11, "height": 4, "material": "dry-grass" },
+    { "column": 27, "row": 18, "width": 11, "height": 4, "material": "garden-loam" },
+    { "column": 38, "row": 18, "width": 10, "height": 4, "material": "salt-crust" }
   ],
   "spawnPoints": [
     { "team": 0, "x": -18, "z": 0 },

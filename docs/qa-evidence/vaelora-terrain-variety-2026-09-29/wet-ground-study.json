@@ -1,0 +1,1228 @@
+{
+  "id": "vaelora-wet-ground-study",
+  "name": "VAELORA WET GROUND STUDY",
+  "summary": "Atmospheric ground haze and regional soil variants",
+  "width": 64,
+  "height": 64,
+  "terrainSeed": 941,
+  "startingArmySize": 24,
+  "terrainBase": "tidal-mud",
+  "terrainPatches": [
+    {
+      "column": 28,
+      "row": 0,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 19,
+      "row": 1,
+      "width": 1,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 29,
+      "row": 1,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 10,
+      "row": 2,
+      "width": 1,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 15,
+      "row": 2,
+      "width": 9,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 29,
+      "row": 2,
+      "width": 6,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 6,
+      "row": 3,
+      "width": 20,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 30,
+      "row": 3,
+      "width": 6,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 4,
+      "row": 4,
+      "width": 23,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 31,
+      "row": 4,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 3,
+      "row": 5,
+      "width": 25,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 32,
+      "row": 5,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 44,
+      "row": 5,
+      "width": 1,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 2,
+      "row": 6,
+      "width": 26,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 32,
+      "row": 6,
+      "width": 6,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 40,
+      "row": 6,
+      "width": 9,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 2,
+      "row": 7,
+      "width": 27,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 33,
+      "row": 7,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 39,
+      "row": 7,
+      "width": 11,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 51,
+      "row": 7,
+      "width": 1,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 1,
+      "row": 8,
+      "width": 28,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 34,
+      "row": 8,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 39,
+      "row": 8,
+      "width": 16,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 1,
+      "row": 9,
+      "width": 28,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 34,
+      "row": 9,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 39,
+      "row": 9,
+      "width": 17,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 1,
+      "row": 10,
+      "width": 28,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 35,
+      "row": 10,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 40,
+      "row": 10,
+      "width": 17,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 1,
+      "row": 11,
+      "width": 29,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 35,
+      "row": 11,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 40,
+      "row": 11,
+      "width": 17,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 0,
+      "row": 12,
+      "width": 29,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 36,
+      "row": 12,
+      "width": 4,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 40,
+      "row": 12,
+      "width": 17,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 1,
+      "row": 13,
+      "width": 28,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 36,
+      "row": 13,
+      "width": 4,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 40,
+      "row": 13,
+      "width": 18,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 1,
+      "row": 14,
+      "width": 28,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 35,
+      "row": 14,
+      "width": 1,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 36,
+      "row": 14,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 41,
+      "row": 14,
+      "width": 17,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 1,
+      "row": 15,
+      "width": 28,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 36,
+      "row": 15,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 41,
+      "row": 15,
+      "width": 17,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 1,
+      "row": 16,
+      "width": 28,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 36,
+      "row": 16,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 41,
+      "row": 16,
+      "width": 18,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 2,
+      "row": 17,
+      "width": 27,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 36,
+      "row": 17,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 41,
+      "row": 17,
+      "width": 18,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 2,
+      "row": 18,
+      "width": 28,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 36,
+      "row": 18,
+      "width": 4,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 40,
+      "row": 18,
+      "width": 19,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 3,
+      "row": 19,
+      "width": 28,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 36,
+      "row": 19,
+      "width": 4,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 40,
+      "row": 19,
+      "width": 19,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 4,
+      "row": 20,
+      "width": 28,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 35,
+      "row": 20,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 40,
+      "row": 20,
+      "width": 20,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 6,
+      "row": 21,
+      "width": 26,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 35,
+      "row": 21,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 40,
+      "row": 21,
+      "width": 19,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 6,
+      "row": 22,
+      "width": 26,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 35,
+      "row": 22,
+      "width": 4,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 40,
+      "row": 22,
+      "width": 19,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 6,
+      "row": 23,
+      "width": 27,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 34,
+      "row": 23,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 40,
+      "row": 23,
+      "width": 19,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 6,
+      "row": 24,
+      "width": 26,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 33,
+      "row": 24,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 40,
+      "row": 24,
+      "width": 19,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 7,
+      "row": 25,
+      "width": 25,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 33,
+      "row": 25,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 41,
+      "row": 25,
+      "width": 17,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 7,
+      "row": 26,
+      "width": 25,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 32,
+      "row": 26,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 41,
+      "row": 26,
+      "width": 17,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 58,
+      "row": 26,
+      "width": 1,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 8,
+      "row": 27,
+      "width": 23,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 31,
+      "row": 27,
+      "width": 6,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 42,
+      "row": 27,
+      "width": 15,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 57,
+      "row": 27,
+      "width": 3,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 9,
+      "row": 28,
+      "width": 21,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 30,
+      "row": 28,
+      "width": 6,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 43,
+      "row": 28,
+      "width": 13,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 56,
+      "row": 28,
+      "width": 5,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 10,
+      "row": 29,
+      "width": 19,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 30,
+      "row": 29,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 45,
+      "row": 29,
+      "width": 9,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 54,
+      "row": 29,
+      "width": 8,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 11,
+      "row": 30,
+      "width": 13,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 25,
+      "row": 30,
+      "width": 1,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 29,
+      "row": 30,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 46,
+      "row": 30,
+      "width": 3,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 49,
+      "row": 30,
+      "width": 1,
+      "height": 1,
+      "material": "garden-loam"
+    },
+    {
+      "column": 50,
+      "row": 30,
+      "width": 13,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 13,
+      "row": 31,
+      "width": 9,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 28,
+      "row": 31,
+      "width": 6,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 46,
+      "row": 31,
+      "width": 17,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 17,
+      "row": 32,
+      "width": 1,
+      "height": 1,
+      "material": "jungle-loam"
+    },
+    {
+      "column": 27,
+      "row": 32,
+      "width": 6,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 46,
+      "row": 32,
+      "width": 17,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 26,
+      "row": 33,
+      "width": 6,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 46,
+      "row": 33,
+      "width": 17,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 26,
+      "row": 34,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 45,
+      "row": 34,
+      "width": 19,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 25,
+      "row": 35,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 46,
+      "row": 35,
+      "width": 17,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 24,
+      "row": 36,
+      "width": 6,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 45,
+      "row": 36,
+      "width": 18,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 24,
+      "row": 37,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 43,
+      "row": 37,
+      "width": 20,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 23,
+      "row": 38,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 42,
+      "row": 38,
+      "width": 21,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 22,
+      "row": 39,
+      "width": 6,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 41,
+      "row": 39,
+      "width": 21,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 22,
+      "row": 40,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 40,
+      "row": 40,
+      "width": 21,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 22,
+      "row": 41,
+      "width": 4,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 39,
+      "row": 41,
+      "width": 21,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 21,
+      "row": 42,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 37,
+      "row": 42,
+      "width": 23,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 21,
+      "row": 43,
+      "width": 4,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 36,
+      "row": 43,
+      "width": 25,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 21,
+      "row": 44,
+      "width": 4,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 35,
+      "row": 44,
+      "width": 26,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 20,
+      "row": 45,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 34,
+      "row": 45,
+      "width": 27,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 20,
+      "row": 46,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 33,
+      "row": 46,
+      "width": 28,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 20,
+      "row": 47,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 33,
+      "row": 47,
+      "width": 29,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 20,
+      "row": 48,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 32,
+      "row": 48,
+      "width": 29,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 20,
+      "row": 49,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 32,
+      "row": 49,
+      "width": 29,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 21,
+      "row": 50,
+      "width": 4,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 32,
+      "row": 50,
+      "width": 29,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 21,
+      "row": 51,
+      "width": 4,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 32,
+      "row": 51,
+      "width": 29,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 21,
+      "row": 52,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 31,
+      "row": 52,
+      "width": 29,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 21,
+      "row": 53,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 32,
+      "row": 53,
+      "width": 28,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 22,
+      "row": 54,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 32,
+      "row": 54,
+      "width": 27,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 22,
+      "row": 55,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 32,
+      "row": 55,
+      "width": 26,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 23,
+      "row": 56,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 32,
+      "row": 56,
+      "width": 25,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 23,
+      "row": 57,
+      "width": 6,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 33,
+      "row": 57,
+      "width": 23,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 24,
+      "row": 58,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 33,
+      "row": 58,
+      "width": 21,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 25,
+      "row": 59,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 34,
+      "row": 59,
+      "width": 19,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 26,
+      "row": 60,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 35,
+      "row": 60,
+      "width": 17,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 26,
+      "row": 61,
+      "width": 6,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 36,
+      "row": 61,
+      "width": 15,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 27,
+      "row": 62,
+      "width": 6,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 37,
+      "row": 62,
+      "width": 13,
+      "height": 1,
+      "material": "dry-grass"
+    },
+    {
+      "column": 28,
+      "row": 63,
+      "width": 5,
+      "height": 1,
+      "material": "dirt"
+    },
+    {
+      "column": 39,
+      "row": 63,
+      "width": 9,
+      "height": 1,
+      "material": "dry-grass"
+    }
+  ],
+  "spawnPoints": [
+    {
+      "team": 0,
+      "x": -18,
+      "z": 0
+    },
+    {
+      "team": 1,
+      "x": 18,
+      "z": 0
+    }
+  ],
+  "resourceNodes": [
+    {
+      "id": "azure-berries",
+      "type": "food",
+      "x": -18,
+      "z": -7,
+      "stock": 300
+    },
+    {
+      "id": "ember-berries",
+      "type": "food",
+      "x": 18,
+      "z": -7,
+      "stock": 300
+    },
+    {
+      "id": "azure-timber",
+      "type": "wood",
+      "x": -18,
+      "z": 9,
+      "stock": 300
+    },
+    {
+      "id": "ember-timber",
+      "type": "wood",
+      "x": 18,
+      "z": 9,
+      "stock": 300
+    }
+  ],
+  "obstacles": [
+    {
+      "column": 32,
+      "row": 6,
+      "width": 3,
+      "height": 18,
+      "material": "water",
+      "elevation": 0.22
+    },
+    {
+      "column": 32,
+      "row": 43,
+      "width": 3,
+      "height": 15,
+      "material": "water",
+      "elevation": 0.22
+    }
+  ],
+  "triggers": []
+}

@@ -51,7 +51,7 @@ that the game loads it. Check the loader and pack README before claiming adoptio
 
 Start the game and use **Terrain Art Pilot** (`/environment-review.html`) for the
 directional cliff/depth experiment, or choose **Frontier Materials** for ground
-and obstacle heights. The [Vaelora ground pass](environment-pack-v1.md#vaelora-painted-ground--29-september-2026) replaces the eight original grounds and adds five regional Map Studio materials.
+and obstacle heights. The [Vaelora ground pass](environment-pack-v1.md#vaelora-painted-ground--29-september-2026) replaces the eight original grounds and adds five regional Map Studio materials. The [variety follow-up](terrain-variety.md) extends the catalog to sixteen with three companion grounds, randomized sampling, and an optional mist study.
 
 The source includes **Building Variant Atlas**, but the current game server's
 allowlist does not serve `building-map.html`, its CSS/JS, or all of its comparison

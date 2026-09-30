@@ -6,6 +6,7 @@ import { createServer } from 'node:net';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { TERRAIN_MATERIALS } from '../src/terrain-materials.mjs';
 import { resizeWorldMarkers } from '../src/map-resize.mjs';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -112,7 +113,7 @@ const customMapDirectory = path.join(tempRoot, 'custom-maps');
   height: 32,
   terrainSeed: 27,
   terrainBase: 'snow',
-  terrainPatches: ['meadow', 'short-grass', 'long-grass', 'forest-floor', 'dirt', 'sand', 'scree', 'cinder', 'snow', 'ice', 'tidal-mud', 'jungle-loam', 'lunar-soil'].map((material, column) => ({ column, row: 2, width: 1, height: 1, material })),
+  terrainPatches: TERRAIN_MATERIALS.map((material, column) => ({ column, row: 2, width: 1, height: 1, material })),
   fogOfWar: true,
   audio: { packId: 'sample-pack', profileId: 'battle-default' },
   victoryMode: 'all',
@@ -306,7 +307,7 @@ try {
   const libraryFiles = await readdir(customMapDirectory);
   assert.deepEqual(libraryFiles, [`${map.id}.json`]);
   console.log(JSON.stringify({
-    passed: ['shipped map IDs reserved', 'map resize preserves marker cells on growth, reports cropped markers on shrink, and passes server validation', 'session-only maps stay temporary', 'thirteen ground materials persist; invalid material names rejected', 'atomic custom map save', 'custom map catalog restored after server restart', 'capture triggers, timed events, map audio references, and map settings restored'],
+    passed: ['shipped map IDs reserved', 'map resize preserves marker cells on growth, reports cropped markers on shrink, and passes server validation', 'session-only maps stay temporary', 'sixteen ground materials persist; invalid material names rejected', 'atomic custom map save', 'custom map catalog restored after server restart', 'capture triggers, timed events, map audio references, and map settings restored'],
     mapId: map.id,
     savedCustomMaps: libraryFiles.length,
     restoredTriggers: restored.map.triggers.length,

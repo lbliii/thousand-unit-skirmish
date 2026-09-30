@@ -1,0 +1,84 @@
+{
+  "date": "2026-09-29",
+  "generator": "OpenAI built-in image_gen",
+  "encoding": "Pillow 12.3.0 RGB 1024-square LANCZOS WebP quality 86",
+  "inputs": [
+    {
+      "id": "dry-grass",
+      "reference": "meadow.png",
+      "prompt": "Create a companion dry-grass ground tile for Bellweather in EXACTLY the same broad painted fantasy RTS finish as this approved meadow. Change to warm straw-gold and desaturated olive, with sparse short grass brush silhouettes, generous calm ground. Suggest late-season fields and dry hillsides, not dead wasteland. ONE square opaque texture, strictly overhead flat albedo, all ground edge to edge. Broad matte soft-edged brush planes and low local contrast; preserve original simple illustrative style. Very sparse medium marks; no tiny granular noise, no photorealism, no sculpted 3D relief or shadows. Irregular asymmetrical composition, no spirals, stripes, mirrored motifs, nested contours or uniform dot patterns. Opposite edges must tile seamlessly by ordinary repetition WITHOUT mirroring. No border, text or lighting gradients.",
+      "sourceOutput": "exec-f563ee83-e53f-47c5-9db1-d0757f65d0ac.png",
+      "referenceSHA256": "37f90be0f5b839b7d45527d3b37b31fb3eba4e083e1f9530b0700e4480dc7e26"
+    },
+    {
+      "id": "garden-loam",
+      "reference": "dirt.png",
+      "prompt": "Create a companion garden-loam ground tile for Ellionar's Babylonian-inspired irrigated hanging gardens in EXACTLY the same broad painted fantasy RTS finish as this approved dirt. Rich dark umber loam, muted moss-green damp patches and subtle warm honey clay. Mostly quiet fertile soil; no pots, bricks, canals, flowers, roots, or symbols. This is the cultivated soil beneath gardens. ONE square opaque texture, strictly overhead flat albedo, all ground edge to edge. Broad matte soft-edged brush planes and low local contrast; preserve original simple illustrative style. Very sparse medium marks; no tiny granular noise, no photorealism, no sculpted 3D relief or shadows. Irregular asymmetrical composition, no spirals, stripes, mirrored motifs, nested contours or uniform dot patterns. Opposite edges must tile seamlessly by ordinary repetition WITHOUT mirroring. No border, text or lighting gradients.",
+      "sourceOutput": "exec-094666e3-021e-4dde-a27a-8b857bbb35cf.png",
+      "referenceSHA256": "b271fd1dec12712e4f6ca6f107b3799bacc23e807fd780ac4f03997e46b2a710"
+    },
+    {
+      "id": "salt-crust",
+      "reference": "cinder.png",
+      "prompt": "Create a companion salt-crust ground tile for Ru'Lora's sterile petrified jungle in EXACTLY the same broad painted fantasy RTS finish as this approved violet earth. Pale ivory-gray salt deposits softly merging into charcoal dusty violet earth. Sparse salt facets reduced to a few broad matte painted shapes. No living plants, bones, standing rocks or landmarks, no branching crack networks. Quiet haunting salt-cavern earth. ONE square opaque texture, strictly overhead flat albedo, all ground edge to edge. Broad matte soft-edged brush planes and low local contrast; preserve original simple illustrative style. Very sparse medium marks; no tiny granular noise, no photorealism, no sculpted 3D relief or shadows. Irregular asymmetrical composition, no spirals, stripes, mirrored motifs, nested contours or uniform dot patterns. Opposite edges must tile seamlessly by ordinary repetition WITHOUT mirroring. No border, text or lighting gradients.",
+      "sourceOutput": "exec-1734256d-3c0d-4192-8437-9e4a9ed9478e.png",
+      "referenceSHA256": "cb925c260640b6db75afd28a8923f3cee7ddaaf7dc8be4854223128227226507"
+    }
+  ],
+  "files": [
+    {
+      "file": "dry-grass.png",
+      "sourceOutput": "exec-f563ee83-e53f-47c5-9db1-d0757f65d0ac.png",
+      "sha256": "4507ffe68c51c03b897f89411ca78ca1d91b634cfe6ea23e27dcdf93f95730d2",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "dry-grass.webp",
+      "sourceOutput": "exec-f563ee83-e53f-47c5-9db1-d0757f65d0ac.png",
+      "sha256": "eb06f19627366ba402b3a0bec1676bc89d88073c44223579eb0edfd46be0c8a1",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "garden-loam.png",
+      "sourceOutput": "exec-094666e3-021e-4dde-a27a-8b857bbb35cf.png",
+      "sha256": "a015ad50c1c94f90d240a8ab8ff3eee294645b68d4e7bd7b2ca80968d3016b1f",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "garden-loam.webp",
+      "sourceOutput": "exec-094666e3-021e-4dde-a27a-8b857bbb35cf.png",
+      "sha256": "4c67dab7bf74702379c0cfae34c5366dcc9bdcb42c9066ca3dbb4db6d0f735b7",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "salt-crust.png",
+      "sourceOutput": "exec-1734256d-3c0d-4192-8437-9e4a9ed9478e.png",
+      "sha256": "abb5ae6a4482bbcdcfdb5d594fef7ef5649f669a1dc8ffcc0fc64a588ffa2358",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "salt-crust.webp",
+      "sourceOutput": "exec-1734256d-3c0d-4192-8437-9e4a9ed9478e.png",
+      "sha256": "ff0e0faab5c2a958049fe1888c58f315d1b1e494bc7370a2617af71f98ddf0c4",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    }
+  ]
+}

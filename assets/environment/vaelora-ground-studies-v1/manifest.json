@@ -1,0 +1,77 @@
+{
+  "date": "2026-09-29",
+  "status": "source studies, no runtime loader",
+  "generator": "OpenAI built-in image_gen",
+  "encoding": "Pillow 12.3.0 RGB, 1024-square LANCZOS, WebP quality 86",
+  "inputs": [
+    {
+      "id": "meadow-flowers",
+      "sourceOutput": "exec-809b517b-98d3-4a61-aa2d-6089feecfe52.png",
+      "prompt": "Create ONE square opaque directly overhead flat albedo texture study for Vaelora, an original hand-painted fantasy RTS. Broad confident matte painted color planes, quiet ground beneath armies. Entire image is ground, no horizon, no perspective, no standing objects, no cast shadows, no lighting gradients, no words or borders. IMPORTANT composition must be irregular and aperiodic, with generous quiet bare zones and UNEVEN spacing. NO concentric shapes, nested contours, swirling flow, diagonal bands, branching fractal noise, uniform allover speckles, symmetry, or repeated tiny motif grid. Ground color masses have soft edges and very low contrast. Secondary details are sparse localized habitat accents, not wallpaper. Material: Bellweather warm sage meadow. Mostly simple quiet sage and buttery green painted grass masses. A few widely separated modest patches of tiny ivory field flowers, subtle dried straw, occasional muted clover. 90 percent quiet ground, only 10 percent accent details."
+    },
+    {
+      "id": "woodland-roots",
+      "sourceOutput": "exec-20795085-c074-4bdd-b24b-c9bb25da03ff.png",
+      "prompt": "Repaint this flat overhead ground texture in a MUCH MORE STYLIZED hand-painted fantasy RTS art style. Preserve its broad palette and sparse thematic accents, but simplify aggressively. Use large matte gouache brush planes, softer shape silhouettes, simplified flat leaf/root or bone shapes, few confident medium marks. REMOVE the photorealistic granular dirt, densely detailed cracks, tiny speckling, embossed relief and realistic lighting. 85 percent quiet smooth painted ground. No shadows, no 3D relief, no gradient lighting, no text, no scene, no horizon. Remove diagonal banding, do not add waves, spirals, branching networks or fractal contours. It must feel illustrative and painted, with broad friendly shapes readable beneath a small RTS army. Opaque square ground fills all edges.",
+      "initialPrompt": "Create ONE square opaque directly overhead flat albedo texture study for Vaelora, an original hand-painted fantasy RTS. Broad confident matte painted color planes, quiet ground beneath armies. Entire image is ground, no horizon, no perspective, no standing objects, no cast shadows, no lighting gradients, no words or borders. IMPORTANT composition must be irregular and aperiodic, with generous quiet bare zones and UNEVEN spacing. NO concentric shapes, nested contours, swirling flow, diagonal bands, branching fractal noise, uniform allover speckles, symmetry, or repeated tiny motif grid. Ground color masses have soft edges and very low contrast. Secondary details are sparse localized habitat accents, not wallpaper. Material: Underbough burgundy brown woodland soil. Quiet dark warm loam with very sparse copper fallen leaves gathered in a few irregular clumps. One or two weathered shallow root fragments pressed FLAT into the earth, little moss, no thick branching root networks. Mostly bare dirt. Roots are minor ground detail not a hero prop.",
+      "referenceOutput": "exec-be54597e-94b0-4667-98f3-c33654dc8a78.png"
+    },
+    {
+      "id": "salt-bone-earth",
+      "sourceOutput": "exec-ba43220d-26c6-4837-a961-64e94195d4fa.png",
+      "prompt": "Repaint this flat overhead ground texture in a MUCH MORE STYLIZED hand-painted fantasy RTS art style. Preserve its broad palette and sparse thematic accents, but simplify aggressively. Use large matte gouache brush planes, softer shape silhouettes, simplified flat leaf/root or bone shapes, few confident medium marks. REMOVE the photorealistic granular dirt, densely detailed cracks, tiny speckling, embossed relief and realistic lighting. 85 percent quiet smooth painted ground. No shadows, no 3D relief, no gradient lighting, no text, no scene, no horizon. Remove diagonal banding, do not add waves, spirals, branching networks or fractal contours. It must feel illustrative and painted, with broad friendly shapes readable beneath a small RTS army. Opaque square ground fills all edges.",
+      "initialPrompt": "Create ONE square opaque directly overhead flat albedo texture study for Vaelora, an original hand-painted fantasy RTS. Broad confident matte painted color planes, quiet ground beneath armies. Entire image is ground, no horizon, no perspective, no standing objects, no cast shadows, no lighting gradients, no words or borders. IMPORTANT composition must be irregular and aperiodic, with generous quiet bare zones and UNEVEN spacing. NO concentric shapes, nested contours, swirling flow, diagonal bands, branching fractal noise, uniform allover speckles, symmetry, or repeated tiny motif grid. Ground color masses have soft edges and very low contrast. Secondary details are sparse localized habitat accents, not wallpaper. Material: Ru'Lora sterile charcoal dusty violet earth, pale salt dust soft uneven patches, a few scattered small ivory bone splinters and brittle petrified bark flakes embedded flush with ground. No living green plants, no animals, no skull centerpiece, no magical glow, no repeating crack network. Quiet haunting spacious ground.",
+      "referenceOutput": "exec-6f09af81-b970-4725-b71b-c758cc06276f.png"
+    }
+  ],
+  "files": [
+    {
+      "file": "meadow-flowers.png",
+      "sha256": "900c62d1655c08af03e176db294ffbdd8ec4486cb45fcc7992dbe16fa483c832",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "meadow-flowers.webp",
+      "sha256": "afe4a93db57582a0fc8ca010eb7c62a0035ae4239961addfd2a85a8831099c96",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "woodland-roots.png",
+      "sha256": "16cd30e5d669f30660383c7e3829d4f418a836558299a9d40f1db984fd41ca35",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "woodland-roots.webp",
+      "sha256": "b42779e12d796796d99aefbfe1f24738e2acf25698c2a4b92fd9bec47391629e",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "salt-bone-earth.png",
+      "sha256": "70df26955a659ea15d32515c3479971eb37ee3eb269d4bfca1ba4cce03fcb23d",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "salt-bone-earth.webp",
+      "sha256": "23be1e14ed2d2961a7e90f7c44e94b14eede03fb89b7388b6ee0314d6bddbc75",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    }
+  ]
+}

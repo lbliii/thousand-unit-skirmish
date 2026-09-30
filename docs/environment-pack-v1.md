@@ -4,7 +4,8 @@
 
 ## Runtime approach
 
-Thirteen opaque ground textures repeat in world coordinates with mirrored tiling
+Sixteen opaque ground textures repeat in world coordinates with mirrored tiling
+with seeded randomized placements to suppress reflected repeats,
 and normalized soft material masks. Material weights blend across neighboring
 cells with gently irregular edges and rounded corners; forest cover retains
 its separate feathered overlay. Transparent painterly props face the oblique
@@ -18,6 +19,7 @@ walkable elevation; sprite height never substitutes for those rules.
 | Living ground | `meadow`, `short-grass`, `long-grass`: quiet field through coarse growth. |
 | Woodland ground | `forest-floor`: leaf/needle cover below trees and in clearings. |
 | Worn/dry ground | `dirt`, `sand`, `scree`, `cinder`: routes and distinct regions. |
+| Regional companions | `dry-grass` (Bellweather), `garden-loam` (Ellionar), `salt-crust` (Ru’Lora): approved-style palette extensions. |
 | Regional ground | `snow`, `ice` (Pale Meridian), `tidal-mud` (Siltmouths), `jungle-loam` (Vesperra / living jungle fringe), `lunar-soil` (Sombral Mere). |
 | Stone | `rock-outcrop`, `rock-boulder-cluster`, `basalt-ridge`, `basalt-ridge-cap`, `cliff`, `cliff-end-cap`. |
 | Forest | `oak`, `pine`, `silver-birch`, `field-maple`, `hazel-thicket`; deterministic variants/scales. |
@@ -59,7 +61,7 @@ pass, not a finished set of ten zone-specific terrain kits.
 ## Review in game
 
 1. Start with `npm start` and choose **Frontier Materials** in Match Controls.
-2. Compare all thirteen grounds and three obstacle heights.
+2. Compare all sixteen grounds and three obstacle heights.
 3. Inspect **Stone Pass**, **Cinder Ridge**, and **Frontier Reach** for regional
    palette, dense vegetation, water, and repeated modules.
 4. In Map Studio, paint base/ground regions and obstacles, save, then reopen.
@@ -69,6 +71,22 @@ pass, not a finished set of ten zone-specific terrain kits.
 Forest-floor rendering follows forest masks. Stone cutouts supply the visible
 ridge shape while authoritative obstacle cells supply collision. Low-colored
 water and shoreline geometry must preserve the same movement meaning.
+
+## Regional variety and atmosphere follow-up
+
+The approved thirteen grounds retain their source pixels. Dry grass, garden
+loam, and salt crust extend the same painted finish; their
+[manifest](../assets/environment/frontier-v1/vaelora-ground-variety-manifest.json)
+records exact prompts, hashes, and approved-source references. The shared
+`terrain-materials.mjs` catalog keeps map validation, serving, editor colors, and
+rendering aligned. Ground images load as used and are cached across maps.
+
+[Terrain variety research](terrain-variety.md) describes the randomized sampling,
+source studies, and regional enrichment plan. A restrained wet-ground mist study
+is available with `?terrainAtmosphere=mist`; it is optional preview functionality,
+not enabled on ordinary maps. It does not change fog of war, visibility or map
+collision. [Paired visual evidence](qa-evidence/vaelora-terrain-variety-2026-09-29/README.md)
+records the comparison, added palette, and study limits.
 
 ## Painting organic regions
 
