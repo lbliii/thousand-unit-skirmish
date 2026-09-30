@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-siltmouths-lifecycle-atlas",
+  "packVersion": "1.0.0",
+  "maturity": "runtime-candidate",
+  "provenance": {
+    "license": "project-owned",
+    "source": "siltmouths-lifecycle-manifest.json",
+    "authoringTool": "Pillow deterministic page packing",
+    "notes": "Exact decoded approved runtime pixels, no repaint or rescaling. Runtime WebP quality86; PNG page preserves exact decoded approved pixels. Fixed camera; state clips reserve direction IDs. 64px transparent RGB edge-extension gutter, mip cap6, half-texel inset. Original generated masters retained."
+  },
+  "files": [
+    {
+      "id": "source",
+      "path": "siltmouths-lifecycle-atlas.png",
+      "usage": "source",
+      "format": "png",
+      "sha256": "71e9eb31775d46db66421a5ef787495ceb77a5573c0b05b89485f6ac4409dd6d",
+      "dimensionsPx": {
+        "width": 2304,
+        "height": 2284
+      }
+    },
+    {
+      "id": "runtime",
+      "path": "siltmouths-lifecycle-atlas.webp",
+      "usage": "runtime",
+      "format": "webp",
+      "sha256": "d4993e2409a51833093571ec75b2e03414b1dba310f115f9324ffe34b3e71e64",
+      "dimensionsPx": {
+        "width": 2304,
+        "height": 2284
+      }
+    }
+  ],
+  "pages": [
+    {
+      "id": "color",
+      "sourceFileId": "source",
+      "runtimeFileId": "runtime",
+      "dimensionsPx": {
+        "width": 2304,
+        "height": 2284
+      },
+      "colorSpace": "srgb",
+      "pixelFormat": "rgba8",
+      "alphaMode": "straight",
+      "edgeRule": "bleed-rgb-under-transparent",
+      "gutterPx": 64,
+      "gutterRule": "edge-extended",
+      "wrapMode": "clamp",
+      "sampling": {
+        "generateMipmaps": true,
+        "minFilter": "linear-mipmap-linear",
+        "magFilter": "linear",
+        "uvInsetPx": 0.5,
+        "maxMipLevel": 6
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "siltmouths-tidal-tree",
+      "kind": "environment",
+      "artBoundsWorld": {
+        "min": [
+          -1.55,
+          0,
+          0
+        ],
+        "max": [
+          1.55,
+          3.0,
+          0
+        ]
+      },
+      "heightWorld": 3.0,
+      "sortAnchorWorld": [
+        0,
+        0,
+        0
+      ],
+      "frames": [
+        {
+          "id": "full",
+          "canvasPx": {
+            "width": 1024,
+            "height": 1014
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 1014
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 1024,
+            "height": 1013
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 64,
+              "y": 64,
+              "width": 1024,
+              "height": 1014
+            }
+          }
+        },
+        {
+          "id": "worked",
+          "canvasPx": {
+            "width": 1024,
+            "height": 1014
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 1014
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 1024,
+            "height": 1014
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 1216,
+              "y": 64,
+              "width": 1024,
+              "height": 1014
+            }
+          }
+        },
+        {
+          "id": "low",
+          "canvasPx": {
+            "width": 1024,
+            "height": 1014
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 1014
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 0,
+            "y": 0,
+            "width": 1024,
+            "height": 1014
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 64,
+              "y": 1206,
+              "width": 1024,
+              "height": 1014
+            }
+          }
+        },
+        {
+          "id": "depleted",
+          "canvasPx": {
+            "width": 1024,
+            "height": 1014
+          },
+          "groundPivotPx": {
+            "x": 512.0,
+            "y": 1014
+          },
+          "groundPivotStatus": "reviewed",
+          "alphaBoundsPx": {
+            "x": 94,
+            "y": 515,
+            "width": 859,
+            "height": 499
+          },
+          "fallbackRectPx": {
+            "pageId": "color",
+            "rectPx": {
+              "x": 1216,
+              "y": 1206,
+              "width": 1024,
+              "height": 1014
+            }
+          }
+        }
+      ],
+      "clips": [
+        {
+          "stateId": "full",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "full",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "worked",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "worked",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "low",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "low",
+              "durationMs": 1000
+            }
+          ]
+        },
+        {
+          "stateId": "depleted",
+          "directionId": "fixed-oblique",
+          "loop": true,
+          "sequence": [
+            {
+              "frameId": "depleted",
+              "durationMs": 1000
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

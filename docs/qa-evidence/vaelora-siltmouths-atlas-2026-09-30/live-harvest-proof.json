@@ -1,0 +1,20 @@
+{
+  "mapId": "siltmouths-harvest-check",
+  "targetCell": 768,
+  "family": "siltmouths-tidal-tree",
+  "observed": [
+    {
+      "stage": "worked",
+      "stock": 3.933335
+    },
+    {
+      "stage": "low",
+      "stock": 1.933337
+    },
+    {
+      "stage": "depleted",
+      "stock": 0
+    }
+  ],
+  "reset": true
+}

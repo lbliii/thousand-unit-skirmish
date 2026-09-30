@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-siltmouths-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "siltmouths-tidal-tree.png",
+  "prompts": "SILTMOUTHS-LIFECYCLE-PROMPTS.json",
+  "provenance": "Original built-in ImageGen against approved Siltmouths ecology and project maple finish. Unmodified PNG; shared crop proposed from full state, LANCZOS max1024 RGBA WebP quality86 method6. Generated alpha preserved. No measured perspective calibration.",
+  "files": [
+    {
+      "path": "siltmouths-tidal-tree.png",
+      "role": "source-image",
+      "sha256": "b7bc2bbf1c5b66dad31886942b697e8df43197814293a8106049b39da1e8f835",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 2126784
+    },
+    {
+      "path": "siltmouths-tidal-tree.webp",
+      "role": "runtime-image",
+      "sha256": "5a4932cd70738e899b161f38c7141dab635a0619e24cb9056337be32d99e8370",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1014
+      },
+      "bytes": 433682
+    },
+    {
+      "path": "siltmouths-tidal-tree-worked.png",
+      "role": "source-image",
+      "sha256": "0351d4c203466e550046ac464c7f9fe5b0e4298678ebe7ac65a123cd89c95edc",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 2012564
+    },
+    {
+      "path": "siltmouths-tidal-tree-worked.webp",
+      "role": "runtime-image",
+      "sha256": "a9be5a745b5f8d745ad6526f4e99be20360080e114cc54014228d259baedfd74",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1014
+      },
+      "bytes": 319570
+    },
+    {
+      "path": "siltmouths-tidal-tree-low.png",
+      "role": "source-image",
+      "sha256": "3f622900913f9460a2f7951759cb7f4ff2f5abf986b9b97d87ebce0427a74b12",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 2049894
+    },
+    {
+      "path": "siltmouths-tidal-tree-low.webp",
+      "role": "runtime-image",
+      "sha256": "1790f6878ca31e215fc9d7593be36832feb9b41e92fbd987d32501217d056395",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1014
+      },
+      "bytes": 290498
+    },
+    {
+      "path": "siltmouths-tidal-tree-depleted.png",
+      "role": "source-image",
+      "sha256": "3cd31aa289ceda7e90a6c971a3590aebc9783f7fbb415d2100f75ec5d30c0111",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 752992
+    },
+    {
+      "path": "siltmouths-tidal-tree-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "ba5b736543bbfe127463e808216a1e8d314e6505eeaa274190443203567a9dbf",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1014
+      },
+      "bytes": 106284
+    }
+  ],
+  "assets": [
+    {
+      "id": "siltmouths-tidal-tree",
+      "stage": "full",
+      "sourceOutputId": "exec-d37b5774-bc66-4b64-a6a6-c90937d67475",
+      "sourceFile": "siltmouths-tidal-tree.png",
+      "runtimeFile": "siltmouths-tidal-tree.webp",
+      "cropBoxPx": [
+        45,
+        51,
+        1227,
+        1222
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 3.0
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "siltmouths-tidal-tree-worked",
+      "stage": "worked",
+      "sourceOutputId": "exec-b4505965-cc36-4de4-9759-9a12525bcecb",
+      "sourceFile": "siltmouths-tidal-tree-worked.png",
+      "runtimeFile": "siltmouths-tidal-tree-worked.webp",
+      "cropBoxPx": [
+        45,
+        51,
+        1227,
+        1222
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 3.0
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "siltmouths-tidal-tree-low",
+      "stage": "low",
+      "sourceOutputId": "exec-c0638845-3e34-4ef9-8469-8a30d251c8f7",
+      "sourceFile": "siltmouths-tidal-tree-low.png",
+      "runtimeFile": "siltmouths-tidal-tree-low.webp",
+      "cropBoxPx": [
+        45,
+        51,
+        1227,
+        1222
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 3.0
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "siltmouths-tidal-tree-depleted",
+      "stage": "depleted",
+      "sourceOutputId": "exec-edc22e92-d866-4d52-8a51-a79087d6cb3d",
+      "sourceFile": "siltmouths-tidal-tree-depleted.png",
+      "runtimeFile": "siltmouths-tidal-tree-depleted.webp",
+      "cropBoxPx": [
+        45,
+        51,
+        1227,
+        1222
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.1,
+        "height": 3.0
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    }
+  ]
+}

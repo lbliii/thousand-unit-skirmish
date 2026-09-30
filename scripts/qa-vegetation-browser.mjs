@@ -68,9 +68,9 @@ class Cdp {
 const profile=await mkdtemp('/tmp/vaelora-vegetation-chrome-');
 const chrome=spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',['--headless=new','--no-first-run','--no-default-browser-check','--remote-debugging-port=0','--window-size=1280,720','--user-data-dir='+profile,'about:blank'],{stdio:'ignore'});
 const region=process.env.RTS_VEGETATION_REGION || 'bellweather';
-if(!['bellweather','veyrholds','underbough','sereward','ellionar','pale-meridian'].includes(region))throw new Error('Unknown vegetation capture region');
+if(!['bellweather','veyrholds','underbough','sereward','ellionar','pale-meridian','siltmouths'].includes(region))throw new Error('Unknown vegetation capture region');
 const lifecycle=process.env.RTS_VEGETATION_LIFECYCLE==='1';
-if(lifecycle&&!['bellweather','sereward','pale-meridian'].includes(region))throw new Error('No lifecycle pack for region');
+if(lifecycle&&!['bellweather','sereward','pale-meridian','siltmouths'].includes(region))throw new Error('No lifecycle pack for region');
 const atlasCapture=process.env.RTS_VEGETATION_ATLAS==='1';
 const out=atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
@@ -94,7 +94,7 @@ try {
  await cdp.call('Page.navigate',{url:BASE.origin+'/?room='+room.roomId});await sleep(5500);
  if(await cdp.evaluate('document.documentElement.dataset.boot')!=='ready')throw new Error('Game did not boot before appearance capture');
  const openingRequests=await cdp.evaluate('performance.getEntriesByType("resource").filter(e=>e.name.includes("assets/environment")).map(e=>new URL(e.name).pathname)');
- if(openingRequests.filter(p=>p.endsWith('.webp')).some(p=>p.includes('underbough-')||p.includes('veyrholds-')||p.includes('sereward-')||p.includes('ellionar-')||p.includes('pale-meridian-')))throw new Error('Unused regional sprites loaded eagerly');
+ if(openingRequests.filter(p=>p.endsWith('.webp')).some(p=>p.includes('underbough-')||p.includes('veyrholds-')||p.includes('sereward-')||p.includes('ellionar-')||p.includes('pale-meridian-')||p.includes('siltmouths-')))throw new Error('Unused regional sprites loaded eagerly');
  await writeFile(out+'/opening-requests.json',JSON.stringify(openingRequests,null,2)+'\n');
  for(const mode of ['ordinary','strategic']) {
   if(mode==='strategic')await cdp.evaluate('document.querySelector("#camera-fit-map").click()');
@@ -115,6 +115,7 @@ try {
    if(${JSON.stringify(region)}==='veyrholds'){d.id='veyrholds-study';d.terrainBase='scree';d.terrainPatches=[];d.obstacles.push({row:16,column:6,width:5,height:2,material:'stone',elevation:0.72})}
    if(${JSON.stringify(region)}==='underbough'){d.id='underbough-study';d.terrainBase='forest-floor';d.terrainPatches=[{column:0,row:12,width:24,height:12,material:'dirt'}]}
    if(${JSON.stringify(region)}==='sereward'){d.id='sereward-study';d.terrainBase='sand';d.terrainPatches=[]}
+   if(${JSON.stringify(region)}==='siltmouths'){d.id='siltmouths-study';d.terrainBase='tidal-mud';d.terrainPatches=[]}
    if(${JSON.stringify(region)}==='pale-meridian'){d.id='pale-meridian-study';d.terrainBase='snow';d.terrainPatches=[]}
    if(${JSON.stringify(region)}==='ellionar'){d.id='ellionar-study';d.terrainBase='garden-loam';d.terrainPatches=[{column:0,row:12,width:24,height:12,material:'dirt'}]}
    const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true,antialias:true});renderer.setSize(1000,750);renderer.setPixelRatio(1);
@@ -130,13 +131,13 @@ try {
    const THREE=await import('/vendor/three.module.js');
    const {CAMERA_VIEW_DIRECTION}=await import('/src/camera-controls.mjs');
    const {addObstacleEnvironmentSprites,createGroundSurfaces,setForestSpriteStock}=await import('/src/environment-art.mjs');
-   const d={width:24,height:24,terrainBase:${JSON.stringify(region==='pale-meridian'?'snow':region==='sereward'?'sand':'meadow')},obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]};
+   const d={width:24,height:24,terrainBase:${JSON.stringify(region==='siltmouths'?'tidal-mud':region==='pale-meridian'?'snow':region==='sereward'?'sand':'meadow')},obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]};
    const scene=new THREE.Scene();scene.background=new THREE.Color(0x727a57);
    const slots=addObstacleEnvironmentSprites(d,12,12,o=>scene.add(o));
    for(const slot of slots.values())setForestSpriteStock(slot,0);
    // Hide every non-preview slot, including registered depleted frames.
    for(const m of scene.children){const zero=new THREE.Matrix4().makeScale(0,0,0);for(let i=0;i<m.count;i++)m.setMatrixAt(i,zero);m.instanceMatrix.needsUpdate=true}
-   const selected=[...slots.values()].filter(s=>s.family===${JSON.stringify(region==='pale-meridian'?'pale-meridian-conifer':region==='sereward'?'sereward-palm':'bellweather-field-maple')}&&s.atlas).slice(0,4);
+   const selected=[...slots.values()].filter(s=>s.family===${JSON.stringify(region==='siltmouths'?'siltmouths-tidal-tree':region==='pale-meridian'?'pale-meridian-conifer':region==='sereward'?'sereward-palm':'bellweather-field-maple')}&&s.atlas).slice(0,4);
    if(selected.length!==4)throw new Error('Lifecycle pilot slots missing');
    const expected=['full','worked','low','depleted'],stocks=[6,3,1,0],checks=[];
    for(let i=0;i<4;i++){
@@ -172,7 +173,7 @@ try {
    const {CAMERA_VIEW_DIRECTION}=await import('/src/camera-controls.mjs');
   const {addObstacleEnvironmentSprites,createGroundSurfaces}=await import('/src/environment-art.mjs');
   const results=[];
-  for(const terrainBase of ['meadow','snow','scree','forest-floor','sand','garden-loam','ice']) {
+  for(const terrainBase of ['meadow','snow','scree','forest-floor','sand','garden-loam','ice','tidal-mud']) {
    const d={id:'vegetation-proof',width:12,height:12,terrainBase,obstacles:[{row:3,column:3,width:6,height:6,material:'forest'},{row:10,column:1,width:10,height:1,material:'stone',elevation:0.72}]};
    const objects=[];const slots=addObstacleEnvironmentSprites(d,6,6,o=>objects.push(o));
    for(let i=0;i<50 && objects.some(o=>!o.material.map.image?.complete);i++)await new Promise(r=>setTimeout(r,100));
@@ -191,6 +192,7 @@ try {
  if(!['sereward-lifecycle-atlas.webp','sereward-acacia.webp','sereward-scrub.webp'].every(f=>proof[4].files.includes(f))||proof[4].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f))||proof.slice(0,4).some(r=>r.files.some(f=>f.startsWith('sereward'))))throw new Error('Sereward forest mix mismatch');
  if(!['ellionar-cultivated-palm.webp','ellionar-garden-hedge.webp'].every(f=>proof[5].files.includes(f))||proof[5].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f))||proof.slice(0,5).some(r=>r.files.some(f=>f.startsWith('ellionar'))))throw new Error('Ellionar garden mix mismatch');
  for(const i of [1,6])if(!proof[i].files.includes('pale-meridian-lifecycle-atlas.webp')||proof[i].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Pale Meridian forest mix mismatch');
+ if(!proof[7].files.includes('siltmouths-lifecycle-atlas.webp')||proof[7].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Siltmouths forest mix mismatch');
  const reference=JSON.stringify(proof[0].cells.slice().sort((a,b)=>a-b));
  if(proof.some(r=>JSON.stringify(r.cells.slice().sort((a,b)=>a-b))!==reference))throw new Error('Regional forest cells differ');
  const covers=await cdp.evaluate(`(async()=>{
@@ -209,9 +211,9 @@ try {
   return result;
  })()`);
  await writeFile(out+'/forest-cover-proof.json',JSON.stringify(covers,null,2)+'\n');
- if(lifecycle&&['sereward','pale-meridian'].includes(region)){
+ if(lifecycle&&['sereward','pale-meridian','siltmouths'].includes(region)){
   const cold=region==='pale-meridian';
-  const map={id:region+'-harvest-check',name:region.toUpperCase()+' HARVEST CHECK',summary:'Observe one regional tree through harvest and reset.',width:40,height:40,terrainBase:cold?'snow':'sand',startingArmySize:8,startingResources:{wood:0},fogOfWar:true,spawnPoints:[{team:0,x:-14,z:0},{team:1,x:14,z:0}],obstacles:[{column:8,row:19,width:1,height:1,material:'forest'}],resourceNodes:[],triggers:[],scenarioEvents:[]};
+  const map={id:region+'-harvest-check',name:region.toUpperCase()+' HARVEST CHECK',summary:'Observe one regional tree through harvest and reset.',width:40,height:40,terrainBase:region==='siltmouths'?'tidal-mud':cold?'snow':'sand',startingArmySize:8,startingResources:{wood:0},fogOfWar:true,spawnPoints:[{team:0,x:-14,z:0},{team:1,x:14,z:0}],obstacles:[{column:8,row:19,width:1,height:1,material:'forest'}],resourceNodes:[],triggers:[],scenarioEvents:[]};
   await cdp.evaluate(`window.__qaForestSocket.send(JSON.stringify({type:'publishMap',persist:false,map:${JSON.stringify(map)}}))`);
   for(let i=0;i<50;i++){if(await cdp.evaluate('document.querySelector("#map-label-title")?.textContent')===map.name)break;await sleep(100)}
   if(await cdp.evaluate('document.querySelector("#map-label-title")?.textContent')!==map.name)throw new Error('Harvest map publication failed');
@@ -242,7 +244,7 @@ try {
   }
   if(!restored)throw new Error('Live forest reset failed');
   await sleep(100);shot=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/harvest-reset.png',Buffer.from(shot.data,'base64'));
-  await writeFile(out+'/live-harvest-proof.json',JSON.stringify({mapId:map.id,targetCell:768,family:cold?'pale-meridian-conifer':'sereward-palm',observed,reset:true},null,2)+'\n');
+  await writeFile(out+'/live-harvest-proof.json',JSON.stringify({mapId:map.id,targetCell:768,family:region==='siltmouths'?'siltmouths-tidal-tree':cold?'pale-meridian-conifer':'sereward-palm',observed,reset:true},null,2)+'\n');
  }
  if(atlasCapture){
   cdp.on('Fetch.requestPaused',e=>{void cdp.call('Fetch.fulfillRequest',{requestId:e.requestId,responseCode:404,responseHeaders:[{name:'content-type',value:'application/json'}],body:Buffer.from('{}').toString('base64')})});
@@ -251,7 +253,7 @@ try {
   const fallback=await cdp.evaluate(`(async()=>{
    const {addObstacleEnvironmentSprites,setForestSpriteStock}=await import('/src/environment-art.mjs');
    const result=[];
-   for(const [base,family] of [['meadow','bellweather-field-maple'],['sand','sereward-palm'],['snow','pale-meridian-conifer']]){
+   for(const [base,family] of [['meadow','bellweather-field-maple'],['sand','sereward-palm'],['snow','pale-meridian-conifer'],['tidal-mud','siltmouths-tidal-tree']]){
     const objects=[];const slots=addObstacleEnvironmentSprites({width:24,height:24,terrainBase:base,obstacles:[{row:3,column:3,width:16,height:16,material:'forest'}]},12,12,o=>objects.push(o));
     const s=[...slots.values()].find(s=>s.family===family);if(!s?.stateMeshes||s.atlas)throw new Error('Atlas fallback did not restore individual state batches');
     for(let i=0;i<50&&objects.some(o=>!o.material.map.image?.complete);i++)await new Promise(r=>setTimeout(r,100));

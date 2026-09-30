@@ -1,5 +1,20 @@
 # Frontier environment art
 
+## Siltmouths tidal tree · 30 September 2026
+
+The [tidal-tree sample](../assets/environment/frontier-v1/siltmouths-lifecycle-manifest.json)
+adapts the approved Siltmouths ecology key's exposed roots, silver bark and
+sea-green/lilac foliage into the existing painted RTS finish. Original generated
+PNG and deterministic RGBA WebP exports are retained, with
+[exact authoring prompts](../assets/environment/frontier-v1/SILTMOUTHS-LIFECYCLE-PROMPTS.json).
+Tidal-mud base maps now use this family for forest cells. Intact, worked, low
+and depleted states share one atlas and registered crop, with individual-texture
+fallback. The [focused local evidence](qa-evidence/vaelora-siltmouths-atlas-2026-09-30/README.md)
+covers camera alignment, live harvesting/reset, fallback and packaging.
+The camera angles in the prompt guide perspective; they do not prove measured
+image calibration. Root openings remain transparent and no ground/water is
+baked into the sprite.
+
 ## Pale Meridian conifer · 30 September 2026
 
 The [conifer source manifest](../assets/environment/frontier-v1/pale-meridian-lifecycle-manifest.json)
