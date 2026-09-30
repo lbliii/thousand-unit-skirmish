@@ -29,6 +29,68 @@ const spriteMaterials = new Map();
 const constructionTextures = new Map();
 const constructionMaterials = new Map();
 const constructionInstances = new Map();
+const forestAtlasPacks = new Map(await Promise.all(['bellweather', 'sereward'].map(async (region) => {
+  try {
+    const response = await fetch(`${ASSET_ROOT}${region}-lifecycle-atlas.json`);
+    if (!response.ok) throw new Error(`atlas metadata HTTP ${response.status}`);
+    const pack = await response.json();
+    const asset = pack.assets[0], page = pack.pages[0];
+    const file = pack.files.find((entry) => entry.id === page.runtimeFileId);
+    if (file?.path !== `${region}-lifecycle-atlas.webp` || !page.sampling.generateMipmaps
+      || page.sampling.maxMipLevel !== 6 || page.gutterPx !== 64
+      || page.sampling.uvInsetPx !== 0.5 || !RESOURCE_VISUAL_STAGES.every((stage) => asset.frames.some((frame) => frame.id === stage))) {
+      throw new Error('unsupported forest atlas contract');
+    }
+    return [asset.id, { asset, page, file }];
+  } catch (error) {
+    console.warn(`Forest atlas ${region} unavailable; using individual state textures`, error.message);
+    return [region, null];
+  }
+})));
+const forestAtlasTextures = new Map();
+
+function createForestAtlasInstances(name, width, height, positions) {
+  const pack = forestAtlasPacks.get(name);
+  if (!pack || !positions.length) return null;
+  let texture = forestAtlasTextures.get(name);
+  if (!texture) {
+    texture = loadSprite(`${ASSET_ROOT}${pack.file.path}`);
+    texture.generateMipmaps = true;
+    texture.minFilter = THREE.LinearMipmapLinearFilter;
+    forestAtlasTextures.set(name, texture);
+  }
+  const geometry = spriteGeometry(width, height, name);
+  const rects = new THREE.InstancedBufferAttribute(new Float32Array(positions.length * 4), 4);
+  geometry.setAttribute('environmentAtlasRect', rects);
+  const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide,
+    transparent: true, alphaTest: 0.08, depthWrite: true, toneMapped: false });
+  material.onBeforeCompile = (shader) => {
+    shader.vertexShader = 'attribute vec4 environmentAtlasRect;\n' + shader.vertexShader;
+    shader.vertexShader = shader.vertexShader.replace('#include <uv_vertex>',
+      '#include <uv_vertex>\nvMapUv = environmentAtlasRect.xy + vMapUv * environmentAtlasRect.zw;');
+    shader.uniforms.environmentAtlasSize = { value: new THREE.Vector2(
+      pack.page.dimensionsPx.width, pack.page.dimensionsPx.height) };
+    shader.fragmentShader = 'uniform vec2 environmentAtlasSize;\n' + shader.fragmentShader;
+    const mapChunk = THREE.ShaderChunk.map_fragment.replace('texture2D( map, vMapUv )',
+      `textureLod(map, vMapUv, min(6.0, max(0.0, 0.5 * log2(max(
+        dot(dFdx(vMapUv) * environmentAtlasSize, dFdx(vMapUv) * environmentAtlasSize),
+        dot(dFdy(vMapUv) * environmentAtlasSize, dFdy(vMapUv) * environmentAtlasSize))))))`);
+    shader.fragmentShader = shader.fragmentShader.replace('#include <map_fragment>', mapChunk);
+  };
+  material.customProgramCacheKey = () => 'vaelora-forest-atlas-v1';
+  const mesh = new THREE.InstancedMesh(geometry, material, positions.length);
+  mesh.frustumCulled = false;
+  const frameRects = Object.fromEntries(pack.asset.frames.map((frame) => {
+    const r = frame.fallbackRectPx.rectPx, p = pack.page.dimensionsPx;
+    return [frame.id, [(r.x + 0.5) / p.width, 1 - (r.y + r.height - 0.5) / p.height,
+      (r.width - 1) / p.width, (r.height - 1) / p.height]];
+  }));
+  mesh.userData.forestAtlas = { rects, frameRects };
+  for (let index = 0; index < positions.length; index++) {
+    setForestSpriteStock({ mesh, index, ...positions[index], atlas: mesh.userData.forestAtlas });
+  }
+  return mesh;
+}
 
 function loadSprite(url) {
   const texture = textureLoader.load(url);
@@ -439,7 +501,12 @@ export function setEnvironmentSpriteInstance(mesh, index, x, z, scale, flip = fa
 // Hidden cells retain their last received stock; callers must not infer new stock.
 export function setForestSpriteStock(slot, stock = 6) {
   const stage = resourceVisualStage(stock, 6);
-  if (slot.stateMeshes) {
+  if (slot.atlas) {
+    slot.atlas.rects.setXYZW(slot.index, ...slot.atlas.frameRects[stage]);
+    slot.atlas.rects.needsUpdate = true;
+    setEnvironmentSpriteInstance(slot.mesh, slot.index, slot.x, slot.z, slot.scale, slot.flip, slot.yaw);
+    slot.mesh.instanceMatrix.needsUpdate = true;
+  } else if (slot.stateMeshes) {
     for (const [key, mesh] of Object.entries(slot.stateMeshes)) {
       setEnvironmentSpriteInstance(mesh, slot.index, slot.x, slot.z,
         key === stage ? slot.scale : 0, slot.flip, slot.yaw);
@@ -605,10 +672,11 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     ['cliff', 4.2, 4.6, cliffs],
     ['cliff-end-cap', 4.2, 4.6, cliffCaps],
   ]) {
-    const mesh = createEnvironmentSpriteInstances(name, width, height, points);
+    const mesh = createForestAtlasInstances(name, width, height, points)
+      || createEnvironmentSpriteInstances(name, width, height, points);
     if (!mesh) continue;
     let stateMeshes;
-    if (['bellweather-field-maple', 'sereward-palm'].includes(name)) {
+    if (!mesh.userData.forestAtlas && ['bellweather-field-maple', 'sereward-palm'].includes(name)) {
       stateMeshes = { full: mesh };
       for (const stage of ['worked', 'low', 'depleted']) {
         const stateMesh = createEnvironmentSpriteInstances(`${name}-${stage}`, width, height,
@@ -620,7 +688,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     for (let index = 0; index < points.length; index++) {
       const point = points[index];
       if (!Number.isInteger(point.cell)) continue;
-      forestTreeSlots.set(point.cell, { mesh, index, ...point, family: name, stateMeshes });
+      forestTreeSlots.set(point.cell, { mesh, index, ...point, family: name, stateMeshes, atlas: mesh.userData.forestAtlas });
     }
     addObject(mesh);
   }

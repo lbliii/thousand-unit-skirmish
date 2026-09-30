@@ -1,0 +1,22 @@
+[
+  {
+    "family": "bellweather-field-maple",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "sereward-palm",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  }
+]

@@ -2086,7 +2086,7 @@ function buildMap(definition) {
   buildConstructionGroundBatches();
 
   forestTreeSlots = addObstacleEnvironmentSprites(definition, MAP_HALF_X, MAP_HALF_Z, addMapObject);
-  const stumpPositions = [...forestTreeSlots].filter(([, slot]) => !slot.stateMeshes).map(([cell, slot], index) => {
+  const stumpPositions = [...forestTreeSlots].filter(([, slot]) => !slot.stateMeshes && !slot.atlas).map(([cell, slot], index) => {
     forestStumpSlots.set(cell, {
       index, x: slot.x, z: slot.z, scale: slot.scale * 0.48,
       flip: slot.flip, visible: false,

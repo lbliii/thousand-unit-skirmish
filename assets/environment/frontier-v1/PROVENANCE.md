@@ -202,3 +202,15 @@ alpha-preserving runtime encodings are recorded in
 RGBA WebP quality86 method6. Full source/runtime reused byte-for-byte. No alpha
 or color repainting; the preview composites runtime images over peach solely
 for inspection. Single view, separate textures, no directional atlas yet.
+
+## Regional lifecycle atlas packaging · 30 September 2026
+
+The Bellweather and Sereward lifecycle atlas pages are deterministic packaging
+of previously approved project-owned runtime sprites, not newly painted art.
+`python3 scripts/build-environment-lifecycle-atlases.py` copies frame pixels
+unchanged into PNG pages and adds transparent padding with copied edge RGB.
+Quality86 WebP runtime pages preserve alpha; RGB is recompressed. Original
+source PNGs and individual WebPs remain unchanged. Manifests conform to the
+sprite-atlas v1 contract, including hashes, state/direction clips, canvas/pivot,
+64px gutter and six-level mip cap. The `fixed-oblique` direction identifies the
+existing view; it does not imply a turntable or newly generated perspectives.

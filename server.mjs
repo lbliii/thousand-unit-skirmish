@@ -6877,10 +6877,13 @@ const server = createServer(async (request, response) => {
     'assets/ui/icons/attack.svg', 'assets/ui/icons/gather.svg', 'assets/ui/icons/build.svg',
   ].includes(relative);
   const publicEnvironmentModule = relative === 'src/environment-art.mjs';
+  const publicEnvironmentAtlasMetadata = ['bellweather', 'sereward'].some((region) =>
+    relative === `assets/environment/frontier-v1/${region}-lifecycle-atlas.json`);
   const publicEnvironmentAsset = path.dirname(relative) === 'assets/environment/frontier-v1'
     && ['.png', '.webp'].includes(path.extname(relative))
     && ['oak', 'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
       'bellweather-field-maple', 'bellweather-hedgerow',
+      'bellweather-lifecycle-atlas', 'sereward-lifecycle-atlas',
       'bellweather-field-maple-worked', 'bellweather-field-maple-low', 'bellweather-field-maple-depleted',
       'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
       'underbough-copperleaf', 'underbough-bramble',
@@ -6921,7 +6924,7 @@ const server = createServer(async (request, response) => {
   const publicBuildingLifecycleManifest = relative === `${buildingPackRoot}/lifecycle-grid.json`;
   const publicBuildingLifecycleRuntimeAsset = path.dirname(relative) === `${buildingPackRoot}/runtime`
     && /^(?:town-center-(?:foundation|frame|complete|damaged|critical)-view-\d{2}\.webp|team-mask-(?:foundation|frame|complete|damaged|critical)-view-\d{2}\.png)$/.test(path.basename(relative));
-  if (!publicClientAsset && !publicEnvironmentModule && !publicEnvironmentAsset && !publicUiAsset
+  if (!publicClientAsset && !publicEnvironmentModule && !publicEnvironmentAsset && !publicEnvironmentAtlasMetadata && !publicUiAsset
     && !publicMeshyResourceAsset && !publicInteractiveEnvironmentAsset && !publicEnvironmentPilotAsset && !publicBuildingSpriteAsset && !publicMapAsset
     && !publicUnitSpriteAsset && !publicBuildingLifecycleManifest && !publicBuildingLifecycleRuntimeAsset) {
     response.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' });
