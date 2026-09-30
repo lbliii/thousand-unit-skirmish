@@ -21,6 +21,8 @@
 
 Current runtime defaults:
 
+- Veyrholds highpine slots on scree maps use the [highpine lifecycle atlas](environment-pack-v1.md#veyrholds-highpine-lifecycle--30-september-2026), including matching depletion roots. Their existing share of the forest mix stays unchanged.
+
 - Underbough forest-floor maps use the [Copperleaf lifecycle atlas](environment-pack-v1.md#underbough-copperleaf-lifecycle--30-september-2026) for their Copperleaf forest slots, including matching depletion roots and stump. The [woody bramble companion](environment-pack-v1.md#underbough-woody-bramble-lifecycle--30-september-2026) has its own clipped-stem and cleared root-tangle states.
 
 - Ru’Lora salt-crust maps use the [petrified Fiendwood sample](environment-pack-v1.md#rulora-petrified-fiendwood--30-september-2026) and [stone fern companion](environment-pack-v1.md#rulora-stone-fern-companion--30-september-2026) with a [broken trunk silhouette](environment-pack-v1.md#rulora-broken-trunk-silhouette--30-september-2026) for low stone scenery. They preserve stone collision and are not wood or mineral resources.

@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-veyrholds-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "veyrholds-highpine.png",
+  "prompts": "VEYRHOLDS-LIFECYCLE-PROMPTS.json",
+  "provenance": "Built-in ImageGen edits of approved project-owned highpine. Unmodified masters; original shared crop, LANCZOS max1024 RGBA WebP quality86 method6 exact alpha. Camera guidance approximate.",
+  "files": [
+    {
+      "path": "veyrholds-highpine.png",
+      "role": "source-image",
+      "sha256": "44bbf58e349367bb69331901cdda5a25d73a47dc73ac925a10952c80197f382e",
+      "dimensionsPx": {
+        "width": 1159,
+        "height": 1358
+      },
+      "bytes": 1976164
+    },
+    {
+      "path": "veyrholds-highpine.webp",
+      "role": "runtime-image",
+      "sha256": "c79e2f84110ad92a989f13f3eb7b7dc39e757fa097e1c9a4843718e88b609825",
+      "dimensionsPx": {
+        "width": 861,
+        "height": 1024
+      },
+      "bytes": 380794
+    },
+    {
+      "path": "veyrholds-highpine-worked.png",
+      "role": "source-image",
+      "sha256": "499edb234dd4a7665298971be01150f984c77672192fc60f5eb4998944fbb1ab",
+      "dimensionsPx": {
+        "width": 1159,
+        "height": 1358
+      },
+      "bytes": 1882359
+    },
+    {
+      "path": "veyrholds-highpine-worked.webp",
+      "role": "runtime-image",
+      "sha256": "94d616be5513a491d1a914ca3374a35fdda9ae3e0ffc585aa0c0b22545e37e21",
+      "dimensionsPx": {
+        "width": 861,
+        "height": 1024
+      },
+      "bytes": 291218
+    },
+    {
+      "path": "veyrholds-highpine-low.png",
+      "role": "source-image",
+      "sha256": "cb280271b3ffd122879f5cfedcf77cc44aacaba907fd4fab15538cd743087d6a",
+      "dimensionsPx": {
+        "width": 1159,
+        "height": 1358
+      },
+      "bytes": 1898593
+    },
+    {
+      "path": "veyrholds-highpine-low.webp",
+      "role": "runtime-image",
+      "sha256": "2563a273dc40f09a9bc54913cc5374585fd1ac3073c5c529450e25a1347d44ff",
+      "dimensionsPx": {
+        "width": 861,
+        "height": 1024
+      },
+      "bytes": 305434
+    },
+    {
+      "path": "veyrholds-highpine-depleted.png",
+      "role": "source-image",
+      "sha256": "7004345eb9580f1b3ec8828b7cb5beefc91b764b1d342c107bfd36fcb85c705f",
+      "dimensionsPx": {
+        "width": 1159,
+        "height": 1358
+      },
+      "bytes": 390736
+    },
+    {
+      "path": "veyrholds-highpine-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "8f35deda8bd570d8c1c9b37855d1a50a35e44d0932ff3f958e7678b8946e0cac",
+      "dimensionsPx": {
+        "width": 861,
+        "height": 1024
+      },
+      "bytes": 58406
+    }
+  ],
+  "assets": [
+    {
+      "id": "veyrholds-highpine",
+      "sourceOutputId": "exec-23c542a8-bb73-4b1f-864d-7a2a8754d3e4",
+      "sourceFile": "veyrholds-highpine.png",
+      "runtimeFile": "veyrholds-highpine.webp",
+      "cropBoxPx": [
+        72,
+        48,
+        1146,
+        1325
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.4
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "full",
+      "logicalCanvasPx": [
+        1159,
+        1358
+      ]
+    },
+    {
+      "id": "veyrholds-highpine-worked",
+      "sourceOutputId": "exec-2c1e19b0-d379-4e4c-91aa-4b6453ddd2ed",
+      "sourceFile": "veyrholds-highpine-worked.png",
+      "runtimeFile": "veyrholds-highpine-worked.webp",
+      "cropBoxPx": [
+        72,
+        48,
+        1146,
+        1325
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.4
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "worked",
+      "logicalCanvasPx": [
+        1159,
+        1358
+      ]
+    },
+    {
+      "id": "veyrholds-highpine-low",
+      "sourceOutputId": "exec-2fc3505d-010c-4546-9822-a2190f5366a7",
+      "sourceFile": "veyrholds-highpine-low.png",
+      "runtimeFile": "veyrholds-highpine-low.webp",
+      "cropBoxPx": [
+        72,
+        48,
+        1146,
+        1325
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.4
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "low",
+      "logicalCanvasPx": [
+        1159,
+        1358
+      ]
+    },
+    {
+      "id": "veyrholds-highpine-depleted",
+      "sourceOutputId": "exec-0b42ea1e-4fa3-4544-a996-4e659c5db354",
+      "sourceFile": "veyrholds-highpine-depleted.png",
+      "runtimeFile": "veyrholds-highpine-depleted.webp",
+      "cropBoxPx": [
+        72,
+        48,
+        1146,
+        1325
+      ],
+      "worldSize": {
+        "width": 2.7,
+        "height": 3.4
+      },
+      "pivot": [
+        0.5,
+        1
+      ],
+      "stage": "depleted",
+      "logicalCanvasPx": [
+        1159,
+        1358
+      ]
+    }
+  ]
+}

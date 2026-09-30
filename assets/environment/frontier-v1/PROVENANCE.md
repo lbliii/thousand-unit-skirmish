@@ -234,3 +234,7 @@ Built-in ImageGen edited the original project-owned Copperleaf into worked, low 
 ## Underbough woody bramble lifecycle · 30 September 2026
 
 Built-in ImageGen edited the original project-owned fruitless woody bramble into worked, low and depleted frames. Full PNG/WebP remain unchanged. All selected edits retain the exact 1536×1024 canvas and shared crop [37,125,1519,913], with LANCZOS max1024 RGBA WebP quality86 method6 and exact alpha. [Manifest](underbough-bramble-lifecycle-manifest.json) records selected output IDs, hashes and dimensions; [exact prompts](UNDERBOUGH-BRAMBLE-LIFECYCLE-PROMPTS.json) also record two discarded depletion iterations. The final depletion was lowered and registration-corrected through ImageGen, not local pixel edits. Decoded runtime pixels are copied into the atlas without rescaling. One fixed-oblique view; no berries or new food resource.
+
+## Veyrholds highpine lifecycle · 30 September 2026
+
+Built-in ImageGen edited the project-owned approved highpine into worked, low and depleted frames. Original full PNG/WebP remain unchanged. Selected masters retain exact 1159×1358 canvas and share crop [72,48,1146,1325]. [Manifest](veyrholds-lifecycle-manifest.json) records source IDs, hashes and dimensions; [exact prompts](VEYRHOLDS-LIFECYCLE-PROMPTS.json) preserve edit instructions. LANCZOS max1024 RGBA WebP quality86 method6 with exact alpha; deterministic atlas copies decoded runtime pixels without repainting or rescaling. One fixed-oblique view, no third-party inputs or local pixel repairs.
