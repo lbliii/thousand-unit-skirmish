@@ -35,7 +35,7 @@ for(const size of sizes){
     await Promise.all(pages.map(async(page,team)=>{
       const s=await state(team),army=s.units.filter(u=>u[1]===team&&u[4]>0&&u[5]==='infantry');
       await send(team,{type:'move',ids:army.map(u=>u[0]),unitGenerations:army.map(u=>u[8]),x:team?12.5:-12.5,z:10.5},/MOVE ORDER/);
-      await page.wait(`!window.__fortifiedProbe.state.units.some(u=>u[1]===${team}&&u[4]>0&&u[5]!=='worker'&&Math.abs(u[2]-${team?18.5:-18.5})<3&&Math.abs(u[3]+3.5)<3)`,'vacated Barracks site',120000);
+      await page.wait(`!window.__fortifiedProbe.state.units.some(u=>u[1]===${team}&&u[4]>0&&u[5]!=='worker'&&Math.abs(u[2]-(${team?18.5:-18.5}))<3&&Math.abs(u[3]+3.5)<3)`,'vacated Barracks site',120000);
     }));
     stage='economy, execution audio and completion warmup';
     await Promise.all(pages.map(async(page,team)=>{
