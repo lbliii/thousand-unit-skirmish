@@ -442,3 +442,13 @@ reconnect tests pass. Future painted-art briefs should state orthographic view,
 are guidance, not proof of an AI-painted image's intrinsic perspective. Exact
 source-view calibration requires a reproducible 3D capture or a measured art
 construction.
+
+## Ru’Lora petrified Fiendwood · 30 September 2026
+
+The [approved ecology key](art-direction/vaelora-v1/ru-lora-ecology.png) now has a first runtime petrified-interior specimen: [Fiendwood source](../assets/environment/frontier-v1/ru-lora-fiendwood.png), [manifest](../assets/environment/frontier-v1/ru-lora-manifest.json) and [exact prompt](../assets/environment/frontier-v1/RU-LORA-PROMPTS.json). Charcoal and dusty violet stone leaves carry ivory mineral seams and restrained cold opal accents. The master is unchanged built-in ImageGen output; runtime packaging crops and encodes with exact alpha.
+
+`addObstacleEnvironmentSprites` selects Fiendwood for the existing low stone-outcrop batch on salt-crust bases, except `meshy-resource-review`. Boulder clusters, taller ridges and cliffs retain their existing art. Existing stone obstacle cells still govern collision. This specimen is scenery, not mineable mineral or harvestable wood; extraction practice remains an open lore question. Authored forest cells still use existing woodland sprites and rules, so they do not yet represent Ru’Lora’s petrified interior. The living fringe is a separate proposal.
+
+One fixed oblique view and intact state are supplied. Mirroring provides silhouette variation, not another perspective. The 45° azimuth / 45.4359° elevation prompt guides the painting; it is not a measured source projection. The runtime uses the shared upright camera-facing basis. No destruction or harvesting animation is claimed for this nonharvestable prop.
+
+[Owner-run appearance evidence](qa-evidence/vaelora-ru-lora-2026-09-30/README.md) covers ordinary/strategic renderer views, lazy loading, regional binding and preserved forest slots. Broader fauna, dense interior composition, mineral harvesting, staging and performance proofs remain unfinished.

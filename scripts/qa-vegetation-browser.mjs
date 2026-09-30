@@ -68,7 +68,7 @@ class Cdp {
 const profile=await mkdtemp('/tmp/vaelora-vegetation-chrome-');
 const chrome=spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',['--headless=new','--no-first-run','--no-default-browser-check','--remote-debugging-port=0','--window-size=1280,720','--user-data-dir='+profile,'about:blank'],{stdio:'ignore'});
 const region=process.env.RTS_VEGETATION_REGION || 'bellweather';
-if(!['bellweather','veyrholds','underbough','sereward','ellionar','pale-meridian','siltmouths','vesperra','sombral-mere'].includes(region))throw new Error('Unknown vegetation capture region');
+if(!['bellweather','veyrholds','underbough','sereward','ellionar','pale-meridian','siltmouths','vesperra','sombral-mere','ru-lora'].includes(region))throw new Error('Unknown vegetation capture region');
 const lifecycle=process.env.RTS_VEGETATION_LIFECYCLE==='1';
 if(lifecycle&&!['bellweather','sereward','pale-meridian','siltmouths','vesperra','sombral-mere'].includes(region))throw new Error('No lifecycle pack for region');
 const atlasCapture=process.env.RTS_VEGETATION_ATLAS==='1';
@@ -94,7 +94,7 @@ try {
  await cdp.call('Page.navigate',{url:BASE.origin+'/?room='+room.roomId});await sleep(5500);
  if(await cdp.evaluate('document.documentElement.dataset.boot')!=='ready')throw new Error('Game did not boot before appearance capture');
  const openingRequests=await cdp.evaluate('performance.getEntriesByType("resource").filter(e=>e.name.includes("assets/environment")).map(e=>new URL(e.name).pathname)');
- if(openingRequests.filter(p=>p.endsWith('.webp')).some(p=>p.includes('underbough-')||p.includes('veyrholds-')||p.includes('sereward-')||p.includes('ellionar-')||p.includes('pale-meridian-')||p.includes('siltmouths-')||p.includes('vesperra-')||p.includes('sombral-mere-')))throw new Error('Unused regional sprites loaded eagerly');
+ if(openingRequests.filter(p=>p.endsWith('.webp')).some(p=>p.includes('underbough-')||p.includes('veyrholds-')||p.includes('sereward-')||p.includes('ellionar-')||p.includes('pale-meridian-')||p.includes('siltmouths-')||p.includes('vesperra-')||p.includes('sombral-mere-')||p.includes('ru-lora-')))throw new Error('Unused regional sprites loaded eagerly');
  await writeFile(out+'/opening-requests.json',JSON.stringify(openingRequests,null,2)+'\n');
  for(const mode of ['ordinary','strategic']) {
   if(mode==='strategic')await cdp.evaluate('document.querySelector("#camera-fit-map").click()');
@@ -113,6 +113,7 @@ try {
    const {addObstacleEnvironmentSprites,createGroundSurfaces}=await import('/src/environment-art.mjs');
    const d={id:'bellweather-study',width:24,height:24,terrainSeed:941,terrainBase:'meadow',terrainPatches:[{column:0,row:12,width:24,height:12,material:'dry-grass'}],obstacles:[{row:5,column:6,width:5,height:5,material:'forest'},{row:14,column:14,width:4,height:3,material:'forest'}]};
    if(${JSON.stringify(region)}==='veyrholds'){d.id='veyrholds-study';d.terrainBase='scree';d.terrainPatches=[];d.obstacles.push({row:16,column:6,width:5,height:2,material:'stone',elevation:0.72})}
+   if(${JSON.stringify(region)}==='ru-lora'){d.id='ru-lora-study';d.terrainBase='salt-crust';d.terrainPatches=[];d.obstacles=[{row:6,column:3,width:18,height:2,material:'stone',elevation:0.72},{row:14,column:6,width:12,height:2,material:'stone',elevation:0.72}]}
    if(${JSON.stringify(region)}==='underbough'){d.id='underbough-study';d.terrainBase='forest-floor';d.terrainPatches=[{column:0,row:12,width:24,height:12,material:'dirt'}]}
    if(${JSON.stringify(region)}==='sereward'){d.id='sereward-study';d.terrainBase='sand';d.terrainPatches=[]}
    if(${JSON.stringify(region)}==='sombral-mere'){d.id='sombral-mere-study';d.terrainBase='lunar-soil';d.terrainPatches=[]}
@@ -121,7 +122,7 @@ try {
    if(${JSON.stringify(region)}==='pale-meridian'){d.id='pale-meridian-study';d.terrainBase='snow';d.terrainPatches=[]}
    if(${JSON.stringify(region)}==='ellionar'){d.id='ellionar-study';d.terrainBase='garden-loam';d.terrainPatches=[{column:0,row:12,width:24,height:12,material:'dirt'}]}
    const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true,antialias:true});renderer.setSize(1000,750);renderer.setPixelRatio(1);
-   const scene=new THREE.Scene();scene.background=new THREE.Color(0x859175);const camera=new THREE.OrthographicCamera(-${span}*4/3,${span}*4/3,${span},-${span},0.1,200);camera.position.set(...CAMERA_VIEW_DIRECTION).multiplyScalar(50);camera.lookAt(0,0,0);
+   const scene=new THREE.Scene();scene.background=new THREE.Color(${JSON.stringify(region)}==='ru-lora'?0x34303f:0x859175);const camera=new THREE.OrthographicCamera(-${span}*4/3,${span}*4/3,${span},-${span},0.1,200);camera.position.set(...CAMERA_VIEW_DIRECTION).multiplyScalar(50);camera.lookAt(0,0,0);
    for(const o of createGroundSurfaces(d))scene.add(o);addObstacleEnvironmentSprites(d,12,12,o=>scene.add(o));
    await new Promise(r=>setTimeout(r,1400));renderer.render(scene,camera);const image=renderer.domElement.toDataURL('image/png');
    scene.traverse(o=>{o.geometry?.dispose();if(o.material){o.userData.ownedGroundTextures?.forEach(t=>t.dispose());o.material.dispose()}});renderer.dispose();renderer.forceContextLoss();return image;
@@ -175,7 +176,7 @@ try {
    const {CAMERA_VIEW_DIRECTION}=await import('/src/camera-controls.mjs');
   const {addObstacleEnvironmentSprites,createGroundSurfaces}=await import('/src/environment-art.mjs');
   const results=[];
-  for(const terrainBase of ['meadow','snow','scree','forest-floor','sand','garden-loam','ice','tidal-mud','jungle-loam','lunar-soil']) {
+  for(const terrainBase of ['meadow','snow','scree','forest-floor','sand','garden-loam','ice','tidal-mud','jungle-loam','lunar-soil','salt-crust']) {
    const d={id:'vegetation-proof',width:12,height:12,terrainBase,obstacles:[{row:3,column:3,width:6,height:6,material:'forest'},{row:10,column:1,width:10,height:1,material:'stone',elevation:0.72}]};
    const objects=[];const slots=addObstacleEnvironmentSprites(d,6,6,o=>objects.push(o));
    for(let i=0;i<50 && objects.some(o=>!o.material.map.image?.complete);i++)await new Promise(r=>setTimeout(r,100));
@@ -197,6 +198,7 @@ try {
  if(!proof[7].files.includes('siltmouths-lifecycle-atlas.webp')||proof[7].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Siltmouths forest mix mismatch');
  if(!proof[8].files.includes('vesperra-lifecycle-atlas.webp')||proof[8].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Vesperra forest mix mismatch');
  if(!proof[9].files.includes('sombral-mere-lifecycle-atlas.webp')||proof[9].files.some(f=>/^(?:field-maple|hazel-thicket|silver-birch|pine|oak(?:-01)?)\.webp$/.test(f)))throw new Error('Sombral Mere forest mix mismatch');
+ if(!proof[10].files.includes('ru-lora-fiendwood.webp')||proof.slice(0,10).some(r=>r.files.includes('ru-lora-fiendwood.webp')))throw new Error('Ru Lora stone scenery binding mismatch');
  const reference=JSON.stringify(proof[0].cells.slice().sort((a,b)=>a-b));
  if(proof.some(r=>JSON.stringify(r.cells.slice().sort((a,b)=>a-b))!==reference))throw new Error('Regional forest cells differ');
  const covers=await cdp.evaluate(`(async()=>{

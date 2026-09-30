@@ -7009,7 +7009,7 @@ const server = createServer(async (request, response) => {
       'siltmouths-tidal-tree', 'siltmouths-tidal-tree-worked', 'siltmouths-tidal-tree-low', 'siltmouths-tidal-tree-depleted',
       'pale-meridian-conifer', 'pale-meridian-conifer-worked', 'pale-meridian-conifer-low', 'pale-meridian-conifer-depleted',
       'bellweather-field-maple-worked', 'bellweather-field-maple-low', 'bellweather-field-maple-depleted',
-      'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
+      'veyrholds-highpine', 'veyrholds-ironlichen-outcrop', 'ru-lora-fiendwood',
       'underbough-copperleaf', 'underbough-bramble',
       'sereward-palm', 'sereward-acacia', 'sereward-scrub',
       'sereward-palm-worked', 'sereward-palm-low', 'sereward-palm-depleted',

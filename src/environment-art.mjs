@@ -17,7 +17,7 @@ const spriteNames = [
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'bellweather-field-maple-worked', 'bellweather-field-maple-low', 'bellweather-field-maple-depleted',
-  'veyrholds-highpine', 'veyrholds-ironlichen-outcrop',
+  'veyrholds-highpine', 'veyrholds-ironlichen-outcrop', 'ru-lora-fiendwood',
   'underbough-copperleaf', 'underbough-bramble',
   'sereward-palm', 'sereward-acacia', 'sereward-scrub',
   'sereward-palm-worked', 'sereward-palm-low', 'sereward-palm-depleted',
@@ -552,6 +552,8 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     && definition.id !== 'meshy-resource-review';
   const sombralMere = environmentTheme(definition) === 'lunar-soil'
     && definition.id !== 'meshy-resource-review';
+  const ruLora = environmentTheme(definition) === 'salt-crust'
+    && definition.id !== 'meshy-resource-review';
   const pineName = sombralMere ? 'sombral-mere-merebloom' : vesperra ? 'vesperra-mistbark' : siltmouths ? 'siltmouths-tidal-tree' : paleMeridian ? 'pale-meridian-conifer' : ellionar ? 'ellionar-cultivated-palm' : sereward ? 'sereward-palm' : veyrholds ? 'veyrholds-highpine' : 'pine';
   const mapleName = sereward ? 'sereward-acacia' : underbough ? 'underbough-copperleaf'
     : bellweather ? 'bellweather-field-maple' : 'field-maple';
@@ -699,7 +701,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     ['silver-birch', 2.3, 3.45, birches],
     [mapleName, sereward ? 3.5 : 3.05, sereward ? 2.85 : 3.25, maples],
     [thicketName, ellionar ? 2.8 : sereward ? 2.6 : 3.1, ellionar ? 1.8 : sereward ? 1.7 : 2.07, hazelThickets],
-    [veyrholds ? 'veyrholds-ironlichen-outcrop' : 'rock-outcrop', 3.5, 2.2, outcrops],
+    [ruLora ? 'ru-lora-fiendwood' : veyrholds ? 'veyrholds-ironlichen-outcrop' : 'rock-outcrop', ruLora ? 3.3 : 3.5, ruLora ? 3.2 : 2.2, outcrops],
     ['rock-boulder-cluster', 2.7, 1.8, boulderClusters],
     ['basalt-ridge', 3.6, 3.05, ridges],
     ['basalt-ridge-cap', 3.4, 2.25, ridgeCaps],

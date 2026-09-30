@@ -214,3 +214,7 @@ source PNGs and individual WebPs remain unchanged. Manifests conform to the
 sprite-atlas v1 contract, including hashes, state/direction clips, canvas/pivot,
 64px gutter and six-level mip cap. The `fixed-oblique` direction identifies the
 existing view; it does not imply a turntable or newly generated perspectives.
+
+## Ru’Lora Fiendwood · 30 September 2026
+
+Built-in ImageGen generated this original stone scenery sprite from the project-owned Ru’Lora ecology key. [Exact prompt](RU-LORA-PROMPTS.json) and [manifest](ru-lora-manifest.json) record source output ID, hashes, dimensions and runtime crop. No third-party inputs, repainting or alpha repair. Original PNG is unchanged; RGBA WebP uses Pillow LANCZOS max1024, quality86 method6 and exact alpha. One intact fixed-oblique view only.

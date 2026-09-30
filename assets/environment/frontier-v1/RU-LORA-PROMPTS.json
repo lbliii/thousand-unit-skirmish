@@ -1,0 +1,9 @@
+{
+  "tool": "built-in ImageGen",
+  "assets": [
+    {
+      "id": "ru-lora-fiendwood",
+      "prompt": "Use case: stylized-concept. Create ONE production RTS environment sprite: a petrified Fiendwood tree for Ru’Lora. Input image is reference only: follow the PETRIFIED INTERIOR half and the Petrified Fiendwood Tree specimen, not the living fringe. Stylized painterly fantasy RTS, broad readable forms, muted charcoal and dusty violet stone, thin ivory mineral seams, tiny restrained cold opal accents. Upright stout tapering stone trunk with angular spreading branches and sparse broad clusters of petrified leaves. Entire tree and compact stone roots visible with generous transparent margin. Orthographic fixed oblique game camera: 45 degree azimuth, 45.4359 degree elevation above ground, world vertical remains screen vertical, zero screen roll. Avoid dramatic leaning, foreshortening, cinematic perspective. Compact silhouette, 3/4 overhead view, root contact centered near bottom. Soft upper-left lighting, clear midtones; no black crushed silhouette. Genuine transparent background, no ground plane, no cast shadow, no labels, no diagram, no extra specimens, no skeleton, no skull, no fire, no red demonic glow, no living foliage. This is a stone scenery prop, not harvestable wood. No photographic texture or speckled fractal detail."
+    }
+  ]
+}
