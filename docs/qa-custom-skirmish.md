@@ -15,7 +15,7 @@ checks must be integrated before the combined scenario can establish its claims.
 | Persistent Patrol/Follow | Not observed on the integrated build | Lane A acceptance and combined mixed-speed, combat, recovery/rematch proof |
 | Visual region/event authoring | Not observed on the integrated build | Lane B forms, geometry, undo/redo, export/import/reopen/publish proof |
 | Completion triggers and diagnostic trace | Not observed on the integrated build | Both-seat construction/research chains, initial-state semantics and delayed delivery recovery |
-| Automatic shipped audio and execution feedback | Not observed on the integrated build | Fresh guest, missing content fallback, accepted/rejected feedback, wood/food/repair task lifecycle and inspector |
+| Automatic shipped audio and execution feedback | Lane C merged in PR #271 (`56011c4`); verified shipped manifests/sources, bounded observed work, applied-token acknowledgements and inspector. Focused loader/execution/serving/playback and fresh-context browser evidence recorded in the PR | Fresh guest, missing content fallback, accepted/rejected feedback, wood/food/repair task lifecycle and inspector |
 | Combined result and rematch | Not observed | Finish Fortified Crossing and prove fresh event/order/audio baselines |
 | Scale evidence | Runner being validated; no comparable measurements recorded | Server and browser/audio measurements at 250/500/1,000, diagnostic 2,000, with controlled conditions |
 | Hosted observation | Not observed for this milestone | Identified staging deployment and fresh invite/guest observations |
@@ -29,6 +29,10 @@ Run from the repository with Node 24 and local listening permitted:
 node scripts/fortified-crossing-layout.mjs
 node scripts/fortified-crossing-economy.mjs
 node scripts/fortified-crossing-scale.mjs 20 250,500,1000,2000
+# After all feature lanes integrate:
+node scripts/fortified-crossing-combined.mjs 0
+node scripts/fortified-crossing-combined.mjs 1
+node scripts/fortified-crossing-browser.mjs
 ```
 
 The economy test uses real paid orders and never injects checkpoint state. Its
@@ -53,3 +57,14 @@ both original seats after restart. The runner revision is committed with this
 record. Other development work was active on the host; this run is validation
 of the runner, not a comparable performance baseline. No rendered client or
 audio callback was measured.
+
+## Combined proof preparation
+
+The combined candidate assigns the supplied `rts-feedback-test` / `worker-actions`
+v1 hash, arms each seat’s delayed Barracks and infantry-attack rewards, and joins
+its completed research reward with its crossing reward before delivering field
+reinforcement. The new combined scripts are prepared and syntax checked; they
+remain unproven until the pending tactical and scenario contracts integrate.
+The browser harness uses real disposable invite rooms and empty Chrome contexts,
+form and pointer actions, export/import/reopen, published map assignment and
+automatic guest delivery. It never establishes unassisted human usability.
