@@ -2,6 +2,7 @@
   "id": "ellionar-channel-gardens",
   "name": "Ellionar · Channel Gardens",
   "summary": "Irrigation channels divide cultivated gardens; wide maintenance crossings keep armies moving.",
+  "region": "ellionar",
   "width": 80,
   "height": 72,
   "terrainSeed": 93004,
@@ -223,7 +224,7 @@
   "audio": {
     "packId": "vaelora-ellionar",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "fec8a14957d05c9a79b50af238f533722ad0be005b1495967e77748b9326935d"
+    "version": "v2",
+    "sha256": "876544e267d9ec1d2d2f4fa6d19eba9446dc9fc37545f6eb8f5a343f5bf5cff1"
   }
 }

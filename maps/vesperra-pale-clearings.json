@@ -2,6 +2,7 @@
   "id": "vesperra-pale-clearings",
   "name": "Vesperra · Pale Clearings",
   "summary": "Pale trunks enclose a living canopy; broad clearings connect the central and outer routes.",
+  "region": "vesperra",
   "width": 96,
   "height": 72,
   "terrainSeed": 93008,
@@ -223,7 +224,7 @@
   "audio": {
     "packId": "vaelora-vesperra",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "9c8e14728351d4dd1e18f68b684fcf804a3377a0774e67ae9c26081aec273603"
+    "version": "v2",
+    "sha256": "119370e6714bfbeba7b4f8d78ce8650fdec0d45cc3f327f1a28906ab05fb0847"
   }
 }

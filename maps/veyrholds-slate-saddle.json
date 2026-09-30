@@ -2,6 +2,7 @@
   "id": "veyrholds-slate-saddle",
   "name": "Veyrholds · Slate Saddle",
   "summary": "Paired slate ridges shelter bases; a broad saddle and two exposed passes offer alternate approaches.",
+  "region": "veyrholds",
   "width": 80,
   "height": 72,
   "terrainSeed": 93005,
@@ -223,7 +224,7 @@
   "audio": {
     "packId": "vaelora-veyrholds",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "a998ffa07cd81dade5c37e47a3e785664fceda6018073c1e61ace94f0eedcda9"
+    "version": "v2",
+    "sha256": "445257277fe2615b14fc43f1493c4b7d1e156cf627434981966b46c4cd1751da"
   }
 }

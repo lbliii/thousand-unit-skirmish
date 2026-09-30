@@ -193,6 +193,8 @@ Continue with Patrol/Follow only as bounded additions to these semantics; use
 Twelve Vaelora maps now provide playable destinations for the ten regional asset
 families and eleven audio palettes. Next proof: both-seat economy-to-watch matches
 on Bellweather Millrace and Underbough Rootways, then congestion/expansion comparison
-on channel, basin and ridge layouts. Follow with dedicated living-fringe vegetation
-and map-driven regional environment beds; preserve existing mute/ducking policy.
+on channel, basin and ridge layouts. The next regional slice supplies separate terrain ambience, registered regional
+defaults, distinct flagship objectives/expansions and pre-match rolling-ground
+authoring/rendering. Follow with human 1v1 observations, dedicated living-fringe
+vegetation and slope/build-pad polish before adding independent corner sculpting.
 See [roster and limitations](maps.md).

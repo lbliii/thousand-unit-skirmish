@@ -2,6 +2,7 @@
   "id": "siltmouths-reed-crossings",
   "name": "Siltmouths · Reed Crossings",
   "summary": "Staggered tidal channels leave three dry crossings. Reeds shelter the outer supply routes.",
+  "region": "siltmouths",
   "width": 80,
   "height": 72,
   "terrainSeed": 93007,
@@ -251,7 +252,7 @@
   "audio": {
     "packId": "vaelora-siltmouths",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "fad484989ce03d8c22b9637ce534d104eaf34bd3a50d290de4ff4be7d3a52714"
+    "version": "v2",
+    "sha256": "1d64164f3d97048f3e68ef2b094d04359281da7ddafed86cbeee628b83ce8c44"
   }
 }

@@ -2,6 +2,7 @@
   "id": "sereward-cistern-road",
   "name": "Sereward · Cistern Road",
   "summary": "Two sheltered water basins flank an open caravan road; supplies sit beyond the home clearings.",
+  "region": "sereward",
   "width": 80,
   "height": 72,
   "terrainSeed": 93003,
@@ -237,7 +238,7 @@
   "audio": {
     "packId": "vaelora-sereward",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "0319f757a30bb8d746f71cdc6d5eaff638f8d62e85178ba49b71c3e9e781378f"
+    "version": "v2",
+    "sha256": "9765d9de925137e1788ae1f15fe52cc3b668601b6af2b573401bfc18b1ead594"
   }
 }

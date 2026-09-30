@@ -15,10 +15,18 @@ can share a region. Bellweather has a crossing map and an open orchard common;
 Ru’Lora has distinct living-fringe and petrified-interior expeditions.
 
 Every opening has 24 units, 150 food and 250 wood per seat, fog, mirrored resources,
-clear Town Center footprints and three capture posts. Own both outer posts to
-unlock the watch, hold all three for 20 seconds, or own the watch at 15 minutes.
-Unclaimed deadline draws. Equal relief supplies arrive at two minutes. This shared
-ruleset makes regional route choices comparable before adding new scenario rules.
+clear Town Center footprints and three capture posts. Millrace and the remaining
+roster require both outer posts to unlock the watch, then all three owned for
+20 seconds. Rootways instead requires both outer clearings for 30 seconds;
+its central Supply Grove pays food/wood without being a prerequisite. On every
+map the central post's owner wins at 15 minutes; an unclaimed deadline draws.
+Equal relief supplies arrive at two minutes.
+
+Millrace now has orchard-side food/wood expansions and three broad ford approaches.
+Rootways has paired copper woodland belts: gathering trees can open shorter routes
+between clearings, while armies can use the existing longer passages. Both
+flagships have seeded mirrored rolling ground and flat base, water and marker pads.
+These are distinct tactical layouts rather than copies of the same regional skin.
 
 | Map | Grid | Route character | Ground / asset palette |
 | --- | --- | --- | --- |
@@ -36,7 +44,8 @@ ruleset makes regional route choices comparable before adding new scenario rules
 | [Veyrholds · Slate Saddle](../maps/veyrholds-slate-saddle.json) | 80 × 72 | Paired slate ridges shelter bases; a broad saddle and two exposed passes offer alternate approaches. | `scree` |
 
 [Layout contact sheet](vaelora-map-layouts.svg): blue/orange spawns, gold capture
-posts, green harvestable forests, blue water, gray stone, brown/red resource nodes.
+posts, green harvestable forests, blue water, gray stone, brown/red resource nodes,
+and translucent cream high ground.
 These are layout schematics; the in-game renderer supplies the current regional art.
 
 ## Regional art and audio
@@ -49,20 +58,26 @@ Ru’Lora Fringe currently uses the Vesperra living-forest family alongside salt
 paint; a dedicated fringe vegetation family is still needed. No toxic damage,
 tides, bridges, active observatories or supernatural mechanics are implied.
 
-Each map binds a hash-verified shipped regional **everyday music** profile, including
+Each map binds a hash-verified shipped regional **music and terrain ambience** profile, including
 separate fringe/interior music. Both players load the same existing recording;
-Audio Studio installation is unnecessary. Music respects the existing music level,
+Audio Studio installation is unnecessary. The separate music and ambience layers respect their own levels,
 master mute, alert ducking and tab lifecycle. Recordings remain creative candidates.
 The authored repeat uses a quiet excerpt with two-second entrance and three-second
 exit fades; its timeline BPM is a duration adapter, not a measured musical tempo.
-Environment beds, signatures and contrasting settings remain available in
-[Zone Audio](../audio-zones.html). They are not yet map-driven ambience layers;
-regional ambience routing and discovery/conflict scoring remain future work.
+Terrain recordings now repeat on the ambience bus, replacing synthesized wind
+when available. Missing/undecodable ambience falls back to wind. Signatures and
+contrasting settings remain in [Zone Audio](../audio-zones.html); spatial beds,
+discovery/conflict scoring and seamless authored loop edits remain future work.
+
+Map Studio's Regional Palette selector applies registered ground/audio defaults
+while preserving local painted materials and layout. Maps retain a `region` ID,
+with explicit `terrainBase` and audio overrides allowed. See
+[pre-match elevation](map-authoring.md#pre-match-elevation).
 
 ## Production and acceptance
 
 `node scripts/build-vaelora-maps.mjs` regenerates the authored JSON and the eleven
-small music manifests from the existing source catalog, preserving source paths,
+small v2 soundscape manifests from the existing source catalog, preserving source paths,
 provenance and content hashes. It does not generate new media or duplicate MP3s.
 `node scripts/vaelora-map-layout-scenario.mjs` checks paths with both Town Centers
 present and refreshes the contact sheet. Run the [map balance audit](testing.md)
@@ -70,7 +85,7 @@ and `node scripts/audio-shipped-serving-scenario.mjs` for geometry and serving.
 
 The first pass is technically validated, not match-balance or appearance approval.
 Play both seats on Millrace and Rootways first: build a Barracks, gather the outer
-supplies, contest opposite posts, clear a woodland route, and finish a watch hold.
+supplies, contest opposite posts, clear a woodland route, and finish the map’s hold rule.
 Then compare channels, basins and ridges. Record route congestion, build space,
 forest cutting, command readability and music seams in [QA](qa-vertical-slice.md).
 

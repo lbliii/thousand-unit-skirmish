@@ -58,7 +58,7 @@ test('live Barracks updates advance the sprite through construction and damage f
   const source = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
   const updateSource = source.slice(source.indexOf('function updateBarracksVisual('),
     source.indexOf('\nfunction reconcileBuildings('));
-  const context = vm.createContext({ THREE, barracksModelVisualState,
+  const context = vm.createContext({ THREE, barracksModelVisualState, groundHeight: () => .8,
     updateBuildingProductionCue() {}, updateBuildingHealthIndicator() {},
   });
   vm.runInContext(updateSource, context);
@@ -82,6 +82,7 @@ test('live Barracks updates advance the sprite through construction and damage f
       await Promise.resolve();
       assert.equal(sprite.material.map.url, buildingSpriteUrl(building));
       assert.equal(sprite.visible, true);
+      assert.equal(group.position.y, .8, 'building group follows its terrain height');
     }
   }
 });

@@ -1,0 +1,131 @@
+{
+  "version": "v2",
+  "pack": {
+    "schemaVersion": 1,
+    "id": "vaelora-ellionar",
+    "name": "Ellionar regional soundscape",
+    "sources": [
+      {
+        "id": "ellionar-music",
+        "name": "Ellionar music candidate",
+        "fileName": "tus_ellionar_music_01_v001.mp3",
+        "mimeType": "audio/mpeg",
+        "tags": [
+          "ellionar",
+          "candidate"
+        ],
+        "provenance": {
+          "provider": "ElevenLabs",
+          "prompt": "Instrumental luminous ceremonial chamber music, cultivated, assured and gently flowing, 96 BPM in 4/4, D Dorian with spacious eight-bar phrases. Plucked lyre and low harp trade measured answers with paired reed pipes, sparse copper bowls and soft frame drum, warm acoustic room and restrained dynamics. Quiet even energy, no vocals, fanfares, modern drums or dramatic climax, open sustained ending.",
+          "createdAt": "2026-09-30"
+        }
+      },
+      {
+        "id": "ellionar-terrain",
+        "name": "Ellionar terrain candidate",
+        "fileName": "tus_ellionar_terrain_01_v001.mp3",
+        "mimeType": "audio/mpeg",
+        "tags": [
+          "ellionar",
+          "candidate"
+        ],
+        "provenance": {
+          "provider": "ElevenLabs",
+          "prompt": "Continuous gentle air moving palm fronds in a terraced cultivated garden, quiet even dry frond movement. Only the named environmental material. No music, voices, footsteps, animals, machinery, dramatic events or sudden foreground transients. Stable level and perspective, suitable for a seamless repeating ambience bed.",
+          "createdAt": "2026-09-30"
+        }
+      }
+    ],
+    "profiles": [
+      {
+        "id": "landscape",
+        "name": "Ellionar",
+        "bindings": {},
+        "music": {
+          "defaultCompositionId": "everyday"
+        },
+        "ambience": {
+          "defaultCompositionId": "environment"
+        }
+      }
+    ],
+    "compositions": [
+      {
+        "schemaVersion": 1,
+        "id": "everyday",
+        "name": "Ellionar music",
+        "bpm": 50.420168067226896,
+        "beatsPerBar": 4,
+        "lengthBars": 4,
+        "tracks": [
+          {
+            "id": "music",
+            "name": "music",
+            "gain": 0.35,
+            "pan": 0,
+            "mute": false,
+            "solo": false,
+            "clips": [
+              {
+                "id": "take",
+                "sourceId": "ellionar-music",
+                "startBeat": 0,
+                "durationBeats": 16,
+                "offsetSeconds": 0,
+                "gain": 1,
+                "loop": false,
+                "fadeInSeconds": 2,
+                "fadeOutSeconds": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "schemaVersion": 1,
+        "id": "environment",
+        "name": "Ellionar terrain",
+        "bpm": 33.05692236747067,
+        "beatsPerBar": 4,
+        "lengthBars": 4,
+        "tracks": [
+          {
+            "id": "terrain",
+            "name": "terrain",
+            "gain": 0.6,
+            "pan": 0,
+            "mute": false,
+            "solo": false,
+            "clips": [
+              {
+                "id": "take",
+                "sourceId": "ellionar-terrain",
+                "startBeat": 0,
+                "durationBeats": 16,
+                "offsetSeconds": 0,
+                "gain": 1,
+                "loop": false,
+                "fadeInSeconds": 2,
+                "fadeOutSeconds": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "downloads": {
+    "ellionar-music": {
+      "path": "/assets/audio/vaelora-zones-v1/sources/tus_ellionar_music_01_v001.mp3",
+      "bytes": 498417,
+      "mimeType": "audio/mpeg",
+      "sha256": "b47911f5e5dfc910cc3250acd3413899fb30112e98a33458f655fdad45271cbe"
+    },
+    "ellionar-terrain": {
+      "path": "/assets/audio/vaelora-zones-v1/sources/tus_ellionar_terrain_01_v001.mp3",
+      "bytes": 497951,
+      "mimeType": "audio/mpeg",
+      "sha256": "2bcc997ba1a156daa44ca2db95ea257315c6a3ad1d6c002b70a322acac05eb9c"
+    }
+  }
+}

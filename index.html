@@ -433,7 +433,7 @@
               <button id="audio-inspector-refresh" type="button">Refresh decisions</button>
               <pre id="audio-inspector-output">Recent local binding and playback decisions appear here.</pre>
             </details>
-            <label class="audio-check"><input id="audio-ambience" type="checkbox" checked><span>Ambient wind</span></label>
+            <label class="audio-check"><input id="audio-ambience" type="checkbox" checked><span>Regional ambience</span></label>
             <div class="audio-preview-controls audio-ambience-preview-controls">
               <label for="audio-ambience-preview">Synth music</label>
               <button id="audio-ambience-preview" class="audio-preview" type="button">Preview phrase</button>
@@ -518,6 +518,10 @@
                 <small>Both teams begin with these stocks. Set a larger reserve for quick-build or late-game custom matches.</small>
               </div>
               <div class="studio-tool-heading">GROUND MATERIALS</div>
+              <label>REGIONAL PALETTE
+                <select id="studio-region-palette"><option value="">Custom / legacy</option></select>
+              </label>
+              <small>Choose regional ground and audio defaults; painted terrain and layout stay editable.</small>
               <label>BASE GROUND
                 <select id="studio-terrain-base">
                   <option value="meadow">Sage meadow</option>
@@ -578,10 +582,14 @@
               <div class="studio-tools" role="group" aria-label="Ground elevation brush">
                 <button type="button" data-map-tool="elevation:raise">Raise +1</button>
                 <button type="button" data-map-tool="elevation:lower">Lower −1</button>
+                <button type="button" data-map-tool="elevation:smooth">Smooth</button>
                 <button type="button" data-map-tool="elevation:0">Level 0</button>
                 <button type="button" data-map-tool="elevation:1">Level 1</button>
                 <button type="button" data-map-tool="elevation:2">Level 2</button>
               </div>
+              <label>HILL SEED <input id="studio-elevation-seed" type="number" min="0" max="4294967295" step="1" value="93000"></label>
+              <button id="studio-generate-hills" type="button">Generate mirrored rolling ground</button>
+              <small>Replaces ground heights in this draft. Keeps flat base and marker pads; water stays level.</small>
               <div class="studio-elevation-key" aria-label="Elevation level colors">
                 <span><i class="elevation-level-one"></i>LEVEL 1</span>
                 <span><i class="elevation-level-two"></i>LEVEL 2</span>

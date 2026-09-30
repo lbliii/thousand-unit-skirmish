@@ -192,3 +192,11 @@ completion conditions during paid construction and research.
 `node scripts/map-studio-draft-scenario.mjs` runs isolated headless Chrome for
 region gestures, name/delete, undo/redo, typed conditions, local recovery and
 JSON export/import. These are scripted checks, not unassisted human evidence.
+
+
+Regional map/elevation regressions: `node scripts/terrain-authoring-scenario.mjs`,
+`node scripts/vaelora-map-layout-scenario.mjs`,
+`node scripts/regional-ambience-scenario.mjs`, and
+`node scripts/regional-objective-scenario.mjs bellweather-millrace` (repeat with
+`underbough-rootways`). The objective scenarios use the authored opening and each
+seat in turn; they prove routes, holds and rematches, not contested match balance.

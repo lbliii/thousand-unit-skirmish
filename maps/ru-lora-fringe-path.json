@@ -2,6 +2,7 @@
   "id": "ru-lora-fringe-path",
   "name": "Ru’Lora · Fringe Path",
   "summary": "Living vegetation meets salt and broken stone. Rival expeditions contest the approach, not a demon town.",
+  "region": "ru-lora-fringe",
   "width": 80,
   "height": 72,
   "terrainSeed": 93010,
@@ -237,7 +238,7 @@
   "audio": {
     "packId": "vaelora-ru-lora-fringe",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "4c8b91778368357fa36451413d41a09fbaf151b4a063083a344f2eeaa3a50f21"
+    "version": "v2",
+    "sha256": "319634472865751322fbda859ac7320bf765662721aa81e668a08d5a957c18cb"
   }
 }

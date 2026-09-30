@@ -2,6 +2,7 @@
   "id": "pale-meridian-observation-road",
   "name": "Pale Meridian · Observation Road",
   "summary": "A snowbound observation route crosses low ridges; the exposed center rewards careful scouting.",
+  "region": "pale-meridian",
   "width": 80,
   "height": 72,
   "terrainSeed": 93006,
@@ -223,7 +224,7 @@
   "audio": {
     "packId": "vaelora-pale-meridian",
     "profileId": "landscape",
-    "version": "v1",
-    "sha256": "3b6119598f99355a96d94a3f61590bba4f82547001cdf68a18bd9656d30774df"
+    "version": "v2",
+    "sha256": "9e3e0bd618a77962c7afed55fccc8d9307d7a0d34a5fae0f47ece645d0963fd6"
   }
 }
