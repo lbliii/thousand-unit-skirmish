@@ -1,0 +1,69 @@
+{
+  "source": "workshop",
+  "measuredNativeBaseWidth": 1.8780540227890015,
+  "targetBaseWidthWorldUnits": 2.8,
+  "uniformScale": 1.4909049292638898,
+  "groundingTranslationNative": [
+    -0.01176100969314575,
+    0.8097010254859924,
+    -0.00505349040031435
+  ],
+  "nativeBounds": {
+    "min": [
+      -0.9517359733581543,
+      -0.8097010254859924,
+      -0.746969997882843
+    ],
+    "max": [
+      0.9507880210876465,
+      0.8091580271720886,
+      0.7461959719657898
+    ],
+    "size": [
+      1.9025239944458008,
+      1.618859052658081,
+      1.4931659698486328
+    ]
+  },
+  "measuredBaseCenterNativeXZ": [
+    0.01176100969314575,
+    0.00505349040031435
+  ],
+  "occupancyCells": 3,
+  "status": "manual-base-calibration; measured base-center origin",
+  "camera": {
+    "projection": "orthographic",
+    "elevationDegrees": 46,
+    "azimuthDegrees": 45,
+    "canvasPixels": [
+      1024,
+      1024
+    ],
+    "canvasWorldUnits": 8,
+    "pixelsPerWorldUnit": 128,
+    "groundOriginPixelFromTopLeft": [
+      511.9999999999999,
+      647.1527325565029
+    ]
+  },
+  "lighting": {
+    "hemisphere": [
+      "#fff4dc",
+      "#53634b",
+      2
+    ],
+    "keyColor": "#ffefd6",
+    "keyIntensity": 2.4,
+    "keyPosition": [
+      -4,
+      8,
+      5
+    ]
+  },
+  "asset": "workshop",
+  "state": "complete",
+  "viewIndex": 1,
+  "file": "workshop-complete-view-01.png",
+  "sha256": "6f9b87d2e43fcdf3bb6b9637ef99c40f92ba8ed05d9bfcf333efcac42cc63a5a",
+  "bytes": 278543
+}

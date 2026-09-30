@@ -1,0 +1,2406 @@
+{
+  "schema": "thousand-unit-skirmish.building-calibrated-capture-batch.v1",
+  "status": "complete-source-only; lifecycle/team/runtime acceptance pending",
+  "records": [
+    {
+      "source": "stable",
+      "measuredNativeBaseWidth": 1.7616089582443237,
+      "targetBaseWidthWorldUnits": 2.75,
+      "uniformScale": 1.5610728970978547,
+      "groundingTranslationNative": [
+        0.03732550144195555,
+        0.6831719875335693,
+        0.0007045269012451
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9181299805641174,
+          -0.6831719875335693,
+          -0.9522070288658142
+        ],
+        "max": [
+          0.9127839803695679,
+          0.6916049718856812,
+          0.950797975063324
+        ],
+        "size": [
+          1.8309139609336853,
+          1.3747769594192505,
+          1.9030050039291382
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.03732550144195555,
+        -0.0007045269012451
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 0,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512,
+          647.1527325565025
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "stable",
+      "state": "complete",
+      "viewIndex": 0,
+      "file": "stable-complete-view-00.png",
+      "sha256": "9a951c1acbbbee9ff99be382f35dd75b179a9cc38b8c0962476de015c0433be4",
+      "bytes": 315671,
+      "alphaBounds": [
+        336,
+        381,
+        702,
+        784
+      ]
+    },
+    {
+      "source": "stable",
+      "measuredNativeBaseWidth": 1.7616089582443237,
+      "targetBaseWidthWorldUnits": 2.75,
+      "uniformScale": 1.5610728970978547,
+      "groundingTranslationNative": [
+        0.03732550144195555,
+        0.6831719875335693,
+        0.0007045269012451
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9181299805641174,
+          -0.6831719875335693,
+          -0.9522070288658142
+        ],
+        "max": [
+          0.9127839803695679,
+          0.6916049718856812,
+          0.950797975063324
+        ],
+        "size": [
+          1.8309139609336853,
+          1.3747769594192505,
+          1.9030050039291382
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.03732550144195555,
+        -0.0007045269012451
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 45,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999999,
+          647.1527325565029
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "stable",
+      "state": "complete",
+      "viewIndex": 1,
+      "file": "stable-complete-view-01.png",
+      "sha256": "950f2045730dcad42752ed2995c64bca6555484156034a74505ca35c847287c2",
+      "bytes": 337184,
+      "alphaBounds": [
+        261,
+        369,
+        766,
+        791
+      ]
+    },
+    {
+      "source": "stable",
+      "measuredNativeBaseWidth": 1.7616089582443237,
+      "targetBaseWidthWorldUnits": 2.75,
+      "uniformScale": 1.5610728970978547,
+      "groundingTranslationNative": [
+        0.03732550144195555,
+        0.6831719875335693,
+        0.0007045269012451
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9181299805641174,
+          -0.6831719875335693,
+          -0.9522070288658142
+        ],
+        "max": [
+          0.9127839803695679,
+          0.6916049718856812,
+          0.950797975063324
+        ],
+        "size": [
+          1.8309139609336853,
+          1.3747769594192505,
+          1.9030050039291382
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.03732550144195555,
+        -0.0007045269012451
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 90,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512.0000000000001,
+          647.1527325565025
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "stable",
+      "state": "complete",
+      "viewIndex": 2,
+      "file": "stable-complete-view-02.png",
+      "sha256": "e191774f5ced30b0c9e374c32fde037f5f97a7d5c87920a426b96f0fc9eb00cc",
+      "bytes": 288752,
+      "alphaBounds": [
+        322,
+        394,
+        702,
+        774
+      ]
+    },
+    {
+      "source": "stable",
+      "measuredNativeBaseWidth": 1.7616089582443237,
+      "targetBaseWidthWorldUnits": 2.75,
+      "uniformScale": 1.5610728970978547,
+      "groundingTranslationNative": [
+        0.03732550144195555,
+        0.6831719875335693,
+        0.0007045269012451
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9181299805641174,
+          -0.6831719875335693,
+          -0.9522070288658142
+        ],
+        "max": [
+          0.9127839803695679,
+          0.6916049718856812,
+          0.950797975063324
+        ],
+        "size": [
+          1.8309139609336853,
+          1.3747769594192505,
+          1.9030050039291382
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.03732550144195555,
+        -0.0007045269012451
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 135,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999999,
+          647.1527325565027
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "stable",
+      "state": "complete",
+      "viewIndex": 3,
+      "file": "stable-complete-view-03.png",
+      "sha256": "47685dc3c819bc48e8756d96ee868dd5975b8c32ff26f659d2cce833bffd7ad9",
+      "bytes": 311769,
+      "alphaBounds": [
+        311,
+        436,
+        768,
+        830
+      ]
+    },
+    {
+      "source": "stable",
+      "measuredNativeBaseWidth": 1.7616089582443237,
+      "targetBaseWidthWorldUnits": 2.75,
+      "uniformScale": 1.5610728970978547,
+      "groundingTranslationNative": [
+        0.03732550144195555,
+        0.6831719875335693,
+        0.0007045269012451
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9181299805641174,
+          -0.6831719875335693,
+          -0.9522070288658142
+        ],
+        "max": [
+          0.9127839803695679,
+          0.6916049718856812,
+          0.950797975063324
+        ],
+        "size": [
+          1.8309139609336853,
+          1.3747769594192505,
+          1.9030050039291382
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.03732550144195555,
+        -0.0007045269012451
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 180,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512,
+          647.1527325565019
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "stable",
+      "state": "complete",
+      "viewIndex": 4,
+      "file": "stable-complete-view-04.png",
+      "sha256": "f9c71905f9fa550a522d38bb9bada365432e0d94622d4a3a05b6ef7b7561efd0",
+      "bytes": 274071,
+      "alphaBounds": [
+        322,
+        454,
+        688,
+        781
+      ]
+    },
+    {
+      "source": "stable",
+      "measuredNativeBaseWidth": 1.7616089582443237,
+      "targetBaseWidthWorldUnits": 2.75,
+      "uniformScale": 1.5610728970978547,
+      "groundingTranslationNative": [
+        0.03732550144195555,
+        0.6831719875335693,
+        0.0007045269012451
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9181299805641174,
+          -0.6831719875335693,
+          -0.9522070288658142
+        ],
+        "max": [
+          0.9127839803695679,
+          0.6916049718856812,
+          0.950797975063324
+        ],
+        "size": [
+          1.8309139609336853,
+          1.3747769594192505,
+          1.9030050039291382
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.03732550144195555,
+        -0.0007045269012451
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 225,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999999,
+          647.1527325565025
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "stable",
+      "state": "complete",
+      "viewIndex": 5,
+      "file": "stable-complete-view-05.png",
+      "sha256": "8e2744068e047869d8530c5eb683d9a8b4bed5af8b00506cf60923ef682f5ad1",
+      "bytes": 327403,
+      "alphaBounds": [
+        258,
+        413,
+        763,
+        828
+      ]
+    },
+    {
+      "source": "stable",
+      "measuredNativeBaseWidth": 1.7616089582443237,
+      "targetBaseWidthWorldUnits": 2.75,
+      "uniformScale": 1.5610728970978547,
+      "groundingTranslationNative": [
+        0.03732550144195555,
+        0.6831719875335693,
+        0.0007045269012451
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9181299805641174,
+          -0.6831719875335693,
+          -0.9522070288658142
+        ],
+        "max": [
+          0.9127839803695679,
+          0.6916049718856812,
+          0.950797975063324
+        ],
+        "size": [
+          1.8309139609336853,
+          1.3747769594192505,
+          1.9030050039291382
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.03732550144195555,
+        -0.0007045269012451
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 270,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999998,
+          647.1527325565023
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "stable",
+      "state": "complete",
+      "viewIndex": 6,
+      "file": "stable-complete-view-06.png",
+      "sha256": "bbed052aabb53aad8b3a5b8b6a729066e29e9804601aa1604a2f29eaeb724731",
+      "bytes": 309692,
+      "alphaBounds": [
+        322,
+        430,
+        702,
+        772
+      ]
+    },
+    {
+      "source": "stable",
+      "measuredNativeBaseWidth": 1.7616089582443237,
+      "targetBaseWidthWorldUnits": 2.75,
+      "uniformScale": 1.5610728970978547,
+      "groundingTranslationNative": [
+        0.03732550144195555,
+        0.6831719875335693,
+        0.0007045269012451
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9181299805641174,
+          -0.6831719875335693,
+          -0.9522070288658142
+        ],
+        "max": [
+          0.9127839803695679,
+          0.6916049718856812,
+          0.950797975063324
+        ],
+        "size": [
+          1.8309139609336853,
+          1.3747769594192505,
+          1.9030050039291382
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.03732550144195555,
+        -0.0007045269012451
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 315,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512.0000000000002,
+          647.1527325565024
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "stable",
+      "state": "complete",
+      "viewIndex": 7,
+      "file": "stable-complete-view-07.png",
+      "sha256": "0e8df60ce293af83a60fe6517e8609e24a6f1a4208178eb88d2605109fc011fd",
+      "bytes": 347214,
+      "alphaBounds": [
+        256,
+        399,
+        713,
+        827
+      ]
+    },
+    {
+      "source": "storehouse",
+      "measuredNativeBaseWidth": 1.9176580309867859,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4601143450791274,
+      "groundingTranslationNative": [
+        -0.00806298851966855,
+        0.49425700306892395,
+        -0.01536348462104795
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9507660269737244,
+          -0.49425700306892395,
+          -0.6976590156555176
+        ],
+        "max": [
+          0.9668920040130615,
+          0.5020760297775269,
+          0.7283859848976135
+        ],
+        "size": [
+          1.9176580309867859,
+          0.9963330328464508,
+          1.426045000553131
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.00806298851966855,
+        0.01536348462104795
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 0,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512,
+          647.1527325565025
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "storehouse",
+      "state": "complete",
+      "viewIndex": 0,
+      "file": "storehouse-complete-view-00.png",
+      "sha256": "8ae39d6559d1509d40346973914e0dad7667d2ec965f0bcb8393b5895b8a7f8a",
+      "bytes": 216694,
+      "alphaBounds": [
+        332,
+        476,
+        692,
+        743
+      ]
+    },
+    {
+      "source": "storehouse",
+      "measuredNativeBaseWidth": 1.9176580309867859,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4601143450791274,
+      "groundingTranslationNative": [
+        -0.00806298851966855,
+        0.49425700306892395,
+        -0.01536348462104795
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9507660269737244,
+          -0.49425700306892395,
+          -0.6976590156555176
+        ],
+        "max": [
+          0.9668920040130615,
+          0.5020760297775269,
+          0.7283859848976135
+        ],
+        "size": [
+          1.9176580309867859,
+          0.9963330328464508,
+          1.426045000553131
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.00806298851966855,
+        0.01536348462104795
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 45,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999999,
+          647.1527325565029
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "storehouse",
+      "state": "complete",
+      "viewIndex": 1,
+      "file": "storehouse-complete-view-01.png",
+      "sha256": "78967b4330137a7a6c5d7360e0446fafd699faea4b860436bcf0c6982f319593",
+      "bytes": 231843,
+      "alphaBounds": [
+        315,
+        465,
+        707,
+        792
+      ]
+    },
+    {
+      "source": "storehouse",
+      "measuredNativeBaseWidth": 1.9176580309867859,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4601143450791274,
+      "groundingTranslationNative": [
+        -0.00806298851966855,
+        0.49425700306892395,
+        -0.01536348462104795
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9507660269737244,
+          -0.49425700306892395,
+          -0.6976590156555176
+        ],
+        "max": [
+          0.9668920040130615,
+          0.5020760297775269,
+          0.7283859848976135
+        ],
+        "size": [
+          1.9176580309867859,
+          0.9963330328464508,
+          1.426045000553131
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.00806298851966855,
+        0.01536348462104795
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 90,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512.0000000000001,
+          647.1527325565025
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "storehouse",
+      "state": "complete",
+      "viewIndex": 2,
+      "file": "storehouse-complete-view-02.png",
+      "sha256": "f16d022ca287db48b72716827b4875354587746f59f325aae090c2cfaa875a04",
+      "bytes": 203466,
+      "alphaBounds": [
+        378,
+        436,
+        646,
+        773
+      ]
+    },
+    {
+      "source": "storehouse",
+      "measuredNativeBaseWidth": 1.9176580309867859,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4601143450791274,
+      "groundingTranslationNative": [
+        -0.00806298851966855,
+        0.49425700306892395,
+        -0.01536348462104795
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9507660269737244,
+          -0.49425700306892395,
+          -0.6976590156555176
+        ],
+        "max": [
+          0.9668920040130615,
+          0.5020760297775269,
+          0.7283859848976135
+        ],
+        "size": [
+          1.9176580309867859,
+          0.9963330328464508,
+          1.426045000553131
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.00806298851966855,
+        0.01536348462104795
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 135,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999999,
+          647.1527325565027
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "storehouse",
+      "state": "complete",
+      "viewIndex": 3,
+      "file": "storehouse-complete-view-03.png",
+      "sha256": "44ac71203c8de3e4672569bc59c38864513f2f8b2f14f81009b92b907e007fca",
+      "bytes": 235030,
+      "alphaBounds": [
+        311,
+        466,
+        705,
+        787
+      ]
+    },
+    {
+      "source": "storehouse",
+      "measuredNativeBaseWidth": 1.9176580309867859,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4601143450791274,
+      "groundingTranslationNative": [
+        -0.00806298851966855,
+        0.49425700306892395,
+        -0.01536348462104795
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9507660269737244,
+          -0.49425700306892395,
+          -0.6976590156555176
+        ],
+        "max": [
+          0.9668920040130615,
+          0.5020760297775269,
+          0.7283859848976135
+        ],
+        "size": [
+          1.9176580309867859,
+          0.9963330328464508,
+          1.426045000553131
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.00806298851966855,
+        0.01536348462104795
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 180,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512,
+          647.1527325565019
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "storehouse",
+      "state": "complete",
+      "viewIndex": 4,
+      "file": "storehouse-complete-view-04.png",
+      "sha256": "7d509b0a02b18e3af08195ab466ffb0a1642114b4e65f166afb50b34d03ea6a8",
+      "bytes": 218583,
+      "alphaBounds": [
+        332,
+        447,
+        692,
+        743
+      ]
+    },
+    {
+      "source": "storehouse",
+      "measuredNativeBaseWidth": 1.9176580309867859,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4601143450791274,
+      "groundingTranslationNative": [
+        -0.00806298851966855,
+        0.49425700306892395,
+        -0.01536348462104795
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9507660269737244,
+          -0.49425700306892395,
+          -0.6976590156555176
+        ],
+        "max": [
+          0.9668920040130615,
+          0.5020760297775269,
+          0.7283859848976135
+        ],
+        "size": [
+          1.9176580309867859,
+          0.9963330328464508,
+          1.426045000553131
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.00806298851966855,
+        0.01536348462104795
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 225,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999999,
+          647.1527325565025
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "storehouse",
+      "state": "complete",
+      "viewIndex": 5,
+      "file": "storehouse-complete-view-05.png",
+      "sha256": "b3bb6d2e4e92923969371bdeba1cdc9e5c235e021a2da38eb983eac5829cce86",
+      "bytes": 230202,
+      "alphaBounds": [
+        317,
+        451,
+        709,
+        786
+      ]
+    },
+    {
+      "source": "storehouse",
+      "measuredNativeBaseWidth": 1.9176580309867859,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4601143450791274,
+      "groundingTranslationNative": [
+        -0.00806298851966855,
+        0.49425700306892395,
+        -0.01536348462104795
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9507660269737244,
+          -0.49425700306892395,
+          -0.6976590156555176
+        ],
+        "max": [
+          0.9668920040130615,
+          0.5020760297775269,
+          0.7283859848976135
+        ],
+        "size": [
+          1.9176580309867859,
+          0.9963330328464508,
+          1.426045000553131
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.00806298851966855,
+        0.01536348462104795
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 270,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999998,
+          647.1527325565023
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "storehouse",
+      "state": "complete",
+      "viewIndex": 6,
+      "file": "storehouse-complete-view-06.png",
+      "sha256": "c717a713cd88902ad487e693b967407cacbaf2b50719e03b06caca94052efb85",
+      "bytes": 199487,
+      "alphaBounds": [
+        378,
+        482,
+        646,
+        776
+      ]
+    },
+    {
+      "source": "storehouse",
+      "measuredNativeBaseWidth": 1.9176580309867859,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4601143450791274,
+      "groundingTranslationNative": [
+        -0.00806298851966855,
+        0.49425700306892395,
+        -0.01536348462104795
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9507660269737244,
+          -0.49425700306892395,
+          -0.6976590156555176
+        ],
+        "max": [
+          0.9668920040130615,
+          0.5020760297775269,
+          0.7283859848976135
+        ],
+        "size": [
+          1.9176580309867859,
+          0.9963330328464508,
+          1.426045000553131
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.00806298851966855,
+        0.01536348462104795
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 315,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512.0000000000002,
+          647.1527325565024
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "storehouse",
+      "state": "complete",
+      "viewIndex": 7,
+      "file": "storehouse-complete-view-07.png",
+      "sha256": "03cd77c184ce4ead0618e57d94280b2f4014430f5c96d1a4f4722582c6bdb651",
+      "bytes": 223943,
+      "alphaBounds": [
+        319,
+        466,
+        713,
+        789
+      ]
+    },
+    {
+      "source": "watchtower",
+      "measuredNativeBaseWidth": 0.944366991519928,
+      "targetBaseWidthWorldUnits": 1.8,
+      "uniformScale": 1.9060386652258552,
+      "groundingTranslationNative": [
+        0.0021604895591736,
+        0.9521250128746033,
+        0.00053900480270385
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.4743439853191376,
+          -0.9521250128746033,
+          -0.45937299728393555
+        ],
+        "max": [
+          0.48293301463127136,
+          0.9501889944076538,
+          0.45829498767852783
+        ],
+        "size": [
+          0.9572769999504089,
+          1.902314007282257,
+          0.9176679849624634
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.0021604895591736,
+        -0.00053900480270385
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 0,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512,
+          647.1527325565025
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "watchtower",
+      "state": "complete",
+      "viewIndex": 0,
+      "file": "watchtower-complete-view-00.png",
+      "sha256": "7ab02a9b1939ea1fbc6ad2b48759de9dd25bfec59777748c071dd67c7a254fdd",
+      "bytes": 218786,
+      "alphaBounds": [
+        396,
+        324,
+        631,
+        727
+      ]
+    },
+    {
+      "source": "watchtower",
+      "measuredNativeBaseWidth": 0.944366991519928,
+      "targetBaseWidthWorldUnits": 1.8,
+      "uniformScale": 1.9060386652258552,
+      "groundingTranslationNative": [
+        0.0021604895591736,
+        0.9521250128746033,
+        0.00053900480270385
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.4743439853191376,
+          -0.9521250128746033,
+          -0.45937299728393555
+        ],
+        "max": [
+          0.48293301463127136,
+          0.9501889944076538,
+          0.45829498767852783
+        ],
+        "size": [
+          0.9572769999504089,
+          1.902314007282257,
+          0.9176679849624634
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.0021604895591736,
+        -0.00053900480270385
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 45,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999999,
+          647.1527325565029
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "watchtower",
+      "state": "complete",
+      "viewIndex": 1,
+      "file": "watchtower-complete-view-01.png",
+      "sha256": "ca88178ea726318f9fe11cc9a099446fc956285ed03f438a189c025a05f7a875",
+      "bytes": 237133,
+      "alphaBounds": [
+        368,
+        319,
+        659,
+        752
+      ]
+    },
+    {
+      "source": "watchtower",
+      "measuredNativeBaseWidth": 0.944366991519928,
+      "targetBaseWidthWorldUnits": 1.8,
+      "uniformScale": 1.9060386652258552,
+      "groundingTranslationNative": [
+        0.0021604895591736,
+        0.9521250128746033,
+        0.00053900480270385
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.4743439853191376,
+          -0.9521250128746033,
+          -0.45937299728393555
+        ],
+        "max": [
+          0.48293301463127136,
+          0.9501889944076538,
+          0.45829498767852783
+        ],
+        "size": [
+          0.9572769999504089,
+          1.902314007282257,
+          0.9176679849624634
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.0021604895591736,
+        -0.00053900480270385
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 90,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512.0000000000001,
+          647.1527325565025
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "watchtower",
+      "state": "complete",
+      "viewIndex": 2,
+      "file": "watchtower-complete-view-02.png",
+      "sha256": "33461c66259fb4b1da274ed46a279efce39a8b18ef22bc51b6b1a17653817103",
+      "bytes": 194643,
+      "alphaBounds": [
+        400,
+        317,
+        624,
+        730
+      ]
+    },
+    {
+      "source": "watchtower",
+      "measuredNativeBaseWidth": 0.944366991519928,
+      "targetBaseWidthWorldUnits": 1.8,
+      "uniformScale": 1.9060386652258552,
+      "groundingTranslationNative": [
+        0.0021604895591736,
+        0.9521250128746033,
+        0.00053900480270385
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.4743439853191376,
+          -0.9521250128746033,
+          -0.45937299728393555
+        ],
+        "max": [
+          0.48293301463127136,
+          0.9501889944076538,
+          0.45829498767852783
+        ],
+        "size": [
+          0.9572769999504089,
+          1.902314007282257,
+          0.9176679849624634
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.0021604895591736,
+        -0.00053900480270385
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 135,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999999,
+          647.1527325565027
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "watchtower",
+      "state": "complete",
+      "viewIndex": 3,
+      "file": "watchtower-complete-view-03.png",
+      "sha256": "dd5e59a2d077848e3446f3b6b830c656f7676400a21a50307d1a1c5750cee8b4",
+      "bytes": 230609,
+      "alphaBounds": [
+        366,
+        319,
+        656,
+        752
+      ]
+    },
+    {
+      "source": "watchtower",
+      "measuredNativeBaseWidth": 0.944366991519928,
+      "targetBaseWidthWorldUnits": 1.8,
+      "uniformScale": 1.9060386652258552,
+      "groundingTranslationNative": [
+        0.0021604895591736,
+        0.9521250128746033,
+        0.00053900480270385
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.4743439853191376,
+          -0.9521250128746033,
+          -0.45937299728393555
+        ],
+        "max": [
+          0.48293301463127136,
+          0.9501889944076538,
+          0.45829498767852783
+        ],
+        "size": [
+          0.9572769999504089,
+          1.902314007282257,
+          0.9176679849624634
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.0021604895591736,
+        -0.00053900480270385
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 180,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512,
+          647.1527325565019
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "watchtower",
+      "state": "complete",
+      "viewIndex": 4,
+      "file": "watchtower-complete-view-04.png",
+      "sha256": "f924a9d872db12e383e916e7167aecb557cbfe5886ac941ad37301e41e5b1aed",
+      "bytes": 211597,
+      "alphaBounds": [
+        393,
+        324,
+        628,
+        727
+      ]
+    },
+    {
+      "source": "watchtower",
+      "measuredNativeBaseWidth": 0.944366991519928,
+      "targetBaseWidthWorldUnits": 1.8,
+      "uniformScale": 1.9060386652258552,
+      "groundingTranslationNative": [
+        0.0021604895591736,
+        0.9521250128746033,
+        0.00053900480270385
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.4743439853191376,
+          -0.9521250128746033,
+          -0.45937299728393555
+        ],
+        "max": [
+          0.48293301463127136,
+          0.9501889944076538,
+          0.45829498767852783
+        ],
+        "size": [
+          0.9572769999504089,
+          1.902314007282257,
+          0.9176679849624634
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.0021604895591736,
+        -0.00053900480270385
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 225,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999999,
+          647.1527325565025
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "watchtower",
+      "state": "complete",
+      "viewIndex": 5,
+      "file": "watchtower-complete-view-05.png",
+      "sha256": "4e81272b7ecc53004704c7381535e8676eb7d5e426c7f5845c926b9ddfae1ff3",
+      "bytes": 231573,
+      "alphaBounds": [
+        365,
+        302,
+        656,
+        750
+      ]
+    },
+    {
+      "source": "watchtower",
+      "measuredNativeBaseWidth": 0.944366991519928,
+      "targetBaseWidthWorldUnits": 1.8,
+      "uniformScale": 1.9060386652258552,
+      "groundingTranslationNative": [
+        0.0021604895591736,
+        0.9521250128746033,
+        0.00053900480270385
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.4743439853191376,
+          -0.9521250128746033,
+          -0.45937299728393555
+        ],
+        "max": [
+          0.48293301463127136,
+          0.9501889944076538,
+          0.45829498767852783
+        ],
+        "size": [
+          0.9572769999504089,
+          1.902314007282257,
+          0.9176679849624634
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.0021604895591736,
+        -0.00053900480270385
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 270,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999998,
+          647.1527325565023
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "watchtower",
+      "state": "complete",
+      "viewIndex": 6,
+      "file": "watchtower-complete-view-06.png",
+      "sha256": "3a1b548fb0932bae89faf07609bda670af547fbd99b8dc9a943a1c04a924664a",
+      "bytes": 193789,
+      "alphaBounds": [
+        400,
+        279,
+        624,
+        730
+      ]
+    },
+    {
+      "source": "watchtower",
+      "measuredNativeBaseWidth": 0.944366991519928,
+      "targetBaseWidthWorldUnits": 1.8,
+      "uniformScale": 1.9060386652258552,
+      "groundingTranslationNative": [
+        0.0021604895591736,
+        0.9521250128746033,
+        0.00053900480270385
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.4743439853191376,
+          -0.9521250128746033,
+          -0.45937299728393555
+        ],
+        "max": [
+          0.48293301463127136,
+          0.9501889944076538,
+          0.45829498767852783
+        ],
+        "size": [
+          0.9572769999504089,
+          1.902314007282257,
+          0.9176679849624634
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        -0.0021604895591736,
+        -0.00053900480270385
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 315,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512.0000000000002,
+          647.1527325565024
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "watchtower",
+      "state": "complete",
+      "viewIndex": 7,
+      "file": "watchtower-complete-view-07.png",
+      "sha256": "8be8582b78236f8f961114d78178953a398f6e2385d3b718061a865c25562021",
+      "bytes": 228890,
+      "alphaBounds": [
+        368,
+        294,
+        658,
+        750
+      ]
+    },
+    {
+      "source": "workshop",
+      "measuredNativeBaseWidth": 1.8780540227890015,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4909049292638898,
+      "groundingTranslationNative": [
+        -0.01176100969314575,
+        0.8097010254859924,
+        -0.00505349040031435
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9517359733581543,
+          -0.8097010254859924,
+          -0.746969997882843
+        ],
+        "max": [
+          0.9507880210876465,
+          0.8091580271720886,
+          0.7461959719657898
+        ],
+        "size": [
+          1.9025239944458008,
+          1.618859052658081,
+          1.4931659698486328
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.01176100969314575,
+        0.00505349040031435
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 0,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512,
+          647.1527325565025
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "workshop",
+      "state": "complete",
+      "viewIndex": 0,
+      "file": "workshop-complete-view-00.png",
+      "sha256": "0663dc16f8cf0bc9116fc97e8dbf69147bdada1a46148380b9a05aaee97d3a42",
+      "bytes": 270751,
+      "alphaBounds": [
+        328,
+        403,
+        692,
+        749
+      ]
+    },
+    {
+      "source": "workshop",
+      "measuredNativeBaseWidth": 1.8780540227890015,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4909049292638898,
+      "groundingTranslationNative": [
+        -0.01176100969314575,
+        0.8097010254859924,
+        -0.00505349040031435
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9517359733581543,
+          -0.8097010254859924,
+          -0.746969997882843
+        ],
+        "max": [
+          0.9507880210876465,
+          0.8091580271720886,
+          0.7461959719657898
+        ],
+        "size": [
+          1.9025239944458008,
+          1.618859052658081,
+          1.4931659698486328
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.01176100969314575,
+        0.00505349040031435
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 45,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999999,
+          647.1527325565029
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "workshop",
+      "state": "complete",
+      "viewIndex": 1,
+      "file": "workshop-complete-view-01.png",
+      "sha256": "6f9b87d2e43fcdf3bb6b9637ef99c40f92ba8ed05d9bfcf333efcac42cc63a5a",
+      "bytes": 278543,
+      "alphaBounds": [
+        322,
+        420,
+        709,
+        787
+      ]
+    },
+    {
+      "source": "workshop",
+      "measuredNativeBaseWidth": 1.8780540227890015,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4909049292638898,
+      "groundingTranslationNative": [
+        -0.01176100969314575,
+        0.8097010254859924,
+        -0.00505349040031435
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9517359733581543,
+          -0.8097010254859924,
+          -0.746969997882843
+        ],
+        "max": [
+          0.9507880210876465,
+          0.8091580271720886,
+          0.7461959719657898
+        ],
+        "size": [
+          1.9025239944458008,
+          1.618859052658081,
+          1.4931659698486328
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.01176100969314575,
+        0.00505349040031435
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 90,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512.0000000000001,
+          647.1527325565025
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "workshop",
+      "state": "complete",
+      "viewIndex": 2,
+      "file": "workshop-complete-view-02.png",
+      "sha256": "0e3fa3cb0a823bc154c2d17047b70bad373933e4f6312fd30cc1005f14956f40",
+      "bytes": 231473,
+      "alphaBounds": [
+        370,
+        435,
+        656,
+        776
+      ]
+    },
+    {
+      "source": "workshop",
+      "measuredNativeBaseWidth": 1.8780540227890015,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4909049292638898,
+      "groundingTranslationNative": [
+        -0.01176100969314575,
+        0.8097010254859924,
+        -0.00505349040031435
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9517359733581543,
+          -0.8097010254859924,
+          -0.746969997882843
+        ],
+        "max": [
+          0.9507880210876465,
+          0.8091580271720886,
+          0.7461959719657898
+        ],
+        "size": [
+          1.9025239944458008,
+          1.618859052658081,
+          1.4931659698486328
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.01176100969314575,
+        0.00505349040031435
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 135,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999999,
+          647.1527325565027
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "workshop",
+      "state": "complete",
+      "viewIndex": 3,
+      "file": "workshop-complete-view-03.png",
+      "sha256": "160cc8d40d52436ccda0eb1f1f740ff76ef16c2790add4c3a1f507a4140f176e",
+      "bytes": 287371,
+      "alphaBounds": [
+        317,
+        384,
+        735,
+        788
+      ]
+    },
+    {
+      "source": "workshop",
+      "measuredNativeBaseWidth": 1.8780540227890015,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4909049292638898,
+      "groundingTranslationNative": [
+        -0.01176100969314575,
+        0.8097010254859924,
+        -0.00505349040031435
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9517359733581543,
+          -0.8097010254859924,
+          -0.746969997882843
+        ],
+        "max": [
+          0.9507880210876465,
+          0.8091580271720886,
+          0.7461959719657898
+        ],
+        "size": [
+          1.9025239944458008,
+          1.618859052658081,
+          1.4931659698486328
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.01176100969314575,
+        0.00505349040031435
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 180,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512,
+          647.1527325565019
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "workshop",
+      "state": "complete",
+      "viewIndex": 4,
+      "file": "workshop-complete-view-04.png",
+      "sha256": "202776ae2420bb1ad726bc19ef66ae1d399a0a60b4d162065001ddf5749e8fb4",
+      "bytes": 283528,
+      "alphaBounds": [
+        332,
+        361,
+        696,
+        749
+      ]
+    },
+    {
+      "source": "workshop",
+      "measuredNativeBaseWidth": 1.8780540227890015,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4909049292638898,
+      "groundingTranslationNative": [
+        -0.01176100969314575,
+        0.8097010254859924,
+        -0.00505349040031435
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9517359733581543,
+          -0.8097010254859924,
+          -0.746969997882843
+        ],
+        "max": [
+          0.9507880210876465,
+          0.8091580271720886,
+          0.7461959719657898
+        ],
+        "size": [
+          1.9025239944458008,
+          1.618859052658081,
+          1.4931659698486328
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.01176100969314575,
+        0.00505349040031435
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 225,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999999,
+          647.1527325565025
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "workshop",
+      "state": "complete",
+      "viewIndex": 5,
+      "file": "workshop-complete-view-05.png",
+      "sha256": "807e0da8922739ee749396a00ea478f7c0c3babb659062013a421e87a48c0e34",
+      "bytes": 291778,
+      "alphaBounds": [
+        315,
+        369,
+        702,
+        807
+      ]
+    },
+    {
+      "source": "workshop",
+      "measuredNativeBaseWidth": 1.8780540227890015,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4909049292638898,
+      "groundingTranslationNative": [
+        -0.01176100969314575,
+        0.8097010254859924,
+        -0.00505349040031435
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9517359733581543,
+          -0.8097010254859924,
+          -0.746969997882843
+        ],
+        "max": [
+          0.9507880210876465,
+          0.8091580271720886,
+          0.7461959719657898
+        ],
+        "size": [
+          1.9025239944458008,
+          1.618859052658081,
+          1.4931659698486328
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.01176100969314575,
+        0.00505349040031435
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 270,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          511.9999999999998,
+          647.1527325565023
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "workshop",
+      "state": "complete",
+      "viewIndex": 6,
+      "file": "workshop-complete-view-06.png",
+      "sha256": "e439331a4390769f08956b38f298e4b89bee26ba150a61847bb50f5786e58279",
+      "bytes": 246477,
+      "alphaBounds": [
+        368,
+        403,
+        654,
+        776
+      ]
+    },
+    {
+      "source": "workshop",
+      "measuredNativeBaseWidth": 1.8780540227890015,
+      "targetBaseWidthWorldUnits": 2.8,
+      "uniformScale": 1.4909049292638898,
+      "groundingTranslationNative": [
+        -0.01176100969314575,
+        0.8097010254859924,
+        -0.00505349040031435
+      ],
+      "nativeBounds": {
+        "min": [
+          -0.9517359733581543,
+          -0.8097010254859924,
+          -0.746969997882843
+        ],
+        "max": [
+          0.9507880210876465,
+          0.8091580271720886,
+          0.7461959719657898
+        ],
+        "size": [
+          1.9025239944458008,
+          1.618859052658081,
+          1.4931659698486328
+        ]
+      },
+      "measuredBaseCenterNativeXZ": [
+        0.01176100969314575,
+        0.00505349040031435
+      ],
+      "occupancyCells": 3,
+      "status": "manual-base-calibration; measured base-center origin",
+      "camera": {
+        "projection": "orthographic",
+        "elevationDegrees": 46,
+        "azimuthDegrees": 315,
+        "canvasPixels": [
+          1024,
+          1024
+        ],
+        "canvasWorldUnits": 8,
+        "pixelsPerWorldUnit": 128,
+        "groundOriginPixelFromTopLeft": [
+          512.0000000000002,
+          647.1527325565024
+        ]
+      },
+      "lighting": {
+        "hemisphere": [
+          "#fff4dc",
+          "#53634b",
+          2
+        ],
+        "keyColor": "#ffefd6",
+        "keyIntensity": 2.4,
+        "keyPosition": [
+          -4,
+          8,
+          5
+        ]
+      },
+      "asset": "workshop",
+      "state": "complete",
+      "viewIndex": 7,
+      "file": "workshop-complete-view-07.png",
+      "sha256": "e2941fa0e44b55ac9ae24ef61168b8293cce5be8d2d2c1de355de3a3b2d75bae",
+      "bytes": 289121,
+      "alphaBounds": [
+        289,
+        420,
+        707,
+        783
+      ]
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "source": "watchtower",
+  "measuredNativeBaseWidth": 0.944366991519928,
+  "targetBaseWidthWorldUnits": 1.8,
+  "uniformScale": 1.9060386652258552,
+  "groundingTranslationNative": [
+    0.0021604895591736,
+    0.9521250128746033,
+    0.00053900480270385
+  ],
+  "nativeBounds": {
+    "min": [
+      -0.4743439853191376,
+      -0.9521250128746033,
+      -0.45937299728393555
+    ],
+    "max": [
+      0.48293301463127136,
+      0.9501889944076538,
+      0.45829498767852783
+    ],
+    "size": [
+      0.9572769999504089,
+      1.902314007282257,
+      0.9176679849624634
+    ]
+  },
+  "measuredBaseCenterNativeXZ": [
+    -0.0021604895591736,
+    -0.00053900480270385
+  ],
+  "occupancyCells": 3,
+  "status": "manual-base-calibration; measured base-center origin",
+  "camera": {
+    "projection": "orthographic",
+    "elevationDegrees": 46,
+    "azimuthDegrees": 45,
+    "canvasPixels": [
+      1024,
+      1024
+    ],
+    "canvasWorldUnits": 8,
+    "pixelsPerWorldUnit": 128,
+    "groundOriginPixelFromTopLeft": [
+      511.9999999999999,
+      647.1527325565029
+    ]
+  },
+  "lighting": {
+    "hemisphere": [
+      "#fff4dc",
+      "#53634b",
+      2
+    ],
+    "keyColor": "#ffefd6",
+    "keyIntensity": 2.4,
+    "keyPosition": [
+      -4,
+      8,
+      5
+    ]
+  },
+  "asset": "watchtower",
+  "state": "complete",
+  "viewIndex": 1,
+  "file": "watchtower-complete-view-01.png",
+  "sha256": "ca88178ea726318f9fe11cc9a099446fc956285ed03f438a189c025a05f7a875",
+  "bytes": 237133
+}

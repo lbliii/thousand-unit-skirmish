@@ -1,0 +1,69 @@
+{
+  "source": "storehouse",
+  "measuredNativeBaseWidth": 1.9176580309867859,
+  "targetBaseWidthWorldUnits": 2.8,
+  "uniformScale": 1.4601143450791274,
+  "groundingTranslationNative": [
+    -0.00806298851966855,
+    0.49425700306892395,
+    -0.01536348462104795
+  ],
+  "nativeBounds": {
+    "min": [
+      -0.9507660269737244,
+      -0.49425700306892395,
+      -0.6976590156555176
+    ],
+    "max": [
+      0.9668920040130615,
+      0.5020760297775269,
+      0.7283859848976135
+    ],
+    "size": [
+      1.9176580309867859,
+      0.9963330328464508,
+      1.426045000553131
+    ]
+  },
+  "measuredBaseCenterNativeXZ": [
+    0.00806298851966855,
+    0.01536348462104795
+  ],
+  "occupancyCells": 3,
+  "status": "manual-base-calibration; measured base-center origin",
+  "camera": {
+    "projection": "orthographic",
+    "elevationDegrees": 46,
+    "azimuthDegrees": 90,
+    "canvasPixels": [
+      1024,
+      1024
+    ],
+    "canvasWorldUnits": 8,
+    "pixelsPerWorldUnit": 128,
+    "groundOriginPixelFromTopLeft": [
+      512.0000000000001,
+      647.1527325565025
+    ]
+  },
+  "lighting": {
+    "hemisphere": [
+      "#fff4dc",
+      "#53634b",
+      2
+    ],
+    "keyColor": "#ffefd6",
+    "keyIntensity": 2.4,
+    "keyPosition": [
+      -4,
+      8,
+      5
+    ]
+  },
+  "asset": "storehouse",
+  "state": "complete",
+  "viewIndex": 2,
+  "file": "storehouse-complete-view-02.png",
+  "sha256": "f16d022ca287db48b72716827b4875354587746f59f325aae090c2cfaa875a04",
+  "bytes": 203466
+}
