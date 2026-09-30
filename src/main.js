@@ -895,6 +895,7 @@ function updateTownCenterVisual(visual, building) {
 function clearBuildingVisuals() {
   selectedBuildingId = null;
   for (const visual of buildingVisuals.values()) {
+    disposeFrontierCapture(visual);
     if (visual.captureEntry) { const index = capturedBuildingVisuals.indexOf(visual.captureEntry); if (index >= 0) capturedBuildingVisuals.splice(index, 1); }
     visual.authoredSprite?.dispose();
     scene.remove(visual.group);
@@ -1109,7 +1110,18 @@ function createBuildingProductionLamp(group, team, x, y, z) {
   return lamp;
 }
 
+function disposeFrontierCapture(visual) {
+  if (!visual.frontierCaptureEntry) return;
+  const entry = visual.frontierCaptureEntry;
+  const index = capturedBuildingVisuals.indexOf(entry);
+  if (index >= 0) capturedBuildingVisuals.splice(index, 1);
+  disposeCapturedBuildingSprite(entry.sprite);
+  entry.sprite.removeFromParent();
+  visual.frontierCaptureEntry = null;
+}
+
 function disposeBuildingVisual(visual) {
+  disposeFrontierCapture(visual);
   if (visual.captureEntry) {
     const captureIndex = capturedBuildingVisuals.indexOf(visual.captureEntry);
     if (captureIndex >= 0) capturedBuildingVisuals.splice(captureIndex, 1);
@@ -1252,12 +1264,36 @@ function updateWatchtowerVisual(visual, building) {
   }
 }
 
+const frontierCompleteManifests = Object.freeze(Object.fromEntries([
+  ['town-center', 'frontier-civilization-scale-pilot-v1'],
+  ['house', 'frontier-civilization-scale-pilot-v1'],
+  ['storehouse', 'frontier-civilization-models-v1'],
+  ['stable', 'frontier-civilization-models-v1'],
+  ['workshop', 'frontier-civilization-models-v1'],
+  ['watchtower', 'frontier-civilization-models-v1'],
+].map(([type, pack]) => [type, new URL(`../assets/buildings/${pack}/${type}-complete-renderer.json`, import.meta.url).href])));
+const frontierBuildingsPreview = roomPageUrl.searchParams.get('frontierBuildingsPreview') === '1';
+
 function createGameplayBuildingVisual(building) {
   const role = buildingPresentation(building.type).role;
-  if (role === 'watchtower') return createWatchtowerVisual(building);
-  if (role === 'town-center') return createTownCenterVisual(building);
-  if (role === 'house') return createHouseVisual(building);
-  return role === 'barracks' ? createBarracksVisual(building) : createArcheryRangeVisual(building);
+  const visual = role === 'watchtower' ? createWatchtowerVisual(building)
+    : role === 'town-center' ? createTownCenterVisual(building)
+      : role === 'house' ? createHouseVisual(building)
+        : role === 'barracks' ? createBarracksVisual(building) : createArcheryRangeVisual(building);
+  const manifestUrl = frontierCompleteManifests[building.type];
+  if (frontierBuildingsPreview && manifestUrl) {
+    // Wrap artwork only; gameplay feedback and fog remain on the existing group.
+    const feedback = new Set([visual.outline, visual.productionLamp, visual.rallyMarker,
+      visual.healthIndicator?.group, visual.combatFeedback?.targetRing, visual.combatFeedback?.impactFlash]);
+    const fallbackRoot = new THREE.Group();
+    for (const child of [...visual.group.children]) if (!feedback.has(child)) fallbackRoot.add(child);
+    visual.group.add(fallbackRoot);
+    const sprite = createCapturedBuildingSprite({ manifestUrl, teamColor: TEAM_HEX[building.team] });
+    visual.group.add(sprite);
+    visual.frontierCaptureEntry = { sprite, fallbackRoot, lifecycleInput: building };
+    capturedBuildingVisuals.push(visual.frontierCaptureEntry);
+  }
+  return visual;
 }
 
 function createArcheryRangeVisual(building) {
@@ -1525,6 +1561,7 @@ function reconcileBuildings(buildings = [], initial = false) {
     else if (buildingPresentation(building.type).role === 'house') updateHouseVisual(visual, building);
     else if (buildingPresentation(building.type).role === 'barracks') updateBarracksVisual(visual, building);
     else updateArcheryRangeVisual(visual, building);
+    if (visual.frontierCaptureEntry) visual.frontierCaptureEntry.lifecycleInput = building;
     visual.type = building.type;
     updateBuildingRallyMarker(visual, building);
     updateBuildingSelectionVisual(visual, building.id === selectedBuildingId);
@@ -9617,7 +9654,7 @@ function animate(now) {
   updateResourceNodeCallouts(now);
   for (const visual of capturedBuildingVisuals) {
     updateCapturedBuildingSprite(visual.sprite, camera, visual.lifecycleInput);
-    if (visual.sprite.visible) visual.fallbackRoot.visible = false;
+    visual.fallbackRoot.visible = !visual.sprite.visible;
   }
   renderer.render(scene, camera);
   drawMinimap(now);

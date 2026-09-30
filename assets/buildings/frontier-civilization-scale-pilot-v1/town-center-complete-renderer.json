@@ -1,0 +1,99 @@
+{
+  "schema": "thousand-unit-skirmish.building-lifecycle-reference.v1",
+  "asset": "town-center",
+  "status": "complete-only-renderer-preview; lifecycle/team/runtime-match acceptance pending",
+  "camera": {
+    "projection": "orthographic",
+    "framePixels": [
+      1024,
+      1024
+    ],
+    "pixelsPerWorldUnit": 128,
+    "elevationDegrees": 46,
+    "azimuthDegrees": [
+      0,
+      45,
+      90,
+      135,
+      180,
+      225,
+      270,
+      315
+    ],
+    "anchorPixelFromTopLeft": [
+      512,
+      647.1527325565025
+    ],
+    "background": "transparent"
+  },
+  "stateOrder": [
+    "complete"
+  ],
+  "states": [],
+  "completeState": {
+    "state": "complete",
+    "views": [
+      {
+        "index": 0,
+        "azimuthDegrees": 0,
+        "path": "captures/town-center-complete-view-00.png",
+        "sha256": "35e051c13b419c8e98b216b486d37ba5cc6571c7ac8c75737a547b4415c2a7f6",
+        "bytes": 620699
+      },
+      {
+        "index": 1,
+        "azimuthDegrees": 45,
+        "path": "captures/town-center-complete-view-01.png",
+        "sha256": "ff1608b8f3b3f61a519af57b3abad1ff222b739afcb9c853b7aa6d138652b456",
+        "bytes": 699296
+      },
+      {
+        "index": 2,
+        "azimuthDegrees": 90,
+        "path": "captures/town-center-complete-view-02.png",
+        "sha256": "e7c4bca0fdcf546cab40723999acbc7aa92bbf27b97c485d63717eb286d34ec4",
+        "bytes": 595615
+      },
+      {
+        "index": 3,
+        "azimuthDegrees": 135,
+        "path": "captures/town-center-complete-view-03.png",
+        "sha256": "c53ba897c21c7e20ca24dd780bf853e0c470e01a09c1a3d2437a11a9e5f9d9da",
+        "bytes": 687189
+      },
+      {
+        "index": 4,
+        "azimuthDegrees": 180,
+        "path": "captures/town-center-complete-view-04.png",
+        "sha256": "7511f7b51e2478c1d021fdcec8cc386635f1441dc47b62c777b4860737fe808e",
+        "bytes": 635852
+      },
+      {
+        "index": 5,
+        "azimuthDegrees": 225,
+        "path": "captures/town-center-complete-view-05.png",
+        "sha256": "3185884c727702ddd82c339b5f71f1292225ed9421d212196ebfbf86208ee374",
+        "bytes": 695788
+      },
+      {
+        "index": 6,
+        "azimuthDegrees": 270,
+        "path": "captures/town-center-complete-view-06.png",
+        "sha256": "5e8bba55c29591fbf4d9382272e49e60aa33b241e572cd0bbbe4d0bc8da47b5b",
+        "bytes": 628430
+      },
+      {
+        "index": 7,
+        "azimuthDegrees": 315,
+        "path": "captures/town-center-complete-view-07.png",
+        "sha256": "64ee3115dd61b1d55b043738de25090fc41269faab4fd6992f25a6dc39945c5e",
+        "bytes": 677415
+      }
+    ]
+  },
+  "limitations": [
+    "No team masks",
+    "No construction or damage views",
+    "Source scale remains subject to doorway and unit review"
+  ]
+}

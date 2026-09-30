@@ -1,0 +1,99 @@
+{
+  "schema": "thousand-unit-skirmish.building-lifecycle-reference.v1",
+  "asset": "house",
+  "status": "complete-only-renderer-preview; lifecycle/team/runtime-match acceptance pending",
+  "camera": {
+    "projection": "orthographic",
+    "framePixels": [
+      1024,
+      1024
+    ],
+    "pixelsPerWorldUnit": 128,
+    "elevationDegrees": 46,
+    "azimuthDegrees": [
+      0,
+      45,
+      90,
+      135,
+      180,
+      225,
+      270,
+      315
+    ],
+    "anchorPixelFromTopLeft": [
+      512,
+      647.1527325565025
+    ],
+    "background": "transparent"
+  },
+  "stateOrder": [
+    "complete"
+  ],
+  "states": [],
+  "completeState": {
+    "state": "complete",
+    "views": [
+      {
+        "index": 0,
+        "azimuthDegrees": 0,
+        "path": "captures/house-complete-view-00.png",
+        "sha256": "0d745bf0f4c11a28acd4246d71af122d6125531e99f687e0e4cba385fc1001c8",
+        "bytes": 310535
+      },
+      {
+        "index": 1,
+        "azimuthDegrees": 45,
+        "path": "captures/house-complete-view-01.png",
+        "sha256": "ada321da06567d9ea9a111ab1be9e8b3b6013ead2ae76e4add1680296276d613",
+        "bytes": 349403
+      },
+      {
+        "index": 2,
+        "azimuthDegrees": 90,
+        "path": "captures/house-complete-view-02.png",
+        "sha256": "a60126a019dbff8cc3ee49e21fc4e255ab7f595a5a09338fe5bb778b7ca09dd2",
+        "bytes": 297169
+      },
+      {
+        "index": 3,
+        "azimuthDegrees": 135,
+        "path": "captures/house-complete-view-03.png",
+        "sha256": "e14bf7cf8030b99815b364f8a480c4e61db3dc64f291887858b4e08db408166f",
+        "bytes": 328045
+      },
+      {
+        "index": 4,
+        "azimuthDegrees": 180,
+        "path": "captures/house-complete-view-04.png",
+        "sha256": "3b8e227015e1f8b9f9a53fce0daab53e0affbd2470742d63d51cb1d375cedbdf",
+        "bytes": 292576
+      },
+      {
+        "index": 5,
+        "azimuthDegrees": 225,
+        "path": "captures/house-complete-view-05.png",
+        "sha256": "e3db48276468b7e4178720db8a44bf439243832261caf1fc201b24f595300331",
+        "bytes": 347892
+      },
+      {
+        "index": 6,
+        "azimuthDegrees": 270,
+        "path": "captures/house-complete-view-06.png",
+        "sha256": "eb80d5103bfb089f291c83a7b428fed92c536de638240f5ef0318d0029d529ed",
+        "bytes": 310365
+      },
+      {
+        "index": 7,
+        "azimuthDegrees": 315,
+        "path": "captures/house-complete-view-07.png",
+        "sha256": "fd521c5f3b955c0b122b7b683008b9fb9e2f545c0a898403c72e225244833599",
+        "bytes": 350656
+      }
+    ]
+  },
+  "limitations": [
+    "No team masks",
+    "No construction or damage views",
+    "Source scale remains subject to doorway and unit review"
+  ]
+}

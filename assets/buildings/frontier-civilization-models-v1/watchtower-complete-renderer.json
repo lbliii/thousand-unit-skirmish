@@ -1,0 +1,99 @@
+{
+  "schema": "thousand-unit-skirmish.building-lifecycle-reference.v1",
+  "asset": "watchtower",
+  "status": "complete-only-renderer-preview; lifecycle/team/runtime-match acceptance pending",
+  "camera": {
+    "projection": "orthographic",
+    "framePixels": [
+      1024,
+      1024
+    ],
+    "pixelsPerWorldUnit": 128,
+    "elevationDegrees": 46,
+    "azimuthDegrees": [
+      0,
+      45,
+      90,
+      135,
+      180,
+      225,
+      270,
+      315
+    ],
+    "anchorPixelFromTopLeft": [
+      512,
+      647.1527325565025
+    ],
+    "background": "transparent"
+  },
+  "stateOrder": [
+    "complete"
+  ],
+  "states": [],
+  "completeState": {
+    "state": "complete",
+    "views": [
+      {
+        "index": 0,
+        "azimuthDegrees": 0,
+        "path": "captures/watchtower-complete-view-00.png",
+        "sha256": "7ab02a9b1939ea1fbc6ad2b48759de9dd25bfec59777748c071dd67c7a254fdd",
+        "bytes": 218786
+      },
+      {
+        "index": 1,
+        "azimuthDegrees": 45,
+        "path": "captures/watchtower-complete-view-01.png",
+        "sha256": "ca88178ea726318f9fe11cc9a099446fc956285ed03f438a189c025a05f7a875",
+        "bytes": 237133
+      },
+      {
+        "index": 2,
+        "azimuthDegrees": 90,
+        "path": "captures/watchtower-complete-view-02.png",
+        "sha256": "33461c66259fb4b1da274ed46a279efce39a8b18ef22bc51b6b1a17653817103",
+        "bytes": 194643
+      },
+      {
+        "index": 3,
+        "azimuthDegrees": 135,
+        "path": "captures/watchtower-complete-view-03.png",
+        "sha256": "dd5e59a2d077848e3446f3b6b830c656f7676400a21a50307d1a1c5750cee8b4",
+        "bytes": 230609
+      },
+      {
+        "index": 4,
+        "azimuthDegrees": 180,
+        "path": "captures/watchtower-complete-view-04.png",
+        "sha256": "f924a9d872db12e383e916e7167aecb557cbfe5886ac941ad37301e41e5b1aed",
+        "bytes": 211597
+      },
+      {
+        "index": 5,
+        "azimuthDegrees": 225,
+        "path": "captures/watchtower-complete-view-05.png",
+        "sha256": "4e81272b7ecc53004704c7381535e8676eb7d5e426c7f5845c926b9ddfae1ff3",
+        "bytes": 231573
+      },
+      {
+        "index": 6,
+        "azimuthDegrees": 270,
+        "path": "captures/watchtower-complete-view-06.png",
+        "sha256": "3a1b548fb0932bae89faf07609bda670af547fbd99b8dc9a943a1c04a924664a",
+        "bytes": 193789
+      },
+      {
+        "index": 7,
+        "azimuthDegrees": 315,
+        "path": "captures/watchtower-complete-view-07.png",
+        "sha256": "8be8582b78236f8f961114d78178953a398f6e2385d3b718061a865c25562021",
+        "bytes": 228890
+      }
+    ]
+  },
+  "limitations": [
+    "No team masks",
+    "No construction or damage views",
+    "Source scale remains subject to doorway and unit review"
+  ]
+}

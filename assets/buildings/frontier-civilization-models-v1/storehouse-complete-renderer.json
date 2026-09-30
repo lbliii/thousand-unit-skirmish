@@ -1,0 +1,99 @@
+{
+  "schema": "thousand-unit-skirmish.building-lifecycle-reference.v1",
+  "asset": "storehouse",
+  "status": "complete-only-renderer-preview; lifecycle/team/runtime-match acceptance pending",
+  "camera": {
+    "projection": "orthographic",
+    "framePixels": [
+      1024,
+      1024
+    ],
+    "pixelsPerWorldUnit": 128,
+    "elevationDegrees": 46,
+    "azimuthDegrees": [
+      0,
+      45,
+      90,
+      135,
+      180,
+      225,
+      270,
+      315
+    ],
+    "anchorPixelFromTopLeft": [
+      512,
+      647.1527325565025
+    ],
+    "background": "transparent"
+  },
+  "stateOrder": [
+    "complete"
+  ],
+  "states": [],
+  "completeState": {
+    "state": "complete",
+    "views": [
+      {
+        "index": 0,
+        "azimuthDegrees": 0,
+        "path": "captures/storehouse-complete-view-00.png",
+        "sha256": "8ae39d6559d1509d40346973914e0dad7667d2ec965f0bcb8393b5895b8a7f8a",
+        "bytes": 216694
+      },
+      {
+        "index": 1,
+        "azimuthDegrees": 45,
+        "path": "captures/storehouse-complete-view-01.png",
+        "sha256": "78967b4330137a7a6c5d7360e0446fafd699faea4b860436bcf0c6982f319593",
+        "bytes": 231843
+      },
+      {
+        "index": 2,
+        "azimuthDegrees": 90,
+        "path": "captures/storehouse-complete-view-02.png",
+        "sha256": "f16d022ca287db48b72716827b4875354587746f59f325aae090c2cfaa875a04",
+        "bytes": 203466
+      },
+      {
+        "index": 3,
+        "azimuthDegrees": 135,
+        "path": "captures/storehouse-complete-view-03.png",
+        "sha256": "44ac71203c8de3e4672569bc59c38864513f2f8b2f14f81009b92b907e007fca",
+        "bytes": 235030
+      },
+      {
+        "index": 4,
+        "azimuthDegrees": 180,
+        "path": "captures/storehouse-complete-view-04.png",
+        "sha256": "7d509b0a02b18e3af08195ab466ffb0a1642114b4e65f166afb50b34d03ea6a8",
+        "bytes": 218583
+      },
+      {
+        "index": 5,
+        "azimuthDegrees": 225,
+        "path": "captures/storehouse-complete-view-05.png",
+        "sha256": "b3bb6d2e4e92923969371bdeba1cdc9e5c235e021a2da38eb983eac5829cce86",
+        "bytes": 230202
+      },
+      {
+        "index": 6,
+        "azimuthDegrees": 270,
+        "path": "captures/storehouse-complete-view-06.png",
+        "sha256": "c717a713cd88902ad487e693b967407cacbaf2b50719e03b06caca94052efb85",
+        "bytes": 199487
+      },
+      {
+        "index": 7,
+        "azimuthDegrees": 315,
+        "path": "captures/storehouse-complete-view-07.png",
+        "sha256": "03cd77c184ce4ead0618e57d94280b2f4014430f5c96d1a4f4722582c6bdb651",
+        "bytes": 223943
+      }
+    ]
+  },
+  "limitations": [
+    "No team masks",
+    "No construction or damage views",
+    "Source scale remains subject to doorway and unit review"
+  ]
+}

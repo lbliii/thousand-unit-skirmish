@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontier building renderer review</title>
+<style>body{background:#ece7d9;color:#354132;font:16px/1.5 system-ui;margin:24px}main{max-width:1300px;margin:auto}h1{font-family:Georgia}canvas{display:block;width:100%;background:#a4b28d}label{display:inline-block;margin:8px 16px 12px 0}select{font:inherit;padding:6px}#status{min-height:24px}</style>
+<script type="importmap">{"imports":{"three":"../node_modules/three/build/three.module.js"}}</script>
+<main><h1>Frontier building renderer review</h1><p>Six Complete sources using the game's captured-building renderer. Shared world scale and ground registration; construction/damage states and team masks remain unfinished. This review does not change active match assets.</p>
+<label>View <select id="azimuth"><option>0</option><option selected>45</option><option>90</option><option>135</option><option>180</option><option>225</option><option>270</option><option>315</option></select>°</label>
+<label>Zoom <select id="zoom"><option value="0.91">Ordinary · 0.91</option><option value="0.48">Strategic · 0.48</option></select></label>
+<label>State <select id="state"><option value="complete">Complete</option><option value="frame">Frame · fallback expected</option><option value="damaged">Damaged · fallback expected</option></select></label>
+<p id="status">Loading registered views…</p><canvas id="scene" width="1280" height="900" aria-label="Six building sources rendered at shared scale"></canvas><p>Back row: Town Center, House, Watchtower. Front row: Storehouse, Stable, Workshop. Squares mark current gameplay occupancy. Grey blocks indicate unavailable source states, not replacement art.</p></main>
+<script type="module">
+import * as THREE from 'three';
+import {createCapturedBuildingSprite,updateCapturedBuildingSprite} from '../src/captured-building-art.mjs';
+const canvas=document.querySelector('#scene'),renderer=new THREE.WebGLRenderer({canvas,antialias:true});renderer.setSize(1280,900,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
+const scene=new THREE.Scene();scene.background=new THREE.Color('#a4b28d');
+const camera=new THREE.OrthographicCamera();camera.near=.01;camera.far=1000;
+const roles=[['town-center',-6,-4,5],['house',0,-4,3],['watchtower',6,-4,3],['storehouse',-6,4,3],['stable',0,4,3],['workshop',6,4,3]];
+const entries=roles.map(([id,x,z,cells])=>{
+ const group=new THREE.Group();group.position.set(x,0,z);scene.add(group);
+ const pack=['town-center','house'].includes(id)?'frontier-civilization-scale-pilot-v1':'frontier-civilization-models-v1';
+ const sprite=createCapturedBuildingSprite({manifestUrl:new URL(`../assets/buildings/${pack}/${id}-complete-renderer.json`,location.href).href});group.add(sprite);
+ const fallback=new THREE.Mesh(new THREE.BoxGeometry(cells*.6,.4,cells*.6),new THREE.MeshBasicMaterial({color:0x777d70}));fallback.position.y=.2;group.add(fallback);
+ const outline=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([[-1,-1],[1,-1],[1,1],[-1,1]].map(([a,b])=>new THREE.Vector3(a*cells/2,.01,b*cells/2))),new THREE.LineBasicMaterial({color:0x55674b}));group.add(outline);
+ return {id,sprite,fallback};
+});
+function draw(){
+ const zoom=Number(document.querySelector('#zoom').value),span=20/zoom,aspect=1280/900;
+ camera.left=-span*aspect/2;camera.right=span*aspect/2;camera.top=span/2;camera.bottom=-span/2;
+ const az=Number(document.querySelector('#azimuth').value)*Math.PI/180,el=46*Math.PI/180;
+ camera.position.set(Math.sin(az)*100*Math.cos(el),100*Math.sin(el),Math.cos(az)*100*Math.cos(el));camera.lookAt(0,0,0);camera.updateProjectionMatrix();
+ const state=document.querySelector('#state').value;
+ for(const e of entries){updateCapturedBuildingSprite(e.sprite,camera,state);e.fallback.visible=!e.sprite.visible;}
+ const ready=entries.filter(e=>e.sprite.visible).length;
+ document.querySelector('#status').textContent=state==='complete'?`${ready}/6 registered Complete views loaded.`:`${state}: ${ready}/6 Complete sprites visible; expected zero and six fallbacks.`;
+ renderer.render(scene,camera);requestAnimationFrame(draw);
+}
+draw();
+</script></html>

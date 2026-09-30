@@ -1,0 +1,99 @@
+{
+  "schema": "thousand-unit-skirmish.building-lifecycle-reference.v1",
+  "asset": "stable",
+  "status": "complete-only-renderer-preview; lifecycle/team/runtime-match acceptance pending",
+  "camera": {
+    "projection": "orthographic",
+    "framePixels": [
+      1024,
+      1024
+    ],
+    "pixelsPerWorldUnit": 128,
+    "elevationDegrees": 46,
+    "azimuthDegrees": [
+      0,
+      45,
+      90,
+      135,
+      180,
+      225,
+      270,
+      315
+    ],
+    "anchorPixelFromTopLeft": [
+      512,
+      647.1527325565025
+    ],
+    "background": "transparent"
+  },
+  "stateOrder": [
+    "complete"
+  ],
+  "states": [],
+  "completeState": {
+    "state": "complete",
+    "views": [
+      {
+        "index": 0,
+        "azimuthDegrees": 0,
+        "path": "captures/stable-complete-view-00.png",
+        "sha256": "9a951c1acbbbee9ff99be382f35dd75b179a9cc38b8c0962476de015c0433be4",
+        "bytes": 315671
+      },
+      {
+        "index": 1,
+        "azimuthDegrees": 45,
+        "path": "captures/stable-complete-view-01.png",
+        "sha256": "950f2045730dcad42752ed2995c64bca6555484156034a74505ca35c847287c2",
+        "bytes": 337184
+      },
+      {
+        "index": 2,
+        "azimuthDegrees": 90,
+        "path": "captures/stable-complete-view-02.png",
+        "sha256": "e191774f5ced30b0c9e374c32fde037f5f97a7d5c87920a426b96f0fc9eb00cc",
+        "bytes": 288752
+      },
+      {
+        "index": 3,
+        "azimuthDegrees": 135,
+        "path": "captures/stable-complete-view-03.png",
+        "sha256": "47685dc3c819bc48e8756d96ee868dd5975b8c32ff26f659d2cce833bffd7ad9",
+        "bytes": 311769
+      },
+      {
+        "index": 4,
+        "azimuthDegrees": 180,
+        "path": "captures/stable-complete-view-04.png",
+        "sha256": "f9c71905f9fa550a522d38bb9bada365432e0d94622d4a3a05b6ef7b7561efd0",
+        "bytes": 274071
+      },
+      {
+        "index": 5,
+        "azimuthDegrees": 225,
+        "path": "captures/stable-complete-view-05.png",
+        "sha256": "8e2744068e047869d8530c5eb683d9a8b4bed5af8b00506cf60923ef682f5ad1",
+        "bytes": 327403
+      },
+      {
+        "index": 6,
+        "azimuthDegrees": 270,
+        "path": "captures/stable-complete-view-06.png",
+        "sha256": "bbed052aabb53aad8b3a5b8b6a729066e29e9804601aa1604a2f29eaeb724731",
+        "bytes": 309692
+      },
+      {
+        "index": 7,
+        "azimuthDegrees": 315,
+        "path": "captures/stable-complete-view-07.png",
+        "sha256": "0e8df60ce293af83a60fe6517e8609e24a6f1a4208178eb88d2605109fc011fd",
+        "bytes": 347214
+      }
+    ]
+  },
+  "limitations": [
+    "No team masks",
+    "No construction or damage views",
+    "Source scale remains subject to doorway and unit review"
+  ]
+}

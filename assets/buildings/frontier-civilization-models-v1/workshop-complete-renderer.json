@@ -1,0 +1,99 @@
+{
+  "schema": "thousand-unit-skirmish.building-lifecycle-reference.v1",
+  "asset": "workshop",
+  "status": "complete-only-renderer-preview; lifecycle/team/runtime-match acceptance pending",
+  "camera": {
+    "projection": "orthographic",
+    "framePixels": [
+      1024,
+      1024
+    ],
+    "pixelsPerWorldUnit": 128,
+    "elevationDegrees": 46,
+    "azimuthDegrees": [
+      0,
+      45,
+      90,
+      135,
+      180,
+      225,
+      270,
+      315
+    ],
+    "anchorPixelFromTopLeft": [
+      512,
+      647.1527325565025
+    ],
+    "background": "transparent"
+  },
+  "stateOrder": [
+    "complete"
+  ],
+  "states": [],
+  "completeState": {
+    "state": "complete",
+    "views": [
+      {
+        "index": 0,
+        "azimuthDegrees": 0,
+        "path": "captures/workshop-complete-view-00.png",
+        "sha256": "0663dc16f8cf0bc9116fc97e8dbf69147bdada1a46148380b9a05aaee97d3a42",
+        "bytes": 270751
+      },
+      {
+        "index": 1,
+        "azimuthDegrees": 45,
+        "path": "captures/workshop-complete-view-01.png",
+        "sha256": "6f9b87d2e43fcdf3bb6b9637ef99c40f92ba8ed05d9bfcf333efcac42cc63a5a",
+        "bytes": 278543
+      },
+      {
+        "index": 2,
+        "azimuthDegrees": 90,
+        "path": "captures/workshop-complete-view-02.png",
+        "sha256": "0e3fa3cb0a823bc154c2d17047b70bad373933e4f6312fd30cc1005f14956f40",
+        "bytes": 231473
+      },
+      {
+        "index": 3,
+        "azimuthDegrees": 135,
+        "path": "captures/workshop-complete-view-03.png",
+        "sha256": "160cc8d40d52436ccda0eb1f1f740ff76ef16c2790add4c3a1f507a4140f176e",
+        "bytes": 287371
+      },
+      {
+        "index": 4,
+        "azimuthDegrees": 180,
+        "path": "captures/workshop-complete-view-04.png",
+        "sha256": "202776ae2420bb1ad726bc19ef66ae1d399a0a60b4d162065001ddf5749e8fb4",
+        "bytes": 283528
+      },
+      {
+        "index": 5,
+        "azimuthDegrees": 225,
+        "path": "captures/workshop-complete-view-05.png",
+        "sha256": "807e0da8922739ee749396a00ea478f7c0c3babb659062013a421e87a48c0e34",
+        "bytes": 291778
+      },
+      {
+        "index": 6,
+        "azimuthDegrees": 270,
+        "path": "captures/workshop-complete-view-06.png",
+        "sha256": "e439331a4390769f08956b38f298e4b89bee26ba150a61847bb50f5786e58279",
+        "bytes": 246477
+      },
+      {
+        "index": 7,
+        "azimuthDegrees": 315,
+        "path": "captures/workshop-complete-view-07.png",
+        "sha256": "e2941fa0e44b55ac9ae24ef61168b8293cce5be8d2d2c1de355de3a3b2d75bae",
+        "bytes": 289121
+      }
+    ]
+  },
+  "limitations": [
+    "No team masks",
+    "No construction or damage views",
+    "Source scale remains subject to doorway and unit review"
+  ]
+}

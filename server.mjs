@@ -7184,6 +7184,7 @@ const server = createServer(async (request, response) => {
       `${directory}/team-accent-mask.png`,
     ].includes(relative);
   });
+  const publicFrontierCompleteAsset = /^assets\/buildings\/(?:frontier-civilization-scale-pilot-v1\/(?:(?:town-center|house)-complete-renderer\.json|captures\/(?:town-center|house)-complete-view-0[0-7]\.png)|frontier-civilization-models-v1\/(?:(?:storehouse|stable|workshop|watchtower)-complete-renderer\.json|captures\/(?:storehouse|stable|workshop|watchtower)-complete-view-0[0-7]\.png))$/.test(relative);
   const buildingPackRoot = 'assets/buildings/town-center-lifecycle-meshy-v1';
   const publicBuildingLifecycleManifest = relative === `${buildingPackRoot}/lifecycle-grid.json`;
   const publicBuildingLifecycleRuntimeAsset = path.dirname(relative) === `${buildingPackRoot}/runtime`
@@ -7195,7 +7196,7 @@ const server = createServer(async (request, response) => {
     || /^assets\/audio\/vaelora-pilot-v1\/sources\/tus_ui_(?:wood-token|iron-latch|muted-pluck|horn-note)_01_v001\.mp3$/.test(relative);
   if (!publicZoneAudioAsset && !publicClientAsset && !publicEnvironmentModule && !publicEnvironmentAsset && !publicEnvironmentAtlasMetadata && !publicUiAsset
     && !publicMeshyResourceAsset && !publicInteractiveEnvironmentAsset && !publicEnvironmentPilotAsset && !publicBuildingSpriteAsset && !publicMapAsset
-    && !publicUnitSpriteAsset && !publicBuildingLifecycleManifest && !publicBuildingLifecycleRuntimeAsset) {
+    && !publicFrontierCompleteAsset && !publicUnitSpriteAsset && !publicBuildingLifecycleManifest && !publicBuildingLifecycleRuntimeAsset) {
     response.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' });
     response.end('Not found');
     return;

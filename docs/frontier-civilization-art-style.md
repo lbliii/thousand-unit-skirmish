@@ -42,3 +42,5 @@ The [Town Center/House source pilot](../assets/buildings/frontier-civilization-s
 ### Worker scale evidence
 
 The sprite loader uses `heightWorld / maxAlphaHeight` for world units per atlas pixel (`src/unit-sprite-runtime.mjs`). Worker versions differ; human-roster preview can select the Human role instead. Review the actual selected role/version, its ground pivot and camera-facing quad, not only a vertical model ruler. At the pilot density of 128 pixels/world unit, the Worker packs’ maximum alpha heights map to approximately 120.13, 114.34 and 134.40 screen pixels respectively. A vertical 0.8-unit model ruler projects to about 71.13 pixels at 46° elevation and is a different measurement. These values do not prove any generated doorway fits a Worker.
+
+The [runtime preview evidence](qa-frontier-building-runtime-preview-2026-09-30.md) records six Complete-only renderer manifests and the opt-in match binding. The revised Town Center is observed in a local live match; default matches, team masks and full lifecycle acceptance remain outstanding.

@@ -215,6 +215,10 @@ function requestCurrentFrame(sprite, data) {
   const stateName = lifecycleStateName(data.lifecycleInput, data.manifest);
   const state = findState(data.manifest, stateName);
   if (!state?.views?.length) {
+    // A Complete-only source must yield to its fallback during construction/damage.
+    // Invalidate pending loads so an older frame cannot become visible afterward.
+    if (data.requestKey !== null) { data.requestKey = null; ++data.requestVersion; }
+    sprite.visible = false;
     if (!data.warned) {
       data.warned = true;
       console.warn(`Captured building state "${stateName}" is missing from ${data.manifest.asset}.`);
