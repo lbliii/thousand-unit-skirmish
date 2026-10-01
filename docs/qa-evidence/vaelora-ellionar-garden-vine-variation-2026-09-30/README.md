@@ -1,0 +1,9 @@
+# Ellionar garden vine · 30 September 2026
+
+Local candidate from main `b6bb9e9f`, isolated room/map storage and headless Chrome on port 4178. Run `RTS_QA_URL=http://127.0.0.1:4178 RTS_VEGETATION_REGION=ellionar RTS_VEGETATION_UNDERSTORY=1 RTS_VEGETATION_VARIATION=1 node scripts/qa-vegetation-browser.mjs`.
+
+[Companion preview](understory-renderer.png) compares Sunbloom and cream garden vine beside worked/low palms, followed by a cleared stump. [Understory proof](understory-proof.json) preserves 256 forest identities and 75 companions, split 36 Sunbloom/39 vines in two batches. Partial stock retains plants, depletion hides them and reset restores exact matrices. Parent-cell root bounds, level-two terrain contact and maximum screen roll 7.95e-15 degrees pass. Thirteen terrain-base fixtures repeat seeds exactly and change with changed seeds. Both cultivated palm and garden hedge parent families are covered.
+
+[Eleven-base bindings](forest-slot-proof.json) load garden vine on garden-loam only. [Ordinary renderer](ellionar-renderer-ordinary.png) and [strategic renderer](ellionar-renderer-strategic.png) use the runtime camera. Opening Forked Vale boots ready without runtime/console errors. These are renderer/stock fixtures, not a played Ellionar match or live vine gathering.
+
+Selected-manifest and exact decoded-alpha validators pass twenty-one packs; scale/pivot rejection fixtures pass. Release PNG/WebP, registration, loader and server bytes match; exact temporary release copy removed. Selected Built-in ImageGen PNG remains unchanged. Two generation edits correct the suspended root and side leaves below contact. One approximate source view: the measured camera diagram guided construction without certifying source projection. No independent resource yield, additional directions, hosted or performance claim.

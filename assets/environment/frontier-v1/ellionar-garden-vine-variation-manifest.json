@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-ellionar-garden-vine",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/ellionar-ecology.png",
+  "referenceSha256": "b1a4c22af679f031728c0d5bb66c43f7e41a8bee2748c396f6c962dbcb7ad1d2",
+  "prompts": "ELLIONAR-GARDEN-VINE-PROMPTS.json",
+  "files": [
+    {
+      "path": "ellionar-garden-vine.png",
+      "role": "source-image",
+      "sha256": "515220cf622cc48d2864e3cbcc1deb840edcd0346687365236f33b0041010954",
+      "bytes": 1468068,
+      "dimensionsPx": {
+        "width": 1426,
+        "height": 1103
+      }
+    },
+    {
+      "path": "ellionar-garden-vine.webp",
+      "role": "runtime-image",
+      "sha256": "c12f45f9c89b66d0e8fc2af2fe51ba11441407e21fcda361286ad49bb3f4a8df",
+      "bytes": 163798,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 691
+      }
+    }
+  ],
+  "cropPx": [
+    37,
+    56,
+    1391,
+    970
+  ],
+  "asset": {
+    "id": "ellionar-garden-vine",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 0.96324,
+    "worldHeight": 0.65,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "terrainSeedPlacement": true,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen against approved Ellionar ecology, with measured camera construction as geometry reference; two edits correct floating roots and dangling foliage. Selected RGBA PNG unchanged; deterministic crop, LANCZOS max1024 WebP quality86 method6 exact alpha. Low rooted interpretation of garden vine, decorative forest companion, not a harvestable crop. One approximate painted view; camera reference does not certify source projection."
+}

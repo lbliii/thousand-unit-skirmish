@@ -1,0 +1,22 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Use case: stylized-concept. Asset type: transparent painterly RTS environment companion sprite. Reference 1 is Ellionar's approved ecology key: follow the cascading garden vine's cultivated green oval leaves and cream five-petal blossoms with warm yellow centers, honey-toned woody stems. Reference 2 is the measured camera construction guide, GEOMETRY ONLY, never its colors, cubes, diagrams, labels or layout. Create one LOW compact self-contained vine clump on a short curled woody root arch, with trailing leafy stems dropping gently from the arch and five cream flowers among broad leaves. Its rooted crown is lowest point bottom center, no dangling foliage below ground contact. Matte painted large forms, readable leaf layers, restrained fine detail. No masonry, pot, pedestal, dirt carpet or water. Orthographic source view at 45-degree azimuth and 45.4359-degree elevation above ground, upright world Y, zero screen roll. Show tops of broad leaves with the guide's ground-plane foreshortening, no dramatic tilt or perspective convergence. Whole clump centered with generous margins. Genuine transparent alpha background, no haze, shadow cloud, emission, glyphs, text, border or frame. Warm garden greenery and cream blossoms, no teal nocturnal bells.",
+  "reference": [
+    "../../../docs/art-direction/vaelora-v1/ellionar-ecology.png",
+    "../../../docs/art-direction/environment-camera-v1/camera-construction.png"
+  ],
+  "transparentBackground": true,
+  "edits": [
+    {
+      "prompt": "Edit the supplied Ellionar garden vine only to fix ground contact. Preserve cream flowers, oval olive-green leaves, warm painterly wood, lighting and fixed orthographic view. Bring the central woody root crown down to the lowest bottom-center point. Shorten and lift both hanging side vines so every leaf and flower stays ABOVE the root's ground contact. Make a compact low rooted shrub with a curling vine canopy, visibly resting on its central roots rather than floating. No dirt patch, pot or pedestal. Whole specimen with margins, transparent background. Keep world vertical upright, zero screen roll, approximately 45.4359 degrees elevation and 45 degrees azimuth.",
+      "input": "exec-d3423d2c-37d2-4b08-a368-7ae4b03d5808.png",
+      "output": "exec-4db7e34a-e0c1-43d5-859d-6445f78f15b7.png"
+    },
+    {
+      "prompt": "Make one small silhouette correction to this exact plant. Preserve its entire central trunk, cream flowers, upper canopy, painterly colors and view. Trim and lift the lowest leafy tips at far LEFT and far RIGHT by about 120 image pixels, making their ends terminate clearly above the central woody root base. The central bottom root must be visibly the single lowest part of the plant, with a clear gap in vertical height to both leafy ends. Keep all central roots unchanged. No other changes, no ground patch. Preserve transparent alpha background.",
+      "input": "exec-4db7e34a-e0c1-43d5-859d-6445f78f15b7.png",
+      "output": "exec-0630d1ec-2ed8-40d6-b3a7-5dbd1359bc58.png"
+    }
+  ],
+  "selectedOutput": "exec-0630d1ec-2ed8-40d6-b3a7-5dbd1359bc58.png"
+}
