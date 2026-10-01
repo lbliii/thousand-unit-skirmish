@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { meadowPlantPositions, meadowPlantGroups, drylandPlantPositions, drylandPlantGroups, snowPlantPositions, snowPlantGroups, ridgePlantPositions, ridgePlantGroups, lunarPlantPositions, lunarPlantGroups } from '../src/meadow-vegetation.mjs';
+import { meadowPlantPositions, meadowPlantGroups, drylandPlantPositions, drylandPlantGroups, snowPlantPositions, snowPlantGroups, ridgePlantPositions, ridgePlantGroups, lunarPlantPositions, lunarPlantGroups, marshPlantPositions, marshPlantGroups } from '../src/meadow-vegetation.mjs';
 
 const map = JSON.parse(readFileSync(new URL('../maps/bellweather-millrace.json', import.meta.url)));
 const original = JSON.stringify(map);
@@ -66,7 +66,21 @@ for(const p of lunarPlants) assert.ok(lunar.obstacles.filter(w=>w.material==='wa
   return Math.hypot(Math.max(x0-p.x,0,p.x-x0-w.width),Math.max(z0-p.z,0,p.z-z0-w.height))<=6;
 }),'moon plants must stay within the dry lakeside habitat');
 for(const terrainBase of ['meadow','sand','snow','scree','jungle-loam','salt-crust'])assert.deepEqual(lunarPlantGroups({...lunar,terrainBase}),[]);
-const fixtures = [[map,plants,['meadow','short-grass','long-grass','dry-grass']], [desert,succulents,['sand']], [winter,snowPlants,['snow']], [ridge,ridgePlants,['scree']], [lunar,lunarPlants,['lunar-soil']]];
+const marsh = JSON.parse(readFileSync(new URL('../maps/siltmouths-reed-crossings.json',import.meta.url)));
+const marshOriginal=JSON.stringify(marsh),marshPlants=marshPlantPositions(marsh),marshGroups=marshPlantGroups(marsh);
+assert.ok(marshPlants.length>10&&marshPlants.length<150,'sparse dry marsh beds');
+assert.deepEqual(marshGroups.flatMap(g=>g.positions),marshPlants);
+assert.deepEqual(marshPlants,marshPlantPositions(marsh));
+assert.notDeepEqual(marshPlants,marshPlantPositions({...marsh,terrainSeed:marsh.terrainSeed+1}));
+assert.equal(new Set(marshPlants.map(p=>p.cell)).size,marshPlants.length);
+assert.equal(JSON.stringify(marsh),marshOriginal);
+assert.deepEqual(marshPlantPositions({...marsh,obstacles:[]}),[]);
+for(const p of marshPlants)assert.ok(marsh.obstacles.filter(w=>w.material==='water').some(w=>{
+ const x0=w.column-marsh.width/2,z0=w.row-marsh.height/2;
+ return Math.hypot(Math.max(x0-p.x,0,p.x-x0-w.width),Math.max(z0-p.z,0,p.z-z0-w.height))<=5;
+}),'marsh beds stay near water');
+for(const terrainBase of ['meadow','sand','snow','scree','lunar-soil','jungle-loam'])assert.deepEqual(marshPlantGroups({...marsh,terrainBase}),[]);
+const fixtures = [[map,plants,['meadow','short-grass','long-grass','dry-grass']], [desert,succulents,['sand']], [winter,snowPlants,['snow']], [ridge,ridgePlants,['scree']], [lunar,lunarPlants,['lunar-soil']], [marsh,marshPlants,['tidal-mud']]];
 for (const [map, selected, accepted] of fixtures) for (const p of selected) {
   const c = Math.floor(p.x + map.width / 2), r = Math.floor(p.z + map.height / 2);
   assert.equal(r * map.width + c, p.cell);
@@ -88,4 +102,4 @@ assert.equal(meadowPlantPositions({ ...bare, id: 'meshy-resource-review' }).leng
 assert.deepEqual(meadowPlantGroups({ ...bare, id: 'meshy-resource-review' }), []);
 for (const terrainBase of ['meadow','snow','ice','lunar-soil','jungle-loam','salt-crust']) assert.deepEqual(drylandPlantGroups({...desert,terrainBase}), []);
 assert.deepEqual(drylandPlantGroups({...desert,id:'meshy-resource-review'}), []);
-console.log(JSON.stringify({ lunarPlants:lunarPlants.length, lunarGroups:lunarGroups.map(g=>({name:g.name,count:g.positions.length})), ridgePlants:ridgePlants.length, ridgeGroups:ridgeGroups.map(g=>({name:g.name,count:g.positions.length})), snowPlants:snowPlants.length, drylandPlants:succulents.length, map: map.id, plants: plants.length, seeded: true, protectedMarkers: true, noMutation: true }));
+console.log(JSON.stringify({ marshPlants:marshPlants.length, lunarPlants:lunarPlants.length, lunarGroups:lunarGroups.map(g=>({name:g.name,count:g.positions.length})), ridgePlants:ridgePlants.length, ridgeGroups:ridgeGroups.map(g=>({name:g.name,count:g.positions.length})), snowPlants:snowPlants.length, drylandPlants:succulents.length, map: map.id, plants: plants.length, seeded: true, protectedMarkers: true, noMutation: true }));

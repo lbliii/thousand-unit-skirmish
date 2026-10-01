@@ -41,6 +41,21 @@ export function ridgePlantGroups(definition, base = definition.terrainBase) {
   return specimenGroups(definition, ridgePlantPositions(definition, base), ['veyrholds-ridgegrass', 'veyrholds-suncrest', 'veyrholds-alpine-moss'], 6);
 }
 
+export function marshPlantPositions(definition, base = definition.terrainBase) {
+  const water = (definition.obstacles || []).filter(p => p.material === 'water');
+  if (!water.length) return [];
+  return landPlantPositions(definition, base, new Set(['tidal-mud']), 6, 0.22, 0.1)
+    .filter(p => water.some(w => {
+      const x0 = w.column - definition.width / 2, z0 = w.row - definition.height / 2;
+      return Math.hypot(Math.max(x0-p.x,0,p.x-x0-w.width),Math.max(z0-p.z,0,p.z-z0-w.height)) <= 5;
+    }));
+}
+
+export function marshPlantGroups(definition, base = definition.terrainBase) {
+  const positions = marshPlantPositions(definition, base);
+  return positions.length ? [{ name:'siltmouths-marsh-tuber', positions }] : [];
+}
+
 // Moon plants occupy dry lakeside soil, never the floating lily habitat.
 export function lunarPlantPositions(definition, base = definition.terrainBase) {
   const water = (definition.obstacles || []).filter(p => p.material === 'water');

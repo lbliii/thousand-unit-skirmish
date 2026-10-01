@@ -169,3 +169,5 @@ Sombral Mere dry lakeside lunar soil now has sparse Lunewort/Noctilune beds, sep
 Veyrholds open scree includes the approved key's alpine moss and ironlichen as a third independent bed specimen. [Selected manifest](../assets/environment/frontier-v1/veyrholds-alpine-moss-variation-manifest.json), [prompt](../assets/environment/frontier-v1/VEYRHOLDS-ALPINE-MOSS-PROMPTS.json) and [runtime evidence](qa-evidence/vaelora-veyrholds-alpine-moss-2026-09-30/README.md) record the source and its decorative integration.
 
 Ellionar channel beds now alternate Sunbloom and garden-vine specimens across occupied beds, retaining all placement gaps. See the [current environment guide](environment-pack-v1.md) and [mixed-bed evidence](qa-evidence/vaelora-ellionar-channel-vine-beds-2026-09-30/README.md).
+
+Siltmouths dry tidal mud now has independent marsh-tuber beds near authored channels, separate from silver reeds in water and parent-stock forest companions. [Environment guide](environment-pack-v1.md) and [local evidence](qa-evidence/vaelora-siltmouths-marsh-beds-2026-09-30/README.md).

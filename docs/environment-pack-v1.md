@@ -838,3 +838,9 @@ Existing independent scree beds now partition between ridgegrass, Suncrest and m
 Independent channel beds now alternate the selected blue Sunbloom and cream-flowered garden vine across occupied six-cell beds. The map seed chooses the first specimen. This cultivated pattern guarantees variety where at least two beds are occupied; it retains every accepted root, scale and protected gap. Channel Gardens retains 15 plants, split 9 Sunbloom / 6 vine in two registered-size batches. Both follow received foundation clearing and exact restoration while remaining independent of forest stock.
 
 [Local evidence](qa-evidence/vaelora-ellionar-channel-vine-beds-2026-09-30/README.md) covers both batches, seeded bed coherence, contact, upright camera roll and protected crossings. Reused decorative sources, not cultivated-resource gameplay; no new crop yield, harvesting pose or painted direction. This supersedes earlier notes that channel beds use Sunbloom alone.
+
+## Siltmouths dry marsh beds · 30 September 2026
+
+The selected marsh-tuber foliage now also occupies sparse independent tidal-mud pockets within five units of authored water obstacles. Reed Crossings receives 43 dry-land clumps in one registered-size batch, separate from existing water-edge silver reeds and forest companions. One-cell obstacle margins, painted routes, objectives, resources and spawn approaches retain their exclusions. Forest clearing leaves these beds unchanged; received foundations hide overlaps and restore the original matrices after removal.
+
+[Local evidence](qa-evidence/vaelora-siltmouths-marsh-beds-2026-09-30/README.md) covers the near-water habitat, protected markers, contact, upright camera roll and foundation clearing. Reused decorative source only: no tuber gathering, crop yield, new species lore or harvest states. The capture still shows strong swirls in tidal-mud ground and angular channel boundaries.
