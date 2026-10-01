@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { meadowPlantPositions, meadowPlantGroups, drylandPlantPositions, drylandPlantGroups, snowPlantPositions, snowPlantGroups, ridgePlantPositions, ridgePlantGroups, lunarPlantPositions, lunarPlantGroups, marshPlantPositions, marshPlantGroups } from '../src/meadow-vegetation.mjs';
+import { meadowPlantPositions, meadowPlantGroups, drylandPlantPositions, drylandPlantGroups, snowPlantPositions, snowPlantGroups, ridgePlantPositions, ridgePlantGroups, lunarPlantPositions, lunarPlantGroups, marshPlantPositions, marshPlantGroups, junglePlantPositions, junglePlantGroups } from '../src/meadow-vegetation.mjs';
 
 const map = JSON.parse(readFileSync(new URL('../maps/bellweather-millrace.json', import.meta.url)));
 const original = JSON.stringify(map);
@@ -80,7 +80,27 @@ for(const p of marshPlants)assert.ok(marsh.obstacles.filter(w=>w.material==='wat
  return Math.hypot(Math.max(x0-p.x,0,p.x-x0-w.width),Math.max(z0-p.z,0,p.z-z0-w.height))<=5;
 }),'marsh beds stay near water');
 for(const terrainBase of ['meadow','sand','snow','scree','lunar-soil','jungle-loam'])assert.deepEqual(marshPlantGroups({...marsh,terrainBase}),[]);
-const fixtures = [[map,plants,['meadow','short-grass','long-grass','dry-grass']], [desert,succulents,['sand']], [winter,snowPlants,['snow']], [ridge,ridgePlants,['scree']], [lunar,lunarPlants,['lunar-soil']], [marsh,marshPlants,['tidal-mud']]];
+const jungle = JSON.parse(readFileSync(new URL('../maps/vesperra-pale-clearings.json', import.meta.url)));
+const jungleOriginal=JSON.stringify(jungle),junglePlants=junglePlantPositions(jungle),jungleGroups=junglePlantGroups(jungle);
+assert.ok(junglePlants.length>10&&junglePlants.length<180,'sparse woodland-margin pockets');
+assert.equal(jungleGroups.length,4,'the shipped woodland margin needs the complete local mix');
+assert.deepEqual(jungleGroups.flatMap(g=>g.positions).sort((a,b)=>a.cell-b.cell),[...junglePlants].sort((a,b)=>a.cell-b.cell));
+assert.deepEqual(jungleGroups,junglePlantGroups(jungle));
+assert.deepEqual(jungleGroups,junglePlantGroups({...jungle,region:undefined}),'unassigned jungle maps retain the default living-forest ecology');
+const jungleBeds=new Map();
+for(const group of jungleGroups)for(const p of group.positions){const bed=Math.floor(Math.floor(p.cell/jungle.width)/6)+':'+Math.floor((p.cell%jungle.width)/6);assert.ok(!jungleBeds.has(bed)||jungleBeds.get(bed)===group.name,'a woodland-edge pocket keeps one specimen');jungleBeds.set(bed,group.name);}
+assert.notDeepEqual(junglePlants,junglePlantPositions({...jungle,terrainSeed:jungle.terrainSeed+1}));
+assert.equal(new Set(junglePlants.map(p=>p.cell)).size,junglePlants.length);
+assert.equal(JSON.stringify(jungle),jungleOriginal);
+assert.deepEqual(junglePlantPositions({...jungle,obstacles:[]}),[]);
+assert.deepEqual(junglePlantPositions({...jungle,id:'meshy-resource-review'}),[]);
+for(const region of ['ru-lora-fringe','ru-lora-interior','underbough','sombral-mere'])assert.deepEqual(junglePlantGroups({...jungle,region}),[]);
+for(const terrainBase of ['meadow','sand','snow','scree','lunar-soil','tidal-mud'])assert.deepEqual(junglePlantGroups({...jungle,terrainBase}),[]);
+for(const p of junglePlants)assert.ok(jungle.obstacles.filter(f=>f.material==='forest').some(f=>{
+ const x0=f.column-jungle.width/2,z0=f.row-jungle.height/2;
+ return Math.hypot(Math.max(x0-p.x,0,p.x-x0-f.width),Math.max(z0-p.z,0,p.z-z0-f.height))<=5;
+}),'jungle plants remain near woodland');
+const fixtures = [[map,plants,['meadow','short-grass','long-grass','dry-grass']], [desert,succulents,['sand']], [winter,snowPlants,['snow']], [ridge,ridgePlants,['scree']], [lunar,lunarPlants,['lunar-soil']], [marsh,marshPlants,['tidal-mud']], [jungle,junglePlants,['jungle-loam']]];
 for (const [map, selected, accepted] of fixtures) for (const p of selected) {
   const c = Math.floor(p.x + map.width / 2), r = Math.floor(p.z + map.height / 2);
   assert.equal(r * map.width + c, p.cell);
@@ -102,4 +122,4 @@ assert.equal(meadowPlantPositions({ ...bare, id: 'meshy-resource-review' }).leng
 assert.deepEqual(meadowPlantGroups({ ...bare, id: 'meshy-resource-review' }), []);
 for (const terrainBase of ['meadow','snow','ice','lunar-soil','jungle-loam','salt-crust']) assert.deepEqual(drylandPlantGroups({...desert,terrainBase}), []);
 assert.deepEqual(drylandPlantGroups({...desert,id:'meshy-resource-review'}), []);
-console.log(JSON.stringify({ marshPlants:marshPlants.length, lunarPlants:lunarPlants.length, lunarGroups:lunarGroups.map(g=>({name:g.name,count:g.positions.length})), ridgePlants:ridgePlants.length, ridgeGroups:ridgeGroups.map(g=>({name:g.name,count:g.positions.length})), snowPlants:snowPlants.length, drylandPlants:succulents.length, map: map.id, plants: plants.length, seeded: true, protectedMarkers: true, noMutation: true }));
+console.log(JSON.stringify({ junglePlants:junglePlants.length,jungleGroups:jungleGroups.map(g=>({name:g.name,count:g.positions.length})), marshPlants:marshPlants.length, lunarPlants:lunarPlants.length, lunarGroups:lunarGroups.map(g=>({name:g.name,count:g.positions.length})), ridgePlants:ridgePlants.length, ridgeGroups:ridgeGroups.map(g=>({name:g.name,count:g.positions.length})), snowPlants:snowPlants.length, drylandPlants:succulents.length, map: map.id, plants: plants.length, seeded: true, protectedMarkers: true, noMutation: true }));

@@ -73,13 +73,36 @@ export function lunarPlantGroups(definition, base = definition.terrainBase) {
   return specimenGroups(definition, lunarPlantPositions(definition, base), ['sombral-mere-lunewort', 'sombral-mere-noctilune'], 6);
 }
 
-function specimenGroups(definition, positions, names, patchSize) {
+// Sparse living forest margins, distinct from companions owned by wood cells.
+export function junglePlantPositions(definition, base = definition.terrainBase) {
+  if (definition.region && definition.region !== 'vesperra') return [];
+  const forest = (definition.obstacles || []).filter(p => p.material === 'forest');
+  if (!forest.length) return [];
+  return landPlantPositions(definition, base, new Set(['jungle-loam']), 6, 0.3, 0.2)
+    .filter(p => forest.some(f => {
+      const x0 = f.column - definition.width / 2, z0 = f.row - definition.height / 2;
+      return Math.hypot(Math.max(x0-p.x,0,p.x-x0-f.width),Math.max(z0-p.z,0,p.z-z0-f.height)) <= 5;
+    }));
+}
+
+export function junglePlantGroups(definition, base = definition.terrainBase) {
+  return specimenGroups(definition, junglePlantPositions(definition, base),
+    ['vesperra-shade-fern', 'vesperra-shade-fern-02', 'vesperra-veilcap', 'vesperra-spiral-podvine'], 6, [0.35, 0.35, 0.15, 0.15]);
+}
+
+function specimenGroups(definition, positions, names, patchSize, weights = null) {
   const groups = names.map(name => ({ name, positions: [] }));
   const random = seededRandom(Math.trunc(definition.terrainSeed || 0) >>> 0);
   for (const point of positions) {
     const row = Math.floor(point.cell / definition.width), column = point.cell % definition.width;
     const patch = Math.floor(row / patchSize) * Math.ceil(definition.width / patchSize) + Math.floor(column / patchSize);
-    groups[Math.floor(random(patch, 439) * groups.length)].positions.push(point);
+    let specimen = Math.floor(random(patch, 439) * groups.length);
+    if (weights) {
+      let value = random(patch, 439) * weights.reduce((sum, weight) => sum + weight, 0);
+      specimen = 0;
+      while (specimen < weights.length - 1 && value >= weights[specimen]) value -= weights[specimen++];
+    }
+    groups[specimen].positions.push(point);
   }
   return groups.filter(group => group.positions.length);
 }

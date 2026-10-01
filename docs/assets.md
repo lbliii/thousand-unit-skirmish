@@ -189,3 +189,10 @@ Podvine, alongside two ferns and Veilcap. [Manifest](../assets/environment/front
 [exact prompts](../assets/environment/frontier-v1/VESPERRA-PODVINE-PROMPTS.json)
 and [runtime evidence](qa-evidence/vaelora-vesperra-podvine-2026-10-01/README.md).
 The seed pods are decorative; harvesting poses and additional views remain future art.
+
+Vesperra's jungle-loam woodland margins now use sparse independent fern,
+Veilcap and pod-vine pockets outside the forest cells. Pale Clearings has
+79 plants in four batches; paths and economy markers retain precedence.
+[Current environment guide](environment-pack-v1.md#vesperra-woodland-margins--1-october-2026)
+and [runtime evidence](qa-evidence/vaelora-vesperra-woodland-margins-2026-10-01/README.md).
+Margin plants use building-footprint clearing and remain independent of wood stock.

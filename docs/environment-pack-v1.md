@@ -882,3 +882,28 @@ shade ferns, Veilcap and pod-vine in four batches. Parent-stock clearing and
 reset remain shared with their forest cell. The pods add ecology and atmosphere;
 they have no independent yield or gathering rule. [Runtime evidence](qa-evidence/vaelora-vesperra-podvine-2026-10-01/README.md)
 records the region binding, ground contact, dimensions and lifecycle checks.
+
+## Vesperra woodland margins · 1 October 2026
+
+Living jungle-loam now receives sparse independent vegetation pockets within
+five world units of authored forest bounds. The existing [fern, fungus and
+pod-vine palette](#vesperra-spiral-pod-vine-companions--1-october-2026) is grouped
+by six-cell beds, with 35/35/15/15 specimen weights favoring the two ferns.
+Pale Clearings receives 79 plants: 19 primary ferns, 46 alternate ferns,
+6 Veilcaps and 8 pod-vines. Selection weights describe the seeded patch choice,
+not an exact per-map abundance quota.
+
+Only jungle-loam roots are accepted. Non-jungle paint, obstacle/objective
+padding, map borders, spawn areas and resource markers stay clear under the
+existing land-vegetation rules. Explicit regions other than Vesperra are
+excluded, including Ru Lora's living fringe; unassigned jungle maps use the
+existing default Vesperra palette. Removing all authored forests removes this
+placement habitat. Placement does not mutate the map or add collision/yield.
+
+The margin layer is independent of received wood stock and registers with
+building-footprint hiding/restoration. Forest-cell companions retain their own
+stock-clearing behavior. [Local evidence](qa-evidence/vaelora-vesperra-woodland-margins-2026-10-01/README.md)
+records protected placement, seeded grouping, ordinary/strategic views,
+region exclusions, terrain contact and all nine land-vegetation occupation
+categories. This reuses the existing fixed painted views; no additional
+perspectives or harvesting poses were added.
