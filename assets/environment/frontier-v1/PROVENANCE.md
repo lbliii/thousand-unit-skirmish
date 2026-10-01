@@ -318,3 +318,7 @@ Built-in ImageGen against the approved Pale Meridian ecology key. [Prompt](MERID
 ## Sereward succulent variation · 30 September 2026
 
 Built-in ImageGen generated `sereward-succulent-02.png` against the existing selected succulent and approved Sereward ecology key. The selected PNG is copied unchanged; recorded crop and LANCZOS max1024 WebP quality86/method6 preserve generated alpha. See `SEREWARD-SUCCULENT-VARIATION-PROMPTS.json` and `sereward-succulent-variation-manifest.json` for prompt, selected output, dimensions and hashes. Decorative companion only, no new resource rule; approximate fixed-oblique painted view.
+
+## Ru’Lora living-fringe broadleaf · 30 September 2026
+
+Built-in ImageGen used the approved Ru’Lora map living edge for palette and the selected Vesperra fern for painterly finish only. Selected `ru-lora-fringe-broadleaf.png` is unchanged; deterministic crop and LANCZOS max1024 WebP quality86/method6 preserve generated alpha. `RU-LORA-FRINGE-PROMPTS.json` records exact prompt, references and selected output; `ru-lora-fringe-understory-manifest.json` records file hashes and geometry. Working living-fringe presentation only, no new biology or gameplay rule; one approximate painted view.

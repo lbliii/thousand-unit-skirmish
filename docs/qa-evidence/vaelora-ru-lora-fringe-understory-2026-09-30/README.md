@@ -1,0 +1,9 @@
+# Ru’Lora living-fringe understory · 30 September 2026
+
+Local candidate from main `1c964a7c`, isolated room/map storage and headless Chrome on port 4178. Run `RTS_QA_URL=http://127.0.0.1:4178 RTS_VEGETATION_REGION=vesperra RTS_VEGETATION_LIFECYCLE=1 RTS_VEGETATION_ATLAS=1 RTS_VEGETATION_UNDERSTORY=1 RTS_VEGETATION_FRINGE=1 node scripts/qa-vegetation-browser.mjs`. The Vesperra flag identifies the borrowed canopy; the fringe flag applies the registered fringe identity to companion and live-harvest fixtures.
+
+[Companion preview](understory-renderer.png) shows broadleaf clumps beside worked/low canopy and no clump at the cleared stump. [Understory proof](understory-proof.json) preserves 256 forest cells and 75 companions in one batch, retains partial-harvest appearance, hides at zero and restores exact matrices. Parent-cell roots, level-two raised contact and maximum screen roll 7.95e-15 degrees pass.
+
+[Binding proof](fringe-binding-proof.json) records 52 broadleaf companions on the shipped Fringe Path, then twelve registered/unregistered region × ground combinations plus generic review. Only fringe+jungle uses the new sprite; Vesperra, generic jungle, salt interior, snow and review retain their existing choices. All textures decode. Ordinary/strategic renderer captures have the fringe binding; existing canopy atlas/UV/fallback, live worker harvesting/reset and eleven-base regressions pass with no runtime errors.
+
+Both asset validators pass fifteen packs, including exact decoded-alpha comparison. Syntax/docs/whitespace and release source/runtime/loader byte checks pass; exact temporary release copy removed. Source PNG unchanged. No hosted/performance claim or dedicated canopy claim. One approximate painted view; the living fringe remains working lore presentation without new species, resource or supernatural rules.

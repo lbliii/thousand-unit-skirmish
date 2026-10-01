@@ -18,7 +18,7 @@ const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
 const GROUND_RENDER_ORDER = -20;
 export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
-  'sombral-mere-mirelily', 'bellweather-meadow-herbs', 'vesperra-shade-fern', 'vesperra-shade-fern-02', 'siltmouths-silver-reed', 'pale-meridian-violet-lichen', 'pale-meridian-silver-moss', 'sombral-mere-lunewort', 'underbough-rootward-fungus', 'veyrholds-ridgegrass', 'ellionar-sunbloom', 'sereward-succulent', 'sereward-succulent-02',
+  'ru-lora-fringe-broadleaf', 'sombral-mere-mirelily', 'bellweather-meadow-herbs', 'vesperra-shade-fern', 'vesperra-shade-fern-02', 'siltmouths-silver-reed', 'pale-meridian-violet-lichen', 'pale-meridian-silver-moss', 'sombral-mere-lunewort', 'underbough-rootward-fungus', 'veyrholds-ridgegrass', 'ellionar-sunbloom', 'sereward-succulent', 'sereward-succulent-02',
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
@@ -807,7 +807,9 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     }
     addObject(mesh);
   }
-  const understoryAsset = definition.id === 'meshy-resource-review' ? null : {
+  const livingFringe = definition.region === 'ru-lora-fringe' && vesperra;
+  const understoryAsset = definition.id === 'meshy-resource-review' ? null
+    : livingFringe ? ['ru-lora-fringe-broadleaf', 1.09551, 0.72] : {
     'jungle-loam': ['vesperra-shade-fern', 1.07475, 0.72],
     'tidal-mud': ['siltmouths-silver-reed', 1.29076, 1.05],
     'snow': ['pale-meridian-silver-moss', 0.83027, 0.45],

@@ -658,3 +658,11 @@ The existing selected meadow-herbs sprite now also supplies small independent pa
 One instanced batch reuses the approved source and calibrated upright billboard path, independently of forest clearing. These low plants add no collision or resource yield. This is static authored-map scenery: it does not react to moving units or later building construction. Additional flowers, seasonal states and registered viewpoints remain future art work.
 
 [Local meadow evidence](qa-evidence/vaelora-bellweather-open-meadow-2026-09-30/README.md) records 135 independent clumps on Bellweather Millrace, protected economic/capture areas, deterministic reloads, unchanged map data, actual camera/ground contact and forest-clearing independence.
+
+## Ru’Lora living-fringe broadleaf · 30 September 2026
+
+[Dedicated broadleaf companions](../assets/environment/frontier-v1/ru-lora-fringe-understory-manifest.json) introduce emerald/olive leaves and folded yellow-green new growth from the living edge of the approved Ru’Lora map. They replace borrowed ferns only when the registered region is `ru-lora-fringe` and its effective terrain base is jungle-loam. Generic jungle maps/Vesperra, the petrified interior, incompatible terrain bases and generic review retain their existing bindings. The canopy remains borrowed Mistbark; this is a first fringe understory increment, not a completed regional forest family.
+
+The existing seeded 28% companion placement, parent forest identities, partial-harvest retention, clearing/reset and collision rules remain. Sprite size is 1.09551×0.72 world units. Generated PNG unchanged, alpha-preserving WebP and [exact prompt](../assets/environment/frontier-v1/RU-LORA-FRINGE-PROMPTS.json) included. This is working presentation of the proposed living fringe; no named species, extraction rule, supernatural effect or expanded canon is introduced. One approximate fixed-oblique painted view.
+
+[Local fringe evidence](qa-evidence/vaelora-ru-lora-fringe-understory-2026-09-30/README.md) records shipped-map binding, region/base exclusions, clearing/reset, raised contact and actual camera roll, plus existing canopy lifecycle regressions. Both asset validators pass fifteen packs.

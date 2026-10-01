@@ -1,0 +1,10 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Use case: stylized-concept. Asset type: transparent RTS environment sprite, Ru'Lora living fringe broadleaf understory. Reference image 1 is the approved Ru'Lora map: use ONLY its living emerald-green fringe along the left and lower margins as palette and atmosphere guidance, not the petrified violet interior. Reference image 2 is an existing Vesperra fern sprite: use its readable painterly game finish and simple shading, not fern anatomy or palette. Create one LOW COMPACT cluster of six broad leathery elliptical emerald and olive-green leaves, clear central ribs, folded lighter yellow-green young leaves, two short brown stems and a small tangled root crown. Warm olive highlights and deep green shadows. Entire plant alive and ordinary; no petrification, toxic glow, bones, flowers, fruit or magical marks. Broad simple leaf surfaces visible at small game scale, restrained texture, no microdetail noise. Orthographic camera elevation45.44 degrees above ground, azimuth45 degrees, world vertical upright and zero screen roll. No dramatic tilt, no perspective convergence or horizon. Entire connected clump centered with margin and root contact at bottom center. Genuine transparent alpha background; no ground patch, cast shadow cloud, label, frame or text.",
+  "reference": [
+    "../../../docs/art-direction/vaelora-v1/ru-lora-map.png",
+    "vesperra-shade-fern.png"
+  ],
+  "transparentBackground": true,
+  "selectedOutput": "exec-9b7fa2ea-787d-43e8-a93f-9b13d796d0aa.png"
+}

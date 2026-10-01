@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-ru-lora-fringe-understory",
+  "packVersion": "0.1.1",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/ru-lora-map.png",
+  "prompts": "RU-LORA-FRINGE-PROMPTS.json",
+  "files": [
+    {
+      "path": "ru-lora-fringe-broadleaf.png",
+      "role": "source-image",
+      "bytes": 2303171,
+      "sha256": "7a7523b516525db5bc475ce3f1145f1370408b794879b94e82923ec05022150f",
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "ru-lora-fringe-broadleaf.webp",
+      "role": "runtime-image",
+      "bytes": 171608,
+      "sha256": "ba14602ebe7ab3bba2abc55e3b6a4ffd28cd81ea3acae722a2fb92121f1a81ce",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 673
+      }
+    }
+  ],
+  "cropPx": [
+    32,
+    25,
+    1510,
+    996
+  ],
+  "asset": {
+    "id": "ru-lora-fringe-broadleaf",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 1.09551,
+    "worldHeight": 0.72,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen against approved Ru Lora map living fringe and existing fern finish. Selected PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 exact alpha. Working living-fringe presentation, no new ecology/resource canon. One approximate oblique view.",
+  "referenceSha256": "cecacfd3c65020914744b62197b92aa65e87da6dbf7748c02ff636e29d0e7ce0"
+}
