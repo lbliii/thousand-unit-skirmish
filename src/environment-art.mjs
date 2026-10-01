@@ -10,9 +10,9 @@ import { buildTerrainBlendMasks, buildForestGroundMask } from './terrain-blend.m
 import { buildWaterSurfaceGeometry, WATER_LEVEL } from './water-surface-geometry.mjs';
 import { forestHabitatDepth, forestCanopyFactor } from './forest-habitat.mjs';
 import { shorePlantPositions } from './shore-vegetation.mjs';
-import { meadowPlantPositions } from './meadow-vegetation.mjs';
+import { meadowPlantGroups } from './meadow-vegetation.mjs';
 import { gardenPlantPositions } from './garden-vegetation.mjs';
-import { assertPlantDimensions } from './environment-plant-assets.mjs';
+import { assertPlantDimensions, PLANT_ASSETS } from './environment-plant-assets.mjs';
 
 const meshyResourcesEnabled = new URLSearchParams(globalThis.location?.search ?? '').get('meshyResources') !== '0';
 
@@ -882,11 +882,13 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     }
   }
   if (bellweather) {
-    const flowers = createEnvironmentSpriteInstances('bellweather-meadow-herbs', 1.15561, 0.72,
-      meadowPlantPositions(definition, environmentTheme(definition)));
-    if (flowers) {
-      flowers.userData.meadowVegetation = true;
-      addObject(flowers);
+    for (const { name, positions } of meadowPlantGroups(definition, environmentTheme(definition))) {
+      const spec = PLANT_ASSETS[name];
+      const flowers = createEnvironmentSpriteInstances(name, spec.worldWidth, spec.worldHeight, positions);
+      if (flowers) {
+        flowers.userData.meadowVegetation = true;
+        addObject(flowers);
+      }
     }
   }
   if (ellionar) {

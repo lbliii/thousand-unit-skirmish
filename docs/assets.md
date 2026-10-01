@@ -150,4 +150,6 @@ Veyrholds scree forests mix ridgegrass and yellow Suncrest flowers in existing c
 
 Ellionar garden-loam forests mix blue Sunbloom and cream garden vines, clearing and resetting with parent forest stock. The [garden vine manifest](../assets/environment/frontier-v1/ellionar-garden-vine-variation-manifest.json) records the low rooted source interpretation; channel flower beds retain Sunbloom. See the [environment guide](environment-pack-v1.md).
 
-Grass-base woodland companions mix Bellweather meadow herbs and a smaller pink-clover/cream-daisy clump. The [clover manifest](../assets/environment/frontier-v1/bellweather-meadow-clover-variation-manifest.json) records the decorative variant; open meadow flowers retain the existing herbs.
+Grass-base woodland companions mix Bellweather meadow herbs and a smaller pink-clover/cream-daisy clump. The [clover manifest](../assets/environment/frontier-v1/bellweather-meadow-clover-variation-manifest.json) records the decorative variant.
+
+Open grass-base meadow beds now use both specimens, choosing one per coarse bed while retaining all existing positions and protected gaps. Forest clearing leaves these independent land flowers unchanged; see [open meadow evidence](qa-evidence/vaelora-bellweather-open-clover-2026-09-30/README.md).

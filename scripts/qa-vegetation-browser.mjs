@@ -392,17 +392,17 @@ try {
    const THREE=await import('/vendor/three.module.js');
    const {CAMERA_VIEW_DIRECTION}=await import('/src/camera-controls.mjs');
    const {addObstacleEnvironmentSprites,createGroundSurfaces,setForestSpriteStock}=await import('/src/environment-art.mjs');
-   const {meadowPlantPositions}=await import('/src/meadow-vegetation.mjs');
+   const {meadowPlantPositions,meadowPlantGroups}=await import('/src/meadow-vegetation.mjs');
    const {setActiveTerrain,groundHeight}=await import('/src/terrain-height.mjs');
    const map=${JSON.stringify(meadowMap)},original=JSON.stringify(map),points=meadowPlantPositions(map);
    setActiveTerrain(map);const objects=[];const slots=addObstacleEnvironmentSprites(map,map.width/2,map.height/2,o=>objects.push(o));
-   const flowers=objects.filter(o=>o.userData.meadowVegetation);if(flowers.length!==1||flowers[0].count!==points.length)throw new Error('Meadow batch mismatch');
-   const mesh=flowers[0],before=Array.from(mesh.instanceMatrix.array),view=new THREE.Matrix4().lookAt(new THREE.Vector3(...CAMERA_VIEW_DIRECTION),new THREE.Vector3(),new THREE.Vector3(0,1,0));
+   const groups=meadowPlantGroups(map);const flowers=objects.filter(o=>o.userData.meadowVegetation);if(flowers.length!==groups.length||flowers.reduce((n,o)=>n+o.count,0)!==points.length)throw new Error('Meadow batch mismatch');
+   const before=flowers.map(mesh=>Array.from(mesh.instanceMatrix.array)),view=new THREE.Matrix4().lookAt(new THREE.Vector3(...CAMERA_VIEW_DIRECTION),new THREE.Vector3(),new THREE.Vector3(0,1,0));
    let maxRoll=0;
-   for(let i=0;i<points.length;i++){const m=new THREE.Matrix4();mesh.getMatrixAt(i,m);if(Math.abs(m.elements[13]-groundHeight(points[i].x,points[i].z))>1e-6)throw new Error('Meadow contact mismatch');const up=new THREE.Vector3(0,1,0).transformDirection(m).applyQuaternion(new THREE.Quaternion().setFromRotationMatrix(view).invert());maxRoll=Math.max(maxRoll,Math.abs(Math.atan2(-up.x,up.y)*180/Math.PI));}
+   for(const group of groups){const mesh=flowers.find(o=>o.userData.plantAsset.id===group.name);if(!mesh||mesh.count!==group.positions.length)throw new Error('Meadow specimen batch mismatch');for(let i=0;i<group.positions.length;i++){const m=new THREE.Matrix4();mesh.getMatrixAt(i,m);if(Math.abs(m.elements[13]-groundHeight(group.positions[i].x,group.positions[i].z))>1e-6)throw new Error('Meadow contact mismatch');const up=new THREE.Vector3(0,1,0).transformDirection(m).applyQuaternion(new THREE.Quaternion().setFromRotationMatrix(view).invert());maxRoll=Math.max(maxRoll,Math.abs(Math.atan2(-up.x,up.y)*180/Math.PI));}}
    if(maxRoll>.0001)throw new Error('Meadow roll mismatch');
    for(const slot of slots.values())setForestSpriteStock(slot,0);
-   if(JSON.stringify(before)!==JSON.stringify(Array.from(mesh.instanceMatrix.array)))throw new Error('Forest clearing affected meadow');
+   if(JSON.stringify(before)!==JSON.stringify(flowers.map(mesh=>Array.from(mesh.instanceMatrix.array))))throw new Error('Forest clearing affected meadow');
    for(const slot of slots.values())setForestSpriteStock(slot,6);
    const excluded=[];for(const terrainBase of ['sand','snow','ice','lunar-soil','jungle-loam','salt-crust']){const candidate=[];addObstacleEnvironmentSprites({...map,terrainBase},map.width/2,map.height/2,o=>candidate.push(o));if(candidate.some(o=>o.userData.meadowVegetation))throw new Error('Meadow leaked: '+terrainBase);excluded.push(terrainBase);for(const o of candidate){o.geometry.dispose();o.material.dispose()}}
    const review=[];addObstacleEnvironmentSprites({...map,id:'meshy-resource-review'},map.width/2,map.height/2,o=>review.push(o));if(review.some(o=>o.userData.meadowVegetation))throw new Error('Meadow leaked to review');for(const o of review){o.geometry.dispose();o.material.dispose()}
@@ -413,7 +413,7 @@ try {
    for(const [name,span,target] of [['ordinary',14,[0,0,-16]],['strategic',44,[0,0,0]]]){const camera=new THREE.OrthographicCamera(-span*1.5,span*1.5,span,-span,.1,200);const t=new THREE.Vector3(...target);camera.position.set(...CAMERA_VIEW_DIRECTION).multiplyScalar(70).add(t);camera.lookAt(t);renderer.render(scene,camera);images[name]=renderer.domElement.toDataURL('image/png')}
    if(JSON.stringify(map)!==original)throw new Error('Meadow changed map');
    scene.traverse(o=>{o.geometry?.dispose();o.userData.ownedGroundTextures?.forEach(t=>t.dispose());o.material?.dispose()});renderer.dispose();renderer.forceContextLoss();setActiveTerrain({width:24,height:24});
-   return {map:map.id,plants:points.length,batches:1,forestClearingIndependent:true,maxScreenRollDegrees:maxRoll,groundContact:true,excluded,reviewExcluded:true,mapUnchanged:true,points,images};
+   return {map:map.id,plants:points.length,batches:flowers.length,specimens:Object.fromEntries(groups.map(g=>[g.name,g.positions.length])),forestClearingIndependent:true,maxScreenRollDegrees:maxRoll,groundContact:true,excluded,reviewExcluded:true,mapUnchanged:true,points,images};
   })()`);
   for(const [name,image] of Object.entries(result.images))await writeFile(out+'/meadow-'+name+'.png',Buffer.from(image.split(',')[1],'base64'));delete result.images;
   await writeFile(out+'/meadow-proof.json',JSON.stringify(result,null,2)+'\n');

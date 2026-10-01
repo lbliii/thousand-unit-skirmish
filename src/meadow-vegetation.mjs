@@ -1,5 +1,26 @@
 const grass = new Set(['meadow', 'short-grass', 'long-grass', 'dry-grass']);
 
+function seededRandom(seed) {
+  return (cell, salt) => {
+    let value = (cell ^ seed ^ salt) >>> 0;
+    value = Math.imul(value ^ (value >>> 16), 0x7feb352d);
+    value = Math.imul(value ^ (value >>> 15), 0x846ca68b);
+    return ((value ^ (value >>> 16)) >>> 0) / 4294967296;
+  };
+}
+
+// Choose a specimen per coarse bed, preserving every accepted root and gap.
+export function meadowPlantGroups(definition, base = definition.terrainBase) {
+  const groups = ['bellweather-meadow-herbs', 'bellweather-meadow-clover'].map(name => ({ name, positions: [] }));
+  const random = seededRandom(Math.trunc(definition.terrainSeed || 0) >>> 0);
+  for (const point of meadowPlantPositions(definition, base)) {
+    const row = Math.floor(point.cell / definition.width), column = point.cell % definition.width;
+    const patch = Math.floor(row / 4) * Math.ceil(definition.width / 4) + Math.floor(column / 4);
+    groups[random(patch, 439) < 0.5 ? 0 : 1].positions.push(point);
+  }
+  return groups.filter(group => group.positions.length);
+}
+
 // Sparse decoration only: map obstacles and economic markers retain precedence.
 export function meadowPlantPositions(definition, base = definition.terrainBase) {
   if (!grass.has(base) || definition.id === 'meshy-resource-review') return [];
@@ -15,12 +36,7 @@ export function meadowPlantPositions(definition, base = definition.terrainBase) 
   for (const obstacle of definition.obstacles || []) paint(obstacle, cell => { blocked[cell] = 1; }, 1);
   for (const trigger of definition.triggers || []) if (trigger.zone) paint(trigger.zone, cell => { blocked[cell] = 1; }, 1);
   const seed = Math.trunc(definition.terrainSeed || 0) >>> 0;
-  const random = (cell, salt) => {
-    let value = (cell ^ seed ^ salt) >>> 0;
-    value = Math.imul(value ^ (value >>> 16), 0x7feb352d);
-    value = Math.imul(value ^ (value >>> 15), 0x846ca68b);
-    return ((value ^ (value >>> 16)) >>> 0) / 4294967296;
-  };
+  const random = seededRandom(seed);
   const positions = [];
   for (let row = 1; row < height - 1; row++) for (let column = 1; column < width - 1; column++) {
     const cell = row * width + column;

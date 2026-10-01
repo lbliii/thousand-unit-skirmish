@@ -1,0 +1,7 @@
+# Bellweather open meadow variety
+
+Local candidate from main `8e7b56ac`, isolated room/map storage and headless Chrome on port 4178. Run `RTS_QA_URL=http://127.0.0.1:4178 RTS_VEGETATION_MEADOW=1 RTS_VEGETATION_OUTPUT=docs/qa-evidence/vaelora-bellweather-open-clover-2026-09-30 node scripts/qa-vegetation-browser.mjs`.
+
+[Meadow proof](meadow-proof.json) records all 148 unchanged accepted positions on Bellweather Millrace, split 57 herbs/91 clover across two batches. Each batch matches its seeded group's instance count. Ground contact and maximum screen roll 7.16e-15 degrees pass; both batches' matrices remain exact after clearing all forest stock. Six incompatible terrain bases and resource review exclude these plants. Map data remains unchanged. [Ordinary](meadow-ordinary.png) and [strategic](meadow-strategic.png) renderer views show the mix using the runtime camera.
+
+The meadow placement scenario verifies seed repeatability, accepted-point union equality, consistent specimen within each coarse bed and existing obstacle/objective/dirt/resource/spawn protections. Opening Forked Vale boots ready with no runtime/console errors. Runtime module and clover release bytes match; exact temporary release copy removed. Syntax/docs/whitespace pass. This reuses selected art without generation or new lore; captures are renderer fixtures, not a played match. No independent harvesting, later construction/traffic reaction, directional art, hosted or performance claim.
