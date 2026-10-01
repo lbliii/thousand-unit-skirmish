@@ -907,3 +907,26 @@ records protected placement, seeded grouping, ordinary/strategic views,
 region exclusions, terrain contact and all nine land-vegetation occupation
 categories. This reuses the existing fixed painted views; no additional
 perspectives or harvesting poses were added.
+
+## Quieter Vesperra jungle loam · 1 October 2026
+
+Vesperra and unassigned jungle-loam maps now use
+[quiet loam](../assets/environment/frontier-v1/vesperra-quiet-loam-manifest.json)
+with a shallow moss/soil value range and small litter flecks. The [exact
+prompts](../assets/environment/frontier-v1/VESPERRA-QUIET-LOAM-PROMPTS.json)
+record a rejected first edit that retained broad ribbons and the selected
+second edit. The original selected PNG remains unchanged; its runtime WebP is
+an opaque RGB LANCZOS1024 export at quality86/method6.
+
+`jungleSurface=legacy` restores the original jungle-loam texture. Explicit
+other regions, including Ru Lora's fringe, retain that original texture by
+default. Semantic terrain paint, sampling shader, terrain geometry, foliage
+placement and resource rules are unchanged. The default applies to both open
+Vesperra ground and its existing woodland ground cover.
+
+[Paired renderer evidence](qa-evidence/vaelora-quiet-jungle-loam-2026-10-01/README.md)
+compares original/quiet tiles at 32 and 128 world-unit spans with cardinal/free
+sampling. Large mottled patterning is weaker; fine texture and some repeat
+structure remain. No exact opposite-edge seam or complete repetition-removal
+claim is made. [Vegetation regression](qa-evidence/vaelora-quiet-jungle-vegetation-2026-10-01/README.md)
+checks the current 79-plant woodland margins against this ground default.

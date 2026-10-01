@@ -8,7 +8,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'assets/environment/frontier-v1'
-NAMES = ('bellweather-quiet-meadow', 'siltmouths-quiet-mud', 'pale-meridian-quiet-snow')
+NAMES = ('bellweather-quiet-meadow', 'siltmouths-quiet-mud', 'pale-meridian-quiet-snow', 'vesperra-quiet-loam')
 
 
 def require(condition, message):

@@ -196,3 +196,9 @@ Veilcap and pod-vine pockets outside the forest cells. Pale Clearings has
 [Current environment guide](environment-pack-v1.md#vesperra-woodland-margins--1-october-2026)
 and [runtime evidence](qa-evidence/vaelora-vesperra-woodland-margins-2026-10-01/README.md).
 Margin plants use building-footprint clearing and remain independent of wood stock.
+
+Vesperra jungle-loam now defaults to a quieter moss/soil source, with
+`jungleSurface=legacy` preserving the previous comparison. Explicit other
+regions keep their current ground. [Manifest](../assets/environment/frontier-v1/vesperra-quiet-loam-manifest.json),
+[exact prompts](../assets/environment/frontier-v1/VESPERRA-QUIET-LOAM-PROMPTS.json)
+and [paired scale evidence](qa-evidence/vaelora-quiet-jungle-loam-2026-10-01/README.md).

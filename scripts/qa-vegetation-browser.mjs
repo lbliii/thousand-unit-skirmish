@@ -616,7 +616,7 @@ try {
  if(proof.some(r=>JSON.stringify(r.cells.slice().sort((a,b)=>a-b))!==reference))throw new Error('Regional forest cells differ');
  const covers=await cdp.evaluate(`(async()=>{
   const {createGroundSurfaces,TERRAIN_MATERIALS}=await import('/src/environment-art.mjs');
-  const expected={meadow:'forest-floor',sand:'dirt','garden-loam':'garden-loam',scree:'scree',snow:'pale-meridian-quiet-snow',ice:'pale-meridian-quiet-snow','tidal-mud':'siltmouths-quiet-mud','jungle-loam':'jungle-loam','lunar-soil':'lunar-soil'};
+  const expected={meadow:'forest-floor',sand:'dirt','garden-loam':'garden-loam',scree:'scree',snow:'pale-meridian-quiet-snow',ice:'pale-meridian-quiet-snow','tidal-mud':'siltmouths-quiet-mud','jungle-loam':'vesperra-quiet-loam','lunar-soil':'lunar-soil'};
   const result=[];
   for(const [base,cover] of Object.entries(expected)){
    const meshes=createGroundSurfaces({width:12,height:12,terrainBase:base,obstacles:[{column:4,row:4,width:4,height:4,material:'forest'}]});

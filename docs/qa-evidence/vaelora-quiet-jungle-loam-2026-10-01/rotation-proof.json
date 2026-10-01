@@ -1,0 +1,95 @@
+{
+  "seed": 42,
+  "boot": {
+    "ready": "ready",
+    "error": "",
+    "quietLoaded": true
+  },
+  "legacyBoot": {
+    "ready": "ready",
+    "error": "",
+    "legacyLoaded": true,
+    "quietLoaded": false
+  },
+  "regionalBinding": [
+    {
+      "region": "vesperra",
+      "file": "vesperra-quiet-loam.webp"
+    },
+    {
+      "region": "unassigned",
+      "file": "vesperra-quiet-loam.webp"
+    },
+    {
+      "region": "ru-lora-fringe",
+      "file": "jungle-loam.webp"
+    },
+    {
+      "region": "ru-lora-interior",
+      "file": "jungle-loam.webp"
+    },
+    {
+      "region": "underbough",
+      "file": "jungle-loam.webp"
+    }
+  ],
+  "errors": [],
+  "proof": [
+    {
+      "terrain": "jungle-loam",
+      "span": 32,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "jungle-loam",
+      "span": 32,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "jungle-loam",
+      "span": 128,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "jungle-loam",
+      "span": 128,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "vesperra-quiet-loam",
+      "span": 32,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "vesperra-quiet-loam",
+      "span": 32,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "vesperra-quiet-loam",
+      "span": 128,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "vesperra-quiet-loam",
+      "span": 128,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    }
+  ]
+}

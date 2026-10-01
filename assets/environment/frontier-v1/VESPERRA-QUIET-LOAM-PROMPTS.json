@@ -1,0 +1,14 @@
+{
+  "generator": "Built-in ImageGen",
+  "initial": {
+    "prompt": "Edit this square hand-painted jungle-loam terrain texture into a quieter base for an original fantasy RTS, Vesperra's living old forest. Keep its existing muted palette and average lightness: deep petrol/olive greens, brown-grey loam, moss, restrained weathered leaf litter. Keep the broad brush-painted fantasy finish, no photorealism. Main correction: remove the strongly mottled large bright/dark islands and branching brown channels; they currently become fractal or sound-wave-like patterns across large maps. Replace them with a calm, continuous moss-and-soil ground field with very shallow, soft value variation. Make the moss a short, low-relief mat instead of puffy clumps. Retain a few tiny indistinct leaf scraps distributed sparsely, not recognizable large leaves, no roots, stones, mushrooms, pods, flowers or new scenery. Avoid diagonal bands, rings, veins, curls, ridges, starbursts, repeated noisy detail, or dramatic dark cavities. High readability behind units and separately placed foliage. Texture only, directly overhead flat orthographic projection, uniform diffuse lighting with no directional cast shadows, no horizon, no perspective. Fill the entire square edge to edge with matching appearance at opposing edges for repeating terrain; no frame, vignette, text or borders. Opaque image.",
+    "output": "exec-ce9a9f08-f5f5-4248-bb95-2723173767c1.png",
+    "status": "rejected-retained-broad-ribbons"
+  },
+  "selected": {
+    "prompt": "Revise this square RTS jungle terrain tile MUCH more decisively. Keep ONLY its dark olive/petrol-green and umber palette and subdued average brightness. Replace all of the current large-scale pattern structure. The current diagonal green/brown moss ribbons must completely disappear: no diagonal channels, stripes, bands, branching lanes, dark islands or visible repetitive contours. Make a very quiet nearly uniform dark olive moss mat over loam, close to a solid matte painted ground with only delicate short brush dabs and tiny pinhead specks. Overall luminance variation should be shallow, around ten percent, with no strong alternating green and brown areas. Soil and moss colors are softly mixed throughout, not separated into regions. Zero prominent leaves; only a handful of tiny vague litter flecks. Painterly fantasy game texture, not photographic or noisy. Uniform top-down diffuse light. Full square edge-to-edge opaque texture; intended repeating base, matching opposite edges in appearance. No vignette, shading gradients, craters, height relief, objects, cast shadows, plants, text or borders. Prioritize a calm surface behind separately rendered ferns and trees; this must look visibly less patterned than the input.",
+    "output": "exec-d0b894c6-2fd8-43f7-b0f8-6e4082f6f090.png",
+    "editTarget": "exec-ce9a9f08-f5f5-4248-bb95-2723173767c1.png"
+  },
+  "reference": "jungle-loam.png"
+}

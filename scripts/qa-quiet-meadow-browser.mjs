@@ -66,12 +66,13 @@ class Cdp {
 
 
 
+const jungle=process.env.RTS_QUIET_TERRAIN==='jungle-loam';
 const snow=process.env.RTS_QUIET_TERRAIN==='snow';
 const mud=process.env.RTS_QUIET_TERRAIN==='tidal-mud';
-const original=snow?'snow':mud?'tidal-mud':'meadow',candidate=snow?'pale-meridian-quiet-snow':mud?'siltmouths-quiet-mud':'bellweather-quiet-meadow';
+const original=jungle?'jungle-loam':snow?'snow':mud?'tidal-mud':'meadow',candidate=jungle?'vesperra-quiet-loam':snow?'pale-meridian-quiet-snow':mud?'siltmouths-quiet-mud':'bellweather-quiet-meadow';
 const profile=await mkdtemp('/tmp/vaelora-quiet-meadow-chrome-');
 const chrome=spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',['--headless=new','--no-first-run','--no-default-browser-check','--remote-debugging-port=0','--window-size=1024,768','--user-data-dir='+profile,'about:blank'],{stdio:'ignore'});
-const out=snow?'docs/qa-evidence/vaelora-quiet-snow-2026-09-30':mud?'docs/qa-evidence/vaelora-quiet-tidal-mud-2026-09-30':'docs/qa-evidence/vaelora-quiet-meadow-2026-09-30';let cdp;
+const out=jungle?'docs/qa-evidence/vaelora-quiet-jungle-loam-2026-10-01':snow?'docs/qa-evidence/vaelora-quiet-snow-2026-09-30':mud?'docs/qa-evidence/vaelora-quiet-tidal-mud-2026-09-30':'docs/qa-evidence/vaelora-quiet-meadow-2026-09-30';let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
  const targets=await(await fetch('http://127.0.0.1:'+port+'/json/list')).json();cdp=new Cdp(targets.find(t=>t.type==='page').webSocketDebuggerUrl);
@@ -91,8 +92,30 @@ try {
   })()`);
   const name=terrain+'-'+span+'-'+(free?'free':'cardinal')+'.png';await writeFile(out+'/'+name,Buffer.from(result.image.split(',')[1],'base64'));delete result.image;if(!result.stable||result.programs!==1)throw new Error('Terrain render registration failed');proof.push({terrain,span,free,...result});
  }
- await cdp.call('Page.navigate',{url:BASE.origin+(snow||mud?'/':'/?meadowSurface=quiet')});await sleep(5000);
+ await cdp.call('Page.navigate',{url:BASE.origin+(snow||mud||jungle?'/':'/?meadowSurface=quiet')});await sleep(5000);
  const boot=await cdp.evaluate('({ready:document.documentElement.dataset.boot,error:document.querySelector("#runtime-error")?.textContent,quietLoaded:performance.getEntriesByType("resource").some(e=>e.name.includes("' + candidate + '.webp"))})');if(boot.ready!=='ready'||boot.error||!boot.quietLoaded)throw new Error('Runtime quiet-meadow boot failed');
  const shot=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/runtime-quiet.png',Buffer.from(shot.data,'base64'));
- if(errors.length)throw new Error(errors.join('\n'));await writeFile(out+'/rotation-proof.json',JSON.stringify({seed:42,boot,errors,proof},null,2)+'\n');console.log(JSON.stringify({views:proof.length,errors}));
+ const regionalBinding=[];let legacyBoot=null;
+ if(jungle){
+  regionalBinding.push(...await cdp.evaluate(`(async()=>{
+   const {createGroundSurfaces}=await import('/src/environment-art.mjs');
+   const result=[];
+   for(const region of ['vesperra',undefined,'ru-lora-fringe','ru-lora-interior','underbough']){
+    const objects=createGroundSurfaces({region,width:12,height:12,terrainBase:'jungle-loam',obstacles:[]});
+    const mesh=objects.find(o=>o.material.map);
+    for(let i=0;i<50&&!mesh.material.map.image?.complete;i++)await new Promise(r=>setTimeout(r,100));
+    const file=mesh.material.map.image?.src?.split('/').pop()?.split('?')[0];
+    const expected=!region||region==='vesperra'?'vesperra-quiet-loam.webp':'jungle-loam.webp';
+    if(file!==expected)throw new Error('Jungle regional binding mismatch '+region);
+    result.push({region:region??'unassigned',file});
+    for(const o of objects){o.geometry.dispose();o.userData.ownedGroundTextures?.forEach(t=>t.dispose());o.material.dispose()}
+   }
+   return result;
+  })()`));
+  await cdp.call('Page.navigate',{url:BASE.origin+'/?jungleSurface=legacy'});await sleep(5000);
+  legacyBoot=await cdp.evaluate(`({ready:document.documentElement.dataset.boot,error:document.querySelector('#runtime-error')?.textContent,legacyLoaded:performance.getEntriesByType('resource').some(e=>e.name.includes('/jungle-loam.webp')),quietLoaded:performance.getEntriesByType('resource').some(e=>e.name.includes('/vesperra-quiet-loam.webp'))})`);
+  if(legacyBoot.ready!=='ready'||legacyBoot.error||!legacyBoot.legacyLoaded||legacyBoot.quietLoaded)throw new Error('Legacy jungle comparison boot failed');
+  const legacyShot=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/runtime-legacy.png',Buffer.from(legacyShot.data,'base64'));
+ }
+ if(errors.length)throw new Error(errors.join('\n'));await writeFile(out+'/rotation-proof.json',JSON.stringify({seed:42,boot,legacyBoot,regionalBinding,errors,proof},null,2)+'\n');console.log(JSON.stringify({views:proof.length,errors}));
 }finally{cdp?.close();chrome.kill()}

@@ -311,6 +311,10 @@ function groundTexture(material, definition, variant = false) {
   if (name === 'snow' && new URLSearchParams(globalThis.location?.search ?? '').get('snowSurface') !== 'legacy') {
     name = 'pale-meridian-quiet-snow';
   }
+  if (name === 'jungle-loam' && (!definition?.region || definition.region === 'vesperra')
+    && query.get('jungleSurface') !== 'legacy') {
+    name = 'vesperra-quiet-loam';
+  }
   if (grounds.has(name)) return grounds.get(name);
   const texture = textureLoader.load(`${ASSET_ROOT}${name}.webp?v=vaelora-ground-v2`);
   texture.colorSpace = THREE.SRGBColorSpace;

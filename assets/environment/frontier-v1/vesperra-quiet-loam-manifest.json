@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-01",
+  "generator": "Built-in ImageGen",
+  "reference": "jungle-loam.png",
+  "referenceSha256": "f095640cec406966b92fea446d88997987d988b983a7aa95379086df59aff54b",
+  "prompts": "VESPERRA-QUIET-LOAM-PROMPTS.json",
+  "encoding": "Selected PNG unchanged; RGB LANCZOS1024 WebP quality86 method6",
+  "files": [
+    {
+      "file": "vesperra-quiet-loam.png",
+      "sha256": "7e20f6d135b01a046c3e5fe453e9859d03a178b664bcdcf957e5f99eabd5b9cc",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "sourceOutput": "exec-d0b894c6-2fd8-43f7-b0f8-6e4082f6f090.png"
+    },
+    {
+      "file": "vesperra-quiet-loam.webp",
+      "sha256": "fac3e9a96a9e0785f86ae22bd7f7725dcc1450c247d1532cd34530bc16e3825b",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sourceOutput": "exec-d0b894c6-2fd8-43f7-b0f8-6e4082f6f090.png"
+    }
+  ]
+}

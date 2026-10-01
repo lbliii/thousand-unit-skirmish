@@ -1,0 +1,26 @@
+{
+  "capture": "128-world-unit cardinal, same renderer/seed",
+  "method": "sRGB pixel values; illustrative contrast measurements, not a readability or seamlessness certificate",
+  "rows": [
+    {
+      "terrain": "jungle-loam",
+      "meanRGB": [
+        50.455020904541016,
+        52.36701965332031,
+        26.637435913085938
+      ],
+      "lumaStd": 4.37604182486328,
+      "horizontalAdjacentLumaDifference": 2.8146710157778863
+    },
+    {
+      "terrain": "vesperra-quiet-loam",
+      "meanRGB": [
+        49.13978958129883,
+        51.487735748291016,
+        19.506019592285156
+      ],
+      "lumaStd": 2.273406519618633,
+      "horizontalAdjacentLumaDifference": 1.6618667578889434
+    }
+  ]
+}

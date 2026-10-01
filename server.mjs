@@ -7160,7 +7160,7 @@ const server = createServer(async (request, response) => {
       'underbough-old-plum-lifecycle-atlas', 'underbough-old-plum', 'underbough-old-plum-worked', 'underbough-old-plum-low', 'underbough-old-plum-depleted',
       'underbough-moss-hornbeam-lifecycle-atlas', 'underbough-moss-hornbeam', 'underbough-moss-hornbeam-worked', 'underbough-moss-hornbeam-low', 'underbough-moss-hornbeam-depleted',
       'underbough-root-oak-lifecycle-atlas', 'underbough-root-oak', 'underbough-root-oak-worked', 'underbough-root-oak-low', 'underbough-root-oak-depleted',
-      'bellweather-quiet-meadow', 'siltmouths-quiet-mud', 'pale-meridian-quiet-snow',
+      'bellweather-quiet-meadow', 'siltmouths-quiet-mud', 'pale-meridian-quiet-snow', 'vesperra-quiet-loam',
       ...TERRAIN_MATERIALS].includes(path.basename(relative, path.extname(relative)));
   const publicInteractiveEnvironmentAsset = path.dirname(relative) === 'assets/environment/frontier-interactive-v1'
     && (relative === 'assets/environment/frontier-interactive-v1/manifest.json'
