@@ -18,3 +18,18 @@ python3 scripts/build-succulent-action-atlas.py --write
 ```
 
 The builder verifies selected sources before exporting all four through the reviewed common crop. Without `--write` it only checks the existing pack. The checker reads current hashes, canvas sizes, state order, frame rectangles, world registration and decoded alpha; it explicitly reports anatomical root certification and runtime integration as false.
+
+## Fixed-camera review
+
+Run `node scripts/preview-succulent-actions.mjs` and open
+`http://127.0.0.1:4186`. This local-only Three.js review imports the renderer's
+camera direction, uses its bottom-pivoted plane construction and material
+settings, and shows all four atlas frames at the same scale. Cyan ground rings
+mark the unchanged pivots; buttons compare one state at all four positions.
+It serves only the explicitly listed review dependencies, not the game.
+
+The [captured review](../../../docs/qa-evidence/sereward-succulent-camera-2026-10-01/README.md)
+shows readable removal stages and a small upward silhouette displacement in
+low/depleted frames. This is a reason to review anatomical root registration
+before runtime harvest integration; it does not certify the painted camera
+angle or add harvesting rules.
