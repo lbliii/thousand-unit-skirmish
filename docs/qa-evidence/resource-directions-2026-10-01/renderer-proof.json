@@ -1,0 +1,24 @@
+{
+  "map": "meshy-resource-review",
+  "slots": 394,
+  "counts": {
+    "pine:0": 29,
+    "pine:45": 25,
+    "pine:90": 22,
+    "pine:135": 25,
+    "pine:180": 24,
+    "pine:225": 27,
+    "pine:270": 25,
+    "pine:315": 27,
+    "oak:0": 16,
+    "oak:45": 35,
+    "oak:90": 32,
+    "oak:135": 20,
+    "oak:180": 27,
+    "oak:225": 19,
+    "oak:270": 26,
+    "oak:315": 15
+  },
+  "rootReset": true,
+  "cardFacingFixed": true
+}

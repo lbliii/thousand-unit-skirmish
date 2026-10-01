@@ -1,0 +1,82 @@
+{
+  "comparison": "original logical canvas; lower root strip y=970..1254; no registration transforms",
+  "frames": [
+    {
+      "stage": "worked",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "alphaBounds": [
+        0,
+        42,
+        1226,
+        1216
+      ],
+      "lowerRootAlphaIntersectionOverUnion": 0.9250244755805929
+    },
+    {
+      "stage": "low",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "alphaBounds": [
+        31,
+        21,
+        1234,
+        1224
+      ],
+      "lowerRootAlphaIntersectionOverUnion": 0.9384484297654792
+    },
+    {
+      "stage": "depleted",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "alphaBounds": [
+        162,
+        53,
+        1093,
+        1213
+      ],
+      "lowerRootAlphaIntersectionOverUnion": 0.9331747105269591
+    }
+  ],
+  "review": "Generated frames visually compared to original: same lower trunk/root identity; worked retains broad crown with cut side branch; low opens upper crown and shows cut limbs; depleted leaves low stump. Faint low-alpha remnants above some reduced states remain intact in masters. Not directional or runtime evidence.",
+  "visibleThreshold": 96,
+  "visibleBounds": {
+    "full": [
+      48,
+      47,
+      1220,
+      1208
+    ],
+    "worked": [
+      54,
+      45,
+      1222,
+      1210
+    ],
+    "low": [
+      79,
+      331,
+      1203,
+      1209
+    ],
+    "depleted": [
+      260,
+      753,
+      1019,
+      1210
+    ]
+  },
+  "proposedSharedCropPx": [
+    40,
+    37,
+    1230,
+    1218
+  ],
+  "runtimeStatus": "awaiting common registration packaging, side-by-side scale review and harvesting/depletion/reset browser proof"
+}

@@ -338,3 +338,11 @@ vertical walls at cliffs. Exact independent corner sculpting and water on raised
 terraces are unsupported; keep water at level 0. Optional decorative mist remains
 a flat-map art study. This is pre-match authoring, with no in-match terraforming.
 Regional Palette sets ground/audio defaults independently of named scenario regions.
+
+### Underbough clearing ground
+
+Underbough Rootways uses meadow as its authored base so clearings receive the
+regional grass texture. Forest root masks add shaded soil under woods. The
+renderer keeps Underbough vegetation tied to its region independently of that
+base paint; minimap, Studio and exposed borders follow the actual base. Changing
+the paint does not change terrain blockers, wood cells or routes.

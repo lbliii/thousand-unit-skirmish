@@ -746,6 +746,19 @@ Two seeded batches partition the same 28% companion locations. Forest identities
 
 [Local geometry evidence](qa-evidence/vaelora-plant-runtime-contract-2026-09-30/README.md) verifies every actual mesh bounding box and pivot through the regional loader, plus deliberately invalid scale requests. Current dimensions, images, placement and gameplay remain unchanged. This guards production scale and ground anchors; approximate painted source perspective and additional registered views remain separate unfinished work.
 
+### Root Oak mixed woodland runtime — 1 October 2026 UTC
+
+[Root Oak lifecycle](../assets/environment/frontier-v1/underbough-root-oak-lifecycle-manifest.json)
+and [atlas](../assets/environment/frontier-v1/underbough-root-oak-lifecycle-atlas.json)
+add a dark olive broad-crown species to Underbough. Original generated source
+canvases, prompts and registration review remain in the regional kit source
+folder. `src/environment-art.mjs` groups Root Oak in loose seeded groves among
+Copperleaf and occasional woody bramble, retaining every original wood cell.
+The [browser proof](qa-evidence/underbough-root-oak-2026-10-01/underbough-rootways-renderer-proof.json)
+checks four atlas harvest states, reset matrices and matching roots; captures
+cover normal and strategic views without console or asset errors. Hornbeam and
+Plum remain sources; extra perspectives and a live worker observation for this
+new family remain unfinished.
 ## Measured environment camera guide · 30 September 2026
 
 The [construction reference](art-direction/environment-camera-v1/README.md) now derives editable diagrams and numeric measurements directly from the runtime camera vector. It documents 45° azimuth, 45.4359024848° elevation, upright projection and ground-circle foreshortening, plus eight rotations of one asymmetric calibration object for future directional work. Source-object projection and camera-facing card dimensions are described separately. These references support later source construction and consistency checks; existing painted sprites remain approximate and have no newly certified directions.

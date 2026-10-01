@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>berries sprite capture</title>
+  <style>
+    html, body { margin: 0; width: 640px; height: 640px; overflow: hidden; background: transparent; }
+    canvas { display: block; width: 640px; height: 640px; }
+    #status { position: fixed; left: 0; top: 0; padding: 2px 4px; color: white; background: #333; font: 12px monospace; }
+  </style>
+  <script type="importmap">
+    {"imports":{"three":"/node_modules/three/build/three.module.js"}}
+  </script>
+</head>
+<body>
+  <div id="status">Loading model</div>
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from '/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
+
+    const SIZE = 640;
+    const ORTHO_SCALE = 5;
+    const PIXELS_PER_UNIT = SIZE / ORTHO_SCALE;
+    const ANCHOR_Y = 480;
+    const ELEVATION = Math.atan2(1.12, Math.hypot(.78, .78));
+    const AZIMUTHS = [0, 45, 90, 135, 180, 225, 270, 315];
+    const status = document.getElementById('status');
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: true,
+      preserveDrawingBuffer: true,
+      powerPreference: 'high-performance'
+    });
+    renderer.setSize(SIZE, SIZE, false);
+    renderer.setClearColor(0x000000, 0);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.0;
+    document.body.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    scene.background = null;
+    scene.add(new THREE.HemisphereLight(0xe9efff, 0x594b39, 1.6));
+    const key = new THREE.DirectionalLight(0xffe2bd, 2.5);
+    key.position.set(-4, 8, 6);
+    scene.add(key);
+    const fill = new THREE.DirectionalLight(0xc5d8ff, 1.0);
+    fill.position.set(6, 5, -4);
+    scene.add(fill);
+    const rim = new THREE.DirectionalLight(0xffd28c, 0.7);
+    rim.position.set(2, 7, 5);
+    scene.add(rim);
+
+    const camera = new THREE.OrthographicCamera(
+      -ORTHO_SCALE / 2, ORTHO_SCALE / 2,
+      ORTHO_SCALE / 2, -ORTHO_SCALE / 2,
+      0.1, 30
+    );
+    camera.up.set(0, 1, 0);
+
+    const loader = new GLTFLoader();
+    const gltf = await loader.loadAsync("/meshy_output/organic-perspective-pilot/berries-optimized.glb");
+    const asset = gltf.scene;
+    asset.updateMatrixWorld(true);
+    const rawBounds = new THREE.Box3().setFromObject(asset);
+    const rawSize = rawBounds.getSize(new THREE.Vector3());
+    const rawCenter = rawBounds.getCenter(new THREE.Vector3());
+    const baseScale = 2.55 / Math.max(rawSize.x, rawSize.z);
+
+    const group = new THREE.Group();
+    group.add(asset);
+    group.scale.setScalar(baseScale);
+    group.position.set(
+      -rawCenter.x * baseScale,
+      -rawBounds.min.y * baseScale,
+      -rawCenter.z * baseScale
+    );
+    const headingGroup = new THREE.Group();
+    headingGroup.add(group);
+    scene.add(headingGroup);
+    group.updateMatrixWorld(true);
+
+    const meshes = [];
+    let triangleCount = 0;
+    group.traverse((object) => {
+      if (!object.isMesh) return;
+      meshes.push({ object, material: object.material });
+      const geometry = object.geometry;
+      triangleCount += geometry.index
+        ? geometry.index.count / 3
+        : geometry.attributes.position.count / 3;
+    });
+
+    function vectorsForView(azimuthDegrees) {
+      const az = THREE.MathUtils.degToRad(azimuthDegrees);
+      const radial = new THREE.Vector3(Math.sin(az), 0, Math.cos(az));
+      const up = new THREE.Vector3(
+        -Math.sin(ELEVATION) * radial.x,
+        Math.cos(ELEVATION),
+        -Math.sin(ELEVATION) * radial.z
+      );
+      const target = up.clone().multiplyScalar((ANCHOR_Y - SIZE / 2) / PIXELS_PER_UNIT);
+      const direction = new THREE.Vector3(
+        Math.cos(ELEVATION) * radial.x,
+        Math.sin(ELEVATION),
+        Math.cos(ELEVATION) * radial.z
+      );
+      return { target, position: target.clone().addScaledVector(direction, 14) };
+    }
+
+    function setCamera(azimuthDegrees) {
+      const { target, position } = vectorsForView(azimuthDegrees);
+      camera.position.copy(position);
+      camera.lookAt(target);
+      camera.updateProjectionMatrix();
+      camera.updateMatrixWorld(true);
+    }
+
+    function setView(heading) {
+      headingGroup.rotation.y = THREE.MathUtils.degToRad(heading);
+      headingGroup.updateMatrixWorld(true);
+      setCamera(45);
+    }
+    function screenBounds() {
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      for (const heading of AZIMUTHS) {
+        setView(heading);
+        const bounds = new THREE.Box3().setFromObject(headingGroup);
+        for (let x = 0; x < 2; x++) for (let y = 0; y < 2; y++) for (let z = 0; z < 2; z++) {
+          const p = new THREE.Vector3(x ? bounds.max.x : bounds.min.x,
+            y ? bounds.max.y : bounds.min.y, z ? bounds.max.z : bounds.min.z).project(camera);
+          const px = (p.x + 1) * SIZE / 2, py = (1 - p.y) * SIZE / 2;
+          minX = Math.min(minX, px); maxX = Math.max(maxX, px);
+          minY = Math.min(minY, py); maxY = Math.max(maxY, py);
+        }
+      }
+      return {minX, minY, maxX, maxY};
+    }
+
+    let fitScale = 1;
+    const preFitBounds = screenBounds();
+    for (const [extent, available] of [
+      [Math.max(320 - preFitBounds.minX, 0), 312],
+      [Math.max(preFitBounds.maxX - 320, 0), 312],
+      [Math.max(ANCHOR_Y - preFitBounds.minY, 0), ANCHOR_Y - 12],
+      [Math.max(preFitBounds.maxY - ANCHOR_Y, 0), SIZE - 12 - ANCHOR_Y]
+    ]) {
+      if (extent > available) fitScale = Math.min(fitScale, available / extent);
+    }
+    if (fitScale < 1) {
+      group.scale.multiplyScalar(fitScale);
+      group.position.multiplyScalar(fitScale);
+      group.updateMatrixWorld(true);
+    }
+
+    setView(0);
+    const finalBounds = new THREE.Box3().setFromObject(group);
+    const finalSize = finalBounds.getSize(new THREE.Vector3());
+    const stats = {
+      rawBounds: { min: rawBounds.min.toArray(), max: rawBounds.max.toArray(), size: rawSize.toArray() },
+      normalizedSize: finalSize.toArray(),
+      baseScale,
+      fitScale,
+      effectiveScale: baseScale * fitScale,
+      triangleCount: Math.round(triangleCount),
+      framePixels: SIZE,
+      pixelsPerWorldUnit: PIXELS_PER_UNIT,
+      anchorPixelFromTopLeft: [SIZE / 2, ANCHOR_Y],
+      modelHeadingsDegrees: AZIMUTHS, fixedCameraAzimuthDegrees: 45,
+      projectedBoundsBeforeFit: preFitBounds
+    };
+    const statsResponse = await fetch('/__save/references/model-stats.json', {
+      method: 'POST',
+      body: JSON.stringify(stats, null, 2)
+    });
+    if (!statsResponse.ok) throw new Error('Could not save model stats: ' + statsResponse.status);
+
+    const originalMaterials = meshes.map((item) => item.material);
+    const normalMaterial = new THREE.MeshNormalMaterial({ side: THREE.DoubleSide, toneMapped: false });
+    const maskMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, toneMapped: false });
+    const depthMaterial = new THREE.ShaderMaterial({
+      uniforms: { nearPlane: { value: camera.near }, farPlane: { value: camera.far } },
+      vertexShader: `
+        varying float viewDepth;
+        void main() {
+          vec4 viewPosition = modelViewMatrix * vec4(position, 1.0);
+          viewDepth = -viewPosition.z;
+          gl_Position = projectionMatrix * viewPosition;
+        }
+      `,
+      fragmentShader: `
+        uniform float nearPlane;
+        uniform float farPlane;
+        varying float viewDepth;
+        void main() {
+          float normalizedDepth = clamp((viewDepth - nearPlane) / (farPlane - nearPlane), 0.0, 1.0);
+          float depthValue = 1.0 - normalizedDepth;
+          gl_FragColor = vec4(vec3(depthValue), 1.0);
+        }
+      `,
+      side: THREE.DoubleSide,
+      toneMapped: false
+    });
+
+    async function saveFrame(pass, index) {
+      const blob = await new Promise((resolve, reject) => {
+        renderer.domElement.toBlob((value) => value ? resolve(value) : reject(new Error('canvas toBlob failed')), 'image/png');
+      });
+      const filename = `view-${String(index).padStart(2, '0')}.png`;
+      const response = await fetch(`/__save/references/frames/${pass}/${filename}`, { method: 'POST', body: blob });
+      if (!response.ok) throw new Error(`Saving ${pass}/${filename} failed: ${response.status}`);
+    }
+
+    function assignMaterial(material) {
+      for (const item of meshes) item.object.material = material;
+    }
+    function restoreMaterials() {
+      meshes.forEach((item, index) => { item.object.material = originalMaterials[index]; });
+    }
+
+    for (let index = 0; index < AZIMUTHS.length; index++) {
+      const azimuth = AZIMUTHS[index];
+      status.textContent = `view ${index + 1}/8 · color`;
+      setView(azimuth);
+      restoreMaterials();
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.render(scene, camera);
+      await saveFrame('color', index);
+
+
+    }
+    restoreMaterials();
+    status.textContent = 'RENDER_DONE · ' + JSON.stringify(stats);
+    document.title = 'RENDER_DONE';
+    window.__renderDone = true; await fetch('/__save/capture-complete.json', {method: 'POST', body: '{}'});
+  </script>
+</body>
+</html>

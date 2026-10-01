@@ -1,0 +1,25 @@
+<!doctype html><html><base href="/"><script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js"}}</script><body style="margin:0"><script type="module">
+import * as THREE from 'three';
+import {addObstacleEnvironmentSprites,setForestSpriteStock} from '/src/environment-art.mjs';
+const scene=new THREE.Scene();scene.background=new THREE.Color('#50583e');
+const map=await(await fetch('/maps/meshy-resource-review.json')).json();
+const objects=[];const slots=addObstacleEnvironmentSprites(map,map.width/2,map.height/2,o=>{objects.push(o);scene.add(o)});
+const counts={};for(const slot of slots.values()){
+ const key=slot.family+':'+slot.modelYawDegrees;counts[key]=(counts[key]||0)+1;
+ if(!['oak','pine'].includes(slot.family))throw Error('Unexpected family');
+ if(slot.flip||slot.yaw)throw Error('Directional card was flipped or tilted');
+ const before=slot.mesh.instanceMatrix.array.slice(slot.index*16,slot.index*16+16);
+ setForestSpriteStock(slot,0);setForestSpriteStock(slot,6);
+ const after=slot.mesh.instanceMatrix.array.slice(slot.index*16,slot.index*16+16);
+ if(before.some((v,i)=>v!==after[i]))throw Error('Reset moved root');
+}
+if(Object.keys(counts).length!==16)throw Error('Missing headings');
+for(let i=0;i<600;i++){if(objects.every(o=>o.material.map?.image))break;await new Promise(r=>setTimeout(r,100));}
+if(objects.some(o=>!o.material.map?.image))throw Error('Textures failed to load');
+const camera=new THREE.OrthographicCamera(-15,15,15,-15,.1,200);camera.position.set(39,56,39);camera.lookAt(0,0,0);
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(640,640);document.body.append(renderer.domElement);renderer.render(scene,camera);
+async function save(name,data){const r=await fetch('/__save/'+name,{method:'POST',body:data});if(!r.ok)throw Error('Save '+r.status);}
+await save('renderer-proof.json',JSON.stringify({map:map.id,slots:slots.size,counts,rootReset:true,cardFacingFixed:true},null,2));
+await save('headings.png',await new Promise(r=>renderer.domElement.toBlob(r)));
+window.__renderDone=true;
+</script></body></html>

@@ -1,0 +1,18 @@
+<!doctype html><html><base href="/"><script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js"}}</script><body style="margin:0"><script type="module">
+import * as THREE from 'three';
+import * as environment from '/src/environment-art.mjs';
+const scene=new THREE.Scene();scene.background=new THREE.Color('#50583e');
+const positions=Array.from({length:32},(_,i)=>({x:(i%8-3.5)*3,z:(Math.floor(i/8)-1.5)*4,scale:1}));
+const mesh=environment.createEnvironmentSpriteInstances('berries-full',2.55,1.56,positions);scene.add(mesh);
+const rects=mesh.geometry.attributes.resourceViewRect;const counts={};
+for(let i=0;i<32;i++){const h=Math.round(rects.getX(i)*4)+Math.round((1-rects.getY(i)-.5)*2)*4;counts[h]=(counts[h]||0)+1;}
+if(Object.keys(counts).length!==8)throw Error('Missing model headings');
+for(let i=0;i<600;i++){if(environment.RESOURCE_STATE_ASSETS_AVAILABLE&&mesh.material.map?.image)break;await new Promise(r=>setTimeout(r,100));}
+if(!environment.RESOURCE_STATE_ASSETS_AVAILABLE)throw Error('Lifecycle assets not ready');
+if(!mesh.material.map.image?.src?.includes('berries-atlas.webp'))throw Error('Async state loading replaced directional atlas');
+for(let i=0;i<32;i++){const before=mesh.instanceMatrix.array.slice(i*16,i*16+16);environment.setEnvironmentSpriteInstance(mesh,i,positions[i].x,positions[i].z,0);environment.setEnvironmentSpriteInstance(mesh,i,positions[i].x,positions[i].z,1);if(before.some((v,j)=>v!==mesh.instanceMatrix.array[i*16+j]))throw Error('Reset moved root');}
+const camera=new THREE.OrthographicCamera(-15,15,15,-15,.1,200);camera.position.set(39,56,39);camera.lookAt(0,0,0);
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(640,640);document.body.append(renderer.domElement);renderer.render(scene,camera);
+async function save(name,data){const r=await fetch('/__save/'+name,{method:'POST',body:data});if(!r.ok)throw Error('Save '+r.status);}
+await save('renderer-proof.json',JSON.stringify({instances:32,counts,rootReset:true,atlasPreservedAfterLifecycleLoad:true},null,2));await save('headings.png',await new Promise(r=>renderer.domElement.toBlob(r)));window.__renderDone=true;
+</script></body></html>

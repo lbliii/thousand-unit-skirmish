@@ -17,8 +17,9 @@ for (const id of ['bellweather-millrace', 'underbough-rootways']) {
   assert.equal(JSON.stringify(before), input, 'settlement paint never mutates input rules');
   assert.deepEqual(patches, settlementGround(before), 'settlement wear is deterministic');
   assert.deepEqual(patches, map.terrainPatches);
-  for (const key of Object.keys(before).filter(key => key !== 'terrainPatches')) assert.deepEqual(map[key], before[key], `${key}: visual paint must not change match rules`);
-  const oldPaint = paintGrid(before), newPaint = paintGrid(map);
+  for (const key of Object.keys(before).filter(key => key !== 'terrainPatches' && key !== 'terrainBase')) assert.deepEqual(map[key], before[key], `${key}: visual paint must not change match rules`);
+  assert.equal(map.terrainBase, id === 'underbough-rootways' ? 'meadow' : before.terrainBase, 'authored clearing material is explicit');
+  const oldPaint = paintGrid({...before, terrainBase:map.terrainBase}), newPaint = paintGrid(map);
   const blocked = new Set();
   for (const rect of map.obstacles) for (let row = rect.row; row < rect.row + rect.height; row++) for (let col = rect.column; col < rect.column + rect.width; col++) blocked.add(row * map.width + col);
   assert.ok(newPaint.filter((material, cell) => material !== oldPaint[cell]).length > 20, 'real hall pads and working tracks are added');

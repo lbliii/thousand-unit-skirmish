@@ -133,6 +133,25 @@ try {
   const environmentModule = await fetch(`${base}/src/environment-art.mjs`, { headers: { authorization } });
   assert.equal(environmentModule.status, 200);
   assert.match(environmentModule.headers.get('content-type'), /javascript/);
+  // Every forest atlas requested by the renderer must survive Docker context
+  // filtering, be served by the packed runtime, and match its metadata hash.
+  const rendererSource = await environmentModule.text();
+  const forestRegistry = rendererSource.match(/forestAtlasPacks[^\n]+Promise\.all\(\[([^\]]+)\]/);
+  assert.ok(forestRegistry, 'release renderer must declare its forest atlas registry');
+  const forestRegions = [...forestRegistry[1].matchAll(/'([^']+)'/g)].map(match => match[1]);
+  const contextRules = (await readFile(path.join(root, '.dockerignore'), 'utf8')).split(/\r?\n/).map(line => line.trim());
+  for (const region of forestRegions) {
+    const metadataPath = `assets/environment/frontier-v1/${region}-lifecycle-atlas.json`;
+    assert.ok(contextRules.includes('!' + metadataPath), `${metadataPath} must be allowed in the Docker context`);
+    const metadataResponse = await fetch(`${base}/${metadataPath}`, { headers: { authorization } });
+    assert.equal(metadataResponse.status, 200, metadataPath);
+    const atlas = await metadataResponse.json();
+    const page = atlas.pages[0], file = atlas.files.find(entry => entry.id === page.runtimeFileId);
+    const response = await fetch(`${base}/assets/environment/frontier-v1/${file.path}`, { headers: { authorization } });
+    assert.equal(response.status, 200, file.path);
+    const bytes = Buffer.from(await response.arrayBuffer());
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), file.sha256, `${region} forest atlas must match its metadata`);
+  }
   const environmentTexture = await fetch(`${base}/assets/environment/frontier-v1/meadow.webp`, {
     headers: { authorization },
   });
@@ -209,6 +228,25 @@ try {
       assert.match(response.headers.get('content-type'), /image\/webp/);
       assert.ok((await response.arrayBuffer()).byteLength > 100, asset);
     }
+  }
+  for (const family of ['oak', 'pine']) {
+    for (let view = 0; view < 8; view++) {
+      const asset = `assets/environment/frontier-meshy-fixed-camera-v2/${family}/runtime/${family}-0${view}.webp`;
+      const response = await fetch(`${base}/${asset}`, { headers: { authorization } });
+      assert.equal(response.status, 200, asset);
+      assert.match(response.headers.get('content-type'), /image\/webp/);
+      const bytes = Buffer.from(await response.arrayBuffer());
+      assert.equal(createHash('sha256').update(bytes).digest('hex'),
+        createHash('sha256').update(await readFile(path.join(sourceRoot, asset))).digest('hex'), asset);
+    }
+  }
+  for (const family of ['oak', 'berries']) {
+    const asset = `assets/environment/frontier-meshy-fixed-camera-v2/${family}/${family}-atlas.webp`;
+    const response = await fetch(`${base}/${asset}`, { headers: { authorization } });
+    assert.equal(response.status, 200, asset);
+    const bytes = Buffer.from(await response.arrayBuffer());
+    assert.equal(createHash('sha256').update(bytes).digest('hex'),
+      createHash('sha256').update(await readFile(path.join(sourceRoot, asset))).digest('hex'), asset);
   }
   for (const [role, version, atlasName = role] of [
     ['worker', 'v1'], ['worker', 'v2'], ['worker', 'v3'],

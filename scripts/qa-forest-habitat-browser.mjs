@@ -67,7 +67,7 @@ class Cdp {
 
 const profile=await mkdtemp('/tmp/forest-habitat-chrome-');
 const chrome=spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',['--headless=new','--no-first-run','--no-default-browser-check','--remote-debugging-port=0','--window-size=1280,900','--user-data-dir='+profile,'about:blank'],{stdio:'ignore'});
-const out='docs/qa-evidence/forest-habitat-2026-09-30';
+const out=process.env.RTS_QA_EVIDENCE || 'docs/qa-evidence/forest-habitat-2026-09-30';
 let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
@@ -94,6 +94,10 @@ try {
   if(mode==='graduated') {
    await cdp.evaluate(`(()=>{const c=document.querySelector('#viewport canvas');const r=c.getBoundingClientRect();c.dispatchEvent(new WheelEvent('wheel',{deltaY:-700,clientX:r.x+r.width/2,clientY:r.y+r.height/2,cancelable:true}));document.querySelector('#camera-home-base').click()})()`);
    await sleep(400);const ordinary=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/'+id+'-ordinary.png',Buffer.from(ordinary.data,'base64'));
+   if(process.env.RTS_QA_FOREST_CLOSEUP==='1'){
+    await cdp.evaluate(`(()=>{const c=document.querySelector('#viewport canvas');const r=c.getBoundingClientRect();c.dispatchEvent(new WheelEvent('wheel',{deltaY:-1400,clientX:r.x+r.width*.62,clientY:r.y+r.height*.4,cancelable:true}))})()`);
+    await sleep(500);const close=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/'+id+'-closeup.png',Buffer.from(close.data,'base64'));
+   }
    const proof=await cdp.evaluate(`(async()=>{
     const {addObstacleEnvironmentSprites,setForestSpriteStock}=await import('/src/environment-art.mjs');
     const map=${JSON.stringify(map)},objects=[];
@@ -102,20 +106,27 @@ try {
     const flat=addObstacleEnvironmentSprites(map,map.width/2,map.height/2,m=>objects.push(m));history.replaceState(null,'',current);
     const expected=map.obstacles.filter(r=>r.material==='forest').reduce((n,r)=>n+r.width*r.height,0);
     if(shaped.size!==expected||flat.size!==expected)throw new Error('Harvest-cell identity changed');
-    let margins=0,cores=0;
+    let margins=0,cores=0;const families={};
     for(const [cell,slot] of shaped){
+     families[slot.family]=(families[slot.family]||0)+1;
      const baseline=flat.get(cell);const factor=slot.habitatDepth===1?.68:slot.habitatDepth===2?.86:1;
      if(Math.abs(slot.scale-baseline.scale*factor)>1e-9||slot.family!==baseline.family||slot.x!==baseline.x||slot.z!==baseline.z)throw new Error('Habitat changes role, root or wrong scale');
      if(slot.habitatDepth===1)margins++;if(slot.habitatDepth>=3)cores++;
-     if(setForestSpriteStock(slot,0)!=='depleted'||setForestSpriteStock(slot,6)!=='full')throw new Error('Harvest appearance lifecycle failed');
+     const before=slot.mesh.instanceMatrix.array.slice(slot.index*16,slot.index*16+16);
+     for(const [stock,stage] of [[6,'full'],[4,'worked'],[2,'low'],[0,'depleted'],[6,'full']]){
+      if(setForestSpriteStock(slot,stock)!==stage)throw new Error('Harvest appearance lifecycle failed');
+      if(slot.atlas){const r=slot.atlas.frameRects[stage],offset=slot.index*4;for(let i=0;i<4;i++)if(Math.abs(slot.atlas.rects.array[offset+i]-r[i])>1e-6)throw new Error('Wrong atlas harvest frame');}
+     }
+     const after=slot.mesh.instanceMatrix.array.slice(slot.index*16,slot.index*16+16);
+     if(before.some((v,i)=>v!==after[i]))throw new Error('Harvest reset moved registered tree');
     }
     for(const mesh of objects)mesh.geometry.dispose();
-    return {expectedCells:expected,slots:shaped.size,margins,cores,sameRolesAndRoots:true,depletionAndReset:true};
+    return {expectedCells:expected,slots:shaped.size,families,margins,cores,sameRolesAndRoots:true,depletionAndReset:true};
    })()`);
    await writeFile(out+'/'+id+'-renderer-proof.json',JSON.stringify(proof,null,2)+'\n');
   }
   console.log('Captured '+id+' '+mode);
  }
- await writeFile(out+'/capture-report.json',JSON.stringify({source:'9c083d75 + forest habitat working changes; identical maps/cameras, forestHabitat=flat comparison',fog:'disabled only in disposable capture copies',errors},null,2)+'\n');
+ await writeFile(out+'/capture-report.json',JSON.stringify({source:'current landscape renderer; identical maps/cameras, forestHabitat=flat comparison',fog:'disabled only in disposable capture copies',errors},null,2)+'\n');
  if(errors.length)throw new Error(errors.join('\n'));
 }finally{cdp?.close();chrome.kill('SIGTERM');}

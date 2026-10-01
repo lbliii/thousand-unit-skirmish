@@ -7,7 +7,7 @@
   "height": 72,
   "terrainSeed": 93002,
   "fogOfWar": true,
-  "terrainBase": "forest-floor",
+  "terrainBase": "meadow",
   "terrainPatches": [
     {
       "column": 41,

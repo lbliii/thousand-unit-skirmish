@@ -1,0 +1,13 @@
+{
+  "expectedCells": 1026,
+  "slots": 1026,
+  "families": {
+    "underbough-root-oak": 460,
+    "underbough-copperleaf": 483,
+    "underbough-bramble": 83
+  },
+  "margins": 310,
+  "cores": 458,
+  "sameRolesAndRoots": true,
+  "depletionAndReset": true
+}

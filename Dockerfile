@@ -58,3 +58,10 @@ COPY --chown=node:node assets/units/boughward-archer-sprite-v1/sprite-atlas-pack
 COPY --chown=node:node assets/units/boughward-scout-sprite-v1/sprite-atlas-pack-v1.json assets/units/boughward-scout-sprite-v1/boughward-scout-atlas-runtime.png assets/units/boughward-scout-sprite-v1/team-accent-mask.png ./assets/units/boughward-scout-sprite-v1/
 COPY --chown=node:node assets/units/boughward-rider-sprite-v1/sprite-atlas-pack-v1.json assets/units/boughward-rider-sprite-v1/boughward-rider-atlas-runtime.png assets/units/boughward-rider-sprite-v1/team-accent-mask.png ./assets/units/boughward-rider-sprite-v1/
 COPY --chown=node:node assets/units/boughward-siege-engine-sprite-v1/sprite-atlas-pack-v1.json assets/units/boughward-siege-engine-sprite-v1/boughward-siege-engine-atlas-runtime.png assets/units/boughward-siege-engine-sprite-v1/team-accent-mask.png ./assets/units/boughward-siege-engine-sprite-v1/
+
+# Fixed-camera model headings; source GLBs and review PNGs remain outside the runtime image.
+COPY --chown=node:node assets/environment/frontier-meshy-fixed-camera-v2/oak/runtime/ ./assets/environment/frontier-meshy-fixed-camera-v2/oak/runtime/
+COPY --chown=node:node assets/environment/frontier-meshy-fixed-camera-v2/pine/runtime/ ./assets/environment/frontier-meshy-fixed-camera-v2/pine/runtime/
+
+COPY --chown=node:node assets/environment/frontier-meshy-fixed-camera-v2/oak/oak-atlas.webp ./assets/environment/frontier-meshy-fixed-camera-v2/oak/
+COPY --chown=node:node assets/environment/frontier-meshy-fixed-camera-v2/berries/berries-atlas.webp ./assets/environment/frontier-meshy-fixed-camera-v2/berries/

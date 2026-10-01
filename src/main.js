@@ -21,9 +21,9 @@ import {
   updateCapturedBuildingSprite,
 } from './captured-building-art.mjs';
 import {
-  addObstacleEnvironmentSprites, createConstructionGroundInstances,
+  addObstacleEnvironmentSprites, groundBaseMaterial, createConstructionGroundInstances,
   createEnvironmentSprite, createEnvironmentSpriteInstances,
-  createGroundSurfaces, environmentTheme, setEnvironmentSpriteInstance, setForestSpriteStock,
+  createGroundSurfaces, setEnvironmentSpriteInstance, setForestSpriteStock,
   TERRAIN_MATERIALS, updateConstructionGroundInstances, updateLandVegetationOccupation,
   RESOURCE_STATE_ASSETS_AVAILABLE, RESOURCE_STATE_ASSET_STATUS, resourceStateAssetsReady,
 } from './environment-art.mjs';
@@ -2191,7 +2191,7 @@ function buildMap(definition) {
 
   const base = new THREE.Mesh(
     new THREE.PlaneGeometry(MAP_WIDTH + 4, MAP_HEIGHT + 4),
-    new THREE.MeshStandardMaterial({ color: regionalGroundColor(definition, environmentTheme(definition)), roughness: 1 }),
+    new THREE.MeshStandardMaterial({ color: regionalGroundColor(definition, groundBaseMaterial(definition)), roughness: 1 }),
   );
   base.rotation.x = -Math.PI / 2;
   base.position.y = -0.075;
@@ -2505,7 +2505,7 @@ function buildMinimapBackground(definition) {
   const height = minimapBackground.height;
   const rect = minimapMapRect(width, height, definition.width, definition.height);
   context.clearRect(0, 0, width, height);
-  const baseTerrain = environmentTheme(definition);
+  const baseTerrain = groundBaseMaterial(definition);
   context.fillStyle = '#20231f';
   context.fillRect(0, 0, width, height);
   context.fillStyle = regionalGroundColor(definition, baseTerrain);
@@ -5878,7 +5878,7 @@ function populateMapEditor(definition, message) {
   selectedEditorRegionId = null;
   editorDefinition = JSON.parse(JSON.stringify(definition));
   editorDefinition.fogOfWar ??= false;
-  editorDefinition.terrainBase ??= environmentTheme(definition);
+  editorDefinition.terrainBase ??= groundBaseMaterial(definition);
   ui.studioTerrainBase.value = editorDefinition.terrainBase;
   ui.studioRegionPalette.value = editorDefinition.region || '';
   document.querySelector('#studio-elevation-seed').value = editorDefinition.terrainSeed ?? 93000;

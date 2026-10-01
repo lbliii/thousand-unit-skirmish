@@ -1,0 +1,22 @@
+{
+  "mapId": "underbough-harvest-check",
+  "targetCell": 646,
+  "family": "underbough-root-oak",
+  "observed": [
+    {
+      "stage": "worked",
+      "stock": 3.900002
+    },
+    {
+      "stage": "low",
+      "stock": 1.900004
+    },
+    {
+      "stage": "depleted",
+      "stock": 0
+    }
+  ],
+  "reset": true,
+  "sourceCommit": "5c9771e8",
+  "targetFamilyVerifiedByRenderer": true
+}

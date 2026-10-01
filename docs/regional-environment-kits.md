@@ -138,7 +138,7 @@ species, directional frames and regional loader bindings remain to be completed.
 The first dark olive Root Oak intact source now exists at the designated 0°
 orientation. Further verified views remain outstanding. Its pixels and alpha are
 retained in the [source pack](../assets/environment/vaelora-region-kits-v2/README.md);
-it is not loaded by the game yet.
+the first runtime family record below now documents its loader.
 
 ### First ground runtime — 1 October 2026 UTC
 
@@ -159,6 +159,107 @@ deployment or GPU capacity measurement. Texture repetition is reviewed through
 the existing mirrored/stochastic sampler, not claimed mathematically periodic.
 
 The Root Oak, Moss Hornbeam, and Old Plum provide three additional distinct intact painted
-tree sources. They still need registered production/model views and harvest
-states before joining the existing copperleaf in game. This first ground pass
+tree sources. Root Oak now has a fixed-view harvest-state runtime; Hornbeam and Plum still
+need harvest states and registration. All three need verified model/directional
+views before the requested coverage is complete. This first ground pass
 does not complete the four-species forest or the ten-zone kit matrix.
+
+### First mixed Underbough canopy — 1 October 2026 UTC
+
+Root Oak now supplies a broad dark olive form beside Copperleaf and woody
+bramble. Seeded spatial groves vary its proportion across the forest while
+every existing wood cell retains one harvest slot. All four fixed-view states
+use registered atlas frames. [Current browser evidence](qa-evidence/underbough-root-oak-2026-10-01/underbough-rootways-renderer-proof.json)
+records 1026 original cells, species counts, unchanged roots and atlas selection
+through full/worked/low/depleted/reset. Vesperra is the unchanged control.
+This is renderer interface evidence; a new actual worker-harvest observation
+and the complete four-species directional kit remain outstanding.
+
+### Root Oak live harvest — 1 October 2026 UTC
+
+[Real worker evidence](qa-evidence/underbough-root-oak-live-2026-10-01/live-harvest-proof.json)
+at source `5c9771e8` verifies Root Oak cell 646 through worked (3.900002), low
+(1.900004), depleted (0) and reset. The renderer verifies the target family
+before the gather order. The worker delivers six wood; captures include full,
+worked, low, depleted and restored tree appearances. This closes the outstanding
+live-harvest check for the first Root Oak runtime, not directional coverage.
+
+### Three-tree woodland runtime — 1 October 2026 UTC
+
+Moss Hornbeam adds a taller airy form with lighter grey bark.
+[Renderer evidence](qa-evidence/underbough-hornbeam-2026-10-01/underbough-rootways-renderer-proof.json)
+records 391 Root Oaks, 311 Hornbeams, 241 Copperleaf and 83 brambles in the
+original 1026 cells. Four-state selection, roots and reset pass for every family;
+Vesperra is the unchanged control. Plum and directional coverage remain unfinished.
+The normal-scale capture also reveals that the map uses forest-floor soil in its
+open clearings: the next composition correction is grass in clearings with
+shaded root soil under woods. A cohesive texture collection alone does not
+correct an unsuitable material-role assignment.
+
+### Grassy clearings and shaded woodland — 1 October 2026 UTC
+
+Underbough Rootways now authors meadow as its base instead of forest-floor.
+The existing regional kit supplies muted clearing grass; the forest mask still
+adds mossy root soil beneath woodland. `groundBaseMaterial` drives the ground,
+border, minimap and Studio default, while `environmentTheme` keeps Underbough
+vegetation tied to the region when its base is grassy. Other map fields,
+settlement wear, routes and resource rules are unchanged.
+
+[Paired current evidence](qa-evidence/underbough-clearing-ground-2026-10-01/renderer-proof.json)
+compares the previous soil base and grass base with the same current kit,
+map and cameras. It verifies the actual base texture, shaded root-soil texture,
+all existing regional families, cache isolation and unmutated render input.
+Normal and strategic captures include Bellweather as an unchanged control.
+The saved `legacy` layout images mean previous soil assignment using the same
+kit; they do not mean global legacy textures in this capture mode.
+
+### Four distinct Underbough tree forms — 1 October 2026 UTC
+
+[Current four-tree evidence](qa-evidence/underbough-four-trees-2026-10-01/underbough-rootways-renderer-proof.json)
+records Root Oak 314, Hornbeam 230, Old Plum 207, Copperleaf 192 and bramble 83,
+with all 1026 original wood cells and root positions preserved through harvest
+state selection and reset. Wider and closer captures use the clearing grass
+and shaded root-soil treatment. Each form has full/worked/low/depleted art.
+These four states still supply one fixed painted view, not directional coverage.
+Additional shrubs, texture roles/variants, other zones and true perspectives
+remain unfinished.
+
+[Live worker proof for all three new families](qa-evidence/underbough-family-harvest-2026-10-01/summary.json)
+uses renderer-selected visible targets and verifies each family before the gather
+order. Root Oak, Hornbeam and Plum reach worked, low, depleted and reset, with
+no console or asset errors. This extends the initial Root Oak observation to
+the current four-tree distribution.
+
+### Model-derived directional pilot — 1 October 2026 UTC
+
+[The existing-model perspective pack](../assets/environment/frontier-meshy-fixed-camera-v2/README.md)
+contains 24 verified views: oak, pine and berry bush, eight model headings each.
+Camera, lighting, scale and pivot remain fixed. This is a source pack; runtime
+selection and the painted regional families' directional coverage remain
+unfinished. Source hashes, provider provenance and exact RGBA atlas/frame
+validation are retained. No new paid provider generation was used.
+
+### Existing-model heading selection — 1 October 2026 UTC
+
+The renderer now buckets generic oak and pine instances into eight model-derived
+headings using each original cell as the stable seed. Their sprite cards remain
+camera-facing and unflipped. Regional painted families retain their own kits.
+[Actual renderer evidence](qa-evidence/resource-directions-2026-10-01/renderer-proof.json)
+records all 394 original review-map trees, eight headings per family and exact
+instance-matrix restoration after depletion/reset. The fixture loads the real
+renderer and assets in Chrome and saves its rendered grove. This is renderer
+integration evidence; it does not prove a full-match worker observation or
+regional painted-tree directional coverage. Berry headings remain source-only.
+
+### Resource-node heading selection — 1 October 2026 UTC
+
+Full berry and oak resource-node instances now select actual model headings
+from their world positions. A per-instance atlas rectangle preserves existing
+slot indices and stage updates. Harvest states still use their existing fixed
+painted views; intact directional coverage does not claim rotated harvest art.
+The renderer preserves its directional atlas when asynchronous lifecycle art
+finishes loading. [Berry renderer evidence](qa-evidence/resource-node-directions-2026-10-01/renderer-proof.json)
+records 32 instances spanning all eight headings, exact depletion/reset matrix
+restoration and atlas survival after real lifecycle loading. A Chrome capture
+checks the compiled instanced shader. Full-match worker and staging observations
+remain separate unfinished evidence.

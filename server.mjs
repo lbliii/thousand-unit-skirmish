@@ -7128,7 +7128,7 @@ const server = createServer(async (request, response) => {
     'assets/ui/icons/attack.svg', 'assets/ui/icons/gather.svg', 'assets/ui/icons/build.svg',
   ].includes(relative);
   const publicEnvironmentModule = relative === 'src/environment-art.mjs';
-  const publicEnvironmentAtlasMetadata = ['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough', 'underbough-bramble', 'veyrholds', 'ellionar', 'ellionar-hedge', 'sereward-acacia', 'sereward-scrub', 'bellweather-hedgerow', 'ru-lora-fringe'].some((region) =>
+  const publicEnvironmentAtlasMetadata = ['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough', 'underbough-bramble', 'underbough-root-oak', 'underbough-moss-hornbeam', 'underbough-old-plum', 'veyrholds', 'ellionar', 'ellionar-hedge', 'sereward-acacia', 'sereward-scrub', 'bellweather-hedgerow', 'ru-lora-fringe'].some((region) =>
     relative === `assets/environment/frontier-v1/${region}-lifecycle-atlas.json`);
   const publicEnvironmentAsset = path.dirname(relative) === 'assets/environment/frontier-v1'
     && ['.png', '.webp'].includes(path.extname(relative))
@@ -7156,6 +7156,9 @@ const server = createServer(async (request, response) => {
       'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
       'berries', 'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
       'underbough-clearing-grass-v2', 'underbough-root-soil-v2', 'underbough-worn-dirt-v2',
+      'underbough-old-plum-lifecycle-atlas', 'underbough-old-plum', 'underbough-old-plum-worked', 'underbough-old-plum-low', 'underbough-old-plum-depleted',
+      'underbough-moss-hornbeam-lifecycle-atlas', 'underbough-moss-hornbeam', 'underbough-moss-hornbeam-worked', 'underbough-moss-hornbeam-low', 'underbough-moss-hornbeam-depleted',
+      'underbough-root-oak-lifecycle-atlas', 'underbough-root-oak', 'underbough-root-oak-worked', 'underbough-root-oak-low', 'underbough-root-oak-depleted',
       'bellweather-quiet-meadow',
       ...TERRAIN_MATERIALS].includes(path.basename(relative, path.extname(relative)));
   const publicInteractiveEnvironmentAsset = path.dirname(relative) === 'assets/environment/frontier-interactive-v1'
@@ -7163,7 +7166,8 @@ const server = createServer(async (request, response) => {
       || (path.extname(relative) === '.webp'
         && /^(?:(?:oak|berries)-(?:full|worked|low|depleted)|construction-(?:earthwork|foundation))$/
           .test(path.basename(relative, path.extname(relative)))));
-  const publicMeshyResourceAsset = /^assets\/environment\/frontier-meshy-sprites-v1\/(oak|pine|berries)\/runtime\/\1-0[0-7]\.webp$/.test(relative);
+  const publicDirectionalResourceAtlas = /^assets\/environment\/frontier-meshy-fixed-camera-v2\/(oak|berries)\/\1-atlas\.webp$/.test(relative);
+  const publicMeshyResourceAsset = /^assets\/environment\/frontier-meshy-(?:sprites-v1|fixed-camera-v2)\/(oak|pine|berries)\/runtime\/\1-0[0-7]\.webp$/.test(relative);
   const publicEnvironmentPilotAsset = path.dirname(relative) === 'assets/environment/frontier-cliff-pilot-v1/runtime'
     && /^(cliff-color-0[0-7]\.webp|cliff-depth-0[0-7]\.png)$/.test(path.basename(relative));
   const publicBuildingSpriteAsset = (
@@ -7198,7 +7202,7 @@ const server = createServer(async (request, response) => {
     || /^assets\/audio\/vaelora-zones-v1\/sources\/tus_(?:bellweather|underbough|sereward|ellionar|veyrholds|pale-meridian|siltmouths|vesperra|sombral-mere|ru-lora-fringe|ru-lora-interior)_(?:music|terrain|contrast|signature)_0[12]_v001\.mp3$/.test(relative)
     || /^assets\/audio\/vaelora-pilot-v1\/sources\/tus_ui_(?:wood-token|iron-latch|muted-pluck|horn-note)_01_v001\.mp3$/.test(relative);
   if (!publicZoneAudioAsset && !publicClientAsset && !publicEnvironmentModule && !publicEnvironmentAsset && !publicEnvironmentAtlasMetadata && !publicUiAsset
-    && !publicMeshyResourceAsset && !publicInteractiveEnvironmentAsset && !publicEnvironmentPilotAsset && !publicBuildingSpriteAsset && !publicMapAsset
+    && !publicDirectionalResourceAtlas && !publicMeshyResourceAsset && !publicInteractiveEnvironmentAsset && !publicEnvironmentPilotAsset && !publicBuildingSpriteAsset && !publicMapAsset
     && !publicFrontierCompleteAsset && !publicUnitSpriteAsset && !publicBuildingLifecycleManifest && !publicBuildingLifecycleRuntimeAsset) {
     response.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' });
     response.end('Not found');

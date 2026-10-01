@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-underbough-root-oak-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "runtime-candidate",
+  "provenance": "Project-owned built-in ImageGen; original masters retained. Shared reviewed crop, LANCZOS max1024, WebP quality86 method6 exact alpha. Fixed painted view; not measured rotations.",
+  "assets": [
+    {
+      "id": "underbough-root-oak",
+      "stage": "full",
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "cropBoxPx": [
+        40,
+        37,
+        1230,
+        1218
+      ],
+      "sourceFile": "../vaelora-region-kits-v2/underbough/root-oak-full-000.png",
+      "runtimeFile": "underbough-root-oak.webp",
+      "worldSize": {
+        "width": 3.1,
+        "height": 3.0765546218487394
+      },
+      "groundPivotPx": [
+        512.0,
+        1016
+      ],
+      "directionId": "fixed-oblique"
+    },
+    {
+      "id": "underbough-root-oak",
+      "stage": "worked",
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "cropBoxPx": [
+        40,
+        37,
+        1230,
+        1218
+      ],
+      "sourceFile": "../vaelora-region-kits-v2/underbough/root-oak-worked-000.png",
+      "runtimeFile": "underbough-root-oak-worked.webp",
+      "worldSize": {
+        "width": 3.1,
+        "height": 3.0765546218487394
+      },
+      "groundPivotPx": [
+        512.0,
+        1016
+      ],
+      "directionId": "fixed-oblique"
+    },
+    {
+      "id": "underbough-root-oak",
+      "stage": "low",
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "cropBoxPx": [
+        40,
+        37,
+        1230,
+        1218
+      ],
+      "sourceFile": "../vaelora-region-kits-v2/underbough/root-oak-low-000.png",
+      "runtimeFile": "underbough-root-oak-low.webp",
+      "worldSize": {
+        "width": 3.1,
+        "height": 3.0765546218487394
+      },
+      "groundPivotPx": [
+        512.0,
+        1016
+      ],
+      "directionId": "fixed-oblique"
+    },
+    {
+      "id": "underbough-root-oak",
+      "stage": "depleted",
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "cropBoxPx": [
+        40,
+        37,
+        1230,
+        1218
+      ],
+      "sourceFile": "../vaelora-region-kits-v2/underbough/root-oak-depleted-000.png",
+      "runtimeFile": "underbough-root-oak-depleted.webp",
+      "worldSize": {
+        "width": 3.1,
+        "height": 3.0765546218487394
+      },
+      "groundPivotPx": [
+        512.0,
+        1016
+      ],
+      "directionId": "fixed-oblique"
+    }
+  ],
+  "files": [
+    {
+      "path": "underbough-root-oak.webp",
+      "role": "runtime-image",
+      "sha256": "b61b7d00b165cbb738d9c9fce51f3bda077b1c7f7081e352523dbe3f70f84ea6",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1016
+      },
+      "bytes": 461152
+    },
+    {
+      "path": "underbough-root-oak-worked.webp",
+      "role": "runtime-image",
+      "sha256": "01c635dcb1352ed58e111cc0681c50373f8229d7dbd0ffdcffbd945edf63df3e",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1016
+      },
+      "bytes": 365376
+    },
+    {
+      "path": "underbough-root-oak-low.webp",
+      "role": "runtime-image",
+      "sha256": "a48fcd55a2a6053bd378e7a7f35441a93f79823b72ab7f3bc6e9f1b2ea30b0a1",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1016
+      },
+      "bytes": 250578
+    },
+    {
+      "path": "underbough-root-oak-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "98d3972df80713b2b53d011b6216312d6410e69b77a9e3793d9885d46c20bb5f",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1016
+      },
+      "bytes": 84314
+    }
+  ]
+}

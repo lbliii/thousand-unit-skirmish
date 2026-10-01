@@ -1,0 +1,35 @@
+{
+  "oak": {
+    "distinctFrames": 8,
+    "sourceHashVerified": true,
+    "rgbaAtlasAndRuntimeExact": true,
+    "cameraAzimuthDegrees": 45,
+    "elevationDegrees": 45.43590248481586,
+    "anchorPixelFromTopLeft": [
+      320,
+      480
+    ]
+  },
+  "pine": {
+    "distinctFrames": 8,
+    "sourceHashVerified": true,
+    "rgbaAtlasAndRuntimeExact": true,
+    "cameraAzimuthDegrees": 45,
+    "elevationDegrees": 45.43590248481586,
+    "anchorPixelFromTopLeft": [
+      320,
+      480
+    ]
+  },
+  "berries": {
+    "distinctFrames": 8,
+    "sourceHashVerified": true,
+    "rgbaAtlasAndRuntimeExact": true,
+    "cameraAzimuthDegrees": 45,
+    "elevationDegrees": 45.43590248481586,
+    "anchorPixelFromTopLeft": [
+      320,
+      480
+    ]
+  }
+}

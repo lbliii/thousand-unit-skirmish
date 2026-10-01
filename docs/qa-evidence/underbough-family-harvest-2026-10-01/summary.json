@@ -1,0 +1,71 @@
+[
+  {
+    "mapId": "underbough-harvest-check",
+    "targetCell": 849,
+    "family": "underbough-root-oak",
+    "observed": [
+      {
+        "stage": "worked",
+        "stock": 3.966669
+      },
+      {
+        "stage": "low",
+        "stock": 1.966671
+      },
+      {
+        "stage": "depleted",
+        "stock": 0
+      }
+    ],
+    "reset": true,
+    "targetFamilyVerifiedByRenderer": true,
+    "targetSelection": "nearest renderer-selected matching family within initially visible forest band",
+    "source": "four-tree Underbough working renderer"
+  },
+  {
+    "mapId": "underbough-harvest-check",
+    "targetCell": 768,
+    "family": "underbough-moss-hornbeam",
+    "observed": [
+      {
+        "stage": "worked",
+        "stock": 3.900002
+      },
+      {
+        "stage": "low",
+        "stock": 1.900004
+      },
+      {
+        "stage": "depleted",
+        "stock": 0
+      }
+    ],
+    "reset": true,
+    "targetFamilyVerifiedByRenderer": true,
+    "targetSelection": "nearest renderer-selected matching family within initially visible forest band",
+    "source": "four-tree Underbough working renderer"
+  },
+  {
+    "mapId": "underbough-harvest-check",
+    "targetCell": 888,
+    "family": "underbough-old-plum",
+    "observed": [
+      {
+        "stage": "worked",
+        "stock": 3.900002
+      },
+      {
+        "stage": "low",
+        "stock": 1.900004
+      },
+      {
+        "stage": "depleted",
+        "stock": 0
+      }
+    ],
+    "reset": true,
+    "targetFamilyVerifiedByRenderer": true,
+    "targetSelection": "nearest renderer-selected matching family within initially visible forest band",
+    "source": "four-tree Underbough working renderer"
+  }
+]

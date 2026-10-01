@@ -30,6 +30,9 @@ const spriteNames = [
   'veyrholds-highpine-worked', 'veyrholds-highpine-low', 'veyrholds-highpine-depleted',
   'veyrholds-highpine', 'veyrholds-ironlichen-outcrop', 'ru-lora-fiendwood', 'ru-lora-stone-fern', 'ru-lora-broken-trunk', 'ru-lora-god-bone',
   'underbough-copperleaf', 'underbough-bramble',
+  'underbough-old-plum', 'underbough-old-plum-worked', 'underbough-old-plum-low', 'underbough-old-plum-depleted',
+  'underbough-moss-hornbeam', 'underbough-moss-hornbeam-worked', 'underbough-moss-hornbeam-low', 'underbough-moss-hornbeam-depleted',
+  'underbough-root-oak', 'underbough-root-oak-worked', 'underbough-root-oak-low', 'underbough-root-oak-depleted',
   'underbough-bramble-worked', 'underbough-bramble-low', 'underbough-bramble-depleted',
   'underbough-copperleaf-worked', 'underbough-copperleaf-low', 'underbough-copperleaf-depleted',
   'sereward-palm', 'sereward-acacia', 'sereward-scrub',
@@ -52,7 +55,7 @@ const spriteMaterials = new Map();
 const constructionTextures = new Map();
 const constructionMaterials = new Map();
 const constructionInstances = new Map();
-const forestAtlasPacks = new Map(await Promise.all(['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough', 'underbough-bramble', 'veyrholds', 'ellionar', 'ellionar-hedge', 'sereward-acacia', 'sereward-scrub', 'bellweather-hedgerow', 'ru-lora-fringe'].map(async (region) => {
+const forestAtlasPacks = new Map(await Promise.all(['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough', 'underbough-bramble', 'underbough-root-oak', 'underbough-moss-hornbeam', 'underbough-old-plum', 'veyrholds', 'ellionar', 'ellionar-hedge', 'sereward-acacia', 'sereward-scrub', 'bellweather-hedgerow', 'ru-lora-fringe'].map(async (region) => {
   try {
     const response = await fetch(`${ASSET_ROOT}${region}-lifecycle-atlas.json`);
     if (!response.ok) throw new Error(`atlas metadata HTTP ${response.status}`);
@@ -125,6 +128,7 @@ function loadSprite(url) {
 
 // Decorative families load when a map uses them; resource-state fallbacks stay eager.
 const sprites = {};
+const directionalResource = name => /^(oak|pine|berries)-view-(0[0-7])$/.exec(name);
 sprites.oak = loadSprite(`${ASSET_ROOT}oak.webp`);
 sprites.berries = loadSprite(`${ASSET_ROOT}berries.webp`);
 if (meshyResourcesEnabled) {
@@ -168,7 +172,7 @@ function registerTextureMaterial(registry, key, material) {
 function updateSpriteTexture(name, texture) {
   sprites[name] = texture;
   for (const material of spriteMaterials.get(name) || []) {
-    material.map = texture;
+    material.map = material.userData.resourceDirectionTexture || texture;
     material.needsUpdate = true;
   }
 }
@@ -316,9 +320,14 @@ const spriteUpAxis = new THREE.Vector3(0, 1, 0);
 const spriteYawRotation = new THREE.Quaternion();
 const constructionGroundRotation = new THREE.Quaternion().setFromEuler(new THREE.Euler(-Math.PI / 2, 0, 0));
 
-export function environmentTheme(definition) {
+export function groundBaseMaterial(definition) {
   return TERRAIN_MATERIALS.includes(definition.terrainBase)
     ? definition.terrainBase : REGIONS[definition.region]?.ground || (definition.id === 'cinder-ridge' ? 'cinder' : 'meadow');
+}
+
+// Regional vegetation stays Underbough when an author paints grassy clearings.
+export function environmentTheme(definition) {
+  return definition.region === 'underbough' ? 'forest-floor' : groundBaseMaterial(definition);
 }
 
 function addGroundQuad(buffer, definition, x0, z0, x1, z1, y, alpha = [1, 1, 1, 1], heights = null) {
@@ -367,7 +376,7 @@ function groundBuffer() {
 }
 
 export function createGroundSurfaces(definition) {
-  const base = environmentTheme(definition);
+  const base = groundBaseMaterial(definition);
   const stochastic = new URLSearchParams(globalThis.location?.search ?? '').get('terrainTiling') !== 'mirror';
   const freeRotation = new URLSearchParams(globalThis.location?.search ?? '').get('terrainRotation') === 'free';
   const groundMaterial = options => applyTerrainTextureSampling(
@@ -457,7 +466,7 @@ export function createGroundSurfaces(definition) {
 }
 
 function spriteGeometry(width, height, name) {
-  if (meshyResourcesEnabled && ['oak', 'pine', 'berries', 'oak-full', 'berries-full'].includes(name)) {
+  if (meshyResourcesEnabled && (['oak', 'pine', 'berries', 'oak-full', 'berries-full'].includes(name) || directionalResource(name))) {
     // Preserve 128 px/world-unit and the baked (320,480) ground pivot.
     const geometry = new THREE.PlaneGeometry(5, 5, 1, 4);
     geometry.translate(0, 1.25, 0);
@@ -476,8 +485,12 @@ function spriteGeometry(width, height, name) {
 
 function spriteMaterial(name) {
   if (!sprites[name]) {
+    const direction = directionalResource(name);
+    if (direction) sprites[name] = loadSprite(`./assets/environment/frontier-meshy-fixed-camera-v2/${direction[1]}/runtime/${direction[1]}-${direction[2]}.webp`);
+    else {
     if (!spriteNames.includes(name)) throw new Error(`Unknown environment sprite: ${name}`);
     sprites[name] = loadSprite(`${ASSET_ROOT}${name}.webp`);
+    }
   }
   const material = new THREE.MeshBasicMaterial({
     map: sprites[name],
@@ -582,9 +595,30 @@ export function updateLandVegetationOccupation(objects, footprints = []) {
 export function createEnvironmentSpriteInstances(name, width, height, positions) {
   if (positions.length === 0) return null;
   const plantSpec = assertPlantDimensions(name, width, height);
-  const mesh = new THREE.InstancedMesh(
-    spriteGeometry(width, height, name), spriteMaterial(name), positions.length,
-  );
+  const geometry = spriteGeometry(width, height, name);
+  const material = spriteMaterial(name);
+  const family = meshyResourcesEnabled && /^(oak|berries)-full$/.exec(name)?.[1];
+  if (family) {
+    const atlasName = `${family}-direction-atlas`;
+    sprites[atlasName] ||= loadSprite(`./assets/environment/frontier-meshy-fixed-camera-v2/${family}/${family}-atlas.webp`);
+    material.map = sprites[atlasName];
+    material.userData.resourceDirectionTexture = material.map;
+    const rectangles = new THREE.InstancedBufferAttribute(new Float32Array(positions.length * 4), 4);
+    for (let i = 0; i < positions.length; i++) {
+      const point = positions[i];
+      const heading = Math.floor(variation(point.x * 71 + point.z * 137 + 83) * 8);
+      rectangles.setXYZW(i, (heading % 4) / 4, 1 - (Math.floor(heading / 4) + 1) / 2, 1 / 4, 1 / 2);
+    }
+    geometry.setAttribute('resourceViewRect', rectangles);
+    material.onBeforeCompile = shader => {
+      shader.vertexShader = 'attribute vec4 resourceViewRect;\n' + shader.vertexShader;
+      shader.vertexShader = shader.vertexShader.replace('#include <uv_vertex>',
+        '#include <uv_vertex>\n#ifdef USE_MAP\nvMapUv = vMapUv * resourceViewRect.zw + resourceViewRect.xy;\n#endif');
+    };
+    material.customProgramCacheKey = () => 'resource-model-directions-v1';
+  }
+  const mesh = new THREE.InstancedMesh(geometry, material, positions.length);
+  if (family) mesh.userData.resourceDirections = {family, rects: geometry.attributes.resourceViewRect};
   for (let index = 0; index < positions.length; index++) {
     const point = positions[index];
     setEnvironmentSpriteInstance(mesh, index, point.x, point.z,
@@ -697,6 +731,9 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
   const oaks = [];
   const birches = [];
   const maples = [];
+  const rootOaks = [];
+  const hornbeams = [];
+  const oldPlums = [];
   const hazelThickets = [];
   const outcrops = [];
   const brokenTrunks = [];
@@ -770,10 +807,15 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
             continue;
           }
           if (underbough) {
-            // Rooted canopy and woody bramble form one coherent woodland mix.
-            point.scale = treeType < 0.8
-              ? 0.68 + scaleVariation * 0.3 : 0.62 + scaleVariation * 0.24;
-            (treeType < 0.8 ? maples : hazelThickets).push(point);
+            // Broad olive oaks gather in loose groves, with copperleaf and
+            // occasional bramble between them. Every root remains its wood cell.
+            const grove = (Math.sin(column * .31 + row * .13)
+              + Math.cos(row * .27 - column * .12) + 2) / 4;
+            point.scale = treeType < .1
+              ? .62 + scaleVariation * .24 : .68 + scaleVariation * .3;
+            (treeType < .1 ? hazelThickets
+              : treeType < .27 + grove * .2 ? rootOaks
+                : treeType < .62 ? hornbeams : treeType < .82 ? oldPlums : maples).push(point);
             continue;
           }
           if (treeType < 0.2) {
@@ -837,6 +879,9 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
   for (const [name, width, height, points] of [
     [pineName, livingFringe ? 3.43015 : sombralMere ? 2.6 : vesperra || siltmouths ? 3.1 : paleMeridian || ellionar || sereward || veyrholds ? 2.7 : 2.25, sombralMere ? 3.7 : siltmouths ? 3.0 : paleMeridian || ellionar || sereward ? 3.8 : 3.4, pines],
     ['oak', 3.05, 2.86, oaks],
+    ['underbough-root-oak', 3.1, 3.07655, rootOaks],
+    ['underbough-moss-hornbeam', 3.6 * 1013 / 1245, 3.6, hornbeams],
+    ['underbough-old-plum', 2.85 * 1220 / 1135, 2.85, oldPlums],
     ['silver-birch', 2.3, 3.45, birches],
     [mapleName, sereward ? 3.5 : 3.05, sereward ? 2.85 : 3.25, maples],
     [thicketName, ellionar ? 2.8 : sereward ? 2.6 : 3.1, ellionar ? 1.8 : sereward ? 1.7 : 2.07, hazelThickets],
@@ -848,7 +893,12 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     ['basalt-ridge-cap', 3.4, 2.25, ridgeCaps],
     ['cliff', 4.2, 4.6, cliffs],
     ['cliff-end-cap', 4.2, 4.6, cliffCaps],
-  ]) {
+  ].flatMap(([name, width, height, points]) => {
+    if (!meshyResourcesEnabled || !['oak', 'pine'].includes(name)) return [[name, width, height, points]];
+    return Array.from({length: 8}, (_, heading) => [`${name}-view-${String(heading).padStart(2, '0')}`, width, height,
+      points.filter(point => Math.floor(variation(point.cell + 83) * 8) === heading)
+        .map(point => ({...point, flip: false, yaw: 0, modelYawDegrees: heading * 45}))]);
+  })) {
     if (habitatDepth) for (const point of points) {
       if (!Number.isInteger(point.cell)) continue;
       point.habitatDepth = habitatDepth[point.cell];
@@ -858,7 +908,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       || createEnvironmentSpriteInstances(name, width, height, points);
     if (!mesh) continue;
     let stateMeshes;
-    if (!mesh.userData.forestAtlas && ['bellweather-field-maple', 'sereward-palm', 'pale-meridian-conifer', 'siltmouths-tidal-tree', 'ru-lora-fringe-canopy', 'vesperra-mistbark', 'sombral-mere-merebloom', 'underbough-copperleaf', 'underbough-bramble', 'veyrholds-highpine', 'ellionar-cultivated-palm', 'ellionar-garden-hedge', 'sereward-acacia', 'sereward-scrub', 'bellweather-hedgerow'].includes(name)) {
+    if (!mesh.userData.forestAtlas && ['bellweather-field-maple', 'sereward-palm', 'pale-meridian-conifer', 'siltmouths-tidal-tree', 'ru-lora-fringe-canopy', 'vesperra-mistbark', 'sombral-mere-merebloom', 'underbough-copperleaf', 'underbough-bramble', 'underbough-root-oak', 'underbough-moss-hornbeam', 'underbough-old-plum', 'veyrholds-highpine', 'ellionar-cultivated-palm', 'ellionar-garden-hedge', 'sereward-acacia', 'sereward-scrub', 'bellweather-hedgerow'].includes(name)) {
       stateMeshes = { full: mesh };
       for (const stage of ['worked', 'low', 'depleted']) {
         const stateMesh = createEnvironmentSpriteInstances(`${name}-${stage}`, width, height,
@@ -870,7 +920,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     for (let index = 0; index < points.length; index++) {
       const point = points[index];
       if (!Number.isInteger(point.cell)) continue;
-      forestTreeSlots.set(point.cell, { mesh, index, ...point, family: name, stateMeshes, atlas: mesh.userData.forestAtlas });
+      forestTreeSlots.set(point.cell, { mesh, index, ...point, family: directionalResource(name)?.[1] || name, stateMeshes, atlas: mesh.userData.forestAtlas });
     }
     addObject(mesh);
   }

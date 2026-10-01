@@ -1,0 +1,11 @@
+{
+  "expectedCells": 808,
+  "slots": 808,
+  "families": {
+    "vesperra-mistbark": 808
+  },
+  "margins": 290,
+  "cores": 308,
+  "sameRolesAndRoots": true,
+  "depletionAndReset": true
+}

@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-underbough-old-plum-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "runtime-candidate",
+  "provenance": "Project-owned built-in ImageGen masters retained. Shared reviewed crop; LANCZOS max1024, WebP quality86 method6 exact alpha. Fixed painted view, not measured rotations.",
+  "assets": [
+    {
+      "id": "underbough-old-plum",
+      "stage": "full",
+      "logicalCanvasPx": [
+        1290,
+        1219
+      ],
+      "cropBoxPx": [
+        55,
+        55,
+        1275,
+        1190
+      ],
+      "sourceFile": "../vaelora-region-kits-v2/underbough/old-plum-full-000.png",
+      "runtimeFile": "underbough-old-plum.webp",
+      "worldSize": {
+        "width": 3.0634361233480174,
+        "height": 2.85
+      },
+      "groundPivotPx": [
+        512.0,
+        953
+      ],
+      "directionId": "fixed-oblique"
+    },
+    {
+      "id": "underbough-old-plum",
+      "stage": "worked",
+      "logicalCanvasPx": [
+        1290,
+        1219
+      ],
+      "cropBoxPx": [
+        55,
+        55,
+        1275,
+        1190
+      ],
+      "sourceFile": "../vaelora-region-kits-v2/underbough/old-plum-worked-000.png",
+      "runtimeFile": "underbough-old-plum-worked.webp",
+      "worldSize": {
+        "width": 3.0634361233480174,
+        "height": 2.85
+      },
+      "groundPivotPx": [
+        512.0,
+        953
+      ],
+      "directionId": "fixed-oblique"
+    },
+    {
+      "id": "underbough-old-plum",
+      "stage": "low",
+      "logicalCanvasPx": [
+        1290,
+        1219
+      ],
+      "cropBoxPx": [
+        55,
+        55,
+        1275,
+        1190
+      ],
+      "sourceFile": "../vaelora-region-kits-v2/underbough/old-plum-low-000.png",
+      "runtimeFile": "underbough-old-plum-low.webp",
+      "worldSize": {
+        "width": 3.0634361233480174,
+        "height": 2.85
+      },
+      "groundPivotPx": [
+        512.0,
+        953
+      ],
+      "directionId": "fixed-oblique"
+    },
+    {
+      "id": "underbough-old-plum",
+      "stage": "depleted",
+      "logicalCanvasPx": [
+        1290,
+        1219
+      ],
+      "cropBoxPx": [
+        55,
+        55,
+        1275,
+        1190
+      ],
+      "sourceFile": "../vaelora-region-kits-v2/underbough/old-plum-depleted-000.png",
+      "runtimeFile": "underbough-old-plum-depleted.webp",
+      "worldSize": {
+        "width": 3.0634361233480174,
+        "height": 2.85
+      },
+      "groundPivotPx": [
+        512.0,
+        953
+      ],
+      "directionId": "fixed-oblique"
+    }
+  ],
+  "files": [
+    {
+      "path": "underbough-old-plum.webp",
+      "role": "runtime-image",
+      "sha256": "460c172d19e8829d5616b25f6d6b8195a346f67c0bb7eb56c3cb4c51f34bdf20",
+      "bytes": 421832,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 953
+      }
+    },
+    {
+      "path": "underbough-old-plum-worked.webp",
+      "role": "runtime-image",
+      "sha256": "f6b83129aff67d74b8131379401877f34afd7426ba186d8045fe46cd4456806f",
+      "bytes": 327168,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 953
+      }
+    },
+    {
+      "path": "underbough-old-plum-low.webp",
+      "role": "runtime-image",
+      "sha256": "6ad6abfaf2d7d4d87cda9c8f574ed719eca5c3601c28b5e6b863762fd60dce1f",
+      "bytes": 243176,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 953
+      }
+    },
+    {
+      "path": "underbough-old-plum-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "39be28c4353a16b28225ac341b4e7d3765cac5675d5d738bfd3a53ed621c8bd4",
+      "bytes": 89388,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 953
+      }
+    }
+  ]
+}

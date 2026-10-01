@@ -1,0 +1,65 @@
+{
+  "visibleThreshold": 96,
+  "frames": [
+    {
+      "stage": "full",
+      "canvas": [
+        1290,
+        1219
+      ],
+      "visibleBoundsPx": [
+        63,
+        64,
+        1267,
+        1179
+      ]
+    },
+    {
+      "stage": "worked",
+      "canvas": [
+        1290,
+        1219
+      ],
+      "visibleBoundsPx": [
+        67,
+        63,
+        1237,
+        1179
+      ]
+    },
+    {
+      "stage": "low",
+      "canvas": [
+        1290,
+        1219
+      ],
+      "visibleBoundsPx": [
+        74,
+        342,
+        1259,
+        1180
+      ]
+    },
+    {
+      "stage": "depleted",
+      "canvas": [
+        1290,
+        1219
+      ],
+      "visibleBoundsPx": [
+        326,
+        729,
+        1142,
+        1182
+      ]
+    }
+  ],
+  "status": "same short crooked trunk and root position visually reviewed; packaging and renderer proof outstanding",
+  "sharedCropPx": [
+    55,
+    55,
+    1275,
+    1190
+  ],
+  "review": "Four original 1290x1219 canvases; visible root bottoms vary by only three logical pixels. Short crooked trunk and low spreading plum crown retained. Shared crop/scale packaging without source repaint; one fixed painted view."
+}
