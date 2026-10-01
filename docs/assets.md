@@ -177,3 +177,5 @@ Tidal mud defaults to a quieter Siltmouths source with reduced directional bands
 Pale Meridian snow defaults to a quieter painted source; `snowSurface=legacy` preserves the original comparison. [Manifest](../assets/environment/frontier-v1/pale-meridian-quiet-snow-manifest.json), [prompt](../assets/environment/frontier-v1/PALE-MERIDIAN-QUIET-SNOW-PROMPTS.json) and [scale evidence](qa-evidence/vaelora-quiet-snow-2026-09-30/README.md).
 
 Validate quiet-terrain source provenance and opaque exports with `npm run validate:quiet-terrain` (Python/Pillow). This covers the three current quiet companions, including fifteen invalid metadata rejection checks. See the [environment guide](environment-pack-v1.md).
+
+Vesperra jungle-loam companions mix two ferns with violet Veilcap fungi, sharing forest stock clearing/reset. [Manifest](../assets/environment/frontier-v1/vesperra-veilcap-variation-manifest.json), [exact prompts](../assets/environment/frontier-v1/VESPERRA-VEILCAP-PROMPTS.json), [runtime evidence](qa-evidence/vaelora-vesperra-veilcap-2026-10-01/README.md).

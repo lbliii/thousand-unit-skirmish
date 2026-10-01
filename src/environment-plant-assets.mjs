@@ -1,5 +1,6 @@
 // Runtime scale/pivot contract; validated against each selected plant manifest.
 export const PLANT_ASSETS = Object.freeze({
+  "vesperra-veilcap": {"kind": "decorative-forest-understory", "worldWidth": 0.61614, "worldHeight": 0.65, "pivot": [0.5, 1]},
   "veyrholds-alpine-moss": {"kind": "decorative-land-scenery", "worldWidth": 0.95945, "worldHeight": 0.55, "pivot": [0.5, 1]},
   "bellweather-wild-barley": { "kind": "decorative-land-scenery", "worldWidth": 0.84795, "worldHeight": 0.95, "pivot": [0.5, 1] },
   "bellweather-meadow-clover": { "kind": "decorative-forest-understory", "worldWidth": 0.79703, "worldHeight": 0.65, "pivot": [0.5, 1] },

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-vesperra-veilcap",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "vesperra-shade-fern.png",
+  "prompts": "VESPERRA-VEILCAP-PROMPTS.json",
+  "files": [
+    {
+      "path": "vesperra-veilcap.png",
+      "role": "source-image",
+      "sha256": "441c203f5f703f3a9c21ea43007015c0ecb79809a23db75551bf0f59f0ef1a48",
+      "bytes": 1479999,
+      "dimensionsPx": {
+        "width": 1283,
+        "height": 1226
+      }
+    },
+    {
+      "path": "vesperra-veilcap.webp",
+      "role": "runtime-image",
+      "sha256": "886d0e8530289eadf9c2510df4a4c17503cf3fd0e268c0fd29c877b5b85b869c",
+      "bytes": 275722,
+      "dimensionsPx": {
+        "width": 928,
+        "height": 979
+      }
+    }
+  ],
+  "cropPx": [
+    184,
+    141,
+    1112,
+    1120
+  ],
+  "asset": {
+    "id": "vesperra-veilcap",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 0.61614,
+    "worldHeight": 0.65,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "variantSelectionShare": 0.3333333333333333,
+    "terrainSeedPlacement": true,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen against approved Veilcap ecology and camera guide. Initial low viewpoint rejected; selected edit shows cap tops. Source PNG unchanged; deterministic crop and LANCZOS max1024 RGBA WebP quality86 method6 exact alpha. One approximate painted view, no independent fungus harvest.",
+  "referenceSha256": "5bf778bbc8417f99123b9f4eb4db430e6d0c5d7f098079f0256015084a1c1b34"
+}

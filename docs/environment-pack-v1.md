@@ -860,3 +860,9 @@ Snow now resolves to a quieter pearl-blue painted source with softer powder patc
 ## Quiet-terrain production validation · 1 October 2026
 
 `npm run validate:quiet-terrain` checks the selected quiet meadow, tidal-mud and snow manifests against current source/reference hashes, source/runtime bindings, square image dimensions, opaque pixels and 1024-square WebP exports. Prompt records must be present and valid JSON. Fifteen deliberately invalid records exercise stale hashes, dimensions, wrong filenames and repository path escape rejection. This complements the paired GPU captures; it does not certify seamless raw edges or absence of repetition. Requires Python and Pillow, as the existing plant-alpha check does.
+
+## Vesperra Veilcap companions · 1 October 2026
+
+The approved ecology key's Veilcap Fungus adds pale-gilled violet caps over a compact petrol-green moss base. [Manifest](../assets/environment/frontier-v1/vesperra-veilcap-variation-manifest.json) and [generation/edit prompts](../assets/environment/frontier-v1/VESPERRA-VEILCAP-PROMPTS.json) preserve the selected source and 928×979 alpha-preserving export, registered at 0.61614×0.65 world units. The initial low viewpoint was rejected; the selected edit exposes cap tops for the elevated camera. This remains one approximate painted source, not certified multi-view art.
+
+Existing jungle-loam forest companion locations now partition between two shade ferns and Veilcap in three batches, retaining density, parent identity, collision and wood yield. Partial stock retains plants, zero hides them and reset restores exact matrices. [Local evidence](qa-evidence/vaelora-vesperra-veilcap-2026-10-01/README.md) verifies regional binding, raised contact, upright roll and all twenty-five plant geometries/twenty companion lifecycles. No independent fungus yield, harvest poses or extra painted perspectives.
