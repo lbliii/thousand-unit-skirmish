@@ -1,0 +1,38 @@
+{
+  "cameraViewDirection": [
+    0.78,
+    1.12,
+    0.78
+  ],
+  "azimuthDegrees": 45,
+  "elevationDegrees": 45.43590248481587,
+  "screenRollDegrees": 5.2124878303609094e-14,
+  "pixelsPerProjectedWorldUnit": 150,
+  "projectedUnitAxesPx": {
+    "x": [
+      106.06601717798223,
+      75.56841899990808
+    ],
+    "y": [
+      9.575673587391974e-14,
+      -105.25601217844353
+    ],
+    "z": [
+      -106.06601717798205,
+      75.56841899990809
+    ]
+  },
+  "groundCircleMinorMajorRatio": 0.7124658869117519,
+  "physicalVerticalProjectionRatio": 0.7017067478562898,
+  "headingsDegrees": [
+    0,
+    45,
+    90,
+    135,
+    180,
+    225,
+    270,
+    315
+  ],
+  "note": "Orthographic source construction reference. Does not calibrate existing painted assets or supply production sprite directions."
+}
