@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-30",
+  "generator": "Built-in ImageGen",
+  "reference": "snow.png",
+  "referenceSha256": "aea6301a5cf0a9acd5cd27e2fda0598f7f81dc2166730bc9ac6682545dd60ca3",
+  "prompts": "PALE-MERIDIAN-QUIET-SNOW-PROMPTS.json",
+  "encoding": "Selected PNG unchanged; RGB LANCZOS1024 WebP quality86 method6",
+  "files": [
+    {
+      "file": "pale-meridian-quiet-snow.png",
+      "sha256": "a23d663a157089a57298c4e585a447cc43135025ab398ff56b3afa47c5e49d9f",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "sourceOutput": "exec-5fcd082a-beea-475d-823a-4952c635a3b5.png"
+    },
+    {
+      "file": "pale-meridian-quiet-snow.webp",
+      "sha256": "12c4454a819f96ae14452b5fb9d64aefb8c1d91de32256de157e1076d2956caa",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sourceOutput": "exec-5fcd082a-beea-475d-823a-4952c635a3b5.png"
+    }
+  ]
+}

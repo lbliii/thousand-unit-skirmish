@@ -1,0 +1,5 @@
+{
+  "tool": "Built-in ImageGen",
+  "prompt": "Edit this top-down painted RTS snow terrain texture for Vaelora's Pale Meridian. Preserve its pearl-white, icy pale blue and subtle silver-violet palette, flat overhead neutral illumination, opaque square full-frame format and original hand-painted fantasy RTS finish. Remove the long diagonal ridges, repeated wave-like brush bands and sharp contrast troughs. Replace them with broad very soft low-contrast irregular powder-snow color patches with no preferred direction and a few tiny scattered crystalline glints, subordinate to the quiet value field. Smooth snow surface, no deep drifts, no footprints, vegetation, rocks, ice cracks, horizon or cast shadows. Designed to sit beneath small units and frost plants at strategic zoom. Seamless tiling on both axes requested. No text, border or watermark. Do not turn this into blank white or a photographic surface; retain restrained painted variation.",
+  "reference": "snow.png"
+}
