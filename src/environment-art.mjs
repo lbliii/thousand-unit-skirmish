@@ -4,7 +4,7 @@ import { TERRAIN_MATERIALS, forestGroundForBase } from './terrain-materials.mjs'
 import { CAMERA_VIEW_DIRECTION } from './camera-controls.mjs';
 import * as THREE from 'three';
 import { RESOURCE_VISUAL_STAGES, resourceVisualStage } from './resource-visual-state.mjs';
-import { createGroundMistStudy } from './terrain-atmosphere.mjs';
+import { createGroundMistStudy, groundMistEnabled } from './terrain-atmosphere.mjs';
 import { applyTerrainTextureSampling } from './terrain-texture-sampling.mjs';
 import { buildTerrainBlendMasks, buildForestGroundMask } from './terrain-blend.mjs';
 import { buildWaterSurfaceGeometry, WATER_LEVEL } from './water-surface-geometry.mjs';
@@ -415,10 +415,11 @@ export function createGroundSurfaces(definition) {
       GROUND_RENDER_ORDER + TERRAIN_MATERIALS.length));
   }
   const atmosphere = new URLSearchParams(globalThis.location?.search ?? '');
-  if (atmosphere.get('terrainAtmosphere') === 'mist' && !terrainHeightField(definition).raised) {
+  const atmosphereDefinition = { ...definition, terrainBase: base };
+  if (groundMistEnabled(atmosphereDefinition, atmosphere.get('terrainAtmosphere')) && !terrainHeightField(definition).raised) {
     const timeValue = atmosphere.get('terrainAtmosphereTime');
     const fixedTime = timeValue !== null && Number.isFinite(Number(timeValue)) ? Number(timeValue) : null;
-    const mist = createGroundMistStudy(definition, fixedTime);
+    const mist = createGroundMistStudy(atmosphereDefinition, fixedTime);
     if (mist) meshes.push(mist);
   }
   const field=terrainHeightField(definition);

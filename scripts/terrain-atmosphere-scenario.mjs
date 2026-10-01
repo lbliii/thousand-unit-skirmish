@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { buildGroundMistMask, createGroundMistStudy } from '../src/terrain-atmosphere.mjs';
+import { buildGroundMistMask, createGroundMistStudy, groundMistProfile, groundMistEnabled } from '../src/terrain-atmosphere.mjs';
 
 const dry = { width: 16, height: 16, terrainBase: 'meadow', obstacles: [] };
 assert.equal(buildGroundMistMask(dry), null, 'ordinary dry fields allocate no mist mask');
@@ -23,7 +23,23 @@ const cleared = buildGroundMistMask({ ...dry, terrainBase: 'jungle-loam',
 });
 assert.equal(cleared, null, 'a dry painted clearing replaces wet base coverage');
 
+assert.equal(groundMistEnabled({terrainBase:'jungle-loam'}), true);
+assert.equal(groundMistEnabled({terrainBase:'lunar-soil'}), true);
+assert.equal(groundMistEnabled({terrainBase:'meadow'}), false);
+assert.equal(groundMistEnabled({terrainBase:'tidal-mud'}), false);
+assert.equal(groundMistEnabled({terrainBase:'jungle-loam'}, 'clear'), false);
+assert.equal(groundMistEnabled({terrainBase:'meadow'}, 'mist'), true);
+assert.equal(groundMistEnabled({terrainBase:'jungle-loam',id:'meshy-resource-review'}), false);
+const jungleProfile = groundMistProfile({ terrainBase: 'jungle-loam' });
+const moonProfile = groundMistProfile({ terrainBase: 'lunar-soil' });
+assert.notDeepEqual(jungleProfile.tint, moonProfile.tint, 'wet regions retain distinct atmosphere palettes');
+assert.ok(jungleProfile.opacity <= 0.1 && moonProfile.opacity <= 0.1, 'regional haze stays restrained');
+const seeded = createGroundMistStudy({ ...map, terrainSeed: 8 }, 12);
 const mesh = createGroundMistStudy(map, 12);
+assert.notDeepEqual(seeded.material.uniforms.seedOffset.value, mesh.material.uniforms.seedOffset.value, 'map seeds vary mist pockets');
+const repeat = createGroundMistStudy(map, 12);
+assert.deepEqual(repeat.material.uniforms.seedOffset.value, mesh.material.uniforms.seedOffset.value, 'reloads preserve mist pockets');
+for (const extra of [seeded, repeat]) { extra.geometry.dispose(); extra.material.dispose(); for (const t of extra.userData.ownedGroundTextures) t.dispose(); }
 assert.equal(mesh.renderOrder, -1, 'haze draws before transparent units and props');
 assert.equal(mesh.material.depthWrite, false, 'decorative mist cannot obstruct scene depth');
 mesh.onBeforeRender();

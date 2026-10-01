@@ -3,6 +3,19 @@ import { buildTerrainBlendMasks } from './terrain-blend.mjs';
 
 const DAMP_GROUNDS = new Set(['tidal-mud', 'lunar-soil', 'jungle-loam']);
 
+export function groundMistEnabled(definition, mode = null) {
+  if (mode === 'clear') return false;
+  if (mode === 'mist') return true;
+  return ['jungle-loam', 'lunar-soil'].includes(definition.terrainBase)
+    && definition.id !== 'meshy-resource-review';
+}
+
+export function groundMistProfile(definition) {
+  if (definition.terrainBase === 'lunar-soil') return { tint: [0.78, 0.76, 0.85], opacity: 0.09, pocketSize: 11 };
+  if (definition.terrainBase === 'jungle-loam') return { tint: [0.62, 0.75, 0.68], opacity: 0.07, pocketSize: 8 };
+  return { tint: [0.72, 0.79, 0.80], opacity: 0.12, pocketSize: 9 };
+}
+
 export function buildGroundMistMask(definition) {
   const patches = [];
   if (DAMP_GROUNDS.has(definition.terrainBase)) {
@@ -24,7 +37,13 @@ export function createGroundMistStudy(definition, fixedTime = null) {
   coverage.magFilter = THREE.LinearFilter;
   coverage.minFilter = THREE.LinearFilter;
   coverage.needsUpdate = true;
+  const profile = groundMistProfile(definition);
+  const seed = Math.trunc(definition.terrainSeed || 0) >>> 0;
   const uniforms = {
+    tint: { value: new THREE.Color(...profile.tint) },
+    opacity: { value: profile.opacity },
+    pocketSize: { value: profile.pocketSize },
+    seedOffset: { value: new THREE.Vector2((seed % 997) * 0.37, (Math.floor(seed / 997) % 991) * 0.41) },
     coverage: { value: coverage },
     time: { value: 0 },
     mapSize: { value: new THREE.Vector2(definition.width, definition.height) },
@@ -42,6 +61,10 @@ export function createGroundMistStudy(definition, fixedTime = null) {
       uniform sampler2D coverage;
       uniform float time;
       uniform vec2 mapSize;
+      uniform vec3 tint;
+      uniform float opacity;
+      uniform float pocketSize;
+      uniform vec2 seedOffset;
       varying vec2 mistUv;
       float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
       float softField(vec2 p) {
@@ -54,11 +77,11 @@ export function createGroundMistStudy(definition, fixedTime = null) {
         // The rotated plane maps its UV y opposite to ground-mask row order.
         float wet = texture2D(coverage, vec2(mistUv.x, 1.0 - mistUv.y)).g;
         vec2 ground = mistUv * mapSize;
-        float drift = softField(ground / 9.0 + vec2(time * 0.018, time * 0.007));
+        float drift = softField(ground / pocketSize + seedOffset + vec2(time * 0.018, time * 0.007));
         float pockets = smoothstep(0.35, 0.78, drift);
-        float alpha = wet * pockets * 0.16;
+        float alpha = wet * pockets * opacity;
         if (alpha < 0.001) discard;
-        gl_FragColor = vec4(vec3(0.72, 0.79, 0.80), alpha);
+        gl_FragColor = vec4(tint, alpha);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }
@@ -70,6 +93,7 @@ export function createGroundMistStudy(definition, fixedTime = null) {
   mesh.position.y = 0.04;
   // Draw the ground haze before transparent props and team sprites.
   mesh.renderOrder = -1;
+  mesh.userData.groundMistProfile = profile;
   mesh.userData.ownedGroundTextures = [coverage];
   mesh.onBeforeRender = () => {
     uniforms.time.value = fixedTime ?? performance.now() / 1000;

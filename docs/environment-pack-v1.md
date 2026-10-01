@@ -298,8 +298,8 @@ rendering aligned. Ground images load as used and are cached across maps.
 
 [Terrain variety research](terrain-variety.md) describes the randomized sampling,
 source studies, and regional enrichment plan. A restrained wet-ground mist study
-is available with `?terrainAtmosphere=mist`; it is optional preview functionality,
-not enabled on ordinary maps. It does not change fog of war, visibility or map
+was initially available only with `?terrainAtmosphere=mist`; the later regional
+ground-mist checkpoint below enables restrained defaults on flat jungle/lunar maps. It does not change fog of war, visibility or map
 collision. [Paired visual evidence](qa-evidence/vaelora-terrain-variety-2026-09-29/README.md)
 records the comparison, added palette, and study limits.
 
@@ -676,3 +676,11 @@ All selected PNGs remain unchanged on a 1254×1254 canvas; a shared [55,55,1217,
 This supersedes the earlier borrowed-canopy limitation. Working living-fringe presentation does not establish a named species or supernatural/resource rule. One approximate fixed-oblique painted view per state; registered additional directions remain future work.
 
 [Local canopy evidence](qa-evidence/vaelora-ru-lora-fringe-canopy-2026-09-30/README.md) records four-state atlas/UV/reset, live harvesting, source-alpha audit, regional isolation, companion behavior and all fifteen atlas-family fallbacks.
+
+## Regional ground mist · 30 September 2026
+
+Flat jungle-loam and lunar-soil maps now use restrained moving ground mist by default. Vesperra/living jungle uses a green-grey tint, 0.07 maximum alpha and eight-unit pockets; Sombral Mere uses a pearl-lavender tint, 0.09 maximum alpha and eleven-unit pockets. Map seeds shift the low-frequency field so different maps do not share one arrangement. Wet masks keep painted dirt clearings bare; water supports mist. One plane draws before props and units without writing depth, while the existing fog overlay draws afterward.
+
+`?terrainAtmosphere=clear` disables this presentation; `?terrainAtmosphere=mist` retains the explicit wet-ground study on other bases (0.12 maximum alpha). Raised maps omit the flat mist plane, and generic resource review has no automatic mist. The effect changes no visibility, collision, resources or lore rules. Colors and alpha limits are presentation choices, not a claim of meteorological simulation or performance improvement.
+
+[Local mist evidence](qa-evidence/vaelora-regional-mist-2026-09-30/README.md) compares clear, explicit and automatic views on both shipped maps with units/HUD and fog. Fixed-time automatic/explicit ordinary captures match exactly; profiles, seeds, coverage, default/override policy and teardown pass focused checks. No hosted or performance claim.
