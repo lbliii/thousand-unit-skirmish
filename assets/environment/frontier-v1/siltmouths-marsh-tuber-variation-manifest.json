@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-siltmouths-marsh-tuber",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/siltmouths-ecology.png",
+  "referenceSha256": "d8d7bbf05dee83f544ca322b5bf03ac3ec83a9c090d51c6991455f8f9ae95669",
+  "prompts": "SILTMOUTHS-MARSH-TUBER-PROMPTS.json",
+  "files": [
+    {
+      "path": "siltmouths-marsh-tuber.png",
+      "role": "source-image",
+      "sha256": "d7daa79badef1386556bed32472c81df8c27a9c01fe3aa41095768a3dd9c44d4",
+      "bytes": 1406159,
+      "dimensionsPx": {
+        "width": 1302,
+        "height": 1208
+      }
+    },
+    {
+      "path": "siltmouths-marsh-tuber.webp",
+      "role": "runtime-image",
+      "sha256": "966f44d8f99e493f26be95042321e72a65d3f9435aa6b417743813729096332b",
+      "bytes": 225576,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 857
+      }
+    }
+  ],
+  "cropPx": [
+    64,
+    94,
+    1263,
+    1097
+  ],
+  "asset": {
+    "id": "siltmouths-marsh-tuber",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 1.01564,
+    "worldHeight": 0.85,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen against approved Siltmouths ecology. Selected RGBA PNG unchanged; deterministic crop, LANCZOS max1024 WebP quality86 method6 exact alpha. Decorative broadleaf marsh-tuber specimen sharing existing forest companions, not a harvestable crop or lore identity with private-story tubers. One approximate painted oblique view."
+}

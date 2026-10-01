@@ -1,0 +1,9 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Use case: stylized-concept. Asset type: transparent painterly RTS environment sprite. Reference is the approved Siltmouths ecology key, specifically Marsh Tuber at upper right. Create one compact low rooted clump: six broad matte sea-green heart-shaped leaves with muted lilac undersides on short dark plum stems, two small upright clusters of pearl-white flowers. Keep stems short, foliage spreading outward, whole clump no more than a small woodland companion. One small rooted crown is the lowest point bottom center. No exposed cut tuber, no separate loose vegetable, no soil patch or pedestal, water or mud carpet. Painterly large forms, quiet surface detail, readable silhouette at small scale. Orthographic RTS view looking down 45.44 degrees elevation above ground, azimuth45, world vertical upright and zero screen roll, no dramatic tilt or horizon. Entire silhouette centered with generous margins. Genuine transparent alpha background, no haze, glow, shadow cloud, lettering or frame. Sea green, silver and muted lilac, not bright tropical lime. Match the key's matte hand-painted finish.",
+  "reference": [
+    "../../../docs/art-direction/vaelora-v1/siltmouths-ecology.png"
+  ],
+  "transparentBackground": true,
+  "selectedOutput": "exec-491537a7-0aaf-46b5-9de8-3b2b2db7e433.png"
+}

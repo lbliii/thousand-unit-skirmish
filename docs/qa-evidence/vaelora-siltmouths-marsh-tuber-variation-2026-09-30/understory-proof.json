@@ -1,0 +1,174 @@
+{
+  "forestCells": 256,
+  "understoryCells": 75,
+  "cells": [
+    77,
+    79,
+    80,
+    89,
+    90,
+    101,
+    104,
+    109,
+    111,
+    114,
+    129,
+    132,
+    134,
+    136,
+    150,
+    153,
+    155,
+    161,
+    174,
+    176,
+    178,
+    179,
+    195,
+    198,
+    202,
+    208,
+    209,
+    226,
+    227,
+    230,
+    233,
+    234,
+    245,
+    251,
+    254,
+    257,
+    268,
+    273,
+    278,
+    293,
+    295,
+    298,
+    300,
+    305,
+    320,
+    321,
+    323,
+    324,
+    339,
+    340,
+    344,
+    350,
+    352,
+    366,
+    367,
+    368,
+    373,
+    387,
+    388,
+    389,
+    390,
+    392,
+    395,
+    396,
+    397,
+    412,
+    418,
+    421,
+    422,
+    425,
+    436,
+    437,
+    441,
+    448,
+    449
+  ],
+  "workedRetained": true,
+  "depletedHidden": true,
+  "resetRestored": true,
+  "batches": 2,
+  "variantCounts": {
+    "siltmouths-silver-reed": 36,
+    "siltmouths-marsh-tuber": 39
+  },
+  "maxScreenRollDegrees": 7.951386703658798e-15,
+  "raisedGroundContact": true,
+  "parentFamilies": [
+    "siltmouths-tidal-tree"
+  ],
+  "seedFixtures": [
+    {
+      "terrainBase": "meadow",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "short-grass",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "long-grass",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "dry-grass",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "jungle-loam",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "tidal-mud",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "snow",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "ice",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "lunar-soil",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "forest-floor",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "scree",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "garden-loam",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    },
+    {
+      "terrainBase": "sand",
+      "repeatSeedStable": true,
+      "differentSeedChanges": true,
+      "forestCells": 256
+    }
+  ]
+}
