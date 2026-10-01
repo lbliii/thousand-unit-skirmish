@@ -820,3 +820,9 @@ This supersedes the construction-reaction limitation in the dated open-vegetatio
 The approved Veyrholds ecology key's existing ridgegrass and Suncrest sources now extend onto open scree in sparse six-cell beds. Slate Saddle receives 50 independent plants: 14 ridgegrass and 36 Suncrest in two registered-size batches. Paths, other painted materials, obstacles, objectives, resources and spawn approaches retain their protected gaps. Forest clearing leaves these plants unchanged; received foundations hide overlapping cards and removal restores them.
 
 [Local evidence](qa-evidence/vaelora-veyrholds-open-ridge-plants-2026-09-30/README.md) covers both silhouettes, seeded placement, raised contact, screen roll and ten incompatible-base exclusions. This reuses approved decorative sources with one approximate painted view; no forage yield, new species lore, directional art or harvesting states. Terrain strokes remain visible at larger scale.
+
+## Sombral Mere dry lakeside beds · 30 September 2026
+
+Existing Lunewort and Noctilune sources now occupy independent lunar-soil beds within six world units of authored water obstacles. Sparse six-cell specimen beds retain clear immediate shores, causeways, forests, objectives, resources and spawn approaches. Shore Gardens gets 29 land plants: 14 Lunewort / 15 Noctilune in two registered-size batches. Forest clearing leaves them unchanged; received building footprints hide overlapping cards and removal restores their exact matrices.
+
+[Local evidence](qa-evidence/vaelora-sombral-open-moon-plants-2026-09-30/README.md) covers the lake-distance habitat, protected gaps, camera contact, upright roll and foundation clearing. Floating Mirelily placement remains separate. Reused single-view decorative sources; medicinal gathering, Noctilune pod yield, additional painted views and harvest states remain unfinished. Terrain mottling and angular water edges remain visible in the capture.

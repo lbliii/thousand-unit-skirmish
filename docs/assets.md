@@ -163,3 +163,5 @@ Independent meadow, dryland, snow, channel flowers and shore reeds now hide bene
 Wild barley joins the current meadow mix as a third upright silhouette, retaining the same accepted positions and gaps. The [barley manifest](../assets/environment/frontier-v1/bellweather-wild-barley-variation-manifest.json) records decorative land scenery; it is not a grain resource or farm. [Current meadow evidence](qa-evidence/vaelora-bellweather-wild-barley-2026-09-30/README.md) covers all three batches.
 
 Veyrholds open scree now mixes existing ridgegrass and Suncrest in sparse independent beds, using registered sizes and the foundation-clearing contract. See the [environment guide](environment-pack-v1.md) and [local evidence](qa-evidence/vaelora-veyrholds-open-ridge-plants-2026-09-30/README.md).
+
+Sombral Mere dry lakeside lunar soil now has sparse Lunewort/Noctilune beds, separate from floating Mirelilies and forest stock. See the [environment guide](environment-pack-v1.md) and [local evidence](qa-evidence/vaelora-sombral-open-moon-plants-2026-09-30/README.md).

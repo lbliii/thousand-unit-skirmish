@@ -41,6 +41,23 @@ export function ridgePlantGroups(definition, base = definition.terrainBase) {
   return specimenGroups(definition, ridgePlantPositions(definition, base), ['veyrholds-ridgegrass', 'veyrholds-suncrest'], 6);
 }
 
+// Moon plants occupy dry lakeside soil, never the floating lily habitat.
+export function lunarPlantPositions(definition, base = definition.terrainBase) {
+  const water = (definition.obstacles || []).filter(p => p.material === 'water');
+  if (!water.length) return [];
+  return landPlantPositions(definition, base, new Set(['lunar-soil']), 6, 0.3, 0.12)
+    .filter(p => water.some(w => {
+      const x0 = w.column - definition.width / 2, z0 = w.row - definition.height / 2;
+      const dx = Math.max(x0 - p.x, 0, p.x - x0 - w.width);
+      const dz = Math.max(z0 - p.z, 0, p.z - z0 - w.height);
+      return Math.hypot(dx, dz) <= 6;
+    }));
+}
+
+export function lunarPlantGroups(definition, base = definition.terrainBase) {
+  return specimenGroups(definition, lunarPlantPositions(definition, base), ['sombral-mere-lunewort', 'sombral-mere-noctilune'], 6);
+}
+
 function specimenGroups(definition, positions, names, patchSize) {
   const groups = names.map(name => ({ name, positions: [] }));
   const random = seededRandom(Math.trunc(definition.terrainSeed || 0) >>> 0);

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { meadowPlantPositions, meadowPlantGroups, drylandPlantPositions, drylandPlantGroups, snowPlantPositions, snowPlantGroups, ridgePlantPositions, ridgePlantGroups } from '../src/meadow-vegetation.mjs';
+import { meadowPlantPositions, meadowPlantGroups, drylandPlantPositions, drylandPlantGroups, snowPlantPositions, snowPlantGroups, ridgePlantPositions, ridgePlantGroups, lunarPlantPositions, lunarPlantGroups } from '../src/meadow-vegetation.mjs';
 
 const map = JSON.parse(readFileSync(new URL('../maps/bellweather-millrace.json', import.meta.url)));
 const original = JSON.stringify(map);
@@ -51,7 +51,22 @@ assert.equal(new Set(ridgePlants.map(p=>p.cell)).size,ridgePlants.length);
 assert.equal(JSON.stringify(ridge),ridgeOriginal);
 for(const terrainBase of ['meadow','sand','snow','ice','lunar-soil','jungle-loam','salt-crust'])assert.deepEqual(ridgePlantGroups({...ridge,terrainBase}),[]);
 assert.deepEqual(ridgePlantGroups({...ridge,id:'meshy-resource-review'}),[]);
-const fixtures = [[map,plants,['meadow','short-grass','long-grass','dry-grass']], [desert,succulents,['sand']], [winter,snowPlants,['snow']], [ridge,ridgePlants,['scree']]];
+const lunar = JSON.parse(readFileSync(new URL('../maps/sombral-mere-shore-gardens.json', import.meta.url)));
+const lunarOriginal = JSON.stringify(lunar), lunarPlants = lunarPlantPositions(lunar), lunarGroups = lunarPlantGroups(lunar);
+assert.ok(lunarPlants.length > 10 && lunarPlants.length < 150, 'lakesides need sparse moon plants');
+assert.equal(lunarGroups.length, 2);
+assert.deepEqual(lunarGroups,lunarPlantGroups(lunar));
+assert.deepEqual(lunarGroups.flatMap(g=>g.positions).sort((a,b)=>a.cell-b.cell),[...lunarPlants].sort((a,b)=>a.cell-b.cell));
+assert.notDeepEqual(lunarPlantGroups({...lunar,terrainSeed:lunar.terrainSeed+1}),lunarGroups);
+assert.equal(new Set(lunarPlants.map(p=>p.cell)).size,lunarPlants.length);
+assert.equal(JSON.stringify(lunar),lunarOriginal);
+assert.deepEqual(lunarPlantGroups({...lunar,obstacles:[]}),[],'no lakes means no lake plant beds');
+for(const p of lunarPlants) assert.ok(lunar.obstacles.filter(w=>w.material==='water').some(w=>{
+  const x0=w.column-lunar.width/2,z0=w.row-lunar.height/2;
+  return Math.hypot(Math.max(x0-p.x,0,p.x-x0-w.width),Math.max(z0-p.z,0,p.z-z0-w.height))<=6;
+}),'moon plants must stay within the dry lakeside habitat');
+for(const terrainBase of ['meadow','sand','snow','scree','jungle-loam','salt-crust'])assert.deepEqual(lunarPlantGroups({...lunar,terrainBase}),[]);
+const fixtures = [[map,plants,['meadow','short-grass','long-grass','dry-grass']], [desert,succulents,['sand']], [winter,snowPlants,['snow']], [ridge,ridgePlants,['scree']], [lunar,lunarPlants,['lunar-soil']]];
 for (const [map, selected, accepted] of fixtures) for (const p of selected) {
   const c = Math.floor(p.x + map.width / 2), r = Math.floor(p.z + map.height / 2);
   assert.equal(r * map.width + c, p.cell);
@@ -73,4 +88,4 @@ assert.equal(meadowPlantPositions({ ...bare, id: 'meshy-resource-review' }).leng
 assert.deepEqual(meadowPlantGroups({ ...bare, id: 'meshy-resource-review' }), []);
 for (const terrainBase of ['meadow','snow','ice','lunar-soil','jungle-loam','salt-crust']) assert.deepEqual(drylandPlantGroups({...desert,terrainBase}), []);
 assert.deepEqual(drylandPlantGroups({...desert,id:'meshy-resource-review'}), []);
-console.log(JSON.stringify({ ridgePlants:ridgePlants.length, ridgeGroups:ridgeGroups.map(g=>({name:g.name,count:g.positions.length})), snowPlants:snowPlants.length, drylandPlants:succulents.length, map: map.id, plants: plants.length, seeded: true, protectedMarkers: true, noMutation: true }));
+console.log(JSON.stringify({ lunarPlants:lunarPlants.length, lunarGroups:lunarGroups.map(g=>({name:g.name,count:g.positions.length})), ridgePlants:ridgePlants.length, ridgeGroups:ridgeGroups.map(g=>({name:g.name,count:g.positions.length})), snowPlants:snowPlants.length, drylandPlants:succulents.length, map: map.id, plants: plants.length, seeded: true, protectedMarkers: true, noMutation: true }));

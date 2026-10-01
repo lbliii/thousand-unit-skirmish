@@ -11,7 +11,7 @@ import { buildWaterSurfaceGeometry, WATER_LEVEL } from './water-surface-geometry
 import { forestHabitatDepth, forestCanopyFactor } from './forest-habitat.mjs';
 import { regionalGroundTextureName, regionalGroundColor } from './regional-ground-kits.mjs';
 import { shorePlantPositions } from './shore-vegetation.mjs';
-import { meadowPlantGroups, drylandPlantGroups, snowPlantGroups, ridgePlantGroups } from './meadow-vegetation.mjs';
+import { meadowPlantGroups, drylandPlantGroups, snowPlantGroups, ridgePlantGroups, lunarPlantGroups } from './meadow-vegetation.mjs';
 import { gardenPlantPositions } from './garden-vegetation.mjs';
 import { assertPlantDimensions, PLANT_ASSETS } from './environment-plant-assets.mjs';
 
@@ -975,6 +975,17 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
           forestTreeSlots.get(plant.cell).understory = { mesh, index, ...plant };
         });
         addObject(mesh);
+      }
+    }
+  }
+  if (sombralMere) {
+    for (const { name, positions } of lunarPlantGroups(definition, environmentTheme(definition))) {
+      const spec = PLANT_ASSETS[name];
+      const plants = createEnvironmentSpriteInstances(name, spec.worldWidth, spec.worldHeight, positions);
+      if (plants) {
+        plants.userData.lunarVegetation = true;
+        registerLandVegetation(plants);
+        addObject(plants);
       }
     }
   }
