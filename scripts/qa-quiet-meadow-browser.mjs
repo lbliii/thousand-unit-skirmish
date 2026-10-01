@@ -66,9 +66,11 @@ class Cdp {
 
 
 
+const mud=process.env.RTS_QUIET_TERRAIN==='tidal-mud';
+const original=mud?'tidal-mud':'meadow',candidate=mud?'siltmouths-quiet-mud':'bellweather-quiet-meadow';
 const profile=await mkdtemp('/tmp/vaelora-quiet-meadow-chrome-');
 const chrome=spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',['--headless=new','--no-first-run','--no-default-browser-check','--remote-debugging-port=0','--window-size=1024,768','--user-data-dir='+profile,'about:blank'],{stdio:'ignore'});
-const out='docs/qa-evidence/vaelora-quiet-meadow-2026-09-30';let cdp;
+const out=mud?'docs/qa-evidence/vaelora-quiet-tidal-mud-2026-09-30':'docs/qa-evidence/vaelora-quiet-meadow-2026-09-30';let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
  const targets=await(await fetch('http://127.0.0.1:'+port+'/json/list')).json();cdp=new Cdp(targets.find(t=>t.type==='page').webSocketDebuggerUrl);
@@ -76,7 +78,7 @@ try {
  await cdp.call('Page.enable');await cdp.call('Runtime.enable');await mkdir(out,{recursive:true});
  await cdp.call('Page.navigate',{url:BASE.origin});await sleep(5000);
  const proof=[];
- for(const terrain of ['meadow','bellweather-quiet-meadow'])for(const span of [32,128])for(const free of [false,true]){
+ for(const terrain of [original,candidate])for(const span of [32,128])for(const free of [false,true]){
   const result=await cdp.evaluate(`(async()=>{
    const THREE=await import('/vendor/three.module.js');const {applyTerrainTextureSampling}=await import('/src/terrain-texture-sampling.mjs');
    const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true,antialias:false});renderer.setSize(512,512);renderer.setPixelRatio(1);
@@ -88,8 +90,8 @@ try {
   })()`);
   const name=terrain+'-'+span+'-'+(free?'free':'cardinal')+'.png';await writeFile(out+'/'+name,Buffer.from(result.image.split(',')[1],'base64'));delete result.image;if(!result.stable||result.programs!==1)throw new Error('Terrain render registration failed');proof.push({terrain,span,free,...result});
  }
- await cdp.call('Page.navigate',{url:BASE.origin+'/?meadowSurface=quiet'});await sleep(5000);
- const boot=await cdp.evaluate('({ready:document.documentElement.dataset.boot,error:document.querySelector("#runtime-error")?.textContent,quietLoaded:performance.getEntriesByType("resource").some(e=>e.name.includes("bellweather-quiet-meadow.webp"))})');if(boot.ready!=='ready'||boot.error||!boot.quietLoaded)throw new Error('Runtime quiet-meadow boot failed');
+ await cdp.call('Page.navigate',{url:BASE.origin+(mud?'/':'/?meadowSurface=quiet')});await sleep(5000);
+ const boot=await cdp.evaluate('({ready:document.documentElement.dataset.boot,error:document.querySelector("#runtime-error")?.textContent,quietLoaded:performance.getEntriesByType("resource").some(e=>e.name.includes("' + candidate + '.webp"))})');if(boot.ready!=='ready'||boot.error||!boot.quietLoaded)throw new Error('Runtime quiet-meadow boot failed');
  const shot=await cdp.call('Page.captureScreenshot',{format:'png'});await writeFile(out+'/runtime-quiet.png',Buffer.from(shot.data,'base64'));
  if(errors.length)throw new Error(errors.join('\n'));await writeFile(out+'/rotation-proof.json',JSON.stringify({seed:42,boot,errors,proof},null,2)+'\n');console.log(JSON.stringify({views:proof.length,errors}));
 }finally{cdp?.close();chrome.kill()}

@@ -171,3 +171,5 @@ Veyrholds open scree includes the approved key's alpine moss and ironlichen as a
 Ellionar channel beds now alternate Sunbloom and garden-vine specimens across occupied beds, retaining all placement gaps. See the [current environment guide](environment-pack-v1.md) and [mixed-bed evidence](qa-evidence/vaelora-ellionar-channel-vine-beds-2026-09-30/README.md).
 
 Siltmouths dry tidal mud now has independent marsh-tuber beds near authored channels, separate from silver reeds in water and parent-stock forest companions. [Environment guide](environment-pack-v1.md) and [local evidence](qa-evidence/vaelora-siltmouths-marsh-beds-2026-09-30/README.md).
+
+Tidal mud defaults to a quieter Siltmouths source with reduced directional bands; `tidalSurface=legacy` retains the previous comparison. [Manifest](../assets/environment/frontier-v1/siltmouths-quiet-mud-manifest.json), [prompt](../assets/environment/frontier-v1/SILTMOUTHS-QUIET-MUD-PROMPTS.json) and [paired scale evidence](qa-evidence/vaelora-quiet-tidal-mud-2026-09-30/README.md).

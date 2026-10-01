@@ -300,6 +300,9 @@ function groundTexture(material, definition) {
   if (name === 'meadow' && new URLSearchParams(globalThis.location?.search ?? '').get('meadowSurface') === 'quiet') {
     name = 'bellweather-quiet-meadow';
   }
+  if (name === 'tidal-mud' && new URLSearchParams(globalThis.location?.search ?? '').get('tidalSurface') !== 'legacy') {
+    name = 'siltmouths-quiet-mud';
+  }
   if (grounds.has(name)) return grounds.get(name);
   const texture = textureLoader.load(`${ASSET_ROOT}${name}.webp?v=vaelora-ground-v2`);
   texture.colorSpace = THREE.SRGBColorSpace;

@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-30",
+  "generator": "Built-in ImageGen",
+  "reference": "tidal-mud.png",
+  "referenceSha256": "bc5f89a0faa24e3a31cac62b3caf43416a81bf458da2873b6b0284e878e3e844",
+  "prompts": "SILTMOUTHS-QUIET-MUD-PROMPTS.json",
+  "encoding": "Selected source unchanged; RGB LANCZOS1024 square WebP quality86 method6",
+  "files": [
+    {
+      "file": "siltmouths-quiet-mud.png",
+      "sha256": "eb5acf88d0ed07df558eb343f1e8609e31a4869401507ae744ac42333b462f40",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "sourceOutput": "exec-be251ef5-7a98-43fd-a70a-ba573df55923.png"
+    },
+    {
+      "file": "siltmouths-quiet-mud.webp",
+      "sha256": "2de45b21dedc11de3f177b6ad55a03295a157a69ea7bfcda41e7bdbb8d5f01ab",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sourceOutput": "exec-be251ef5-7a98-43fd-a70a-ba573df55923.png"
+    }
+  ]
+}

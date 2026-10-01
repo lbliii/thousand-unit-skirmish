@@ -1,0 +1,5 @@
+{
+  "tool": "Built-in ImageGen",
+  "prompt": "Edit this RTS tidal-mud terrain texture. Preserve its muted gray olive, sea-green and warm gray silt palette, flat top-down lighting, opaque square full-frame format and original painterly fantasy game finish. Replace ALL long diagonal channels, streaks, wave bands and swirling grooves with softly blended irregular flat silt color patches of very low contrast, distributed without a dominant direction. Keep a few small scattered pale shell fragments and dark pebbles, much fewer than the original, as quiet local accents. The surface should read as gently damp smooth tidal mud, not cracked earth or grass, no standing water and no shoreline. Tileable on both axes, seamless edges requested. Broad quiet low-contrast ground suitable beneath small RTS units at strategic zoom. No directional brush bands, no dramatic ridges, no concentric rings, no repeated wave strokes, no image border, text or objects.",
+  "reference": "tidal-mud.png"
+}

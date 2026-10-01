@@ -1,0 +1,21 @@
+{
+  "method": "128-unit cardinal captures, RGB luma 0.2126R+0.7152G+0.0722B; mean absolute horizontal pixel difference. Not a gameplay readability metric.",
+  "results": {
+    "tidal-mud": {
+      "meanRgb": [
+        115.8622055053711,
+        113.71235656738281,
+        98.55023193359375
+      ],
+      "adjacentHorizontalLuminanceDifference": 2.2369952444655086
+    },
+    "siltmouths-quiet-mud": {
+      "meanRgb": [
+        117.49908828735352,
+        113.49965286254883,
+        96.4141731262207
+      ],
+      "adjacentHorizontalLuminanceDifference": 1.639781420468444
+    }
+  }
+}
