@@ -1,0 +1,9 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Use case: stylized-concept. Asset type: transparent painterly RTS environment companion sprite. Reference is approved Veyrholds ecology key, specifically Suncrest Bloom. Create one LOW compact alpine flowering clump with stout muted olive/sage leaves and six small warm ochre-yellow cup-shaped flowers on short sturdy stems. Two closed buds. Rugged squat growth, clustered root crown bottom center as lowest contact, leaves rising from same crown. No rock pedestal, ground carpet, soil pile or loose specimen parts. Large matte painted shapes and dark leaf separation, restrained detail, not neon or magical. Orthographic RTS view looking down 45.44 degrees above ground, azimuth45, upright world vertical, zero screen roll, no dramatic tilt, horizon or perspective distortion. Whole silhouette centered with generous margins; no flowers or foliage below the root crown. Genuine transparent alpha background, no haze, cast shadow cloud, glow, text, labels or frame. Slate-region warm yellow flowers with olive foliage, match the reference's painterly finish.",
+  "reference": [
+    "../../../docs/art-direction/vaelora-v1/veyrholds-ecology.png"
+  ],
+  "transparentBackground": true,
+  "selectedOutput": "exec-81050f47-c71f-4a58-b157-d0d91f3a06a8.png"
+}

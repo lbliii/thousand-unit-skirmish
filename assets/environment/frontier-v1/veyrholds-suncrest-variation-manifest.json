@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-veyrholds-suncrest",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/veyrholds-ecology.png",
+  "referenceSha256": "112c894249e14467b6905e685b715fe08d764d1c655cd88377734819f9f85dd5",
+  "prompts": "VEYRHOLDS-SUNCREST-PROMPTS.json",
+  "files": [
+    {
+      "path": "veyrholds-suncrest.png",
+      "role": "source-image",
+      "sha256": "a9dbc5a6ba249e6c85a723db28f5ecf11ef2cdd76b88a3e5a151bceb3268a584",
+      "bytes": 1803193,
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "veyrholds-suncrest.webp",
+      "role": "runtime-image",
+      "sha256": "0e4ec880568d32b20875bd5630377b8232b9b9e4cda4cd4082d0682899b494a1",
+      "bytes": 197642,
+      "dimensionsPx": {
+        "width": 926,
+        "height": 809
+      }
+    }
+  ],
+  "cropPx": [
+    316,
+    80,
+    1242,
+    889
+  ],
+  "asset": {
+    "id": "veyrholds-suncrest",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 0.80124,
+    "worldHeight": 0.7,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "terrainSeedPlacement": true,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen against approved Veyrholds ecology. Selected RGBA PNG unchanged; deterministic crop, LANCZOS max1024 WebP quality86 method6 exact alpha. Decorative Suncrest specimen sharing existing forest companion slots, not a crop or medicinal resource. One approximate painted oblique view."
+}
