@@ -26,6 +26,8 @@
   "frames": [
     {
       "state": "full",
+      "sourceFile": "../frontier-v1/sereward-succulent.png",
+      "sourceSha256": "b8e65b0e80fe89437773edc7ececf4de6055289d21fd18833cf41ceab8ba3d06",
       "rectPx": [
         0,
         0,
@@ -42,6 +44,8 @@
     },
     {
       "state": "worked",
+      "sourceFile": "worked-source.png",
+      "sourceSha256": "322630f987b95244c7600afdf012c11523cf086170297cf225f286c5cd0296e9",
       "rectPx": [
         1024,
         0,
@@ -55,10 +59,46 @@
         973
       ],
       "runtimeSha256": "463919a808eda012d43b092412a1e0c955650dd689908363abfadc846f39a4ed"
+    },
+    {
+      "state": "low",
+      "sourceFile": "low-source.png",
+      "sourceSha256": "ca255450f6ec61a16ae8ff863de03453dfd95b9b5d1002d2cdc61fa4aec68a0e",
+      "rectPx": [
+        2048,
+        0,
+        1024,
+        789
+      ],
+      "sourceAlphaBoundsPx": [
+        376,
+        383,
+        1191,
+        950
+      ],
+      "runtimeSha256": "be28b8c33f1e36b4814fb68444a11143fc038cb544b39d3b8e4999c5cb9d9d97"
+    },
+    {
+      "state": "depleted",
+      "sourceFile": "depleted-source.png",
+      "sourceSha256": "354c53fc7bec26865f3436e8f7fe11e900178f75d245b5d0cea272468c959c69",
+      "rectPx": [
+        3072,
+        0,
+        1024,
+        789
+      ],
+      "sourceAlphaBoundsPx": [
+        381,
+        501,
+        1183,
+        955
+      ],
+      "runtimeSha256": "0a2c02ebcbf9eb4ade3000465018de0d2556194e66eb289b984f983f286e0df9"
     }
   ],
   "atlasFile": "states-atlas.webp",
-  "atlasSha256": "7c033b484c93601793f534f38d2548ed9cf615e45f2513bbafa39a6d69a9ad2b",
+  "atlasSha256": "f533b32b461c719ec2f7f06127fae648c41bc0f932369c680dc74b32500af3a0",
   "frameSizePx": [
     1024,
     789
@@ -74,6 +114,13 @@
   "registrationObservation": {
     "fullAlphaBottomPx": 984,
     "workedAlphaBottomPx": 973,
-    "note": "Shared canvas/crop preserves coordinates; alpha extrema are silhouette bounds, not a certified anatomical ground anchor."
-  }
+    "note": "Shared canvas/crop preserves coordinates; alpha extrema are silhouette bounds, not a certified anatomical ground anchor.",
+    "alphaBottomsPx": {
+      "full": 984,
+      "worked": 973,
+      "low": 950,
+      "depleted": 955
+    }
+  },
+  "additionalPrompts": "LOW-DEPLETED-PROMPTS.json"
 }

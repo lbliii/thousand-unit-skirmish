@@ -181,3 +181,5 @@ Validate quiet-terrain source provenance and opaque exports with `npm run valida
 Vesperra jungle-loam companions mix two ferns with violet Veilcap fungi, sharing forest stock clearing/reset. [Manifest](../assets/environment/frontier-v1/vesperra-veilcap-variation-manifest.json), [exact prompts](../assets/environment/frontier-v1/VESPERRA-VEILCAP-PROMPTS.json), [runtime evidence](qa-evidence/vaelora-vesperra-veilcap-2026-10-01/README.md).
 
 The [Sereward succulent action sample](../assets/environment/sereward-succulent-action-v1/README.md) pairs full and partially cut plants in a shared-crop two-state atlas. It is source/review work, not an in-game harvesting rule; anatomical root registration and remaining states are unfinished.
+
+The Sereward succulent action sample now includes full/worked/low/depleted poses in its [four-state shared-crop atlas](../assets/environment/sereward-succulent-action-v1/README.md). It remains source art pending game-scale registration and a distinct leaf-harvesting gameplay binding; forest wood depletion must not drive it.
