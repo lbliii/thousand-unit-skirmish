@@ -9,3 +9,12 @@ This begins authored plant action states requested by the user. It is not integr
 Full/ worked alpha bottoms are 984 / 973 on the original canvas. The 11-pixel difference reflects changed silhouette extremities; anatomical root-anchor alignment remains approximate. Do not independently crop or scale states. Low/depleted were added on 1 October; extra directions remain absent.
 
 The four authored poses are full, worked (cut outer leaves), low (three small central leaves) and depleted (short cut bases and a root crown). [Low/depleted prompts](LOW-DEPLETED-PROMPTS.json) record Built-in ImageGen edits and selected outputs. Each uses the original canvas and common crop; no per-state enlargement or repaint. Alpha-bottom measurements for all four are recorded in the manifest. Their changes are silhouette observations, not verified anatomical root anchors. Runtime gameplay mapping remains absent.
+
+Repeatable production commands (Python/Pillow):
+
+```sh
+python3 scripts/check-succulent-action-atlas.py
+python3 scripts/build-succulent-action-atlas.py --write
+```
+
+The builder verifies selected sources before exporting all four through the reviewed common crop. Without `--write` it only checks the existing pack. The checker reads current hashes, canvas sizes, state order, frame rectangles, world registration and decoded alpha; it explicitly reports anatomical root certification and runtime integration as false.
