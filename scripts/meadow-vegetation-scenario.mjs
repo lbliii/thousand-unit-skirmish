@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { meadowPlantPositions, meadowPlantGroups } from '../src/meadow-vegetation.mjs';
+import { meadowPlantPositions, meadowPlantGroups, drylandPlantPositions, drylandPlantGroups } from '../src/meadow-vegetation.mjs';
 
 const map = JSON.parse(readFileSync(new URL('../maps/bellweather-millrace.json', import.meta.url)));
 const original = JSON.stringify(map);
@@ -20,7 +20,17 @@ for (const group of groups) for (const p of group.positions) {
   assert.ok(!beds.has(bed) || beds.get(bed) === group.name, 'a coarse bed must keep one specimen');
   beds.set(bed, group.name);
 }
-for (const p of plants) {
+const desert = JSON.parse(readFileSync(new URL('../maps/sereward-cistern-road.json', import.meta.url)));
+const desertOriginal = JSON.stringify(desert), succulents = drylandPlantPositions(desert), dryGroups = drylandPlantGroups(desert);
+assert.ok(succulents.length > 10 && succulents.length < 100, 'dryland should have sparse pockets');
+assert.equal(dryGroups.length, 2);
+assert.deepEqual(dryGroups, drylandPlantGroups(desert));
+assert.deepEqual(dryGroups.flatMap(g => g.positions).sort((a,b)=>a.cell-b.cell), [...succulents].sort((a,b)=>a.cell-b.cell));
+assert.notDeepEqual(drylandPlantGroups({...desert, terrainSeed:desert.terrainSeed+1}), dryGroups);
+assert.equal(new Set(succulents.map(p=>p.cell)).size, succulents.length);
+assert.equal(JSON.stringify(desert), desertOriginal);
+const fixtures = [[map,plants,['meadow','short-grass','long-grass','dry-grass']], [desert,succulents,['sand']]];
+for (const [map, selected, accepted] of fixtures) for (const p of selected) {
   const c = Math.floor(p.x + map.width / 2), r = Math.floor(p.z + map.height / 2);
   assert.equal(r * map.width + c, p.cell);
   assert.ok(c > 0 && c < map.width - 1 && r > 0 && r < map.height - 1);
@@ -28,7 +38,7 @@ for (const p of plants) {
   assert.ok(!map.triggers.some(t => t.zone && c >= t.zone.column - 1 && c < t.zone.column + t.zone.width + 1 && r >= t.zone.row - 1 && r < t.zone.row + t.zone.height + 1));
   let material = map.terrainBase;
   for (const t of map.terrainPatches) if (c >= t.column && c < t.column + t.width && r >= t.row && r < t.row + t.height) material = t.material;
-  assert.ok(['meadow','short-grass','long-grass','dry-grass'].includes(material));
+  assert.ok(accepted.includes(material));
   assert.ok(map.spawnPoints.every(s => Math.hypot(p.x - s.x, p.z - s.z) >= 8));
   assert.ok(map.resourceNodes.every(s => Math.hypot(p.x - s.x, p.z - s.z) >= 2.5));
 }
@@ -39,4 +49,6 @@ assert.equal(meadowPlantPositions({ ...bare, terrainPatches: [{ column: 0, row: 
 for (const terrainBase of ['sand','snow','ice','lunar-soil','jungle-loam','salt-crust']) assert.equal(meadowPlantPositions({ ...bare, terrainBase }).length, 0);
 assert.equal(meadowPlantPositions({ ...bare, id: 'meshy-resource-review' }).length, 0);
 assert.deepEqual(meadowPlantGroups({ ...bare, id: 'meshy-resource-review' }), []);
-console.log(JSON.stringify({ map: map.id, plants: plants.length, seeded: true, protectedMarkers: true, noMutation: true }));
+for (const terrainBase of ['meadow','snow','ice','lunar-soil','jungle-loam','salt-crust']) assert.deepEqual(drylandPlantGroups({...desert,terrainBase}), []);
+assert.deepEqual(drylandPlantGroups({...desert,id:'meshy-resource-review'}), []);
+console.log(JSON.stringify({ drylandPlants:succulents.length, map: map.id, plants: plants.length, seeded: true, protectedMarkers: true, noMutation: true }));

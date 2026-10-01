@@ -1,4 +1,5 @@
 const grass = new Set(['meadow', 'short-grass', 'long-grass', 'dry-grass']);
+const sand = new Set(['sand']);
 
 function seededRandom(seed) {
   return (cell, salt) => {
@@ -11,11 +12,23 @@ function seededRandom(seed) {
 
 // Choose a specimen per coarse bed, preserving every accepted root and gap.
 export function meadowPlantGroups(definition, base = definition.terrainBase) {
-  const groups = ['bellweather-meadow-herbs', 'bellweather-meadow-clover'].map(name => ({ name, positions: [] }));
+  return specimenGroups(definition, meadowPlantPositions(definition, base), ['bellweather-meadow-herbs', 'bellweather-meadow-clover'], 4);
+}
+
+export function drylandPlantPositions(definition, base = definition.terrainBase) {
+  return landPlantPositions(definition, base, sand, 6, 0.18, 0.08);
+}
+
+export function drylandPlantGroups(definition, base = definition.terrainBase) {
+  return specimenGroups(definition, drylandPlantPositions(definition, base), ['sereward-succulent', 'sereward-succulent-02'], 6);
+}
+
+function specimenGroups(definition, positions, names, patchSize) {
+  const groups = names.map(name => ({ name, positions: [] }));
   const random = seededRandom(Math.trunc(definition.terrainSeed || 0) >>> 0);
-  for (const point of meadowPlantPositions(definition, base)) {
+  for (const point of positions) {
     const row = Math.floor(point.cell / definition.width), column = point.cell % definition.width;
-    const patch = Math.floor(row / 4) * Math.ceil(definition.width / 4) + Math.floor(column / 4);
+    const patch = Math.floor(row / patchSize) * Math.ceil(definition.width / patchSize) + Math.floor(column / patchSize);
     groups[random(patch, 439) < 0.5 ? 0 : 1].positions.push(point);
   }
   return groups.filter(group => group.positions.length);
@@ -23,7 +36,11 @@ export function meadowPlantGroups(definition, base = definition.terrainBase) {
 
 // Sparse decoration only: map obstacles and economic markers retain precedence.
 export function meadowPlantPositions(definition, base = definition.terrainBase) {
-  if (!grass.has(base) || definition.id === 'meshy-resource-review') return [];
+  return landPlantPositions(definition, base, grass, 4, 0.24, 0.18);
+}
+
+function landPlantPositions(definition, base, acceptedMaterials, patchSize, patchShare, cellShare) {
+  if (!acceptedMaterials.has(base) || definition.id === 'meshy-resource-review') return [];
   const { width, height } = definition;
   const materials = Array(width * height).fill(base);
   const blocked = new Uint8Array(width * height);
@@ -41,8 +58,8 @@ export function meadowPlantPositions(definition, base = definition.terrainBase) 
   for (let row = 1; row < height - 1; row++) for (let column = 1; column < width - 1; column++) {
     const cell = row * width + column;
     // Coarse patches leave broad breathing room rather than uniform scatter.
-    const patch = Math.floor(row / 4) * Math.ceil(width / 4) + Math.floor(column / 4);
-    if (blocked[cell] || !grass.has(materials[cell]) || random(patch, 401) >= 0.24 || random(cell, 409) >= 0.18) continue;
+    const patch = Math.floor(row / patchSize) * Math.ceil(width / patchSize) + Math.floor(column / patchSize);
+    if (blocked[cell] || !acceptedMaterials.has(materials[cell]) || random(patch, 401) >= patchShare || random(cell, 409) >= cellShare) continue;
     const x = column + 0.5 - width / 2 + (random(cell, 419) - 0.5) * 0.3;
     const z = row + 0.5 - height / 2 + (random(cell, 421) - 0.5) * 0.3;
     if ((definition.spawnPoints || []).some(p => Math.hypot(x - p.x, z - p.z) < 8)) continue;

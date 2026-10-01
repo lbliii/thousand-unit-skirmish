@@ -10,7 +10,7 @@ import { buildTerrainBlendMasks, buildForestGroundMask } from './terrain-blend.m
 import { buildWaterSurfaceGeometry, WATER_LEVEL } from './water-surface-geometry.mjs';
 import { forestHabitatDepth, forestCanopyFactor } from './forest-habitat.mjs';
 import { shorePlantPositions } from './shore-vegetation.mjs';
-import { meadowPlantGroups } from './meadow-vegetation.mjs';
+import { meadowPlantGroups, drylandPlantGroups } from './meadow-vegetation.mjs';
 import { gardenPlantPositions } from './garden-vegetation.mjs';
 import { assertPlantDimensions, PLANT_ASSETS } from './environment-plant-assets.mjs';
 
@@ -888,6 +888,16 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       if (flowers) {
         flowers.userData.meadowVegetation = true;
         addObject(flowers);
+      }
+    }
+  }
+  if (sereward) {
+    for (const { name, positions } of drylandPlantGroups(definition, environmentTheme(definition))) {
+      const spec = PLANT_ASSETS[name];
+      const plants = createEnvironmentSpriteInstances(name, spec.worldWidth, spec.worldHeight, positions);
+      if (plants) {
+        plants.userData.drylandVegetation = true;
+        addObject(plants);
       }
     }
   }
