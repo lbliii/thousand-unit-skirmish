@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-meridian-frostberry",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/pale-meridian-ecology.png",
+  "referenceSha256": "f6fe68d0a40f0f118f37c40582c96ae0fb7c88ffe03977c8baac0ec500bd917e",
+  "prompts": "PALE-MERIDIAN-FROSTBERRY-PROMPTS.json",
+  "files": [
+    {
+      "path": "pale-meridian-frostberry.png",
+      "role": "source-image",
+      "sha256": "245fe1308ff3742adc054253effa0142ce73b30aa80979ed1afb0a9004be384e",
+      "bytes": 1960046,
+      "dimensionsPx": {
+        "width": 1377,
+        "height": 1142
+      }
+    },
+    {
+      "path": "pale-meridian-frostberry.webp",
+      "role": "runtime-image",
+      "sha256": "51ed8f46c0f1cc5b16e3a19f42dcd5a3e9d89bacf7e228f9712a119d4cbc0eca",
+      "bytes": 255904,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 741
+      }
+    }
+  ],
+  "cropPx": [
+    4,
+    48,
+    1363,
+    1031
+  ],
+  "asset": {
+    "id": "pale-meridian-frostberry",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 1.10553,
+    "worldHeight": 0.8,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen against approved Pale Meridian ecology; root-contact edit selected. Unmodified selected RGBA PNG; deterministic crop, LANCZOS max1024 WebP quality86 method6 exact alpha. Decorative frostberry specimen in existing forest companion slots, not an independent harvestable food resource. One approximate painted oblique view."
+}

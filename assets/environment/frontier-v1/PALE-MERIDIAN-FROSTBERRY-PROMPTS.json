@@ -1,0 +1,12 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Use case: stylized-concept. Asset type: transparent environment sprite for a painterly RTS. Reference 1 is the approved Pale Meridian ecology key: isolate its Frostberry Shrub idea into a small low hardy bush, with silver-blue and muted violet pointed leaves and a few pale amber round berries hanging in groups, short dark crooked woody stems, restrained frost on leaf tips. Reference 2 is the existing silver moss sprite, painterly finish guidance. Make one compact squat shrub, readable large leaf and berry forms, not dense fine noise. No rock pedestal, snow mound or ground carpet. Orthographic view looking down from 45.44 degrees elevation above ground, azimuth 45 degrees, world vertical upright with zero screen roll; no dramatic tilt or horizon. Whole shrub centered with margin, rooted stems meet at bottom center. Genuine transparent background, no atmospheric haze, no cast shadow cloud, no magic or emission, no lettering or frame. Maintain cold silver/violet palette with sparse warm amber berries, not autumn orange foliage.",
+  "editPrompt": "Edit this frostberry shrub sprite. Preserve silver-blue/violet pointed leaves, pale amber berries, painterly finish, whole-plant camera view and transparent alpha. Correct only the base: expose a short stout woody root crown as the lowest part at bottom center, with two tiny dark roots. Raise or remove the downward-facing leaf that extends below the root base. No foliage or berries should hang below the root contact. Maintain a squat compact shrub silhouette, no pedestal, soil patch, snow mound, shadow cloud, text or glow.",
+  "reference": [
+    "../../../docs/art-direction/vaelora-v1/pale-meridian-ecology.png",
+    "pale-meridian-silver-moss.png"
+  ],
+  "initialOutput": "exec-8720f15e-0847-483a-8e13-5c5dc91ba0d4.png",
+  "selectedOutput": "exec-19bcff3f-2018-48db-8944-4915cf95ff54.png",
+  "transparentBackground": true
+}

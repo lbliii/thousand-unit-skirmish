@@ -139,3 +139,5 @@ Sombral Mere lunar-soil lakes now carry sparse Mirelily pad/flower decals in one
 Underbough forest-floor companions mix two seeded fungus silhouettes within the existing locations. The [variation manifest](../assets/environment/frontier-v1/underbough-fungus-variation-manifest.json) records the compact cluster; both shapes clear and reset with their parent forest cells. See the [environment guide](environment-pack-v1.md) for scope and evidence.
 
 Ellionar garden-loam channels also use the existing Sunbloom in sparse land-side flower beds, independent of forest stock. Paths, channel ends and economy/objective markers stay clear. See the [environment guide](environment-pack-v1.md) and [local evidence](qa-evidence/vaelora-ellionar-channel-flowers-2026-09-30/README.md).
+
+Pale Meridian snow/ice forests mix silver moss and frostberry shrubs in the existing companion locations. The [frostberry manifest](../assets/environment/frontier-v1/pale-meridian-frostberry-variation-manifest.json) records the approved-key specimen; both clear/reset with their parent cells. Berry gathering is not implemented. See the [environment guide](environment-pack-v1.md).
