@@ -108,9 +108,11 @@ const fringeCanopyCapture=process.env.RTS_VEGETATION_FRINGE_CANOPY==='1';
 const fringeCapture=process.env.RTS_VEGETATION_FRINGE==='1'||fringeCanopyCapture;
 if(fringeCapture&&(!understoryCapture||region!=='vesperra'))throw new Error('Fringe capture requires living forest understory');
 const plantContractCapture=process.env.RTS_VEGETATION_PLANT_CONTRACT==='1';
+const occupationCapture=process.env.RTS_VEGETATION_OCCUPATION==='1';
+if(occupationCapture&&!plantContractCapture)throw new Error('Occupation capture requires plant contracts');
 const evidenceOverride=process.env.RTS_VEGETATION_OUTPUT;
 if(evidenceOverride&&!/^docs\/qa-evidence\/[a-z0-9-]+$/.test(evidenceOverride))throw new Error('Evidence output must name a single QA evidence directory');
-const out=evidenceOverride || (snowCapture ? 'docs/qa-evidence/vaelora-meridian-open-snow-plants-2026-09-30' : drylandCapture ? 'docs/qa-evidence/vaelora-sereward-open-succulents-2026-09-30' : plantContractCapture ? 'docs/qa-evidence/vaelora-plant-runtime-contract-2026-09-30' : gardenCapture ? 'docs/qa-evidence/vaelora-ellionar-channel-flowers-2026-09-30' : fringeCanopyCapture ? 'docs/qa-evidence/vaelora-ru-lora-fringe-canopy-2026-09-30' : fringeCapture ? 'docs/qa-evidence/vaelora-ru-lora-fringe-understory-2026-09-30' : meadowCapture ? 'docs/qa-evidence/vaelora-bellweather-open-meadow-2026-09-30' : lichenCapture ? 'docs/qa-evidence/vaelora-meridian-violet-lichen-2026-09-30' : shoreCapture ? (region==='sombral-mere'?'docs/qa-evidence/vaelora-mere-mirelily-2026-09-30':'docs/qa-evidence/vaelora-siltmouths-shore-reeds-2026-09-30') : variationCapture ? 'docs/qa-evidence/vaelora-'+region+'-'+(region==='sereward'?'succulent':region==='underbough'?'fungus':region==='pale-meridian'?'frostberry':region==='sombral-mere'?'noctilune':region==='siltmouths'?'marsh-tuber':region==='veyrholds'?'suncrest':region==='ellionar'?'garden-vine':region==='bellweather'?'clover':'fern')+'-variation-2026-09-30' : readabilityCapture ? 'docs/qa-evidence/vaelora-highpine-low-readability-2026-09-30' : seedCapture ? 'docs/qa-evidence/vaelora-understory-seeds-2026-09-30' : understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-god-bone-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30');
+const out=evidenceOverride || (occupationCapture ? 'docs/qa-evidence/vaelora-land-vegetation-foundations-2026-09-30' : snowCapture ? 'docs/qa-evidence/vaelora-meridian-open-snow-plants-2026-09-30' : drylandCapture ? 'docs/qa-evidence/vaelora-sereward-open-succulents-2026-09-30' : plantContractCapture ? 'docs/qa-evidence/vaelora-plant-runtime-contract-2026-09-30' : gardenCapture ? 'docs/qa-evidence/vaelora-ellionar-channel-flowers-2026-09-30' : fringeCanopyCapture ? 'docs/qa-evidence/vaelora-ru-lora-fringe-canopy-2026-09-30' : fringeCapture ? 'docs/qa-evidence/vaelora-ru-lora-fringe-understory-2026-09-30' : meadowCapture ? 'docs/qa-evidence/vaelora-bellweather-open-meadow-2026-09-30' : lichenCapture ? 'docs/qa-evidence/vaelora-meridian-violet-lichen-2026-09-30' : shoreCapture ? (region==='sombral-mere'?'docs/qa-evidence/vaelora-mere-mirelily-2026-09-30':'docs/qa-evidence/vaelora-siltmouths-shore-reeds-2026-09-30') : variationCapture ? 'docs/qa-evidence/vaelora-'+region+'-'+(region==='sereward'?'succulent':region==='underbough'?'fungus':region==='pale-meridian'?'frostberry':region==='sombral-mere'?'noctilune':region==='siltmouths'?'marsh-tuber':region==='veyrholds'?'suncrest':region==='ellionar'?'garden-vine':region==='bellweather'?'clover':'fern')+'-variation-2026-09-30' : readabilityCapture ? 'docs/qa-evidence/vaelora-highpine-low-readability-2026-09-30' : seedCapture ? 'docs/qa-evidence/vaelora-understory-seeds-2026-09-30' : understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-god-bone-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30');
 let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
@@ -129,7 +131,7 @@ try {
   };`});
  const room=await(await fetch(new URL('/api/rooms',BASE),{method:'POST',headers:{origin:BASE.origin,'content-type':'application/json'},body:'{}'})).json();
  if(!room.roomId)throw new Error(room.error || 'isolated review room failed');
- await cdp.call('Page.navigate',{url:BASE.origin+'/?room='+room.roomId});await sleep(5500);
+ await cdp.call('Page.navigate',{url:BASE.origin+'/?room='+room.roomId+(occupationCapture?'&rendererCapture=environment-state':'')});await sleep(5500);
  if(await cdp.evaluate('document.documentElement.dataset.boot')!=='ready')throw new Error('Game did not boot before appearance capture');
  const openingRequests=await cdp.evaluate('performance.getEntriesByType("resource").filter(e=>e.name.includes("assets/environment")).map(e=>new URL(e.name).pathname)');
  if(openingRequests.filter(p=>p.endsWith('.webp')).some(p=>p.includes('underbough-')||p.includes('veyrholds-')||p.includes('sereward-')||p.includes('ellionar-')||p.includes('pale-meridian-')||p.includes('siltmouths-')||p.includes('vesperra-')||p.includes('sombral-mere-')||p.includes('ru-lora-')))throw new Error('Unused regional sprites loaded eagerly');
@@ -457,13 +459,31 @@ try {
  if(plantContractCapture){
   const result=await cdp.evaluate(`(async()=>{
    const {PLANT_ASSETS}=await import('/src/environment-plant-assets.mjs');
-   const {addObstacleEnvironmentSprites,createEnvironmentSpriteInstances,setForestSpriteStock}=await import('/src/environment-art.mjs');
-   const seen=new Map();const lifecycle=new Map();
+   const {addObstacleEnvironmentSprites,createEnvironmentSpriteInstances,setForestSpriteStock,updateLandVegetationOccupation}=await import('/src/environment-art.mjs');
+   const seen=new Map();const lifecycle=new Map();const occupation={meshes:0,instances:0,types:[]};
    const definitions=['meadow','sand','snow','ice','lunar-soil','forest-floor','scree','garden-loam','jungle-loam','tidal-mud','salt-crust'].map(terrainBase=>({terrainBase}));
    definitions.push({terrainBase:'jungle-loam',region:'ru-lora-fringe'});
    for(const d of definitions){
     const objects=[];
     const slots=addObstacleEnvironmentSprites({...d,width:32,height:32,terrainSeed:93007,obstacles:[{column:5,row:3,width:16,height:16,material:'forest'},{column:4,row:22,width:20,height:2,material:'stone',elevation:.72},{column:1,row:2,width:2,height:24,material:'water'}]},16,16,o=>objects.push(o));
+    if(${occupationCapture}){
+     const snapshot=objects.map(o=>Array.from(o.instanceMatrix.array));
+     for(const mesh of objects){const land=mesh.userData.landVegetation;if(!land)continue;
+      occupation.meshes++;occupation.instances+=mesh.count;
+      for(const type of ['meadowVegetation','drylandVegetation','snowVegetation','gardenVegetation','shoreVegetation'])if(mesh.userData[type]&&!occupation.types.includes(type))occupation.types.push(type);
+      const b=land.bounds[0],p={x:(b.minX+b.maxX)/2,z:(b.minZ+b.maxZ)/2,width:3,depth:3};
+      if(updateLandVegetationOccupation([mesh],[p])===0||!land.hidden[0])throw new Error('Foundation did not hide plant');
+      if(updateLandVegetationOccupation([mesh],[p])!==0)throw new Error('Unchanged footprint rewrote plants');
+      updateLandVegetationOccupation([mesh],[{x:10000,z:10000,width:3,depth:3}]);
+      if(JSON.stringify(Array.from(mesh.instanceMatrix.array))!==JSON.stringify(snapshot[objects.indexOf(mesh)]))throw new Error('Moved foundation reset drift');
+      const edge={x:b.maxX,z:b.maxZ,width:.02,depth:.02};updateLandVegetationOccupation([mesh],[edge]);if(!land.hidden[0])throw new Error('Sprite edge overlap not hidden');
+      updateLandVegetationOccupation([mesh],[{x:0,z:0,width:128,depth:128}]);
+      if(land.hidden.some(v=>v!==1)||Array.from(mesh.instanceMatrix.array).some((v,i)=>i%16!==15&&v!==0))throw new Error('Covered land plant remained visible');
+      updateLandVegetationOccupation([mesh],[]);
+      if(JSON.stringify(Array.from(mesh.instanceMatrix.array))!==JSON.stringify(snapshot[objects.indexOf(mesh)]))throw new Error('Removed foundation reset drift');
+     }
+     if(objects.some((o,i)=>JSON.stringify(Array.from(o.instanceMatrix.array))!==JSON.stringify(snapshot[i])))throw new Error('Foundation changed unrelated scenery');
+    }
     for(const slot of slots.values()){
      const plant=slot.understory;if(!plant)continue;
      const read=()=>Array.from(plant.mesh.instanceMatrix.array.slice(plant.index*16,plant.index*16+16));
@@ -489,7 +509,8 @@ try {
     try{createEnvironmentSpriteInstances(id,spec.worldWidth*1.2,(spec.worldHeight??spec.worldDepth)*1.2,[{x:0,z:0}]);}catch(e){if(!e.message.includes('registered contract'))throw e;rejected++;}
    }
    if(rejected!==seen.size)throw new Error('Runtime mismatch rejection failed');
-   return {checked:seen.size,rejected,companionLifecycle:Object.fromEntries(lifecycle),plants:[...seen.values()]};
+   if(${occupationCapture}&&occupation.types.length!==5)throw new Error('Missing land category');
+   return {occupation,checked:seen.size,rejected,companionLifecycle:Object.fromEntries(lifecycle),plants:[...seen.values()]};
   })()`);
   await writeFile(out+'/plant-contract-proof.json',JSON.stringify(result,null,2)+'\n');
  }

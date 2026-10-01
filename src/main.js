@@ -24,7 +24,7 @@ import {
   addObstacleEnvironmentSprites, createConstructionGroundInstances,
   createEnvironmentSprite, createEnvironmentSpriteInstances,
   createGroundSurfaces, environmentTheme, setEnvironmentSpriteInstance, setForestSpriteStock,
-  TERRAIN_MATERIALS, updateConstructionGroundInstances,
+  TERRAIN_MATERIALS, updateConstructionGroundInstances, updateLandVegetationOccupation,
   RESOURCE_STATE_ASSETS_AVAILABLE, RESOURCE_STATE_ASSET_STATUS, resourceStateAssetsReady,
 } from './environment-art.mjs';
 import {
@@ -1570,6 +1570,10 @@ function reconcileBuildings(buildings = [], initial = false) {
     updateBuildingCombatFeedback(visual, building);
   }
   updateConstructionGroundBatches(rows);
+  updateLandVegetationOccupation(mapObjects, rows.map(building => ({
+    x: building.x, z: building.z,
+    width: buildingFootprint(building.type), depth: buildingFootprint(building.type),
+  })));
   for (const [id, visual] of buildingVisuals) {
     if (seen.has(id)) continue;
     disposeBuildingVisual(visual);
@@ -4455,6 +4459,11 @@ function updateEnvironmentStateCaptureSnapshot(state) {
     resourceNodes,
     workers: workerRows,
     buildings,
+    landVegetation: mapObjects.filter(mesh => mesh.userData.landVegetation).map(mesh => ({
+      id: mesh.userData.plantAsset?.id,
+      count: mesh.count,
+      hidden: mesh.userData.landVegetation.hidden.reduce((sum, value) => sum + value, 0),
+    })),
     constructionDraws: [...constructionGroundMeshes].map(([stage, mesh]) => ({
       stage, count: mesh.count, visible: mesh.visible,
       buildingIds: buildings.filter((building) => building.groundStage === stage).map((building) => building.id),

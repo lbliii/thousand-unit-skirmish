@@ -539,6 +539,46 @@ export function updateConstructionGroundInstances(mesh, positions) {
   return true;
 }
 
+function registerLandVegetation(mesh) {
+  mesh.geometry.computeBoundingBox();
+  const matrices = mesh.instanceMatrix.array.slice(), bounds = [];
+  const matrix = new THREE.Matrix4();
+  for (let index = 0; index < mesh.count; index++) {
+    matrix.fromArray(matrices, index * 16);
+    const box = mesh.geometry.boundingBox.clone().applyMatrix4(matrix);
+    bounds.push({ minX: box.min.x, maxX: box.max.x, minZ: box.min.z, maxZ: box.max.z });
+  }
+  mesh.userData.landVegetation = { matrices, bounds, hidden: new Uint8Array(mesh.count), signature: null };
+}
+
+// Only received building footprints affect scenery. Restore the original cards
+// exactly when a footprint disappears; no economy or regrowth is inferred.
+export function updateLandVegetationOccupation(objects, footprints = []) {
+  const rows = footprints.filter(p => p && [p.x, p.z, p.width, p.depth].every(Number.isFinite)
+    && p.width > 0 && p.depth > 0).map(p => [p.x, p.z, p.width, p.depth]);
+  rows.sort((a, b) => a[0] - b[0] || a[1] - b[1] || a[2] - b[2] || a[3] - b[3]);
+  const signature = JSON.stringify(rows), matrix = new THREE.Matrix4();
+  let changed = 0;
+  for (const mesh of objects) {
+    const land = mesh.userData.landVegetation;
+    if (!land || land.signature === signature) continue;
+    let dirty = false;
+    for (let index = 0; index < land.bounds.length; index++) {
+      const b = land.bounds[index];
+      const hidden = Number(rows.some(([x, z, width, depth]) => b.maxX >= x - width / 2
+        && b.minX <= x + width / 2 && b.maxZ >= z - depth / 2 && b.minZ <= z + depth / 2));
+      if (land.hidden[index] === hidden) continue;
+      land.hidden[index] = hidden;
+      if (hidden) matrix.makeScale(0, 0, 0);
+      else matrix.fromArray(land.matrices, index * 16);
+      mesh.setMatrixAt(index, matrix); dirty = true; changed++;
+    }
+    if (dirty) mesh.instanceMatrix.needsUpdate = true;
+    land.signature = signature;
+  }
+  return changed;
+}
+
 export function createEnvironmentSpriteInstances(name, width, height, positions) {
   if (positions.length === 0) return null;
   const plantSpec = assertPlantDimensions(name, width, height);
@@ -894,6 +934,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       const flowers = createEnvironmentSpriteInstances(name, spec.worldWidth, spec.worldHeight, positions);
       if (flowers) {
         flowers.userData.meadowVegetation = true;
+        registerLandVegetation(flowers);
         addObject(flowers);
       }
     }
@@ -904,6 +945,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       const plants = createEnvironmentSpriteInstances(name, spec.worldWidth, spec.worldHeight, positions);
       if (plants) {
         plants.userData.drylandVegetation = true;
+        registerLandVegetation(plants);
         addObject(plants);
       }
     }
@@ -914,6 +956,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       const plants = createEnvironmentSpriteInstances(name, spec.worldWidth, spec.worldHeight, positions);
       if (plants) {
         plants.userData.snowVegetation = true;
+        registerLandVegetation(plants);
         addObject(plants);
       }
     }
@@ -923,6 +966,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       gardenPlantPositions(definition, environmentTheme(definition)));
     if (flowers) {
       flowers.userData.gardenVegetation = true;
+      registerLandVegetation(flowers);
       addObject(flowers);
     }
   }
@@ -936,6 +980,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       : createWaterPlantInstances('sombral-mere-mirelily', 0.75, 0.7229, shorePlants);
     if (shore) {
       if (siltmouths) shore.position.y = WATER_LEVEL;
+      if (siltmouths) registerLandVegetation(shore);
       shore.userData.shoreVegetation = true;
       addObject(shore);
     }

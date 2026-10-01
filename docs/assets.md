@@ -158,4 +158,6 @@ Grass-base woodland companions mix Bellweather meadow herbs and a smaller pink-c
 
 Open grass-base meadow beds mix herbs, clover and wild barley, choosing one specimen per coarse bed while retaining all accepted positions and protected gaps. Forest clearing leaves this independent land vegetation unchanged.
 
+Independent meadow, dryland, snow, channel flowers and shore reeds now hide beneath received building footprints and restore their original placement when those footprints disappear. This is visual clearing with no new resource yield. See the [environment guide](environment-pack-v1.md) and [foundation overlap evidence](qa-evidence/vaelora-land-vegetation-foundations-2026-09-30/README.md).
+
 Wild barley joins the current meadow mix as a third upright silhouette, retaining the same accepted positions and gaps. The [barley manifest](../assets/environment/frontier-v1/bellweather-wild-barley-variation-manifest.json) records decorative land scenery; it is not a grain resource or farm. [Current meadow evidence](qa-evidence/vaelora-bellweather-wild-barley-2026-09-30/README.md) covers all three batches.
