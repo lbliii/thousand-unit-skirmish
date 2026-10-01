@@ -1,0 +1,9 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Use case: stylized-concept. Asset type: transparent painterly RTS woodland companion sprite. Reference 1 is the approved Sombral Mere ecology key, especially its Noctilune Vine. Create one LOW self-contained tangled vine clump: a short curled woody root arch rising from a bottom-center root crown, dark petrol-teal broad leaves and five pale pearl-lavender downward bell flowers on curved short tendrils. A little muted moss at the root, no tree trunk, stone pedestal, ground carpet or water. The root arch supports the vine naturally. Sparse large leaf shapes, restrained painted detail, strong coherent silhouette. Orthographic RTS view looking down at 45.44 degrees above ground, azimuth 45 degrees, upright world vertical and zero screen roll, no dramatic tilt or horizon. Entire clump centered with generous margins, root contact lowest point bottom center; leaves and blossoms above the roots. Genuine transparent alpha background, no haze or shadow cloud, no magical glow, no text, frame or symbols. Pearl/lavender flowers against teal leaves, painterly matte finish matching the key. Not an upright tall tree.",
+  "reference": [
+    "../../../docs/art-direction/vaelora-v1/sombral-mere-ecology.png"
+  ],
+  "transparentBackground": true,
+  "selectedOutput": "exec-65cd9781-4e92-417e-a5a8-ec893bc7e479.png"
+}

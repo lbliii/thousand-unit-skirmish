@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-mere-noctilune",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/sombral-mere-ecology.png",
+  "referenceSha256": "3f268da6b8fe3d90f290661f0af6d5a742e2c4f5b40fe03d039ffdf76c5dcc5f",
+  "prompts": "SOMBRAL-MERE-NOCTILUNE-PROMPTS.json",
+  "files": [
+    {
+      "path": "sombral-mere-noctilune.png",
+      "role": "source-image",
+      "sha256": "479cbe02e0a8c1d8ff5781df46215d3764971f6797e5e5cf9348c266f163910d",
+      "bytes": 1795344,
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "sombral-mere-noctilune.webp",
+      "role": "runtime-image",
+      "sha256": "e473fedd1098a61012d4bfb175e21170e243637d1a9b8895d0002aa1bc5af7b8",
+      "bytes": 255182,
+      "dimensionsPx": {
+        "width": 920,
+        "height": 865
+      }
+    }
+  ],
+  "cropPx": [
+    371,
+    78,
+    1291,
+    943
+  ],
+  "asset": {
+    "id": "sombral-mere-noctilune",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 1.0104,
+    "worldHeight": 0.95,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "parentStockClears": true,
+    "frontOffset": 0.18
+  },
+  "provenance": "Built-in ImageGen against approved Mere ecology. Unmodified selected PNG; deterministic crop, max1024 LANCZOS WebP quality86 method6 exact alpha. Decorative low rooted vine alongside Lunewort in existing forest slots. One approximate painted view, no emission or separate gathering rule."
+}
