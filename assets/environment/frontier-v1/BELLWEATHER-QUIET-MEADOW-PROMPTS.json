@@ -1,0 +1,11 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Use case: game-texture. Create a square seamless tileable top-down painted meadow ground ALBEDO texture for an RTS. Use supplied Bellweather ecology key for restrained sage/olive green and warm butter-yellow palette, matte hand-painted finish. Quiet low-contrast ground fill: broad soft irregular interlocking color patches, sparse tiny indistinct moss/grass flecks. NO recognizable grass-blade clusters, leaf stamps, flowers, rocks, repeated motifs, circular swirls, ripples, stripes, contour lines, fractal noise, wave patterns or strong directional strokes. Even lighting, no central focus, no vignette, no horizon, perspective, text or frame. Edges continue naturally for tiling. Opaque image. This is the quiet base layer underneath separately rendered grass, clover, trees and flowers; spacious painted color masses matter more than fine texture. Preserve Bellweather's lived-in pastoral warmth without photorealism.",
+  "reference": [
+    "../../../docs/art-direction/vaelora-v1/bellweather-ecology.png"
+  ],
+  "transparentBackground": false,
+  "initialOutput": "exec-c492e340-cbcc-467b-ae2f-0e2d17fd235d.png",
+  "editPrompt": "Edit this meadow texture to reduce small-scale visual detail by at least 90 percent. Preserve its sage/olive and butter-yellow palette, opaque square top-down ground role and painted style. Replace all the tiny yellow flecks and stippling with smooth softly brushed irregular color masses. Very low contrast. No crisp marks, grass blades, flowers, pebbles, dots, grain, wrinkles or repeated small patches. Aim for a quiet watercolor/gouache meadow underpainting that reads as nearly flat sage green at game scale, with only broad subtle warm yellow-green clouds. Tileable edges, no vignette, center focus or text.",
+  "selectedOutput": "exec-ba9021f1-ba66-4ad6-afa1-34fee9dc1060.png"
+}

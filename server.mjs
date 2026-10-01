@@ -7156,6 +7156,7 @@ const server = createServer(async (request, response) => {
       'rock-boulder-cluster', 'basalt-ridge-cap', 'cliff-end-cap',
       'berries', 'rock-outcrop', 'basalt-ridge', 'cliff', 'seamstone',
       'underbough-clearing-grass-v2', 'underbough-root-soil-v2', 'underbough-worn-dirt-v2',
+      'bellweather-quiet-meadow',
       ...TERRAIN_MATERIALS].includes(path.basename(relative, path.extname(relative)));
   const publicInteractiveEnvironmentAsset = path.dirname(relative) === 'assets/environment/frontier-interactive-v1'
     && (relative === 'assets/environment/frontier-interactive-v1/manifest.json'

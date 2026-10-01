@@ -1,0 +1,67 @@
+{
+  "seed": 42,
+  "boot": {
+    "ready": "ready",
+    "error": "",
+    "quietLoaded": true
+  },
+  "errors": [],
+  "proof": [
+    {
+      "terrain": "meadow",
+      "span": 32,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "meadow",
+      "span": 32,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "meadow",
+      "span": 128,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "meadow",
+      "span": 128,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "bellweather-quiet-meadow",
+      "span": 32,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "bellweather-quiet-meadow",
+      "span": 32,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "bellweather-quiet-meadow",
+      "span": 128,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "bellweather-quiet-meadow",
+      "span": 128,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    }
+  ]
+}

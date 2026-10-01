@@ -291,8 +291,11 @@ export const resourceStateAssetsReady = loadResourceStateAssets();
 
 const grounds = new Map();
 function groundTexture(material, definition) {
-  const name = regionalGroundTextureName(definition, material,
+  let name = regionalGroundTextureName(definition, material,
     new URLSearchParams(globalThis.location?.search ?? '').get('regionalGrounds') !== 'legacy');
+  if (name === 'meadow' && new URLSearchParams(globalThis.location?.search ?? '').get('meadowSurface') === 'quiet') {
+    name = 'bellweather-quiet-meadow';
+  }
   if (grounds.has(name)) return grounds.get(name);
   const texture = textureLoader.load(`${ASSET_ROOT}${name}.webp?v=vaelora-ground-v2`);
   texture.colorSpace = THREE.SRGBColorSpace;

@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-30",
+  "generator": "Built-in ImageGen",
+  "reference": "../../../docs/art-direction/vaelora-v1/bellweather-ecology.png",
+  "prompts": "BELLWEATHER-QUIET-MEADOW-PROMPTS.json",
+  "encoding": "Selected PNG unchanged; Pillow RGB LANCZOS 1024 square WebP quality86 method6",
+  "files": [
+    {
+      "file": "bellweather-quiet-meadow.png",
+      "sha256": "d7005420ab3ceea7f746edbe3be15fb7a429a99b7bdd54cc9cce60f3c92efd02",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "sourceOutput": "exec-ba9021f1-ba66-4ad6-afa1-34fee9dc1060.png"
+    },
+    {
+      "file": "bellweather-quiet-meadow.webp",
+      "sha256": "4fde06dba1c827c87657c831e85c48f70a98e974dfcfa95d2788c74ee7042010",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sourceOutput": "exec-ba9021f1-ba66-4ad6-afa1-34fee9dc1060.png"
+    }
+  ],
+  "referenceSha256": "043d3be76343e9e5c04850fe99be84333b977a7215e503152bf1ab9dc588ed40"
+}

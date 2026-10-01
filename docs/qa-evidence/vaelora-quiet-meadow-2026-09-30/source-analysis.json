@@ -1,0 +1,18 @@
+{
+  "meadow": {
+    "meanRGB": [
+      131.59886932373047,
+      148.70912170410156,
+      67.23506927490234
+    ],
+    "horizontalAdjacentLuminanceDifference": 1.8949440435420744
+  },
+  "bellweather-quiet-meadow": {
+    "meanRGB": [
+      170.89752578735352,
+      156.01011276245117,
+      75.07764053344727
+    ],
+    "horizontalAdjacentLuminanceDifference": 3.294604635518591
+  }
+}
