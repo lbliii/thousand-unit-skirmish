@@ -3,6 +3,7 @@
 const FUNCTIONS = /* glsl */`
 #ifdef USE_MAP
 uniform float vaeloraTerrainSeed;
+uniform float vaeloraFreeRotation;
 vec2 vaeloraHash(vec2 p) {
   p += vaeloraTerrainSeed;
   return fract(sin(vec2(dot(p, vec2(127.1, 311.7)),
@@ -10,7 +11,8 @@ vec2 vaeloraHash(vec2 p) {
 }
 vec4 vaeloraPatch(sampler2D terrainMap, vec2 uv, vec2 anchor, vec2 dx, vec2 dy) {
   vec2 random = vaeloraHash(anchor);
-  float angle = floor(random.x * 4.0) * 1.57079632679;
+  float angle = mix(floor(random.x * 4.0) * 1.57079632679,
+    random.x * 6.28318530718, vaeloraFreeRotation);
   mat2 rotation = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
   return textureGrad(terrainMap, rotation * uv + random * 7.0,
     rotation * dx, rotation * dy);
@@ -47,10 +49,11 @@ vec4 vaeloraGround(sampler2D terrainMap, vec2 uv, vec2 dx, vec2 dy) {
 #endif
 `;
 
-export function applyTerrainTextureSampling(material, seed = 0, enabled = true) {
+export function applyTerrainTextureSampling(material, seed = 0, enabled = true, freeRotation = false) {
   if (!enabled) return material;
   material.onBeforeCompile = (shader) => {
     shader.uniforms.vaeloraTerrainSeed = { value: (seed % 997) / 17 };
+    shader.uniforms.vaeloraFreeRotation = { value: freeRotation ? 1 : 0 };
     shader.fragmentShader = FUNCTIONS + shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader.replace('#include <map_fragment>', /* glsl */`
       #ifdef USE_MAP
@@ -72,6 +75,6 @@ export function applyTerrainTextureSampling(material, seed = 0, enabled = true) 
       #endif
     `);
   };
-  material.customProgramCacheKey = () => 'vaelora-stochastic-ground-v2';
+  material.customProgramCacheKey = () => 'vaelora-stochastic-ground-v3';
   return material;
 }

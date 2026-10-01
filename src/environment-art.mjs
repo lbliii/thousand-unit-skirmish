@@ -363,8 +363,9 @@ function groundBuffer() {
 export function createGroundSurfaces(definition) {
   const base = environmentTheme(definition);
   const stochastic = new URLSearchParams(globalThis.location?.search ?? '').get('terrainTiling') !== 'mirror';
+  const freeRotation = new URLSearchParams(globalThis.location?.search ?? '').get('terrainRotation') === 'free';
   const groundMaterial = options => applyTerrainTextureSampling(
-    new THREE.MeshBasicMaterial({ ...options, vertexColors: true }), definition.terrainSeed || 0, stochastic);
+    new THREE.MeshBasicMaterial({ ...options, vertexColors: true }), definition.terrainSeed || 0, stochastic, freeRotation);
   const baseBuffer = groundBuffer();
   addGroundQuad(baseBuffer, definition,
     -definition.width / 2, -definition.height / 2,

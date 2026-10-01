@@ -1,0 +1,122 @@
+{
+  "seed": 42,
+  "boot": {
+    "ready": "ready",
+    "error": ""
+  },
+  "errors": [],
+  "proof": [
+    {
+      "terrain": "meadow",
+      "span": 32,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "meadow",
+      "span": 32,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "meadow",
+      "span": 128,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "meadow",
+      "span": 128,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "sand",
+      "span": 32,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "sand",
+      "span": 32,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "sand",
+      "span": 128,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "sand",
+      "span": 128,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "jungle-loam",
+      "span": 32,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "jungle-loam",
+      "span": 32,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "jungle-loam",
+      "span": 128,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "jungle-loam",
+      "span": 128,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "forest-floor",
+      "span": 32,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "forest-floor",
+      "span": 32,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "forest-floor",
+      "span": 128,
+      "free": false,
+      "stable": true,
+      "programs": 1
+    },
+    {
+      "terrain": "forest-floor",
+      "span": 128,
+      "free": true,
+      "stable": true,
+      "programs": 1
+    }
+  ]
+}
