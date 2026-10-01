@@ -14,3 +14,5 @@ node scripts/meadow-vegetation-scenario.mjs
 The game boots ready on Forked Vale without recorded browser errors. Opening and ordinary/strategic images are baseline appearance captures, **not** screenshots of construction clearing. The occupation assertions call the renderer helper directly; an ordinary player-built foundation and multiplayer visibility interaction are not verified here. Client integration applies the helper to reconciled received buildings using canonical sizes. Original matrices preserve ground contact and facing when restored.
 
 Placement checks retain 148 Bellweather meadow, 68 Sereward dryland and 42 Pale Meridian snow plants with deterministic grouping, protected markers and no map mutation. This does not certify new painted perspectives, plant gathering states, trampling, biological regrowth or reduced terrain repetition.
+
+A [fresh integrated repeat](../vaelora-land-vegetation-foundations-integrated-2026-09-30/README.md) passes after merging current main `24f800bb`. Original captures remain preserved here.
