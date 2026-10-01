@@ -666,3 +666,13 @@ One instanced batch reuses the approved source and calibrated upright billboard 
 The existing seeded 28% companion placement, parent forest identities, partial-harvest retention, clearing/reset and collision rules remain. Sprite size is 1.09551×0.72 world units. Generated PNG unchanged, alpha-preserving WebP and [exact prompt](../assets/environment/frontier-v1/RU-LORA-FRINGE-PROMPTS.json) included. This is working presentation of the proposed living fringe; no named species, extraction rule, supernatural effect or expanded canon is introduced. One approximate fixed-oblique painted view.
 
 [Local fringe evidence](qa-evidence/vaelora-ru-lora-fringe-understory-2026-09-30/README.md) records shipped-map binding, region/base exclusions, clearing/reset, raised contact and actual camera roll, plus existing canopy lifecycle regressions. Both asset validators pass fifteen packs.
+
+## Ru’Lora living-fringe canopy lifecycle · 30 September 2026
+
+[Canopy preview](../assets/environment/frontier-v1/ru-lora-fringe-lifecycle-preview.png), [source manifest](../assets/environment/frontier-v1/ru-lora-fringe-lifecycle-manifest.json) and [exact prompts](../assets/environment/frontier-v1/RU-LORA-FRINGE-CANOPY-PROMPTS.json) replace borrowed Mistbark in the registered living fringe on jungle ground. The dense emerald/olive crown, warm brown buttressed trunk and restrained ochre new growth follow the living margin of the approved Ru’Lora map. Worked art exposes small cuts, low stock leaves two separated foliage tufts on cut-back branches, and zero stock leaves a rooted stump.
+
+All selected PNGs remain unchanged on a 1254×1254 canvas; a shared [55,55,1217,1207] crop produces four 1024×1015 alpha-preserving WebPs. Runtime size is 3.43015×3.4 world units. Existing forest identities, seeded placement, scale, collision, wood yield and companion clearing remain. The [separate lazy atlas](../assets/environment/frontier-v1/ru-lora-fringe-lifecycle-atlas.json) reuses the four-state, 64px-gutter, half-texel inset and mip-cap-six contract with individual-frame fallback. Vesperra/generic jungle, petrified interior, incompatible bases and resource review keep their art.
+
+This supersedes the earlier borrowed-canopy limitation. Working living-fringe presentation does not establish a named species or supernatural/resource rule. One approximate fixed-oblique painted view per state; registered additional directions remain future work.
+
+[Local canopy evidence](qa-evidence/vaelora-ru-lora-fringe-canopy-2026-09-30/README.md) records four-state atlas/UV/reset, live harvesting, source-alpha audit, regional isolation, companion behavior and all fifteen atlas-family fallbacks.

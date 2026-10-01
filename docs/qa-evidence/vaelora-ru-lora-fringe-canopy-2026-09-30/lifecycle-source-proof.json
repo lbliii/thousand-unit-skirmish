@@ -1,0 +1,50 @@
+[
+  {
+    "stage": "full",
+    "sourceCanvas": [
+      1254,
+      1254
+    ],
+    "runtimeCanvas": [
+      1024,
+      1015
+    ],
+    "decodedAlphaExact": true
+  },
+  {
+    "stage": "worked",
+    "sourceCanvas": [
+      1254,
+      1254
+    ],
+    "runtimeCanvas": [
+      1024,
+      1015
+    ],
+    "decodedAlphaExact": true
+  },
+  {
+    "stage": "low",
+    "sourceCanvas": [
+      1254,
+      1254
+    ],
+    "runtimeCanvas": [
+      1024,
+      1015
+    ],
+    "decodedAlphaExact": true
+  },
+  {
+    "stage": "depleted",
+    "sourceCanvas": [
+      1254,
+      1254
+    ],
+    "runtimeCanvas": [
+      1024,
+      1015
+    ],
+    "decodedAlphaExact": true
+  }
+]

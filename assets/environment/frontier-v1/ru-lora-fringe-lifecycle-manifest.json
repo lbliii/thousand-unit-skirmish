@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-ru-lora-fringe-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/ru-lora-map.png",
+  "prompts": "RU-LORA-FRINGE-CANOPY-PROMPTS.json",
+  "provenance": "Built-in ImageGen against approved Ru Lora map living edge and selected maple finish, then generated edits. Selected PNGs unchanged; shared full-state crop, LANCZOS max1024 RGBA WebP quality86 method6 exact alpha. One approximate painted view; working living-fringe presentation only.",
+  "files": [
+    {
+      "path": "ru-lora-fringe-canopy.png",
+      "role": "source-image",
+      "sha256": "5d931b0c27bff10d0ed35746b637b605f95331a64f9c3bb4a5d55700c9d4c9b2",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 1986162
+    },
+    {
+      "path": "ru-lora-fringe-canopy.webp",
+      "role": "runtime-image",
+      "sha256": "a80acb807c1545ad74e85286061f8a4c061d16332078b031cf55c7b6d7eb259a",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1015
+      },
+      "bytes": 329444
+    },
+    {
+      "path": "ru-lora-fringe-canopy-worked.png",
+      "role": "source-image",
+      "sha256": "c1ed345501de1ba30890bdb363d2f2eeb1890f7f2deb08f8c0004b40662f95d9",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 1499981
+    },
+    {
+      "path": "ru-lora-fringe-canopy-worked.webp",
+      "role": "runtime-image",
+      "sha256": "25d78bb0956cfe8e136014833e93da5a9d279b3d7ac2b72a582642ad0957928a",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1015
+      },
+      "bytes": 216266
+    },
+    {
+      "path": "ru-lora-fringe-canopy-low.png",
+      "role": "source-image",
+      "sha256": "3c098e884fc2d9c079dfafddda15fd26652d625c0fab8ca922da9128661dc618",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 849158
+    },
+    {
+      "path": "ru-lora-fringe-canopy-low.webp",
+      "role": "runtime-image",
+      "sha256": "799aabc50d4db7cf1642d85b8b142a1dabaa90041bf0f982c4011a22e11684d2",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1015
+      },
+      "bytes": 129434
+    },
+    {
+      "path": "ru-lora-fringe-canopy-depleted.png",
+      "role": "source-image",
+      "sha256": "acc6c783feb5cfcb0059399c4d1ff78806193d32a9997f4c400b8879b6d4177c",
+      "dimensionsPx": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 339238
+    },
+    {
+      "path": "ru-lora-fringe-canopy-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "b893e73a9b8f367ebfb9edd77aee481b58d5c7a234b9f84a8e5e41fce383e17d",
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 1015
+      },
+      "bytes": 44840
+    }
+  ],
+  "assets": [
+    {
+      "id": "ru-lora-fringe-canopy",
+      "stage": "full",
+      "sourceOutputId": "exec-f4688d58-84cf-434d-9cd0-bbbddc2c1f19",
+      "sourceFile": "ru-lora-fringe-canopy.png",
+      "runtimeFile": "ru-lora-fringe-canopy.webp",
+      "cropBoxPx": [
+        55,
+        55,
+        1217,
+        1207
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.43015,
+        "height": 3.4
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "ru-lora-fringe-canopy-worked",
+      "stage": "worked",
+      "sourceOutputId": "exec-cdb84ffb-4408-4d05-b5da-c19fb6a9dcee",
+      "sourceFile": "ru-lora-fringe-canopy-worked.png",
+      "runtimeFile": "ru-lora-fringe-canopy-worked.webp",
+      "cropBoxPx": [
+        55,
+        55,
+        1217,
+        1207
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.43015,
+        "height": 3.4
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "ru-lora-fringe-canopy-low",
+      "stage": "low",
+      "sourceOutputId": "exec-35912090-1b2a-42dd-8959-ac6b69a87c3b",
+      "sourceFile": "ru-lora-fringe-canopy-low.png",
+      "runtimeFile": "ru-lora-fringe-canopy-low.webp",
+      "cropBoxPx": [
+        55,
+        55,
+        1217,
+        1207
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.43015,
+        "height": 3.4
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": "ru-lora-fringe-canopy-depleted",
+      "stage": "depleted",
+      "sourceOutputId": "exec-58c22c12-4798-4e48-8802-8ee7dbbc01d0",
+      "sourceFile": "ru-lora-fringe-canopy-depleted.png",
+      "runtimeFile": "ru-lora-fringe-canopy-depleted.webp",
+      "cropBoxPx": [
+        55,
+        55,
+        1217,
+        1207
+      ],
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "worldSize": {
+        "width": 3.43015,
+        "height": 3.4
+      },
+      "pivot": [
+        0.5,
+        1
+      ]
+    }
+  ],
+  "referenceSha256": "cecacfd3c65020914744b62197b92aa65e87da6dbf7748c02ff636e29d0e7ce0"
+}

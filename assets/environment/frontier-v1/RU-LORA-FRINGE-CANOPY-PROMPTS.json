@@ -1,0 +1,29 @@
+{
+  "provider": "Built-in ImageGen",
+  "full": {
+    "prompt": "Use case: stylized-concept. Create a mature living Ru'Lora fringe canopy tree RTS sprite. Use approved map reference only for its emerald living jungle at left/lower edges; use maple reference only for coherent painterly game finish. One stout upright warm umber trunk with broad buttress roots, short ascending branches, a full rounded umbrella crown of large emerald/olive leathery leaves in broad overlapping readable masses, a few subdued ochre young leaves. Small brown woody lianas hug the trunk; no dangling purple flowers, no pale ivory bark, no glowing magic, no fruit or bones. Distinct from Vesperra Mistbark. Orthographic view elevation45.44 degrees above ground, azimuth45 degrees, world Y up, zero screen roll. No dramatic leaning or perspective. Entire tree centered on a square canvas with margin, root contact centered near bottom. Genuine transparent background, no ground patch or shadow cloud, no text. Strong simple game-scale silhouettes, restrained painterly detail. This is the intact FULL WOOD STOCK state, suitable for matching later cut-back stages.",
+    "references": [
+      "../../../docs/art-direction/vaelora-v1/ru-lora-map.png",
+      "bellweather-field-maple.png"
+    ],
+    "selectedOutput": "exec-f4688d58-84cf-434d-9cd0-bbbddc2c1f19.png"
+  },
+  "transparentBackground": true,
+  "edits": {
+    "worked": {
+      "prompt": "Edit this exact tree sprite. Preserve 1254x1254 source canvas, camera view, scale, trunk/root position and painterly finish. Root contact must remain at the exact same pixel. Genuine transparent background, no ground or shadow cloud, no labels, no glow. WORKED wood-stock state: keep the mature tree standing with most crown intact, remove about one quarter of the outer foliage and a few lower side branches, show small pale fresh cut faces on those branch ends. Main trunk, buttress roots and upper crown stay registered.",
+      "reference": "ru-lora-fringe-canopy.png",
+      "selectedOutput": "exec-cdb84ffb-4408-4d05-b5da-c19fb6a9dcee.png"
+    },
+    "low": {
+      "prompt": "Edit this exact tree sprite. Preserve 1254x1254 source canvas, camera view, scale, trunk/root position and painterly finish. Root contact must remain at the exact same pixel. Genuine transparent background, no ground or shadow cloud, no labels, no glow. LOW wood-stock state: remove roughly eighty percent of the canopy and cut back the long upper branches to short woody stubs. Retain only two small separated emerald leaf tufts on lower branch tips. Main buttressed trunk remains at same position but upper branches are cut short; pale cut faces visibly mark ends. Clearly smaller crown than intact or worked. No loose logs.",
+      "reference": "ru-lora-fringe-canopy.png",
+      "selectedOutput": "exec-35912090-1b2a-42dd-8959-ac6b69a87c3b.png"
+    },
+    "depleted": {
+      "prompt": "Edit this exact tree sprite. Preserve 1254x1254 source canvas, camera view, scale, trunk/root position and painterly finish. Root contact must remain at the exact same pixel. Genuine transparent background, no ground or shadow cloud, no labels, no glow. DEPLETED zero-stock state: remove the entire crown and all above-ground branches. Only the original buttress root base and a short sturdy trunk stump remain, at exactly the original root location. Stump top at roughly one fifth of original total tree height, with a broad pale fresh cut surface and subtle growth rings. Above it is empty transparent canvas. No leaves or regrowth, no loose logs.",
+      "reference": "ru-lora-fringe-canopy.png",
+      "selectedOutput": "exec-58c22c12-4798-4e48-8802-8ee7dbbc01d0.png"
+    }
+  }
+}

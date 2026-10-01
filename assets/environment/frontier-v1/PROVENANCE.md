@@ -322,3 +322,7 @@ Built-in ImageGen generated `sereward-succulent-02.png` against the existing sel
 ## Ru’Lora living-fringe broadleaf · 30 September 2026
 
 Built-in ImageGen used the approved Ru’Lora map living edge for palette and the selected Vesperra fern for painterly finish only. Selected `ru-lora-fringe-broadleaf.png` is unchanged; deterministic crop and LANCZOS max1024 WebP quality86/method6 preserve generated alpha. `RU-LORA-FRINGE-PROMPTS.json` records exact prompt, references and selected output; `ru-lora-fringe-understory-manifest.json` records file hashes and geometry. Working living-fringe presentation only, no new biology or gameplay rule; one approximate painted view.
+
+## Ru’Lora living-fringe canopy lifecycle · 30 September 2026
+
+Built-in ImageGen used the approved Ru’Lora map living edge and selected Bellweather maple finish, then generated worked/low/depleted edits against the intact canopy. Four selected PNGs are unchanged; shared crop and LANCZOS max1024 WebP quality86/method6 preserve alpha. `RU-LORA-FRINGE-CANOPY-PROMPTS.json` records exact prompts/references/outputs, `ru-lora-fringe-lifecycle-manifest.json` records source/runtime hashes, and the deterministic atlas builder packs the decoded frames. Working presentation only, one approximate painted view per state.

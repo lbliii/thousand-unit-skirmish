@@ -1,0 +1,208 @@
+[
+  {
+    "id": "ru-lora-fringe-path",
+    "region": "ru-lora-fringe",
+    "terrainBase": "jungle-loam",
+    "forestCells": 256,
+    "companions": 52,
+    "names": [
+      "ru-lora-fringe-broadleaf"
+    ],
+    "families": [
+      "ru-lora-fringe-canopy"
+    ],
+    "expected": true
+  },
+  {
+    "id": "fixture",
+    "region": "ru-lora-fringe",
+    "terrainBase": "jungle-loam",
+    "forestCells": 256,
+    "companions": 68,
+    "names": [
+      "ru-lora-fringe-broadleaf"
+    ],
+    "families": [
+      "ru-lora-fringe-canopy"
+    ],
+    "expected": true
+  },
+  {
+    "id": "fixture",
+    "region": "ru-lora-fringe",
+    "terrainBase": "salt-crust",
+    "forestCells": 256,
+    "companions": 0,
+    "names": [],
+    "families": [
+      "pine",
+      "oak",
+      "silver-birch",
+      "field-maple",
+      "hazel-thicket"
+    ],
+    "expected": false
+  },
+  {
+    "id": "fixture",
+    "region": "ru-lora-fringe",
+    "terrainBase": "snow",
+    "forestCells": 256,
+    "companions": 68,
+    "names": [
+      "pale-meridian-silver-moss"
+    ],
+    "families": [
+      "pale-meridian-conifer"
+    ],
+    "expected": false
+  },
+  {
+    "id": "fixture",
+    "region": "vesperra",
+    "terrainBase": "jungle-loam",
+    "forestCells": 256,
+    "companions": 68,
+    "names": [
+      "vesperra-shade-fern",
+      "vesperra-shade-fern-02"
+    ],
+    "families": [
+      "vesperra-mistbark"
+    ],
+    "expected": false
+  },
+  {
+    "id": "fixture",
+    "region": "vesperra",
+    "terrainBase": "salt-crust",
+    "forestCells": 256,
+    "companions": 0,
+    "names": [],
+    "families": [
+      "pine",
+      "oak",
+      "silver-birch",
+      "field-maple",
+      "hazel-thicket"
+    ],
+    "expected": false
+  },
+  {
+    "id": "fixture",
+    "region": "vesperra",
+    "terrainBase": "snow",
+    "forestCells": 256,
+    "companions": 68,
+    "names": [
+      "pale-meridian-silver-moss"
+    ],
+    "families": [
+      "pale-meridian-conifer"
+    ],
+    "expected": false
+  },
+  {
+    "id": "fixture",
+    "region": "ru-lora-interior",
+    "terrainBase": "jungle-loam",
+    "forestCells": 256,
+    "companions": 68,
+    "names": [
+      "vesperra-shade-fern",
+      "vesperra-shade-fern-02"
+    ],
+    "families": [
+      "vesperra-mistbark"
+    ],
+    "expected": false
+  },
+  {
+    "id": "fixture",
+    "region": "ru-lora-interior",
+    "terrainBase": "salt-crust",
+    "forestCells": 256,
+    "companions": 0,
+    "names": [],
+    "families": [
+      "pine",
+      "oak",
+      "silver-birch",
+      "field-maple",
+      "hazel-thicket"
+    ],
+    "expected": false
+  },
+  {
+    "id": "fixture",
+    "region": "ru-lora-interior",
+    "terrainBase": "snow",
+    "forestCells": 256,
+    "companions": 68,
+    "names": [
+      "pale-meridian-silver-moss"
+    ],
+    "families": [
+      "pale-meridian-conifer"
+    ],
+    "expected": false
+  },
+  {
+    "id": "fixture",
+    "region": null,
+    "terrainBase": "jungle-loam",
+    "forestCells": 256,
+    "companions": 68,
+    "names": [
+      "vesperra-shade-fern",
+      "vesperra-shade-fern-02"
+    ],
+    "families": [
+      "vesperra-mistbark"
+    ],
+    "expected": false
+  },
+  {
+    "id": "fixture",
+    "region": null,
+    "terrainBase": "salt-crust",
+    "forestCells": 256,
+    "companions": 0,
+    "names": [],
+    "families": [
+      "pine",
+      "oak",
+      "silver-birch",
+      "field-maple",
+      "hazel-thicket"
+    ],
+    "expected": false
+  },
+  {
+    "id": "fixture",
+    "region": null,
+    "terrainBase": "snow",
+    "forestCells": 256,
+    "companions": 68,
+    "names": [
+      "pale-meridian-silver-moss"
+    ],
+    "families": [
+      "pale-meridian-conifer"
+    ],
+    "expected": false
+  },
+  {
+    "id": "meshy-resource-review",
+    "region": "ru-lora-fringe",
+    "terrainBase": "jungle-loam",
+    "forestCells": 256,
+    "companions": 0,
+    "names": [],
+    "families": [
+      "pine",
+      "oak"
+    ],
+    "expected": false
+  }
+]

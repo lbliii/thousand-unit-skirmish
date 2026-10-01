@@ -54,8 +54,8 @@ Ground choice selects the existing regional vegetation and material family. As
 that family gains lifecycle atlases, shrubs and textures, these maps inherit the
 renderer improvements. The human Frontier building/unit kit remains the playable
 roster across regions; regional architecture and inhabitants are not implemented.
-Ru’Lora Fringe uses the Vesperra canopy alongside salt paint, with dedicated
-emerald broadleaf understory. A dedicated canopy family is still needed. No toxic damage,
+Ru’Lora Fringe uses a dedicated emerald/olive canopy and broadleaf understory
+alongside salt paint, including four canopy wood-stock states. No toxic damage,
 tides, bridges, active observatories or supernatural mechanics are implied.
 
 Each map binds a hash-verified shipped regional **music and terrain ambience** profile, including

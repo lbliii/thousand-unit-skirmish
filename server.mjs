@@ -7127,12 +7127,12 @@ const server = createServer(async (request, response) => {
     'assets/ui/icons/attack.svg', 'assets/ui/icons/gather.svg', 'assets/ui/icons/build.svg',
   ].includes(relative);
   const publicEnvironmentModule = relative === 'src/environment-art.mjs';
-  const publicEnvironmentAtlasMetadata = ['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough', 'underbough-bramble', 'veyrholds', 'ellionar', 'ellionar-hedge', 'sereward-acacia', 'sereward-scrub', 'bellweather-hedgerow'].some((region) =>
+  const publicEnvironmentAtlasMetadata = ['bellweather', 'sereward', 'pale-meridian', 'siltmouths', 'vesperra', 'sombral-mere', 'underbough', 'underbough-bramble', 'veyrholds', 'ellionar', 'ellionar-hedge', 'sereward-acacia', 'sereward-scrub', 'bellweather-hedgerow', 'ru-lora-fringe'].some((region) =>
     relative === `assets/environment/frontier-v1/${region}-lifecycle-atlas.json`);
   const publicEnvironmentAsset = path.dirname(relative) === 'assets/environment/frontier-v1'
     && ['.png', '.webp'].includes(path.extname(relative))
     && ['oak', 'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
-      'ru-lora-fringe-broadleaf', 'bellweather-field-maple', 'bellweather-hedgerow', 'bellweather-meadow-herbs', 'vesperra-shade-fern', 'vesperra-shade-fern-02', 'siltmouths-silver-reed', 'pale-meridian-violet-lichen', 'pale-meridian-silver-moss', 'sombral-mere-lunewort', 'sombral-mere-mirelily', 'underbough-rootward-fungus', 'veyrholds-ridgegrass', 'ellionar-sunbloom', 'sereward-succulent', 'sereward-succulent-02',
+      'ru-lora-fringe-canopy', 'ru-lora-fringe-canopy-worked', 'ru-lora-fringe-canopy-low', 'ru-lora-fringe-canopy-depleted', 'ru-lora-fringe-lifecycle-atlas', 'ru-lora-fringe-broadleaf', 'bellweather-field-maple', 'bellweather-hedgerow', 'bellweather-meadow-herbs', 'vesperra-shade-fern', 'vesperra-shade-fern-02', 'siltmouths-silver-reed', 'pale-meridian-violet-lichen', 'pale-meridian-silver-moss', 'sombral-mere-lunewort', 'sombral-mere-mirelily', 'underbough-rootward-fungus', 'veyrholds-ridgegrass', 'ellionar-sunbloom', 'sereward-succulent', 'sereward-succulent-02',
       'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
       'bellweather-lifecycle-atlas', 'bellweather-hedgerow-lifecycle-atlas', 'sereward-lifecycle-atlas', 'pale-meridian-lifecycle-atlas', 'siltmouths-lifecycle-atlas', 'vesperra-lifecycle-atlas', 'sombral-mere-lifecycle-atlas', 'underbough-lifecycle-atlas', 'underbough-bramble-lifecycle-atlas', 'veyrholds-lifecycle-atlas', 'ellionar-lifecycle-atlas', 'ellionar-hedge-lifecycle-atlas', 'sereward-scrub-lifecycle-atlas', 'sereward-acacia-lifecycle-atlas',
       'sombral-mere-merebloom', 'sombral-mere-merebloom-worked', 'sombral-mere-merebloom-low', 'sombral-mere-merebloom-depleted',
