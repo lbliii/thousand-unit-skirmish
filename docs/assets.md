@@ -137,3 +137,5 @@ Siltmouths silver reeds also fringe flat tidal-mud water banks using the existin
 Sombral Mere lunar-soil lakes now carry sparse Mirelily pad/flower decals in one horizontal instanced batch, projected by the actual camera. See the [manifest](../assets/environment/frontier-v1/mere-water-plants-manifest.json) and [environment guide](environment-pack-v1.md). These decorative plants occupy existing water and remain independent of forest clearing.
 
 Underbough forest-floor companions mix two seeded fungus silhouettes within the existing locations. The [variation manifest](../assets/environment/frontier-v1/underbough-fungus-variation-manifest.json) records the compact cluster; both shapes clear and reset with their parent forest cells. See the [environment guide](environment-pack-v1.md) for scope and evidence.
+
+Ellionar garden-loam channels also use the existing Sunbloom in sparse land-side flower beds, independent of forest stock. Paths, channel ends and economy/objective markers stay clear. See the [environment guide](environment-pack-v1.md) and [local evidence](qa-evidence/vaelora-ellionar-channel-flowers-2026-09-30/README.md).

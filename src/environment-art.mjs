@@ -10,6 +10,7 @@ import { buildTerrainBlendMasks, buildForestGroundMask } from './terrain-blend.m
 import { buildWaterSurfaceGeometry, WATER_LEVEL } from './water-surface-geometry.mjs';
 import { shorePlantPositions } from './shore-vegetation.mjs';
 import { meadowPlantPositions } from './meadow-vegetation.mjs';
+import { gardenPlantPositions } from './garden-vegetation.mjs';
 
 const meshyResourcesEnabled = new URLSearchParams(globalThis.location?.search ?? '').get('meshyResources') !== '0';
 
@@ -861,6 +862,14 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       meadowPlantPositions(definition, environmentTheme(definition)));
     if (flowers) {
       flowers.userData.meadowVegetation = true;
+      addObject(flowers);
+    }
+  }
+  if (ellionar) {
+    const flowers = createEnvironmentSpriteInstances('ellionar-sunbloom', 0.88654, 0.85,
+      gardenPlantPositions(definition, environmentTheme(definition)));
+    if (flowers) {
+      flowers.userData.gardenVegetation = true;
       addObject(flowers);
     }
   }
