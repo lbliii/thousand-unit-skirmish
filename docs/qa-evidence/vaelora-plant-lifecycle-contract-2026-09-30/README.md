@@ -1,0 +1,7 @@
+# Expanded plant runtime and lifecycle contract
+
+Local candidate from main `5a917df4`, isolated room/map storage and headless Chrome at port 4178. Run `RTS_QA_URL=http://127.0.0.1:4178 RTS_VEGETATION_PLANT_CONTRACT=1 RTS_VEGETATION_OUTPUT=docs/qa-evidence/vaelora-plant-lifecycle-contract-2026-09-30 node scripts/qa-vegetation-browser.mjs`.
+
+[Runtime proof](plant-contract-proof.json) checks actual geometry dimensions and pivots for all twenty-one registered plants, and rejects twenty-one invalid scale/surface requests. Every one of the eighteen forest companion specimens is exercised through partial stocks 4 and 2, zero and reset 6. Partial matrices remain exact, cleared scale components are zero and reset matrices match the originals exactly. The fixture includes all eleven terrain bases plus the living fringe. Nonforest stone specimens and water plants receive geometry checks; forest clearing does not apply to them.
+
+Opening Forked Vale is ready with no runtime/console errors. [Regional binding proof](forest-slot-proof.json) covers the eleven-base texture routes. These are direct stock and renderer fixtures, not live harvesting or a played match. No new source poses, directional images or runtime behavior are introduced. The explicit evidence-directory option preserves earlier twenty-plant evidence rather than overwriting it; only a single directory under `docs/qa-evidence` is accepted.
