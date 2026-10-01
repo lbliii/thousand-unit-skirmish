@@ -1,0 +1,47 @@
+[
+  {
+    "base": "meadow",
+    "file": "forest-floor.webp",
+    "ownedTextures": 2
+  },
+  {
+    "base": "sand",
+    "file": "dirt.webp",
+    "ownedTextures": 2
+  },
+  {
+    "base": "garden-loam",
+    "file": "garden-loam.webp",
+    "ownedTextures": 2
+  },
+  {
+    "base": "scree",
+    "file": "scree.webp",
+    "ownedTextures": 2
+  },
+  {
+    "base": "snow",
+    "file": "snow.webp",
+    "ownedTextures": 2
+  },
+  {
+    "base": "ice",
+    "file": "snow.webp",
+    "ownedTextures": 2
+  },
+  {
+    "base": "tidal-mud",
+    "file": "tidal-mud.webp",
+    "ownedTextures": 2
+  },
+  {
+    "base": "jungle-loam",
+    "file": "jungle-loam.webp",
+    "ownedTextures": 2
+  },
+  {
+    "base": "lunar-soil",
+    "file": "lunar-soil.webp",
+    "ownedTextures": 2
+  }
+]

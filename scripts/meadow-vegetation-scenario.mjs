@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { meadowPlantPositions, meadowPlantGroups, drylandPlantPositions, drylandPlantGroups, snowPlantPositions, snowPlantGroups } from '../src/meadow-vegetation.mjs';
+import { meadowPlantPositions, meadowPlantGroups, drylandPlantPositions, drylandPlantGroups, snowPlantPositions, snowPlantGroups, ridgePlantPositions, ridgePlantGroups } from '../src/meadow-vegetation.mjs';
 
 const map = JSON.parse(readFileSync(new URL('../maps/bellweather-millrace.json', import.meta.url)));
 const original = JSON.stringify(map);
@@ -40,7 +40,18 @@ assert.equal(new Set(snowPlants.map(p=>p.cell)).size,snowPlants.length);
 assert.equal(JSON.stringify(winter),winterOriginal);
 for(const terrainBase of ['meadow','sand','ice','lunar-soil','jungle-loam','salt-crust'])assert.deepEqual(snowPlantGroups({...winter,terrainBase}),[]);
 assert.deepEqual(snowPlantGroups({...winter,id:'meshy-resource-review'}),[]);
-const fixtures = [[map,plants,['meadow','short-grass','long-grass','dry-grass']], [desert,succulents,['sand']], [winter,snowPlants,['snow']]];
+const ridge = JSON.parse(readFileSync(new URL('../maps/veyrholds-slate-saddle.json', import.meta.url)));
+const ridgeOriginal = JSON.stringify(ridge), ridgePlants = ridgePlantPositions(ridge), ridgeGroups = ridgePlantGroups(ridge);
+assert.ok(ridgePlants.length > 10 && ridgePlants.length < 100, 'ridge slopes need sparse plant pockets');
+assert.equal(ridgeGroups.length, 2);
+assert.deepEqual(ridgeGroups, ridgePlantGroups(ridge));
+assert.deepEqual(ridgeGroups.flatMap(g => g.positions).sort((a,b)=>a.cell-b.cell), [...ridgePlants].sort((a,b)=>a.cell-b.cell));
+assert.notDeepEqual(ridgePlantGroups({...ridge,terrainSeed:ridge.terrainSeed+1}), ridgeGroups);
+assert.equal(new Set(ridgePlants.map(p=>p.cell)).size,ridgePlants.length);
+assert.equal(JSON.stringify(ridge),ridgeOriginal);
+for(const terrainBase of ['meadow','sand','snow','ice','lunar-soil','jungle-loam','salt-crust'])assert.deepEqual(ridgePlantGroups({...ridge,terrainBase}),[]);
+assert.deepEqual(ridgePlantGroups({...ridge,id:'meshy-resource-review'}),[]);
+const fixtures = [[map,plants,['meadow','short-grass','long-grass','dry-grass']], [desert,succulents,['sand']], [winter,snowPlants,['snow']], [ridge,ridgePlants,['scree']]];
 for (const [map, selected, accepted] of fixtures) for (const p of selected) {
   const c = Math.floor(p.x + map.width / 2), r = Math.floor(p.z + map.height / 2);
   assert.equal(r * map.width + c, p.cell);
@@ -62,4 +73,4 @@ assert.equal(meadowPlantPositions({ ...bare, id: 'meshy-resource-review' }).leng
 assert.deepEqual(meadowPlantGroups({ ...bare, id: 'meshy-resource-review' }), []);
 for (const terrainBase of ['meadow','snow','ice','lunar-soil','jungle-loam','salt-crust']) assert.deepEqual(drylandPlantGroups({...desert,terrainBase}), []);
 assert.deepEqual(drylandPlantGroups({...desert,id:'meshy-resource-review'}), []);
-console.log(JSON.stringify({ snowPlants:snowPlants.length, drylandPlants:succulents.length, map: map.id, plants: plants.length, seeded: true, protectedMarkers: true, noMutation: true }));
+console.log(JSON.stringify({ ridgePlants:ridgePlants.length, ridgeGroups:ridgeGroups.map(g=>({name:g.name,count:g.positions.length})), snowPlants:snowPlants.length, drylandPlants:succulents.length, map: map.id, plants: plants.length, seeded: true, protectedMarkers: true, noMutation: true }));

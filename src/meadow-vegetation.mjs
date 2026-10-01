@@ -1,6 +1,7 @@
 const grass = new Set(['meadow', 'short-grass', 'long-grass', 'dry-grass']);
 const sand = new Set(['sand']);
 const snow = new Set(['snow']);
+const scree = new Set(['scree']);
 
 function seededRandom(seed) {
   return (cell, salt) => {
@@ -30,6 +31,14 @@ export function snowPlantPositions(definition, base = definition.terrainBase) {
 
 export function snowPlantGroups(definition, base = definition.terrainBase) {
   return specimenGroups(definition, snowPlantPositions(definition, base), ['pale-meridian-silver-moss', 'pale-meridian-frostberry'], 6);
+}
+
+export function ridgePlantPositions(definition, base = definition.terrainBase) {
+  return landPlantPositions(definition, base, scree, 6, 0.16, 0.08);
+}
+
+export function ridgePlantGroups(definition, base = definition.terrainBase) {
+  return specimenGroups(definition, ridgePlantPositions(definition, base), ['veyrholds-ridgegrass', 'veyrholds-suncrest'], 6);
 }
 
 function specimenGroups(definition, positions, names, patchSize) {
