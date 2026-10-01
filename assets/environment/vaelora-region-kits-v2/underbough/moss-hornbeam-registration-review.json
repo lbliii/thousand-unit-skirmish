@@ -1,0 +1,56 @@
+{
+  "comparison": "Original logical canvases; lower root strip y=1000..1254; no registration transforms",
+  "visibleThreshold": 96,
+  "frames": [
+    {
+      "stage": "worked",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "visibleBoundsPx": [
+        138,
+        7,
+        1130,
+        1236
+      ],
+      "lowerRootAlphaIntersectionOverUnion": 0.9064569954998231
+    },
+    {
+      "stage": "low",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "visibleBoundsPx": [
+        144,
+        291,
+        1070,
+        1237
+      ],
+      "lowerRootAlphaIntersectionOverUnion": 0.8897674879777899
+    },
+    {
+      "stage": "depleted",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "visibleBoundsPx": [
+        419,
+        792,
+        1037,
+        1230
+      ],
+      "lowerRootAlphaIntersectionOverUnion": 0.7349726775956285
+    }
+  ],
+  "status": "visually reviewed same grey trunk and roots; runtime packaging and browser review outstanding",
+  "sharedCropPx": [
+    125,
+    0,
+    1138,
+    1245
+  ],
+  "review": "Worked and low retain the slender grey trunk and root placement. Depleted redraws some root detail (0.735 lower-root alpha overlap) but retains a low stump and root-bottom within seven logical pixels of the other states. Original sources retained; runtime screen-scale review pending."
+}

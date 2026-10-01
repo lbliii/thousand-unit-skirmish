@@ -174,3 +174,24 @@ records 1026 original cells, species counts, unchanged roots and atlas selection
 through full/worked/low/depleted/reset. Vesperra is the unchanged control.
 This is renderer interface evidence; a new actual worker-harvest observation
 and the complete four-species directional kit remain outstanding.
+
+### Root Oak live harvest — 1 October 2026 UTC
+
+[Real worker evidence](qa-evidence/underbough-root-oak-live-2026-10-01/live-harvest-proof.json)
+at source `5c9771e8` verifies Root Oak cell 646 through worked (3.900002), low
+(1.900004), depleted (0) and reset. The renderer verifies the target family
+before the gather order. The worker delivers six wood; captures include full,
+worked, low, depleted and restored tree appearances. This closes the outstanding
+live-harvest check for the first Root Oak runtime, not directional coverage.
+
+### Three-tree woodland runtime — 1 October 2026 UTC
+
+Moss Hornbeam adds a taller airy form with lighter grey bark.
+[Renderer evidence](qa-evidence/underbough-hornbeam-2026-10-01/underbough-rootways-renderer-proof.json)
+records 391 Root Oaks, 311 Hornbeams, 241 Copperleaf and 83 brambles in the
+original 1026 cells. Four-state selection, roots and reset pass for every family;
+Vesperra is the unchanged control. Plum and directional coverage remain unfinished.
+The normal-scale capture also reveals that the map uses forest-floor soil in its
+open clearings: the next composition correction is grass in clearings with
+shaded root soil under woods. A cohesive texture collection alone does not
+correct an unsuitable material-role assignment.

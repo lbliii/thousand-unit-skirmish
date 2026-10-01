@@ -1,0 +1,152 @@
+[
+  {
+    "family": "bellweather-field-maple",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "sereward-palm",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "pale-meridian-conifer",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "siltmouths-tidal-tree",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "vesperra-mistbark",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "sombral-mere-merebloom",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "underbough-copperleaf",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "underbough-bramble",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "veyrholds-highpine",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "ellionar-cultivated-palm",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "ellionar-garden-hedge",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "sereward-acacia",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "sereward-scrub",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "bellweather-hedgerow",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  },
+  {
+    "family": "ru-lora-fringe-canopy",
+    "states": [
+      "full",
+      "worked",
+      "low",
+      "depleted"
+    ],
+    "depleted": true
+  }
+]

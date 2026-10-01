@@ -23,8 +23,8 @@ Further directions remain outstanding. Its registered harvest states now have
 a consuming runtime atlas loader; see the first runtime family record below.
 
 `underbough/moss-hornbeam-full-000.png` adds a narrower airy crown, ascending
-branches and lighter warm bark. It is also a fixed-view source, awaiting root
-registration, complete harvest states and consistent model/directional views.
+branches and lighter warm bark. Its four registered fixed-view harvest states
+now have a local runtime proof; model/directional views remain outstanding.
 
 `underbough/old-plum-full-000.png` adds a compact burgundy crown with low
 spreading branches and a short crooked trunk. This third new species source has
@@ -68,3 +68,22 @@ brambles, matching root positions and all four atlas selections plus reset.
 This checks the renderer state interface, not a newly observed live worker
 harvest. Hornbeam/Plum runtime integration, four-species coverage and measured
 directional captures remain outstanding.
+
+## Moss Hornbeam harvest family
+
+The four original Moss Hornbeam canvases and exact prompts are now retained.
+[Registration review](underbough/moss-hornbeam-registration-review.json) records
+the common `[125,0,1138,1245]` crop and the depleted root-detail difference.
+Reproduce the encoding into a fresh runtime destination with
+`python3 scripts/package-regional-tree-family.py --source assets/environment/vaelora-region-kits-v2/underbough --prefix moss-hornbeam --family underbough-moss-hornbeam --crop 125 0 1138 1245 --height 3.6`,
+then `python3 scripts/build-environment-lifecycle-atlases.py --region underbough-moss-hornbeam`.
+The encoder refuses to overwrite existing runtime frames. Original source
+pixels and alpha remain untouched; shared crop and conversion preserve
+registration. Fixed-view states do not supply directional coverage.
+
+[Mixed woodland browser proof](../../../docs/qa-evidence/underbough-hornbeam-2026-10-01/underbough-rootways-renderer-proof.json)
+records 391 Root Oaks, 311 Hornbeams, 241 Copperleaf trees and 83 brambles across
+the original 1026 wood cells. Roots, four-state atlas selections and reset
+transforms pass. A separate [live worker proof](../../../docs/qa-evidence/underbough-root-oak-live-2026-10-01/live-harvest-proof.json)
+observes Root Oak harvesting at its prior runtime commit. Hornbeam live harvesting
+and directional views remain outstanding.

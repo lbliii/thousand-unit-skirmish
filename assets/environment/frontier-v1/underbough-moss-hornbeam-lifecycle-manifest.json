@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-underbough-moss-hornbeam-lifecycle",
+  "packVersion": "0.1.0",
+  "maturity": "runtime-candidate",
+  "provenance": "Project-owned built-in ImageGen masters retained. Shared reviewed crop; LANCZOS max1024, WebP quality86 method6 exact alpha. Fixed painted view, not measured rotations.",
+  "assets": [
+    {
+      "id": "underbough-moss-hornbeam",
+      "stage": "full",
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "cropBoxPx": [
+        125,
+        0,
+        1138,
+        1245
+      ],
+      "sourceFile": "../vaelora-region-kits-v2/underbough/moss-hornbeam-full-000.png",
+      "runtimeFile": "underbough-moss-hornbeam.webp",
+      "worldSize": {
+        "width": 2.9291566265060243,
+        "height": 3.6
+      },
+      "groundPivotPx": [
+        416.5,
+        1024
+      ],
+      "directionId": "fixed-oblique"
+    },
+    {
+      "id": "underbough-moss-hornbeam",
+      "stage": "worked",
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "cropBoxPx": [
+        125,
+        0,
+        1138,
+        1245
+      ],
+      "sourceFile": "../vaelora-region-kits-v2/underbough/moss-hornbeam-worked-000.png",
+      "runtimeFile": "underbough-moss-hornbeam-worked.webp",
+      "worldSize": {
+        "width": 2.9291566265060243,
+        "height": 3.6
+      },
+      "groundPivotPx": [
+        416.5,
+        1024
+      ],
+      "directionId": "fixed-oblique"
+    },
+    {
+      "id": "underbough-moss-hornbeam",
+      "stage": "low",
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "cropBoxPx": [
+        125,
+        0,
+        1138,
+        1245
+      ],
+      "sourceFile": "../vaelora-region-kits-v2/underbough/moss-hornbeam-low-000.png",
+      "runtimeFile": "underbough-moss-hornbeam-low.webp",
+      "worldSize": {
+        "width": 2.9291566265060243,
+        "height": 3.6
+      },
+      "groundPivotPx": [
+        416.5,
+        1024
+      ],
+      "directionId": "fixed-oblique"
+    },
+    {
+      "id": "underbough-moss-hornbeam",
+      "stage": "depleted",
+      "logicalCanvasPx": [
+        1254,
+        1254
+      ],
+      "cropBoxPx": [
+        125,
+        0,
+        1138,
+        1245
+      ],
+      "sourceFile": "../vaelora-region-kits-v2/underbough/moss-hornbeam-depleted-000.png",
+      "runtimeFile": "underbough-moss-hornbeam-depleted.webp",
+      "worldSize": {
+        "width": 2.9291566265060243,
+        "height": 3.6
+      },
+      "groundPivotPx": [
+        416.5,
+        1024
+      ],
+      "directionId": "fixed-oblique"
+    }
+  ],
+  "files": [
+    {
+      "path": "underbough-moss-hornbeam.webp",
+      "role": "runtime-image",
+      "sha256": "91911a9580cfcb8b18648315e5c88b4e20abae50412cce1cbce4778191403dcf",
+      "bytes": 372262,
+      "dimensionsPx": {
+        "width": 833,
+        "height": 1024
+      }
+    },
+    {
+      "path": "underbough-moss-hornbeam-worked.webp",
+      "role": "runtime-image",
+      "sha256": "00d2dcfb5992e4d3ebd65ba5e414df003f61cd8acfd70dc4408b12016ffad522",
+      "bytes": 341814,
+      "dimensionsPx": {
+        "width": 833,
+        "height": 1024
+      }
+    },
+    {
+      "path": "underbough-moss-hornbeam-low.webp",
+      "role": "runtime-image",
+      "sha256": "0d676533062cd4ae33eea697bf25110d40b09d3bc90c156bacc68281a269b7e0",
+      "bytes": 213618,
+      "dimensionsPx": {
+        "width": 833,
+        "height": 1024
+      }
+    },
+    {
+      "path": "underbough-moss-hornbeam-depleted.webp",
+      "role": "runtime-image",
+      "sha256": "7bc4b76e147642518321ee0a64805271efba03fd794ed18283ef5e705d640cbc",
+      "bytes": 65496,
+      "dimensionsPx": {
+        "width": 833,
+        "height": 1024
+      }
+    }
+  ]
+}

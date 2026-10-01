@@ -3,7 +3,7 @@
   "packId": "environment.underbough-cohesive-kit-v2",
   "maturity": "source-study",
   "region": "underbough",
-  "status": "three regional grounds and four-state Root Oak locally rendered; Hornbeam and Plum remain intact sources; verified rotated views outstanding",
+  "status": "three regional grounds, Root Oak and Moss Hornbeam four-state runtime locally reviewed; Plum remains intact source; directional views outstanding",
   "source": "project-owned built-in ImageGen, using selected Underbough ecology key and existing copperleaf sprite references",
   "directionalMethod": "authored painted views; not measured 3D render captures",
   "targetTreeForms": [
@@ -137,7 +137,7 @@
         1121,
         1231
       ],
-      "status": "intact-source-awaiting-registration",
+      "status": "fixed-view-runtime-local-review-passed",
       "directionDegrees": 0,
       "harvestState": "full"
     },
@@ -190,6 +190,45 @@
       "path": "root-oak-depleted-000.png",
       "sha256": "02a52939d2409dc777798b22a439f106619cc38781d24b7095572ec9ee7a0090",
       "sizeBytes": 552358,
+      "dimensionsPx": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "status": "fixed-view-runtime-local-review-passed",
+      "directionDegrees": 0,
+      "harvestState": "depleted"
+    },
+    {
+      "path": "moss-hornbeam-worked-000.png",
+      "sha256": "a4e3d031b9e8d625211b900bc9253276b9a1209a813c611592c2d5bbe2fbd1da",
+      "sizeBytes": 1652623,
+      "dimensionsPx": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "status": "fixed-view-runtime-local-review-passed",
+      "directionDegrees": 0,
+      "harvestState": "worked"
+    },
+    {
+      "path": "moss-hornbeam-low-000.png",
+      "sha256": "e91dc8077c09adfca0fdd2ddda3dab601d482642d6db34af3594981de69ef812",
+      "sizeBytes": 1086658,
+      "dimensionsPx": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "status": "fixed-view-runtime-local-review-passed",
+      "directionDegrees": 0,
+      "harvestState": "low"
+    },
+    {
+      "path": "moss-hornbeam-depleted-000.png",
+      "sha256": "f3d0fb946e4b77ced7ad01032562021240abe7e6a301fb7c8f7678fd20217b06",
+      "sizeBytes": 407264,
       "dimensionsPx": [
         1254,
         1254
