@@ -1,0 +1,10 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Use case: stylized-concept. Asset type: transparent RTS environment sprite. Reference 1 is the existing Underbough fungus sprite, finish and color reference only. Reference 2 is the approved ecology key. Create a distinct small rootward fungus cluster: three rounded burgundy caps with warm copper-orange rims on short stout pale stems, a small fourth cap tucked beside them, clustered tightly on a compact mossy broken piece of woodland root. Compared with reference 1, use rounded caps and a compact upright silhouette rather than broad stacked shelves and a long fallen log. Large painterly forms, crisp readable outline, restrained surface detail. Orthographic RTS view looking down at 45.44 degrees elevation above ground, 45 degrees azimuth; world vertical upright, zero screen roll. Cap tops more visible than undersides, short gills. Entire clump centered with generous margins, root contact bottom center. Genuine transparent background, no ground carpet, no atmospheric glow or cast shadow cloud, no lettering, no carvings, no magical effects.",
+  "reference": [
+    "underbough-rootward-fungus.png",
+    "../../../docs/art-direction/vaelora-v1/underbough-ecology.png"
+  ],
+  "transparentBackground": true,
+  "selectedOutput": "exec-76e30f63-3b8d-4884-88e1-7cdc11f33acc.png"
+}

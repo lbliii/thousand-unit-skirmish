@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-underbough-fungus-variation",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/underbough-ecology.png",
+  "referenceSha256": "8a20fa0f121641e6066e144e80fa8f699c74a1884efab21c79c81bb5776cc264",
+  "prompts": "UNDERBOUGH-FUNGUS-VARIATION-PROMPTS.json",
+  "files": [
+    {
+      "path": "underbough-rootward-fungus-02.png",
+      "role": "source-image",
+      "sha256": "620a3946ee71b081b09fbe2892d0225dd5b0b75a409ec25619b18ddff3e08f23",
+      "bytes": 1963914,
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "underbough-rootward-fungus-02.webp",
+      "role": "runtime-image",
+      "sha256": "54e7dea2e4c41fb9e3ce5f4947317d1f9bc82987cfb613ea21dac20f18d4e4cf",
+      "bytes": 246710,
+      "dimensionsPx": {
+        "width": 934,
+        "height": 920
+      }
+    }
+  ],
+  "cropPx": [
+    328,
+    58,
+    1262,
+    978
+  ],
+  "asset": {
+    "id": "underbough-rootward-fungus-02",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 0.65989,
+    "worldHeight": 0.65,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen against the approved Underbough ecology and existing fungus finish. Unmodified selected RGBA PNG; deterministic crop and max1024 LANCZOS export, WebP quality86 method6 exact alpha. Compact silhouette alternate in the existing seeded companion slots, not an additional direction or harvestable resource. One approximate painted oblique view."
+}

@@ -135,3 +135,5 @@ Ru’Lora salt-crust low stone scenery includes ivory god-bone fragments between
 Siltmouths silver reeds also fringe flat tidal-mud water banks using the existing sprite in one separate instanced batch. Roots occupy existing blocked water; short channel ends remain sparse beside crossings. See the [environment guide](environment-pack-v1.md) and [local proof](qa-evidence/vaelora-siltmouths-shore-reeds-2026-09-30/README.md).
 
 Sombral Mere lunar-soil lakes now carry sparse Mirelily pad/flower decals in one horizontal instanced batch, projected by the actual camera. See the [manifest](../assets/environment/frontier-v1/mere-water-plants-manifest.json) and [environment guide](environment-pack-v1.md). These decorative plants occupy existing water and remain independent of forest clearing.
+
+Underbough forest-floor companions mix two seeded fungus silhouettes within the existing locations. The [variation manifest](../assets/environment/frontier-v1/underbough-fungus-variation-manifest.json) records the compact cluster; both shapes clear and reset with their parent forest cells. See the [environment guide](environment-pack-v1.md) for scope and evidence.
