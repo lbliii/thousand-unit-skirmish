@@ -416,10 +416,10 @@ export function createGroundSurfaces(definition) {
   }
   const atmosphere = new URLSearchParams(globalThis.location?.search ?? '');
   const atmosphereDefinition = { ...definition, terrainBase: base };
-  if (groundMistEnabled(atmosphereDefinition, atmosphere.get('terrainAtmosphere')) && !terrainHeightField(definition).raised) {
+  if (groundMistEnabled(atmosphereDefinition, atmosphere.get('terrainAtmosphere'))) {
     const timeValue = atmosphere.get('terrainAtmosphereTime');
     const fixedTime = timeValue !== null && Number.isFinite(Number(timeValue)) ? Number(timeValue) : null;
-    const mist = createGroundMistStudy(atmosphereDefinition, fixedTime);
+    const mist = createGroundMistStudy(atmosphereDefinition, fixedTime, meshes[0].geometry);
     if (mist) meshes.push(mist);
   }
   const field=terrainHeightField(definition);

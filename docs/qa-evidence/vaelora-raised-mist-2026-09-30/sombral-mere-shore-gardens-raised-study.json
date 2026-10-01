@@ -1,0 +1,778 @@
+{
+  "id": "sombral-mere-shore-gardens-mist-raised-study",
+  "name": "Sombral Mere · Shore Gardens MIST RAISED STUDY",
+  "summary": "Still pools and lunar gardens frame a dry causeway, with room to contest either shore.",
+  "region": "sombral-mere",
+  "width": 80,
+  "height": 72,
+  "terrainSeed": 93009,
+  "fogOfWar": false,
+  "terrainBase": "lunar-soil",
+  "terrainPatches": [
+    {
+      "column": 0,
+      "row": 32,
+      "width": 80,
+      "height": 8,
+      "material": "dirt"
+    }
+  ],
+  "spawnPoints": [
+    {
+      "team": 0,
+      "x": -25.5,
+      "z": 0.5
+    },
+    {
+      "team": 1,
+      "x": 25.5,
+      "z": 0.5
+    }
+  ],
+  "startingArmySize": 24,
+  "startingResources": {
+    "food": 150,
+    "wood": 250
+  },
+  "obstacles": [
+    {
+      "column": 8,
+      "row": 4,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 64,
+      "row": 4,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 8,
+      "row": 60,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 64,
+      "row": 60,
+      "width": 8,
+      "height": 8,
+      "material": "forest"
+    },
+    {
+      "column": 23,
+      "row": 7,
+      "width": 10,
+      "height": 16,
+      "material": "water"
+    },
+    {
+      "column": 47,
+      "row": 7,
+      "width": 10,
+      "height": 16,
+      "material": "water"
+    },
+    {
+      "column": 23,
+      "row": 49,
+      "width": 10,
+      "height": 16,
+      "material": "water"
+    },
+    {
+      "column": 47,
+      "row": 49,
+      "width": 10,
+      "height": 16,
+      "material": "water"
+    }
+  ],
+  "resourceNodes": [
+    {
+      "id": "s0-0",
+      "type": "food",
+      "x": -21.5,
+      "z": 7.5,
+      "stock": 650
+    },
+    {
+      "id": "s0-1",
+      "type": "wood",
+      "x": -21.5,
+      "z": -6.5,
+      "stock": 650
+    },
+    {
+      "id": "s0-2",
+      "type": "food",
+      "x": -19.5,
+      "z": 22.5,
+      "stock": 450
+    },
+    {
+      "id": "s0-3",
+      "type": "wood",
+      "x": -19.5,
+      "z": -21.5,
+      "stock": 450
+    },
+    {
+      "id": "s1-0",
+      "type": "food",
+      "x": 21.5,
+      "z": 7.5,
+      "stock": 650
+    },
+    {
+      "id": "s1-1",
+      "type": "wood",
+      "x": 21.5,
+      "z": -6.5,
+      "stock": 650
+    },
+    {
+      "id": "s1-2",
+      "type": "food",
+      "x": 19.5,
+      "z": 22.5,
+      "stock": 450
+    },
+    {
+      "id": "s1-3",
+      "type": "wood",
+      "x": 19.5,
+      "z": -21.5,
+      "stock": 450
+    }
+  ],
+  "triggers": [
+    {
+      "id": "post-0",
+      "name": "North Shore",
+      "type": "capture-zone",
+      "zone": {
+        "column": 35,
+        "row": 14,
+        "width": 10,
+        "height": 8
+      },
+      "requiredUnits": 5,
+      "captureSeconds": 9,
+      "foodReward": 75,
+      "woodReward": 50,
+      "victory": true
+    },
+    {
+      "id": "post-1",
+      "name": "South Shore",
+      "type": "capture-zone",
+      "zone": {
+        "column": 35,
+        "row": 50,
+        "width": 10,
+        "height": 8
+      },
+      "requiredUnits": 5,
+      "captureSeconds": 9,
+      "foodReward": 75,
+      "woodReward": 50,
+      "victory": true
+    },
+    {
+      "id": "post-2",
+      "name": "Causeway Watch",
+      "type": "capture-zone",
+      "zone": {
+        "column": 35,
+        "row": 32,
+        "width": 10,
+        "height": 8
+      },
+      "requiredUnits": 8,
+      "captureSeconds": 12,
+      "foodReward": 0,
+      "woodReward": 0,
+      "victory": true,
+      "requiresAll": [
+        "post-0",
+        "post-1"
+      ]
+    }
+  ],
+  "victoryMode": "all",
+  "victoryHoldSeconds": 20,
+  "timedVictory": {
+    "afterSeconds": 900,
+    "objectiveId": "post-2"
+  },
+  "scenarioEvents": [
+    {
+      "id": "relief",
+      "name": "Traveling supplies",
+      "type": "timed-supply",
+      "afterSeconds": 120,
+      "team": "both",
+      "foodReward": 100,
+      "woodReward": 75
+    }
+  ],
+  "audio": {
+    "packId": "vaelora-sombral-mere",
+    "profileId": "landscape",
+    "version": "v2",
+    "sha256": "e176c421248dbec54e5b467e00b93ea69cebd7e3115e5e4fa49b2c5bea242995"
+  },
+  "elevationPatches": [
+    {
+      "column": 3,
+      "row": 0,
+      "width": 11,
+      "height": 18,
+      "level": 1
+    },
+    {
+      "column": 66,
+      "row": 0,
+      "width": 11,
+      "height": 18,
+      "level": 1
+    },
+    {
+      "column": 2,
+      "row": 1,
+      "width": 1,
+      "height": 13,
+      "level": 1
+    },
+    {
+      "column": 14,
+      "row": 1,
+      "width": 1,
+      "height": 22,
+      "level": 1
+    },
+    {
+      "column": 65,
+      "row": 1,
+      "width": 1,
+      "height": 22,
+      "level": 1
+    },
+    {
+      "column": 77,
+      "row": 1,
+      "width": 1,
+      "height": 13,
+      "level": 1
+    },
+    {
+      "column": 1,
+      "row": 2,
+      "width": 1,
+      "height": 11,
+      "level": 1
+    },
+    {
+      "column": 15,
+      "row": 2,
+      "width": 1,
+      "height": 21,
+      "level": 1
+    },
+    {
+      "column": 64,
+      "row": 2,
+      "width": 1,
+      "height": 21,
+      "level": 1
+    },
+    {
+      "column": 78,
+      "row": 2,
+      "width": 1,
+      "height": 11,
+      "level": 1
+    },
+    {
+      "column": 0,
+      "row": 3,
+      "width": 1,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 16,
+      "row": 3,
+      "width": 1,
+      "height": 20,
+      "level": 1
+    },
+    {
+      "column": 63,
+      "row": 3,
+      "width": 1,
+      "height": 20,
+      "level": 1
+    },
+    {
+      "column": 79,
+      "row": 3,
+      "width": 1,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 17,
+      "row": 5,
+      "width": 2,
+      "height": 6,
+      "level": 1
+    },
+    {
+      "column": 61,
+      "row": 5,
+      "width": 2,
+      "height": 6,
+      "level": 1
+    },
+    {
+      "column": 19,
+      "row": 6,
+      "width": 1,
+      "height": 5,
+      "level": 1
+    },
+    {
+      "column": 60,
+      "row": 6,
+      "width": 1,
+      "height": 5,
+      "level": 1
+    },
+    {
+      "column": 20,
+      "row": 7,
+      "width": 1,
+      "height": 4,
+      "level": 1
+    },
+    {
+      "column": 59,
+      "row": 7,
+      "width": 1,
+      "height": 4,
+      "level": 1
+    },
+    {
+      "column": 21,
+      "row": 9,
+      "width": 1,
+      "height": 2,
+      "level": 1
+    },
+    {
+      "column": 58,
+      "row": 9,
+      "width": 1,
+      "height": 2,
+      "level": 1
+    },
+    {
+      "column": 4,
+      "row": 18,
+      "width": 10,
+      "height": 2,
+      "level": 1
+    },
+    {
+      "column": 17,
+      "row": 18,
+      "width": 4,
+      "height": 2,
+      "level": 1
+    },
+    {
+      "column": 59,
+      "row": 18,
+      "width": 4,
+      "height": 2,
+      "level": 1
+    },
+    {
+      "column": 66,
+      "row": 18,
+      "width": 10,
+      "height": 2,
+      "level": 1
+    },
+    {
+      "column": 5,
+      "row": 20,
+      "width": 9,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 17,
+      "row": 20,
+      "width": 3,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 60,
+      "row": 20,
+      "width": 3,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 66,
+      "row": 20,
+      "width": 9,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 6,
+      "row": 21,
+      "width": 8,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 17,
+      "row": 21,
+      "width": 2,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 61,
+      "row": 21,
+      "width": 2,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 66,
+      "row": 21,
+      "width": 8,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 8,
+      "row": 22,
+      "width": 6,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 66,
+      "row": 22,
+      "width": 6,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 12,
+      "row": 23,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 67,
+      "row": 23,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 30,
+      "row": 36,
+      "width": 3,
+      "height": 11,
+      "level": 1
+    },
+    {
+      "column": 47,
+      "row": 36,
+      "width": 3,
+      "height": 11,
+      "level": 1
+    },
+    {
+      "column": 29,
+      "row": 37,
+      "width": 1,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 50,
+      "row": 37,
+      "width": 1,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 28,
+      "row": 38,
+      "width": 1,
+      "height": 7,
+      "level": 1
+    },
+    {
+      "column": 51,
+      "row": 38,
+      "width": 1,
+      "height": 7,
+      "level": 1
+    },
+    {
+      "column": 27,
+      "row": 41,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 52,
+      "row": 41,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 33,
+      "row": 42,
+      "width": 6,
+      "height": 3,
+      "level": 1
+    },
+    {
+      "column": 41,
+      "row": 42,
+      "width": 6,
+      "height": 3,
+      "level": 1
+    },
+    {
+      "column": 33,
+      "row": 45,
+      "width": 5,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 42,
+      "row": 45,
+      "width": 5,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 33,
+      "row": 46,
+      "width": 4,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 43,
+      "row": 46,
+      "width": 4,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 33,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 46,
+      "row": 47,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 13,
+      "row": 59,
+      "width": 1,
+      "height": 13,
+      "level": 1
+    },
+    {
+      "column": 66,
+      "row": 59,
+      "width": 1,
+      "height": 13,
+      "level": 1
+    },
+    {
+      "column": 9,
+      "row": 60,
+      "width": 4,
+      "height": 12,
+      "level": 1
+    },
+    {
+      "column": 14,
+      "row": 60,
+      "width": 3,
+      "height": 12,
+      "level": 1
+    },
+    {
+      "column": 63,
+      "row": 60,
+      "width": 3,
+      "height": 12,
+      "level": 1
+    },
+    {
+      "column": 67,
+      "row": 60,
+      "width": 4,
+      "height": 12,
+      "level": 1
+    },
+    {
+      "column": 8,
+      "row": 61,
+      "width": 1,
+      "height": 11,
+      "level": 1
+    },
+    {
+      "column": 71,
+      "row": 61,
+      "width": 1,
+      "height": 11,
+      "level": 1
+    },
+    {
+      "column": 7,
+      "row": 62,
+      "width": 1,
+      "height": 10,
+      "level": 1
+    },
+    {
+      "column": 17,
+      "row": 62,
+      "width": 3,
+      "height": 10,
+      "level": 1
+    },
+    {
+      "column": 60,
+      "row": 62,
+      "width": 3,
+      "height": 10,
+      "level": 1
+    },
+    {
+      "column": 72,
+      "row": 62,
+      "width": 1,
+      "height": 10,
+      "level": 1
+    },
+    {
+      "column": 6,
+      "row": 63,
+      "width": 1,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 20,
+      "row": 63,
+      "width": 1,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 59,
+      "row": 63,
+      "width": 1,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 73,
+      "row": 63,
+      "width": 1,
+      "height": 9,
+      "level": 1
+    },
+    {
+      "column": 5,
+      "row": 64,
+      "width": 1,
+      "height": 8,
+      "level": 1
+    },
+    {
+      "column": 21,
+      "row": 64,
+      "width": 1,
+      "height": 8,
+      "level": 1
+    },
+    {
+      "column": 58,
+      "row": 64,
+      "width": 1,
+      "height": 8,
+      "level": 1
+    },
+    {
+      "column": 74,
+      "row": 64,
+      "width": 1,
+      "height": 8,
+      "level": 1
+    },
+    {
+      "column": 4,
+      "row": 68,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 22,
+      "row": 68,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 57,
+      "row": 68,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    },
+    {
+      "column": 75,
+      "row": 68,
+      "width": 1,
+      "height": 1,
+      "level": 1
+    }
+  ]
+}

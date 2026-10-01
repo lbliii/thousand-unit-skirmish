@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { terrainHeightField } from './terrain-height.mjs';
 import { buildTerrainBlendMasks } from './terrain-blend.mjs';
 
 const DAMP_GROUNDS = new Set(['tidal-mud', 'lunar-soil', 'jungle-loam']);
@@ -18,6 +19,7 @@ export function groundMistProfile(definition) {
 
 export function buildGroundMistMask(definition) {
   const patches = [];
+  const raisedWater = [];
   if (DAMP_GROUNDS.has(definition.terrainBase)) {
     patches.push({ column: 0, row: 0, width: definition.width, height: definition.height, material: 'wet' });
   }
@@ -25,12 +27,29 @@ export function buildGroundMistMask(definition) {
     patches.push({ ...patch, material: DAMP_GROUNDS.has(patch.material) ? 'wet' : 'dry' });
   }
   for (const obstacle of definition.obstacles || []) {
-    if (obstacle.material === 'water') patches.push({ ...obstacle, material: 'wet' });
+    if (obstacle.material !== 'water') continue;
+    patches.push({ ...obstacle, material: 'wet' });
+    const field = terrainHeightField(definition);
+    if (field.raised) for (let row = obstacle.row; row < obstacle.row + obstacle.height; row++) {
+      for (let column = obstacle.column; column < obstacle.column + obstacle.width; column++) {
+        if (field.corners(column, row).some(h => h > 0)) {
+          patches.push({ column, row, width: 1, height: 1, material: 'dry' });
+          raisedWater.push([column, row]);
+        }
+      }
+    }
   }
-  return buildTerrainBlendMasks({ ...definition, terrainPatches: patches }, ['dry', 'wet'], 'dry')[0] || null;
+  const mask = buildTerrainBlendMasks({ ...definition, terrainPatches: patches }, ['dry', 'wet'], 'dry')[0] || null;
+  // Soft terrain joins can bleed a little haze back into excluded water cells.
+  if (mask) for (const [column, row] of raisedWater) {
+    for (let y = row * 2; y < row * 2 + 2; y++) for (let x = column * 2; x < column * 2 + 2; x++) {
+      mask.pixels.fill(0, (y * mask.width + x) * 4, (y * mask.width + x) * 4 + 4);
+    }
+  }
+  return mask;
 }
 
-export function createGroundMistStudy(definition, fixedTime = null) {
+export function createGroundMistStudy(definition, fixedTime = null, terrainGeometry = null) {
   const mask = buildGroundMistMask(definition);
   if (!mask) return null;
   const coverage = new THREE.DataTexture(mask.pixels, mask.width, mask.height, THREE.RGBAFormat);
@@ -87,10 +106,16 @@ export function createGroundMistStudy(definition, fixedTime = null) {
       }
     `,
   });
-  const geometry = new THREE.PlaneGeometry(definition.width, definition.height);
-  geometry.rotateX(-Math.PI / 2);
+  const geometry = terrainGeometry ? terrainGeometry.clone() : new THREE.PlaneGeometry(definition.width, definition.height);
+  if (terrainGeometry) {
+    const positions = geometry.getAttribute('position'), uv = geometry.getAttribute('uv');
+    for (let i = 0; i < positions.count; i++) uv.setXY(i,
+      (positions.getX(i) + definition.width / 2) / definition.width,
+      1 - (positions.getZ(i) + definition.height / 2) / definition.height);
+    geometry.deleteAttribute('color');
+  } else geometry.rotateX(-Math.PI / 2);
   const mesh = new THREE.Mesh(geometry, material);
-  mesh.position.y = 0.04;
+  mesh.position.y = terrainGeometry ? 0.065 : 0.04;
   // Draw the ground haze before transparent props and team sprites.
   mesh.renderOrder = -1;
   mesh.userData.groundMistProfile = profile;

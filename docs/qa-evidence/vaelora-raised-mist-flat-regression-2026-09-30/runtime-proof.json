@@ -1,0 +1,95 @@
+{
+  "proof": [
+    {
+      "map": "vesperra-pale-clearings",
+      "mode": "clear",
+      "boot": "ready",
+      "error": "",
+      "profile": {
+        "tint": [
+          0.62,
+          0.75,
+          0.68
+        ],
+        "opacity": 0.07,
+        "pocketSize": 8
+      }
+    },
+    {
+      "map": "vesperra-pale-clearings",
+      "mode": "mist",
+      "boot": "ready",
+      "error": "",
+      "profile": {
+        "tint": [
+          0.62,
+          0.75,
+          0.68
+        ],
+        "opacity": 0.07,
+        "pocketSize": 8
+      }
+    },
+    {
+      "map": "vesperra-pale-clearings",
+      "mode": "auto",
+      "boot": "ready",
+      "error": "",
+      "profile": {
+        "tint": [
+          0.62,
+          0.75,
+          0.68
+        ],
+        "opacity": 0.07,
+        "pocketSize": 8
+      }
+    },
+    {
+      "map": "sombral-mere-shore-gardens",
+      "mode": "clear",
+      "boot": "ready",
+      "error": "",
+      "profile": {
+        "tint": [
+          0.78,
+          0.76,
+          0.85
+        ],
+        "opacity": 0.09,
+        "pocketSize": 11
+      }
+    },
+    {
+      "map": "sombral-mere-shore-gardens",
+      "mode": "mist",
+      "boot": "ready",
+      "error": "",
+      "profile": {
+        "tint": [
+          0.78,
+          0.76,
+          0.85
+        ],
+        "opacity": 0.09,
+        "pocketSize": 11
+      }
+    },
+    {
+      "map": "sombral-mere-shore-gardens",
+      "mode": "auto",
+      "boot": "ready",
+      "error": "",
+      "profile": {
+        "tint": [
+          0.78,
+          0.76,
+          0.85
+        ],
+        "opacity": 0.09,
+        "pocketSize": 11
+      }
+    }
+  ],
+  "errors": []
+}

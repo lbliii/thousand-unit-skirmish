@@ -1,0 +1,20 @@
+[
+  {
+    "map": "vesperra-pale-clearings-mist-raised-study",
+    "vertices": 27648,
+    "triangles": 13824,
+    "maxUvError": 2.6490953208835322e-8,
+    "groundLift": 0.04,
+    "excludedWaterCells": 0,
+    "sourceUnchanged": true
+  },
+  {
+    "map": "sombral-mere-shore-gardens-mist-raised-study",
+    "vertices": 23040,
+    "triangles": 11520,
+    "maxUvError": 2.6490953208835322e-8,
+    "groundLift": 0.04,
+    "excludedWaterCells": 0,
+    "sourceUnchanged": true
+  }
+]
