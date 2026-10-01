@@ -156,4 +156,6 @@ Ellionar garden-loam forests mix blue Sunbloom and cream garden vines, clearing 
 
 Grass-base woodland companions mix Bellweather meadow herbs and a smaller pink-clover/cream-daisy clump. The [clover manifest](../assets/environment/frontier-v1/bellweather-meadow-clover-variation-manifest.json) records the decorative variant.
 
-Open grass-base meadow beds now use both specimens, choosing one per coarse bed while retaining all existing positions and protected gaps. Forest clearing leaves these independent land flowers unchanged; see [open meadow evidence](qa-evidence/vaelora-bellweather-open-clover-2026-09-30/README.md).
+Open grass-base meadow beds mix herbs, clover and wild barley, choosing one specimen per coarse bed while retaining all accepted positions and protected gaps. Forest clearing leaves this independent land vegetation unchanged.
+
+Wild barley joins the current meadow mix as a third upright silhouette, retaining the same accepted positions and gaps. The [barley manifest](../assets/environment/frontier-v1/bellweather-wild-barley-variation-manifest.json) records decorative land scenery; it is not a grain resource or farm. [Current meadow evidence](qa-evidence/vaelora-bellweather-wild-barley-2026-09-30/README.md) covers all three batches.

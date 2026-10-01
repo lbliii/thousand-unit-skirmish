@@ -1,0 +1,9 @@
+# Bellweather wild barley
+
+Local candidate from main `c2660385`, isolated room/map storage and headless Chrome on port 4178. Run `RTS_QA_URL=http://127.0.0.1:4178 RTS_VEGETATION_MEADOW=1 RTS_VEGETATION_PLANT_CONTRACT=1 RTS_VEGETATION_OUTPUT=docs/qa-evidence/vaelora-bellweather-wild-barley-2026-09-30 node scripts/qa-vegetation-browser.mjs`.
+
+[Meadow proof](meadow-proof.json) records 148 unchanged accepted positions on Millrace, split 22 herbs/73 clover/53 barley in three batches. Registered meshes match their seeded groups. Ground contact and maximum screen roll 7.16e-15 degrees pass; all meadow matrices remain exact through forest clearing. Six incompatible terrain bases and resource review exclude the layer. Map data remains unchanged. [Ordinary](meadow-ordinary.png) and [strategic](meadow-strategic.png) views use the runtime camera.
+
+[Catalog proof](plant-contract-proof.json) verifies all twenty-three actual plant geometries/pivots and invalid-scale rejections, and all nineteen forest companion specimens through partial/zero/reset stocks. Barley is independent land scenery, so forest companion states do not apply. Placement checks retain exact accepted-point union, consistent specimen per coarse bed, seed repeatability/change and protected markers; snow/dryland counts remain 42/68. Opening Forked Vale boots ready without console/runtime errors.
+
+Selected-manifest and exact decoded-alpha validators pass twenty-three packs; rejection fixtures pass. Selected Built-in ImageGen PNG unchanged, deterministic crop/LANCZOS max1024 WebP export, exact prompt/reference/source hashes included. Release PNG/WebP, registration, placement, loader and server bytes match; selected temporary copy removed. Syntax/docs/whitespace pass. These are renderer/direct-stock fixtures, not a played match or grain harvesting. One approximate painted view; no yield, harvest poses, extra headings, hosted or performance claim.

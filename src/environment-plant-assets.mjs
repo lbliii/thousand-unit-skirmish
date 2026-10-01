@@ -1,5 +1,6 @@
 // Runtime scale/pivot contract; validated against each selected plant manifest.
 export const PLANT_ASSETS = Object.freeze({
+  "bellweather-wild-barley": { "kind": "decorative-land-scenery", "worldWidth": 0.84795, "worldHeight": 0.95, "pivot": [0.5, 1] },
   "bellweather-meadow-clover": { "kind": "decorative-forest-understory", "worldWidth": 0.79703, "worldHeight": 0.65, "pivot": [0.5, 1] },
   "ellionar-garden-vine": { "kind": "decorative-forest-understory", "worldWidth": 0.96324, "worldHeight": 0.65, "pivot": [0.5, 1] },
   "bellweather-meadow-herbs": {

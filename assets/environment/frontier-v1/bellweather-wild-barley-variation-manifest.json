@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-bellweather-wild-barley",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/bellweather-ecology.png",
+  "referenceSha256": "043d3be76343e9e5c04850fe99be84333b977a7215e503152bf1ab9dc588ed40",
+  "prompts": "BELLWEATHER-BARLEY-PROMPTS.json",
+  "files": [
+    {
+      "path": "bellweather-wild-barley.png",
+      "role": "source-image",
+      "sha256": "22e723a1c710bce79ee5d093976b74fdc7048cda5a4ed3e4309a39efb7313efc",
+      "bytes": 1147742,
+      "dimensionsPx": {
+        "width": 1312,
+        "height": 1199
+      }
+    },
+    {
+      "path": "bellweather-wild-barley.webp",
+      "role": "runtime-image",
+      "sha256": "c8ddf59f50f685d648d789d50acfba178f0544f6c77aad4620f2ec002ce6ab2b",
+      "bytes": 284942,
+      "dimensionsPx": {
+        "width": 914,
+        "height": 1024
+      }
+    }
+  ],
+  "cropPx": [
+    160,
+    9,
+    1190,
+    1163
+  ],
+  "asset": {
+    "id": "bellweather-wild-barley",
+    "kind": "decorative-land-scenery",
+    "worldWidth": 0.84795,
+    "worldHeight": 0.95,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "terrainSeedPlacement": true,
+    "parentStockClears": false
+  },
+  "provenance": "Built-in ImageGen against approved Bellweather Wild Barley ecology. Selected PNG unchanged; deterministic crop, LANCZOS max1024 WebP quality86 method6 exact alpha. Static open meadow scenery, no food yield or harvest state. One approximate upright painted camera view."
+}

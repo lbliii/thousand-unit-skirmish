@@ -11,7 +11,7 @@ assert.deepEqual(meadowPlantPositions(map), plants);
 assert.notDeepEqual(meadowPlantPositions({ ...map, terrainSeed: map.terrainSeed + 1 }), plants);
 assert.equal(new Set(plants.map(p => p.cell)).size, plants.length);
 const groups = meadowPlantGroups(map);
-assert.equal(groups.length, 2, 'shipped meadow needs both specimens');
+assert.equal(groups.length, 3, 'shipped meadow needs all three specimens');
 assert.deepEqual(groups, meadowPlantGroups(map));
 assert.deepEqual(groups.flatMap(g => g.positions).sort((a,b) => a.cell-b.cell), [...plants].sort((a,b) => a.cell-b.cell), 'specimen selection must preserve roots, scale and gaps');
 const beds = new Map();

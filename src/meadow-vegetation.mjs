@@ -13,7 +13,7 @@ function seededRandom(seed) {
 
 // Choose a specimen per coarse bed, preserving every accepted root and gap.
 export function meadowPlantGroups(definition, base = definition.terrainBase) {
-  return specimenGroups(definition, meadowPlantPositions(definition, base), ['bellweather-meadow-herbs', 'bellweather-meadow-clover'], 4);
+  return specimenGroups(definition, meadowPlantPositions(definition, base), ['bellweather-meadow-herbs', 'bellweather-meadow-clover', 'bellweather-wild-barley'], 4);
 }
 
 export function drylandPlantPositions(definition, base = definition.terrainBase) {
@@ -38,7 +38,7 @@ function specimenGroups(definition, positions, names, patchSize) {
   for (const point of positions) {
     const row = Math.floor(point.cell / definition.width), column = point.cell % definition.width;
     const patch = Math.floor(row / patchSize) * Math.ceil(definition.width / patchSize) + Math.floor(column / patchSize);
-    groups[random(patch, 439) < 0.5 ? 0 : 1].positions.push(point);
+    groups[Math.floor(random(patch, 439) * groups.length)].positions.push(point);
   }
   return groups.filter(group => group.positions.length);
 }

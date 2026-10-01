@@ -53,7 +53,7 @@ export async function validatePlantManifest(manifestPath) {
   assert.ok(crop[0] >= 0 && crop[1] >= 0 && crop[2] <= source[0] && crop[3] <= source[1]
     && crop[2] > crop[0] && crop[3] > crop[1], 'crop outside source');
   assert.ok(Math.max(...runtime) <= 1024 && runtime[0] <= crop[2] - crop[0] && runtime[1] <= crop[3] - crop[1], 'runtime size exceeds export bounds');
-  assert.ok(['decorative-forest-understory', 'decorative-stone-scenery', 'decorative-water-decal'].includes(m.asset.kind), 'unsupported surface type');
+  assert.ok(['decorative-forest-understory', 'decorative-land-scenery', 'decorative-stone-scenery', 'decorative-water-decal'].includes(m.asset.kind), 'unsupported surface type');
   const depth = m.asset.kind === 'decorative-water-decal' ? m.asset.worldDepth : m.asset.worldHeight;
   assert.ok(m.asset.worldWidth > 0 && depth > 0, 'world dimensions missing');
   assert.ok(Math.abs(m.asset.worldWidth / depth - runtime[0] / runtime[1]) < 0.00003, 'world aspect differs from runtime image');

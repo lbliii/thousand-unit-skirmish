@@ -1,0 +1,9 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Use case: stylized-concept. Transparent RTS vegetation sprite. Reference is approved Bellweather ecology key, specifically Wild Barley. Create one compact natural tuft of wild barley: seven slender upright stems, warm honey-gold barley ears with SHORT restrained awns, sage/olive grass leaves at a single rooted crown. Stems at varying heights, slight natural bends, no dramatic sideways lean. Large matte painterly forms readable at small game size, minimal hairline detail. Crown at bottom-center and lowest point, no loose seed pieces, dirt mat, rock pedestal, flowers, pots, harvested bundle or tied sheaf. Orthographic view at 45-degree azimuth and 45.4359-degree elevation above ground, upright world Y, zero screen roll. Whole tuft centered with generous margins. Genuine transparent alpha background, no haze, glow, cast-shadow cloud, text, border or frame. Match the reference's pastoral warmth and painterly finish.",
+  "reference": [
+    "../../../docs/art-direction/vaelora-v1/bellweather-ecology.png"
+  ],
+  "transparentBackground": true,
+  "selectedOutput": "exec-faf1cc78-f521-4ef7-880e-b4dd6ffcb20f.png"
+}
