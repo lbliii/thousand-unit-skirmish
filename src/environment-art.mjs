@@ -11,7 +11,7 @@ import { buildWaterSurfaceGeometry, WATER_LEVEL } from './water-surface-geometry
 import { forestHabitatDepth, forestCanopyFactor } from './forest-habitat.mjs';
 import { regionalGroundTextureName, regionalGroundColor } from './regional-ground-kits.mjs';
 import { shorePlantPositions } from './shore-vegetation.mjs';
-import { meadowPlantGroups, drylandPlantGroups } from './meadow-vegetation.mjs';
+import { meadowPlantGroups, drylandPlantGroups, snowPlantGroups } from './meadow-vegetation.mjs';
 import { gardenPlantPositions } from './garden-vegetation.mjs';
 import { assertPlantDimensions, PLANT_ASSETS } from './environment-plant-assets.mjs';
 
@@ -904,6 +904,16 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
       const plants = createEnvironmentSpriteInstances(name, spec.worldWidth, spec.worldHeight, positions);
       if (plants) {
         plants.userData.drylandVegetation = true;
+        addObject(plants);
+      }
+    }
+  }
+  if (paleMeridian) {
+    for (const { name, positions } of snowPlantGroups(definition, environmentTheme(definition))) {
+      const spec = PLANT_ASSETS[name];
+      const plants = createEnvironmentSpriteInstances(name, spec.worldWidth, spec.worldHeight, positions);
+      if (plants) {
+        plants.userData.snowVegetation = true;
         addObject(plants);
       }
     }
