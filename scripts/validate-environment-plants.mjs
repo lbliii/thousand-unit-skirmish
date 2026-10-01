@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { PLANT_ASSETS } from '../src/environment-plant-assets.mjs';
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
 const PACK_ROOT = path.join(ROOT, 'assets/environment/frontier-v1');
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -58,6 +59,11 @@ export async function validatePlantManifest(manifestPath) {
   assert.ok(Math.abs(m.asset.worldWidth / depth - runtime[0] / runtime[1]) < 0.00003, 'world aspect differs from runtime image');
   assert.deepEqual(m.asset.pivot, m.asset.kind === 'decorative-water-decal' ? [0.5, 0.5] : [0.5, 1], 'pivot incompatible with surface type');
   if (m.asset.kind === 'decorative-forest-understory') assert.equal(m.asset.parentStockClears, true);
+  const registered = PLANT_ASSETS[m.asset.id];
+  assert.ok(registered, 'plant missing runtime registration');
+  for (const [key, value] of Object.entries(registered)) {
+    assert.deepEqual(m.asset[key], value, `plant runtime contract mismatch: ${key}`);
+  }
   return { packId: m.packId, asset: m.asset.id, runtimePx: runtime, referenceHashRecorded: !!m.referenceSha256 };
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
@@ -71,5 +77,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     catch (error) { throw new Error(`${path.basename(file)}: ${error.message}`, { cause: error }); }
   }
   assert.equal(new Set(results.map(r => r.packId)).size, results.length, 'duplicate pack ID');
+  if (!files.length) assert.deepEqual(results.map(r => r.asset).sort(), Object.keys(PLANT_ASSETS).sort(),
+    'runtime plant registration and selected manifests differ');
   console.log(JSON.stringify({ checked: results.length, packs: results }, null, 2));
 }

@@ -11,6 +11,7 @@ import { buildWaterSurfaceGeometry, WATER_LEVEL } from './water-surface-geometry
 import { shorePlantPositions } from './shore-vegetation.mjs';
 import { meadowPlantPositions } from './meadow-vegetation.mjs';
 import { gardenPlantPositions } from './garden-vegetation.mjs';
+import { assertPlantDimensions } from './environment-plant-assets.mjs';
 
 const meshyResourcesEnabled = new URLSearchParams(globalThis.location?.search ?? '').get('meshyResources') !== '0';
 
@@ -532,6 +533,7 @@ export function updateConstructionGroundInstances(mesh, positions) {
 
 export function createEnvironmentSpriteInstances(name, width, height, positions) {
   if (positions.length === 0) return null;
+  const plantSpec = assertPlantDimensions(name, width, height);
   const mesh = new THREE.InstancedMesh(
     spriteGeometry(width, height, name), spriteMaterial(name), positions.length,
   );
@@ -542,16 +544,18 @@ export function createEnvironmentSpriteInstances(name, width, height, positions)
   }
   mesh.instanceMatrix.needsUpdate = true;
   mesh.frustumCulled = false;
+  if (plantSpec) mesh.userData.plantAsset = { id: name, ...plantSpec };
   return mesh;
 }
 
 function createWaterPlantInstances(name, width, depth, positions) {
   if (!positions.length) return null;
+  const plantSpec = assertPlantDimensions(name, width, depth, true);
   const mesh = new THREE.InstancedMesh(new THREE.PlaneGeometry(width, depth), spriteMaterial(name), positions.length);
   mesh.renderOrder = 7;
   mesh.frustumCulled = false;
   for (const [index, point] of positions.entries()) {
-    instanceDummy.position.set(point.x, WATER_LEVEL + 0.008, point.z);
+    instanceDummy.position.set(point.x, WATER_LEVEL + (plantSpec?.waterSurfaceLift ?? 0.008), point.z);
     instanceDummy.rotation.set(-Math.PI / 2, 0, (point.cell * 2.399963229728653) % (Math.PI * 2));
     instanceDummy.scale.set(point.flip ? -point.scale : point.scale, point.scale, point.scale);
     instanceDummy.updateMatrix();
@@ -559,6 +563,7 @@ function createWaterPlantInstances(name, width, depth, positions) {
   }
   mesh.instanceMatrix.needsUpdate = true;
   mesh.userData.waterDecal = true;
+  if (plantSpec) mesh.userData.plantAsset = { id: name, ...plantSpec };
   return mesh;
 }
 

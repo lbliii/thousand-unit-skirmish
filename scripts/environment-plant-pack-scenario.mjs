@@ -21,6 +21,7 @@ try {
   await writeFile(runtime, bytes);
   for (const [mutate, reason] of [
     [m => { m.asset.worldWidth *= 1.2; }, /world aspect/],
+    [m => { m.asset.worldWidth *= 1.2; m.asset.worldHeight *= 1.2; }, /runtime contract mismatch/],
     [m => { m.asset.pivot = [0.5, 0.5]; }, /pivot/],
     [m => { m.referenceSha256 = '0'.repeat(64); }, /reference hash/],
     [m => { m.files[0].dimensionsPx.width -= 1; }, /encoded dimensions/],
@@ -31,5 +32,5 @@ try {
     await writeFile(target, JSON.stringify(changed));
     await assert.rejects(validatePlantManifest(target), reason);
   }
-  console.log('Environment plant validation rejects corrupted bytes, stale reference/dimensions, wrong crop/aspect/pivot and unsupported surfaces.');
+  console.log('Environment plant validation rejects corrupted bytes, stale reference/dimensions, wrong crop/aspect/pivot, uniform runtime scale drift and unsupported surfaces.');
 } finally { await rm(dir, { recursive: true, force: true }); }

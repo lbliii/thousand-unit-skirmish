@@ -103,7 +103,8 @@ if(gardenCapture&&region!=='ellionar')throw new Error('Garden capture requires E
 const fringeCanopyCapture=process.env.RTS_VEGETATION_FRINGE_CANOPY==='1';
 const fringeCapture=process.env.RTS_VEGETATION_FRINGE==='1'||fringeCanopyCapture;
 if(fringeCapture&&(!understoryCapture||region!=='vesperra'))throw new Error('Fringe capture requires living forest understory');
-const out=gardenCapture ? 'docs/qa-evidence/vaelora-ellionar-channel-flowers-2026-09-30' : fringeCanopyCapture ? 'docs/qa-evidence/vaelora-ru-lora-fringe-canopy-2026-09-30' : fringeCapture ? 'docs/qa-evidence/vaelora-ru-lora-fringe-understory-2026-09-30' : meadowCapture ? 'docs/qa-evidence/vaelora-bellweather-open-meadow-2026-09-30' : lichenCapture ? 'docs/qa-evidence/vaelora-meridian-violet-lichen-2026-09-30' : shoreCapture ? (region==='sombral-mere'?'docs/qa-evidence/vaelora-mere-mirelily-2026-09-30':'docs/qa-evidence/vaelora-siltmouths-shore-reeds-2026-09-30') : variationCapture ? 'docs/qa-evidence/vaelora-'+region+'-'+(region==='sereward'?'succulent':region==='underbough'?'fungus':region==='pale-meridian'?'frostberry':region==='sombral-mere'?'noctilune':region==='siltmouths'?'marsh-tuber':region==='veyrholds'?'suncrest':'fern')+'-variation-2026-09-30' : readabilityCapture ? 'docs/qa-evidence/vaelora-highpine-low-readability-2026-09-30' : seedCapture ? 'docs/qa-evidence/vaelora-understory-seeds-2026-09-30' : understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-god-bone-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
+const plantContractCapture=process.env.RTS_VEGETATION_PLANT_CONTRACT==='1';
+const out=plantContractCapture ? 'docs/qa-evidence/vaelora-plant-runtime-contract-2026-09-30' : gardenCapture ? 'docs/qa-evidence/vaelora-ellionar-channel-flowers-2026-09-30' : fringeCanopyCapture ? 'docs/qa-evidence/vaelora-ru-lora-fringe-canopy-2026-09-30' : fringeCapture ? 'docs/qa-evidence/vaelora-ru-lora-fringe-understory-2026-09-30' : meadowCapture ? 'docs/qa-evidence/vaelora-bellweather-open-meadow-2026-09-30' : lichenCapture ? 'docs/qa-evidence/vaelora-meridian-violet-lichen-2026-09-30' : shoreCapture ? (region==='sombral-mere'?'docs/qa-evidence/vaelora-mere-mirelily-2026-09-30':'docs/qa-evidence/vaelora-siltmouths-shore-reeds-2026-09-30') : variationCapture ? 'docs/qa-evidence/vaelora-'+region+'-'+(region==='sereward'?'succulent':region==='underbough'?'fungus':region==='pale-meridian'?'frostberry':region==='sombral-mere'?'noctilune':region==='siltmouths'?'marsh-tuber':region==='veyrholds'?'suncrest':'fern')+'-variation-2026-09-30' : readabilityCapture ? 'docs/qa-evidence/vaelora-highpine-low-readability-2026-09-30' : seedCapture ? 'docs/qa-evidence/vaelora-understory-seeds-2026-09-30' : understoryCapture ? 'docs/qa-evidence/vaelora-'+region+'-understory-2026-09-30' : bellHedgeCapture ? 'docs/qa-evidence/vaelora-bellweather-hedgerow-atlas-2026-09-30' : scrubCapture ? 'docs/qa-evidence/vaelora-sereward-scrub-atlas-2026-09-30' : acaciaCapture ? 'docs/qa-evidence/vaelora-sereward-acacia-atlas-2026-09-30' : hedgeCapture ? 'docs/qa-evidence/vaelora-ellionar-hedge-atlas-2026-09-30' : brambleCapture ? 'docs/qa-evidence/vaelora-underbough-bramble-atlas-2026-09-30' : atlasCapture ? 'docs/qa-evidence/vaelora-'+region+'-atlas-2026-09-30' : lifecycle ? 'docs/qa-evidence/vaelora-'+region+'-lifecycle-2026-09-30' : region==='ru-lora' ? 'docs/qa-evidence/vaelora-ru-lora-god-bone-2026-09-30' : region==='bellweather' ? 'docs/qa-evidence/vaelora-vegetation-2026-09-30' : 'docs/qa-evidence/vaelora-'+region+'-2026-09-30';
 let cdp;
 try {
  let port;for(let i=0;i<100;i++){try{port=Number((await readFile(profile+'/DevToolsActivePort','utf8')).split('\n')[0]);if(port)break}catch{}await sleep(100)}
@@ -444,6 +445,36 @@ try {
   })()`);
   for(const [name,image] of Object.entries(result.images))await writeFile(out+'/garden-'+name+'.png',Buffer.from(image.split(',')[1],'base64'));delete result.images;
   await writeFile(out+'/garden-proof.json',JSON.stringify(result,null,2)+'\n');
+ }
+ if(plantContractCapture){
+  const result=await cdp.evaluate(`(async()=>{
+   const {PLANT_ASSETS}=await import('/src/environment-plant-assets.mjs');
+   const {addObstacleEnvironmentSprites,createEnvironmentSpriteInstances}=await import('/src/environment-art.mjs');
+   const seen=new Map();
+   const definitions=['meadow','sand','snow','ice','lunar-soil','forest-floor','scree','garden-loam','jungle-loam','tidal-mud','salt-crust'].map(terrainBase=>({terrainBase}));
+   definitions.push({terrainBase:'jungle-loam',region:'ru-lora-fringe'});
+   for(const d of definitions){
+    const objects=[];
+    addObstacleEnvironmentSprites({...d,width:32,height:32,terrainSeed:93007,obstacles:[{column:5,row:3,width:16,height:16,material:'forest'},{column:4,row:22,width:20,height:2,material:'stone',elevation:.72},{column:1,row:2,width:2,height:24,material:'water'}]},16,16,o=>objects.push(o));
+    for(const mesh of objects){
+     const spec=mesh.userData.plantAsset;if(!spec)continue;
+     const expected=PLANT_ASSETS[spec.id];mesh.geometry.computeBoundingBox();const b=mesh.geometry.boundingBox;
+     const height=expected.worldHeight??expected.worldDepth;
+     if(Math.abs(b.max.x-b.min.x-expected.worldWidth)>1e-6||Math.abs(b.max.y-b.min.y-height)>1e-6)throw new Error('Plant geometry dimensions mismatch: '+spec.id);
+     const water=expected.kind==='decorative-water-decal';
+     if(water?Math.abs(b.min.y+height/2)>1e-6:Math.abs(b.min.y)>1e-6)throw new Error('Plant geometry pivot mismatch: '+spec.id);
+     seen.set(spec.id,{id:spec.id,kind:spec.kind,width:b.max.x-b.min.x,vertical:b.max.y-b.min.y,pivot:spec.pivot,instances:mesh.count});
+    }
+    for(const o of objects){o.geometry.dispose();o.material.dispose()}
+   }
+   if(Object.keys(PLANT_ASSETS).some(id=>!seen.has(id)))throw new Error('Missing runtime plant: '+Object.keys(PLANT_ASSETS).filter(id=>!seen.has(id)).join(','));
+   let rejected=0;for(const [id,spec] of Object.entries(PLANT_ASSETS)){
+    try{createEnvironmentSpriteInstances(id,spec.worldWidth*1.2,(spec.worldHeight??spec.worldDepth)*1.2,[{x:0,z:0}]);}catch(e){if(!e.message.includes('registered contract'))throw e;rejected++;}
+   }
+   if(rejected!==seen.size)throw new Error('Runtime mismatch rejection failed');
+   return {checked:seen.size,rejected,plants:[...seen.values()]};
+  })()`);
+  await writeFile(out+'/plant-contract-proof.json',JSON.stringify(result,null,2)+'\n');
  }
  const proof=await cdp.evaluate(`(async()=>{
   const THREE=await import('/vendor/three.module.js');
