@@ -43,7 +43,7 @@ assert.deepEqual(snowPlantGroups({...winter,id:'meshy-resource-review'}),[]);
 const ridge = JSON.parse(readFileSync(new URL('../maps/veyrholds-slate-saddle.json', import.meta.url)));
 const ridgeOriginal = JSON.stringify(ridge), ridgePlants = ridgePlantPositions(ridge), ridgeGroups = ridgePlantGroups(ridge);
 assert.ok(ridgePlants.length > 10 && ridgePlants.length < 100, 'ridge slopes need sparse plant pockets');
-assert.equal(ridgeGroups.length, 2);
+assert.equal(ridgeGroups.length, 3);
 assert.deepEqual(ridgeGroups, ridgePlantGroups(ridge));
 assert.deepEqual(ridgeGroups.flatMap(g => g.positions).sort((a,b)=>a.cell-b.cell), [...ridgePlants].sort((a,b)=>a.cell-b.cell));
 assert.notDeepEqual(ridgePlantGroups({...ridge,terrainSeed:ridge.terrainSeed+1}), ridgeGroups);

@@ -38,7 +38,7 @@ export function ridgePlantPositions(definition, base = definition.terrainBase) {
 }
 
 export function ridgePlantGroups(definition, base = definition.terrainBase) {
-  return specimenGroups(definition, ridgePlantPositions(definition, base), ['veyrholds-ridgegrass', 'veyrholds-suncrest'], 6);
+  return specimenGroups(definition, ridgePlantPositions(definition, base), ['veyrholds-ridgegrass', 'veyrholds-suncrest', 'veyrholds-alpine-moss'], 6);
 }
 
 // Moon plants occupy dry lakeside soil, never the floating lily habitat.

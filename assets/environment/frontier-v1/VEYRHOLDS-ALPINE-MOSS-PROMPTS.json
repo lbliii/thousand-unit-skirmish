@@ -1,0 +1,8 @@
+{
+  "tool": "Built-in ImageGen",
+  "prompt": "Use case: stylized-concept. Asset type: single transparent RTS environment sprite for Vaelora. Reference image 1: approved Veyrholds ecology and painterly finish, specifically the bottom-row Alpine Moss & Lichen. Reference image 2: camera construction geometry only, not graphic style. Create ONE compact low alpine moss cushion draped over a few shallow slate chips, small olive and muted gold moss lobes with scattered rusty-orange ironlichen crust patches. A living rocky-ground clump, no tall boulder, no grass or flowers, no scene. Readable irregular silhouette, broad painted forms and restrained detail for small RTS size. Camera orthographic azimuth 45 degrees elevation 45.4359 degrees, world vertical upright, zero screen roll, no dramatic tilt or perspective convergence. Ground base appears oval with minor/major approximately 0.7125. Center the entire grounded clump, bottom contact at its lower center, generous transparent margins, no cropped edges. Soft neutral upper-left lighting; slate charcoal, olive moss, warm ochre and restrained rust-orange accents from the ecology key. Painterly original fantasy RTS art matching the reference, neither photoreal nor cartoon icon. Actual transparent alpha background, no floor plane or distant backdrop, no cast shadow outside clump, no labels, text, border, glowing effects or watermark.",
+  "referenceRoles": [
+    "Approved Veyrholds ecology style and Alpine Moss & Lichen",
+    "Camera construction geometry only"
+  ]
+}

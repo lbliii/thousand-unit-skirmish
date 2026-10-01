@@ -28,7 +28,7 @@ const spriteNames = [
   'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
   'bellweather-field-maple-worked', 'bellweather-field-maple-low', 'bellweather-field-maple-depleted',
   'veyrholds-highpine-worked', 'veyrholds-highpine-low', 'veyrholds-highpine-depleted',
-  'veyrholds-highpine', 'veyrholds-ironlichen-outcrop', 'ru-lora-fiendwood', 'ru-lora-stone-fern', 'ru-lora-broken-trunk', 'ru-lora-god-bone',
+  'veyrholds-alpine-moss', 'veyrholds-highpine', 'veyrholds-ironlichen-outcrop', 'ru-lora-fiendwood', 'ru-lora-stone-fern', 'ru-lora-broken-trunk', 'ru-lora-god-bone',
   'underbough-copperleaf', 'underbough-bramble',
   'underbough-old-plum', 'underbough-old-plum-worked', 'underbough-old-plum-low', 'underbough-old-plum-depleted',
   'underbough-moss-hornbeam', 'underbough-moss-hornbeam-worked', 'underbough-moss-hornbeam-low', 'underbough-moss-hornbeam-depleted',

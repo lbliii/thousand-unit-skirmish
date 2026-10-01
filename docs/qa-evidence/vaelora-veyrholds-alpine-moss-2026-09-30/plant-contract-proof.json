@@ -1,0 +1,304 @@
+{
+  "occupation": {
+    "meshes": 10,
+    "instances": 64,
+    "types": [
+      "meadowVegetation",
+      "drylandVegetation",
+      "snowVegetation",
+      "lunarVegetation",
+      "ridgeVegetation",
+      "gardenVegetation",
+      "shoreVegetation"
+    ]
+  },
+  "checked": 24,
+  "rejected": 24,
+  "companionLifecycle": {
+    "bellweather-meadow-herbs": 40,
+    "bellweather-meadow-clover": 38,
+    "sereward-succulent": 40,
+    "sereward-succulent-02": 38,
+    "pale-meridian-silver-moss": 80,
+    "pale-meridian-frostberry": 76,
+    "sombral-mere-lunewort": 40,
+    "sombral-mere-noctilune": 38,
+    "underbough-rootward-fungus": 40,
+    "underbough-rootward-fungus-02": 38,
+    "veyrholds-ridgegrass": 40,
+    "veyrholds-suncrest": 38,
+    "ellionar-sunbloom": 40,
+    "ellionar-garden-vine": 38,
+    "vesperra-shade-fern": 40,
+    "vesperra-shade-fern-02": 38,
+    "siltmouths-silver-reed": 40,
+    "siltmouths-marsh-tuber": 38,
+    "ru-lora-fringe-broadleaf": 78
+  },
+  "plants": [
+    {
+      "id": "bellweather-meadow-herbs",
+      "kind": "decorative-forest-understory",
+      "width": 1.1556099653244019,
+      "vertical": 0.7200000429153439,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 8
+    },
+    {
+      "id": "bellweather-meadow-clover",
+      "kind": "decorative-forest-understory",
+      "width": 0.797029972076416,
+      "vertical": 0.649999964237213,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 21
+    },
+    {
+      "id": "bellweather-wild-barley",
+      "kind": "decorative-land-scenery",
+      "width": 0.8479499816894531,
+      "vertical": 0.9499999821186065,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 3
+    },
+    {
+      "id": "sereward-succulent",
+      "kind": "decorative-forest-understory",
+      "width": 0.9733800292015076,
+      "vertical": 0.75,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 40
+    },
+    {
+      "id": "sereward-succulent-02",
+      "kind": "decorative-forest-understory",
+      "width": 1.059309959411621,
+      "vertical": 0.75,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 1
+    },
+    {
+      "id": "pale-meridian-violet-lichen",
+      "kind": "decorative-stone-scenery",
+      "width": 2.8817999362945557,
+      "vertical": 1.5,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 4
+    },
+    {
+      "id": "pale-meridian-silver-moss",
+      "kind": "decorative-forest-understory",
+      "width": 0.830269992351532,
+      "vertical": 0.4499999821186065,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 40
+    },
+    {
+      "id": "pale-meridian-frostberry",
+      "kind": "decorative-forest-understory",
+      "width": 1.105530023574829,
+      "vertical": 0.8000000178813935,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 38
+    },
+    {
+      "id": "sombral-mere-lunewort",
+      "kind": "decorative-forest-understory",
+      "width": 0.8820300102233887,
+      "vertical": 1.149999964237213,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 2
+    },
+    {
+      "id": "sombral-mere-noctilune",
+      "kind": "decorative-forest-understory",
+      "width": 1.0104000568389893,
+      "vertical": 0.9499999821186065,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 3
+    },
+    {
+      "id": "sombral-mere-mirelily",
+      "kind": "decorative-water-decal",
+      "width": 0.75,
+      "vertical": 0.7228999733924866,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "instances": 15
+    },
+    {
+      "id": "underbough-rootward-fungus",
+      "kind": "decorative-forest-understory",
+      "width": 1.0840400457382202,
+      "vertical": 0.649999964237213,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 40
+    },
+    {
+      "id": "underbough-rootward-fungus-02",
+      "kind": "decorative-forest-understory",
+      "width": 0.6598899960517883,
+      "vertical": 0.649999964237213,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 38
+    },
+    {
+      "id": "veyrholds-ridgegrass",
+      "kind": "decorative-forest-understory",
+      "width": 1.1521799564361572,
+      "vertical": 0.8000000178813935,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 40
+    },
+    {
+      "id": "veyrholds-suncrest",
+      "kind": "decorative-forest-understory",
+      "width": 0.8012400269508362,
+      "vertical": 0.6999999821186065,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 38
+    },
+    {
+      "id": "veyrholds-alpine-moss",
+      "kind": "decorative-land-scenery",
+      "width": 0.9594500064849854,
+      "vertical": 0.5500000178813935,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 1
+    },
+    {
+      "id": "ellionar-sunbloom",
+      "kind": "decorative-forest-understory",
+      "width": 0.8865399956703186,
+      "vertical": 0.850000035762787,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 7
+    },
+    {
+      "id": "ellionar-garden-vine",
+      "kind": "decorative-forest-understory",
+      "width": 0.9632400274276733,
+      "vertical": 0.649999964237213,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 38
+    },
+    {
+      "id": "vesperra-shade-fern",
+      "kind": "decorative-forest-understory",
+      "width": 1.0747499465942383,
+      "vertical": 0.7200000429153439,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 40
+    },
+    {
+      "id": "vesperra-shade-fern-02",
+      "kind": "decorative-forest-understory",
+      "width": 1.0562800168991089,
+      "vertical": 0.7200000429153439,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 38
+    },
+    {
+      "id": "siltmouths-silver-reed",
+      "kind": "decorative-forest-understory",
+      "width": 1.2907600402832031,
+      "vertical": 1.049999928474426,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 17
+    },
+    {
+      "id": "siltmouths-marsh-tuber",
+      "kind": "decorative-forest-understory",
+      "width": 1.0156400203704834,
+      "vertical": 0.850000035762787,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 38
+    },
+    {
+      "id": "ru-lora-god-bone",
+      "kind": "decorative-stone-scenery",
+      "width": 2.8396599292755127,
+      "vertical": 1.649999964237213,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 2
+    },
+    {
+      "id": "ru-lora-fringe-broadleaf",
+      "kind": "decorative-forest-understory",
+      "width": 1.0955100059509277,
+      "vertical": 0.7200000429153439,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "instances": 78
+    }
+  ]
+}

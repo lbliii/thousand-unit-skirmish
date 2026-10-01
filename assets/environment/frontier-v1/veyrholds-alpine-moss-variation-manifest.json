@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-veyrholds-alpine-moss",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/veyrholds-ecology.png",
+  "referenceSha256": "112c894249e14467b6905e685b715fe08d764d1c655cd88377734819f9f85dd5",
+  "prompts": "VEYRHOLDS-ALPINE-MOSS-PROMPTS.json",
+  "files": [
+    {
+      "path": "veyrholds-alpine-moss.png",
+      "role": "source-image",
+      "sha256": "77adc840d59bc98dca2d29e943b136f56b45367d3c309ebb227778f85670cdde",
+      "bytes": 1709750,
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "veyrholds-alpine-moss.webp",
+      "role": "runtime-image",
+      "sha256": "628684ec085d2c1e6d5de622521de23d8085f756605ab12be4c286dd2b615074",
+      "bytes": 218682,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 587
+      }
+    }
+  ],
+  "cropPx": [
+    253,
+    236,
+    1285,
+    828
+  ],
+  "asset": {
+    "id": "veyrholds-alpine-moss",
+    "kind": "decorative-land-scenery",
+    "worldWidth": 0.95945,
+    "worldHeight": 0.55,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "terrainSeedPlacement": true,
+    "parentStockClears": false
+  },
+  "provenance": "Built-in ImageGen against approved Alpine Moss & Lichen ecology and fixed camera guide. Unchanged selected source PNG; deterministic crop and LANCZOS max1024 export, WebP quality86 method6 exact alpha. Decorative low moss and ironlichen on shallow slate chips, one approximate painted view; no resource yield."
+}

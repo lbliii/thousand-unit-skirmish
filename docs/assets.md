@@ -165,3 +165,5 @@ Wild barley joins the current meadow mix as a third upright silhouette, retainin
 Veyrholds open scree now mixes existing ridgegrass and Suncrest in sparse independent beds, using registered sizes and the foundation-clearing contract. See the [environment guide](environment-pack-v1.md) and [local evidence](qa-evidence/vaelora-veyrholds-open-ridge-plants-2026-09-30/README.md).
 
 Sombral Mere dry lakeside lunar soil now has sparse Lunewort/Noctilune beds, separate from floating Mirelilies and forest stock. See the [environment guide](environment-pack-v1.md) and [local evidence](qa-evidence/vaelora-sombral-open-moon-plants-2026-09-30/README.md).
+
+Veyrholds open scree includes the approved key's alpine moss and ironlichen as a third independent bed specimen. [Selected manifest](../assets/environment/frontier-v1/veyrholds-alpine-moss-variation-manifest.json), [prompt](../assets/environment/frontier-v1/VEYRHOLDS-ALPINE-MOSS-PROMPTS.json) and [runtime evidence](qa-evidence/vaelora-veyrholds-alpine-moss-2026-09-30/README.md) record the source and its decorative integration.
