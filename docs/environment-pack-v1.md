@@ -866,3 +866,19 @@ Snow now resolves to a quieter pearl-blue painted source with softer powder patc
 The approved ecology key's Veilcap Fungus adds pale-gilled violet caps over a compact petrol-green moss base. [Manifest](../assets/environment/frontier-v1/vesperra-veilcap-variation-manifest.json) and [generation/edit prompts](../assets/environment/frontier-v1/VESPERRA-VEILCAP-PROMPTS.json) preserve the selected source and 928×979 alpha-preserving export, registered at 0.61614×0.65 world units. The initial low viewpoint was rejected; the selected edit exposes cap tops for the elevated camera. This remains one approximate painted source, not certified multi-view art.
 
 Existing jungle-loam forest companion locations now partition between two shade ferns and Veilcap in three batches, retaining density, parent identity, collision and wood yield. Partial stock retains plants, zero hides them and reset restores exact matrices. [Local evidence](qa-evidence/vaelora-vesperra-veilcap-2026-10-01/README.md) verifies regional binding, raised contact, upright roll and all twenty-five plant geometries/twenty companion lifecycles. No independent fungus yield, harvest poses or extra painted perspectives.
+
+## Vesperra spiral pod-vine companions · 1 October 2026
+
+The ecology key's Spiral Podvine adds a low woody tangle with petrol/olive leaves
+and three restrained violet seed pods. [Manifest](../assets/environment/frontier-v1/vesperra-spiral-podvine-variation-manifest.json)
+and [exact prompts](../assets/environment/frontier-v1/VESPERRA-PODVINE-PROMPTS.json)
+preserve the selected source and alpha-preserving 1024×510 export, registered
+at 1.10431×0.55 world units. The initial tall/front-on silhouette was rejected;
+the selected edit lowers the mound and exposes upper leaf surfaces. The painted
+angle remains approximate, with one view and no authored harvesting poses.
+
+Existing jungle-loam woodland companion positions partition across the two
+shade ferns, Veilcap and pod-vine in four batches. Parent-stock clearing and
+reset remain shared with their forest cell. The pods add ecology and atmosphere;
+they have no independent yield or gathering rule. [Runtime evidence](qa-evidence/vaelora-vesperra-podvine-2026-10-01/README.md)
+records the region binding, ground contact, dimensions and lifecycle checks.

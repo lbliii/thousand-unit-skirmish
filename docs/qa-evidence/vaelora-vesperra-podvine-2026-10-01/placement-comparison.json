@@ -1,0 +1,14 @@
+{
+  "baseline": "../vaelora-vesperra-veilcap-2026-10-01/understory-proof.json",
+  "sameParentCells": true,
+  "forestCells": 256,
+  "companionCells": 75,
+  "beforeBatches": 3,
+  "afterBatches": 4,
+  "variantCounts": {
+    "vesperra-shade-fern": 20,
+    "vesperra-shade-fern-02": 16,
+    "vesperra-veilcap": 19,
+    "vesperra-spiral-podvine": 20
+  }
+}

@@ -183,3 +183,9 @@ Vesperra jungle-loam companions mix two ferns with violet Veilcap fungi, sharing
 The [Sereward succulent action sample](../assets/environment/sereward-succulent-action-v1/README.md) pairs full and partially cut plants in a shared-crop two-state atlas. It is source/review work, not an in-game harvesting rule; anatomical root registration and remaining states are unfinished.
 
 The Sereward succulent action sample now includes full/worked/low/depleted poses in its [four-state shared-crop atlas](../assets/environment/sereward-succulent-action-v1/README.md). It remains source art pending game-scale registration and a distinct leaf-harvesting gameplay binding; forest wood depletion must not drive it.
+
+Vesperra jungle-loam companions also include the approved key's low Spiral
+Podvine, alongside two ferns and Veilcap. [Manifest](../assets/environment/frontier-v1/vesperra-spiral-podvine-variation-manifest.json),
+[exact prompts](../assets/environment/frontier-v1/VESPERRA-PODVINE-PROMPTS.json)
+and [runtime evidence](qa-evidence/vaelora-vesperra-podvine-2026-10-01/README.md).
+The seed pods are decorative; harvesting poses and additional views remain future art.

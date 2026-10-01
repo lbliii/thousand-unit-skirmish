@@ -33,3 +33,10 @@ shows readable removal stages and a small upward silhouette displacement in
 low/depleted frames. This is a reason to review anatomical root registration
 before runtime harvest integration; it does not certify the painted camera
 angle or add harvesting rules.
+
+Later source inspection on 1 October refines the fixed-camera observation:
+the visible central crown remains in approximately the same source-canvas
+location while lower leaf tips are removed. The silhouette-bottom gap alone
+therefore does not establish anatomical root drift. No per-frame correction
+has been applied; aligning each silhouette bottom could move a retained crown.
+Anatomical registration remains unverified rather than proven incorrect.

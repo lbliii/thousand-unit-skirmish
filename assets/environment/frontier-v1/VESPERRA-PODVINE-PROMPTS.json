@@ -1,0 +1,15 @@
+{
+  "generator": "Built-in ImageGen",
+  "initial": {
+    "prompt": "Create one production-ready isolated RTS environment sprite on a genuinely transparent background: Vesperra Spiral Podvine, a low compact self-supporting woody tangle for forest understory. Art direction: original hand-painted fantasy RTS, readable bold grouped forms and broad brush-painted surfaces, petrol green and shaded olive leathery pointed leaves, weathered pale grey-brown twisting stems, just three restrained dusky violet seed pods nestled among stems, oval pods partly splitting to show a few plum-colored seeds. This is a living old forest plant, natural and grounded, not cursed or a magical artifact. The plant grows as a knee-high broad tangled mound, root contact at bottom center, asymmetric but balanced, no tall tree or support pole. Camera calibration: orthographic view, azimuth 45 degrees, elevation 45.436 degrees looking down, Y-up, no screen roll; clearly see the tops of leaves and seed pods, do not use a low dramatic three-quarter camera. Lighting soft upper left, subdued cool shadows painted only on the plant. Whole specimen fully visible with generous transparent margin. Keep base clean, fine roots meeting a single ground contact; no soil platform, no stones, no floating parts, no cast shadow, no glow aura. No labels, text, borders, icons, panorama, or contact sheet. Large clean single specimen, designed to read at 100-150 screen pixels.",
+    "output": "exec-9d79341d-c338-4c7d-8af4-c6142dffb9db.png",
+    "status": "rejected-tall-front-on"
+  },
+  "selected": {
+    "prompt": "Edit this Spiral Podvine sprite to correct ONLY its silhouette and viewpoint for our fixed-camera RTS. Keep the same natural species identity, three purple split seed pods, pale woody curling stems, petrol/olive green pointed leaves, muted hand-painted finish, and real transparent background. The present image reads too tall and front-on. Make it a LOW WIDE tangled shrub, height around 65% of its width. View from an orthographic camera elevated 45.436 degrees, looking clearly DOWN onto the mound; show upper surfaces and top rims of pods, foreshorten upward stems, show upper leaf surfaces layered behind front leaves. Not an eye-level view. Compress tall growth structurally, not by stretching the picture. Base remains a small root junction centered at the bottom. Entire specimen fully visible with wide empty transparent margins; no long dangling roots. No ground platform, soil mound, stones, support pole, cast shadow, glow, text, or extra specimens.",
+    "output": "exec-6b13e2be-2114-449e-8471-ff29ebd59a2b.png",
+    "editTarget": "exec-9d79341d-c338-4c7d-8af4-c6142dffb9db.png"
+  },
+  "reference": "../../../docs/art-direction/vaelora-v1/vesperra-ecology.png",
+  "cameraGuide": "../../../docs/art-direction/environment-camera-v1/camera-construction.png"
+}

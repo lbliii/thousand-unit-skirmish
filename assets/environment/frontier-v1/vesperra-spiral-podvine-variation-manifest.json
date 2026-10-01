@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-vesperra-spiral-podvine",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/vesperra-ecology.png",
+  "referenceSha256": "8775e1dd19596889cb5a89d508d0a9424399d3a07ffc389775774a5fc41fa7aa",
+  "prompts": "VESPERRA-PODVINE-PROMPTS.json",
+  "files": [
+    {
+      "path": "vesperra-spiral-podvine.png",
+      "role": "source-image",
+      "sha256": "52fc5890445342640a37c49d06e3fb0eda786802865c8de4c557eee8826807ba",
+      "bytes": 1556017,
+      "dimensionsPx": {
+        "width": 1562,
+        "height": 1007
+      }
+    },
+    {
+      "path": "vesperra-spiral-podvine.webp",
+      "role": "runtime-image",
+      "sha256": "096c75be6c730f0d8d4e37e2954ba470fe3d79396c1b534f447356050fa600fa",
+      "bytes": 153514,
+      "dimensionsPx": {
+        "width": 1024,
+        "height": 510
+      }
+    }
+  ],
+  "cropPx": [
+    54,
+    135,
+    1513,
+    862
+  ],
+  "asset": {
+    "id": "vesperra-spiral-podvine",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 1.10431,
+    "worldHeight": 0.55,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "variantSelectionShare": 0.25,
+    "terrainSeedPlacement": true,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen. Initial tall/front-on specimen rejected; selected edit lowers the mound and exposes upper leaf surfaces. Selected PNG unchanged; alpha>=8 crop and LANCZOS max1024 RGBA WebP quality86 method6 exact alpha. One approximate painted view, no independent seed harvest or additional directions."
+}
