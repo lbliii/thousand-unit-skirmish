@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { gardenPlantPositions } from '../src/garden-vegetation.mjs';
+import { gardenPlantPositions, gardenPlantGroups } from '../src/garden-vegetation.mjs';
 
 const map = JSON.parse(readFileSync(new URL('../maps/ellionar-channel-gardens.json', import.meta.url)));
 const original = JSON.stringify(map), plants = gardenPlantPositions(map);
@@ -9,6 +9,16 @@ assert.equal(JSON.stringify(map), original);
 assert.deepEqual(gardenPlantPositions(map), plants);
 assert.notDeepEqual(gardenPlantPositions({ ...map, terrainSeed: map.terrainSeed + 1 }), plants);
 assert.equal(new Set(plants.map(p => p.cell)).size, plants.length);
+const groups = gardenPlantGroups(map);
+assert.equal(groups.length,2,'both garden specimens must appear');
+assert.deepEqual(groups,gardenPlantGroups(map));
+assert.deepEqual(groups.flatMap(g=>g.positions).sort((a,b)=>a.cell-b.cell),[...plants].sort((a,b)=>a.cell-b.cell),'grouping preserves exact roots and scales');
+assert.notDeepEqual(groups,gardenPlantGroups({...map,terrainSeed:map.terrainSeed+1}));
+const beds = new Map();
+for(const group of groups)for(const p of group.positions){
+ const bed=Math.floor(Math.floor(p.cell/map.width)/6)*Math.ceil(map.width/6)+Math.floor((p.cell%map.width)/6);
+ assert.ok(!beds.has(bed)||beds.get(bed)===group.name,'each cultivated bed keeps one specimen');beds.set(bed,group.name);
+}
 const contains = (o, c, r, margin = 0) => c >= o.column - margin && c < o.column + o.width + margin
   && r >= o.row - margin && r < o.row + o.height + margin;
 for (const p of plants) {
@@ -35,4 +45,4 @@ assert.equal(gardenPlantPositions({ ...bank, terrainPatches: [{ column: 0, row: 
 assert.equal(gardenPlantPositions({ ...bank, triggers: [{ zone: { column: 0, row: 0, width: 32, height: 32 } }] }).length, 0);
 assert.equal(gardenPlantPositions({ ...bank, id: 'meshy-resource-review' }).length, 0);
 for (const terrainBase of ['meadow','sand','snow','lunar-soil','jungle-loam','salt-crust']) assert.equal(gardenPlantPositions({ ...bank, terrainBase }).length, 0);
-console.log(JSON.stringify({ map: map.id, plants: plants.length, seeded: true, clearCrossings: true, protectedMarkers: true, noMutation: true }));
+console.log(JSON.stringify({ specimens:groups.map(g=>({name:g.name,count:g.positions.length})), map: map.id, plants: plants.length, seeded: true, clearCrossings: true, protectedMarkers: true, noMutation: true }));

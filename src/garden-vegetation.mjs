@@ -1,3 +1,16 @@
+// Alternate occupied cultivated beds; seed chooses the first specimen.
+export function gardenPlantGroups(definition, base = definition.terrainBase) {
+  const positions = gardenPlantPositions(definition, base);
+  const bedFor = p => Math.floor(Math.floor(p.cell / definition.width) / 6)
+    * Math.ceil(definition.width / 6) + Math.floor((p.cell % definition.width) / 6);
+  const beds = [...new Set(positions.map(bedFor))].sort((a,b) => a-b);
+  const ranks = new Map(beds.map((bed,index) => [bed,index]));
+  const groups = ['ellionar-sunbloom', 'ellionar-garden-vine'].map(name => ({name,positions:[]}));
+  const phase = (Math.trunc(definition.terrainSeed || 0) >>> 0) % 2;
+  for (const p of positions) groups[(ranks.get(bedFor(p)) + phase) % 2].positions.push(p);
+  return groups.filter(g => g.positions.length);
+}
+
 // Cultivated channel-side flowers are decoration, independent of forest stock.
 export function gardenPlantPositions(definition, base = definition.terrainBase) {
   if (base !== 'garden-loam' || definition.id === 'meshy-resource-review') return [];

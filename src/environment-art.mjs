@@ -12,7 +12,7 @@ import { forestHabitatDepth, forestCanopyFactor } from './forest-habitat.mjs';
 import { regionalGroundTextureName, regionalGroundColor } from './regional-ground-kits.mjs';
 import { shorePlantPositions } from './shore-vegetation.mjs';
 import { meadowPlantGroups, drylandPlantGroups, snowPlantGroups, ridgePlantGroups, lunarPlantGroups } from './meadow-vegetation.mjs';
-import { gardenPlantPositions } from './garden-vegetation.mjs';
+import { gardenPlantGroups } from './garden-vegetation.mjs';
 import { assertPlantDimensions, PLANT_ASSETS } from './environment-plant-assets.mjs';
 
 const meshyResourcesEnabled = new URLSearchParams(globalThis.location?.search ?? '').get('meshyResources') !== '0';
@@ -1034,12 +1034,14 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
     }
   }
   if (ellionar) {
-    const flowers = createEnvironmentSpriteInstances('ellionar-sunbloom', 0.88654, 0.85,
-      gardenPlantPositions(definition, environmentTheme(definition)));
-    if (flowers) {
-      flowers.userData.gardenVegetation = true;
-      registerLandVegetation(flowers);
-      addObject(flowers);
+    for (const { name, positions } of gardenPlantGroups(definition, environmentTheme(definition))) {
+      const spec = PLANT_ASSETS[name];
+      const flowers = createEnvironmentSpriteInstances(name, spec.worldWidth, spec.worldHeight, positions);
+      if (flowers) {
+        flowers.userData.gardenVegetation = true;
+        registerLandVegetation(flowers);
+        addObject(flowers);
+      }
     }
   }
   if (siltmouths || sombralMere) {
