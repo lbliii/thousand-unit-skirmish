@@ -1,0 +1,9 @@
+# Sereward succulent harvesting source
+
+Partially harvested source sample, 1 October 2026. Built-in ImageGen edited the selected [full succulent](../frontier-v1/sereward-succulent.png), retaining its living turquoise rosette and coral edges while exposing pale cut leaf faces. Selected generated PNG is unchanged; [manifest](manifest.json) records hashes, dimensions and alpha. [Exact prompt](PROMPTS.json).
+
+This begins authored plant action states requested by the user. It is not integrated into the game and adds no water resource, gathering command or parent-wood depletion mapping. Source composition is approximate; exact shared-canvas pivot/contact registration, game-scale readability, low/depleted artwork and additional viewpoints still need verification before a runtime atlas can claim completion. Do not substitute this plant-harvest pose for ordinary forest clearing.
+
+[Two-state preview](registration-preview.png) uses the existing full source and selected worked source through the identical `[160,40,1385,984]` crop, resized to 1024×789 per frame. [Atlas](states-atlas.webp) is 2048×789, with shared world size 0.97338×0.75 and bottom-center card pivot. [Export proof](export-proof.json) verifies source/export hashes and exact alpha after decoding both individual WebPs and atlas frames. Preview uses neutral ground compositing only, with no source repaint.
+
+Full/ worked alpha bottoms are 984 / 973 on the original canvas. The 11-pixel difference reflects changed silhouette extremities; anatomical root-anchor alignment remains approximate. Do not independently crop or scale states. Low/depleted and extra directions remain absent.

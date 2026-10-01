@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "maturity": "source-sample",
+  "sourceFile": "worked-source.png",
+  "sourceSha256": "322630f987b95244c7600afdf012c11523cf086170297cf225f286c5cd0296e9",
+  "dimensionsPx": [
+    1536,
+    1024
+  ],
+  "alphaRange": [
+    0,
+    254
+  ],
+  "fullReference": "../frontier-v1/sereward-succulent.png",
+  "fullReferenceSha256": "b8e65b0e80fe89437773edc7ececf4de6055289d21fd18833cf41ceab8ba3d06",
+  "state": "partially-harvested",
+  "prompts": "PROMPTS.json",
+  "runtimeIntegrated": false,
+  "sourceOutput": "exec-044fb655-29b4-42b7-9266-92b0888f25d7.png",
+  "sharedCropPx": [
+    160,
+    40,
+    1385,
+    984
+  ],
+  "frames": [
+    {
+      "state": "full",
+      "rectPx": [
+        0,
+        0,
+        1024,
+        789
+      ],
+      "sourceAlphaBoundsPx": [
+        160,
+        40,
+        1385,
+        984
+      ],
+      "runtimeSha256": "2f524f2926b3bece5efec809763fb4fd78ae2b39536972a57a5ddbd226c4904c"
+    },
+    {
+      "state": "worked",
+      "rectPx": [
+        1024,
+        0,
+        1024,
+        789
+      ],
+      "sourceAlphaBoundsPx": [
+        214,
+        40,
+        1264,
+        973
+      ],
+      "runtimeSha256": "463919a808eda012d43b092412a1e0c955650dd689908363abfadc846f39a4ed"
+    }
+  ],
+  "atlasFile": "states-atlas.webp",
+  "atlasSha256": "7c033b484c93601793f534f38d2548ed9cf615e45f2513bbafa39a6d69a9ad2b",
+  "frameSizePx": [
+    1024,
+    789
+  ],
+  "worldSize": [
+    0.97338,
+    0.75
+  ],
+  "pivot": [
+    0.5,
+    1
+  ],
+  "registrationObservation": {
+    "fullAlphaBottomPx": 984,
+    "workedAlphaBottomPx": 973,
+    "note": "Shared canvas/crop preserves coordinates; alpha extrema are silhouette bounds, not a certified anatomical ground anchor."
+  }
+}
