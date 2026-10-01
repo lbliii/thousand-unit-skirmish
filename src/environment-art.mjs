@@ -21,7 +21,7 @@ const INTERACTIVE_ASSET_ROOT = './assets/environment/frontier-interactive-v1/';
 const GROUND_RENDER_ORDER = -20;
 export { TERRAIN_MATERIALS } from './terrain-materials.mjs';
 const spriteNames = [
-  'ru-lora-fringe-broadleaf', 'sombral-mere-mirelily', 'bellweather-meadow-herbs', 'vesperra-shade-fern', 'vesperra-shade-fern-02', 'siltmouths-silver-reed', 'siltmouths-marsh-tuber', 'pale-meridian-violet-lichen', 'pale-meridian-silver-moss', 'pale-meridian-frostberry', 'sombral-mere-lunewort', 'sombral-mere-noctilune', 'underbough-rootward-fungus', 'underbough-rootward-fungus-02', 'veyrholds-ridgegrass', 'veyrholds-suncrest', 'ellionar-sunbloom', 'ellionar-garden-vine', 'sereward-succulent', 'sereward-succulent-02',
+  'ru-lora-fringe-broadleaf', 'sombral-mere-mirelily', 'bellweather-meadow-herbs', 'bellweather-meadow-clover', 'vesperra-shade-fern', 'vesperra-shade-fern-02', 'siltmouths-silver-reed', 'siltmouths-marsh-tuber', 'pale-meridian-violet-lichen', 'pale-meridian-silver-moss', 'pale-meridian-frostberry', 'sombral-mere-lunewort', 'sombral-mere-noctilune', 'underbough-rootward-fungus', 'underbough-rootward-fungus-02', 'veyrholds-ridgegrass', 'veyrholds-suncrest', 'ellionar-sunbloom', 'ellionar-garden-vine', 'sereward-succulent', 'sereward-succulent-02',
   'pine', 'silver-birch', 'field-maple', 'hazel-thicket',
   'bellweather-field-maple', 'bellweather-hedgerow',
   'bellweather-hedgerow-worked', 'bellweather-hedgerow-low', 'bellweather-hedgerow-depleted',
@@ -854,6 +854,7 @@ export function addObstacleEnvironmentSprites(definition, halfX, halfZ, addObjec
         scale: 0.8 + variation(slot.cell + seed + 127) * 0.25,
         flip: slot.flip, yaw: slot.yaw }));
     const alternate = {
+      'bellweather-meadow-herbs': ['bellweather-meadow-clover', 0.79703, 0.65],
       'vesperra-shade-fern': ['vesperra-shade-fern-02', 1.05628, 0.72],
       'sereward-succulent': ['sereward-succulent-02', 1.05931, 0.75],
       'underbough-rootward-fungus': ['underbough-rootward-fungus-02', 0.65989, 0.65],

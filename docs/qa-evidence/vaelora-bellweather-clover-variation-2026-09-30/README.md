@@ -1,0 +1,9 @@
+# Bellweather meadow clover
+
+Local candidate from main `da9b70de`, isolated room/map storage and headless Chrome on port 4178. Run `RTS_QA_URL=http://127.0.0.1:4178 RTS_VEGETATION_REGION=bellweather RTS_VEGETATION_UNDERSTORY=1 RTS_VEGETATION_VARIATION=1 RTS_VEGETATION_PLANT_CONTRACT=1 RTS_VEGETATION_OUTPUT=docs/qa-evidence/vaelora-bellweather-clover-variation-2026-09-30 node scripts/qa-vegetation-browser.mjs`.
+
+[Companion preview](understory-renderer.png) compares existing herbs and clover beside Bellweather's maple and hedge. [Understory proof](understory-proof.json) preserves 256 forest identities and 75 companions, split 36 herbs/39 clover across two batches. Partial harvest retains them, zero hides them and reset restores exact matrices. Root bounds, level-two terrain contact and maximum screen roll 7.95e-15 degrees pass. Thirteen terrain-base fixtures repeat seeds and change with a changed seed. [Bindings](forest-slot-proof.json) verify regional texture routes; grass-base seed fixtures allow both meadow companions.
+
+[Full runtime proof](plant-contract-proof.json) checks all twenty-two registered geometries and invalid-scale rejections, plus all nineteen forest companion specimens' exact partial/cleared/reset matrices. Opening Forked Vale boots ready without console/runtime errors. These are renderer/direct-stock fixtures, not a played Bellweather match or flower gathering.
+
+Selected manifests and exact decoded-alpha validation pass twenty-two packs, including rejection fixtures. Release PNG/WebP, registration, loader and server bytes match; exact temporary copy removed. The selected Built-in ImageGen PNG remains unchanged; the apparent halo in hidden transparent RGB disappears in normal alpha compositing. One approximate painted view, decorative vegetation, no independent yield, additional directions, hosted or performance claim.

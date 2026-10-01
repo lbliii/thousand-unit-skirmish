@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "packId": "environment.vaelora-bellweather-clover",
+  "packVersion": "0.1.0",
+  "maturity": "source-sample",
+  "reference": "../../../docs/art-direction/vaelora-v1/bellweather-ecology.png",
+  "referenceSha256": "043d3be76343e9e5c04850fe99be84333b977a7215e503152bf1ab9dc588ed40",
+  "prompts": "BELLWEATHER-CLOVER-PROMPTS.json",
+  "files": [
+    {
+      "path": "bellweather-meadow-clover.png",
+      "role": "source-image",
+      "sha256": "0f0447e97518169e5cc13d725d677120bec5912a537f04286c149c1aff2e1fa1",
+      "bytes": 1821268,
+      "dimensionsPx": {
+        "width": 1536,
+        "height": 1024
+      }
+    },
+    {
+      "path": "bellweather-meadow-clover.webp",
+      "role": "runtime-image",
+      "sha256": "7f3c98757ad98d354ed6a430f6c6a9582f4ca9f6c591b2f7fce02eaf31d7b61f",
+      "bytes": 225372,
+      "dimensionsPx": {
+        "width": 992,
+        "height": 809
+      }
+    }
+  ],
+  "cropPx": [
+    285,
+    103,
+    1277,
+    912
+  ],
+  "asset": {
+    "id": "bellweather-meadow-clover",
+    "kind": "decorative-forest-understory",
+    "worldWidth": 0.79703,
+    "worldHeight": 0.65,
+    "pivot": [
+      0.5,
+      1
+    ],
+    "selectionShare": 0.28,
+    "terrainSeedPlacement": true,
+    "parentStockClears": true
+  },
+  "provenance": "Built-in ImageGen against approved Bellweather ecology meadow herbs. Selected RGBA PNG unchanged; deterministic crop, LANCZOS max1024 WebP quality86 method6 exact alpha. Clover-and-daisy decorative forest companion, not a harvestable crop. One approximate upright painted camera view."
+}

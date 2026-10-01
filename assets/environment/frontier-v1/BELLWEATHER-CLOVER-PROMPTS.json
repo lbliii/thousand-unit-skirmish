@@ -1,0 +1,9 @@
+{
+  "provider": "Built-in ImageGen",
+  "prompt": "Use case: stylized-concept. Transparent painterly RTS environment sprite from the supplied approved Bellweather ecology key. One compact upright meadow clump combining three pink clover heads, two cream daisies with butter-yellow centers, sage-green rounded clover leaves and a few short grass blades. Derive palette and matte large painted forms from Meadow Herbs in reference, not a botanical diagram. Single coherent rooted crown at bottom-center and lowest point. Leaves and flowers all rise above the crown, no dirt mat or rock pedestal. Low asymmetrical silhouette, generous empty margins. Orthographic camera 45 degrees azimuth, 45.4359 degrees elevation above ground, world vertical upright, zero screen roll, no dramatic slant or perspective convergence. Genuine transparent alpha background. No haze, glow, shadow cloud, text, labels, frame or extra specimens. A warm everyday wildflower rather than exotic magical plant.",
+  "reference": [
+    "../../../docs/art-direction/vaelora-v1/bellweather-ecology.png"
+  ],
+  "transparentBackground": true,
+  "selectedOutput": "exec-d2e4ccd0-fc33-4c91-a4be-1ba4473c0688.png"
+}

@@ -149,3 +149,5 @@ Siltmouths tidal-mud forests mix silver reeds and broadleaf marsh-tuber companio
 Veyrholds scree forests mix ridgegrass and yellow Suncrest flowers in existing companion locations. The [Suncrest manifest](../assets/environment/frontier-v1/veyrholds-suncrest-variation-manifest.json) records the decorative approved-key specimen, clearing/resetting with its parent cell. See the [environment guide](environment-pack-v1.md).
 
 Ellionar garden-loam forests mix blue Sunbloom and cream garden vines, clearing and resetting with parent forest stock. The [garden vine manifest](../assets/environment/frontier-v1/ellionar-garden-vine-variation-manifest.json) records the low rooted source interpretation; channel flower beds retain Sunbloom. See the [environment guide](environment-pack-v1.md).
+
+Grass-base woodland companions mix Bellweather meadow herbs and a smaller pink-clover/cream-daisy clump. The [clover manifest](../assets/environment/frontier-v1/bellweather-meadow-clover-variation-manifest.json) records the decorative variant; open meadow flowers retain the existing herbs.
